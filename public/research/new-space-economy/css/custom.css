@@ -1,0 +1,47 @@
+/* BAREK LABS — site-specific additions on top of the base theme (theme.css is verbatim). */
+body { --railw: 0px; }               /* right-rail dashboard omitted in this build */
+#dash-rail { display: none; }
+
+/* footer badge row spacing */
+.src-cat { margin-bottom: 4px; }
+
+/* laws list numbers */
+.laws li b { font-family: var(--mono); font-size: 12px; color: var(--red); letter-spacing: .08em; }
+
+/* big number inline emphasis */
+.big { font-family: var(--mono); font-weight: 700; color: var(--red); }
+
+/* two-col correction block */
+.corr { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 26px 0 8px; }
+.corr > div { padding: 12px 22px 14px; border-top: 1px solid var(--line); }
+.corr > div + div { border-left: 1px solid var(--line-lo); }
+.corr .c-head { font-family: var(--mono); font-size: 9.5px; letter-spacing: .2em; color: var(--neg); text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
+.corr .c-head.ok { color: var(--green); }
+.corr p { font-size: 13.5px; color: var(--ink-md); margin-bottom: 6px; }
+.corr p b { color: var(--ink); }
+@media (max-width: 720px) { .corr { grid-template-columns: 1fr; } .corr > div + div { border-left: 0; } }
+
+/* d2c / comps tables inherit table.dt from theme — small tweak for first col */
+table.dt td:first-child { font-weight: 700; }
+
+/* keep the subtitle clear of the exploded stack */
+.cover-sub { max-width: 700px; }
+
+/* ── typography: one notch larger across reading surfaces (BAREK LABS request) ── */
+body { font-size: 19px; line-height: 1.72; }
+.prose { max-width: 724px; }
+.cover-lede { font-size: 18px; max-width: 660px; }
+.cover-anchor { font-size: 13px; }
+.laws li { padding: 13px 0; }
+h3 { font-size: 22.5px; }
+.muted { font-size: 15px; }
+table.dt td { font-size: 15px; }
+table.dt td.num { font-size: 13.5px; }
+table.dt th { font-size: 10.5px; }
+.src-row { font-size: 14px; }
+.quote-card .q-why { font-size: 14px; }
+.corr p { font-size: 14.5px; }
+
+/* the note-box is real prose — read it at body size */
+.note-box { font-size: 19px; color: var(--ink); line-height: 1.75; padding: 18px 0 20px; }
+.note-box::before { font-size: 10px; }
