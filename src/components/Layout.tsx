@@ -42,6 +42,7 @@ function useNav(): NavItem[] {
         { to: '/analysis/insights', label: t.nav.sub.insights.label, note: t.nav.sub.insights.note },
         { to: '/analysis/ideas', label: t.nav.sub.ideas.label, note: t.nav.sub.ideas.note },
         { to: '/analysis/ai-value-chain', label: t.nav.sub.chain.label, note: t.nav.sub.chain.note },
+        { to: '/analysis/space-economy', label: t.nav.sub.spaceEconomy.label, note: t.nav.sub.spaceEconomy.note },
       ],
     },
     { to: '/souk-signal', label: t.nav.soukSignal },

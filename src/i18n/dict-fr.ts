@@ -16,6 +16,7 @@ export const fr: Dict = {
       insights: { label: 'ANALYSES', note: 'Notes & lectures de recherche' },
       ideas: { label: 'IDÉES D’INVESTISSEMENT', note: 'Des thèses avec preuves' },
       chain: { label: 'CHAÎNE DE VALEUR IA', note: 'Des électrons aux tokens' },
+      spaceEconomy: { label: 'NOUVELLE ÉCONOMIE SPATIALE', note: 'SPCX, RKLB, ASTS — note interactive' },
       stocks: { label: 'ACTIONS', note: 'Registre actions, en direct' },
       crypto: { label: 'CRYPTO', note: 'Registre actifs numériques' },
     },

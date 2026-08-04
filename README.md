@@ -20,6 +20,7 @@ Research desk, signal engine (Souk Signal) et trade ledger public.
 | `/analysis/insights` | Insights |
 | `/analysis/ideas` | Investment Ideas (filtre sectoriel) |
 | `/analysis/ai-value-chain` | AI Value Chain — matrice interactive 10 étapes |
+| `/analysis/space-economy` | New Space Economy — note interactive (SPCX, RKLB, ASTS) |
 | `/souk-signal` | Souk Signal |
 | `/trade-tracker` | Trade Tracker |
 | `/trade-tracker/stocks` | Stocks |
