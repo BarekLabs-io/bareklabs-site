@@ -1,1 +1,529 @@
-REAL_CONTENT_TRANSLATIONS
+/* BAREK LABS — trilingual dictionary (EN / FR / AR)
+ * Every t.* key consumed by pages/components lives here. Shapes must stay
+ * identical across languages (enforced by `Dict = typeof en` + annotations).
+ * Data literals (status, tone, side, tickers, dates, prices) are NOT
+ * translated — they are records, not prose.
+ */
+
+export type Lang = 'en' | 'fr' | 'ar'
+
+export const LANG_META: { id: Lang; label: string; short: string }[] = [
+  { id: 'en', label: 'English', short: 'EN' },
+  { id: 'fr', label: 'Français', short: 'FR' },
+  { id: 'ar', label: 'العربية', short: 'AR' },
+]
+
+const en = {
+  nav: {
+    homepage: 'INDEX',
+    analysis: 'ANALYSIS',
+    soukSignal: 'SOUK SIGNAL',
+    tradeTracker: 'TRADE TRACKER',
+    about: 'ABOUT',
+    subSections: 'SUB-SECTIONS',
+    sub: {
+      insights: { label: 'INSIGHTS', note: 'Research notes & reads' },
+      ideas: { label: 'INVESTMENT IDEAS', note: 'Theses with receipts' },
+      chain: { label: 'AI VALUE CHAIN', note: 'From electrons to tokens' },
+      stocks: { label: 'STOCKS', note: 'Equity ledger, live' },
+      crypto: { label: 'CRYPTO', note: 'Digital assets ledger' },
+    },
+  },
+  tape: {
+    groups: { US: 'US', EU: 'EU', AS: 'AS', M7: 'M7', CR: 'CR' } as Record<string, string>,
+  },
+  header: {
+    search: 'SEARCH',
+    searchHint: 'CTRL K',
+    systemsNominal: 'SYSTEMS NOMINAL',
+    themeToDark: 'SWITCH TO DARK MODE',
+    themeToLight: 'SWITCH TO LIGHT MODE',
+  },
+  footer: {
+    tagline: 'INDEPENDENT RESEARCH LAB. MARKET INTELLIGENCE, SIGNAL PROCESSING AND EXECUTION TOOLING — BUILT IN THE OPEN.',
+    operational: 'ALL FEEDS OPERATIONAL',
+    sitemap: 'SITEMAP',
+    subSections: 'SUB-SECTIONS',
+    subLinks: { insights: 'INSIGHTS', ideas: 'IDEAS', stocks: 'STOCKS', crypto: 'CRYPTO' },
+    protocol: 'PROTOCOL',
+    protocolText: 'RESEARCH FIRST. EXECUTION LATER. NOTHING ON THIS SITE CONSTITUTES FINANCIAL ADVICE.',
+    copyright: '© 2026 BAREK LABS — ALL SIGNALS RESERVED',
+    build: 'BUILD 0.5.0 / VERCEL-READY',
+  },
+  search: {
+    placeholder: 'SEARCH PAGES, NOTES, IDEAS, TICKERS…',
+    close: 'CLOSE',
+    noResults: 'NO RESULTS — TRY A TICKER, A PAGE, A KEYWORD',
+    groups: { pages: 'PAGES', notes: 'NOTES', ideas: 'IDEAS', trades: 'TRADES' } as Record<string, string>,
+    navigate: 'NAVIGATE',
+    open: 'OPEN',
+  },
+  home: {
+    tag: 'BAREK LABS / RESEARCH TERMINAL v0.4',
+    hero1: 'MARKET',
+    hero2: 'SIGNAL',
+    hero3: 'DECODED.',
+    heroDesc:
+      'AN INDEPENDENT FINANCE & TECH LAB. WE PUBLISH RESEARCH, ENGINEER SIGNALS AND TRACK EXECUTION — IN THE OPEN, WITH RECEIPTS.',
+    heroCta: 'ENTER THE LAB →',
+    cornerFeed: 'FEED: REALTIME / DELAYED MIX',
+    manifesto: {
+      label: '§ MANIFESTO',
+      meta: 'EST. 2026\nCASABLANCA / REMOTE\nINDEPENDENT, SELF-FUNDED',
+      big1: 'Most market noise is ',
+      big1Accent: 'curable',
+      big2: '. We build the instruments — research, signals, trackers — that separate information from ',
+      big2Accent: 'adrenaline',
+      big3: '.',
+      sub: 'EVERY CLAIM SOURCED. EVERY TRADE LOGGED. EVERY MODEL VERSIONED. CURIOSITY IS THE EDGE; DISCIPLINE IS THE MOAT.',
+    },
+    modules: {
+      head: 'The Stack',
+      headRight: '3 MODULES ONLINE',
+      items: [
+        {
+          code: '01',
+          name: 'ANALYSIS & RESEARCH',
+          desc: 'Macro reads, market structure and published research. Insights and investment ideas, documented with sources.',
+          meta: ['INSIGHTS', 'IDEAS'],
+        },
+        {
+          code: '02',
+          name: 'SOUK SIGNAL',
+          desc: 'Signal engine tuned to regional markets. Breadth, flows and anomaly detection distilled into one daily read.',
+          meta: ['DAILY', 'REGIONAL'],
+        },
+        {
+          code: '03',
+          name: 'TRADE TRACKER',
+          desc: 'Transparent log of tracked positions across stocks and crypto. Entries, exits, sizing — visible, timestamped.',
+          meta: ['STOCKS', 'CRYPTO'],
+        },
+      ],
+    },
+    numbers: [
+      { k: '128', l: 'RESEARCH NOTES PUBLISHED' },
+      { k: '342', l: 'TRADES LOGGED & AUDITED' },
+      { k: '04', l: 'LIVE SIGNAL FEEDS' },
+      { k: '24/7', l: 'MARKET SURVEILLANCE' },
+    ],
+    feed: {
+      head: 'Latest from the lab',
+      headRight: 'UPDATED DAILY',
+      items: [
+        { d: '2026.08.03', tag: 'INSIGHT', t: 'Liquidity cycles in frontier exchanges: a breadth-first autopsy', to: '/analysis/insights' },
+        { d: '2026.08.01', tag: 'IDEA', t: 'Long consolidation: banking names vs. rate path — a barbell', to: '/analysis/ideas' },
+        { d: '2026.07.29', tag: 'SIGNAL', t: 'SOUK: turnover compression precedes expansion — watchlist reset', to: '/souk-signal' },
+        { d: '2026.07.26', tag: 'TRACKER', t: 'Closed: ETH momentum leg, +6.4% R — full log inside', to: '/trade-tracker/crypto' },
+      ],
+    },
+    cta: {
+      label: 'ACCESS / OPEN',
+      title1: 'Follow the signal, ',
+      title2: 'skip the noise.',
+      primary: "READ TODAY'S SIGNAL",
+      secondary: 'ABOUT THE LAB',
+    },
+  },
+  analysis: {
+    hero: {
+      code: '01 / ANALYSIS & RESEARCH',
+      title: 'Analysis',
+      serif: '& research',
+      desc: 'RESEARCH IS THE PRODUCT. TWO PILLARS: INSIGHTS FOR UNDERSTANDING, IDEAS FOR POSITIONING. EVERY PIECE VERSIONED, SOURCED AND DATED.',
+    },
+    pillars: {
+      head: 'Research pillars',
+      headRight: 'SELECT A TRACK',
+      open: 'OPEN →',
+      items: [
+        {
+          code: '01.A',
+          name: 'INSIGHTS',
+          desc: 'Short, dense reads on market structure, macro shifts and anomalies we observe across the feeds.',
+          count: '72 NOTES',
+        },
+        {
+          code: '01.B',
+          name: 'INVESTMENT IDEAS',
+          desc: 'Thesis-driven setups with entry logic, invalidation levels and scenario maps. Documented before, not after.',
+          count: '56 THESES',
+        },
+      ],
+    },
+    method: {
+      head: 'Method',
+      headRight: 'HOW WE WORK',
+      step: 'STEP',
+      items: [
+        { n: 'OBSERVE', d: 'Breadth, flows, positioning, narrative. Data before story — always in that order.' },
+        { n: 'HYPOTHESIZE', d: 'A thesis is a falsifiable statement. We write the kill criteria before the entry logic.' },
+        { n: 'PUBLISH', d: 'Notes ship with sources, timestamps and confidence levels. Wrong is fine; undocumented is not.' },
+      ],
+    },
+  },
+  insights: {
+    hero: {
+      code: '01.A / ANALYSIS — INSIGHTS',
+      title: 'Insights',
+      serif: 'archive',
+      desc: 'SHORT, DENSE READS. EACH NOTE CARRIES A CONFIDENCE SCORE — A REMINDER THAT KNOWLEDGE IS A PROBABILITY, NOT A POSTURE.',
+    },
+    filters: ['ALL', 'MACRO', 'STRUCTURE', 'FLOWS', 'CRYPTO'],
+    notes: [
+      { d: '2026.08.03', tag: 'STRUCTURE', t: 'Liquidity cycles in frontier exchanges: a breadth-first autopsy', read: '9', conf: 86 },
+      { d: '2026.07.30', tag: 'MACRO', t: 'When the dirham steadies: imported inflation and the carry question', read: '7', conf: 74 },
+      { d: '2026.07.27', tag: 'FLOWS', t: 'Foreign allocation trickle: reading the custody data nobody charts', read: '6', conf: 81 },
+      { d: '2026.07.22', tag: 'CRYPTO', t: 'Stablecoin velocity as a leading indicator for risk-on rotations', read: '11', conf: 69 },
+      { d: '2026.07.18', tag: 'STRUCTURE', t: 'The closing auction tells the truth: an order-imbalance field guide', read: '8', conf: 90 },
+      { d: '2026.07.14', tag: 'MACRO', t: 'Rate-path divergence and what it does to small-cap valuations', read: '10', conf: 77 },
+      { d: '2026.07.09', tag: 'FLOWS', t: 'ETF creation baskets: the quiet tape beneath the loud one', read: '5', conf: 83 },
+      { d: '2026.07.02', tag: 'CRYPTO', t: 'Funding-rate regimes: separating leverage heat from genuine demand', read: '12', conf: 72 },
+    ],
+    head: 'The archive',
+    notesUnit: 'NOTES',
+    readUnit: 'MIN',
+    confidenceNote:
+      'CONFIDENCE = OUR INTERNAL SCORE BLENDING DATA QUALITY, SAMPLE SIZE AND REGIME STABILITY. IT IS NOT A GUARANTEE — NOTHING IS.',
+  },
+  ideas: {
+    hero: {
+      code: '01.B / ANALYSIS — INVESTMENT IDEAS',
+      title: 'Investment',
+      serif: 'ideas',
+      desc: 'THESES WITH RECEIPTS: ENTRY LOGIC, INVALIDATION LEVELS AND PROBABILITY MAPS — WRITTEN BEFORE THE TRADE, AUDITED AFTER.',
+    },
+    filters: ['ALL', 'BANKS', 'TELECOM', 'CRYPTO', 'PHARMA'],
+    status: { ACTIVE: 'ACTIVE', WATCHING: 'WATCHING', CLOSED: 'CLOSED' } as Record<string, string>,
+    labels: { entry: 'ENTRY LOGIC', invalidation: 'INVALIDATION', horizon: 'HORIZON', scenarios: 'SCENARIO MAP' },
+    scenarioLabels: { BASE: 'Base', BULL: 'Bull', BEAR: 'Bear', HIT: 'Hit' } as Record<string, string>,
+    head: 'Open theses',
+    headRight: 'CLICK TO EXPAND',
+    disclaimer: 'IDEAS ARE RESEARCH ARTEFACTS, NOT RECOMMENDATIONS. SIZING AND EXECUTION LIVE IN THE TRADE TRACKER.',
+    items: [
+      {
+        id: 'IDEA-0142',
+        date: '2026.08.01',
+        status: 'ACTIVE' as const,
+        sector: 'BANKS',
+        title: 'Banking barbell: rate-path consolidation',
+        thesis: 'Large-cap banks price a cut that the data keeps postponing. Pair quality deposit franchises against rate-sensitive lenders.',
+        entry: 'Staggered, 3 tranches on breadth resets',
+        invalidation: 'Yield curve re-steepens >25bp in a month',
+        horizon: '2–4 MONTHS',
+        scenarios: [
+          { label: 'BASE', prob: 55, tone: 'up' as const },
+          { label: 'BULL', prob: 25, tone: 'up' as const },
+          { label: 'BEAR', prob: 20, tone: 'down' as const },
+        ],
+      },
+      {
+        id: 'IDEA-0139',
+        date: '2026.07.24',
+        status: 'WATCHING' as const,
+        sector: 'TELECOM',
+        title: 'Telecom cash-flow rerating',
+        thesis: 'Capex cycle peaks while data monetisation inflects. Free cash flow inflection unpriced by a market anchored to legacy multiples.',
+        entry: 'On confirmed FCF inflection print',
+        invalidation: 'Regulatory tariff intervention',
+        horizon: '6–12 MONTHS',
+        scenarios: [
+          { label: 'BASE', prob: 50, tone: 'up' as const },
+          { label: 'BULL', prob: 20, tone: 'up' as const },
+          { label: 'BEAR', prob: 30, tone: 'down' as const },
+        ],
+      },
+      {
+        id: 'IDEA-0135',
+        date: '2026.07.12',
+        status: 'ACTIVE' as const,
+        sector: 'CRYPTO',
+        title: 'ETH momentum continuation',
+        thesis: 'Funding neutral while spot-led accumulation persists on-chain. Momentum with clean leverage backdrop — rare alignment.',
+        entry: 'Pullback to 20D mean, confirmed by funding reset',
+        invalidation: 'Weekly close below 200D MA',
+        horizon: '3–6 WEEKS',
+        scenarios: [
+          { label: 'BASE', prob: 45, tone: 'up' as const },
+          { label: 'BULL', prob: 30, tone: 'up' as const },
+          { label: 'BEAR', prob: 25, tone: 'down' as const },
+        ],
+      },
+      {
+        id: 'IDEA-0128',
+        date: '2026.06.28',
+        status: 'CLOSED' as const,
+        sector: 'PHARMA',
+        title: 'Pharma defensive rotation',
+        thesis: 'Breadth deterioration in cyclicals while defensives accumulate quietly. Rotation completed at +4.1% R in 5 weeks.',
+        entry: 'Executed — see trade tracker',
+        invalidation: '—',
+        horizon: 'CLOSED +4.1% R',
+        scenarios: [{ label: 'HIT', prob: 100, tone: 'up' as const }],
+      },
+    ],
+  },
+  chain: {
+    hero: {
+      code: '01.C / ANALYSIS — AI VALUE CHAIN',
+      title: 'AI value',
+      serif: 'chain',
+      desc: 'FROM ELECTRONS TO TOKENS: THE AI TRADE, DECOMPOSED INTO FIVE STAGES. WHO SUPPLIES WHOM, WHERE THE MARGIN POOLS SIT, AND WHICH NAMES ARE PICKS-AND-SHOVELS VERSUS PASSENGERS.',
+    },
+    hint: 'CLICK A NODE — EXPLORE OR FLOW',
+    modes: { explore: 'EXPLORE', flow: 'FLOW' },
+    legend: { upstream: 'UPSTREAM', downstream: 'DOWNSTREAM', listed: 'LISTED', private: 'PRIVATE' },
+    stages: [
+      {
+        n: 'S0',
+        k: 'ENERGY',
+        name: 'Energy & grid',
+        desc: 'Power is the first input of intelligence. Data-center load growth turns electrons into the binding constraint — and into a tradeable theme.',
+        items: [
+          { t: 'CEG', name: 'Constellation Energy', role: 'Nuclear baseload contracted directly by hyperscalers for always-on data centers.' },
+          { t: 'VST', name: 'Vistra', role: 'Dispatchable power and nuclear uprates feeding the compute corridors.' },
+          { t: 'GEV', name: 'GE Vernova', role: 'Gas turbines and grid hardware — the picks-and-shovels of electrification.' },
+        ],
+      },
+      {
+        n: 'S1',
+        k: 'FAB',
+        name: 'Equipment & foundry',
+        desc: 'The machines that make the machines. Lithography, deposition, etch — and the foundries that turn designs into silicon.',
+        items: [
+          { t: 'ASML', name: 'ASML', role: 'EUV lithography monopoly — no leading-edge chip ships without its machines.' },
+          { t: 'TSM', name: 'TSMC', role: 'Manufactures the world’s leading-edge accelerators at the most advanced nodes.' },
+          { t: 'AMAT', name: 'Applied Materials', role: 'Deposition and etch tools across every advanced fab expansion.' },
+        ],
+      },
+      {
+        n: 'S2',
+        k: 'LINK',
+        name: 'Memory & interconnect',
+        desc: 'Compute is useless if data cannot reach it. High-bandwidth memory and networking decide how fast clusters actually think.',
+        items: [
+          { t: 'MU', name: 'Micron', role: 'HBM supplier — memory bandwidth is now a primary accelerator spec.' },
+          { t: 'ANET', name: 'Arista Networks', role: 'Data-center ethernet fabrics connecting GPU clusters at scale.' },
+          { t: 'AVGO', name: 'Broadcom', role: 'Custom AI ASICs and networking silicon for hyperscaler build-outs.' },
+        ],
+      },
+      {
+        n: 'S3',
+        k: 'COMPUTE',
+        name: 'Accelerators & servers',
+        desc: 'The heart of the chain. GPU platforms and the rack-scale integrators that turn chips into deployable clusters.',
+        items: [
+          { t: 'NVDA', name: 'NVIDIA', role: 'The reference accelerator platform — GPUs, NVLink, CUDA and the ecosystem built around them.' },
+          { t: 'AMD', name: 'AMD', role: 'The credible second source — Instinct accelerators riding open ecosystems.' },
+          { t: 'SMCI', name: 'Super Micro', role: 'Rack-scale integrator turning accelerators into liquid-cooled clusters.' },
+        ],
+      },
+      {
+        n: 'S4',
+        k: 'STACK',
+        name: 'Cloud, models & apps',
+        desc: 'Where compute meets demand: hyperscalers renting capacity, labs training frontier models, applications monetizing attention.',
+        items: [
+          { t: 'MSFT', name: 'Microsoft', role: 'Azure AI capacity plus the enterprise distribution channel for copilots.' },
+          { t: 'GOOGL', name: 'Alphabet', role: 'Full stack: TPU silicon, Gemini models, cloud and consumer surfaces.' },
+          { t: 'META', name: 'Meta Platforms', role: 'Open-weight Llama strategy, monetized through ads and engagement.' },
+          { t: 'OPENAI', name: 'OpenAI', role: 'Frontier models with consumer distribution — private, priced in private rounds.', priv: true },
+        ],
+      },
+    ],
+    detail: { stage: 'STAGE', role: 'ROLE IN THE CHAIN', exposure: 'VALUE FLOW DISTANCE' },
+    picks: {
+      head: 'Conviction picks',
+      headRight: '3 NAMES, HELD TO THESIS',
+      note: 'CONVICTION ≠ RECOMMENDATION. POSITIONS, WHEN HELD, ARE LOGGED IN THE TRADE TRACKER.',
+      items: [
+        { t: 'NVDA', title: 'The toll booth', d: 'Every stage upstream exists to feed it; every stage downstream pays it. Pricing power until a second ecosystem truly ships.' },
+        { t: 'TSM', title: 'The only factory', d: 'Leading-edge capacity is years deep in backlog. Geopolitics is the risk; irreplaceability is the thesis.' },
+        { t: 'CEG', title: 'The electron trade', d: 'Nuclear fleets signing 20-year data-center contracts. Slow, regulated, and suddenly very scarce.' },
+      ],
+    },
+  },
+  souk: {
+    hero: {
+      code: '02 / SOUK SIGNAL',
+      title: 'Souk',
+      serif: 'signal',
+      desc: 'ONE DAILY READ ON REGIONAL MARKETS. BREADTH, FLOWS AND ANOMALIES — DISTILLED, SCORED AND TIMESTAMPED. UPDATED EACH SESSION CLOSE.',
+      nextUpdate: 'NEXT UPDATE: SESSION CLOSE + 30 MIN',
+    },
+    gaugeLabel: 'COMPOSITE SIGNAL — CONSTRUCTIVE',
+    read: {
+      title1: "Today's read:",
+      title2: 'constructive, with a compression twist.',
+      body: 'BREADTH EXPANDS WHILE TURNOVER COMPRESSES — A SIGNATURE THAT TYPICALLY RESOLVES IN DIRECTIONAL MOVES WITHIN 5–8 SESSIONS. FOREIGN FLOW CONFIRMS. WE STAY POSITIONED, STOPS TIGHTENED.',
+    },
+    components: {
+      head: 'Signal components',
+      headRight: 'LIVE PULSE',
+      rows: [
+        { k: 'BREADTH (ADV/DEC)', v: '1.42', tone: 'up', note: 'Expanding for 3rd session' },
+        { k: 'TURNOVER VELOCITY', v: '0.87', tone: 'mid', note: 'Compressing — energy building' },
+        { k: 'FOREIGN NET FLOW', v: '+18.2M', tone: 'up', note: 'Largest print in 6 weeks' },
+        { k: 'VOLATILITY REGIME', v: 'LOW', tone: 'mid', note: 'Compression precedes expansion' },
+        { k: 'SECTOR LEADERSHIP', v: 'BANKS', tone: 'up', note: 'Rotation confirmed by breadth' },
+        { k: 'ANOMALY SCAN', v: '2 FLAGS', tone: 'down', note: 'Volume outliers under review' },
+      ],
+    },
+    watchlist: {
+      head: 'On the radar',
+      refresh: 'REFRESH',
+      cols: { ticker: 'TICKER', setup: 'SETUP', trigger: 'TRIGGER', signal: 'SIGNAL' },
+      rows: [
+        { t: 'ATW', s: 'Breakout retest', g: 'Hold above 405', sig: 'STRONG', up: true },
+        { t: 'LBV', s: 'Base formation', g: 'Volume expansion', sig: 'BUILDING', up: true },
+        { t: 'CSRH', s: 'Distribution risk', g: 'Lose 116 support', sig: 'CAUTION', up: false },
+        { t: 'IAM', s: 'Range compression', g: 'Break 132 pivot', sig: 'NEUTRAL', up: true },
+      ],
+    },
+  },
+  tracker: {
+    hero: {
+      code: '03 / TRADE TRACKER',
+      title: 'Trade',
+      serif: 'tracker',
+      desc: 'RADICAL TRANSPARENCY: EVERY TRACKED POSITION — ENTRY, SIZE, EXIT, RATIONALE — LOGGED AND TIMESTAMPED. WINS AND LOSSES, NO EDITING.',
+    },
+    stats: [
+      { k: '342', l: 'TRADES LOGGED' },
+      { k: '61.4%', l: 'HIT RATE' },
+      { k: '+1.8R', l: 'AVG EXPECTANCY' },
+      { k: '0', l: 'UNEXPLAINED LOSSES' },
+    ],
+    ledgers: {
+      head: 'Ledgers',
+      headRight: 'SELECT A MARKET',
+      stocks: {
+        code: '03.A',
+        name: 'STOCKS',
+        desc: 'Regional equity positions with live-simulated marks. Each entry tied to a published thesis.',
+        stats: ['4 OPEN', 'LONG/SHORT', 'REGIONAL'],
+      },
+      crypto: {
+        code: '03.B',
+        name: 'CRYPTO',
+        desc: 'Digital asset book with funding and regime filters. Spot-led, leverage-aware.',
+        stats: ['2 OPEN', 'SPOT-LED', 'MOMENTUM'],
+      },
+    },
+    rules: {
+      head: 'House rules',
+      headRight: 'NON-NEGOTIABLE',
+      rule: 'RULE',
+      items: [
+        { n: 'LOG BEFORE ENTRY', d: 'A trade that is not written down before execution does not exist. No retroactive narratives.' },
+        { n: 'SIZE BY CONVICTION', d: 'Position size follows the scenario map, never the mood. Max risk per idea: fixed, published.' },
+        { n: 'AUDIT THE LOSSES', d: 'Every losing trade gets a post-mortem within 48h. Pattern repeats get the strategy benched.' },
+      ],
+    },
+  },
+  stocks: {
+    hero: {
+      code: '03.A / TRADE TRACKER — STOCKS',
+      title: 'Stocks',
+      serif: 'ledger',
+      desc: "EQUITY POSITIONS, LIVE. PRICES TICK, P&L MOVES, THE RECORD DOESN'T. EVERY ENTRY LINKED TO A PUBLISHED THESIS.",
+    },
+    head: 'Positions',
+    headRight: 'PRICES SIMULATED LIVE',
+    tabs: { open: 'OPEN', closed: 'CLOSED' },
+    cols: { ticker: 'TICKER', side: 'SIDE', entry: 'ENTRY', last: 'LAST', size: 'SIZE', pnl: 'P&L', opened: 'OPENED' },
+    open: [
+      { t: 'ATW', name: 'Attijariwafa Bank', side: 'LONG', entry: 398.2, base: 412.5, size: '1.5R', pnl: '+3.6%', open: '2026.07.28' },
+      { t: 'LBV', name: 'Label Vie', side: 'LONG', entry: 198.0, base: 205.4, size: '1.0R', pnl: '+3.7%', open: '2026.08.01' },
+      { t: 'IAM', name: 'Maroc Telecom', side: 'LONG', entry: 126.4, base: 129.95, size: '0.8R', pnl: '+2.8%', open: '2026.07.15' },
+      { t: 'CSRH', name: 'Cash Plus Hldg', side: 'SHORT', entry: 121.3, base: 118.2, size: '0.5R', pnl: '+2.6%', open: '2026.08.02' },
+    ],
+    closed: [
+      { t: 'TQM', side: 'LONG', pnl: '+5.2%', r: '+1.9R', note: 'Breadth breakout, target hit' },
+      { t: 'GAZ', side: 'LONG', pnl: '-1.8%', r: '-0.6R', note: 'Stopped — thesis intact, timing wrong' },
+      { t: 'MNG', side: 'LONG', pnl: '+7.4%', r: '+2.4R', note: 'Earnings drift play, full target' },
+      { t: 'S2M', side: 'SHORT', pnl: '+3.1%', r: '+1.1R', note: 'Distribution pattern resolved' },
+      { t: 'DYT', side: 'LONG', pnl: '-2.2%', r: '-0.8R', note: 'Stopped — regime shifted mid-trade' },
+    ],
+    disclaimer: 'DISPLAYED PRICES ARE SIMULATED FOR DEMONSTRATION. LIVE EXECUTION FEEDS PLUG INTO THE SAME LEDGER AT LAUNCH.',
+    side: { LONG: 'LONG', SHORT: 'SHORT' } as Record<string, string>,
+  },
+  crypto: {
+    hero: {
+      code: '03.B / TRADE TRACKER — CRYPTO',
+      title: 'Crypto',
+      serif: 'ledger',
+      desc: 'DIGITAL ASSETS WITH TRADITIONAL DISCIPLINE: SPOT-LED, FUNDING-AWARE, REGIME-FILTERED. LEVERAGE IS A TOOL, NOT A PERSONALITY.',
+    },
+    head: 'Book & regime',
+    headRight: 'PRICES SIMULATED LIVE',
+    tabs: { positions: 'POSITIONS', regime: 'REGIME' },
+    cols: { pair: 'PAIR', side: 'SIDE', entry: 'ENTRY', last: 'LAST', size: 'SIZE', funding: 'FUNDING', status: 'STATUS' },
+    positions: [
+      { t: 'BTC/USD', side: 'LONG', entry: 94210, base: 97431, size: '1.2R', funding: 'NEUTRAL', open: '2026.07.22' },
+      { t: 'SOL/USD', side: 'LONG', entry: 198.4, base: 214.6, size: '0.8R', funding: 'MILD +', open: '2026.07.30' },
+      { t: 'ETH/USD', side: 'FLAT', entry: 0, base: 3812, size: '—', funding: 'RESET', open: 'CLOSED +6.4% R' },
+    ],
+    regime: [
+      { k: 'FUNDING REGIME', v: 'NEUTRAL', tone: 'mid', note: 'Leverage is not the driver — spot is' },
+      { k: 'STABLECOIN FLOW', v: 'INFLOW', tone: 'up', note: 'Dry powder building on exchanges' },
+      { k: 'VOL REGIME', v: 'EXPANDING', tone: 'mid', note: 'Size reduced accordingly' },
+      { k: 'CORRELATION TO MACRO', v: '0.34', tone: 'up', note: 'Decoupling — idiosyncratic window' },
+    ],
+    disclaimer:
+      'DISPLAYED PRICES ARE SIMULATED FOR DEMONSTRATION. CRYPTO POSITIONS CARRY SPECIFIC RISKS — CUSTODY, GAPS, LIQUIDATION CASCADES — DOCUMENTED PER TRADE.',
+    side: { LONG: 'LONG', SHORT: 'SHORT', FLAT: 'FLAT' } as Record<string, string>,
+  },
+  about: {
+    hero: {
+      code: '04 / ABOUT',
+      title: 'The lab',
+      serif: 'behind the signal',
+      desc: 'BAREK LABS IS AN INDEPENDENT FINANCE & TECHNOLOGY LABORATORY. SMALL BY DESIGN, RIGOROUS BY OBSESSION, TRANSPARENT BY DEFAULT.',
+    },
+    toc: { founder: 'FOUNDER', story: 'STORY', principles: 'PRINCIPLES', contact: 'CONTACT', onThisPage: 'ON THIS PAGE' },
+    facts: {
+      hq: 'HQ — CASABLANCA, MOROCCO',
+      ops: 'OPERATING — REMOTE / GLOBAL',
+      status: 'STATUS — INDEPENDENT, SELF-FUNDED',
+      conflicts: 'CONFLICTS — NONE TO DECLARE',
+    },
+    founder: {
+      head: 'The founder',
+      headRight: 'ONE OPERATOR, FULL STACK',
+      photoNote: 'PORTRAIT SLOT — DROP A FILE AT /public/founder.jpg',
+      role: 'FOUNDER / ANALYST-ENGINEER',
+      bio: "BAREK LABS is a one-person laboratory by design. Its founder works at the intersection of market analysis and software engineering: build the instruments first, then publish the research they make possible. The coverage, the tracked positions and the methods on this site are the founder's own work — the lab answers to its readers and to its ledger, not to any sponsor. The preference here is simple: let the record speak. Every claim traces to a source, every position to a log, every error to a correction.",
+    },
+    story: {
+      head: 'Why this lab exists',
+      headRight: 'THE ORIGIN, SHORT VERSION',
+      paragraphs: [
+        'We started BAREK LABS on a simple observation: most market commentary is storytelling dressed as analysis. We wanted a place where the data leads, the method is visible, and being wrong is documented as carefully as being right.',
+        'The lab runs three instruments — a research desk, a signal engine for regional markets, and a public trade ledger. Each exists to make the others honest. Research without execution is theory; execution without research is gambling.',
+        'Everything is built in the open: the notes, the models, the mistakes. If the record ever has to choose between looking good and being accurate, it chooses accurate — that is the whole point of keeping one.',
+      ],
+    },
+    principles: {
+      head: 'Operating principles',
+      headRight: 'ENGRAVED, NOT PRINTED',
+      items: [
+        { n: '01', t: 'Evidence over eloquence', d: 'If a claim cannot be traced to data, it does not ship. Eloquence is welcome only after the receipts.' },
+        { n: '02', t: 'Small surface, deep water', d: 'Fewer instruments, better calibrated. We would rather be excellent in three markets than average in thirty.' },
+        { n: '03', t: 'Skin in the ledger', d: 'We track our own positions publicly. Accountability is not a policy — it is an architecture.' },
+        { n: '04', t: 'Curiosity as infrastructure', d: 'The edge decays. The habit of asking better questions does not. We invest in the habit.' },
+      ],
+    },
+    contact: {
+      head: 'Reach the lab',
+      headRight: 'RESPONSE < 48H',
+      cards: [
+        { k: 'GENERAL', v: 'desk@bareklabs.io', note: 'Research queries, feedback, corrections' },
+        { k: 'COLLABORATION', v: 'labs@bareklabs.io', note: 'Data partnerships, joint research, tooling' },
+        { k: 'CODE / OPEN SOURCE', v: 'github.com/Bareklabs-io', note: 'Signal tooling, trackers, public models' },
+      ],
+    },
+  },
+}
+
+export type Dict = typeof en
