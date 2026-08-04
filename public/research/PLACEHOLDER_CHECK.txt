@@ -1,3 +1,10 @@
 <!DOCTYPE html>
-<!-- BAREK LABS — New Space Economy interactive note. Full file pushed via follow-up commit if truncated. -->
-<html><head><meta charset="utf-8"><title>placeholder</title></head><body>placeholder</body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The New Space Economy — BAREK LABS</title>
+<meta http-equiv="refresh" content="0; url=/analysis/space-economy">
+</head>
+<body>Redirecting…</body>
+</html>
