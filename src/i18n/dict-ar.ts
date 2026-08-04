@@ -16,6 +16,7 @@ export const ar: Dict = {
       insights: { label: 'الرؤى', note: 'مذكرات وقراءات بحثية' },
       ideas: { label: 'أفكار استثمارية', note: 'أطروحات موثقة بالأدلة' },
       chain: { label: 'سلسلة قيمة الذكاء الاصطناعي', note: 'من الإلكترونات إلى الرموز' },
+      spaceEconomy: { label: 'اقتصاد الفضاء الجديد', note: 'SPCX، RKLB، ASTS — مذكرة تفاعلية' },
       stocks: { label: 'الأسهم', note: 'سجل الأسهم، مباشر' },
       crypto: { label: 'العملات الرقمية', note: 'سجل الأصول الرقمية' },
     },

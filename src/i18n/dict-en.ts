@@ -14,6 +14,7 @@ export const en = {
       insights: { label: 'INSIGHTS', note: 'Research notes & reads' },
       ideas: { label: 'INVESTMENT IDEAS', note: 'Theses with receipts' },
       chain: { label: 'AI VALUE CHAIN', note: 'From electrons to tokens' },
+      spaceEconomy: { label: 'NEW SPACE ECONOMY', note: 'SPCX, RKLB, ASTS — interactive note' },
       stocks: { label: 'STOCKS', note: 'Equity ledger, live' },
       crypto: { label: 'CRYPTO', note: 'Digital assets ledger' },
     },
