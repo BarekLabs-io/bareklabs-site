@@ -1,0 +1,3 @@
+<!DOCTYPE html>
+<!-- BAREK LABS — New Space Economy interactive note. Full file pushed via follow-up commit if truncated. -->
+<html><head><meta charset="utf-8"><title>placeholder</title></head><body>placeholder</body></html>
