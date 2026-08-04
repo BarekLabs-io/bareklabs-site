@@ -5,6 +5,7 @@ import Analysis from './pages/Analysis'
 import Insights from './pages/Insights'
 import Ideas from './pages/Ideas'
 import AiValueChain from './pages/AiValueChain'
+import SpaceEconomy from './pages/SpaceEconomy'
 import SoukSignal from './pages/SoukSignal'
 import TradeTracker from './pages/TradeTracker'
 import Stocks from './pages/Stocks'
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/analysis/insights" element={<Insights />} />
         <Route path="/analysis/ideas" element={<Ideas />} />
         <Route path="/analysis/ai-value-chain" element={<AiValueChain />} />
+        <Route path="/analysis/space-economy" element={<SpaceEconomy />} />
         <Route path="/souk-signal" element={<SoukSignal />} />
         <Route path="/trade-tracker" element={<TradeTracker />} />
         <Route path="/trade-tracker/stocks" element={<Stocks />} />
