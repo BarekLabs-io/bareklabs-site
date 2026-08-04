@@ -10,6 +10,7 @@ import TradeTracker from './pages/TradeTracker'
 import Stocks from './pages/Stocks'
 import Crypto from './pages/Crypto'
 import About from './pages/About'
+import SpaceEconomy from './pages/SpaceEconomy'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/analysis/insights" element={<Insights />} />
         <Route path="/analysis/ideas" element={<Ideas />} />
         <Route path="/analysis/ai-value-chain" element={<AiValueChain />} />
+        <Route path="/analysis/space-economy" element={<SpaceEconomy />} />
         <Route path="/souk-signal" element={<SoukSignal />} />
         <Route path="/trade-tracker" element={<TradeTracker />} />
         <Route path="/trade-tracker/stocks" element={<Stocks />} />
