@@ -1495,26 +1495,26 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$90 – $105', rationale: 'Near the 200-day MA (~$112), technical support' },
-        { tier: 'acceptable', range: '$105 – $140', rationale: 'Current zone through moderate accumulation' },
-        { tier: 'expensive', range: '>$160', rationale: 'Above the base-case target — thin margin of safety' },
+        { tier: 'ideal', range: '$118 – $137', rationale: 'Near the 200-day MA (~$112, pre-refresh), technical support (rescaled from $90–105 pre-refresh)' },
+        { tier: 'acceptable', range: '$137 – $183', rationale: 'Current zone through moderate accumulation (rescaled from $105–140 pre-refresh)' },
+        { tier: 'expensive', range: '>$209', rationale: 'Above the base-case target — thin margin of safety (rescaled from >$160 pre-refresh)' },
       ],
       technical: [
-        '52-week high $223.83 — current $101.77 is a ~55% correction from the top',
+        '52-week high $223.83 — current $133.18 is a ~40.5% correction from the top (was a ~55% correction at the pre-refresh $101.77 price)',
         'Free cash flow TTM is -$55M despite $324M of operating cash flow — heavy capex from Syracuse, Penang and European acquisitions',
         'Book-to-bill ratio of 1.15 (Q4’25), 90-day backlog of $610.4M',
       ],
       scenarios: [
-        { label: 'BASE', prob: 45, note: 'Growth continues with a moderate slowdown, margins reach 12–13% — targets $140–160.' },
-        { label: 'BULL', prob: 30, note: 'AI capex stays robust, margins reach 15%, European acquisitions (Swiss Technology Group, ILFA) integrate well — targets $180–200.' },
-        { label: 'BEAR', prob: 25, note: 'An AI capex recession hits, multiples compress, margins miss — targets $70–85.' },
+        { label: 'BASE', prob: 45, note: 'Growth continues with a moderate slowdown, margins reach 12–13% — targets $183–209 (rescaled from $140–160 pre-refresh).' },
+        { label: 'BULL', prob: 30, note: 'AI capex stays robust, margins reach 15%, European acquisitions (Swiss Technology Group, ILFA) integrate well — targets $236–262 (rescaled from $180–200 pre-refresh).' },
+        { label: 'BEAR', prob: 25, note: 'An AI capex recession hits, multiples compress, margins miss — targets $92–111 (rescaled from $70–85 pre-refresh).' },
       ],
       horizon: '12–24 months',
-      invalidation: 'Weekly close below $75 (-26% from a $101.77 entry)',
+      invalidation: 'Weekly close below $98 (rescaled from $75 pre-refresh; -26% from a $133.18 entry)',
     },
     risks: [
-      { risk: 'AI capex concentration', severity: 'high', note: 'A hyperscaler (Google, Microsoft, Meta, Amazon) capex pullback hits TTMI directly — the stock has already dropped 55% from its top, partly pricing this in.' },
-      { risk: 'Valuation / multiple compression', severity: 'high', note: 'Forward P/E of 19x is reasonable, but an earnings miss or margin guidance cut could compress it sharply — beta of 2.1 amplifies moves either way.' },
+      { risk: 'AI capex concentration', severity: 'high', note: 'A hyperscaler (Google, Microsoft, Meta, Amazon) capex pullback hits TTMI directly — the stock has already dropped ~40.5% from its top (rescaled from ~55% pre-refresh), partly pricing this in.' },
+      { risk: 'Valuation / multiple compression', severity: 'high', note: 'Forward P/E of ~25x (rescaled from ~19x pre-refresh) is reasonable, but an earnings miss or margin guidance cut could compress it sharply — beta of 2.1 amplifies moves either way.' },
       { risk: 'Heavy capex / negative FCF', severity: 'medium', note: 'TTM free cash flow is -$55M despite $324M of operating cash flow, as Syracuse, Penang and European M&A drain cash.' },
       { risk: 'M&A integration', severity: 'medium', note: 'The Swiss Technology Group and ILFA acquisitions (Europe) carry real execution risk.' },
       { risk: 'Geopolitics / tariffs', severity: 'medium', note: 'Exposure across China (4 PCB plants), Malaysia and the US amid ongoing US–China tension.' },
@@ -1547,10 +1547,10 @@ export const companies: Record<string, Company> = {
       ],
       readLabel: 'CONSTRUCTIVE — CAUTIOUS ACCUMULATION AFTER THE CORRECTION',
       summary:
-        'A dual-theme story: the purest advanced-PCB exposure to AI datacenter buildout, layered with a genuine defense super-cycle backlog that provides a revenue floor independent of the AI cycle. The 55% drawdown from the 52-week high already prices in real AI-capex slowdown fear, and the forward multiple looks reasonable against guided growth — but beta of 2.1 and negative free cash flow argue for scaling in gradually rather than a single entry, watching hyperscaler capex trends as the leading indicator.',
+        'A dual-theme story: the purest advanced-PCB exposure to AI datacenter buildout, layered with a genuine defense super-cycle backlog that provides a revenue floor independent of the AI cycle. The ~40.5% drawdown from the 52-week high (rescaled from ~55% pre-refresh) already prices in real AI-capex slowdown fear, and the forward multiple looks reasonable against guided growth — but beta of 2.1 and negative free cash flow argue for scaling in gradually rather than a single entry, watching hyperscaler capex trends as the leading indicator.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here. Price refreshed Aug 5, 2026 via live web lookup (multiple market-data aggregators) after the original $101.77 snapshot was flagged as stale — TTMI traded at $133.18. Market cap and Forward P/E were mechanically rescaled by the same price ratio (along with the Trailing P/E and P/S figures cited in the verdict bullets) rather than independently re-derived from fresh fundamentals; treat those as directional, not precise.',
   },
 
   HIVE: {
@@ -1604,24 +1604,24 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$2.20 – $2.60', rationale: 'Current zone, close to swing-low support' },
-        { tier: 'acceptable', range: '$2.00 – $2.80', rationale: 'DCA range for a small, staged position' },
-        { tier: 'expensive', range: '>$4.80', rationale: 'Intermediate resistance zone from April–May 2026 consolidation' },
+        { tier: 'ideal', range: '$2.50 – $3.00', rationale: 'Current zone, close to swing-low support (rescaled from $2.20–2.60 pre-refresh)' },
+        { tier: 'acceptable', range: '$2.30 – $3.20', rationale: 'DCA range for a small, staged position (rescaled)' },
+        { tier: 'expensive', range: '>$5.50', rationale: 'Intermediate resistance zone from April–May 2026 consolidation' },
       ],
       technical: [
-        '52-week range $1.73 – $7.84 — current $2.54 is a ~68% correction from the high',
-        'Price sits below the 50-day MA (~$3.69) and above the 200-day MA (~$3.23)',
-        'Major support $1.73 (52-week low, absolute floor); near support $2.20–$2.30; near resistance $3.20–$3.50 (MA50 + volume zone)',
+        '52-week range $1.73 – $7.84 — current $2.91 (Aug 5, 2026) is a ~63% correction from the high',
+        'Trading position vs. the 50-day/200-day MA not independently re-verified post-refresh (pre-refresh MAs of ~$3.69/~$3.23 rescale to roughly $4.23/$3.70)',
+        'Major support $1.73 (52-week low, absolute floor); near support $2.50–$2.65 (rescaled); near resistance $3.65–$4.00 (rescaled, MA50 + volume zone)',
         '267M shares outstanding with warrants/options/RSUs outstanding; a $115M 0%-coupon convertible at $2.57/share is dilutive, partially offset by a $4.92 capped call',
         '21% of float is short — squeeze potential, but also persistent selling pressure',
       ],
       scenarios: [
-        { label: 'BASE', prob: 45, note: 'HPC pipeline executes on schedule, Bitcoin stable above $60k, gradual valuation re-rating — targets $4.00–5.50.' },
-        { label: 'BULL', prob: 25, note: 'Gigafactory HPC contract signed, GPU cloud ARR reaches $200M — targets $6.00–8.00.' },
-        { label: 'BEAR', prob: 30, note: 'Bitcoin falls below $40k, the AI pivot stalls, dilution accelerates — targets $1.50–2.00.' },
+        { label: 'BASE', prob: 45, note: 'HPC pipeline executes on schedule, Bitcoin stable above $60k, gradual valuation re-rating — targets $4.60–6.30.' },
+        { label: 'BULL', prob: 25, note: 'Gigafactory HPC contract signed, GPU cloud ARR reaches $200M — targets $6.85–9.15.' },
+        { label: 'BEAR', prob: 30, note: 'Bitcoin falls below $40k, the AI pivot stalls, dilution accelerates — targets $1.70–2.30.' },
       ],
       horizon: '18–36 months',
-      invalidation: 'Weekly close below $1.60 (-37% from a $2.54 entry)',
+      invalidation: 'Weekly close below $1.85 (-36% from a $2.91 entry, rescaled from $1.60 pre-refresh)',
     },
     risks: [
       { risk: 'Bitcoin price dependence', severity: 'high', note: '93.5% of revenue is still mining. If BTC falls below roughly $40k, cash flow collapses and the AI pivot loses its funding engine.' },
@@ -1663,7 +1663,7 @@ export const companies: Record<string, Company> = {
         'HIVE pairs the cheapest multiple and the only positive growth rate in the crypto-mining peer group with a genuine, if still small, AI/HPC infrastructure buildout funded by Bitcoin cash flow. The 860 MW power footprint is a scarce, real asset, and the Bell Canada + Cohere contract is a credible first proof point — but 93.5% of revenue remains Bitcoin-cyclical, dilution is ongoing, and the Gigafactory is a large bet for a company this size. A beta near 4 and a stack of "if" risks make this a small, staged satellite position rather than a core holding — sized for a portfolio that can absorb the swings, not a conservative one.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. Price refreshed Aug 5, 2026 via live web lookup (aggregated market-data search) after the $2.54 snapshot was found stale — HIVE traded at $2.91, a +15% move. Market cap was recomputed from the prior researched share count; P/S was mechanically rescaled by the same price ratio rather than independently re-verified. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
   },
 
   CRDO: {
@@ -1695,11 +1695,11 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['CRDO', 'MRVL', 'ALAB', 'AVGO'],
       metrics: [
-        { label: 'Price', values: ['$177.45', '$163.40', '$249.74', '$370.32'] },
-        { label: 'Market cap', values: ['$33.1B', '$146.7B', '$42.8B', '$1,762B'] },
+        { label: 'Price', values: ['$237.08 (Aug 5, 2026)', '$163.40', '$249.74', '$370.32'] },
+        { label: 'Market cap', values: ['~$44.2B (Aug 5, 2026)', '$146.7B', '$42.8B', '$1,762B'] },
         { label: 'Revenue growth YoY', values: ['+206%', '+28%', '+93%', '+48%'] },
-        { label: 'Forward P/E', values: ['19.6x', '26.2x', '54.7x', '19.0x'] },
-        { label: 'P/S (TTM)', values: ['25.5x', '16.8x', '42.8x', '23.3x'] },
+        { label: 'Forward P/E', values: ['~26.2x (rescaled from 19.6x pre-refresh, not independently re-verified)', '26.2x', '54.7x', '19.0x'] },
+        { label: 'P/S (TTM)', values: ['~34.1x (rescaled from 25.5x pre-refresh, not independently re-verified)', '16.8x', '42.8x', '23.3x'] },
         { label: 'Gross margin', values: ['68.0%', '51.5%', '76.0%', '76.3%'] },
         { label: 'Operating margin', values: ['33.3%', '14.5%', '20.1%', '49.0%'] },
         { label: 'Beta', values: ['3.20', '2.20', '3.67', '1.46'] },
@@ -1707,9 +1707,9 @@ export const companies: Record<string, Company> = {
       verdictTone: 'fair',
       verdictPoints: [
         'The strongest revenue growth in the group by far (+206% YoY) — no peer is close',
-        'Forward P/E of 19.6x is the lowest in the set after AVGO (19.0x) and well below ALAB (54.7x)',
+        'Forward P/E of ~26.2x (rescaled from 19.6x pre-refresh) is roughly in line with the pre-refresh AVGO (19.0x) and MRVL (26.2x) figures and well below ALAB (54.7x, pre-refresh)',
         'Operating margin of 33.3% beats Marvell (14.5%) and Astera Labs (20.1%) — exceptional operating efficiency for a company scaling this fast',
-        'P/S (TTM) of 25.5x is elevated, but the forward P/S (~14.1x on FY2027E) is competitive against the peer set',
+        'P/S (TTM) of ~34.1x (rescaled from 25.5x pre-refresh) is elevated, but the forward P/S (~18.8x on FY2027E, rescaled from ~14.1x) is still competitive against the peer set',
       ],
       justifiedIf: [
         'FY2027 optical revenue clears the guided $600M and the DustPhotonics integration lands without major disruption',
