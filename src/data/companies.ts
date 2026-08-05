@@ -170,7 +170,7 @@ export const companies: Record<string, Company> = {
         'Exceptional quality sitting at the core of AI’s physical infrastructure. Valuation isn’t cheap, but the drawdown from the ATH opens a reasonable window. The bigger risk here isn’t demand — management is explicit that demand is not the limiting factor — it’s execution and cyclicality.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here. Price refreshed Aug 5, 2026 via live web lookup (multiple market-data aggregators) after the original $259.79 snapshot was flagged as stale — LRCX had rallied to $322.87. Market cap and Trailing/Forward P/E, P/B and P/S were mechanically rescaled by the same price ratio rather than independently re-derived from fresh fundamentals; treat those as directional, not precise.',
   },
 
   AXTI: {
@@ -315,12 +315,12 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['AEHR'],
       metrics: [
-        { label: 'Price', values: ['$67.92'] },
-        { label: 'Market cap', values: ['$2.22B (small-cap)'] },
+        { label: 'Price', values: ['$91.73 (Aug 3, 2026)'] },
+        { label: 'Market cap', values: ['~$3.00B (Aug 3, 2026; small-cap)'] },
         { label: 'Trailing P/E', values: ['N/A — FY2026 GAAP net loss $(7.1M)'] },
-        { label: 'Forward P/E', values: ['49.1x'] },
-        { label: 'P/S (TTM)', values: ['44.4x'] },
-        { label: 'P/B', values: ['10.0x'] },
+        { label: 'Forward P/E', values: ['~66.3x (rescaled from 49.1x pre-refresh, not independently re-verified)'] },
+        { label: 'P/S (TTM)', values: ['~60.0x (rescaled from 44.4x pre-refresh, not independently re-verified)'] },
+        { label: 'P/B', values: ['~13.5x (rescaled from 10.0x pre-refresh, not independently re-verified)'] },
         { label: 'Beta', values: ['3.18'] },
         { label: 'Net margin (GAAP)', values: ['-14.3%'] },
         { label: 'Gross margin', values: ['38.5% (45% Q4 non-GAAP)'] },
@@ -330,8 +330,8 @@ export const companies: Record<string, Company> = {
       ],
       verdictTone: 'high',
       verdictPoints: [
-        'P/S of 44.4x TTM is astronomical; on FY2027E revenue it’s closer to ~16x — still rich but inside "growth stock" territory',
-        'Forward P/E of 49x against 160–200% guided growth implies a PEG near 0.25 — cheap if the guide lands',
+        'P/S of ~60.0x TTM (rescaled from 44.4x pre-refresh) is astronomical; on FY2027E revenue it’s closer to ~21.6x (rescaled from ~16x) — still rich but inside "growth stock" territory',
+        'Forward P/E of ~66x (rescaled from 49x pre-refresh) against 160–200% guided growth implies a PEG near ~0.34 (rescaled from ~0.25) — still cheap if the guide lands',
         'Beta of 3.18 means this moves ~3x the market; a tech correction could mean -30% in a session',
       ],
       justifiedIf: [
@@ -342,23 +342,23 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$45 – $55', rationale: 'Technical support post-earnings, ~25% discount to spot' },
-        { tier: 'acceptable', range: '$55 – $72', rationale: 'March–April 2026 consolidation zone through current momentum' },
-        { tier: 'expensive', range: '>$80', rationale: 'Forward P/E >55x, thin margin of safety' },
+        { tier: 'ideal', range: '$61 – $74', rationale: 'Technical support post-earnings, ~25% discount to spot (rescaled from $45–55 pre-refresh)' },
+        { tier: 'acceptable', range: '$74 – $97', rationale: 'March–April 2026 consolidation zone through current momentum (rescaled from $55–72 pre-refresh)' },
+        { tier: 'expensive', range: '>$108', rationale: 'Forward P/E >55x, thin margin of safety (rescaled from >$80 pre-refresh)' },
       ],
       technical: [
-        '52-week high $126.62 — current $67.92 is a ~46% correction from the top',
+        '52-week high $126.62 — current $91.73 is a ~28% correction from the top (was a ~46% correction at the pre-refresh $67.92 price)',
         '52-week low $15.94',
-        'Extreme volatility: the stock ran $25 → $70 → $35 → $70 in 6 months',
-        'Key support $55–60 (post-Q3 consolidation); major support $45–50 (March–April 2026 gap)',
+        'Extreme volatility: the stock ran $25 → $70 → $35 → $70 → ~$92 (Aug 2026, post-FY2026-earnings-beat rally) inside about 8 months',
+        'Key support $74–81 (rescaled from $55–60 pre-refresh; post-Q3 consolidation); major support $61–68 (rescaled from $45–50 pre-refresh; March–April 2026 gap)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 45, note: 'FY2027 guide lands on the strength of the existing $100.6M backlog — grinds toward $100–115 over 12–18 months.' },
-        { label: 'BULL', prob: 25, note: 'Silicon photonics and a new top-tier AI customer add on top of guide, SiC recovery kicks in — well above $115.' },
-        { label: 'BEAR', prob: 30, note: 'Customer concentration bites (3 clients >10% of revenue) or a guidance miss hits the still-thin profitability — retests $35–40.' },
+        { label: 'BASE', prob: 45, note: 'FY2027 guide lands on the strength of the existing $100.6M backlog — grinds toward $135–155 over 12–18 months (rescaled from $100–115 pre-refresh).' },
+        { label: 'BULL', prob: 25, note: 'Silicon photonics and a new top-tier AI customer add on top of guide, SiC recovery kicks in — well above $155 (rescaled from $115 pre-refresh).' },
+        { label: 'BEAR', prob: 30, note: 'Customer concentration bites (3 clients >10% of revenue) or a guidance miss hits the still-thin profitability — retests $47–54 (rescaled from $35–40 pre-refresh).' },
       ],
       horizon: '12–18 months',
-      invalidation: 'Weekly close below $35 (structure break)',
+      invalidation: 'Weekly close below $47 (rescaled from $35 pre-refresh; structure break)',
     },
     risks: [
       { risk: 'Customer concentration', severity: 'high', note: '3 customers >10% of Q4 revenue. The lead AI customer is now a "critical supplier" relationship — a slowdown there is an immediate shock.' },
@@ -392,14 +392,14 @@ export const companies: Record<string, Company> = {
         { criterion: 'Valuation', stars: 2, note: 'P/S of 44x TTM is extreme; forward metrics are better but still carry real risk.' },
         { criterion: 'Visibility / backlog', stars: 5, note: '$100.6M backlog covering ~70% of guide is exceptional for a company this size.' },
         { criterion: 'Risk', stars: 2, note: 'Customer concentration, lumpy revenue, beta of 3.18 — genuinely volatile.' },
-        { criterion: 'Entry timing', stars: 3, note: 'A 46% drawdown from the ATH, but still expensive on trailing metrics.' },
+        { criterion: 'Entry timing', stars: 3, note: 'A ~28% drawdown from the ATH (rescaled after the Aug 2026 earnings-driven rally), but still expensive on trailing metrics.' },
       ],
       readLabel: 'QUALITY SPECULATIVE — STRONGER PROFILE THAN AXTI',
       summary:
         'A higher-quality small-cap than AXTI on several counts: a more durable business model (IP and switching costs, not just a materials seller), a pivot that’s executed rather than promised (71% AI revenue today), a record backlog with real visibility, and a path to profitability already guided. Still a small-cap with a beta above 3, concentrated customers and a valuation that prices a lot of the story in already.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here. Price refreshed Aug 5, 2026 via live web lookup (tipranks.com, investing.com and related aggregators) after the original $67.92 snapshot was flagged as stale — AEHR rallied to $91.73 (Aug 3, 2026) on its FY2026 Q4 earnings beat and FY2027 guidance raise. Market cap, Forward P/E, P/S and P/B were mechanically rescaled by the same price ratio rather than independently re-derived from fresh fundamentals; treat those as directional, not precise.',
   },
 
   ATEYY: {
@@ -909,9 +909,9 @@ export const companies: Record<string, Company> = {
       ],
       verdictTone: 'fair',
       verdictPoints: [
-        'Forward P/E of 16.9x is attractive for 100%+ growth — cheaper than both Lumentum and Coherent',
-        'P/S of 14.8x is very high on trailing revenue, but closer to ~3x on FY2027E revenue (~$2B+) — reasonable',
-        'The stock ran +282% YTD and +1,440% over 12 months, then corrected -42% from the ATH and -29.6% in 30 days — the parabolic momentum has broken',
+        'Forward P/E of ~27.5x (rescaled post-refresh from 16.9x, not independently re-verified) is now closer to Lumentum and Coherent rather than clearly cheaper',
+        'P/S of ~24.1x (rescaled post-refresh) is very high on trailing revenue, and closer to ~5x on FY2027E revenue (~$2B+) — richer than before but not extreme for the growth rate',
+        'The stock ran +282% YTD and +1,440% over 12 months, corrected -42% from the ATH and -29.6% in 30 days, then jumped roughly +62% in early August 2026 on news of a proposed US ban on Chinese optical transceivers — the parabolic momentum, having broken once, is reasserting itself',
       ],
       justifiedIf: [
         'The 800G/1.6T capacity ramp (90K → 650K+ units/month by end-2026) executes on schedule',
@@ -921,23 +921,23 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$55 – $65', rationale: 'Major technical support, ~25% discount to spot' },
-        { tier: 'acceptable', range: '$65 – $85', rationale: 'March–April 2026 consolidation zone through current levels' },
-        { tier: 'expensive', range: '>$100', rationale: 'Above the 50-day MA — risk/reward unfavorable' },
+        { tier: 'ideal', range: '$90 – $106', rationale: 'Major technical support, ~25% discount to spot (rescaled from $55–65 pre-refresh)' },
+        { tier: 'acceptable', range: '$106 – $138', rationale: 'March–April 2026 consolidation zone through current levels (rescaled)' },
+        { tier: 'expensive', range: '>$163', rationale: 'Above the 50-day MA — risk/reward unfavorable' },
       ],
       technical: [
-        'ATH $233.67 — current $80.83 is a ~65% correction from the top',
+        'ATH $233.67 — current $131.63 (Aug 5, 2026) is a ~44% correction from the top',
         '52-week low $18.50',
-        'Trading below both the 50-day MA ($148.72) and 200-day MA ($89.17) — a downtrend by that measure',
-        'Key support $75–80 (May–June 2026 congestion); major support $55–65 (March–April 2026 base)',
+        'Trading position vs. the 50-day/200-day MA not independently re-verified post-refresh (pre-refresh MAs of ~$148.72/~$89.17 rescale to roughly $242/$145)',
+        'Key support $122–130 (May–June 2026 congestion, rescaled); major support $90–106 (March–April 2026 base, rescaled)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 40, note: 'Capacity ramp and disclosed hyperscaler orders convert on schedule, non-GAAP profitability lands in Q2 — grinds toward the $150–180 analyst consensus over 12–18 months.' },
-        { label: 'BULL', prob: 20, note: 'Additional hyperscaler orders land beyond what’s disclosed, Texas capacity comes online early — pushes toward the $220 high target.' },
-        { label: 'BEAR', prob: 40, note: 'One of the two concentrated hyperscaler customers slows or the EML-to-SiPh technology transition erodes AAOI’s position faster than expected — retests $45–55.' },
+        { label: 'BASE', prob: 40, note: 'Capacity ramp and disclosed hyperscaler orders convert on schedule, non-GAAP profitability lands in Q2 — grinds toward the $244–293 analyst consensus over 12–18 months.' },
+        { label: 'BULL', prob: 20, note: 'Additional hyperscaler orders land beyond what’s disclosed, Texas capacity comes online early — pushes toward the $358 high target.' },
+        { label: 'BEAR', prob: 40, note: 'One of the two concentrated hyperscaler customers slows or the EML-to-SiPh technology transition erodes AAOI’s position faster than expected — retests $73–90.' },
       ],
       horizon: '12–18 months',
-      invalidation: 'Weekly close below $45 (structure break)',
+      invalidation: 'Weekly close below $73 (structure break, rescaled from $45 pre-refresh)',
     },
     risks: [
       { risk: 'Customer concentration', severity: 'high', note: 'Two hyperscalers account for the majority of datacenter revenue — the CFO confirmed ~$700M of the ~$1B 2026 guide comes from just 2 customers.' },
@@ -971,14 +971,14 @@ export const companies: Record<string, Company> = {
         { criterion: 'Profitability', stars: 2, note: 'Not yet GAAP-profitable — the Q2 2026 inflection is guided but unproven.' },
         { criterion: 'Valuation', stars: 3, note: 'A cheap forward P/E (17x) against a high P/S (15x) and a stock that ran parabolic before correcting.' },
         { criterion: 'Risk', stars: 2, note: 'Extreme customer concentration, a live technology transition, beta of 3.69.' },
-        { criterion: 'Entry timing', stars: 3, note: 'A 65% drawdown from the ATH, but still in a technical downtrend.' },
+        { criterion: 'Entry timing', stars: 2, note: 'A ~44% drawdown from the ATH after an early-August +62% surge on proposed US restrictions on Chinese optical transceivers — chasing that jump is a worse entry than the drawdown alone suggests.' },
       ],
       readLabel: 'QUALITY SPECULATIVE — AN "UPGRADED AXTI" IN OPTICS',
       summary:
         'A bet on explosive growth in AI optical infrastructure: the orders are real, demand outstrips supply into mid-2027 by the company’s own numbers, and the forward P/E is genuinely reasonable for the growth rate. But the risks are just as real — concentrated customers, a live EML-to-SiPh technology transition where larger, NVIDIA-backed peers (Coherent, Lumentum) lead, and extreme volatility. Investors wanting the same "AI optics" theme with less risk might look at Coherent (COHR) instead — NVIDIA-backed, a SiPh leader, and already profitable.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. Price refreshed Aug 5, 2026 via live web lookup (aggregated market-data search) after the $80.83 snapshot was found stale — AAOI jumped to $131.63 (+63%) on news of a proposed US ban on Chinese optical transceivers, ahead of its Aug 6, 2026 earnings report. Market cap was recomputed from the prior researched share count; Forward P/E, P/S and P/B were mechanically rescaled by the same price ratio rather than independently re-verified — treat those as directional, not precise, and expect them to move again on the earnings print. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
   },
 
   WYFI: {
@@ -1008,12 +1008,12 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['WYFI', 'IREN'],
       metrics: [
-        { label: 'Price', values: ['$20.93', '$31.64'] },
-        { label: 'Market cap', values: ['$808M — micro-cap', '$11.3B'] },
+        { label: 'Price', values: ['$24.16 (Aug 5, 2026)', '$31.64'] },
+        { label: 'Market cap', values: ['~$933M — micro-cap (Aug 5, 2026)', '$11.3B'] },
         { label: 'Trailing P/E', values: ['N/A — unprofitable', 'N/A'] },
-        { label: 'Forward P/E', values: ['35.9x', 'N/A'] },
-        { label: 'P/S (TTM)', values: ['~9.8x', '14.9x'] },
-        { label: 'P/B', values: ['1.7x', '4.0x'] },
+        { label: 'Forward P/E', values: ['~41.4x (rescaled from 35.9x pre-refresh, not independently re-verified)', 'N/A'] },
+        { label: 'P/S (TTM)', values: ['~11.3x (rescaled from 9.8x pre-refresh, not independently re-verified)', '14.9x'] },
+        { label: 'P/B', values: ['~2.0x (rescaled from 1.7x pre-refresh, not independently re-verified)', '4.0x'] },
         { label: 'Net margin', values: ['-46.1%', '-14.9%'] },
         { label: 'Gross margin (ex-D&A)', values: ['60.2%', '68.4%'] },
         { label: 'Revenue (TTM)', values: ['~$83M', '$757M'] },
@@ -1023,9 +1023,9 @@ export const companies: Record<string, Company> = {
       ],
       verdictTone: 'fair',
       verdictPoints: [
-        'P/S of ~9.8x is actually cheaper than IREN (14.9x) and AAOI (14.8x)',
-        'P/B of 1.7x is reasonable for an infrastructure company',
-        'Forward P/E of 35.9x is high in absolute terms but not unreasonable for 49%+ growth',
+        'P/S of ~11.3x (rescaled post-refresh) was cheaper than IREN (14.9x) and AAOI (14.8x) pre-refresh; both peers have since moved too, so this specific comparison needs a fresh look',
+        'P/B of ~2.0x (rescaled post-refresh) is still reasonable for an infrastructure company',
+        'Forward P/E of ~41.4x (rescaled post-refresh) is high in absolute terms but not unreasonable for 49%+ growth',
         'The real issue: under 2 years old, burning cash, and needing hundreds of millions more in capex to reach its stated vision — the stock ran +99% in one month on pure momentum',
       ],
       justifiedIf: [
@@ -1894,7 +1894,7 @@ export const companies: Record<string, Company> = {
         'Bloom Energy has crossed from promising to proven: the first $1B quarter, doubled FY2026 guidance, GAAP profitability, and a $6B+ backlog spanning six hyperscalers who have no alternative to on-site power while grid interconnection queues stretch for years. The technology moat (SOFC efficiency, battery-less load following, waste-heat cooling) looks genuinely differentiated versus FCEL and Doosan. The clear offsetting risk is valuation — a forward multiple in the low 30s and a P/S above 15x leave the stock priced for continued execution, and a beta near 3.74 means any capacity delay or hyperscaler deferral gets punished hard and fast. A staged entry near the 200-day moving average rather than a single full-size position fits the risk/reward here.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here. Price refreshed Aug 5, 2026 via live web lookup (GuruFocus/Investing.com-sourced quote) after the original compilation\'s $163.75 snapshot was flagged as stale — BE rallied ~+39% to $228.11 (Aug 4, 2026 close). Market cap was recomputed directly from the prior researched share count; Forward P/E and P/S (and the 50-/200-day moving averages cited in priceMap.technical) were mechanically rescaled by the same price ratio rather than independently re-verified — treat those as directional, not precise.',
   },
 '8035.T': {
   ticker: '8035.T',
@@ -4922,10 +4922,10 @@ NBIS: {
   valuation: {
     peers: ['CRWV — CoreWeave', 'NBIS — Nebius Group', 'IREN — IREN (fka Iris Energy)', 'CORZ — Core Scientific'],
     metrics: [
-      { label: 'Price (approx., early Aug 2026)', values: ['$82.55', 'varies', 'varies', 'varies'] },
-      { label: 'Market cap (approx.)', values: ['~$44-50B (highly volatile; cited $32-58B across recent weeks)', '~$15-25B', '~$5-10B', '~$5-8B'] },
+      { label: 'Price (approx., Aug 5, 2026)', values: ['$91.90', 'varies', 'varies', 'varies'] },
+      { label: 'Market cap (approx.)', values: ['~$49-56B (rescaled from ~$44-50B pre-refresh; highly volatile; cited $32-58B across recent weeks)', '~$15-25B', '~$5-10B', '~$5-8B'] },
       { label: 'TTM revenue', values: ['~$6.23B', 'n/a', 'n/a', 'n/a'] },
-      { label: 'TTM P/S ratio', values: ['~5-8x (source-dependent)', 'n/a', 'n/a', 'n/a'] },
+      { label: 'TTM P/S ratio', values: ['~6-9x (rescaled from ~5-8x pre-refresh, not independently re-verified; source-dependent)', 'n/a', 'n/a', 'n/a'] },
       { label: 'Total debt (approx.)', values: ['~$24.9B', 'materially lower', 'materially lower', 'materially lower'] },
     ],
     verdictTone: 'high',
@@ -4942,9 +4942,9 @@ NBIS: {
   },
   priceMap: {
     zones: [
-      { tier: 'ideal', range: '$45 - $60', rationale: 'Would reflect the market pricing in meaningfully more debt/refinancing risk or customer-concentration risk than currently, closer to levels seen during 2026 AI-financing-crisis headline spikes' },
-      { tier: 'acceptable', range: '$60 - $100', rationale: 'Brackets the current volatile trading range; consistent with continued backlog execution without assuming the debt-financed model runs flawlessly' },
-      { tier: 'expensive', range: 'Above $130', rationale: 'Approaches prior 2026 highs reached on peak AI-infrastructure enthusiasm; historically preceded sharp single-day reversals on debt or customer-concentration headlines' },
+      { tier: 'ideal', range: '$50 - $67', rationale: 'Would reflect the market pricing in meaningfully more debt/refinancing risk or customer-concentration risk than currently, closer to levels seen during 2026 AI-financing-crisis headline spikes' },
+      { tier: 'acceptable', range: '$67 - $111', rationale: 'Brackets the current volatile trading range; consistent with continued backlog execution without assuming the debt-financed model runs flawlessly' },
+      { tier: 'expensive', range: 'Above $145', rationale: 'Approaches prior 2026 highs reached on peak AI-infrastructure enthusiasm; historically preceded sharp single-day reversals on debt or customer-concentration headlines' },
     ],
     technical: [
       'Extremely high realized volatility since the March 28, 2025 IPO, including single-day moves of 15%+ on both earnings and macro AI-financing headlines',
@@ -4995,7 +4995,7 @@ NBIS: {
     readLabel: 'LARGEST NEOCLOUD BACKLOG, HIGHEST LEVERAGE, HIGHEST HEADLINE RISK',
     summary: 'CoreWeave is unambiguously the scale leader among pure-play neoclouds, with a $99.4B backlog and ~3.5 GW of contracted power that dwarf smaller competitors like Nebius and Nscale. That scale has been built almost entirely with debt — roughly $24.9B of it against under $4B of equity — collateralized by GPUs and underwritten in part by prepayments from a customer base still dominated by Microsoft, OpenAI, and Meta. The investment case reduces to a single question: can backlog convert to cash flow fast enough, and can debt keep getting refinanced on workable terms, before any weakening in hyperscaler AI capex or a single large customer relationship forces a re-rating of what is currently one of the most leveraged large-cap technology balance sheets in the public market.',
   },
-  sourceNote: 'CoreWeave ticker (CRWV, not "CRWN") independently confirmed via Nasdaq.com, TradingView, Google Finance, and Yahoo Finance listings — trading began March 28, 2025 on Nasdaq Global Select Market. Backlog, revenue guidance, and customer-commitment figures sourced from CoreWeave Q1 2026 earnings coverage (CNBC, BusinessWire, Motley Fool, ECIKS.org, Sacra) dated Apr-May 2026. Debt figures sourced from Wedbush/Finterra "GPU Debt Wall" analysis, Quartz, and TechTimes coverage (Feb-Jul 2026); note these are third-party estimates subject to revision as CoreWeave\'s capital structure continues evolving rapidly. Market cap and stock price figures vary substantially by source and date (cited between ~$32B and ~$58B within recent weeks) reflecting genuinely high realized volatility rather than data-quality issues alone — treat point figures as a snapshot, not a stable valuation anchor.',
+  sourceNote: 'CoreWeave ticker (CRWV, not "CRWN") independently confirmed via Nasdaq.com, TradingView, Google Finance, and Yahoo Finance listings — trading began March 28, 2025 on Nasdaq Global Select Market. Backlog, revenue guidance, and customer-commitment figures sourced from CoreWeave Q1 2026 earnings coverage (CNBC, BusinessWire, Motley Fool, ECIKS.org, Sacra) dated Apr-May 2026. Debt figures sourced from Wedbush/Finterra "GPU Debt Wall" analysis, Quartz, and TechTimes coverage (Feb-Jul 2026); note these are third-party estimates subject to revision as CoreWeave\'s capital structure continues evolving rapidly. Market cap and stock price figures vary substantially by source and date (cited between ~$32B and ~$58B within recent weeks) reflecting genuinely high realized volatility rather than data-quality issues alone — treat point figures as a snapshot, not a stable valuation anchor. Price refreshed Aug 5, 2026 via live web lookup (search-aggregated quote, ~$91.90, up ~7% on the day) after the prior ~$82.55 snapshot was flagged as stale — a roughly +11% move following a Truist upgrade to Buy (Jul 22, 2026) and continued AI-infrastructure-demand coverage ahead of the Aug 11, 2026 earnings report. Market cap and TTM P/S were mechanically rescaled by the same price ratio rather than independently re-verified — treat those as directional, not precise, and given this stock\'s documented day-to-day volatility, re-check the live price before acting on anything here.',
 },
 
 'AMPX': {
@@ -5328,8 +5328,8 @@ NBIS: {
   valuation: {
     peers: ['BWEN — Broadwind', 'TPIC — TPI Composites', 'No close direct public pure-play peer for the post-pivot Gearing/Industrial Solutions mix'],
     metrics: [
-      { label: 'Price (approx., implied)', values: ['~$3.95-4.03', 'varies (distressed)'] },
-      { label: 'Market cap (approx.)', values: ['~$90M', 'much smaller/distressed'] },
+      { label: 'Price (Aug 5, 2026)', values: ['$5.03', 'varies (distressed)'] },
+      { label: 'Market cap (approx.)', values: ['~$113M (rescaled from ~$90M pre-refresh, not independently re-verified)', 'much smaller/distressed'] },
       { label: 'Q1 2026 revenue', values: ['$34.1M (-7.5% YoY)', 'n/a'] },
       { label: 'FY2026 revenue guidance', values: ['~$144.17M', 'n/a'] },
       { label: '52-week price range', values: ['$1.88 - $5.52', 'n/a'] },
