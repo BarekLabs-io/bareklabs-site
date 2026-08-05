@@ -407,6 +407,12 @@ export const en = {
         desc: 'Digital asset book with funding and regime filters. Spot-led, leverage-aware.',
         stats: ['2 OPEN', 'SPOT-LED', 'MOMENTUM'],
       },
+      screener: {
+        code: '03.C',
+        name: 'SCREENER',
+        desc: 'Every covered ticker, mapped onto the AI-infrastructure value chain. Filter by segment, country, risk.',
+        stats: ['60 TICKERS', 'VALUE CHAIN', 'FILTERABLE'],
+      },
     },
     rules: {
       head: 'House rules',

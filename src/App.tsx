@@ -13,9 +13,11 @@ import Stocks from './pages/Stocks'
 import Crypto from './pages/Crypto'
 import About from './pages/About'
 
-// Company deep dives carry a growing per-ticker dataset — code-split so it
-// only loads when a /companies/:ticker route is actually visited.
+// Company deep dives (and the screener, which reads the same dataset) carry
+// a growing per-ticker dataset — code-split so it only loads when one of
+// these routes is actually visited, not on every page load.
 const CompanyPage = lazy(() => import('./pages/Company'))
+const Screener = lazy(() => import('./pages/Screener'))
 
 export default function App() {
   return (
@@ -31,6 +33,14 @@ export default function App() {
         <Route path="/trade-tracker" element={<TradeTracker />} />
         <Route path="/trade-tracker/stocks" element={<Stocks />} />
         <Route path="/trade-tracker/crypto" element={<Crypto />} />
+        <Route
+          path="/trade-tracker/screener"
+          element={
+            <Suspense fallback={null}>
+              <Screener />
+            </Suspense>
+          }
+        />
         <Route path="/about" element={<About />} />
         <Route
           path="/companies/:ticker"

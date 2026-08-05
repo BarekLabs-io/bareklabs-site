@@ -97,6 +97,14 @@ export default function PriceChart({
   const changePct = first ? ((live - first) / first) * 100 : 0
   const up = changePct >= 0
 
+  const xTicks = useMemo(() => {
+    if (rows.length < 2) return undefined
+    const lo = rows[0].t
+    const hi = rows[rows.length - 1].t
+    const n = 5
+    return Array.from({ length: n + 1 }, (_, i) => Math.round(lo + ((hi - lo) * i) / n))
+  }, [rows])
+
   return (
     <div className="border border-line bg-panel">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-4 py-3">
@@ -138,7 +146,7 @@ export default function PriceChart({
                 type="number"
                 domain={['dataMin', 'dataMax']}
                 scale="time"
-                tickCount={6}
+                ticks={xTicks}
                 tickFormatter={(t) => fmtTick(t, tf)}
                 stroke="var(--line)"
                 tick={{ fill: 'var(--faint)', fontSize: 10, fontFamily: "'IBM Plex Mono', monospace" }}

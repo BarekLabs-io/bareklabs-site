@@ -409,6 +409,12 @@ export const fr: Dict = {
         desc: 'Livre d’actifs numériques avec filtres de financement et de régime. Spot d’abord, levier maîtrisé.',
         stats: ['2 OUVERTES', 'SPOT D’ABORD', 'MOMENTUM'],
       },
+      screener: {
+        code: '03.C',
+        name: 'SCREENER',
+        desc: 'Chaque titre couvert, positionné sur la chaîne de valeur de l’infrastructure IA. Filtrable par segment, pays, risque.',
+        stats: ['60 TITRES', 'CHAÎNE DE VALEUR', 'FILTRABLE'],
+      },
     },
     rules: {
       head: 'Règles de la maison',

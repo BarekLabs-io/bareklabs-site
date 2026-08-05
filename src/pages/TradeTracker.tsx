@@ -55,7 +55,7 @@ export default function TradeTracker() {
       <section>
         <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
           <SectionHead index="03" label={t.tracker.ledgers.head} right={t.tracker.ledgers.headRight} />
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-3">
             <TrackCard
               to="/trade-tracker/stocks"
               code={t.tracker.ledgers.stocks.code}
@@ -71,6 +71,14 @@ export default function TradeTracker() {
               desc={t.tracker.ledgers.crypto.desc}
               stats={t.tracker.ledgers.crypto.stats}
               i={1}
+            />
+            <TrackCard
+              to="/trade-tracker/screener"
+              code={t.tracker.ledgers.screener.code}
+              name={t.tracker.ledgers.screener.name}
+              desc={t.tracker.ledgers.screener.desc}
+              stats={t.tracker.ledgers.screener.stats}
+              i={2}
             />
           </div>
         </div>
