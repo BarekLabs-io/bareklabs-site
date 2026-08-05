@@ -14,7 +14,6 @@ export const en = {
       insights: { label: 'INSIGHTS', note: 'Research notes & reads' },
       ideas: { label: 'INVESTMENT IDEAS', note: 'Theses with receipts' },
       chain: { label: 'AI VALUE CHAIN', note: 'From electrons to tokens' },
-      spaceEconomy: { label: 'NEW SPACE ECONOMY', note: 'SPCX, RKLB, ASTS — interactive note' },
       stocks: { label: 'STOCKS', note: 'Equity ledger, live' },
       crypto: { label: 'CRYPTO', note: 'Digital assets ledger' },
     },
@@ -50,8 +49,8 @@ export const en = {
   },
   home: {
     tag: 'BAREK LABS / RESEARCH TERMINAL v0.4',
-    hero1: 'MARKET',
-    hero2: 'SIGNAL',
+    hero1: 'RESEARCH &',
+    hero2: 'MARKET SIGNAL',
     hero3: 'DECODED.',
     heroDesc:
       'AN INDEPENDENT FINANCE & TECH LAB. WE PUBLISH RESEARCH, ENGINEER SIGNALS AND TRACK EXECUTION — IN THE OPEN, WITH RECEIPTS.',
@@ -59,7 +58,7 @@ export const en = {
     cornerFeed: 'FEED: REALTIME / DELAYED MIX',
     manifesto: {
       label: '§ MANIFESTO',
-      meta: 'EST. 2026\nCASABLANCA / REMOTE\nINDEPENDENT, SELF-FUNDED',
+      meta: 'EST. 2026\nPARIS / DUBAI / TUNIS\nINDEPENDENT, SELF-FUNDED',
       big1: 'Most market noise is ',
       big1Accent: 'curable',
       big2: '. We build the instruments — research, signals, trackers — that separate information from ',
@@ -156,11 +155,12 @@ export const en = {
     hero: {
       code: '01.A / ANALYSIS — INSIGHTS',
       title: 'Insights',
-      serif: 'archive',
+      serif: '',
       desc: 'SHORT, DENSE READS. EACH NOTE CARRIES A CONFIDENCE SCORE — A REMINDER THAT KNOWLEDGE IS A PROBABILITY, NOT A POSTURE.',
     },
-    filters: ['ALL', 'MACRO', 'STRUCTURE', 'FLOWS', 'CRYPTO'],
+    filters: ['ALL', 'MACRO', 'STRUCTURE', 'FLOWS', 'CRYPTO', 'SECTOR'],
     notes: [
+      { d: '2026.08.04', tag: 'SECTOR', t: 'The New Space Economy: SPCX, RKLB, ASTS — repriced in public', read: '18', conf: 80, to: '/analysis/space-economy' },
       { d: '2026.08.03', tag: 'STRUCTURE', t: 'Liquidity cycles in frontier exchanges: a breadth-first autopsy', read: '9', conf: 86 },
       { d: '2026.07.30', tag: 'MACRO', t: 'When the dirham steadies: imported inflation and the carry question', read: '7', conf: 74 },
       { d: '2026.07.27', tag: 'FLOWS', t: 'Foreign allocation trickle: reading the custody data nobody charts', read: '6', conf: 81 },
@@ -170,7 +170,7 @@ export const en = {
       { d: '2026.07.09', tag: 'FLOWS', t: 'ETF creation baskets: the quiet tape beneath the loud one', read: '5', conf: 83 },
       { d: '2026.07.02', tag: 'CRYPTO', t: 'Funding-rate regimes: separating leverage heat from genuine demand', read: '12', conf: 72 },
     ],
-    head: 'The archive',
+    head: 'The notes',
     notesUnit: 'NOTES',
     readUnit: 'MIN',
     confidenceNote:
@@ -339,9 +339,13 @@ export const en = {
       title: 'Souk',
       serif: 'signal',
       desc: 'ONE DAILY READ ON REGIONAL MARKETS. BREADTH, FLOWS AND ANOMALIES — DISTILLED, SCORED AND TIMESTAMPED. UPDATED EACH SESSION CLOSE.',
+      welcome1: 'Welcome to ',
+      welcomeAccent: 'the souk',
+      welcome2: ' — your read on listed equity and options trading, region by region.',
       nextUpdate: 'NEXT UPDATE: SESSION CLOSE + 30 MIN',
     },
     gaugeLabel: 'COMPOSITE SIGNAL — CONSTRUCTIVE',
+    methodNote: 'WEIGHTED BLEND OF THE SIX COMPONENTS BELOW — BREADTH AND FOREIGN FLOW WEIGHTED HIGHEST, ANOMALY FLAGS AS A PENALTY. NOT A BLACK BOX.',
     read: {
       title1: "Today's read:",
       title2: 'constructive, with a compression twist.',
@@ -473,7 +477,7 @@ export const en = {
     },
     toc: { founder: 'FOUNDER', story: 'STORY', principles: 'PRINCIPLES', contact: 'CONTACT', onThisPage: 'ON THIS PAGE' },
     facts: {
-      hq: 'HQ — CASABLANCA, MOROCCO',
+      hq: 'HQ — PARIS / DUBAI / TUNIS',
       ops: 'OPERATING — REMOTE / GLOBAL',
       status: 'STATUS — INDEPENDENT, SELF-FUNDED',
       conflicts: 'CONFLICTS — NONE TO DECLARE',

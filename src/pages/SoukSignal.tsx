@@ -4,6 +4,18 @@ import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 
+/* Composite = weighted blend of the six signal-component tones below.
+   Breadth and foreign flow carry the most weight (the page's own "breadth &
+   flows" premise); anomaly flags act as a penalty. Fixed order matches
+   souk.components.rows across all languages. */
+const TONE_SCORE: Record<string, number> = { up: 100, mid: 50, down: 0 }
+const COMPONENT_WEIGHTS = [0.28, 0.12, 0.25, 0.1, 0.1, 0.15]
+
+function compositeSignal(rows: { tone: string }[]) {
+  const total = rows.reduce((sum, r, i) => sum + (COMPONENT_WEIGHTS[i] ?? 0) * (TONE_SCORE[r.tone] ?? 50), 0)
+  return Math.round(total)
+}
+
 function Gauge({ value, label }: { value: number; label: string }) {
   const angle = (value / 100) * 180
   return (
@@ -38,6 +50,7 @@ function Gauge({ value, label }: { value: number; label: string }) {
 export default function SoukSignal() {
   const [pulse, setPulse] = useState(0)
   const { t } = useLang()
+  const composite = compositeSignal(t.souk.components.rows)
   useEffect(() => {
     const id = setInterval(() => setPulse((p) => (p + 1) % 100), 3000)
     return () => clearInterval(id)
@@ -51,7 +64,14 @@ export default function SoukSignal() {
         serif={t.souk.hero.serif}
         desc={t.souk.hero.desc}
       >
-        <Reveal delay={240}>
+        <Reveal delay={200}>
+          <p className="mt-6 max-w-xl text-xl font-light leading-snug tracking-tight text-foreground/90 md:text-2xl">
+            {t.souk.hero.welcome1}
+            <span className="font-serif-lab italic text-signal">{t.souk.hero.welcomeAccent}</span>
+            {t.souk.hero.welcome2}
+          </p>
+        </Reveal>
+        <Reveal delay={280}>
           <div className="mt-8 flex items-center gap-3 font-mono-lab text-[10px] tracking-[0.25em] text-signal">
             <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
             {t.souk.hero.nextUpdate}
@@ -63,7 +83,10 @@ export default function SoukSignal() {
         <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
           <div className="grid items-center gap-12 md:grid-cols-12">
             <Reveal className="md:col-span-5">
-              <Gauge value={68} label={t.souk.gaugeLabel} />
+              <Gauge value={composite} label={t.souk.gaugeLabel} />
+              <p className="mx-auto mt-4 max-w-[260px] text-center font-mono-lab text-[9px] leading-4 tracking-wider text-faint">
+                {t.souk.methodNote}
+              </p>
             </Reveal>
             <div className="md:col-span-7">
               <Reveal delay={100}>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router'
 import { Reveal } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
@@ -40,8 +41,9 @@ export default function Insights() {
           </div>
 
           <div className="grid gap-px overflow-hidden border border-line bg-line">
-            {notes.map((n, i) => (
-              <Reveal key={n.t} delay={i * 40} className="index-row group cursor-pointer bg-card2 p-6 md:p-7">
+            {notes.map((n, i) => {
+              const to = 'to' in n ? n.to : undefined
+              const Row = (
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-8">
                   <span className="w-24 shrink-0 font-mono-lab text-[10px] tracking-wider text-faint" dir="ltr">{n.d}</span>
                   <span className="w-28 shrink-0 font-mono-lab text-[10px] tracking-[0.14em] text-signal">{n.tag}</span>
@@ -60,8 +62,19 @@ export default function Insights() {
                     </div>
                   </div>
                 </div>
-              </Reveal>
-            ))}
+              )
+              return to ? (
+                <Reveal key={n.t} delay={i * 40}>
+                  <Link to={to} className="index-row group block bg-card2 p-6 md:p-7">
+                    {Row}
+                  </Link>
+                </Reveal>
+              ) : (
+                <Reveal key={n.t} delay={i * 40} className="index-row group bg-card2 p-6 md:p-7">
+                  {Row}
+                </Reveal>
+              )
+            })}
           </div>
 
           <Reveal className="mt-10">
