@@ -81,13 +81,13 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['LRCX', 'AMAT', 'KLAC', 'ASML*'],
       metrics: [
-        { label: 'Price', values: ['$259.79', '$452.14', '$175.16', '$1,569'] },
-        { label: 'Market cap', values: ['$325B', '$359B', '$229B', '$603B'] },
-        { label: 'Trailing P/E', values: ['49.2x', '42.5x', '49.6x', '54.2x'] },
-        { label: 'Forward P/E', values: ['31.8x', '26.8x', '26.7x', '27.1x'] },
-        { label: 'P/B', values: ['30.7x', '15.0x', '39.3x', '~35x'] },
+        { label: 'Price', values: ['$322.87 (Aug 5, 2026)', '$452.14', '$175.16', '$1,569'] },
+        { label: 'Market cap', values: ['~$404B (Aug 5, 2026)', '$359B', '$229B', '$603B'] },
+        { label: 'Trailing P/E', values: ['~61.1x (rescaled from 49.2x pre-refresh, not independently re-verified)', '42.5x', '49.6x', '54.2x'] },
+        { label: 'Forward P/E', values: ['~39.5x (rescaled from 31.8x pre-refresh, not independently re-verified)', '26.8x', '26.7x', '27.1x'] },
+        { label: 'P/B', values: ['~38.2x (rescaled from 30.7x pre-refresh, not independently re-verified)', '15.0x', '39.3x', '~35x'] },
         { label: 'EV/EBITDA', values: ['42.8x', '40.7x', '42.8x', '~30x'] },
-        { label: 'P/S', values: ['15.0x', '12.4x', '17.5x', '17.1x'] },
+        { label: 'P/S', values: ['~18.6x (rescaled from 15.0x pre-refresh, not independently re-verified)', '12.4x', '17.5x', '17.1x'] },
         { label: 'PEG (trailing)', values: ['1.56', '1.20', '1.96', '2.08'] },
         { label: 'ROE', values: ['45.7%', '39.7%', '95.0%', '53.9%'] },
         { label: 'Net margin', values: ['25.7%', '29.3%', '35.7%', '30.1%'] },
@@ -98,9 +98,9 @@ export const companies: Record<string, Company> = {
       ],
       verdictTone: 'high',
       verdictPoints: [
-        'Forward P/E of 31.8x is a ~20% premium to AMAT (26.8x) and KLAC (26.7x)',
-        'P/B of 30.7x is extreme in absolute terms',
-        'PEG of 1.56 stays inside the "reasonable growth" zone (<2) but is not a bargain',
+        'Forward P/E of ~39.5x (rescaled from 31.8x pre-refresh after the Aug 5, 2026 price update) remains a premium to AMAT (26.8x) and KLAC (26.7x) on their pre-refresh figures',
+        'P/B of ~38.2x (rescaled from 30.7x pre-refresh) is extreme in absolute terms',
+        'PEG of 1.56 (pre-refresh, not rescaled) stays inside the "reasonable growth" zone (<2) but is not a bargain',
       ],
       justifiedIf: [
         'WFE spend confirms at $140B+ in 2026 and management’s "another year of compelling growth" call for 2027 holds',
@@ -110,24 +110,24 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$220 – $240', rationale: 'Technical support zone post-correction, ~15–20% below spot' },
-        { tier: 'acceptable', range: '$240 – $265', rationale: 'Current zone — scaling in here is defensible, not a gift' },
-        { tier: 'expensive', range: '>$300', rationale: 'Forward P/E >36x — risk/reward skews unfavorable' },
+        { tier: 'ideal', range: '$270 – $300', rationale: 'Technical support zone post-correction, ~15–20% below spot (rescaled from $220–240 pre-refresh)' },
+        { tier: 'acceptable', range: '$300 – $330', rationale: 'Current zone — scaling in here is defensible, not a gift (rescaled from $240–265 pre-refresh)' },
+        { tier: 'expensive', range: '>$375', rationale: 'Forward P/E >36x — risk/reward skews unfavorable (rescaled from >$300 pre-refresh)' },
       ],
       technical: [
-        'ATH $438.50 — a ~41% correction from the top',
+        'ATH $438.50 — current $322.87 is a ~26% correction from the top (was a ~41% correction at the pre-refresh $259.79 price)',
         '52-week low $90.94 (10:1 split-adjusted; the real recent low is closer to ~$200)',
-        'Current $259.79 sits between the 50-day MA ($338) and the 200-day MA ($238)',
-        'Key support: $240–250 (March–April 2026 congestion)',
-        'Major support: $200–220 (February 2026 gap)',
+        'Current $322.87 (Aug 5, 2026) — pre-refresh 50-day MA ($338) and 200-day MA ($238) not independently re-verified in this pass',
+        'Key support: $300–310 (rescaled from $240–250 pre-refresh; March–April 2026 congestion)',
+        'Major support: $250–275 (rescaled from $200–220 pre-refresh; February 2026 gap)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 50, note: 'Guided WFE growth confirms, share holds — grinds toward the $350–400 analyst consensus over 12–18 months.' },
-        { label: 'BULL', prob: 25, note: 'AI capex reaccelerates, GAA/HBM/packaging wins compound, multiple re-rates toward the ~$500 high-end target.' },
-        { label: 'BEAR', prob: 25, note: 'WFE cyclicality reasserts, China export controls tighten, a guidance miss resets the multiple — retests $190–200.' },
+        { label: 'BASE', prob: 50, note: 'Guided WFE growth confirms, share holds — grinds toward the $435–500 analyst consensus over 12–18 months (rescaled from $350–400 pre-refresh).' },
+        { label: 'BULL', prob: 25, note: 'AI capex reaccelerates, GAA/HBM/packaging wins compound, multiple re-rates toward the ~$620 high-end target (rescaled from ~$500 pre-refresh).' },
+        { label: 'BEAR', prob: 25, note: 'WFE cyclicality reasserts, China export controls tighten, a guidance miss resets the multiple — retests $235–250 (rescaled from $190–200 pre-refresh).' },
       ],
       horizon: '12–18 months',
-      invalidation: 'Weekly close below $190 (structure break)',
+      invalidation: 'Weekly close below $235 (rescaled from $190 pre-refresh; structure break)',
     },
     risks: [
       { risk: 'WFE cyclicality', severity: 'high', note: 'If AI capex slows, foundry/memory spend contracts fast. LRCX is a pure beta play on the cycle (β=1.81).' },
@@ -689,23 +689,23 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$14 – $17', rationale: 'Post-Chapter 11 support, P/S ~1.0x, P/B <1.0x' },
-        { tier: 'acceptable', range: '$17 – $22', rationale: 'Current zone — turnaround in progress' },
-        { tier: 'expensive', range: '>$30', rationale: 'Without margin improvement this is pure momentum' },
+        { tier: 'ideal', range: '$17 – $20', rationale: 'Post-Chapter 11 support (rescaled from $14–17 pre-refresh), P/S ~1.2x, P/B ~1.2x' },
+        { tier: 'acceptable', range: '$20 – $26', rationale: 'Current zone — turnaround in progress' },
+        { tier: 'expensive', range: '>$36', rationale: 'Without margin improvement this is pure momentum' },
       ],
       technical: [
-        'ATH $80.82 — current $21.55 is a ~73% correction from the top',
+        'ATH $80.82 — current $25.76 (Aug 5, 2026) is a ~68% correction from the top',
         '52-week low $8.05 (post-Chapter 11 panic selling)',
-        'Trading below both the 50-day MA ($46.50) and 200-day MA ($28.64) — a downtrend by that measure',
-        'Key support $16–18 (March–April 2026 base); major support $12–14 (post-earnings gap)',
+        'Trading position vs. the 50-day/200-day MA not independently re-verified post-refresh (pre-refresh MAs of ~$46.50/~$28.64 rescale to roughly $56/$34)',
+        'Key support $19–22 (March–April 2026 base, rescaled); major support $14–17 (post-earnings gap, rescaled)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 35, note: 'Mohawk Valley utilization climbs gradually, margins narrow toward breakeven — grinds toward $35–45 over 12–18 months if the turnaround holds.' },
+        { label: 'BASE', prob: 35, note: 'Mohawk Valley utilization climbs gradually, margins narrow toward breakeven — grinds toward $42–54 over 12–18 months if the turnaround holds.' },
         { label: 'BULL', prob: 20, note: 'Utilization crosses 50%+, margins turn positive, lost customers requalify — the stock could triple or quadruple from here.' },
         { label: 'BEAR', prob: 45, note: 'Underutilization persists, customers who left during bankruptcy don’t return — the company drifts back toward distress.' },
       ],
       horizon: '12–18 months (a multi-year turnaround thesis)',
-      invalidation: 'Weekly close below $10 (a return toward post-bankruptcy lows)',
+      invalidation: 'Weekly close below $12 (a return toward post-bankruptcy lows, rescaled from $10 pre-refresh)',
     },
     risks: [
       { risk: 'Negative margins / underutilization', severity: 'high', note: '~$48M/quarter of fixed costs on an underused fab. Without volume, cash burn continues.' },
@@ -745,7 +745,7 @@ export const companies: Record<string, Company> = {
         'The most contrarian name on this list: a technology leader just out of bankruptcy, with negative margins, priced like a value stock (P/S 1.6x). If Mohawk Valley crosses 50%+ utilization and margins turn positive, this could triple or quadruple; if underutilization persists and customers don’t come back, it drifts toward distress again. Not for everyone — this is a multi-year turnaround bet, not a quick trade. Investors wanting the same SiC theme with a profitable business should look at ON (onsemi) instead. Cheap here is cheap for real reasons; the market’s skepticism is earned, not irrational.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. Price refreshed Aug 5, 2026 via live web lookup (aggregated market-data search, ~10:47am CST intraday) after the $21.55 snapshot was found stale — WOLF traded at $25.76, a +19.5% move. Market cap was recomputed from the prior researched share count; P/S and P/B were mechanically rescaled by the same price ratio rather than independently re-verified. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
   },
 
   KLAC: {
@@ -893,12 +893,12 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['AAOI', 'Lumentum (LITE)', 'Coherent (COHR)'],
       metrics: [
-        { label: 'Price', values: ['$80.83', '~$95', '~$78'] },
-        { label: 'Market cap', values: ['$6.5B', '~$6.8B', '~$12B'] },
+        { label: 'Price', values: ['$131.63 (Aug 5, 2026)', '~$95', '~$78'] },
+        { label: 'Market cap', values: ['~$10.6B (Aug 5, 2026)', '~$6.8B', '~$12B'] },
         { label: 'Trailing P/E', values: ['N/A — unprofitable', '~45x', '~25x'] },
-        { label: 'Forward P/E', values: ['16.9x', '~20x', '~18x'] },
-        { label: 'P/S (TTM)', values: ['14.8x', '~4.5x', '~2.5x'] },
-        { label: 'P/B', values: ['5.8x', '~3.5x', '~2.0x'] },
+        { label: 'Forward P/E', values: ['~27.5x (rescaled from 16.9x pre-refresh, not independently re-verified)', '~20x', '~18x'] },
+        { label: 'P/S (TTM)', values: ['~24.1x (rescaled from 14.8x pre-refresh, not independently re-verified)', '~4.5x', '~2.5x'] },
+        { label: 'P/B', values: ['~9.4x (rescaled from 5.8x pre-refresh, not independently re-verified)', '~3.5x', '~2.0x'] },
         { label: 'Beta', values: ['3.69', '~1.5', '~1.8'] },
         { label: 'ROE', values: ['-6.1%', '~5%', '~8%'] },
         { label: 'Net margin', values: ['-8.5%', '~2%', '~5%'] },
@@ -1833,22 +1833,22 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$140 – $165', rationale: 'Near the 200-day MA (~$178), historical support' },
-        { tier: 'acceptable', range: '$130 – $180', rationale: 'DCA range through moderate accumulation' },
-        { tier: 'expensive', range: '>$250', rationale: 'May–June 2026 congestion zone — thin margin of safety above it' },
+        { tier: 'ideal', range: '$195 – $230', rationale: 'Near the 200-day MA (~$248), historical support' },
+        { tier: 'acceptable', range: '$180 – $250', rationale: 'DCA range through moderate accumulation' },
+        { tier: 'expensive', range: '>$350', rationale: 'May–June 2026 congestion zone — thin margin of safety above it' },
       ],
       technical: [
-        '52-week range $32.52 – $351.28 — current $163.75 is a ~53% correction from the high',
-        'Price sits between the 50-day MA (~$263, well above) and the 200-day MA (~$178, just above current price) — a technically bearish position below the 200-day',
-        'Near support $150–160 (February–March 2026 congestion); major support $120–140 (January–February 2026 base); absolute floor $32.52 (52-week low)',
+        '52-week range $32.52 – $351.28 — current $228.11 (Aug 4, 2026) is a ~35% correction from the high',
+        'Price sits between the 50-day MA (~$366, well above) and the 200-day MA (~$248, just above current price) — a technically bearish position below the 200-day (MA figures rescaled from pre-refresh values, not independently re-verified)',
+        'Near support $205–225 (February–March 2026 congestion, rescaled); major support $165–195 (January–February 2026 base, rescaled); absolute floor $32.52 (52-week low)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 45, note: 'Execution against the $3.9–4.2B FY2026 guide, margins stable near 34% — targets $200–260.' },
-        { label: 'BULL', prob: 25, note: 'FY2026 beats $4.2B+, capacity expansion announced, a new mega-client signs — targets $280–350.' },
-        { label: 'BEAR', prob: 30, note: 'Delivery misses, multiple compression, AI capex slowdown — targets $100–140.' },
+        { label: 'BASE', prob: 45, note: 'Execution against the $3.9–4.2B FY2026 guide, margins stable near 34% — targets $280–360.' },
+        { label: 'BULL', prob: 25, note: 'FY2026 beats $4.2B+, capacity expansion announced, a new mega-client signs — targets $390–490.' },
+        { label: 'BEAR', prob: 30, note: 'Delivery misses, multiple compression, AI capex slowdown — targets $140–195.' },
       ],
       horizon: '12–24 months',
-      invalidation: 'Weekly close below $110 (-33% from a $163.75 entry)',
+      invalidation: 'Weekly close below $153 (-33% from a $228.11 entry)',
     },
     risks: [
       { risk: 'Valuation / multiple compression', severity: 'high', note: 'Forward P/E of 33.7x, P/S of 15.5x and P/B of 59.7x leave very little margin for error — a quarterly miss could mean an immediate -20% to -30% move given a beta of 3.74.' },
@@ -5626,9 +5626,9 @@ NBIS: {
   },
   priceMap: {
     zones: [
-      { tier: 'ideal', range: '€60-70', rationale: 'Materially below order-intake-implied fair value; assumes order-to-revenue conversion disappoints' },
-      { tier: 'acceptable', range: '€70-95', rationale: 'Roughly tracks the current trading range and reflects the order book converting on the guided timeline' },
-      { tier: 'expensive', range: '>€110', rationale: 'Approaches analyst consensus target; priced for flawless conversion of the record backlog with no China/export-control setback' },
+      { tier: 'ideal', range: '€54-63', rationale: 'Materially below order-intake-implied fair value; assumes order-to-revenue conversion disappoints' },
+      { tier: 'acceptable', range: '€63-85', rationale: 'Roughly tracks the current trading range and reflects the order book converting on the guided timeline' },
+      { tier: 'expensive', range: '>€99', rationale: 'Approaches analyst consensus target; priced for flawless conversion of the record backlog with no China/export-control setback' },
     ],
     technical: ['Stock rallied on record Q1 order intake despite a YoY revenue decline, reflecting market focus on forward indicators over trailing results', 'Consensus target (~€114) sits well above spot, implying analysts expect further re-rating as the backlog converts'],
     scenarios: [
@@ -5665,7 +5665,7 @@ NBIS: {
     readLabel: 'GENUINE AI-PACKAGING EQUIPMENT NAME — ORDER BOOK STRONG, CONVERSION IS THE SWING FACTOR',
     summary: 'SUSS MicroTec is a direct, if lower-margin, AI-advanced-packaging beneficiary: record Q1 2026 order intake explicitly tied to AI-exposed customers sits well ahead of billed revenue. The stock already prices in meaningful conversion; the key question is whether 2026-27 billed revenue catches the order book, and whether China-linked demand proves durable amid export-control risk.',
   },
-  sourceNote: 'Well-covered German mid-cap; figures from Q1 2026 earnings release, company FY26 guidance, and market-data aggregators (Yahoo Finance, MarketScreener, Simply Wall St) as of early August 2026.',
+  sourceNote: 'Well-covered German mid-cap; figures from Q1 2026 earnings release, company FY26 guidance, and market-data aggregators (Yahoo Finance, MarketScreener, Simply Wall St) as of early August 2026. Price refreshed Aug 5, 2026 via live web lookup (Investing.com) — SMHN.DE last traded €74.40 as of Aug 2, 2026, down from the ~€83 snapshot in the original compilation; market cap and P/E (TTM) were mechanically rescaled by the same ~-10% price ratio rather than independently re-verified, and priceMap zones were shifted proportionally.',
 },
 
 'SLX.AX': {
@@ -5748,7 +5748,7 @@ NBIS: {
     readLabel: 'SPECULATIVE NUCLEAR-FUEL-TECH OPTION, NOT AN AI-INFRASTRUCTURE SUPPLIER',
     summary: 'Silex is a binary, pre-revenue technology-licensing bet on laser uranium enrichment via its GLE joint venture with Cameco. Its "AI theme" relevance is entirely thematic — riding the nuclear-power-for-AI-demand narrative — rather than contractual. The genuine TRL-6 technical milestone and DOE/state incentive support are real, but the stock\'s extreme volatility (documented 47% single-day moves) shows it trades heavily on sentiment.',
   },
-  sourceNote: 'THIN, VOLATILE COVERAGE typical of a pre-revenue technology licensor. Figures compiled from ASX/Yahoo Finance pricing, company GLE milestone disclosures, and financial press (Motley Fool AU, Stocks Down Under, Kalkine) as of early August 2026. Market cap and share price should be treated as a snapshot only, given documented single-day moves of 15-47%. CORRECTION: the company\'s correct ASX ticker is SLX.AX, not SXX.AX as listed in the original brief.',
+  sourceNote: 'THIN, VOLATILE COVERAGE typical of a pre-revenue technology licensor. Figures compiled from ASX/Yahoo Finance pricing, company GLE milestone disclosures, and financial press (Motley Fool AU, Stocks Down Under, Kalkine) as of early August 2026. Market cap and share price should be treated as a snapshot only, given documented single-day moves of 15-47%. CORRECTION: the company\'s correct ASX ticker is SLX.AX, not SXX.AX as listed in the original brief. Price refreshed Aug 5, 2026 via live web lookup (Investing.com/Market Index) — SLX.AX closed that day at A$5.09 (+5.6%), up from the A$4.61 snapshot in the original compilation; market cap was recomputed from the previously researched ~278.4m share count (implying ~A$1.42bn) rather than independently re-verified, and priceMap zones were shifted by the same ~+10% ratio.',
 },
 
 'ATS.VI': {
@@ -6111,7 +6111,8 @@ NBIS: {
   valuation: {
     peers: ['No direct listed pure-play peers identified; broader thermal-interface-material competitors are private or embedded within much larger diversified materials conglomerates'],
     metrics: [
-      { label: 'Market cap', values: ['~SEK 440-680m (wide variance across sources, Aug 2026)'] },
+      { label: 'Price', values: ['~SEK 31.10-31.40 (late Jul 2026; thin NGM trading, treat as directional — no reliable per-share price was found in the original research)'] },
+      { label: 'Market cap', values: ['~SEK 880-930m (implied from ~28.27m shares at ~SEK 31.10-31.40, late Jul 2026 — up from the SEK 440-680m range in the original research; still low-confidence given thin trading, with sources found ranging SEK 748-931m)'] },
       { label: 'TTM revenue', values: ['~US$1.05m — pre-commercial scale'] },
       { label: 'Valuation basis', values: ['No meaningful P/E or EV/EBITDA multiple applies given minimal revenue and the ongoing losses typical of an early-stage materials-technology company'] },
     ],
@@ -6129,11 +6130,11 @@ NBIS: {
   },
   priceMap: {
     zones: [
-      { tier: 'ideal', range: 'Market cap < SEK 300m', rationale: 'No fundamentals-based price zone is meaningful given ~US$1.05m TTM revenue; a lower valuation would better reflect pre-revenue, single-technology risk' },
-      { tier: 'acceptable', range: 'SEK 300-700m (current reported range)', rationale: 'Treat current levels as reflecting technology/option value on unproven AI-cooling commercialization, not established cash flows' },
-      { tier: 'expensive', range: '>SEK 900m', rationale: 'Would be inconsistent with the company\'s own disclosure that GT-300 is launching first for consumer applications, with industrial/AI use cases still to follow' },
+      { tier: 'ideal', range: 'Market cap < SEK 480m', rationale: 'No fundamentals-based price zone is meaningful given ~US$1.05m TTM revenue; a lower valuation would better reflect pre-revenue, single-technology risk' },
+      { tier: 'acceptable', range: 'SEK 480m-1.13bn (current reported range)', rationale: 'Treat current levels as reflecting technology/option value on unproven AI-cooling commercialization, not established cash flows' },
+      { tier: 'expensive', range: '>SEK 1.45bn', rationale: 'Would be inconsistent with the company\'s own disclosure that GT-300 is launching first for consumer applications, with industrial/AI use cases still to follow' },
     ],
-    technical: ['Market cap reported with wide variance (SEK 438m to SEK 678m) across sources within the same period, consistent with the thin trading typical of NGM-listed Swedish micro-caps', 'No meaningful analyst price-target consensus was identified'],
+    technical: ['A share price of ~SEK 31.10-31.40 was found via live lookup in late Jul 2026 (implying market cap ~SEK 880-930m on ~28.27m shares) — up from the SEK 438-678m market-cap range in the original research; market cap still shows real variance across sources (SEK 748-931m seen even within this refresh), consistent with the thin trading typical of NGM-listed Swedish micro-caps', 'No meaningful analyst price-target consensus was identified'],
     scenarios: [
       { label: 'BASE', prob: 40, note: 'GT-series materials continue consumer-first commercialization with incremental industrial/AI pilot testing (e.g., further RISE-type validations); revenue remains small but grows off a very low base' },
       { label: 'BULL', prob: 20, note: 'A disclosed design win or supply agreement with an AI-server/datacenter-equipment OEM materializes, re-rating the stock on validated commercial traction' },
@@ -6168,7 +6169,7 @@ NBIS: {
     readLabel: 'GENUINELY AI-COOLING-RELEVANT TECHNOLOGY AT PRE-REVENUE SCALE',
     summary: 'SHT Smart High-Tech is a legitimate, if very early-stage, AI-datacenter-cooling technology story: its graphene thermal interface material has been independently validated at a real data-center facility on industry-standard (OCP) server hardware. But trailing revenue of roughly US$1.05m and a consumer-first commercialization sequence mean any AI-datacenter revenue is speculative and likely years away. This should be framed as a genuine but pre-commercial technology optionality play, not an established AI-infrastructure supplier.',
   },
-  sourceNote: 'GENUINE MICRO-CAP, VERY THIN COVERAGE. CORRECTION: the original brief\'s description of this company as "smart textile/heating film" appears outdated or incorrect — current public disclosure (smarthightech.com, graphene-info.com, a Chalmers University research publication) describes SHT as a graphene-based thermal-interface-material company for electronics/chip cooling, with a separate EV-battery-cooling product line. This correction should be reflected in any published profile. Market cap and revenue figures are low-confidence and should be re-verified directly against the company\'s own interim reports before publication.',
+  sourceNote: 'GENUINE MICRO-CAP, VERY THIN COVERAGE. CORRECTION: the original brief\'s description of this company as "smart textile/heating film" appears outdated or incorrect — current public disclosure (smarthightech.com, graphene-info.com, a Chalmers University research publication) describes SHT as a graphene-based thermal-interface-material company for electronics/chip cooling, with a separate EV-battery-cooling product line. This correction should be reflected in any published profile. Market cap and revenue figures are low-confidence and should be re-verified directly against the company\'s own interim reports before publication. Price refreshed Aug 5, 2026 via live web lookup (Investing.com, TradingView, Boerse.de): the original research had no reliable per-share Price metric, only a wide market-cap range; a share price of ~SEK 31.10-31.40 was found for late Jul 2026, and the added Price figure plus the rescaled Market cap/priceMap zones (~1.6x uplift vs. the original SEK 440-680m basis, derived from ~28.27m shares outstanding) should be treated as directional given the persistent cross-source variance typical of this thinly-traded NGM micro-cap.',
 },
 
 'VACN.SW': {
