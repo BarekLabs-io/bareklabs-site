@@ -3165,4 +3165,651 @@ export const companies: Record<string, Company> = {
   sourceNote:
     'Compiled from Doosan Corporation Q1/Q2 2026 earnings releases, Seoul Economic Daily, Korea JoongAng Daily, The Korea Times and Korea Herald coverage of the SK Siltron transaction, and third-party data aggregators (Morningstar, stockanalysis.com) as of early August 2026. P/E and market-cap figures vary substantially across sources given thin/volatile consolidated earnings — treat the trailing P/E figures here as directionally indicative ("very expensive on current earnings"), not precise, and cross-check before live use. The SK Siltron deal was signed but not yet closed as of this writing.',
 },
+  '300476.SZ': {
+    ticker: '300476.SZ',
+    name: 'Victory Giant Technology (Huizhou) Co., Ltd',
+    tagline: 'China\'s top AI-server PCB maker by revenue share — a core HDI/HLC board supplier inside Nvidia\'s GB200/GB300 supply chain, now sampling for Rubin.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Victory Giant doesn\'t design silicon — it fabricates the high-density-interconnect (HDI) and high-layer-count (HLC) printed circuit boards that carry GPU, switch and networking silicon inside AI servers. It ranked #1 globally in AI/HPC PCB revenue share (13.8%) in H1 2025 and holds an estimated 50-60% share of HDI/HLC boards on Nvidia\'s GB200 platform.',
+      rows: [
+        { level: 'CCL / copper foil laminate', players: 'Shengyi Technology, EMC, Iteq', position: 'Upstream input supplier', tone: 'indirect' },
+        { level: 'PCB fabrication (HDI/HLC)', players: 'Victory Giant, Shennan Circuits, WUS, Unimicron', position: 'Core business — #1 global AI/HPC PCB share (13.8%, H1 2025)', tone: 'core' },
+        { level: 'AI server ODM/OEM', players: 'Foxconn, Quanta, Wiwynn', position: 'Direct customers for finished boards', tone: 'client' },
+        { level: 'GPU / accelerator design', players: 'Nvidia (GB200/GB300, Rubin sampling), AMD, Broadcom', position: 'End-silicon driving board specification', tone: 'indirect' },
+        { level: 'Hyperscaler datacenter', players: 'Microsoft, Google, Meta, Amazon', position: 'End-market demand pull', tone: 'indirect' },
+      ],
+      segments: [
+        'HDI boards: 38.5% of 2025 revenue (up from 14.2% in 2024), revenue +388.2% YoY to RMB 7.42B',
+        '2025 total revenue RMB 19.3B (+79.8% YoY); net profit RMB 4.31B (+273.5% YoY)',
+        'Gross margin expanded to 35.2% in 2025 from 22.7% in 2024',
+        'Capacity build-out in Huizhou plus new bases in Thailand, Vietnam and Malaysia to diversify geography',
+        'Filed for a Hong Kong secondary listing in April 2026 to access international capital',
+      ],
+      aiShift:
+        'Every generation of Nvidia AI-server platform (GB200 to GB300 to Rubin/Rubin Ultra) raises layer count, via density and board complexity, which increases dollar content per board for whoever supplies it. Victory Giant is an early sampling/testing partner for Rubin and Rubin Ultra and entered Nvidia\'s supply chain in 2020, making it one of the most direct China-listed proxies for AI-server capex.',
+    },
+    valuation: {
+      peers: ['300476.SZ', '002916.SZ', '002463.SZ'],
+      metrics: [
+        { label: 'Price', values: ['¥201.22', '~¥217-333 (volatile)', '¥128.83'] },
+        { label: 'Market cap', values: ['~¥198B (~$28B)', '~¥180-260B (noisy)', '~¥241B'] },
+        { label: 'Trailing P/E', values: ['~46x', 'n/a', '~56.5x'] },
+        { label: 'Forward P/E', values: ['n/a', 'n/a', '~35.6x'] },
+        { label: 'Gross margin', values: ['35.2% (FY2025)', 'n/a', 'n/a'] },
+        { label: 'Net margin', values: ['~22.3% (FY2025)', 'n/a', 'n/a'] },
+        { label: 'Revenue growth', values: ['+79.8% (FY2025)', 'n/a', 'n/a'] },
+        { label: '52-week return', values: ['highly volatile, +100%+ then a sharp correction', 'n/a', '+175.9%'] },
+      ],
+      verdictTone: 'high',
+      verdictPoints: [
+        'Trailing P/E of roughly 46x follows a 273.5% net-profit surge in 2025 — growth-adjusted it is less extreme than the peer group\'s triple-digit multiples, but it is still a full re-rating on a single AI-cycle narrative',
+        'Price and market-cap data for this name are unusually dispersed across data aggregators (figures seen from ¥182 to ¥402.60 over the trailing year) — this reflects genuine, extreme volatility rather than a data error, driven by a June 2026 governance scandal and Nvidia pricing-related news flow layered on top of the underlying AI-PCB rally',
+        'Gross margin nearly doubled from 22.7% (2024) to 35.2% (2025) as HDI mix shifted from 14% to 38.5% of revenue — the re-rating has real margin support, not just multiple expansion',
+      ],
+      justifiedIf: [
+        'GB200/GB300 shipments and early Rubin/Rubin Ultra sampling convert into sustained HDI/HLC order volume through 2027',
+        'Victory Giant defends its 50-60% share of Nvidia HDI/HLC content against Shennan Circuits, WUS and Unimicron capacity additions',
+        'Overseas capacity (Thailand, Vietnam, Malaysia) ramps on schedule, insulating the order book from any single-country tariff or export-control shock',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '¥150 – ¥180', rationale: 'Near the reported 52-week low (~¥182) — a genuine stress-test level for this name' },
+        { tier: 'acceptable', range: '¥180 – ¥230', rationale: 'Current post-correction trading zone' },
+        { tier: 'expensive', range: '>¥320', rationale: 'Approaching the reported 2026 high near ¥400-402' },
+      ],
+      technical: [
+        '52-week range approximately ¥182 – ¥402.60 (sources vary; treat precise levels as directional given this stock\'s extreme volatility)',
+        'Stock lost roughly RMB 20B (~$3.0B) of market cap in a single June 2026 session after a chairman personal-conduct scandal, before partly rebounding',
+        'Further pressure in July 2026 from Nvidia price-cut rumors hitting PCB-supplier sentiment sector-wide',
+        'Current price (~¥201, early August 2026) sits well off the 2026 high, closer to the 52-week low than the high',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 50, note: 'GB200/GB300 volumes and Rubin sampling convert on schedule, HDI mix keeps rising — grinds back toward ¥280-320 over 6-12 months.' },
+        { label: 'BULL', prob: 20, note: 'Rubin ramp plus incremental share gains against domestic rivals re-rate the stock back toward or beyond the ~¥400 high.' },
+        { label: 'BEAR', prob: 30, note: 'AI-capex digestion, a customer concentration shock, or renewed governance/sentiment overhang retests the ¥150-180 area.' },
+      ],
+      horizon: '6-12 months',
+      invalidation: 'Weekly close below ¥150',
+    },
+    risks: [
+      { risk: 'Customer concentration', severity: 'high', note: 'A large share of the AI-PCB growth story runs through Nvidia\'s GB-series and Rubin programs — any Nvidia design change or dual-sourcing shift hits directly.' },
+      { risk: 'Valuation and volatility', severity: 'high', note: 'The stock has moved through an extremely wide range within 2026; a ~46x trailing P/E on a single-narrative growth story leaves limited room for disappointment.' },
+      { risk: 'AI capex cyclicality', severity: 'high', note: 'Revenue and margin gains are tightly coupled to hyperscaler/GPU-maker capex cycles, which can pause or digest sharply.' },
+      { risk: 'Governance / key-man risk', severity: 'medium', note: 'A June 2026 personal scandal involving the chairman triggered a same-day ~7% share-price drop — a reminder of thin corporate-governance buffers typical of recently-listed Chinese growth names.' },
+      { risk: 'Competitive capacity additions', severity: 'medium', note: 'Shennan Circuits, WUS Printed Circuit and Taiwan\'s Unimicron are all scaling HDI/HLC capacity to capture the same AI-server demand.' },
+      { risk: 'Nvidia pricing power', severity: 'medium', note: 'Rumors of Nvidia pushing for supplier price cuts (July 2026) illustrate the asymmetric bargaining position of the end customer.' },
+      { risk: 'China export-control overhang', severity: 'low', note: 'Broader US-China tech restrictions are a tail risk to the AI-server supply chain Victory Giant sits inside, even though PCBs themselves are not directly export-controlled.' },
+    ],
+    backlog: {
+      visibility: [
+        'HDI revenue +388.2% YoY in 2025, rising from 14.2% to 38.5% of total revenue',
+        '2025 revenue +79.8% YoY to RMB 19.3B; net profit +273.5% YoY to RMB 4.31B',
+        'Hong Kong IPO filed April 2026 for international capital access',
+        'RMB ~700M employee stock ownership plan launched June 2026 to stabilize the shareholder base after the governance-scandal selloff',
+      ],
+      wins: [
+        'Estimated 50-60% share of HDI/HLC boards on Nvidia\'s GB200 platform',
+        'Early sampling/testing partner for Nvidia\'s next-generation Rubin and Rubin Ultra platforms',
+        '#1 global AI/HPC PCB revenue share (13.8%) in H1 2025',
+        'New production bases in Thailand, Vietnam and Malaysia advancing to diversify geographic/tariff exposure',
+      ],
+      clients: ['Nvidia (via ODM supply chain)', 'Foxconn', 'Quanta', 'Wiwynn'],
+      suppliers: ['Shengyi Technology', 'Elite Material Co (EMC)', 'Iteq Corporation'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 4, note: 'Leading HDI/HLC PCB maker with a genuine, margin-backed AI-server growth story.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'Direct, first-order exposure to Nvidia GB200/GB300 and early Rubin sampling.' },
+        { criterion: 'Valuation', stars: 2, note: '~46x trailing P/E after a 273% profit surge — priced for continued hypergrowth.' },
+        { criterion: 'Governance / risk', stars: 2, note: 'A June 2026 chairman scandal and extreme price volatility flag thin governance buffers.' },
+        { criterion: 'Growth momentum', stars: 5, note: 'Revenue +80%, net profit +273%, gross margin +12.5pp in a single year.' },
+        { criterion: 'Entry timing', stars: 3, note: 'Well off the 2026 high, but no clear technical floor has been established given the volatility.' },
+      ],
+      readLabel: 'HIGH-BETA AI-PCB LEADER — GOVERNANCE AND VALUATION DEMAND CAUTION',
+      summary:
+        'Victory Giant is arguably the most direct China-listed proxy for Nvidia\'s AI-server board content, with real margin expansion behind the growth narrative rather than pure multiple inflation. But 2026 has been a case study in single-name idiosyncratic risk: a chairman scandal wiped out billions in market cap in a single session, Nvidia price-cut rumors hit sentiment weeks later, and the resulting price swings make this one of the noisiest names in the set to price precisely. The fundamentals argue for a structural AI-PCB winner; the volatility argues for treating any single data point on price or multiple as a snapshot, not a fact.',
+    },
+    sourceNote:
+      'IMPORTANT: the ticker "300475.SZ" as originally specified corresponds to Shannon Semiconductor Technology, not Victory Giant — Victory Giant Technology (Huizhou) trades under 300476.SZ, which is used throughout this entry. Compiled from stockanalysis.com, Yahoo Finance, Investing.com, Xueqiu, Reuters/TradingView and Chinese-language financial press as of August 2026. Price and market-cap figures for this name were unusually dispersed across sources (likely reflecting a mid-2026 capitalization/share event plus extreme trading volatility) — cross-check current levels before using any number here as precise.',
+  },
+
+  '301377.SZ': {
+    ticker: '301377.SZ',
+    name: 'Guangdong Dtech Technology Co., Ltd',
+    tagline: 'Global #1 in PCB drill bits (26.5% share) — the precision tooling every high-layer AI-server board is drilled with, priced at an extraordinary multiple.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Dtech doesn\'t make PCBs — it makes the micro-drills, milling cutters, CNC tool grinders and abrasive/brush consumables that PCB fabricators use to drill vias and shape multilayer boards. As AI-server HDI boards add layers and via density, tool consumption per board rises independently of which fabricator wins the business.',
+      rows: [
+        { level: 'Tungsten carbide raw material', players: 'Undisclosed carbide suppliers', position: 'Upstream input', tone: 'indirect' },
+        { level: 'Precision PCB tooling', players: 'Dtech (26.5% global share, 2023), Union Tool (Japan), Mitsubishi Materials', position: 'Core business — global #1 in PCB drill bits', tone: 'core' },
+        { level: 'PCB fabrication', players: 'Victory Giant, Unimicron, Shennan Circuits, WUS, TTM', position: 'Direct tooling customers', tone: 'client' },
+        { level: 'AI-server / advanced HDI PCB', players: 'Same fabricators, higher layer counts', position: 'Growth — more drilling operations per high-layer board', tone: 'growth' },
+        { level: 'Adjacent tooling (semiconductor, coating, film)', players: 'Diversification segments', position: 'Early-stage growth vector beyond PCB', tone: 'growth' },
+      ],
+      segments: [
+        'PCB drill bits: global market share 26.5% in 2023, the company\'s largest and best-established product line',
+        'Milling cutters, blades, grinding brushes and CNC tool grinders / tap thread grinders',
+        'Functional film materials: privacy films, automotive light-control and explosion-proof films, DBEF/COP/AR films',
+        'Q1 2025 revenue +27.2% YoY, net profit +78.5% YoY; gross margin 38.05% (+4.28pp YoY), net margin 17.04%',
+        'TTM revenue ¥1.91B (+25.4% YoY); TTM net margin ~24.5%, ROE ~22.7%',
+      ],
+      aiShift:
+        'AI-server boards carry more layers and denser microvias than prior-generation designs, which mechanically increases the number of drilling and tooling operations per board. Dtech captures this as a volume tailwind on its core tooling business regardless of which PCB fabricator ultimately wins Nvidia or hyperscaler content — a picks-and-shovels-behind-the-picks-and-shovels position.',
+    },
+    valuation: {
+      peers: ['301377.SZ', '6278.T'],
+      metrics: [
+        { label: 'Price', values: ['¥548.70', '¥22,700'] },
+        { label: 'Market cap', values: ['~¥243B', '~$1.6B'] },
+        { label: 'Trailing P/E', values: ['~245x', 'n/a'] },
+        { label: 'ROE', values: ['~22.7% (TTM)', 'n/a'] },
+        { label: 'Net margin', values: ['~24.5% (TTM)', 'n/a'] },
+        { label: 'Gross margin', values: ['38.05% (Q1 2025)', 'n/a'] },
+        { label: 'Revenue growth', values: ['+25.4% (TTM)', 'AI-driven demand growth cited qualitatively'] },
+      ],
+      verdictTone: 'high',
+      verdictPoints: [
+        'A trailing P/E near 245x is among the richest multiples anywhere in this PCB-adjacent supply chain — it prices in years of continued AI-driven tooling demand',
+        'Margin expansion is real (gross margin +4.3pp YoY, net profit +78.5% in Q1 2025) but nowhere close to closing a ~245x multiple on its own',
+        '52-week price range (roughly ¥33 to ¥666, likely distorted by a mid-cycle share/capitalization event) signals this is a thin, highly volatile, recently-listed (2022 IPO) name — treat any single price point cautiously',
+      ],
+      justifiedIf: [
+        'AI-server PCB layer counts keep rising, mechanically increasing drilling and tooling intensity per board',
+        'Dtech holds or extends its 26.5%+ global PCB-drill-bit share against Japan\'s Union Tool and Mitsubishi Materials',
+        'The functional-film and semiconductor/vacuum-coating tooling diversification scales into a credible second growth leg, justifying a platform multiple rather than a pure-play tooling multiple',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '¥350 – ¥420', rationale: 'Well below current levels, a meaningful discount to the recent trading range' },
+        { tier: 'acceptable', range: '¥420 – ¥580', rationale: 'Current trading zone' },
+        { tier: 'expensive', range: '>¥650', rationale: 'Near the reported 52-week/all-time high (~¥666)' },
+      ],
+      technical: [
+        '52-week range approximately ¥33.21 – ¥666.00 — the low end likely reflects a pre-capitalization-event price and is not directly comparable to the current level',
+        'Current price ¥548.70 sits roughly 18% below the reported high of ¥666.00',
+        'Listed on Shenzhen\'s ChiNext board in 2022; short trading history amplifies data noise across aggregators',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 50, note: 'AI-PCB drilling intensity and margin expansion continue on trend — grinds toward ¥600-650.' },
+        { label: 'BULL', prob: 20, note: 'Share gains plus successful diversification into semiconductor/film tooling re-rate the multiple — breaks to a new high.' },
+        { label: 'BEAR', prob: 30, note: 'AI-capex digestion or margin pressure passed down from PCB fabricators to their tooling suppliers — retraces toward ¥350-400.' },
+      ],
+      horizon: '6-12 months',
+      invalidation: 'Weekly close below ¥350',
+    },
+    risks: [
+      { risk: 'Extreme valuation', severity: 'high', note: 'A ~245x trailing P/E leaves essentially no margin for a growth disappointment.' },
+      { risk: 'AI capex cyclicality passthrough', severity: 'high', note: 'As a tooling supplier one step removed from the fabricators, Dtech inherits the same cyclicality with less end-market pricing power of its own.' },
+      { risk: 'Customer concentration', severity: 'medium', note: 'Revenue is concentrated among a handful of large PCB fabricators (Victory Giant, Shennan, WUS, Unimicron) whose own capex/output decisions drive tool orders.' },
+      { risk: 'Competitive pressure', severity: 'medium', note: 'Japan\'s Union Tool and Mitsubishi Materials compete at the high end of precision PCB tooling.' },
+      { risk: 'Thin trading history / high volatility', severity: 'medium', note: '2022 ChiNext IPO; the unusually wide 52-week price range signals limited liquidity depth and data reliability relative to more established names.' },
+      { risk: 'Diversification execution risk', severity: 'low', note: 'Functional film and semiconductor/vacuum-coating tooling segments are still early-stage relative to the core PCB drill-bit business.' },
+    ],
+    backlog: {
+      visibility: [
+        'Q1 2025 revenue +27.2% YoY, net profit +78.5% YoY',
+        'Gross margin expansion of +4.28pp YoY in Q1 2025 signals pricing power in the core tooling business',
+        'TTM revenue +25.4% YoY to ¥1.91B',
+      ],
+      wins: [
+        'Global #1 market share in PCB drill bits, 26.5% as of 2023',
+        'Diversification into semiconductor, smart-warehousing and vacuum-coating tooling markets',
+        'Functional film unit (privacy, AR, automotive light-control films) adds a second, PCB-independent growth vector',
+      ],
+      clients: ['PCB fabricators broadly (Victory Giant, Shennan Circuits, WUS, Unimicron — inferred industry customers, not individually disclosed)'],
+      suppliers: ['Tungsten carbide raw-material suppliers (not individually disclosed)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 4, note: 'Dominant niche position in a high-barrier precision-tooling market.' },
+        { criterion: 'AI growth exposure', stars: 4, note: 'Indirect but structural — drilling intensity scales mechanically with PCB layer count.' },
+        { criterion: 'Valuation', stars: 1, note: '~245x trailing P/E is extreme even relative to other AI-narrative names in this set.' },
+        { criterion: 'Diversification', stars: 3, note: 'Film and semiconductor-tooling segments are promising but still early relative to the core business.' },
+        { criterion: 'Risk', stars: 3, note: 'Thin trading history, high volatility, and customer concentration in PCB fabricators.' },
+        { criterion: 'Entry timing', stars: 2, note: 'No clear valuation support at current levels — the multiple assumes years of flawless execution.' },
+      ],
+      readLabel: 'NICHE TOOLING LEADER — VALUATION FAR AHEAD OF FUNDAMENTALS',
+      summary:
+        'Dtech is a genuinely dominant player in an unglamorous but structurally necessary niche — someone has to drill the vias in every AI-server board, and Dtech holds more than a quarter of that global market. The margin trend (gross margin up 4+ points, net profit up nearly 80% in a single quarter) is real. What is much harder to justify is a ~245x trailing earnings multiple on a company whose growth, while strong, is still tethered to the capex decisions of a small number of PCB fabricators one step downstream. This reads as a name where the business case is sound and the price has run well ahead of it.',
+    },
+    sourceNote:
+      'The company name specified in the original brief ("Guangdong Bingtai") does not correspond to ticker 301377.SZ — the correct company is Guangdong Dtech Technology Co., Ltd, a Dongguan-based PCB tooling and functional-film maker, and that name is used throughout this entry. Compiled from stockanalysis.com, Investing.com, TradingView, Yahoo Finance and Chinese-language financial press as of August 2026. This is a thinly-traded, recently-listed small-cap with unusually wide data dispersion across aggregators — cross-check current price and multiples before use.',
+  },
+
+  '600961.SS': {
+    ticker: '600961.SS',
+    name: 'Zhuzhou Smelter Group Co., Ltd',
+    tagline: 'A China Minmetals-controlled lead-zinc smelter whose byproduct indium, germanium and bismuth sit inside China\'s 2025 strategic-minerals export-control regime — a rare-metals proxy, not a chipmaker.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Zhuzhou Smelter is not a semiconductor company. It is a base-metals (lead, zinc, copper) smelter, majority-linked to central state-owned China Minmetals Corporation, that recovers strategic byproduct metals — indium, germanium, bismuth, tellurium, cadmium, silver — during the smelting process. Its relevance to the semiconductor/materials chain runs entirely through those byproducts, several of which China placed under export license control in 2025.',
+      rows: [
+        { level: 'Concentrate feed', players: 'Own mines plus third-party suppliers', position: 'Upstream raw-material sourcing', tone: 'indirect' },
+        { level: 'Smelting / refining', players: 'Zhuzhou Smelter Group and other Minmetals units', position: 'Core business — lead, zinc, copper, gold, silver', tone: 'core' },
+        { level: 'Strategic byproduct metals', players: 'Indium, germanium, bismuth, tellurium, cadmium ingots', position: 'High-margin byproducts, now under Chinese export-license control (since Feb 2025)', tone: 'growth' },
+        { level: 'Compound semiconductor / optical / display', players: 'ITO glass, InP precursor, and infrared-optics makers', position: 'Indirect end-use for indium/germanium output — not a direct customer relationship', tone: 'indirect' },
+        { level: 'AI / datacenter hardware', players: 'n/a', position: 'No direct exposure — this is a raw-material chokepoint, not a device maker', tone: 'none' },
+      ],
+      segments: [
+        'Lead and zinc ingots/alloys: the majority of revenue and volume',
+        'Byproduct precious and strategic metals: silver, bismuth, tellurium, indium, cadmium — smaller volume, higher margin',
+        '2024 full-year revenue ~RMB 19.76B (+1.8% YoY); Q1 2025 revenue RMB 4.80B (+8.5% YoY), net profit RMB 277M (+74.1% YoY)',
+        'ROE ~23.1%, net margin ~5% — typical of a high-volume, thin-margin commodity smelter with a byproduct-metals kicker',
+      ],
+      aiShift:
+        'Zhuzhou Smelter has no direct AI-hardware product. Its "AI-adjacent" story runs entirely through indium (an input to ITO display glass and indium-phosphide/compound-semiconductor precursor chemistry) and germanium (used in infrared optics and some fiber-optic and specialty-semiconductor applications) being swept into China\'s February 2025 export-control list alongside tungsten, tellurium, bismuth and molybdenum. This is a geopolitical scarcity/pricing-power story, not a demand-growth story tied to AI capex.',
+    },
+    valuation: {
+      peers: ['600961.SS', '000657.SZ'],
+      metrics: [
+        { label: 'Price', values: ['¥16.23', '¥55.51'] },
+        { label: 'Market cap', values: ['~¥16.7B', '~¥132-170B (noisy)'] },
+        { label: 'Trailing P/E', values: ['~15.7x', '~79.9x'] },
+        { label: 'ROE', values: ['~23.1%', 'n/a'] },
+        { label: 'Net margin', values: ['~5%', 'n/a'] },
+        { label: 'Revenue growth (FY2024)', values: ['+1.8%', 'n/a'] },
+        { label: '52-week range', values: ['~¥7.7 - ¥27.5 (sources vary)', '¥12.32 - ¥113.99'] },
+      ],
+      verdictTone: 'fair',
+      verdictPoints: [
+        'A trailing P/E near 15.7x is a conventional commodity-smelter multiple — the market has not (yet) extended Zhuzhou Smelter the same "critical minerals" valuation premium it has given peer China Tungsten Hi-Tech (~80x), another Minmetals-group strategic-metals unit',
+        'ROE of ~23% against a thin ~5% net margin is typical smelter economics (high volume/turnover, low margin) rather than a materials-technology profile',
+        'The stock is up roughly 100% over the trailing year purely on the China critical-minerals/export-control narrative, despite flat (+1.8%) underlying revenue growth in FY2024',
+      ],
+      justifiedIf: [
+        'China\'s export controls on indium, germanium, bismuth and tellurium tighten further (a partial suspension was already in effect Nov 2025 through Nov 2026), pushing byproduct-metal price premiums higher',
+        'Base-metal (lead/zinc) prices stay firm, supporting the core smelting business that generates the bulk of revenue',
+        'A Minmetals-group asset injection or restructuring formally carves out and re-rates the strategic-metals byproduct business',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '¥10 – ¥12', rationale: 'Near the lower end of the reported 52-week range' },
+        { tier: 'acceptable', range: '¥12 – ¥18', rationale: 'Current trading zone' },
+        { tier: 'expensive', range: '>¥24', rationale: 'Near the reported 52-week high (~¥27.5)' },
+      ],
+      technical: [
+        '52-week range approximately ¥7.66 – ¥27.48 (figures vary meaningfully by source; treat as approximate)',
+        'Current price ¥16.23, roughly double the trailing-year low',
+        'Price action tracks the China critical-minerals/export-control news cycle more closely than company-specific fundamentals',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 50, note: 'Base-metal prices and byproduct-metal premiums hold near current levels — grinds toward ¥18-22.' },
+        { label: 'BULL', prob: 25, note: 'Further tightening of export controls on indium/germanium/bismuth, or a Minmetals-group strategic-metals asset injection, re-rates the stock toward its ~¥27 high.' },
+        { label: 'BEAR', prob: 25, note: 'A lead/zinc price correction, or further easing of export controls (as partially occurred in the Nov 2025-Nov 2026 window) removing the scarcity premium — retraces toward ¥10-12.' },
+      ],
+      horizon: '12 months',
+      invalidation: 'Weekly close below ¥10',
+    },
+    risks: [
+      { risk: 'Commodity-price cyclicality', severity: 'high', note: 'The core business remains a lead/zinc/base-metals smelter; earnings are exposed to global base-metal price cycles independent of any strategic-minerals narrative.' },
+      { risk: 'Export-control policy reversal', severity: 'medium', note: 'China already suspended some October 2025 export-control announcements from November 2025 through November 2026 — a reminder that the scarcity premium behind this stock\'s re-rating is a policy variable, not a fixed structural moat.' },
+      { risk: 'Thin net margins', severity: 'medium', note: 'A ~5% net margin leaves little buffer against input-cost or metal-price swings.' },
+      { risk: 'Limited byproduct-segment disclosure', severity: 'medium', note: 'Indium/germanium/bismuth revenue and profitability are not broken out with enough granularity to independently size the "strategic metals" thesis.' },
+      { risk: 'Weak fit to a semiconductor-materials thesis', severity: 'medium', note: 'This is fundamentally a base-metals smelter with byproduct exposure to compound-semiconductor and display-adjacent metals — investors expecting a direct semiconductor-materials pure play will be looking at the wrong company.' },
+      { risk: 'SOE governance / capital allocation', severity: 'low', note: 'As a China Minmetals-controlled state enterprise, capital-allocation decisions may prioritize group-level strategic objectives over minority-shareholder returns.' },
+    ],
+    backlog: {
+      visibility: [
+        'FY2024 revenue ~RMB 19.76B (+1.8% YoY)',
+        'Q1 2025 revenue RMB 4.80B (+8.5% YoY), net profit +74.1% YoY',
+        'Indium, germanium, bismuth and tellurium items placed under Chinese export-license control since February 2025, with the regime still substantially intact as of August 2026',
+      ],
+      wins: [
+        'Comprehensive byproduct-metal recovery across copper, lead, zinc, gold, silver, bismuth, cadmium, indium and germanium — a rare vertically-integrated platform within the Minmetals group',
+        'One of eight publicly-listed China Minmetals Corporation subsidiaries, alongside China Tungsten Hi-Tech (000657.SZ) and Minmetals Capital (600390.SS)',
+      ],
+      clients: ['Not individually disclosed — sells into domestic and export base- and strategic-metals markets'],
+      suppliers: ['Own mining operations plus undisclosed third-party concentrate suppliers'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 3, note: 'A solid, high-volume commodity smelter with thin margins and a strategic-metals kicker.' },
+        { criterion: 'Semiconductor/AI exposure', stars: 2, note: 'Indirect and thin — byproduct-metal exposure only, with no direct semiconductor product or customer relationship.' },
+        { criterion: 'Valuation', stars: 4, note: '~15.7x trailing P/E is undemanding relative to the "critical minerals" narrative already priced into peer names.' },
+        { criterion: 'Strategic-scarcity optionality', stars: 4, note: 'Indium/germanium/bismuth export controls create real, if policy-dependent, asymmetric upside.' },
+        { criterion: 'Risk', stars: 3, note: 'Commodity cyclicality and export-control policy reversal risk cut in both directions.' },
+        { criterion: 'Entry timing', stars: 3, note: 'No clear near-term catalyst beyond commodity-price and export-policy news flow.' },
+      ],
+      readLabel: 'RARE-METALS SMELTER, NOT A SEMICONDUCTOR MATERIALS PURE PLAY',
+      summary:
+        'Zhuzhou Smelter is best understood as a China critical-minerals/export-control theme stock that happens to sit inside the semiconductor and display supply chain through its indium and germanium byproducts — not as a direct semiconductor-materials company in the way Elite Material or Guangdong Dtech are. The valuation (a conventional smelter multiple, not an AI-mania multiple) reflects that the market largely agrees: this is priced as a metals company with strategic optionality, not as a growth story. Anyone approaching this ticker expecting a rare-earth-magnets-style direct semiconductor play should recalibrate expectations before sizing a position.',
+    },
+    sourceNote:
+      'IMPORTANT: this ticker does not correspond to "China Minmetals Corporation" itself — Minmetals is an unlisted central state-owned parent. 600961.SS is Zhuzhou Smelter Group Co., Ltd, one of Minmetals\' eight publicly-listed subsidiaries, and a base-metals smelter rather than a rare-earth or semiconductor-materials pure play; that distinction is reflected throughout this entry. Compiled from Yahoo Finance, Investing.com, Bloomberg, Moomoo, Simply Wall St and Chinese regulatory/trade-press sources (Global Trade Alert, SMM, IEA policy tracker) as of August 2026. Financial figures for this name are sparser and noisier than the other five tickers in this set — treat all metrics here as directional and verify against a live terminal before use.',
+  },
+
+  '3037.TW': {
+    ticker: '3037.TW',
+    name: 'Unimicron Technology Corp',
+    tagline: 'Taiwan\'s #1 ABF/IC-substrate and PCB maker — the substrate layer under every advanced-packaged AI GPU and ASIC, sold out into a supply-demand gap through 2028.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Unimicron sits directly between silicon and the finished AI-accelerator package: its ABF (Ajinomoto Build-up Film) substrates are the physical carrier that GPU and ASIC dies are mounted on before advanced packaging (CoWoS and equivalents). It also retains a large legacy HDI/PCB/FPC business.',
+      rows: [
+        { level: 'ABF resin / copper foil', players: 'Ajinomoto, copper-foil suppliers', position: 'Upstream input supplier', tone: 'indirect' },
+        { level: 'IC substrate (ABF/BT)', players: 'Unimicron, Kinsus, Nan Ya PCB, Ibiden, Shinko', position: 'Core business — Taiwan\'s largest ABF substrate maker', tone: 'core' },
+        { level: 'HDI PCB / FPC', players: 'Unimicron, TTM Technologies, Compeq', position: 'Legacy core business', tone: 'core' },
+        { level: 'Advanced packaging (CoWoS/EFB)', players: 'TSMC, ASE, AMD', position: 'Direct downstream customer — substrate feeds packaging lines', tone: 'client' },
+        { level: 'Fabless GPU / ASIC design', players: 'Nvidia, AMD, Broadcom, custom ASIC programs', position: 'End-silicon driving substrate specification and demand', tone: 'indirect' },
+      ],
+      segments: [
+        '2025 revenue NT$131.24B (+13.75% YoY); net profit NT$6.67B (+31.3% YoY)',
+        'December 2025 monthly net profit +2,770% YoY — the clearest sign the ABF earnings cycle has inflected',
+        'Q1 2026 comprehensive income NT$6.56B vs NT$1.72B in Q1 2025',
+        'Gross margin 18.0% (vs 13.4% a year earlier); operating margin ~7% (vs ~4% a year earlier)',
+        'ABF substrate reported "sold out" through 2026 amid AI-chip demand; AMD opening an embedded-bridge (EFB) demand front beyond CoWoS',
+      ],
+      aiShift:
+        'The ABF substrate supply-demand gap is guided by industry analysts to widen sharply, reaching as high as 29% by 2027-2028, as AI GPU and custom-ASIC die sizes grow and warping/thermal-stress issues push substrate complexity higher. Morgan Stanley projects a roughly 105% EPS CAGR for Unimicron from 2025 to 2028 on this dynamic — one of the more aggressive structural growth calls anywhere in the AI hardware supply chain.',
+    },
+    valuation: {
+      peers: ['3037.TW', '3189.TW', '8046.TW'],
+      metrics: [
+        { label: 'Price', values: ['NT$969', 'n/a', 'NT$920'] },
+        { label: 'Market cap', values: ['NT$1.52T', 'n/a', '~NT$540-914B (noisy)'] },
+        { label: 'Trailing P/E', values: ['~103x (low-base artifact)', 'n/a', '~300x (low-base artifact)'] },
+        { label: 'Forward P/E', values: ['~27.9x', 'n/a', 'n/a'] },
+        { label: 'Gross margin', values: ['18.0%', 'n/a', 'n/a'] },
+        { label: 'ROE (trailing)', values: ['~3.75%', 'n/a', 'n/a'] },
+        { label: 'Revenue growth (FY2025)', values: ['+13.75%', '+28.87%', '+24.44%'] },
+        { label: 'Beta', values: ['~2.49', 'n/a', 'n/a'] },
+      ],
+      verdictTone: 'fair',
+      verdictPoints: [
+        'A trailing P/E near 103x is a statistical artifact of a very low prior-year earnings base as the ABF cycle just inflected — the forward P/E of roughly 27.9x is the more meaningful read against a guided ~105% 2025-2028E EPS CAGR',
+        'Nan Ya PCB shows the same low-base distortion (a reported ~300x trailing P/E) across the whole Taiwan ABF-substrate group — none of the three majors should be judged on trailing multiples alone right now',
+        'EV/EBITDA near 66.7x looks rich on trailing figures but should compress quickly if the guided earnings ramp lands as analysts expect',
+      ],
+      justifiedIf: [
+        'The ABF supply-demand gap (guided to reach ~29% by 2027-2028) holds and Unimicron defends its #1 Taiwan ABF-substrate share',
+        'AI GPU/ASIC unit growth continues at the pace assumed for the ~105% 2025-2028E EPS CAGR consensus',
+        'No destocking or demand-digestion air pocket interrupts the ramp between now and 2028',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: 'NT$650 – NT$750', rationale: 'Below current levels, closer to 2025 congestion zones' },
+        { tier: 'acceptable', range: 'NT$750 – NT$1,050', rationale: 'Current trading zone' },
+        { tier: 'expensive', range: '>NT$1,200', rationale: 'Near the analyst consensus target and the top of the 52-week range' },
+      ],
+      technical: [
+        '52-week range NT$128.18 – NT$1,130.00 — the low end reflects the pre-ABF-cycle trough and is not representative of current fundamentals',
+        'Current price NT$969 sits roughly 14% below the 52-week high',
+        'Analyst consensus (17 analysts, 0 sells, "Strong Buy") targets NT$1,241, roughly 28% above spot; high estimate NT$1,700',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 50, note: 'The ABF supply gap persists and the guided earnings ramp lands — grinds toward the NT$1,100-1,250 consensus range over 12-18 months.' },
+        { label: 'BULL', prob: 25, note: 'AMD/custom-ASIC demand broadens beyond CoWoS (EFB), the supply gap widens further than guided — breaks above NT$1,300.' },
+        { label: 'BEAR', prob: 25, note: 'AI-capex digestion, or a major customer\'s design change/dual-sourcing shift, interrupts the "sold out" narrative — retraces toward NT$650-750.' },
+      ],
+      horizon: '12-18 months',
+      invalidation: 'Weekly close below NT$650',
+    },
+    risks: [
+      { risk: 'Demand digestion after a violent re-rating', severity: 'high', note: 'The stock and earnings base have both moved extremely fast in 2025-2026; any pause in the AI-capex cycle would hit a name pricing in near-continuous acceleration.' },
+      { risk: 'Beta / absolute volatility', severity: 'high', note: 'A beta near 2.49 means Unimicron amplifies both broad AI-capex optimism and any market-wide correction.' },
+      { risk: 'Customer/program concentration', severity: 'medium', note: 'Substrate demand is concentrated in a relatively small number of high-profile AI GPU/ASIC programs; a design change at any one customer is a real swing factor.' },
+      { risk: 'Trailing/forward multiple dispersion', severity: 'medium', note: 'The gap between a ~103x trailing P/E and a ~28x forward P/E leaves room for narrative disappointment if the earnings ramp is even modestly delayed.' },
+      { risk: 'Competitive capacity additions', severity: 'medium', note: 'Kinsus, Nan Ya PCB, Japan\'s Ibiden and Korea\'s Shinko are all expanding ABF capacity, which could erode the current supply-gap premium over a multi-year horizon.' },
+      { risk: 'Currency and geopolitical exposure', severity: 'low', note: 'NT dollar strength and Taiwan-China cross-strait tension are standing tail risks for any Taiwan-listed hardware name.' },
+    ],
+    backlog: {
+      visibility: [
+        'ABF substrate reported "sold out" through 2026 per industry trade press (Digitimes)',
+        'Supply-demand gap for ABF substrate guided to reach as high as 29% by 2027-2028',
+        'Morgan Stanley projects a ~105% EPS CAGR for Unimicron over 2025-2028E',
+        'December 2025 net profit +2,770% YoY is the clearest evidence the earnings inflection is already showing up in reported results',
+      ],
+      wins: [
+        '#1 Taiwan ABF/IC-substrate maker by scale',
+        'AMD opening an embedded fan-out bridge (EFB) demand channel beyond CoWoS adds a second AI-substrate growth vector',
+        'Across-the-board foreign-broker target-price upgrades through 2026 (alongside Kinsus and Nan Ya PCB)',
+      ],
+      clients: ['Nvidia (indirect, via substrate supply into advanced packaging)', 'AMD', 'TSMC / advanced-packaging customers'],
+      suppliers: ['Ajinomoto (ABF resin)', 'Copper-foil suppliers (not individually disclosed)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 4, note: '#1 scale in a supply-constrained, high-barrier ABF-substrate market.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'Direct structural beneficiary of the ABF substrate supply gap guided through 2028.' },
+        { criterion: 'Valuation', stars: 3, note: 'Trailing multiple is a distorted artifact; forward multiple (~28x) against >100% guided EPS growth is more defensible but not cheap.' },
+        { criterion: 'Profitability trend', stars: 3, note: 'Margins are recovering fast (ROE still just 3.75% trailing) but not yet fully re-based.' },
+        { criterion: 'Risk', stars: 3, note: 'Beta ~2.49 and high absolute volatility cut both ways.' },
+        { criterion: 'Momentum', stars: 5, note: 'December 2025 net profit +2,770% YoY; Q1 2026 comprehensive income roughly quadrupled YoY.' },
+        { criterion: 'Entry timing', stars: 3, note: 'Only ~14% below the 52-week high with a unanimous analyst Buy consensus already reflecting the good news.' },
+      ],
+      readLabel: 'STRUCTURAL ABF-SUBSTRATE BENEFICIARY — EARNINGS INFLECTION ALREADY VISIBLE',
+      summary:
+        'Unimicron is arguably the cleanest way to buy the AI-GPU advanced-packaging substrate bottleneck: the supply-demand gap is real and industry-guided to widen through 2028, and the earnings inflection (December 2025\'s +2,770% YoY monthly net profit) is not a forecast, it is already in the reported numbers. The catch is that the market has largely caught up to this story — the stock trades close to its 52-week high with a unanimous analyst Buy rating, and the trailing P/E, while distorted by a low base, still leaves a wide gap to the more sober forward multiple. This reads as a structurally sound holding in a genuinely scarce niche, priced for the good news that has already started arriving.',
+    },
+    sourceNote:
+      'Compiled from stockanalysis.com, Investing.com, Yahoo Finance, Digitimes and Morgan Stanley-sourced analyst commentary as of August 2026. This is a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here.',
+  },
+
+  '2383.TW': {
+    ticker: '2383.TW',
+    name: 'Elite Material Co., Ltd',
+    tagline: 'Taiwan\'s leading copper-clad-laminate maker — the low-loss base material every AI-server board and 800G/1.6T switch is built on, at a valuation that assumes years of flawless execution.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Elite Material Co (EMC) makes copper-clad laminate (CCL) and prepreg — the resin-and-copper base material that PCB fabricators etch into finished boards. It sits one processing step upstream of the PCB itself, and its low-loss/ultra-low-loss grades are the qualified material for the highest-speed AI-server and networking-switch boards.',
+      rows: [
+        { level: 'Resin, glass fiber, copper foil', players: 'Specialty-chemical and copper-foil suppliers', position: 'Upstream input supplier', tone: 'indirect' },
+        { level: 'Copper-clad laminate / prepreg', players: 'EMC, Taiwan Union Technology (TUC), Iteq, Shengyi Technology', position: 'Core business — Taiwan\'s leading low-loss CCL maker', tone: 'core' },
+        { level: 'PCB fabrication', players: 'Unimicron, Victory Giant, TTM, Shennan Circuits', position: 'Direct customers etching EMC laminate into finished boards', tone: 'client' },
+        { level: 'AI server / networking switch (800G, 1.6T)', players: 'Nvidia-, Broadcom-class AI server and switch platforms', position: 'Fastest-growing end market — pulls low-loss/ultra-low-loss demand', tone: 'growth' },
+        { level: 'Advanced-packaging ABF substrate', players: 'Unimicron, Kinsus, Nan Ya PCB', position: 'Adjacent but distinct resin chemistry — limited direct overlap', tone: 'indirect' },
+      ],
+      segments: [
+        '2025 revenue NT$94.26B (+46.4% YoY); net profit NT$14.65B (+52.9% YoY)',
+        'Gross margin 29.6%, operating margin 20.5%, net margin 15.6%',
+        'Low-loss and ultra-low-loss CCL for AI server/switch boards is the fastest-growing, highest-margin product tier',
+        'ROE 40.7%, among the highest in the Taiwan electronics-materials sector',
+      ],
+      aiShift:
+        'AI-server and 800G-to-1.6T networking-switch boards require low-loss, tightly-controlled Df/Dk copper-clad laminate to handle high-speed PCIe and optical-interconnect signaling without excessive signal degradation. EMC\'s low-loss and ultra-low-loss laminate grades are qualified onto Nvidia/Broadcom-class AI server and switch programs, making the company a direct beneficiary of the industry-wide shift from 400G/800G toward 1.6T switching.',
+    },
+    valuation: {
+      peers: ['2383.TW', '6274.TWO', '6213.TW'],
+      metrics: [
+        { label: 'Price', values: ['NT$5,250', 'NT$1,340', 'NT$286'] },
+        { label: 'Market cap', values: ['NT$1.89T', 'NT$386.96B', '~NT$68-104B (noisy)'] },
+        { label: 'Trailing P/E', values: ['~110.2x', 'n/a', '~37.2x'] },
+        { label: 'Forward P/E', values: ['~47.1x', 'n/a', 'n/a'] },
+        { label: 'Gross margin', values: ['29.6%', 'n/a', 'n/a'] },
+        { label: 'Operating margin', values: ['20.5%', 'n/a', 'n/a'] },
+        { label: 'ROE', values: ['40.7%', 'n/a', 'n/a'] },
+        { label: 'Revenue growth (FY2025)', values: ['+46.4%', 'n/a', 'n/a'] },
+      ],
+      verdictTone: 'high',
+      verdictPoints: [
+        'A trailing P/E of ~110x, moderating to ~47x forward, is still rich even measured against a 40.7% ROE and 15.6% net margin',
+        'The stock is up roughly 543% over the trailing 52 weeks — one of the strongest re-ratings anywhere in the Taiwan AI-hardware supply chain',
+        'Analyst book-value projections imply P/B compression from ~43x (2025) to ~26x (2026) and ~15x (2027) purely on earnings retention — the multiple is pricing several more years of continued hypergrowth, not a one-off cycle',
+      ],
+      justifiedIf: [
+        'AI-server and 800G/1.6T switch build-outs keep pulling low-loss CCL demand faster than TUC, Iteq and Shengyi can add qualified capacity',
+        'EMC holds or extends share specifically in the highest-margin ultra-low-loss tier rather than losing it to lower-cost competitors as the category matures',
+        'No AI-hardware destocking cycle interrupts CCL demand through 2027',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: 'NT$3,000 – NT$3,800', rationale: 'Well below the ATH, closer to a 2025 base' },
+        { tier: 'acceptable', range: 'NT$3,800 – NT$5,500', rationale: 'Current trading zone' },
+        { tier: 'expensive', range: '>NT$6,000', rationale: 'Near the all-time high (NT$6,250, July 2026)' },
+      ],
+      technical: [
+        '52-week range NT$1,075 – NT$6,250; all-time high NT$6,250 reached July 6, 2026',
+        'Current price NT$5,250 sits roughly 16% below the ATH',
+        'Analyst consensus (14 buys, 0 sells, "Strong Buy") targets NT$7,123, roughly 36% above spot',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 50, note: 'Low-loss CCL demand keeps outrunning qualified supply — grinds back toward the NT$6,000-7,100 consensus range.' },
+        { label: 'BULL', prob: 20, note: 'The 800G-to-1.6T switch transition accelerates faster than guided — breaks to new highs above NT$7,100.' },
+        { label: 'BEAR', prob: 30, note: 'AI-capex digestion, or TUC/Iteq/Shengyi capacity catch-up compressing the ultra-low-loss margin premium — retraces toward NT$3,000-3,500.' },
+      ],
+      horizon: '12 months',
+      invalidation: 'Weekly close below NT$3,000',
+    },
+    risks: [
+      { risk: 'Valuation', severity: 'high', note: 'A ~110x trailing / ~47x forward P/E leaves very limited room for a growth miss.' },
+      { risk: 'AI capex cyclicality', severity: 'high', note: 'Demand is tightly coupled to hyperscaler and AI-accelerator capex cycles, which can pause or digest sharply.' },
+      { risk: 'Product/margin-tier concentration', severity: 'medium', note: 'A disproportionate share of the growth and margin story sits in the highest-margin ultra-low-loss tier, which is also the tier most exposed to a competitive catch-up.' },
+      { risk: 'Competitive capacity additions', severity: 'medium', note: 'Taiwan Union Technology, Iteq, Shengyi Technology and Panasonic are all expanding low-loss CCL capacity to capture the same AI-server upgrade cycle.' },
+      { risk: 'Input-cost volatility', severity: 'low', note: 'Copper and specialty-resin price swings can compress margins independent of demand strength.' },
+      { risk: 'Currency and geopolitical exposure', severity: 'low', note: 'NT dollar strength and Taiwan-China cross-strait tension are standing tail risks for any Taiwan-listed hardware-materials name.' },
+    ],
+    backlog: {
+      visibility: [
+        '2025 revenue +46.4% YoY, net profit +52.9% YoY',
+        'Analyst consensus 12-month target NT$7,123, +36% from spot, based on 14 buy-rated analysts and 0 sells',
+        'Book value per share guided by analysts to build from NT$140.81 (2025) toward NT$401.53 (2027E), implying substantial P/B compression on earnings retention alone',
+      ],
+      wins: [
+        'Leading low-loss/ultra-low-loss CCL qualified across AI server and 800G/1.6T switch platforms',
+        'One of Taiwan\'s three major CCL makers (alongside TUC and Iteq) capturing the AI-driven material-upgrade cycle',
+      ],
+      clients: ['PCB and substrate fabricators supplying Nvidia/Broadcom-class AI server and switch programs (not individually disclosed)'],
+      suppliers: ['Copper-foil and specialty-resin suppliers (not individually disclosed)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 5, note: 'Market-leading, high-margin CCL franchise at the center of the AI-server material-upgrade cycle.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'Direct structural beneficiary of the shift to low-loss CCL for AI servers and 800G/1.6T switches.' },
+        { criterion: 'Valuation', stars: 2, note: '~110x trailing / ~47x forward P/E is priced for near-perfect multi-year execution.' },
+        { criterion: 'Profitability', stars: 5, note: 'ROE 40.7% and net margin 15.6% are both best-in-class for the sector.' },
+        { criterion: 'Risk', stars: 3, note: 'High beta, an extreme trailing-52-week run, and thin margin of safety at current levels.' },
+        { criterion: 'Entry timing', stars: 2, note: 'Only ~16% off the all-time high with a unanimous Strong Buy consensus already reflected in the price.' },
+      ],
+      readLabel: 'BEST-IN-CLASS CCL FRANCHISE — VALUATION LEAVES NO MARGIN FOR ERROR',
+      summary:
+        'Elite Material is genuinely the highest-quality name of the six covered here on pure business-quality metrics — a 40%+ ROE, best-in-sector margins, and a direct, qualified position in the specific low-loss CCL grades AI-server and next-generation switch platforms require. The problem is that the market has already recognized all of this: the stock is up more than 500% over the trailing year, sits close to its all-time high, and trades at a multiple that assumes the growth and margin trajectory holds essentially without interruption through 2027. This is a name to understand deeply and watch closely for a real drawdown rather than one to chase at the current multiple.',
+    },
+    sourceNote:
+      'Compiled from stockanalysis.com, Investing.com, GuruFocus, MarketCapOf and Yahoo Finance as of August 2026. Forward book-value-per-share and P/B compression figures are analyst projections, not reported GAAP results — treat them as directional. This is a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here.',
+  },
+
+  'TPRO.MI': {
+    ticker: 'TPRO.MI',
+    name: 'Technoprobe S.p.A.',
+    tagline: 'Italy\'s probe-card champion — the #2 global player behind FormFactor in wafer testing, now winning share on TSMC\'s 2nm node.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Technoprobe makes probe cards — the precision interface used to electrically test a wafer\'s individual dies before dicing and packaging. It sits at the wafer-test step, downstream of fabrication and upstream of advanced packaging and final test, and is the clearest European pure-play on AI/HPC chip-testing intensity.',
+      rows: [
+        { level: 'Wafer fabrication', players: 'TSMC, Samsung, Intel', position: 'Their fab output is what gets tested — an indirect relationship', tone: 'client' },
+        { level: 'Probe cards / wafer test', players: 'Technoprobe (~16% share), FormFactor (~22% share), MJC, JEM, MPI', position: 'Core business — #2 global probe-card maker, gaining share on leading-edge nodes', tone: 'core' },
+        { level: 'Advanced packaging / final test', players: 'ASE, Amkor', position: 'Downstream of the wafer-test step Technoprobe serves', tone: 'indirect' },
+        { level: 'Fabless GPU / ASIC design', players: 'Nvidia, AMD, Broadcom, Apple', position: 'End-silicon that must be wafer-tested before shipping', tone: 'client' },
+        { level: 'AI / HPC datacenter', players: 'Hyperscalers', position: 'End-market demand pull — ~58% of global probe-card demand is now AI/GPU/HPC-driven', tone: 'growth' },
+      ],
+      segments: [
+        'FY2025 revenue EUR 628.4M (+15.7% YoY); EBITDA EUR 201.4M (32.1% margin); net profit EUR 98.8M (+57.4% YoY)',
+        'Q1 2026 revenue EUR 187.0M (+19.0% YoY, +15.6% QoQ); gross margin 48.7%; EBITDA margin 37.0%',
+        'FY2026 guidance raised to EUR 950M-1,050M revenue with a 44-46% EBITDA margin',
+        'Won roughly 30% of TSMC\'s 2nm qualification volume, eroding FormFactor\'s historical leading-edge lead',
+        'Opened an EUR 80M Dresden, Germany facility in September 2025 to expand European capacity',
+      ],
+      aiShift:
+        'AI and HPC chip testing is more complex than legacy digital-logic testing — more I/O pins, higher signal speeds, and HBM-stacked memory all raise probe-card dollar content per wafer. Roughly 58% of global probe-card demand is now AI/GPU/HPC-driven, and Technoprobe\'s fully integrated MEMS-tip production gave it the technical edge to win a meaningful share of TSMC\'s 2nm qualification volume — directly at FormFactor\'s expense.',
+    },
+    valuation: {
+      peers: ['TPRO.MI', 'FORM'],
+      metrics: [
+        { label: 'Price', values: ['EUR 29.52', '$117.53'] },
+        { label: 'Market cap', values: ['~EUR 17-18B (~$25-26B, noisy)', '~$8.0B'] },
+        { label: 'Trailing P/E', values: ['~120-220x (widely dispersed across sources)', '~148-179x (widely dispersed across sources)'] },
+        { label: 'P/S', values: ['~26.6x', 'n/a'] },
+        { label: 'EBITDA margin', values: ['32.1% (FY2025)', 'n/a'] },
+        { label: 'Revenue growth', values: ['+15.7% (FY2025); guided +51-67% (FY2026E)', '+18.5% (guided FY2026)'] },
+        { label: 'Dividend yield', values: ['None paid', 'n/a'] },
+      ],
+      verdictTone: 'high',
+      verdictPoints: [
+        'A trailing P/E cited anywhere from roughly 120x to 220x depending on source and date reflects a stock pricing in the raised FY2026 guidance (EUR 950M-1,050M revenue, up 51-67% YoY) well ahead of realized trailing earnings',
+        'A P/S near 26.6x is a steep premium to FormFactor despite FormFactor still holding the larger overall probe-card market share (22% vs 16%)',
+        'The stock repeatedly made fresh 52-week highs through H1 2026 on the raised guidance and 2nm share-gain narrative, leaving very little room for a guidance miss to be absorbed gracefully',
+      ],
+      justifiedIf: [
+        'FY2026 guidance (EUR 950M-1,050M revenue, 44-46% EBITDA margin) is met or beaten as AI/HPC wafer-test demand continues to scale',
+        'The ~30% TSMC 2nm qualification share gain proves durable across multiple design cycles rather than a one-off win',
+        'The Dresden facility ramps on schedule, expanding capacity to serve European and North American customers without execution slippage',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: 'EUR 15 – EUR 20', rationale: 'Well below the current range, closer to a 2025 base' },
+        { tier: 'acceptable', range: 'EUR 20 – EUR 32', rationale: 'Current trading zone' },
+        { tier: 'expensive', range: '>EUR 38', rationale: 'Near the 52-week high' },
+      ],
+      technical: [
+        '52-week range EUR 5.92 – EUR 38.58',
+        'Stock made repeated fresh 52-week highs through H1 2026 on the raised guidance and 2nm share-gain narrative',
+        'Analyst consensus (7 analysts, 0 sells, "Strong Buy") targets EUR 39.00, roughly 32% above spot; high estimate EUR 45.00',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 50, note: 'FY2026 guidance (EUR 950M-1,050M revenue, 44-46% EBITDA margin) is met — grinds toward the EUR 39 consensus target.' },
+        { label: 'BULL', prob: 20, note: '2nm share gains continue and the Dresden facility ramps ahead of schedule — breaks to new highs above EUR 40.' },
+        { label: 'BEAR', prob: 30, note: 'AI/HPC test-capex digestion or a guidance cut re-rates the multiple down sharply — retraces toward EUR 18-22.' },
+      ],
+      horizon: '12 months',
+      invalidation: 'Weekly close below EUR 18',
+    },
+    risks: [
+      { risk: 'Valuation', severity: 'high', note: 'A trailing P/E in the 120-220x range and a ~27x P/S leave extremely limited room for a miss against already-raised FY2026 guidance.' },
+      { risk: 'AI/HPC end-market concentration', severity: 'high', note: 'Roughly 58% of global probe-card demand is now AI/GPU/HPC-driven — a concentration that cuts both ways as capex cycles turn.' },
+      { risk: 'FormFactor competitive response', severity: 'medium', note: 'FormFactor acquired a California MEMS firm for $120M in October 2025, a direct response to Technoprobe\'s vertically-integrated MEMS-tip advantage.' },
+      { risk: 'Semiconductor test-capex cyclicality', severity: 'medium', note: 'Automotive and industrial end-markets, historically a meaningful share of probe-card demand, are only partway through a cyclical recovery.' },
+      { risk: 'Execution risk on capacity expansion', severity: 'low', note: 'The new Dresden facility and continued qualification wins both carry ordinary ramp and yield-execution risk.' },
+      { risk: 'Currency and listing-liquidity', severity: 'low', note: 'EUR-denominated, Milan-listed shares carry currency exposure and somewhat thinner liquidity than US-listed semiconductor-equipment peers.' },
+      { risk: 'Geopolitical/export exposure', severity: 'medium', note: 'A majority of revenue is Asia-derived (per company disclosure), leaving exposure to any future US/EU-China semiconductor export-control escalation.' },
+    ],
+    backlog: {
+      visibility: [
+        'FY2026 guidance raised to EUR 950M-1,050M revenue (44-46% EBITDA margin) after a Q1 2026 beat',
+        'Q2 2026 guided at EUR 266M ± 3% revenue, 55% ± 200bps gross margin, 45% ± 200bps EBITDA margin',
+      ],
+      wins: [
+        'Won roughly 30% of TSMC\'s 2nm qualification volume, denting FormFactor\'s historical leading-edge share lead',
+        'EUR 80M Dresden, Germany facility opened September 2025 to expand European manufacturing capacity',
+        'Fully integrated MEMS-tip production is the specific technical edge behind the 2nm qualification win',
+      ],
+      clients: ['TSMC and other leading-edge foundries/fabless customers testing AI/HPC/GPU silicon (not individually disclosed)'],
+      suppliers: ['Vertically integrated MEMS-tip production reduces reliance on external tooling suppliers (not individually disclosed)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 5, note: '#2 global probe-card maker with vertically-integrated MEMS-tip technology, actively taking share at the leading edge.' },
+        { criterion: 'AI growth exposure', stars: 5, note: '~58% of demand is AI/GPU/HPC-driven — a direct beneficiary of rising wafer-test complexity.' },
+        { criterion: 'Valuation', stars: 1, note: 'Among the richest multiples anywhere in the semiconductor-equipment supply chain covered in this set.' },
+        { criterion: 'Profitability', stars: 4, note: 'EBITDA margin 32-37% and rising per FY2026 guidance.' },
+        { criterion: 'Risk', stars: 3, note: 'High end-market concentration in AI/HPC and a direct competitive response already underway from FormFactor.' },
+        { criterion: 'Momentum', stars: 5, note: 'Q1 2026 EBITDA +44.2% YoY, guidance raised, repeated fresh 52-week highs through H1 2026.' },
+        { criterion: 'Entry timing', stars: 2, note: 'Trading near highs with a unanimous Strong Buy consensus already reflecting the good news.' },
+      ],
+      readLabel: 'TECHNICAL LEADER, PRICED FOR A FLAWLESS FY2026',
+      summary:
+        'Technoprobe is a genuine technology leader taking real share from FormFactor at the leading edge (TSMC 2nm), with guidance, margins and momentum all pointing the same direction. The issue is that essentially all of this good news is already reflected in a valuation that sits at the extreme end of the entire semiconductor-equipment supply chain — a P/S multiple well above FormFactor\'s despite FormFactor still holding the larger overall market share. This is a name whose execution has earned the premium so far, but whose price leaves almost no room for the FY2026 guidance to land even slightly short.',
+    },
+    sourceNote:
+      'Compiled from Technoprobe\'s FY2025 and Q1 2026 press releases, stockanalysis.com, multiples.vc, companiesmarketcap.com and Yahoo Finance as of August 2026. Valuation multiples for this name were unusually dispersed across aggregators (trailing P/E cited from roughly 120x to 220x depending on source and date) — treat as directional given the stock\'s rapid re-rating in H1 2026, and cross-check current levels before use.',
+  },
 }
