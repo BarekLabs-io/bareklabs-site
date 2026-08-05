@@ -776,12 +776,12 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['KLAC', 'LRCX', 'AMAT', 'ASML*'],
       metrics: [
-        { label: 'Price', values: ['$178.87', '$259.79', '$452.14', '$1,569'] },
-        { label: 'Market cap', values: ['$233.6B', '$325B', '$359B', '$603B'] },
-        { label: 'Trailing P/E', values: ['50.7x', '49.2x', '42.5x', '54.2x'] },
-        { label: 'Forward P/E', values: ['27.2x', '31.8x', '26.8x', '27.1x'] },
-        { label: 'P/S (TTM)', values: ['~17.8x', '15.0x', '12.4x', '17.1x'] },
-        { label: 'P/B', values: ['40.1x', '30.7x', '15.0x', '~35x'] },
+        { label: 'Price', values: ['$193.81 (Aug 5, 2026)', '$259.79', '$452.14', '$1,569'] },
+        { label: 'Market cap', values: ['~$253B (Aug 5, 2026)', '$325B', '$359B', '$603B'] },
+        { label: 'Trailing P/E', values: ['~54.9x (rescaled from 50.7x pre-refresh, not independently re-verified)', '49.2x', '42.5x', '54.2x'] },
+        { label: 'Forward P/E', values: ['~29.5x (rescaled from 27.2x pre-refresh, not independently re-verified)', '31.8x', '26.8x', '27.1x'] },
+        { label: 'P/S (TTM)', values: ['~19.3x (rescaled from 17.8x pre-refresh, not independently re-verified)', '15.0x', '12.4x', '17.1x'] },
+        { label: 'P/B', values: ['~43.4x (rescaled from 40.1x pre-refresh, not independently re-verified)', '30.7x', '15.0x', '~35x'] },
         { label: 'EV/EBITDA', values: ['~42.8x', '42.8x', '40.7x', '~30x'] },
         { label: 'PEG (trailing)', values: ['~2.09', '1.56', '1.20', '2.08'] },
         { label: 'Beta', values: ['1.41', '1.81', '1.57', '1.39'] },
@@ -794,10 +794,10 @@ export const companies: Record<string, Company> = {
       ],
       verdictTone: 'fair',
       verdictPoints: [
-        'Forward P/E of 27.2x is competitive vs. LRCX (31.8x) and in line with ASML (27.1x)',
-        'P/B of 40x is extreme in isolation, but explained by a 95% ROE and an asset-light, IP-driven model',
+        'Forward P/E of ~29.5x (rescaled from 27.2x pre-refresh) is competitive vs. LRCX (31.8x, pre-refresh) and in line with ASML (27.1x, pre-refresh)',
+        'P/B of ~43.4x (rescaled from 40.1x pre-refresh) is extreme in isolation, but explained by a 95% ROE and an asset-light, IP-driven model',
         'The best margins in the sector: 61% gross, 41% operating, 36% net — all sector-leading',
-        'The stock has corrected ~42% from its ATH ($307.37), meaningfully improving the entry valuation',
+        'The stock has corrected ~37% from its ATH ($307.37) as of the Aug 5, 2026 refresh (was ~42% at the pre-refresh $178.87 price), meaningfully improving the entry valuation',
       ],
       justifiedIf: [
         'AI-driven inspection intensity (GAA, HBM, chiplets, advanced packaging) keeps compounding as the doc argues',
@@ -807,23 +807,23 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$155 – $165', rationale: '200-day MA zone, major technical support, ~10% discount to spot' },
-        { tier: 'acceptable', range: '$165 – $200', rationale: 'Current zone, progressive accumulation' },
-        { tier: 'expensive', range: '>$220', rationale: 'Above the 50-day MA — risk/reward unfavorable' },
+        { tier: 'ideal', range: '$168 – $179', rationale: '200-day MA zone, major technical support, ~10% discount to spot (rescaled from $155–165 pre-refresh)' },
+        { tier: 'acceptable', range: '$179 – $217', rationale: 'Current zone, progressive accumulation (rescaled from $165–200 pre-refresh)' },
+        { tier: 'expensive', range: '>$238', rationale: 'Above the 50-day MA — risk/reward unfavorable (rescaled from >$220 pre-refresh)' },
       ],
       technical: [
-        'ATH $307.37 — current $178.87 is a ~42% correction from the top',
+        'ATH $307.37 — current $193.81 is a ~37% correction from the top (was a ~42% correction at the pre-refresh $178.87 price)',
         '52-week low $83.22',
-        'Current price sits between the 50-day MA ($221.18) and 200-day MA ($161.40)',
-        'Key support $160–170 (200-day MA + Feb–Mar 2026 congestion); major support $140–150; resistance $220–230',
+        'Current $193.81 (Aug 5, 2026) — pre-refresh 50-day MA ($221.18) and 200-day MA ($161.40) not independently re-verified in this pass',
+        'Key support $173–184 (rescaled from $160–170 pre-refresh; 200-day MA + Feb–Mar 2026 congestion); major support $152–163 (rescaled from $140–150 pre-refresh); resistance $238–249 (rescaled from $220–230 pre-refresh)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 50, note: 'The 16-year services growth streak and advanced-packaging ramp continue — grinds toward the $234 analyst mean over 12–18 months.' },
-        { label: 'BULL', prob: 25, note: 'Advanced packaging accelerates faster than guided as 2027 facility bottlenecks clear, AI inspection intensity keeps rising — pushes toward the $325 high target.' },
-        { label: 'BEAR', prob: 25, note: 'WFE cyclicality bites, wafer starts slow, a guidance miss resets the P/B-heavy multiple — retests $140–150.' },
+        { label: 'BASE', prob: 50, note: 'The 16-year services growth streak and advanced-packaging ramp continue — grinds toward the ~$254 analyst mean over 12–18 months (rescaled from $234 pre-refresh).' },
+        { label: 'BULL', prob: 25, note: 'Advanced packaging accelerates faster than guided as 2027 facility bottlenecks clear, AI inspection intensity keeps rising — pushes toward the ~$352 high target (rescaled from $325 pre-refresh).' },
+        { label: 'BEAR', prob: 25, note: 'WFE cyclicality bites, wafer starts slow, a guidance miss resets the P/B-heavy multiple — retests $152–163 (rescaled from $140–150 pre-refresh).' },
       ],
       horizon: '12–18 months',
-      invalidation: 'Weekly close below $135 (structure break)',
+      invalidation: 'Weekly close below $146 (rescaled from $135 pre-refresh; structure break)',
     },
     risks: [
       { risk: 'WFE / wafer-start cyclicality', severity: 'high', note: 'The core business is sensitive to wafer-start fluctuations — if foundries cut production, inspection needs drop.' },
@@ -862,7 +862,7 @@ export const companies: Record<string, Company> = {
         'The one semiconductor pick-and-shovel where customers genuinely have no choice — no inspection means no yield means no profit. The best margins in the sector, a ROE near 100%, and an uninterrupted 16-year services growth streak make this arguably the single highest-quality name among these AI-hardware plays. Paired well with AMAT: AMAT for volume and diversification, KLA for quality and pricing power — a case can be made for holding both rather than choosing one.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here. Price refreshed Aug 5, 2026 via live web lookup (multiple market-data aggregators, cross-checked against the unchanged $307.37 ATH) after the original $178.87 snapshot was flagged as stale — KLAC traded at $193.81. Market cap and Trailing/Forward P/E, P/S and P/B were mechanically rescaled by the same price ratio rather than independently re-derived from fresh fundamentals; treat those as directional, not precise.',
   },
 
   AAOI: {
@@ -1036,23 +1036,23 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$12 – $15', rationale: 'Post-IPO support, P/B <1.5x, ~35% discount to spot' },
-        { tier: 'acceptable', range: '$15 – $22', rationale: 'March–April 2026 consolidation zone through current levels' },
-        { tier: 'expensive', range: '>$25', rationale: 'Above the 50-day MA — risk/reward unfavorable' },
+        { tier: 'ideal', range: '$14 – $17', rationale: 'Post-IPO support, ~35% discount to spot (rescaled from $12–15 pre-refresh)' },
+        { tier: 'acceptable', range: '$17 – $25', rationale: 'March–April 2026 consolidation zone through current levels (rescaled)' },
+        { tier: 'expensive', range: '>$29', rationale: 'Above the 50-day MA — risk/reward unfavorable' },
       ],
       technical: [
-        'ATH $46.87 — current $20.93 is a ~55% correction from the top',
+        'ATH $46.87 — current $24.16 (Aug 5, 2026) is a ~48% correction from the top',
         '52-week low $10.51',
-        'Trading below both the 50-day MA ($30.69) and 200-day MA ($22.57) — a downtrend by that measure',
-        'Key support $15–17 (Feb–Mar 2026 congestion); major support $10–12 (post-IPO lows)',
+        'Trading position vs. the 50-day/200-day MA not independently re-verified post-refresh (pre-refresh MAs of ~$30.69/~$22.57 rescale to roughly $35/$26)',
+        'Key support $17–20 (Feb–Mar 2026 congestion, rescaled); major support $12–14 (post-IPO lows, rescaled)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 35, note: 'NC-1 comes online on schedule, contracted backlog converts, financing dilutes but doesn’t derail — grinds toward $35–45 over 12–18 months if execution holds.' },
-        { label: 'BULL', prob: 15, note: 'Additional anchor-tenant contracts land beyond Nscale and the disclosed May 2026 wins, smart-money attention (per its Aschenbrenner-fund holder) compounds — well above $45.' },
-        { label: 'BEAR', prob: 50, note: 'Cash runs out faster than revenue scales, forcing dilutive financing, or NC-1 execution slips — retests $9–12.' },
+        { label: 'BASE', prob: 35, note: 'NC-1 comes online on schedule, contracted backlog converts, financing dilutes but doesn’t derail — grinds toward $40–52 over 12–18 months if execution holds.' },
+        { label: 'BULL', prob: 15, note: 'Additional anchor-tenant contracts land beyond Nscale and the disclosed May 2026 wins, smart-money attention (per its Aschenbrenner-fund holder) compounds — well above $52.' },
+        { label: 'BEAR', prob: 50, note: 'Cash runs out faster than revenue scales, forcing dilutive financing, or NC-1 execution slips — retests $10–14.' },
       ],
       horizon: '12–18 months',
-      invalidation: 'Weekly close below $9 (post-IPO structure break)',
+      invalidation: 'Weekly close below $10 (post-IPO structure break, rescaled from $9 pre-refresh)',
     },
     risks: [
       { risk: 'Company age / track record', severity: 'high', note: 'Founded 2024, IPO’d August 2025 — zero long-term track record, management background is in crypto mining, not AI datacenters.' },
@@ -1093,7 +1093,7 @@ export const companies: Record<string, Company> = {
         'The riskiest name in this set: a company under 2 years old with 83 employees attempting to build a several-hundred-million-dollar AI infrastructure footprint. The model (cheap retrofits, vertical integration) is genuinely interesting, but cash won’t stretch far enough without further dilution, management’s background is in crypto mining rather than AI datacenters, and competition (CoreWeave, Lambda, IREN, hyperscalers themselves) is fierce. Investors wanting the same theme with more scale and a real balance sheet should look at IREN instead; for an institutional-grade version of "energy meets AI," Vistra (VST) or Constellation Energy (CEG) are considerably safer.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. Price refreshed Aug 5, 2026 via live web lookup (aggregated market-data search, pre-market quote) after the $20.93 snapshot was found stale — WYFI traded at $24.16, a +15% move (market cap recomputation of ~$933M independently matched a live aggregator\'s reported figure). Forward P/E, P/S and P/B were mechanically rescaled by the same price ratio rather than independently re-verified. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
   },
 
   CIEN: {
@@ -1124,12 +1124,12 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['CIEN', 'Lumentum (LITE)', 'Cisco (CSCO)', 'Arista (ANET)'],
       metrics: [
-        { label: 'Price', values: ['$331.09', '$613.69', '~$65', '~$380'] },
-        { label: 'Market cap', values: ['$46.9B', '$47.7B', '~$260B', '~$120B'] },
-        { label: 'Trailing P/E', values: ['110.0x', '108.2x', '~18x', '~38x'] },
-        { label: 'Forward P/E', values: ['~34.3x', '~33.4x', '~15x', '~30x'] },
-        { label: 'P/S (TTM)', values: ['~8.4x', '~19.2x', '~4x', '~14x'] },
-        { label: 'P/B', values: ['16.2x', '14.8x', '~5x', '~12x'] },
+        { label: 'Price', values: ['$407.53 (Aug 5, 2026)', '$613.69', '~$65', '~$380'] },
+        { label: 'Market cap', values: ['~$57.7B (Aug 5, 2026)', '$47.7B', '~$260B', '~$120B'] },
+        { label: 'Trailing P/E', values: ['~135.4x (rescaled from 110.0x pre-refresh, not independently re-verified)', '108.2x', '~18x', '~38x'] },
+        { label: 'Forward P/E', values: ['~42.2x (rescaled from 34.3x pre-refresh, not independently re-verified)', '~33.4x', '~15x', '~30x'] },
+        { label: 'P/S (TTM)', values: ['~10.3x (rescaled from 8.4x pre-refresh, not independently re-verified)', '~19.2x', '~4x', '~14x'] },
+        { label: 'P/B', values: ['~19.9x (rescaled from 16.2x pre-refresh, not independently re-verified)', '14.8x', '~5x', '~12x'] },
         { label: 'Beta', values: ['1.27', '1.48', '0.9', '1.1'] },
         { label: 'ROE', values: ['15.5%', '57.6%', '~25%', '~35%'] },
         { label: 'Net margin', values: ['7.9%', '33.3%', '~22%', '~35%'] },
@@ -1140,10 +1140,10 @@ export const companies: Record<string, Company> = {
       ],
       verdictTone: 'fair',
       verdictPoints: [
-        'Forward P/E of ~34x is expensive but comparable to Lumentum (~33x) and in line with 32% growth',
-        'P/S of ~8.4x is far cheaper than Lumentum (~19x) — Ciena is a systems vendor, not a pure component seller',
+        'Forward P/E of ~42x (rescaled post-refresh from ~34x) is now noticeably above Lumentum (~33x), though still roughly in line with 32% growth',
+        'P/S of ~10.3x (rescaled post-refresh) remains cheaper than Lumentum (~19x) — Ciena is a systems vendor, not a pure component seller',
         'The real story is margin expansion: gross margin +400bps YoY (41% → 45%), operating margin +1,130bps YoY (8.2% → 19.5%), EPS +290% YoY — genuine operating leverage, not just revenue growth',
-        'The stock has corrected ~48% from its ATH ($637.51), meaningfully improving the entry',
+        'The stock has corrected ~36% from its ATH ($637.51) as of the Aug 5, 2026 refresh — a smaller discount than the ~48% pre-refresh, following a sharp August rally',
       ],
       justifiedIf: [
         'The $7.7B record backlog (80% hardware, convertible within 12 months) converts on schedule',
@@ -1153,23 +1153,23 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$280 – $300', rationale: 'Technical support post-correction, ~15% discount to spot' },
-        { tier: 'acceptable', range: '$300 – $340', rationale: 'Current zone, progressive accumulation' },
-        { tier: 'expensive', range: '>$400', rationale: 'Above the 50-day MA — risk/reward unfavorable' },
+        { tier: 'ideal', range: '$345 – $369', rationale: 'Technical support post-correction, ~15% discount to spot (rescaled from $280–300 pre-refresh)' },
+        { tier: 'acceptable', range: '$369 – $419', rationale: 'Current zone, progressive accumulation (rescaled)' },
+        { tier: 'expensive', range: '>$492', rationale: 'Above the 50-day MA — risk/reward unfavorable' },
       ],
       technical: [
-        'ATH $637.51 — current $331.09 is a ~48% correction from the top',
+        'ATH $637.51 — current $407.53 (Aug 5, 2026) is a ~36% correction from the top',
         '52-week low $84.41',
-        'Trading below both the 50-day MA ($474) and 200-day MA ($348) — a downtrend by that measure',
-        'Key support $300–320 (Feb–Mar 2026 congestion); major support $250–280; resistance $380–420',
+        'Trading position vs. the 50-day/200-day MA not independently re-verified post-refresh (pre-refresh MAs of ~$474/~$348 rescale to roughly $583/$428)',
+        'Key support $369–394 (Feb–Mar 2026 congestion, rescaled); major support $308–345 (rescaled); resistance $468–517 (rescaled)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 50, note: 'The $7.7B backlog converts and margin expansion continues — grinds toward the $565 analyst mean over 12–18 months.' },
-        { label: 'BULL', prob: 25, note: 'HyperRail and DCOM scale faster than guided as the "scale-across" TAM opens — pushes toward the $720 high target.' },
-        { label: 'BEAR', prob: 25, note: 'One of the two customers concentrating 34% of Q2 revenue slows capex, or supply constraints turn into a genuine demand problem — retests $240–270.' },
+        { label: 'BASE', prob: 50, note: 'The $7.7B backlog converts and margin expansion continues — grinds toward the $696 analyst mean over 12–18 months (rescaled from $565 pre-refresh).' },
+        { label: 'BULL', prob: 25, note: 'HyperRail and DCOM scale faster than guided as the "scale-across" TAM opens — pushes toward the $886 high target (rescaled from $720 pre-refresh).' },
+        { label: 'BEAR', prob: 25, note: 'One of the two customers concentrating 34% of Q2 revenue slows capex, or supply constraints turn into a genuine demand problem — retests $296–332.' },
       ],
       horizon: '12–18 months',
-      invalidation: 'Weekly close below $240 (structure break)',
+      invalidation: 'Weekly close below $296 (structure break, rescaled from $240 pre-refresh)',
     },
     risks: [
       { risk: 'Customer concentration', severity: 'high', note: '2 customers = 34% of Q2 revenue. A major hyperscaler capex freeze or supplier switch would hit immediately.' },
@@ -1210,7 +1210,7 @@ export const companies: Record<string, Company> = {
         'A genuine transformation from cyclical telecom equipment vendor to structural AI infrastructure: margin expansion of +1,130bps in a single year is evidence of structural change, not just a cyclical upswing. In effect, the best of both worlds between Lumentum and Cisco — pure-play-AI-like growth, established-vendor diversification and scale, and margin expansion neither of those two currently shows at this pace.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. Price refreshed Aug 5, 2026 via live web lookup (aggregated market-data search, intraday) after the $331.09 snapshot was found stale — CIEN traded at $407.53, a +23% move. Market cap was recomputed from the prior researched share count; trailing/forward P/E, P/S and P/B were mechanically rescaled by the same price ratio rather than independently re-verified. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
   },
 
   FORM: {
@@ -1241,12 +1241,12 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['FORM', 'Advantest', 'KLA', 'AEHR'],
       metrics: [
-        { label: 'Price', values: ['$83.45', '$172.93', '$178.87', '$67.92'] },
-        { label: 'Market cap', values: ['$6.5B', '$125B', '$233.6B', '$2.2B'] },
-        { label: 'Trailing P/E', values: ['95.9x', '55.1x', '50.7x', 'N/A'] },
-        { label: 'Forward P/E', values: ['~29.9x', '~37.5x', '~27.2x', '49.1x'] },
-        { label: 'P/S (TTM)', values: ['~14.4x', '~16.8x', '~17.8x', '44.4x'] },
-        { label: 'P/B', values: ['6.1x', '25.7x', '40.1x', '10.0x'] },
+        { label: 'Price', values: ['$118.51 (Aug 4, 2026)', '$172.93', '$178.87', '$67.92'] },
+        { label: 'Market cap', values: ['~$9.2B (Aug 4, 2026)', '$125B', '$233.6B', '$2.2B'] },
+        { label: 'Trailing P/E', values: ['~136.2x (rescaled from 95.9x pre-refresh, not independently re-verified)', '55.1x', '50.7x', 'N/A'] },
+        { label: 'Forward P/E', values: ['~42.5x (rescaled from ~29.9x pre-refresh, not independently re-verified)', '~37.5x', '~27.2x', '49.1x'] },
+        { label: 'P/S (TTM)', values: ['~20.5x (rescaled from ~14.4x pre-refresh, not independently re-verified)', '~16.8x', '~17.8x', '44.4x'] },
+        { label: 'P/B', values: ['~8.7x (rescaled from 6.1x pre-refresh, not independently re-verified)', '25.7x', '40.1x', '10.0x'] },
         { label: 'Beta', values: ['1.22', '1.19', '1.41', '3.18'] },
         { label: 'ROE', values: ['7.5%', '57.6%', '95.0%', '35.4%'] },
         { label: 'Net margin', values: ['9.1%', '33.3%', '35.7%', '-14.3%'] },
@@ -1357,12 +1357,12 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['ASML', 'AMAT', 'LRCX', 'KLAC'],
       metrics: [
-        { label: 'Price', values: ['$1,550.69', '$452.14', '$259.79', '$178.87'] },
-        { label: 'Market cap', values: ['$595.6B', '$359B', '$325B', '$233.6B'] },
-        { label: 'Trailing P/E', values: ['53.5x', '42.5x', '49.2x', '50.7x'] },
-        { label: 'Forward P/E', values: ['26.8x', '26.8x', '31.8x', '27.2x'] },
-        { label: 'P/S (TTM)', values: ['~16.9x', '12.4x', '15.0x', '~17.8x'] },
-        { label: 'P/B', values: ['~1.33x', '15.0x', '30.7x', '40.1x'] },
+        { label: 'Price', values: ['$1,703.08 (Aug 4, 2026)', '$452.14', '$259.79', '$178.87'] },
+        { label: 'Market cap', values: ['~$654B (Aug 4, 2026)', '$359B', '$325B', '$233.6B'] },
+        { label: 'Trailing P/E', values: ['~58.8x (rescaled from 53.5x pre-refresh, not independently re-verified)', '42.5x', '49.2x', '50.7x'] },
+        { label: 'Forward P/E', values: ['~29.4x (rescaled from 26.8x pre-refresh, not independently re-verified)', '26.8x', '31.8x', '27.2x'] },
+        { label: 'P/S (TTM)', values: ['~18.6x (rescaled from 16.9x pre-refresh, not independently re-verified)', '12.4x', '15.0x', '~17.8x'] },
+        { label: 'P/B', values: ['~1.46x (rescaled from 1.33x pre-refresh, not independently re-verified)', '15.0x', '30.7x', '40.1x'] },
         { label: 'EV/EBITDA', values: ['~33.3x', '40.7x', '42.8x', '~42.8x'] },
         { label: 'Beta', values: ['1.39', '1.57', '1.81', '1.41'] },
         { label: 'Dividend yield', values: ['0.57%', '0.41%', '0.36%', '0.45%'] },
@@ -2975,10 +2975,10 @@ export const companies: Record<string, Company> = {
   valuation: {
     peers: ['042700.KS', '0522.HK', 'BESI.AS'],
     metrics: [
-      { label: 'Price', values: ['₩284,000 (Aug 5, 2026 open)', 'n/a (HKD-denominated)', 'n/a (EUR-denominated)'] },
-      { label: 'Market cap', values: ['~₩25.6T (~$18-19B)', 'HKD ~78-85B', 'EUR ~16-22B'] },
-      { label: 'Trailing P/E', values: ['~68x', 'n/a', 'n/a'] },
-      { label: 'Forward P/E', values: ['~53x', '~46-52x', '~47-56x'] },
+      { label: 'Price', values: ['₩203,000 (Aug 4, 2026 close)', 'n/a (HKD-denominated)', 'n/a (EUR-denominated)'] },
+      { label: 'Market cap', values: ['~₩18.3T (~$13-14B) (rescaled from ~₩25.6T pre-refresh, not independently re-verified)', 'HKD ~78-85B', 'EUR ~16-22B'] },
+      { label: 'Trailing P/E', values: ['~48.6x (rescaled from ~68x pre-refresh, not independently re-verified)', 'n/a', 'n/a'] },
+      { label: 'Forward P/E', values: ['~37.9x (rescaled from ~53x pre-refresh, not independently re-verified)', '~46-52x', '~47-56x'] },
       { label: 'Dividend yield', values: ['~0.3-0.5%', 'n/a', 'n/a'] },
       { label: 'Op. margin (Q2 2026)', values: ['52%', 'n/a', 'n/a'] },
       { label: 'Analyst target price', values: ['₩325,000 (bull case, Jul 2026) vs. ₩182,875 (bear case) — wide dispersion', 'n/a', 'n/a'] },
@@ -2997,23 +2997,23 @@ export const companies: Record<string, Company> = {
   },
   priceMap: {
     zones: [
-      { tier: 'ideal', range: '₩180,000 – ₩220,000', rationale: 'Deep pullback zone, closer to pre-2026-rally levels and the more bearish analyst target' },
-      { tier: 'acceptable', range: '₩220,000 – ₩310,000', rationale: 'Current trading range — accepts continued order lumpiness as the price of HBM-equipment pure-play exposure' },
-      { tier: 'expensive', range: '>₩380,000', rationale: 'Approaches the ₩426,000 all-time high — priced for flawless HBM4 ramp execution' },
+      { tier: 'ideal', range: '₩129,000 – ₩157,000', rationale: 'Deep pullback zone, closer to pre-2026-rally levels and the more bearish analyst target (rescaled from ₩180,000–₩220,000 pre-refresh)' },
+      { tier: 'acceptable', range: '₩157,000 – ₩222,000', rationale: 'Current trading range — accepts continued order lumpiness as the price of HBM-equipment pure-play exposure (rescaled from ₩220,000–₩310,000 pre-refresh)' },
+      { tier: 'expensive', range: '>₩272,000', rationale: 'Approaches the ₩426,000 all-time high — priced for flawless HBM4 ramp execution (rescaled from >₩380,000 pre-refresh)' },
     ],
     technical: [
       'All-time high ₩426,000 (May 12, 2026)',
       '52-week low ₩81,400',
-      'Down roughly 33% from the ATH as of early August 2026, including a -14.4% single week',
+      'ATH ₩426,000 — current ₩203,000 (Aug 4, 2026 close) is a ~52% correction from the top, a deeper drawdown than the ~33% figure this profile originally carried',
       'Chairman Kwak Dong-shin raised his stake to 33.61% with a ₩5B open-market purchase during the earnings slump — an insider-confidence signal worth noting, not a valuation floor',
     ],
     scenarios: [
-      { label: 'BASE', prob: 45, note: 'TC-bonder orders keep recovering through 2026 as HBM4 ramps broaden across customers; revenue grows meaningfully but likely falls short of the $1.5B target — stock ranges roughly ₩250,000-₩350,000.' },
+      { label: 'BASE', prob: 45, note: 'TC-bonder orders keep recovering through 2026 as HBM4 ramps broaden across customers; revenue grows meaningfully but likely falls short of the $1.5B target — stock ranges roughly ₩179,000-₩250,000 (rescaled from ₩250,000-₩350,000 pre-refresh).' },
       { label: 'BULL', prob: 25, note: 'The 2H26 next-gen TC bonder wins share, Samsung becomes a large new customer, HBM4 volumes beat plan — stock retests or clears the ₩426,000 ATH.' },
-      { label: 'BEAR', prob: 30, note: 'A Q1-2026-style order air pocket repeats around the next node transition, and/or BESI or ASMPT take further share in hybrid bonding — stock retests ₩150,000-₩180,000.' },
+      { label: 'BEAR', prob: 30, note: 'A Q1-2026-style order air pocket repeats around the next node transition, and/or BESI or ASMPT take further share in hybrid bonding — stock retests ₩107,000-₩129,000 (rescaled from ₩150,000-₩180,000 pre-refresh).' },
     ],
     horizon: '12 months',
-    invalidation: 'Weekly close below ₩180,000',
+    invalidation: 'Weekly close below ₩129,000 (rescaled from ₩180,000 pre-refresh)',
   },
   risks: [
     { risk: 'Customer concentration', severity: 'high', note: 'A single customer (Micron) accounted for 46% of sales in one recent quarter; SK Hynix and Samsung order timing swings materially move results.' },
@@ -3049,10 +3049,10 @@ export const companies: Record<string, Company> = {
     ],
     readLabel: 'HIGH-CONVICTION HBM EQUIPMENT PURE-PLAY — EXPECT LUMPY QUARTERS',
     summary:
-      'Hanmi is about as close to a pure-play HBM-equipment bet as exists on the Korean market — it makes the machines that physically stack the dies SK Hynix and Micron ship into NVIDIA\'s supply chain. The business is excellent when node transitions are mid-ramp and brutal when they\'re not, as Q1 2026\'s 65.5% revenue decline demonstrated. Down a third from its ATH with analyst targets that disagree by nearly 2x, this reads as a legitimate but genuinely volatile way to play the HBM equipment cycle — not a steady compounder.',
+      'Hanmi is about as close to a pure-play HBM-equipment bet as exists on the Korean market — it makes the machines that physically stack the dies SK Hynix and Micron ship into NVIDIA\'s supply chain. The business is excellent when node transitions are mid-ramp and brutal when they\'re not, as Q1 2026\'s 65.5% revenue decline demonstrated. Down roughly half from its ATH with analyst targets that disagree by nearly 2x, this reads as a legitimate but genuinely volatile way to play the HBM equipment cycle — not a steady compounder.',
   },
   sourceNote:
-    'Compiled from Hanmi Semiconductor Q1/Q2 2026 earnings coverage (Seoul Economic Daily, BigGo Finance, Asia Business Daily), and third-party data aggregators (stockanalysis.com, TradingView, GuruFocus) as of early August 2026. IMPORTANT CORRECTION: an earlier internal note mislabeled ticker 042700.KS as "Samsung Electronics" — that is incorrect. Samsung Electronics trades under 005930.KS; 042700.KS is Hanmi Semiconductor, and all data in this profile is about Hanmi. Valuation figures (market cap, P/E) vary noticeably across sources/dates given the stock\'s volatility — cross-check before live use.',
+    'Compiled from Hanmi Semiconductor Q1/Q2 2026 earnings coverage (Seoul Economic Daily, BigGo Finance, Asia Business Daily), and third-party data aggregators (stockanalysis.com, TradingView, GuruFocus) as of early August 2026. IMPORTANT CORRECTION: an earlier internal note mislabeled ticker 042700.KS as "Samsung Electronics" — that is incorrect. Samsung Electronics trades under 005930.KS; 042700.KS is Hanmi Semiconductor, and all data in this profile is about Hanmi. Valuation figures (market cap, P/E) vary noticeably across sources/dates given the stock\'s volatility — cross-check before live use. Price refreshed Aug 5, 2026 via live web lookup (Korean trackers wonforecast.com, alphasquare.co.kr and littlebproject.com, cross-checked against news coverage of an executive share sale and broader semiconductor-sector weakness) after the prior ₩284,000 snapshot was found stale — Hanmi closed Aug 4, 2026 at ₩203,000, a ~28.5% decline. Market cap and the trailing/forward P/E figures were mechanically rescaled by that same price ratio rather than independently re-verified — treat them as directional, not precise.',
 },
 
 '000150.KS': {
@@ -3085,10 +3085,10 @@ export const companies: Record<string, Company> = {
   valuation: {
     peers: ['000150.KS', '034730.KS'],
     metrics: [
-      { label: 'Price', values: ['₩1,046,000 (Jul 28, 2026)', '₩467,000 (Jul 30, 2026)'] },
-      { label: 'Market cap', values: ['~₩18.7T (~$13.6B)', '~$25.3B (~₩34.7T)'] },
-      { label: 'Trailing P/E', values: ['~230x-620x (sources diverge widely — thin consolidated net income relative to market cap)', 'n/a'] },
-      { label: 'P/S', values: ['0.64x', 'n/a'] },
+      { label: 'Price', values: ['₩1,238,000 (Aug 3, 2026 close)', '₩467,000 (Jul 30, 2026)'] },
+      { label: 'Market cap', values: ['~₩22.1T (~$16.1B) (rescaled from ~₩18.7T pre-refresh, not independently re-verified)', '~$25.3B (~₩34.7T)'] },
+      { label: 'Trailing P/E', values: ['~272x-734x (sources diverge widely — thin consolidated net income relative to market cap; rescaled from ~230x-620x pre-refresh, not independently re-verified)', 'n/a'] },
+      { label: 'P/S', values: ['~0.76x (rescaled from 0.64x pre-refresh, not independently re-verified)', 'n/a'] },
       { label: 'Op. margin (Q2 2026, consolidated)', values: ['~8.7% (computed: ₩488B / ₩5,586B)', 'n/a'] },
       { label: 'Revenue growth (Q2 2026 YoY)', values: ['+5.0%', 'n/a'] },
     ],
@@ -5348,13 +5348,13 @@ NBIS: {
   },
   priceMap: {
     zones: [
-      { tier: 'ideal', range: '$2.00 - $2.75', rationale: 'Would approach the lower end of the 52-week range ($1.88), reflecting a scenario where wind-exit execution risk or GE Vernova order softness weighs on sentiment' },
-      { tier: 'acceptable', range: '$2.75 - $4.50', rationale: 'Brackets the current implied trading range; consistent with continued Gearing/Industrial Solutions growth without assuming a re-rating on customer diversification' },
-      { tier: 'expensive', range: 'Above $5.00', rationale: 'Approaches the 52-week high of $5.52; would require the market to be crediting successful customer diversification and sustained double-digit segment growth' },
+      { tier: 'ideal', range: '$2.50 - $3.50', rationale: 'Would approach the lower end of the 52-week range ($1.88), reflecting a scenario where wind-exit execution risk or GE Vernova order softness weighs on sentiment (rescaled from the pre-refresh $2.00–2.75 zone)' },
+      { tier: 'acceptable', range: '$3.50 - $5.65', rationale: 'Brackets the current trading range; consistent with continued Gearing/Industrial Solutions growth without assuming a re-rating on customer diversification' },
+      { tier: 'expensive', range: 'Above $6.30', rationale: 'Approaches the 52-week high of $5.52 and beyond; would require the market to be crediting successful customer diversification and sustained double-digit segment growth' },
     ],
     technical: [
-      '52-week range of $1.88 to $5.52, a wide band typical of a thinly traded micro-cap industrial name',
-      'Current price implied around $3.95-4.03 based on the most recently cited market cap and share count (~22.36M shares)',
+      '52-week range of $1.88 to $5.52, a wide band typical of a thinly traded micro-cap industrial name (current $5.03 is now near the top of this range)',
+      'Current price $5.03 (Aug 5, 2026) per live web lookup; implied share count remains approximately 22.36M shares (no newer share-count data found in this refresh pass)',
     ],
     scenarios: [
       { label: 'BASE', prob: 50, note: 'Wind-tower divestitures complete roughly as planned, Gearing and Industrial Solutions continue growing on gas-turbine and mining demand, but GE Vernova concentration remains largely unchanged' },
@@ -5399,7 +5399,7 @@ NBIS: {
     readLabel: 'MICRO-CAP INDUSTRIAL PIVOT, INDIRECT POWER-BUILDOUT EXPOSURE',
     summary: 'Broadwind is executing a sensible, disclosed strategic pivot away from a structurally declining wind-tower business and toward faster-growing Gearing and Industrial Solutions segments benefiting from natural gas turbine component demand — itself one beneficiary of the broader US power-generation capacity buildout that AI/datacenter electricity demand is helping drive, though only indirectly. The business remains small, thinly covered, and heavily dependent on a single customer (GE Vernova at 55-60% of 2025 revenue), and investors should treat Broadwind as a leveraged, indirect play on the power-buildout theme through one OEM relationship rather than as a direct AI-infrastructure company.',
   },
-  sourceNote: 'Q1 2026 segment revenue, orders, and backlog figures sourced from Broadwind IR press releases (investors.bwen.com), StockTitan, Investing.com, and the Motley Fool earnings-call transcript (May 2026). GE Vernova customer-concentration figures sourced from general search-context coverage and should be treated as approximate given the company\'s relatively thin third-party analyst coverage. Market cap and implied share price as of Aug 3, 2026 per MacroTrends-sourced search snippets; exact current share price was not independently confirmed to the cent and is derived from market cap divided by shares outstanding.',
+  sourceNote: 'Q1 2026 segment revenue, orders, and backlog figures sourced from Broadwind IR press releases (investors.bwen.com), StockTitan, Investing.com, and the Motley Fool earnings-call transcript (May 2026). GE Vernova customer-concentration figures sourced from general search-context coverage and should be treated as approximate given the company\'s relatively thin third-party analyst coverage. Market cap and implied share price as of Aug 3, 2026 per MacroTrends-sourced search snippets; exact current share price was not independently confirmed to the cent and is derived from market cap divided by shares outstanding. Price refreshed Aug 5, 2026 via live web lookup (search-aggregated quote, $5.03, +2.65% on the day, previous close $4.90) after the prior ~$3.95-4.03 implied snapshot was flagged as stale — roughly +25-27% higher. Market cap was mechanically rescaled by the same price ratio using the previously implied ~22.36M share count rather than independently re-verified — treat it as directional, not precise; ahead of the Aug 11, 2026 earnings report this thinly-traded micro-cap should be re-checked against a live quote before acting on anything here.',
 },
 
 'AUUA.V': {
