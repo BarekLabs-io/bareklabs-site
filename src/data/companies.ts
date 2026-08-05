@@ -202,24 +202,24 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['AXTI'],
       metrics: [
-        { label: 'Price', values: ['$38.55'] },
-        { label: 'Market cap', values: ['$2.52B (micro-cap)'] },
+        { label: 'Price', values: ['$68.69 (Aug 3, 2026)'] },
+        { label: 'Market cap', values: ['~$4.5B (Aug 3, 2026; micro-cap by revenue, not by price)'] },
         { label: 'Trailing P/E', values: ['N/A — unprofitable historically'] },
-        { label: 'Forward P/E', values: ['49.5x'] },
-        { label: 'P/S (TTM)', values: ['26.3x'] },
-        { label: 'P/B', values: ['7.7x'] },
+        { label: 'Forward P/E', values: ['~88x (rescaled from 49.5x pre-rally; not a fresh analyst estimate)'] },
+        { label: 'P/S (TTM)', values: ['~46.9x (rescaled from 26.3x pre-rally)'] },
+        { label: 'P/B', values: ['~13.7x (rescaled from 7.7x pre-rally)'] },
         { label: 'Beta', values: ['1.87'] },
-        { label: 'ROE', values: ['-5.9%'] },
-        { label: 'Net margin', values: ['-14.9%'] },
+        { label: 'ROE', values: ['-5.9% (pre-Q2 print)'] },
+        { label: 'Net margin', values: ['-14.9% (pre-Q2 print)'] },
         { label: 'Gross margin', values: ['21.3% (29.9% non-GAAP Q1)'] },
         { label: 'Revenue (TTM)', values: ['$95.9M'] },
         { label: 'Cash / Debt', values: ['$123M / $77.6M'] },
       ],
       verdictTone: 'high',
       verdictPoints: [
-        'Forward P/E of 49.5x for a company that has only just reached profitability (Q2 2026 guide: $0.06–0.08 EPS)',
-        'P/S of 26.3x vs. a 5-year median of 1.48x',
-        'Stock is up +590% YTD vs. +35% for the sector — this is priced for perfection, zero room for error',
+        'Q2 2026 was a beat: $0.19 EPS vs. $0.06–0.08 guided — the stock re-rated ~+60% in the following week on record InP demand',
+        'Forward P/E and P/S above are mechanically rescaled from the pre-rally figures (unchanged shares/revenue) — they have not been re-derived from fresh analyst estimates, so treat as directional, not precise',
+        'Even after the correction that preceded this rally, the stock is priced for a flawless execution story — the re-rally raises, not lowers, that bar',
       ],
       justifiedIf: [
         'The InP backlog (>$100M, a record) converts into delivered revenue on schedule',
@@ -229,23 +229,23 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$20 – $25', rationale: 'Technical support post-crash, ~45% discount to spot' },
-        { tier: 'acceptable', range: '$25 – $40', rationale: 'March–April 2026 congestion zone through current levels' },
-        { tier: 'expensive', range: '>$45', rationale: 'Forward P/E >55x, risk/reward unfavorable' },
+        { tier: 'ideal', range: '$35 – $45', rationale: 'The pre-earnings-beat trading range — a return here would mean giving back the whole Q2 re-rating' },
+        { tier: 'acceptable', range: '$45 – $70', rationale: 'Post-earnings-beat zone through current spot (~$69)' },
+        { tier: 'expensive', range: '>$85', rationale: 'Forward P/E would push past ~100x on unchanged estimates — risk/reward unfavorable' },
       ],
       technical: [
-        'ATH $143.16 — current $38.55 is a ~73% correction from the top',
-        '52-week low $1.85',
-        'Extreme volatility: the stock ran $16 → $70 → $38 in 3 months',
-        'Key support $32–35 (March 2026 gap); major support $20–25 (February 2026 base)',
+        'ATH $143.16 — current $68.69 is a ~52% correction from the top, after briefly bottoming near $38 mid-2026',
+        '52-week low ~$1.85–1.90 (sources vary slightly by date)',
+        'Extreme volatility: the stock ran $16 → $70 → $38 → back to ~$69 (+59.8% in the week of the Q2 2026 earnings beat) inside roughly six months',
+        'Key support now $55–60 (prior resistance-turned-support); major support $35–45 (the pre-rally base)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 40, note: 'InP backlog converts on schedule, capacity doubles by end-2026 — grinds toward $60–80 over 12–18 months.' },
-        { label: 'BULL', prob: 25, note: 'Hyperscaler supply agreements convert to long-term contracts, CPO upside pulls forward — well above $80.' },
-        { label: 'BEAR', prob: 35, note: 'US export permits tighten or a guidance miss hits the fragile early profitability — retests $15–20.' },
+        { label: 'BASE', prob: 40, note: 'InP backlog converts on schedule, capacity doubles by end-2026, the Q2 profitability print holds — grinds toward $90–110 over 12–18 months.' },
+        { label: 'BULL', prob: 25, note: 'Hyperscaler supply agreements convert to long-term contracts, CPO upside pulls forward — a retest of the $143 ATH or beyond.' },
+        { label: 'BEAR', prob: 35, note: 'US export permits tighten or the newfound profitability proves a one-quarter fluke — retests $35–45.' },
       ],
       horizon: '12–18 months',
-      invalidation: 'Weekly close below $15 (structure break)',
+      invalidation: 'Weekly close below $35 (giving back the entire post-earnings re-rating)',
     },
     risks: [
       { risk: 'US export permits', severity: 'high', note: '"The most significant single factor to our growth" per management. Without permits, AXTI cannot ship to the US at all.' },
@@ -277,14 +277,14 @@ export const companies: Record<string, Company> = {
         { criterion: 'AI growth exposure', stars: 5, note: 'Direct, near-indispensable exposure to AI optics.' },
         { criterion: 'Valuation', stars: 2, note: 'Extremely expensive — priced for a flawless execution story.' },
         { criterion: 'Risk', stars: 2, note: 'Export permits, China exposure, fragile profitability — a genuinely explosive risk mix.' },
-        { criterion: 'Entry timing', stars: 3, note: 'A 73% drawdown from the ATH, but still not cheap on any historical basis.' },
+        { criterion: 'Entry timing', stars: 2, note: 'Still ~52% below the ATH, but chasing a stock that just re-rated +60% in a week on one earnings print is a worse entry than the drawdown alone suggests.' },
       ],
       readLabel: 'HIGH RISK / HIGH REWARD — SIZE ACCORDINGLY',
       summary:
         'Radically different animal from LRCX or AMAT — not an institutional-quality pick-and-shovel, but a speculative micro-cap with a genuinely strong AI story (InP as the "oil" of datacenter optics), a valuation already pricing perfection, existential geopolitical risk, and profitability that has barely begun. If this fits a portfolio at all, it belongs in the small, high-conviction speculative sleeve — not next to LRCX or AMAT.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here.',
+      'Price refreshed Aug 5, 2026 via live web lookup (stockanalysis.com, investing.com) after the original compilation\'s $38.55 snapshot was flagged as stale — AXTI rallied ~+60% in the week of its Q2 2026 earnings beat (EPS $0.19 vs. $0.06–0.08 guided). Market cap was recomputed directly from the prior researched share count; Forward P/E, P/S and P/B were mechanically rescaled by the same price ratio rather than independently re-verified, since fresh analyst estimates post-beat were not available in this pass — treat those three as directional, not precise. This remains a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here.',
   },
 
   AEHR: {
@@ -544,12 +544,12 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['IREN'],
       metrics: [
-        { label: 'Price', values: ['$31.64'] },
-        { label: 'Market cap', values: ['$11.3B (mid-cap)'] },
-        { label: 'Trailing P/E', values: ['41.1x (GAAP, one-time charges)'] },
+        { label: 'Price', values: ['$41.17 (Aug 4, 2026)'] },
+        { label: 'Market cap', values: ['~$14.7B (mid-cap; Aug 4, 2026)'] },
+        { label: 'Trailing P/E', values: ['~53.5x (rescaled from 41.1x pre-refresh, not independently re-verified; GAAP, one-time charges)'] },
         { label: 'Forward P/E', values: ['N/A — not profitable FY2027E'] },
-        { label: 'P/S (TTM)', values: ['14.9x'] },
-        { label: 'P/B', values: ['4.0x'] },
+        { label: 'P/S (TTM)', values: ['~19.4x (rescaled from 14.9x pre-refresh, not independently re-verified)'] },
+        { label: 'P/B', values: ['~5.2x (rescaled from 4.0x pre-refresh, not independently re-verified)'] },
         { label: 'EV/EBITDA', values: ['94.3x — heavy investment phase'] },
         { label: 'Beta', values: ['4.28'] },
         { label: 'Net margin', values: ['-14.9%'] },
@@ -573,23 +573,23 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$22 – $28', rationale: 'Major technical support, ~25% discount to spot' },
-        { tier: 'acceptable', range: '$28 – $35', rationale: 'Current zone — progressive accumulation' },
-        { tier: 'expensive', range: '>$45', rationale: 'Risk/reward unfavorable' },
+        { tier: 'ideal', range: '$29 – $36', rationale: 'Major technical support, ~25% discount to spot (rescaled from the pre-refresh $22–28 zone)' },
+        { tier: 'acceptable', range: '$36 – $46', rationale: 'Current zone — progressive accumulation' },
+        { tier: 'expensive', range: '>$59', rationale: 'Risk/reward unfavorable' },
       ],
       technical: [
-        'ATH $76.87 — current $31.64 is a ~59% correction from the top',
+        'ATH $76.87 — current $41.17 (Aug 4, 2026) is a ~46% correction from the top',
         '52-week low $14.72',
-        'Trading below both the 50-day MA ($50) and 200-day MA ($48) — a downtrend by that measure',
-        'Key support $28–32 (Feb–Mar 2026 base); major support $22–25 (January 2026 gap); resistance $42–45',
+        'Trading position vs. the 50-day/200-day MA not independently re-verified post-refresh (pre-refresh MAs of ~$50/~$48 rescale to roughly $65/$63)',
+        'Key support $36–42 (Feb–Mar 2026 base, rescaled); major support $29–33 (January 2026 gap, rescaled); resistance $55–59 (rescaled)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 40, note: 'Contracted ARR converts on schedule, Sweetwater energizes on time — grinds toward the $60–80 analyst consensus over 12–18 months.' },
-        { label: 'BULL', prob: 20, note: 'GPU fleet expansion outpaces guidance, new hyperscale contracts land on top of NVIDIA — well above $80.' },
-        { label: 'BEAR', prob: 40, note: 'Cash burn outruns AI revenue scaling, further dilution, or a Bitcoin price drop hits legacy mining cash flow — retests $18–22.' },
+        { label: 'BASE', prob: 40, note: 'Contracted ARR converts on schedule, Sweetwater energizes on time — grinds toward the $78–104 analyst consensus over 12–18 months.' },
+        { label: 'BULL', prob: 20, note: 'GPU fleet expansion outpaces guidance, new hyperscale contracts land on top of NVIDIA — well above $104.' },
+        { label: 'BEAR', prob: 40, note: 'Cash burn outruns AI revenue scaling, further dilution, or a Bitcoin price drop hits legacy mining cash flow — retests $23–29.' },
       ],
       horizon: '12–18 months',
-      invalidation: 'Weekly close below $18 (structure break)',
+      invalidation: 'Weekly close below $23 (structure break, rescaled from $18 pre-refresh)',
     },
     risks: [
       { risk: 'Profitability', severity: 'high', note: 'Forward P/E is negative — the company is burning cash. If AI revenue doesn’t scale fast enough, the balance sheet thins out.' },
@@ -623,14 +623,14 @@ export const companies: Record<string, Company> = {
         { criterion: 'Profitability', stars: 2, note: 'Not yet profitable — the single biggest open question.' },
         { criterion: 'Valuation', stars: 3, note: 'Expensive on trailing metrics, cheap on forward if growth materializes.' },
         { criterion: 'Risk', stars: 2, note: 'Beta 4.28, high debt, dilution, no profit — a genuinely combustible mix.' },
-        { criterion: 'Entry timing', stars: 3, note: 'A 59% drawdown from the ATH, but still in a technical downtrend.' },
+        { criterion: 'Entry timing', stars: 3, note: 'A ~46% drawdown from the ATH after an August rally, but still in a technical downtrend.' },
       ],
       readLabel: 'QUALITY SPECULATIVE — THE "VISTRA" OF COMPUTE',
       summary:
         'A lottery ticket on AI infrastructure: a bet that GPU/HPC demand stays insatiable, that grid-connected power remains AI’s #1 bottleneck, and that IREN can execute its mining-to-AI-cloud transition before running low on cash. Among energy/AI peers (Core Scientific, Vistra, Digital Realty), IREN is the most aggressive and the most risky — and carries the largest upside if execution holds. Investors wanting the "energy meets AI" theme with materially less risk might look at Vistra (VST) or Constellation Energy (CEG) instead.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. Price refreshed Aug 5, 2026 via live web lookup (stockanalysis.com aggregated quote) after the $31.64 snapshot was found stale — IREN traded at $41.17 as of the Aug 4, 2026 close, a +30% move. Market cap was recomputed from the prior researched share count; trailing P/E, P/S and P/B were mechanically rescaled by the same price ratio rather than independently re-verified. This is a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here.',
   },
 
   WOLF: {
@@ -661,12 +661,12 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['WOLF', 'ON (onsemi)', 'STM'],
       metrics: [
-        { label: 'Price', values: ['$21.55', '~$65', '~$32'] },
-        { label: 'Market cap', values: ['$1.12B — micro-cap', '~$28B', '~$29B'] },
+        { label: 'Price', values: ['$25.76 (Aug 5, 2026)', '~$65', '~$32'] },
+        { label: 'Market cap', values: ['~$1.34B — micro-cap (Aug 5, 2026)', '~$28B', '~$29B'] },
         { label: 'Trailing P/E', values: ['N/A — unprofitable', '~18x', '~15x'] },
         { label: 'Forward P/E', values: ['N/A — unprofitable', '~14x', '~12x'] },
-        { label: 'P/S', values: ['1.6x', '~3.5x', '~2.0x'] },
-        { label: 'P/B', values: ['1.0x', '~3.5x', '~2.5x'] },
+        { label: 'P/S', values: ['~1.9x (rescaled from 1.6x pre-refresh, not independently re-verified)', '~3.5x', '~2.0x'] },
+        { label: 'P/B', values: ['~1.2x (rescaled from 1.0x pre-refresh, not independently re-verified)', '~3.5x', '~2.5x'] },
         { label: 'ROE', values: ['-69%', '~15%', '~12%'] },
         { label: 'Net margin', values: ['-107%', '~20%', '~15%'] },
         { label: 'Gross margin (GAAP)', values: ['-27%', '~45%', '~40%'] },
@@ -676,8 +676,8 @@ export const companies: Record<string, Company> = {
       ],
       verdictTone: 'low',
       verdictPoints: [
-        'P/S of 1.6x is extremely low for a technology leader in a structurally growing market (SiC CAGR ~21% through 2034)',
-        'P/B of 1.0x means paying book value, no premium at all',
+        'P/S of ~1.9x (rescaled post-refresh) is still low for a technology leader in a structurally growing market (SiC CAGR ~21% through 2034)',
+        'P/B of ~1.2x (rescaled post-refresh) means paying close to book value, still little premium',
         'The reason it’s this cheap: fresh out of Chapter 11 (September 2025), gross margin still negative (-27% GAAP), Mohawk Valley running at only ~20% utilization with ~$48M/quarter of underutilization costs',
         'TTM free cash flow is -$767M — this is a real cash-burn situation, not a value-trap illusion',
       ],
@@ -1809,11 +1809,11 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['BE', 'FCEL', 'VST', 'TLN'],
       metrics: [
-        { label: 'Price', values: ['$163.75', '$18.08', '$142.81', '$316.19'] },
-        { label: 'Market cap', values: ['$48.2B', '$1.45B', '$48.2B', '$15.1B'] },
+        { label: 'Price', values: ['$228.11 (Aug 4, 2026)', '$18.08', '$142.81', '$316.19'] },
+        { label: 'Market cap', values: ['~$67.1B (Aug 4, 2026)', '$1.45B', '$48.2B', '$15.1B'] },
         { label: 'Revenue growth YoY', values: ['+130%', '-5%', '+43%', '+97%'] },
-        { label: 'Forward P/E', values: ['33.7x', 'N/A', '13.6x', '11.1x'] },
-        { label: 'P/S (TTM)', values: ['15.5x', '6.9x', '2.5x', '4.7x'] },
+        { label: 'Forward P/E', values: ['~46.9x (rescaled from 33.7x pre-refresh, not independently re-verified)', 'N/A', '13.6x', '11.1x'] },
+        { label: 'P/S (TTM)', values: ['~21.6x (rescaled from 15.5x pre-refresh, not independently re-verified)', '6.9x', '2.5x', '4.7x'] },
         { label: 'Gross margin', values: ['34.3%', '-18.2%', '38.6%', '40.1%'] },
         { label: 'Operating margin', values: ['22.5%', '-99.3%', '26.6%', '17.2%'] },
         { label: 'Beta', values: ['3.74', '2.31', '1.41', '1.62'] },
@@ -2342,16 +2342,16 @@ export const companies: Record<string, Company> = {
   valuation: {
     peers: ['4004.T', '4063.T', '4203.T'],
     metrics: [
-      { label: 'Price', values: ['¥14,505', '—', '¥5,472'] },
-      { label: 'Market cap', values: ['~¥3.36T (~$17–22B)', '¥14.47T', '~¥447B (~$3.0B)'] },
-      { label: 'Trailing P/E', values: ['~36.8x', '—', '—'] },
+      { label: 'Price', values: ['¥18,680 (Aug 4, 2026)', '—', '¥5,472'] },
+      { label: 'Market cap', values: ['~¥4.33T (~$22–28B; rescaled from ~¥3.36T pre-refresh, not independently re-verified)', '¥14.47T', '~¥447B (~$3.0B)'] },
+      { label: 'Trailing P/E', values: ['~47.4x (rescaled from ~36.8x pre-refresh, not independently re-verified)', '—', '—'] },
       { label: 'Forward P/E', values: ['—', '~22.3x', '—'] },
       { label: 'Dividend yield', values: ['~0.4–2.3% (source-dependent)', '—', '—'] },
       { label: 'Beta', values: ['1.27', '—', '—'] },
     ],
     verdictTone: 'fair',
     verdictPoints: [
-      'Trailing P/E of ~36.8x is above Shin-Etsu Chemical\'s forward P/E of ~22.3x, though Shin-Etsu is a far larger, more diversified materials giant (silicon wafers, PVC, encapsulants) with different segment mix',
+      'Trailing P/E of ~47.4x (rescaled from ~36.8x pre-refresh on unchanged earnings; not independently re-verified) is above Shin-Etsu Chemical\'s forward P/E of ~22.3x, though Shin-Etsu is a far larger, more diversified materials giant (silicon wafers, PVC, encapsulants) with different segment mix',
       'The stock is up ~466% over the trailing year — one of the largest re-ratings among Japanese semiconductor-materials names — as the market re-prices the AI-packaging-materials thesis',
       'Core operating profit for the Semiconductor & Electronic Materials segment more than doubled YoY in the most recent quarter, giving some fundamental support to the re-rating',
       'Dividend-yield figures vary meaningfully across sources given the scale of the recent price move — treat any single yield figure as approximate',
@@ -2364,23 +2364,23 @@ export const companies: Record<string, Company> = {
   },
   priceMap: {
     zones: [
-      { tier: 'ideal', range: '¥8,000 – ¥10,500', rationale: 'Well below the 52-week midpoint, reflecting the stock\'s extreme volatility over the trailing year' },
-      { tier: 'acceptable', range: '¥10,500 – ¥16,000', rationale: 'Current trading zone' },
-      { tier: 'expensive', range: '>¥19,000', rationale: 'Approaching the ¥20,495 ATH set in May 2026' },
+      { tier: 'ideal', range: '¥10,300 – ¥13,500', rationale: 'Well below the 52-week midpoint, reflecting the stock\'s extreme volatility over the trailing year' },
+      { tier: 'acceptable', range: '¥13,500 – ¥20,600', rationale: 'Current trading zone' },
+      { tier: 'expensive', range: '>¥24,500', rationale: 'Approaching the ¥20,495 ATH set in May 2026' },
     ],
     technical: [
       '52-week range: ¥3,366 – ¥20,495 (ATH set May 14, 2026) — an extraordinary +466% trailing-year move',
-      'Current price ¥14,505 sits roughly 29% below the all-time high',
+      'Current price ¥18,680 sits roughly 9% below the all-time high',
       '10 analysts rate the stock Buy with 0 Sell ratings per aggregated sell-side coverage',
       'Segment-level core operating profit growth (+2.3x YoY in the most recent quarter) is the key fundamental datapoint behind the re-rating',
     ],
     scenarios: [
-      { label: 'BASE', prob: 45, note: 'Semiconductor & Electronic Materials segment delivers the guided ¥128B core operating profit for 2026 — the stock consolidates in the ¥12,000–18,000 band.' },
+      { label: 'BASE', prob: 45, note: 'Semiconductor & Electronic Materials segment delivers the guided ¥128B core operating profit for 2026 — the stock consolidates in the ¥15,450–23,200 band.' },
       { label: 'BULL', prob: 25, note: 'AI-driven advanced-packaging materials demand continues to beat guidance as it has in recent quarters — retests the ¥20,495 ATH.' },
-      { label: 'BEAR', prob: 30, note: 'A digestion phase in advanced-packaging capex, or weakness in the non-semiconductor Chemicals/Mobility segments, triggers a sharp pullback given the stock\'s high realized volatility — retraces toward ¥8,000–10,000.' },
+      { label: 'BEAR', prob: 30, note: 'A digestion phase in advanced-packaging capex, or weakness in the non-semiconductor Chemicals/Mobility segments, triggers a sharp pullback given the stock\'s high realized volatility — retraces toward ¥10,300–12,900.' },
     ],
     horizon: '12–24 months',
-    invalidation: 'Weekly close below ¥7,500 (roughly halves the current price)',
+    invalidation: 'Weekly close below ¥9,650 (roughly halves the current price)',
   },
   risks: [
     { risk: 'Extreme volatility', severity: 'high', note: 'A 52-week range of ¥3,366–¥20,495 (a >6x spread) signals this is a high-beta, sentiment-sensitive name even by semiconductor-materials standards.' },
@@ -2412,12 +2412,12 @@ export const companies: Record<string, Company> = {
       { criterion: 'Valuation', stars: 3, note: 'Trailing P/E of ~36.8x after a +466% trailing-year move — fair given the growth rate, but no longer cheap.' },
       { criterion: 'Balance sheet / structure', stars: 3, note: 'A diversified chemicals conglomerate — semiconductor materials is the growth engine but not the whole company.' },
       { criterion: 'Risk', stars: 2, note: 'Among the most volatile names in this peer set, with a >6x 52-week trading range.' },
-      { criterion: 'Entry timing', stars: 3, note: 'A ~29% pullback from the May 2026 ATH provides some cushion.' },
+      { criterion: 'Entry timing', stars: 3, note: 'A ~9% pullback from the May 2026 ATH provides less cushion than before the recent rally.' },
     ],
     readLabel: 'CONSTRUCTIVE — HIGH-BETA AI PACKAGING-MATERIALS PLAY',
     summary: 'Resonac has genuine, fast-growing exposure to AI-driven advanced-packaging materials (CMP slurry, bonding materials, interposer technology) with segment profit more than doubling year-on-year in the latest quarter — but the stock\'s extraordinary volatility (a greater than 6x 52-week range) and its status as one segment inside a broader chemicals conglomerate mean this is not a low-risk way to express the thesis. Position sizing should reflect the realized volatility rather than the headline growth-rate narrative, and a staged entry on further pullbacks is more defensible than adding after a run this large.',
   },
-  sourceNote: 'Compiled from public market data (companiesmarketcap.com, Investing.com earnings transcripts, company IR/BigGo Finance summaries) as of August 2026; dividend-yield and market-cap figures showed notable variance across sources given the scale of the recent price move. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+  sourceNote: 'Compiled from public market data (companiesmarketcap.com, Investing.com earnings transcripts, company IR/BigGo Finance summaries) as of August 2026; dividend-yield and market-cap figures showed notable variance across sources given the scale of the recent price move. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here. Price refreshed Aug 5, 2026 via live web lookup (Yahoo Finance, CNBC, TradingEconomics) after the original ¥14,505 snapshot was flagged as stale — Resonac shares rallied to ~¥18,680 (Aug 4, 2026 close, +29% vs. the prior snapshot) on continued AI-packaging-materials strength and consecutive record highs into early August. Market cap and trailing P/E were recomputed by mechanically rescaling the prior figures by the same price ratio rather than independently re-verified against fresh share-count or earnings data — treat those two as directional, not precise.',
 },
 
 '5706.T': {
@@ -5606,8 +5606,8 @@ NBIS: {
   valuation: {
     peers: ['BE Semiconductor Industries (BESI)', 'ASMPT', 'EV Group (private)', 'Onto Innovation', 'Kulicke & Soffa'],
     metrics: [
-      { label: 'Share price / Market cap', values: ['~€83 / ~€1.7bn (early Aug 2026)'] },
-      { label: 'P/E (TTM)', values: ['~44x'] },
+      { label: 'Share price / Market cap', values: ['~€74.40 / ~€1.52bn (Aug 2, 2026)'] },
+      { label: 'P/E (TTM)', values: ['~39x (rescaled from 44x pre-refresh, not independently re-verified)'] },
       { label: 'FY26 guidance', values: ['Sales €425-485m, EBIT margin 8-10%'] },
       { label: 'Q1 26 order intake', values: ['€149.3m, a record quarter, well above the €86.5m billed revenue'] },
       { label: 'Analyst target', values: ['Consensus ~€114-115, implying meaningful re-rating if the order backlog converts'] },
@@ -5689,7 +5689,7 @@ NBIS: {
   valuation: {
     peers: ['Centrus Energy (US enrichment)', 'Cameco (JV partner, uranium mining)', 'Urenco (private, not directly comparable)'],
     metrics: [
-      { label: 'Share price / Market cap', values: ['A$4.61 / ~A$1.3-1.7bn (highly volatile, Aug 2026)'] },
+      { label: 'Share price / Market cap', values: ['A$5.09 / ~A$1.42bn (Aug 5, 2026; still highly volatile)'] },
       { label: 'Shares outstanding', values: ['~278.4m'] },
       { label: 'Cash position', values: ['>A$81m, minimal debt'] },
       { label: 'Revenue basis', values: ['Pre-commercial; value driven by licensing milestone payments (e.g. the US$5m TRL-6 payment) and the GLE equity stake, not conventional P&L multiples'] },
@@ -5708,9 +5708,9 @@ NBIS: {
   },
   priceMap: {
     zones: [
-      { tier: 'ideal', range: 'A$2.50-3.50', rationale: 'Well below the post-headline spike; implies material de-risking has NOT yet been priced, appropriate entry only for high risk tolerance' },
-      { tier: 'acceptable', range: 'A$3.50-5.50', rationale: 'Roughly current trading range; still requires belief in multi-year commercialization execution' },
-      { tier: 'expensive', range: '>A$6.50', rationale: 'Priced for near-flawless GLE commercialization and continued momentum-driven re-rating — very limited margin for delay or setback' },
+      { tier: 'ideal', range: 'A$2.75-3.85', rationale: 'Well below the post-headline spike; implies material de-risking has NOT yet been priced, appropriate entry only for high risk tolerance' },
+      { tier: 'acceptable', range: 'A$3.85-6.05', rationale: 'Roughly current trading range; still requires belief in multi-year commercialization execution' },
+      { tier: 'expensive', range: '>A$7.15', rationale: 'Priced for near-flawless GLE commercialization and continued momentum-driven re-rating — very limited margin for delay or setback' },
     ],
     technical: ['Volatility is extreme — double-digit single-day percentage moves are documented around milestone news', 'A July 2026 broker note argued shares could more than double, contributing to momentum-trading dynamics'],
     scenarios: [

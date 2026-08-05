@@ -5,6 +5,7 @@ import { SectionHead } from '@/components/Layout'
 import { cn } from '@/lib/utils'
 import { companies, type Risk, type ChainRow } from '@/data/companies'
 import { parseMetricValue } from '@/lib/priceSeries'
+import { countryOf, segmentInfoOf, segmentOf } from '@/data/valueChain'
 
 const PriceChart = lazy(() => import('@/components/PriceChart'))
 
@@ -65,8 +66,14 @@ export default function CompanyPage() {
   }
 
   const c = company
-  const priceMetric = c.valuation.metrics.find((m) => /^price/i.test(m.label))
+  const priceMetric = c.valuation.metrics.find((m) => /^price|^share price/i.test(m.label))
   const currentPrice = parseMetricValue(priceMetric?.values[0]) ?? 100
+  const marketCapMetric = c.valuation.metrics.find((m) => /^market cap|market cap$/i.test(m.label))
+  const country = countryOf(c.ticker)
+  const segment = segmentInfoOf(c.ticker)
+  const segmentPeers = Object.values(companies)
+    .filter((p) => p.ticker !== c.ticker && segmentOf(p.ticker) === segmentOf(c.ticker))
+    .map((p) => p.ticker)
 
   return (
     <>
@@ -74,17 +81,31 @@ export default function CompanyPage() {
         <div className="mx-auto max-w-[1440px] px-5 md:px-10">
           <Reveal>
             <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">
-              COMPANY DEEP DIVE — {c.ticker} · {c.sector} · AS OF {c.asOf}
+              COMPANY DEEP DIVE — {c.ticker} · {segment.label} · AS OF {c.asOf}
             </div>
           </Reveal>
           <Reveal delay={60}>
             <h1 className="mt-3 flex flex-wrap items-baseline gap-3">
               <span className="text-3xl font-medium tracking-tight md:text-4xl">{c.name}</span>
-              <span className="font-mono-lab text-sm text-faint" dir="ltr">{c.ticker}</span>
+              <span className="font-mono-lab text-sm text-dim" dir="ltr">{c.ticker}</span>
             </h1>
           </Reveal>
           <Reveal delay={100}>
-            <p className="mt-3 max-w-2xl font-mono-lab text-[12px] leading-5 tracking-wide text-dim">{c.tagline}</p>
+            <p className="mt-3 max-w-2xl font-mono-lab text-[12px] leading-5 tracking-wide text-prose">{c.tagline}</p>
+          </Reveal>
+          <Reveal delay={120} className="mt-5 flex flex-wrap items-center gap-2">
+            <span className="border border-line px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-dim">{country.toUpperCase()}</span>
+            <Link
+              to="/trade-tracker/screener"
+              className="border border-line px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-dim transition-colors hover:border-signal hover:text-signal"
+            >
+              {segment.label}
+            </Link>
+            {marketCapMetric && (
+              <span className="border border-line px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-dim" dir="ltr">
+                MKT CAP {marketCapMetric.values[0]}
+              </span>
+            )}
           </Reveal>
           <Reveal delay={140} className="mt-8">
             <Suspense fallback={<div className="h-[280px] animate-pulse border border-line bg-panel md:h-[320px]" />}>
@@ -98,8 +119,12 @@ export default function CompanyPage() {
       <section>
         <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
           <SectionHead index="01" label="Value chain position" right="WHERE THE MONEY FLOWS" />
+          <Reveal className="mb-6 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-s-2 border-signal ps-4">
+            <span className="font-mono-lab text-[11px] tracking-[0.2em] text-signal">{segment.label}</span>
+            <span className="font-mono-lab text-[12px] tracking-wide text-dim">{segment.note}</span>
+          </Reveal>
           <Reveal>
-            <p className="max-w-2xl font-mono-lab text-[16px] leading-6 tracking-wide text-dim">{c.chain.intro}</p>
+            <p className="max-w-2xl font-mono-lab text-[16px] leading-6 tracking-wide text-prose">{c.chain.intro}</p>
           </Reveal>
           <Reveal delay={80}>
             <div className="mt-8 overflow-x-auto border border-line bg-panel p-1">
@@ -134,9 +159,26 @@ export default function CompanyPage() {
             </Reveal>
             <Reveal delay={160}>
               <div className="font-mono-lab text-[11px] tracking-[0.25em] text-faint">HOW AI IS RESHAPING THE TAM</div>
-              <p className="mt-4 font-mono-lab text-[15px] leading-6 tracking-wide text-dim">{c.chain.aiShift}</p>
+              <p className="mt-4 font-mono-lab text-[15px] leading-6 tracking-wide text-prose">{c.chain.aiShift}</p>
             </Reveal>
           </div>
+          {segmentPeers.length > 0 && (
+            <Reveal delay={200} className="mt-8 border-t border-line pt-6">
+              <div className="font-mono-lab text-[11px] tracking-[0.25em] text-faint">OTHER TICKERS IN THIS SEGMENT</div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {segmentPeers.map((t) => (
+                  <Link
+                    key={t}
+                    to={`/companies/${t}`}
+                    className="border border-line px-2.5 py-1 font-mono-lab text-[12px] tracking-wider text-dim transition-colors hover:border-signal hover:text-signal"
+                    dir="ltr"
+                  >
+                    {t}
+                  </Link>
+                ))}
+              </div>
+            </Reveal>
+          )}
         </div>
       </section>
 

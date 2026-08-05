@@ -196,7 +196,7 @@ export default function PriceChart({
             {GLOSSARY.map((g) => (
               <li key={g.k}>
                 <div className="font-mono-lab text-[10px] tracking-[0.15em] text-dim">{g.k}</div>
-                <div className="mt-1 font-mono-lab text-[10.5px] leading-4 tracking-wide text-faint">{g.v}</div>
+                <div className="mt-1 font-mono-lab text-[10.5px] leading-4 tracking-wide text-dim">{g.v}</div>
               </li>
             ))}
           </ul>

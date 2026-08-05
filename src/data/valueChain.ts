@@ -143,3 +143,79 @@ export function countryOf(ticker: string): string {
   const suffix = ticker.split('.')[1]
   return suffix ? SUFFIX_COUNTRY[suffix] ?? 'Unknown' : 'United States'
 }
+
+const SUFFIX_EXCHANGE: Record<string, string> = {
+  T: 'Tokyo SE',
+  KS: 'Korea Exchange',
+  TW: 'Taiwan SE',
+  SS: 'Shanghai SE',
+  SZ: 'Shenzhen SE',
+  DE: 'Deutsche Börse',
+  AS: 'Euronext Amsterdam',
+  SW: 'SIX Swiss Exchange',
+  ST: 'Nasdaq Stockholm',
+  AX: 'ASX',
+  MI: 'Borsa Italiana',
+  VI: 'Wiener Börse',
+  V: 'TSX Venture',
+}
+
+const SUFFIX_CURRENCY: Record<string, string> = {
+  T: 'JPY',
+  KS: 'KRW',
+  TW: 'TWD',
+  SS: 'CNY',
+  SZ: 'CNY',
+  DE: 'EUR',
+  AS: 'EUR',
+  SW: 'CHF',
+  ST: 'SEK',
+  AX: 'AUD',
+  MI: 'EUR',
+  VI: 'EUR',
+  V: 'CAD',
+}
+
+// US-listed tickers only — primary listing venue, verified individually (not a suffix default).
+const US_EXCHANGE: Record<string, string> = {
+  LRCX: 'NASDAQ', AXTI: 'NASDAQ', AEHR: 'NASDAQ', ATEYY: 'OTC', IREN: 'NASDAQ', WOLF: 'NYSE',
+  KLAC: 'NASDAQ', AAOI: 'NASDAQ', WYFI: 'NASDAQ', CIEN: 'NYSE', FORM: 'NASDAQ', ASML: 'NASDAQ',
+  TTMI: 'NASDAQ', HIVE: 'NASDAQ', CRDO: 'NASDAQ', BE: 'NYSE', RMBS: 'NASDAQ', ALAB: 'NASDAQ',
+  AMAT: 'NASDAQ', MRVL: 'NASDAQ', FN: 'NYSE', CAMT: 'NASDAQ', NVTS: 'NASDAQ', NBIS: 'NASDAQ',
+  RKLB: 'NASDAQ', PENG: 'NASDAQ', CRWV: 'NASDAQ', AMPX: 'NYSE', HYLN: 'NYSE', FCEL: 'NASDAQ',
+  BWEN: 'NASDAQ',
+}
+
+export function exchangeOf(ticker: string): string {
+  const suffix = ticker.split('.')[1]
+  if (!suffix) return US_EXCHANGE[ticker] ?? 'NASDAQ'
+  return SUFFIX_EXCHANGE[suffix] ?? 'Unknown'
+}
+
+export function currencyOf(ticker: string): string {
+  const suffix = ticker.split('.')[1]
+  return suffix ? SUFFIX_CURRENCY[suffix] ?? 'USD' : 'USD'
+}
+
+const CURRENCY_SYMBOL: Record<string, string> = {
+  USD: '$', EUR: '€', JPY: '¥', GBP: '£', CHF: 'CHF ', AUD: 'A$', CAD: 'C$',
+}
+
+// Currencies conventionally quoted without decimal places (no minor-unit subdivision in everyday quotes).
+const ZERO_DECIMAL_CURRENCIES = new Set(['JPY', 'KRW', 'CNY', 'TWD'])
+
+export function formatMoney(value: number, currency: string): string {
+  const decimals = ZERO_DECIMAL_CURRENCIES.has(currency) ? 0 : 2
+  const num = value.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+  const symbol = CURRENCY_SYMBOL[currency]
+  return symbol ? `${symbol}${num}` : `${num} ${currency}`
+}
+
+export function segmentOf(ticker: string): SegmentKey {
+  return SEGMENT_OF[ticker] ?? 'adjacent'
+}
+
+export function segmentInfoOf(ticker: string): { label: string; note: string } {
+  const key = segmentOf(ticker)
+  return SEGMENTS.find((s) => s.key === key) ?? SEGMENTS[SEGMENTS.length - 1]
+}
