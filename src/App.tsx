@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router'
 import Layout from './components/Layout'
 import Home from './pages/Home'
@@ -11,6 +12,10 @@ import TradeTracker from './pages/TradeTracker'
 import Stocks from './pages/Stocks'
 import Crypto from './pages/Crypto'
 import About from './pages/About'
+
+// Company deep dives carry a growing per-ticker dataset — code-split so it
+// only loads when a /companies/:ticker route is actually visited.
+const CompanyPage = lazy(() => import('./pages/Company'))
 
 export default function App() {
   return (
@@ -27,6 +32,14 @@ export default function App() {
         <Route path="/trade-tracker/stocks" element={<Stocks />} />
         <Route path="/trade-tracker/crypto" element={<Crypto />} />
         <Route path="/about" element={<About />} />
+        <Route
+          path="/companies/:ticker"
+          element={
+            <Suspense fallback={null}>
+              <CompanyPage />
+            </Suspense>
+          }
+        />
         <Route path="*" element={<Home />} />
       </Route>
     </Routes>
