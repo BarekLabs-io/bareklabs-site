@@ -2833,4 +2833,336 @@ export const companies: Record<string, Company> = {
   },
   sourceNote: 'Compiled from public market data (GuruFocus, Investing.com, BigGo Finance, company IR summaries) as of August 2026; forward P/E estimates for this name showed unusually wide variance across sources given the pace of 2026 guidance revisions. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
 },
+'000660.KS': {
+  ticker: '000660.KS',
+  name: 'SK Hynix',
+  tagline: 'The world\'s #2 memory maker and NVIDIA\'s dominant HBM supplier — Korea\'s most direct, highest-conviction bet on the AI memory supercycle.',
+  sector: 'TELECOM & TECH',
+  asOf: '2026.08',
+  chain: {
+    intro:
+      'SK Hynix sits at the physical bottleneck of the AI buildout: every high-end GPU needs HBM stacked next to it, and SK Hynix ships more of it than anyone else.',
+    rows: [
+      { level: 'Memory fabrication (DRAM/NAND)', players: 'SK Hynix, Samsung, Micron', position: 'Core business — took #1 global DRAM revenue share in Q2 2026 (26% vs. Micron\'s 25%)', tone: 'core' },
+      { level: 'HBM design + stacking', players: 'SK Hynix, Samsung, Micron', position: 'Dominant share of HBM shipments/revenue (roughly half to ~60%+ depending on quarter and metric)', tone: 'core' },
+      { level: 'Advanced packaging partners', players: 'TSMC (logic base-die collaboration)', position: 'Strategic packaging tie-up for parts of the HBM4 stack', tone: 'indirect' },
+      { level: 'Fabless AI accelerator design', players: 'NVIDIA, AMD, Broadcom', position: 'Direct customers — NVIDIA reportedly allocating roughly two-thirds to 70% of Rubin-platform HBM4 demand to SK Hynix', tone: 'client' },
+      { level: 'AI datacenter / hyperscalers', players: 'Microsoft, Google, Amazon, Meta, Oracle', position: 'End-demand driver, exposure runs through GPU vendors', tone: 'indirect' },
+      { level: 'Upstream equipment/materials', players: 'Lam Research, Applied Materials, Hanmi Semiconductor (TC bonders)', position: 'Suppliers to SK Hynix, not exposure for SK Hynix', tone: 'none' },
+    ],
+    segments: [
+      'DRAM: the majority of revenue and the #1 global revenue share as of Q2 2026 (26%, edging out Micron\'s 25%), driven by both HBM and firm conventional DRAM pricing',
+      'HBM: the growth engine — HBM3E is in full volume, and HBM4 entered mass production in Q2 2026 with yields already approaching mature HBM3E levels; HBM4E samples have shipped to key customers',
+      'NAND: a smaller, more cyclical segment, secondary to the AI narrative',
+      'Q2 2026: revenue ₩79.32T (+257% YoY, +51% QoQ), operating profit ₩60.54T (+557% YoY), operating margin 76% — a record',
+    ],
+    aiShift:
+      'HBM is essentially a 100%-AI-driven product line sold almost entirely into GPU/accelerator stacks. NVIDIA is reported to be allocating close to two-thirds to 70% of its Rubin-platform HBM4 demand to SK Hynix, and the company is the only supplier positioned to ship both HBM3E and HBM4 in volume through the 2026 transition. The July 2026 Nasdaq ADR listing — $26.5B raised, the largest US listing ever by a foreign company — both funds capacity (the Cheongju M15X fab) and signals SK Hynix is increasingly being underwritten by a global AI-investor base rather than priced as a plain cyclical Korean memory stock.',
+  },
+  valuation: {
+    peers: ['000660.KS', '005930.KS', 'MU'],
+    metrics: [
+      { label: 'Price', values: ['₩1,668,000 (Aug 5, 2026)', '₩248,250', '$873.29'] },
+      { label: 'Market cap', values: ['₩1,215.75T (~$833.8B)', '₩1,527.6T (~$1.13T)', '$1.008T'] },
+      { label: 'Trailing P/E', values: ['~16.6x', '~10.9x (computed: price / TTM EPS ₩22,704)', '19.7x'] },
+      { label: 'Forward P/E', values: ['~6.8x', '~6.8x', '~6.1x'] },
+      { label: 'P/B', values: ['~8.0x', '3.64x', 'n/a'] },
+      { label: 'ROE (TTM)', values: ['~61%', '30.8%', '66.6%'] },
+      { label: 'Dividend yield', values: ['0.17%', '0.61%', '0.07%'] },
+      { label: 'Op. margin (Q2 2026)', values: ['76%', 'n/a', 'n/a'] },
+    ],
+    verdictTone: 'low',
+    verdictPoints: [
+      'Forward P/E of ~6.8x sits far below the AI-chip complex (TSMC, NVIDIA trade at multiples several times higher)',
+      'PEG is near zero (~0.08 per several trackers) — earnings growth is outrunning the share-price re-rating',
+      'Trailing P/E (~16.6x) and P/B (~8x) are not cheap in absolute terms — this is "cheap on forward earnings," not "cheap on every metric"',
+    ],
+    justifiedIf: [
+      'HBM4 mass production ramps on schedule and yields keep tracking toward HBM3E maturity',
+      'NVIDIA\'s Rubin-cycle allocation to SK Hynix holds near the reported ~70% level rather than shifting toward Samsung/Micron',
+      'The 76% operating margin proves durable rather than a peak-cycle print',
+    ],
+  },
+  priceMap: {
+    zones: [
+      { tier: 'ideal', range: '₩1,200,000 – ₩1,400,000', rationale: 'A meaningful pullback toward pre-ADR-listing levels; would reset the forward multiple further below peers' },
+      { tier: 'acceptable', range: '₩1,400,000 – ₩1,900,000', rationale: 'Current trading zone — scaling in here accepts post-record-quarter volatility' },
+      { tier: 'expensive', range: '>₩2,400,000', rationale: 'Approaches the June 2026 all-time high (₩2,987,000); little margin for a memory-pricing air pocket' },
+    ],
+    technical: [
+      'All-time high ₩2,987,000 (June 25, 2026)',
+      '52-week low ₩245,000 (pre-AI-supercycle re-rating)',
+      'Stock is +512% over the trailing 12 months per most trackers',
+      'Nasdaq ADR (SKHY) fell ~9% immediately after the record Q2 print — a "sell the news" reaction to profit-structure commentary (long-term HBM contracts constraining near-term flexibility), worth watching as a sentiment tell',
+      'Current price sits well off the June ATH, consolidating post-earnings',
+    ],
+    scenarios: [
+      { label: 'BASE', prob: 50, note: 'HBM4 ramps roughly as guided, DRAM pricing stays firm, shareholder-return policy lands as promised later in 2026 — stock ranges broadly ₩1.4M–₩2.0M over the next 12 months.' },
+      { label: 'BULL', prob: 25, note: 'Rubin-cycle demand exceeds plan, Samsung\'s HBM4 qualification slips further, a buyback/dividend announcement lands well — retests or clears the ₩2.99M ATH.' },
+      { label: 'BEAR', prob: 25, note: 'AI-capex digestion or a memory-pricing correction hits, Samsung/Micron narrow the HBM4 share gap faster than expected, multiple compresses back toward ₩1.0M–₩1.2M.' },
+    ],
+    horizon: '12 months',
+    invalidation: 'Weekly close below ₩1,100,000 (loss of post-Q2-earnings support structure)',
+  },
+  risks: [
+    { risk: 'Memory pricing cyclicality', severity: 'medium', note: 'DRAM/NAND have always been boom-bust; an AI-capex digestion phase would hit pricing even for HBM-heavy mix.' },
+    { risk: 'Customer concentration', severity: 'medium', note: 'NVIDIA is the dominant buyer of HBM; a shift in Rubin-platform allocation toward Samsung or Micron is a real swing factor.' },
+    { risk: 'Competitive catch-up', severity: 'medium', note: 'Samsung has cleared HBM4 qualification hurdles with NVIDIA and AMD after trailing through 2025; Micron already edged ahead in raw DRAM share in one recent quarter (25% vs. SK Hynix\'s 26%).' },
+    { risk: 'Post-run valuation fatigue', severity: 'medium', note: 'Stock is up ~512% in a year; the ADR sold off on the record Q2 print itself — a sign the market is starting to price perfection.' },
+    { risk: 'Capex / execution risk', severity: 'medium', note: 'Heavy buildout (Cheongju M15X and beyond) into HBM4/HBM4E carries yield-ramp and execution risk on an aggressive timeline.' },
+    { risk: 'Geopolitical / export control', severity: 'medium', note: 'US-China chip-tech tensions bracket a Korean supplier serving both an American GPU customer base and a Chinese fab-tool/materials supply chain.' },
+    { risk: 'Shareholder-return uncertainty', severity: 'low', note: 'Buyback/dividend policy was still undecided as of the Nasdaq ADR process (constrained by US securities disclosure rules); a weak announcement could disappoint.' },
+  ],
+  backlog: {
+    visibility: [
+      'HBM4 mass production underway since Q2 2026; HBM4E samples already shipped to key customers, targeting volume production in 2027',
+      'Long-term supply agreements reportedly in place with roughly 10 customers',
+      'Net cash position of ₩69.4T (cash ₩88T) post-ADR gives balance-sheet flexibility for further capacity and/or shareholder returns',
+      'Shareholder-return policy (dividend/buyback specifics) expected to be detailed later in 2026',
+    ],
+    wins: [
+      '$26.5B Nasdaq ADR listing (July 10, 2026) — the largest US share sale ever by a foreign company',
+      'Reported ~two-thirds to 70% share of NVIDIA\'s Rubin-platform HBM4 allocation',
+      '#1 global DRAM revenue share in Q2 2026 (26%)',
+      'Record Q2 2026 operating margin of 76%',
+    ],
+    clients: ['NVIDIA', 'AMD', 'Broadcom (indirect, via custom silicon HBM demand)'],
+    suppliers: ['Lam Research', 'Applied Materials', 'Hanmi Semiconductor (TC bonders)', 'ASML'],
+  },
+  synthesis: {
+    scores: [
+      { criterion: 'Business quality', stars: 5, note: 'Oligopoly memory market structure; SK Hynix leads the highest-value segment (HBM) outright.' },
+      { criterion: 'AI growth exposure', stars: 5, note: 'About as direct as AI-infrastructure exposure gets — HBM is essentially a 100% AI-driven product line.' },
+      { criterion: 'Valuation', stars: 4, note: 'Forward P/E (~6.8x) and PEG (~0.08) are genuinely low for the growth on offer, even after the run.' },
+      { criterion: 'Momentum / entry timing', stars: 2, note: 'Up over 500% in a year; the post-earnings ADR selloff suggests the easy re-rating is largely behind it.' },
+      { criterion: 'Risk', stars: 3, note: 'Cyclicality, customer concentration and resurgent competition are real, partly offset by a strong net-cash balance sheet.' },
+      { criterion: 'Capital returns', stars: 2, note: 'Policy still undefined as of mid-2026 — a near-term unknown, not a current strength.' },
+    ],
+    readLabel: 'STRUCTURALLY CENTRAL TO THE AI MEMORY CYCLE — CHEAP ON FORWARD EARNINGS, NOT ON MOMENTUM',
+    summary:
+      'SK Hynix is the cleanest, most direct AI-infrastructure exposure among the three names here: HBM is overwhelmingly AI-driven demand, and SK Hynix is NVIDIA\'s largest HBM supplier by a wide margin. The valuation paradox is real — forward multiples remain low because earnings have grown even faster than the share price — but the stock has already moved enormously, and capital-return policy and competitive response from Samsung/Micron are the swing factors to watch over the next year.',
+  },
+  sourceNote:
+    'Compiled from SK hynix Q2 2026 earnings materials, Nasdaq ADR listing coverage, and third-party market-data trackers (Investing.com, TradingView, various finance-data aggregators) as of early August 2026. Forward P/E, market cap and 52-week range figures vary somewhat by source and snapshot date given the stock\'s extreme volatility this year — cross-check live quotes before using any number here for a live decision.',
+},
+
+'042700.KS': {
+  ticker: '042700.KS',
+  name: 'Hanmi Semiconductor',
+  tagline: 'Korea\'s dominant TC-bonder maker — the back-end equipment that physically stacks HBM dies, sitting directly in the SK Hynix/Micron/Samsung HBM supply chain.',
+  sector: 'TELECOM & TECH',
+  asOf: '2026.08',
+  chain: {
+    intro:
+      'Note on ticker labeling: 042700.KS is Hanmi Semiconductor, a back-end packaging-equipment maker — not Samsung Electronics (whose real ticker is 005930.KS). This profile covers Hanmi Semiconductor.',
+    rows: [
+      { level: 'Raw materials / components', players: 'Precision servo, vision and bonding-head components (largely sourced, not disclosed in granular detail)', position: 'Not vertically integrated', tone: 'none' },
+      { level: 'Back-end packaging equipment (TC bonders)', players: 'Hanmi Semiconductor, ASMPT, BESI, Kulicke & Soffa', position: 'Core business — historically ~70%+ overall TC-bonder share, reported as high as ~90% specifically in HBM TC bonders', tone: 'core' },
+      { level: 'Memory manufacturers (HBM stacking)', players: 'SK Hynix, Micron, Samsung Electronics', position: 'Direct equipment customers', tone: 'client' },
+      { level: 'Fabless AI accelerator design', players: 'NVIDIA, AMD', position: 'End demand — HBM volumes flow from GPU roadmaps', tone: 'indirect' },
+      { level: 'AI / datacenter', players: 'Hyperscalers', position: 'Indirect end market', tone: 'indirect' },
+    ],
+    segments: [
+      'TC bonders (thermo-compression bonders): the flagship product, used to precisely bond memory dies under heat and pressure during HBM stacking — Hanmi\'s core moat',
+      'FY2025 revenue: ₩576.7B (record), operating margin 43.6%',
+      'Q1 2026: revenue collapsed to ₩50.9B (-65.5% YoY) and operating profit to ₩8.46B (-87.9% YoY) as customer orders air-pocketed during the HBM3E-to-HBM4 transition',
+      'Q2 2026: sharp recovery — revenue and operating profit beat consensus by 8% and 13% respectively; gross margin 62%, operating margin 52%',
+      'Next-generation TC bonder for HBM4/HBM4E slated for launch in 2H 2026',
+    ],
+    aiShift:
+      'Hanmi is a pure-play on the physical bonding step every HBM stack requires. Demand is entirely a function of HBM memory-maker capex and node-transition timing (HBM3E to HBM4), which is why results are lumpy quarter to quarter even as the multi-year trend is clearly up. Micron accounted for 46% of one recent quarter\'s sales and SK hynix has resumed TC-bonder ordering tied to HBM4 (including a ₩44.2B order won in June 2026), underscoring how directly Hanmi rides the same HBM cycle as SK Hynix and Samsung.',
+  },
+  valuation: {
+    peers: ['042700.KS', '0522.HK', 'BESI.AS'],
+    metrics: [
+      { label: 'Price', values: ['₩284,000 (Aug 5, 2026 open)', 'n/a (HKD-denominated)', 'n/a (EUR-denominated)'] },
+      { label: 'Market cap', values: ['~₩25.6T (~$18-19B)', 'HKD ~78-85B', 'EUR ~16-22B'] },
+      { label: 'Trailing P/E', values: ['~68x', 'n/a', 'n/a'] },
+      { label: 'Forward P/E', values: ['~53x', '~46-52x', '~47-56x'] },
+      { label: 'Dividend yield', values: ['~0.3-0.5%', 'n/a', 'n/a'] },
+      { label: 'Op. margin (Q2 2026)', values: ['52%', 'n/a', 'n/a'] },
+      { label: 'Analyst target price', values: ['₩325,000 (bull case, Jul 2026) vs. ₩182,875 (bear case) — wide dispersion', 'n/a', 'n/a'] },
+    ],
+    verdictTone: 'fair',
+    verdictPoints: [
+      'Forward P/E (~53x) is broadly in line with global advanced-packaging peers ASMPT and BESI (~46-56x), despite Hanmi\'s narrower, more concentrated product line',
+      'Stock trades ~33% below its May 2026 all-time high, but analyst targets disagree sharply (₩182,875 to ₩325,000) — the market has not converged on fair value',
+      'Trailing P/E (~68x) reflects the Q1 2026 earnings air-pocket dragging on TTM earnings, not a clean read on run-rate profitability',
+    ],
+    justifiedIf: [
+      'TC-bonder orders keep recovering through 2026 as HBM4 volume ramps broaden across SK Hynix, Micron and (eventually) Samsung',
+      'The 2H 2026 next-generation TC bonder launch defends share against BESI/ASMPT encroachment',
+      'The company\'s own $1.5B 2026 revenue target (vs. ₩576.7B delivered in FY2025) proves directionally achievable, even if not fully met',
+    ],
+  },
+  priceMap: {
+    zones: [
+      { tier: 'ideal', range: '₩180,000 – ₩220,000', rationale: 'Deep pullback zone, closer to pre-2026-rally levels and the more bearish analyst target' },
+      { tier: 'acceptable', range: '₩220,000 – ₩310,000', rationale: 'Current trading range — accepts continued order lumpiness as the price of HBM-equipment pure-play exposure' },
+      { tier: 'expensive', range: '>₩380,000', rationale: 'Approaches the ₩426,000 all-time high — priced for flawless HBM4 ramp execution' },
+    ],
+    technical: [
+      'All-time high ₩426,000 (May 12, 2026)',
+      '52-week low ₩81,400',
+      'Down roughly 33% from the ATH as of early August 2026, including a -14.4% single week',
+      'Chairman Kwak Dong-shin raised his stake to 33.61% with a ₩5B open-market purchase during the earnings slump — an insider-confidence signal worth noting, not a valuation floor',
+    ],
+    scenarios: [
+      { label: 'BASE', prob: 45, note: 'TC-bonder orders keep recovering through 2026 as HBM4 ramps broaden across customers; revenue grows meaningfully but likely falls short of the $1.5B target — stock ranges roughly ₩250,000-₩350,000.' },
+      { label: 'BULL', prob: 25, note: 'The 2H26 next-gen TC bonder wins share, Samsung becomes a large new customer, HBM4 volumes beat plan — stock retests or clears the ₩426,000 ATH.' },
+      { label: 'BEAR', prob: 30, note: 'A Q1-2026-style order air pocket repeats around the next node transition, and/or BESI or ASMPT take further share in hybrid bonding — stock retests ₩150,000-₩180,000.' },
+    ],
+    horizon: '12 months',
+    invalidation: 'Weekly close below ₩180,000',
+  },
+  risks: [
+    { risk: 'Customer concentration', severity: 'high', note: 'A single customer (Micron) accounted for 46% of sales in one recent quarter; SK Hynix and Samsung order timing swings materially move results.' },
+    { risk: 'Order lumpiness around node transitions', severity: 'high', note: 'Q1 2026 revenue fell 65.5% YoY purely on the HBM3E-to-HBM4 order gap — this pattern can recur at each future memory-generation transition.' },
+    { risk: 'Competitive share loss', severity: 'medium', note: 'BESI and ASMPT are gaining share from Korean suppliers (Hanmi and Hanwha) as HBM bonding tolerances tighten.' },
+    { risk: 'Technology-transition risk (hybrid bonding)', severity: 'medium', note: 'A longer-term industry shift toward copper-copper hybrid bonding could eventually erode the addressable market for thermo-compression bonders.' },
+    { risk: 'Valuation dispersion / volatility', severity: 'medium', note: 'Analyst targets span from ₩182,875 to ₩325,000 — an unusually wide range signaling real disagreement on fair value.' },
+    { risk: 'Aggressive growth target', severity: 'medium', note: 'Management\'s $1.5B 2026 revenue goal implies roughly 2.5x+ growth over FY2025\'s record ₩576.7B — a high bar even with HBM4 tailwinds.' },
+    { risk: 'Small-cap liquidity / single-market exposure', severity: 'low', note: 'Concentrated in KRW, on a single equipment category, with a market cap far smaller than global peers ASMPT/BESI.' },
+  ],
+  backlog: {
+    visibility: [
+      'Next-generation TC bonder for HBM4/HBM4E slated for launch in 2H 2026',
+      '2026 company revenue target of $1.5B (~₩2T), versus FY2025 actual of ₩576.7B — an explicit, aggressive management goal, not a guarantee',
+      'Q2 2026 results already beat consensus by 8% (revenue) and 13% (operating profit), signaling the order recovery is underway',
+    ],
+    wins: [
+      '₩44.2B HBM4 TC-bonder order win from SK hynix (June 2026)',
+      'Micron order flow resumed strongly, 46% of one recent quarter\'s sales',
+      'FY2025 record revenue (₩576.7B) and record 43.6% operating margin',
+    ],
+    clients: ['SK Hynix', 'Micron', 'Samsung Electronics (smaller, growing)'],
+    suppliers: ['Precision component and vision-system suppliers (not individually disclosed in public filings)'],
+  },
+  synthesis: {
+    scores: [
+      { criterion: 'Business quality', stars: 4, note: 'Dominant, sticky niche in a critical HBM process step, though a single-product concentration versus more diversified peers.' },
+      { criterion: 'AI growth exposure', stars: 5, note: 'A pure-play on HBM stacking volume — no unrelated business lines diluting the story.' },
+      { criterion: 'Valuation', stars: 3, note: 'Down sharply from the ATH and roughly in line with global peers on forward P/E, but not statistically cheap.' },
+      { criterion: 'Order visibility', stars: 2, note: 'Proven to swing violently quarter to quarter around memory-node transitions — visibility is genuinely poor near transition points.' },
+      { criterion: 'Competitive moat', stars: 3, note: 'Historically dominant TC-bonder share, but BESI and ASMPT are credibly encroaching, especially as bonding precision requirements rise.' },
+      { criterion: 'Risk', stars: 3, note: 'Customer concentration and node-transition lumpiness are real and recurring, not one-off.' },
+    ],
+    readLabel: 'HIGH-CONVICTION HBM EQUIPMENT PURE-PLAY — EXPECT LUMPY QUARTERS',
+    summary:
+      'Hanmi is about as close to a pure-play HBM-equipment bet as exists on the Korean market — it makes the machines that physically stack the dies SK Hynix and Micron ship into NVIDIA\'s supply chain. The business is excellent when node transitions are mid-ramp and brutal when they\'re not, as Q1 2026\'s 65.5% revenue decline demonstrated. Down a third from its ATH with analyst targets that disagree by nearly 2x, this reads as a legitimate but genuinely volatile way to play the HBM equipment cycle — not a steady compounder.',
+  },
+  sourceNote:
+    'Compiled from Hanmi Semiconductor Q1/Q2 2026 earnings coverage (Seoul Economic Daily, BigGo Finance, Asia Business Daily), and third-party data aggregators (stockanalysis.com, TradingView, GuruFocus) as of early August 2026. IMPORTANT CORRECTION: an earlier internal note mislabeled ticker 042700.KS as "Samsung Electronics" — that is incorrect. Samsung Electronics trades under 005930.KS; 042700.KS is Hanmi Semiconductor, and all data in this profile is about Hanmi. Valuation figures (market cap, P/E) vary noticeably across sources/dates given the stock\'s volatility — cross-check before live use.',
+},
+
+'000150.KS': {
+  ticker: '000150.KS',
+  name: 'Doosan Corporation',
+  tagline: 'An industrial holding company (Bobcat, Robotics, electronic materials) making a real but still-early pivot toward semiconductors via a pending SK Siltron acquisition — priced well ahead of what it has actually delivered.',
+  sector: 'TELECOM & TECH',
+  asOf: '2026.08',
+  chain: {
+    intro:
+      'Doosan Corporation is primarily an industrial conglomerate holding company, not a semiconductor company. Its AI/chip exposure today is real but narrow (electronic materials, chip testing); a pending wafer-maker acquisition would expand that exposure materially, but has not closed yet.',
+    rows: [
+      { level: 'Silicon wafers (post-close)', players: 'SK Siltron (pending 70.6% acquisition, expected to close ~Jan 2027)', position: 'Not yet consolidated — deal signed July 31, 2026, not closed', tone: 'growth' },
+      { level: 'Electronic materials (CCL substrates)', players: 'Doosan Corporation Electro-Materials BG', position: 'Core, wholly-owned business unit — supplies copper-clad laminate used in semiconductor substrate packaging, including to Nvidia-linked supply chains', tone: 'core' },
+      { level: 'System-semiconductor back-end testing', players: 'Doosan Tesna (38.7% stake)', position: 'Minority-but-controlling stake in Korea\'s #1 chip-testing firm', tone: 'core' },
+      { level: 'Construction/industrial equipment', players: 'Doosan Bobcat, Doosan Mottrol', position: 'The largest consolidated revenue driver — not semiconductor/AI-related', tone: 'none' },
+      { level: 'Collaborative robotics', players: 'Doosan Robotics', position: 'Growing but still operating-loss-making; sells into general industrial automation, not chip-specific', tone: 'none' },
+      { level: 'Power/energy equipment', players: 'Doosan Enerbility (separately listed affiliate stake)', position: 'Equity-method affiliate, not a consolidated semiconductor exposure', tone: 'none' },
+    ],
+    segments: [
+      'Doosan Bobcat: by far the largest revenue segment — Q2 2026 revenue ₩2.45T (~$1.7B), operating profit ₩291.7B (+43% YoY, partly on a US tariff refund) — construction/compact equipment, unrelated to AI/semiconductors',
+      'Electro-Materials BG: CCL for semiconductor substrates; posted a record ~30% operating margin in an early-2025 quarter on AI-linked demand; guided to ₩1.5T in 2H 2026 sales',
+      'Doosan Robotics: Q2 2026 revenue ₩17.7B (+290% YoY), operating loss narrowed to -₩14.4B — still unprofitable',
+      'Doosan Tesna: system-semiconductor back-end testing, majority-controlled since 2022',
+      'Consolidated Q2 2026: revenue ₩5,586B (+5.0% YoY, +11.0% QoQ), operating profit ₩488B (+37.8% YoY) — an implied consolidated operating margin of ~8.7%, well below the AI-linked sub-segments\' own margins because Bobcat and other non-AI units dominate the total',
+    ],
+    aiShift:
+      'Be precise about what is and isn\'t AI exposure here: Electro-Materials (CCL substrates) and Doosan Tesna (chip testing) are real, AI/semiconductor-linked businesses, but together they are a minority of consolidated revenue dominated by Doosan Bobcat\'s construction-equipment business. The genuinely transformative event is the pending SK Siltron acquisition — a 70.6% stake for ₩2.3T (~$1.6B), signed July 31, 2026 — which would make Doosan a top-tier global silicon/SiC wafer supplier to Samsung, SK Hynix, Intel, Micron and TSMC, with a stated ambition of ₩3T in wafer sales by 2031 and a #2 global memory-wafer-supplier position. As of August 2026 this deal has NOT closed (expected close ~January 2027), and the remaining 29.4% Siltron stake held personally by SK Chairman Chey Tae-won is still a separate, unresolved negotiation. Until close, Doosan\'s "semiconductor pivot" is a narrative the stock has already priced in more than a delivered financial reality.',
+  },
+  valuation: {
+    peers: ['000150.KS', '034730.KS'],
+    metrics: [
+      { label: 'Price', values: ['₩1,046,000 (Jul 28, 2026)', '₩467,000 (Jul 30, 2026)'] },
+      { label: 'Market cap', values: ['~₩18.7T (~$13.6B)', '~$25.3B (~₩34.7T)'] },
+      { label: 'Trailing P/E', values: ['~230x-620x (sources diverge widely — thin consolidated net income relative to market cap)', 'n/a'] },
+      { label: 'P/S', values: ['0.64x', 'n/a'] },
+      { label: 'Op. margin (Q2 2026, consolidated)', values: ['~8.7% (computed: ₩488B / ₩5,586B)', 'n/a'] },
+      { label: 'Revenue growth (Q2 2026 YoY)', values: ['+5.0%', 'n/a'] },
+    ],
+    verdictTone: 'high',
+    verdictPoints: [
+      'Trailing P/E readings in the hundreds (sources range roughly 230x-620x) indicate the stock is priced almost entirely on the semiconductor-transformation narrative, not on delivered consolidated earnings',
+      'Consolidated operating margin (~8.7%) is a low-single-digit-industrial-conglomerate margin, not a semiconductor-company margin — the AI-linked segments (Electro-Materials, Tesna) are real but still small relative to Bobcat',
+      'The stock is already down roughly 55-58% from its 2026 all-time high (₩2,489,000), suggesting the market has partially, but not fully, walked back the initial re-rating on Siltron deal news',
+    ],
+    justifiedIf: [
+      'The SK Siltron acquisition closes on schedule (~January 2027) without regulatory delay or a dilutive financing structure',
+      'Doosan successfully negotiates the remaining 29.4% Siltron stake from Chey Tae-won, giving it full control',
+      'Electro-Materials and Tesna keep growing fast enough, and Bobcat/Robotics stay healthy enough, to make the "AI infrastructure conglomerate" story credible on delivered numbers, not just deal announcements',
+    ],
+  },
+  priceMap: {
+    zones: [
+      { tier: 'ideal', range: '₩600,000 – ₩800,000', rationale: 'Near pre-Siltron-speculation levels; would reflect a real reset of the transformation premium' },
+      { tier: 'acceptable', range: '₩800,000 – ₩1,300,000', rationale: 'Current trading zone — still carries meaningful deal-completion and integration risk' },
+      { tier: 'expensive', range: '>₩1,800,000', rationale: 'Approaches prior 2026 highs; priced for a flawless Siltron close and integration with no execution slippage' },
+    ],
+    technical: [
+      'All-time high ₩2,489,000 (2026, on Siltron deal speculation)',
+      '52-week low ₩468,000',
+      'Stock jumped over 5% on Dec 24, 2025 when financing-structure uncertainty (treasury shares vs. a rights offering) was resolved — a reminder of how deal-mechanics headlines move this name',
+      'Currently trading well off the 2026 high, reflecting the gap between the SPA signing (July 31, 2026) and the actual deal close (~January 2027)',
+    ],
+    scenarios: [
+      { label: 'BASE', prob: 45, note: 'The SK Siltron deal closes roughly on schedule (~Jan 2027) without major regulatory friction; Electro-Materials and Bobcat keep delivering — stock consolidates broadly in the ₩800,000-₩1,300,000 range awaiting Siltron consolidation.' },
+      { label: 'BULL', prob: 20, note: 'Integration executes cleanly, Doosan secures the remaining 29.4% Siltron stake from Chey Tae-won, wafer sales trend ahead of the ₩3T/2031 target — re-rate back toward 2026 highs.' },
+      { label: 'BEAR', prob: 35, note: 'Regulatory delay, financing/dilution overhang, or a Bobcat demand slowdown (North American construction cycle, tariff policy) reasserts the conglomerate discount — retest of ₩600,000-₩700,000.' },
+    ],
+    horizon: '12-18 months (deal close alone is not expected until ~January 2027)',
+    invalidation: 'Weekly close below ₩600,000',
+  },
+  risks: [
+    { risk: 'SK Siltron deal completion risk', severity: 'high', note: 'SPA signed July 31, 2026 but close isn\'t expected until ~January 2027; regulatory approvals and the separate negotiation for Chey Tae-won\'s 29.4% stake are both still open.' },
+    { risk: 'Valuation far ahead of delivered earnings', severity: 'high', note: 'Trailing P/E in the hundreds reflects a stock priced on a semiconductor-transformation story, not on consolidated fundamentals that remain dominated by industrial/construction equipment.' },
+    { risk: 'Semiconductor exposure still a minority of revenue', severity: 'medium', note: 'Electro-Materials and Doosan Tesna are real but small next to Doosan Bobcat; Siltron isn\'t consolidated yet — don\'t mistake the narrative for the current numbers.' },
+    { risk: 'Financing / dilution risk', severity: 'medium', note: 'Funding the ₩2.3T Siltron purchase already moved the stock on treasury-share/rights-offering speculation in December 2025; how the remaining stake and integration are financed remains a live question.' },
+    { risk: 'Conglomerate / chaebol governance complexity', severity: 'medium', note: 'Capital allocation spans Bobcat, Robotics, Electro-Materials, an Enerbility equity stake, Tesna, and soon Siltron — cross-holding and related-party structures are typical chaebol-governance considerations.' },
+    { risk: 'Doosan Bobcat cyclicality', severity: 'medium', note: 'The largest revenue segment is exposed to North American construction-equipment demand and tariff policy; the Q2 2026 profit beat was partly a one-off tariff refund, not pure organic growth.' },
+    { risk: 'Doosan Robotics still loss-making', severity: 'low', note: 'Revenue is growing fast (+290% YoY) but the segment remains operating-loss-negative, a drag rather than a contributor today.' },
+  ],
+  backlog: {
+    visibility: [
+      'SK Siltron SPA signed July 31, 2026 for a 70.6% stake at ₩2.3T; close targeted ~January 2027',
+      'Stated ambition: ₩3T in Siltron wafer sales by 2031 and a #2 global memory-wafer-supplier position',
+      'Electro-Materials BG guided to ₩1.5T in 2H 2026 sales on AI/semiconductor demand and new facility ramp-up',
+      'Remaining 29.4% Siltron stake (held by SK Chairman Chey Tae-won) is a separate, unresolved negotiation Doosan intends to pursue',
+    ],
+    wins: [
+      'SK Siltron acquisition agreement — Doosan\'s first "megadeal" since the 2007 Bobcat acquisition',
+      'Electro-Materials BG record ~30% operating margin quarter on AI-linked CCL demand (including Nvidia-linked shipments)',
+      'Doosan Bobcat Q2 2026 operating profit +43% YoY',
+      'Doosan Robotics Q2 2026 revenue +290% YoY on large new orders and the ONEXIA acquisition',
+    ],
+    clients: ['Nvidia (Electro-Materials CCL demand)', 'Samsung, SK Hynix, Intel, Micron, TSMC (future SK Siltron wafer customers, post-close)'],
+    suppliers: ['Copper and glass-fiber inputs (Electro-Materials)', 'Component/hydraulics suppliers to Doosan Bobcat (non-semiconductor)'],
+  },
+  synthesis: {
+    scores: [
+      { criterion: 'Business quality', stars: 3, note: 'Solid industrial businesses (Bobcat) alongside a still-loss-making robotics unit and small high-margin electronic-materials niche — a mixed portfolio, not a focused compounder.' },
+      { criterion: 'Semiconductor exposure today', stars: 2, note: 'Real (Electro-Materials, Tesna) but genuinely a minority of consolidated revenue; don\'t overstate it.' },
+      { criterion: 'Semiconductor exposure post-Siltron (if closed)', stars: 4, note: 'Would meaningfully reposition the group as a global wafer supplier — but this is a 2027-and-beyond outcome, not a current fact.' },
+      { criterion: 'Valuation', stars: 1, note: 'Trailing multiples in the hundreds price in a transformation that hasn\'t closed yet, let alone been integrated.' },
+      { criterion: 'Deal/execution risk', stars: 2, note: 'Regulatory approval, the remaining 29.4% stake negotiation, and financing structure are all still open questions.' },
+      { criterion: 'Momentum', stars: 2, note: 'Down ~55-58% from the 2026 all-time high, reflecting a cooling of the initial re-rating as the market waits for the deal to actually close.' },
+    ],
+    readLabel: 'PRE-TRANSFORMATION HOLDING COMPANY — SEMICONDUCTOR STORY IS MOSTLY A 2027+ EVENT',
+    summary:
+      'Doosan Corporation is, today, primarily a construction-equipment and industrial holding company with a small but genuine semiconductor-materials/testing sliver (Electro-Materials, Doosan Tesna). The pending SK Siltron acquisition is a real and significant strategic pivot — if it closes as planned around January 2027 and the remaining stake gets resolved, it would make Doosan a legitimate global wafer supplier. But as of August 2026 that deal has not closed, the semiconductor businesses remain a minority of consolidated revenue, and the stock\'s extreme trailing multiples suggest the market has already paid up for a transformation that is still, mechanically, in progress rather than done.',
+  },
+  sourceNote:
+    'Compiled from Doosan Corporation Q1/Q2 2026 earnings releases, Seoul Economic Daily, Korea JoongAng Daily, The Korea Times and Korea Herald coverage of the SK Siltron transaction, and third-party data aggregators (Morningstar, stockanalysis.com) as of early August 2026. P/E and market-cap figures vary substantially across sources given thin/volatile consolidated earnings — treat the trailing P/E figures here as directionally indicative ("very expensive on current earnings"), not precise, and cross-check before live use. The SK Siltron deal was signed but not yet closed as of this writing.',
+},
 }
