@@ -1,8 +1,12 @@
+import { lazy, Suspense } from 'react'
 import { useParams, Link } from 'react-router'
 import { Reveal } from '@/components/lab'
-import { PageHero, SectionHead } from '@/components/Layout'
+import { SectionHead } from '@/components/Layout'
 import { cn } from '@/lib/utils'
 import { companies, type Risk, type ChainRow } from '@/data/companies'
+import { parseMetricValue } from '@/lib/priceSeries'
+
+const PriceChart = lazy(() => import('@/components/PriceChart'))
 
 const CHAIN_TONE: Record<ChainRow['tone'], string> = {
   core: 'text-signal',
@@ -61,15 +65,34 @@ export default function CompanyPage() {
   }
 
   const c = company
+  const priceMetric = c.valuation.metrics.find((m) => /^price/i.test(m.label))
+  const currentPrice = parseMetricValue(priceMetric?.values[0]) ?? 100
 
   return (
     <>
-      <PageHero
-        code={`COMPANY DEEP DIVE — ${c.ticker} · AS OF ${c.asOf}`}
-        title={c.name}
-        serif={c.tagline.split(' ').slice(0, 3).join(' ')}
-        desc={c.tagline.toUpperCase()}
-      />
+      <section className="lab-grid-fine relative border-b border-line pt-28 pb-10 md:pt-32">
+        <div className="mx-auto max-w-[1440px] px-5 md:px-10">
+          <Reveal>
+            <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">
+              COMPANY DEEP DIVE — {c.ticker} · {c.sector} · AS OF {c.asOf}
+            </div>
+          </Reveal>
+          <Reveal delay={60}>
+            <h1 className="mt-3 flex flex-wrap items-baseline gap-3">
+              <span className="text-3xl font-medium tracking-tight md:text-4xl">{c.name}</span>
+              <span className="font-mono-lab text-sm text-faint" dir="ltr">{c.ticker}</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={100}>
+            <p className="mt-3 max-w-2xl font-mono-lab text-[12px] leading-5 tracking-wide text-dim">{c.tagline}</p>
+          </Reveal>
+          <Reveal delay={140} className="mt-8">
+            <Suspense fallback={<div className="h-[280px] animate-pulse border border-line bg-panel md:h-[320px]" />}>
+              <PriceChart ticker={c.ticker} currentPrice={currentPrice} summary={c.priceMap.technical} />
+            </Suspense>
+          </Reveal>
+        </div>
+      </section>
 
       {/* ---- value chain ---- */}
       <section>
