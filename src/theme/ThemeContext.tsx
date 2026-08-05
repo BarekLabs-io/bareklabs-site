@@ -8,7 +8,7 @@ const Ctx = createContext<ThemeCtx>({ theme: 'dark', toggle: () => {} })
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = localStorage.getItem('barek-theme')
-    return saved === 'light' ? 'light' : 'dark'
+    return saved === 'dark' ? 'dark' : 'light'
   })
 
   useEffect(() => {

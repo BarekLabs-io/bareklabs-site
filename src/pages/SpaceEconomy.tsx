@@ -15,12 +15,14 @@ export default function SpaceEconomy() {
         <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
           <SectionHead index="REPORT" label="INTERACTIVE EDITION" right="SPCX · RKLB · ASTS" />
           <Reveal>
-            <div className="overflow-hidden border border-line bg-card2">
-              <iframe
-                src="/research/new-space-economy/"
-                title="The New Space Economy — interactive sector note"
-                className="block h-[86vh] w-full bg-white"
-              />
+            <div className="border border-line bg-card2 p-3 md:p-6">
+              <div className="overflow-hidden rounded-sm shadow-[0_30px_80px_rgba(0,0,0,0.55)]">
+                <iframe
+                  src="/research/new-space-economy/"
+                  title="The New Space Economy — interactive sector note"
+                  className="block h-[86vh] w-full bg-white"
+                />
+              </div>
             </div>
           </Reveal>
           <Reveal className="mt-6 flex items-center justify-between gap-4 font-mono-lab text-[10px] tracking-[0.2em] text-dim">

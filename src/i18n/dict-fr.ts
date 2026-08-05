@@ -16,7 +16,6 @@ export const fr: Dict = {
       insights: { label: 'ANALYSES', note: 'Notes & lectures de recherche' },
       ideas: { label: 'IDÉES D’INVESTISSEMENT', note: 'Des thèses avec preuves' },
       chain: { label: 'CHAÎNE DE VALEUR IA', note: 'Des électrons aux tokens' },
-      spaceEconomy: { label: 'NOUVELLE ÉCONOMIE SPATIALE', note: 'SPCX, RKLB, ASTS — note interactive' },
       stocks: { label: 'ACTIONS', note: 'Registre actions, en direct' },
       crypto: { label: 'CRYPTO', note: 'Registre actifs numériques' },
     },
@@ -52,8 +51,8 @@ export const fr: Dict = {
   },
   home: {
     tag: 'BAREK LABS / TERMINAL DE RECHERCHE v0.4',
-    hero1: 'LE SIGNAL',
-    hero2: 'DU MARCHÉ',
+    hero1: 'RECHERCHE &',
+    hero2: 'SIGNAL DU MARCHÉ',
     hero3: 'DÉCODÉ.',
     heroDesc:
       'UN LABO FINANCE & TECH INDÉPENDANT. NOUS PUBLIONS DE LA RECHERCHE, CONSTRUISONS DES SIGNAUX ET SUIVONS L’EXÉCUTION — EN TOUTE TRANSPARENCE, AVEC LES PREUVES.',
@@ -61,7 +60,7 @@ export const fr: Dict = {
     cornerFeed: 'FLUX : TEMPS RÉEL / DIFFÉRÉ MIXTE',
     manifesto: {
       label: '§ MANIFESTE',
-      meta: 'CRÉÉ EN 2026\nCASABLANCA / À DISTANCE\nINDÉPENDANT, AUTOFINANCÉ',
+      meta: 'CRÉÉ EN 2026\nPARIS / DUBAÏ / TUNIS\nINDÉPENDANT, AUTOFINANCÉ',
       big1: 'La plupart du bruit de marché est ',
       big1Accent: 'curable',
       big2: '. Nous construisons les instruments — recherche, signaux, journaux — qui séparent l’information de l’',
@@ -158,11 +157,12 @@ export const fr: Dict = {
     hero: {
       code: '01.A / ANALYSE — ANALYSES',
       title: 'Analyses',
-      serif: 'archive',
+      serif: '',
       desc: 'DES LECTURES COURTES ET DENSES. CHAQUE NOTE PORTE UN SCORE DE CONFIANCE — RAPPEL QUE LA CONNAISSANCE EST UNE PROBABILITÉ, PAS UNE POSTURE.',
     },
-    filters: ['TOUT', 'MACRO', 'STRUCTURE', 'FLUX', 'CRYPTO'],
+    filters: ['TOUT', 'MACRO', 'STRUCTURE', 'FLUX', 'CRYPTO', 'SECTEUR'],
     notes: [
+      { d: '2026.08.04', tag: 'SECTEUR', t: 'La nouvelle économie spatiale : SPCX, RKLB, ASTS — reprix en public', read: '18', conf: 80, to: '/analysis/space-economy' },
       { d: '2026.08.03', tag: 'STRUCTURE', t: 'Cycles de liquidité sur les places frontières : une autopsie par la largeur', read: '9', conf: 86 },
       { d: '2026.07.30', tag: 'MACRO', t: 'Quand le dirham se stabilise : inflation importée et question du carry', read: '7', conf: 74 },
       { d: '2026.07.27', tag: 'FLUX', t: 'Le filet d’allocations étrangères : lire les données de conservation que personne ne trace', read: '6', conf: 81 },
@@ -172,7 +172,7 @@ export const fr: Dict = {
       { d: '2026.07.09', tag: 'FLUX', t: 'Paniers de création d’ETF : le flux silencieux sous le flux bruyant', read: '5', conf: 83 },
       { d: '2026.07.02', tag: 'CRYPTO', t: 'Régimes de taux de financement : séparer la chaleur du levier de la vraie demande', read: '12', conf: 72 },
     ],
-    head: 'L’archive',
+    head: 'Les notes',
     notesUnit: 'NOTES',
     readUnit: 'MIN',
     confidenceNote:
@@ -341,9 +341,13 @@ export const fr: Dict = {
       title: 'Souk',
       serif: 'signal',
       desc: 'UNE LECTURE QUOTIDIENNE DES MARCHÉS RÉGIONAUX. LARGEUR, FLUX ET ANOMALIES — DISTILLÉS, SCORÉS ET HORODATÉS. MIS À JOUR À CHAQUE CLÔTURE.',
+      welcome1: 'Bienvenue dans ',
+      welcomeAccent: 'le souk',
+      welcome2: ' — votre lecture des actions cotées et des options, marché par marché.',
       nextUpdate: 'PROCHAINE MÀJ : CLÔTURE + 30 MIN',
     },
     gaugeLabel: 'SIGNAL COMPOSITE — CONSTRUCTIF',
+    methodNote: 'MOYENNE PONDÉRÉE DES SIX COMPOSANTES CI-DESSOUS — LARGEUR ET FLUX ÉTRANGER PÈSENT LE PLUS, LES ALERTES D’ANOMALIE EN PÉNALITÉ. PAS UNE BOÎTE NOIRE.',
     read: {
       title1: 'La lecture du jour :',
       title2: 'constructive, avec une touche de compression.',
@@ -475,7 +479,7 @@ export const fr: Dict = {
     },
     toc: { founder: 'FONDATEUR', story: 'HISTOIRE', principles: 'PRINCIPES', contact: 'CONTACT', onThisPage: 'SUR CETTE PAGE' },
     facts: {
-      hq: 'SIÈGE — CASABLANCA, MAROC',
+      hq: 'SIÈGE — PARIS / DUBAÏ / TUNIS',
       ops: 'OPÉRATIONS — À DISTANCE / MONDIAL',
       status: 'STATUT — INDÉPENDANT, AUTOFINANCÉ',
       conflicts: 'CONFLITS — AUCUN À DÉCLARER',

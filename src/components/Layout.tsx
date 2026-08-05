@@ -42,7 +42,6 @@ function useNav(): NavItem[] {
         { to: '/analysis/insights', label: t.nav.sub.insights.label, note: t.nav.sub.insights.note },
         { to: '/analysis/ideas', label: t.nav.sub.ideas.label, note: t.nav.sub.ideas.note },
         { to: '/analysis/ai-value-chain', label: t.nav.sub.chain.label, note: t.nav.sub.chain.note },
-        { to: '/analysis/space-economy', label: t.nav.sub.spaceEconomy.label, note: t.nav.sub.spaceEconomy.note },
       ],
     },
     { to: '/souk-signal', label: t.nav.soukSignal },
@@ -234,8 +233,8 @@ function DesktopNavItem({ n }: { n: NavItem }) {
 
       {/* dropdown */}
       <div className="invisible absolute start-1/2 top-full z-50 -translate-x-1/2 pt-3 opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 rtl:translate-x-1/2">
-        <div className="min-w-[240px] border border-line bg-tape shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
-          <div className="border-b border-line px-5 py-2.5 font-mono-lab text-[8px] tracking-[0.3em] text-faint">
+        <div className="min-w-[280px] border border-line bg-tape shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+          <div className="whitespace-nowrap border-b border-line px-5 py-2.5 font-mono-lab text-[8px] tracking-[0.3em] text-faint">
             {n.label} / {t.nav.subSections}
           </div>
           {n.children.map((c) => (
