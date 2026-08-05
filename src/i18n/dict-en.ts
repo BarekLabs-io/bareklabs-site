@@ -16,6 +16,7 @@ export const en = {
       chain: { label: 'AI VALUE CHAIN', note: 'From electrons to tokens' },
       stocks: { label: 'STOCKS', note: 'Equity ledger, live' },
       crypto: { label: 'CRYPTO', note: 'Digital assets ledger' },
+      screener: { label: 'SCREENER', note: 'Value chain, filterable' },
     },
   },
   tape: {
@@ -33,7 +34,7 @@ export const en = {
     operational: 'ALL FEEDS OPERATIONAL',
     sitemap: 'SITEMAP',
     subSections: 'SUB-SECTIONS',
-    subLinks: { insights: 'INSIGHTS', ideas: 'IDEAS', stocks: 'STOCKS', crypto: 'CRYPTO' },
+    subLinks: { insights: 'INSIGHTS', ideas: 'IDEAS', stocks: 'STOCKS', crypto: 'CRYPTO', screener: 'SCREENER' },
     protocol: 'PROTOCOL',
     protocolText: 'RESEARCH FIRST. EXECUTION LATER. NOTHING ON THIS SITE CONSTITUTES FINANCIAL ADVICE.',
     copyright: '© 2026 BAREK LABS — ALL SIGNALS RESERVED',

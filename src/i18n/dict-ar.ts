@@ -18,6 +18,7 @@ export const ar: Dict = {
       chain: { label: 'سلسلة قيمة الذكاء الاصطناعي', note: 'من الإلكترونات إلى الرموز' },
       stocks: { label: 'الأسهم', note: 'سجل الأسهم، مباشر' },
       crypto: { label: 'العملات الرقمية', note: 'سجل الأصول الرقمية' },
+      screener: { label: 'الفارز', note: 'سلسلة القيمة، قابلة للتصفية' },
     },
   },
   tape: {
@@ -35,7 +36,7 @@ export const ar: Dict = {
     operational: 'جميع التغذيات تعمل',
     sitemap: 'خريطة الموقع',
     subSections: 'أقسام فرعية',
-    subLinks: { insights: 'الرؤى', ideas: 'الأفكار', stocks: 'الأسهم', crypto: 'العملات الرقمية' },
+    subLinks: { insights: 'الرؤى', ideas: 'الأفكار', stocks: 'الأسهم', crypto: 'العملات الرقمية', screener: 'الفارز' },
     protocol: 'البروتوكول',
     protocolText: 'البحث أولاً. التنفيذ لاحقاً. لا شيء في هذا الموقع يشكل نصيحة مالية.',
     copyright: '© 2026 BAREK LABS — جميع الإشارات محفوظة',

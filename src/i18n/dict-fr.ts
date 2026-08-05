@@ -18,6 +18,7 @@ export const fr: Dict = {
       chain: { label: 'CHAÎNE DE VALEUR IA', note: 'Des électrons aux tokens' },
       stocks: { label: 'ACTIONS', note: 'Registre actions, en direct' },
       crypto: { label: 'CRYPTO', note: 'Registre actifs numériques' },
+      screener: { label: 'SCREENER', note: 'Chaîne de valeur, filtrable' },
     },
   },
   tape: {
@@ -35,7 +36,7 @@ export const fr: Dict = {
     operational: 'TOUS LES FLUX OPÉRATIONNELS',
     sitemap: 'PLAN DU SITE',
     subSections: 'SOUS-SECTIONS',
-    subLinks: { insights: 'ANALYSES', ideas: 'IDÉES', stocks: 'ACTIONS', crypto: 'CRYPTO' },
+    subLinks: { insights: 'ANALYSES', ideas: 'IDÉES', stocks: 'ACTIONS', crypto: 'CRYPTO', screener: 'SCREENER' },
     protocol: 'PROTOCOLE',
     protocolText: 'LA RECHERCHE D’ABORD. L’EXÉCUTION ENSUITE. RIEN SUR CE SITE NE CONSTITUE UN CONSEIL FINANCIER.',
     copyright: '© 2026 BAREK LABS — TOUS LES SIGNAUX RÉSERVÉS',

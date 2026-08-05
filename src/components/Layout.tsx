@@ -51,6 +51,7 @@ function useNav(): NavItem[] {
       children: [
         { to: '/trade-tracker/stocks', label: t.nav.sub.stocks.label, note: t.nav.sub.stocks.note },
         { to: '/trade-tracker/crypto', label: t.nav.sub.crypto.label, note: t.nav.sub.crypto.note },
+        { to: '/trade-tracker/screener', label: t.nav.sub.screener.label, note: t.nav.sub.screener.note },
       ],
     },
     { to: '/about', label: t.nav.about },
@@ -405,6 +406,7 @@ export default function Layout() {
                 <li><Link to="/analysis/ideas" className="font-mono-lab text-[11px] tracking-wider text-dim transition-colors hover:text-signal">{t.footer.subLinks.ideas}</Link></li>
                 <li><Link to="/trade-tracker/stocks" className="font-mono-lab text-[11px] tracking-wider text-dim transition-colors hover:text-signal">{t.footer.subLinks.stocks}</Link></li>
                 <li><Link to="/trade-tracker/crypto" className="font-mono-lab text-[11px] tracking-wider text-dim transition-colors hover:text-signal">{t.footer.subLinks.crypto}</Link></li>
+                <li><Link to="/trade-tracker/screener" className="font-mono-lab text-[11px] tracking-wider text-dim transition-colors hover:text-signal">{t.footer.subLinks.screener}</Link></li>
               </ul>
             </div>
             <div className="md:col-span-3">
