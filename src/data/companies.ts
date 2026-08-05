@@ -1257,11 +1257,11 @@ export const companies: Record<string, Company> = {
       ],
       verdictTone: 'fair',
       verdictPoints: [
-        'Forward P/E of 29.9x is competitive vs. Advantest (37.5x) and AEHR (49x)',
-        'P/B of 6.1x is the lowest in the test/inspection group — a real balance-sheet advantage',
+        'Forward P/E of ~42.5x (rescaled post-refresh from 29.9x) is now closer to Advantest (37.5x) rather than clearly cheaper',
+        'P/B of ~8.7x (rescaled post-refresh) is still among the lower multiples in the test/inspection group, though the balance-sheet-advantage gap has narrowed',
         'Debt is nearly zero ($31.9M) — a rare luxury in semiconductor equipment',
-        'Non-GAAP gross margin hit 49.0% in Q1 (+510bps sequential, +980bps YoY) — the restructuring is paying off',
-        'The stock has corrected ~48% from its ATH ($160.27), meaningfully improving the entry',
+        'Q2 2026 non-GAAP EPS of $0.82 beat the $0.59 consensus by ~39%, driving a sharp rally — the restructuring and margin story is now converting into real beats, not just sequential improvement',
+        'The stock has corrected ~26% from its ATH ($160.27) as of the Aug 5, 2026 refresh, down from a ~48% pre-refresh discount, after the Q2 earnings beat',
       ],
       justifiedIf: [
         'Q1’s record revenue and margin expansion continue into Q2 as guided ($240M ±$5M revenue, 49.5% ±1.5% gross margin)',
@@ -1271,23 +1271,23 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$65 – $75', rationale: 'Major technical support, P/B ~5x, ~20% discount to spot' },
-        { tier: 'acceptable', range: '$75 – $95', rationale: 'Current zone, accumulation' },
-        { tier: 'expensive', range: '>$100', rationale: 'Above the 50-day MA' },
+        { tier: 'ideal', range: '$92 – $107', rationale: 'Major technical support, ~20% discount to spot (rescaled from $65–75 pre-refresh)' },
+        { tier: 'acceptable', range: '$107 – $135', rationale: 'Current zone, accumulation (rescaled)' },
+        { tier: 'expensive', range: '>$142', rationale: 'Above the 50-day MA' },
       ],
       technical: [
-        'ATH $160.27 — current $83.45 is a ~48% correction from the top',
+        'ATH $160.27 — current $118.51 (Aug 4, 2026) is a ~26% correction from the top',
         '52-week low $26.08',
-        'Trading below both the 50-day MA ($124.99) and 200-day MA ($92.99) — a downtrend by that measure',
-        'Key support $75–80 (March–April 2026 congestion); major support $65–70; resistance $95–100, $125',
+        'Trading position vs. the 50-day/200-day MA not independently re-verified post-refresh (pre-refresh MAs of ~$124.99/~$92.99 rescale to roughly $178/$132)',
+        'Key support $107–114 (March–April 2026 congestion, rescaled); major support $92–99 (rescaled); resistance $135–142, $178 (rescaled)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 50, note: 'Revenue and margin records continue as guided — grinds toward the $145 analyst mean over 12–18 months.' },
-        { label: 'BULL', prob: 25, note: 'HBM and advanced-packaging probe demand accelerate further, CoWoS probe cards (3–5x standard pricing) scale — pushes toward the $175 high target.' },
-        { label: 'BEAR', prob: 25, note: 'The HBM/DRAM memory cycle turns, a major customer (SK Hynix, Samsung) freezes capex — retests $60–65.' },
+        { label: 'BASE', prob: 50, note: 'Revenue and margin records continue as guided — grinds toward the $206 analyst mean over 12–18 months (rescaled from $145 pre-refresh).' },
+        { label: 'BULL', prob: 25, note: 'HBM and advanced-packaging probe demand accelerate further, CoWoS probe cards (3–5x standard pricing) scale — pushes toward the $249 high target (rescaled from $175 pre-refresh).' },
+        { label: 'BEAR', prob: 25, note: 'The HBM/DRAM memory cycle turns, a major customer (SK Hynix, Samsung) freezes capex — retests $85–92.' },
       ],
       horizon: '12–18 months',
-      invalidation: 'Weekly close below $55 (structure break)',
+      invalidation: 'Weekly close below $78 (structure break, rescaled from $55 pre-refresh)',
     },
     risks: [
       { risk: 'DRAM/HBM cyclicality', severity: 'high', note: '~50% of probe-card revenue is memory-linked. If the HBM/DRAM cycle turns, FORM feels it immediately.' },
@@ -1317,17 +1317,17 @@ export const companies: Record<string, Company> = {
         { criterion: 'Business quality', stars: 4, note: 'A global leader with dominant MEMS patents and high barriers to entry.' },
         { criterion: 'AI growth exposure', stars: 5, note: 'HBM testing and advanced packaging are structural AI drivers.' },
         { criterion: 'Profitability', stars: 4, note: 'Spectacular margin expansion (+980bps YoY) and positive free cash flow.' },
-        { criterion: 'Valuation', stars: 4, note: 'A reasonable forward P/E (29.9x) and an attractive P/B (6.1x).' },
+        { criterion: 'Valuation', stars: 3, note: 'Forward P/E (~42.5x, rescaled) and P/B (~8.7x, rescaled) are both richer post-refresh than pre-refresh, though still reasonable given the Q2 beat.' },
         { criterion: 'Balance sheet', stars: 5, note: 'Near-zero debt, $303M cash — a fortress.' },
         { criterion: 'Risk', stars: 4, note: 'Memory cyclicality is real, but beta of 1.22 is moderate.' },
-        { criterion: 'Entry timing', stars: 4, note: 'A 48% drawdown from the ATH sits in a reasonable accumulation zone.' },
+        { criterion: 'Entry timing', stars: 3, note: 'A ~26% drawdown from the ATH after the Q2 2026 earnings-beat rally, versus ~48% pre-refresh — a less favorable entry than the correction alone once suggested.' },
       ],
       readLabel: 'CONSTRUCTIVE — THE "KLA OF WAFER-LEVEL TEST"',
       summary:
         'An institutional-quality small-cap working through a real technical correction. Fundamentals are solid: record revenue, spectacular margin expansion, a fortress balance sheet, and direct exposure to both structural AI drivers on the test side (HBM and advanced packaging). Among the test/inspection group, this reads as the value play — a better forward P/E than Advantest, a better P/B than KLA, and far less volatile than AEHR.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. Price refreshed Aug 5, 2026 via live web lookup (aggregated market-data search) after the $83.45 snapshot was found stale — FORM rallied to $118.51 (Aug 4, 2026 close, +42%) following a Q2 2026 EPS beat ($0.82 vs. $0.59 consensus). Market cap was recomputed from the prior researched share count; trailing/forward P/E, P/S and P/B were mechanically rescaled by the same price ratio rather than independently re-verified — treat those as directional, not precise. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
   },
 
   ASML: {
@@ -1374,8 +1374,8 @@ export const companies: Record<string, Company> = {
       ],
       verdictTone: 'low',
       verdictPoints: [
-        'Forward P/E of 26.8x matches AMAT (26.8x) and undercuts both LRCX (31.8x) and KLAC (27.2x) — the best valuation in the WFE group for the highest quality',
-        'P/B of ~1.33x is remarkably low for a technology monopoly — partly a Dutch accounting artifact (asset revaluation), but also a sign the market hasn’t fully repriced the balance-sheet quality',
+        'Forward P/E of ~29.4x (rescaled from 26.8x pre-refresh) is now a modest premium to AMAT (26.8x, pre-refresh) and roughly matches LRCX/KLAC on their pre-refresh figures — still competitive for the highest quality name in the group',
+        'P/B of ~1.46x (rescaled from 1.33x pre-refresh) is remarkably low for a technology monopoly — partly a Dutch accounting artifact (asset revaluation), but also a sign the market hasn’t fully repriced the balance-sheet quality',
         'EV/EBITDA of ~33x is the lowest in the WFE peer group',
         'Debt/equity of 9.1% with $7.6B cash and $2B debt — a genuine fortress balance sheet, plus a €1.1B/quarter buyback on top of the dividend',
       ],
@@ -1387,23 +1387,23 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$1,350 – $1,450', rationale: '200-day MA return zone, ~10% discount to spot' },
-        { tier: 'acceptable', range: '$1,450 – $1,650', rationale: 'Current zone through the recent congestion band' },
-        { tier: 'expensive', range: '>$1,700', rationale: 'Approaching the 50-day MA — risk/reward unfavorable' },
+        { tier: 'ideal', range: '$1,480 – $1,590', rationale: '200-day MA return zone, ~10% discount to spot (rescaled from $1,350–1,450 pre-refresh)' },
+        { tier: 'acceptable', range: '$1,590 – $1,810', rationale: 'Current zone through the recent congestion band (rescaled from $1,450–1,650 pre-refresh)' },
+        { tier: 'expensive', range: '>$1,870', rationale: 'Approaching the 50-day MA — risk/reward unfavorable (rescaled from >$1,700 pre-refresh)' },
       ],
       technical: [
-        'ATH $1,999.96 — current $1,550.69 is a ~22.5% correction from the top',
+        'ATH $1,999.96 — current $1,703.08 is a ~14.9% correction from the top (was a ~22.5% correction at the pre-refresh $1,550.69 price)',
         '52-week low $683.48',
-        'Trading below the 50-day MA ($1,743) but above the 200-day MA ($1,382) — a short-term downtrend inside a longer uptrend',
-        'Key support $1,450–1,500 (March–April 2026 congestion); major support $1,350–1,400 (200-day MA + February gap)',
+        'Current $1,703.08 (Aug 4, 2026) — pre-refresh 50-day MA ($1,743) and 200-day MA ($1,382) not independently re-verified in this pass',
+        'Key support $1,590–1,650 (rescaled from $1,450–1,500 pre-refresh; March–April 2026 congestion); major support $1,480–1,540 (rescaled from $1,350–1,400 pre-refresh; 200-day MA + February gap)',
       ],
       scenarios: [
-        { label: 'BASE', prob: 55, note: 'Raised FY2026 guidance holds, High-NA EUV adoption scales as qualified — grinds toward the $2,000–2,300 analyst consensus over 12–18 months.' },
-        { label: 'BULL', prob: 20, note: 'GAA/CFET transitions accelerate demand for EUV exposure per wafer faster than modeled — pushes toward the $2,867 high target.' },
-        { label: 'BEAR', prob: 25, note: 'China export restrictions tighten further (~20% of revenue at stake) or a major customer (Intel) capex freeze hits — retests $1,200–1,350.' },
+        { label: 'BASE', prob: 55, note: 'Raised FY2026 guidance holds, High-NA EUV adoption scales as qualified — grinds toward the $2,200–2,530 analyst consensus over 12–18 months (rescaled from $2,000–2,300 pre-refresh).' },
+        { label: 'BULL', prob: 20, note: 'GAA/CFET transitions accelerate demand for EUV exposure per wafer faster than modeled — pushes toward the ~$3,150 high target (rescaled from $2,867 pre-refresh).' },
+        { label: 'BEAR', prob: 25, note: 'China export restrictions tighten further (~20% of revenue at stake) or a major customer (Intel) capex freeze hits — retests $1,320–1,480 (rescaled from $1,200–1,350 pre-refresh).' },
       ],
       horizon: '12–18 months',
-      invalidation: 'Weekly close below $1,200 (structure break)',
+      invalidation: 'Weekly close below $1,320 (rescaled from $1,200 pre-refresh; structure break)',
     },
     risks: [
       { risk: 'Export controls / China', severity: 'high', note: '~20% of revenue. Any tightening of DUV/EUV restrictions is a direct hit — management already guides ~20% for 2026.' },
@@ -1443,7 +1443,7 @@ export const companies: Record<string, Company> = {
         'Probably the single best semiconductor business in the world right now, and the only link in the chain where the market hasn’t fully repriced the balance-sheet quality — a P/B near 1.3x for an unassailable monopoly is genuinely unusual. Every structural AI driver (GAA, CFET, HBM/3D DRAM) increases demand for ASML’s equipment specifically. The main risks are geopolitical (China exposure, customer concentration) rather than competitive — nobody else can build what ASML builds.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here. Price refreshed Aug 4, 2026 via live web lookup (investing.com Nasdaq ADR quote) after the original $1,550.69 snapshot was flagged as stale — ASML traded at $1,703.08. Market cap and Trailing/Forward P/E, P/S and P/B were mechanically rescaled by the same price ratio rather than independently re-derived from fresh fundamentals; treat those as directional, not precise.',
   },
 
   TTMI: {
@@ -1472,9 +1472,9 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['TTMI', 'JBL', 'SANM', 'CLS', 'FN'],
       metrics: [
-        { label: 'Price', values: ['$101.77', '—', '—', '—', '—'] },
-        { label: 'Market cap', values: ['$10.6B', '$30.1B', '$8.8B', '$37.8B', '$14.9B'] },
-        { label: 'Forward P/E', values: ['18.8x', '17.1x', '11.8x', '17.1x', '23.9x'] },
+        { label: 'Price', values: ['$133.18 (Aug 5, 2026)', '—', '—', '—', '—'] },
+        { label: 'Market cap', values: ['~$13.9B (Aug 5, 2026)', '$30.1B', '$8.8B', '$37.8B', '$14.9B'] },
+        { label: 'Forward P/E', values: ['~24.6x (rescaled from 18.8x pre-refresh, not independently re-verified)', '17.1x', '11.8x', '17.1x', '23.9x'] },
         { label: 'EV/EBITDA', values: ['25.5x', '13.6x', '11.1x', '24.5x', '29.0x'] },
         { label: 'Revenue growth', values: ['30.4%', '11.8%', '69.7%', '62.4%', '39.3%'] },
         { label: 'Net margin', values: ['6.3%', '2.6%', '2.4%', '7.2%', '9.9%'] },
@@ -1482,9 +1482,9 @@ export const companies: Record<string, Company> = {
       ],
       verdictTone: 'high',
       verdictPoints: [
-        'Trailing P/E of 55.3x is high in absolute terms, but reflects a real transformation from cyclical PCB maker to critical AI + defense infrastructure supplier',
-        'Forward P/E of ~18.8x (vs. a ~17x peer average) is reasonable against ~32% EPS growth (FY26→FY27); implied PEG of ~0.36 trailing suggests growth largely justifies the multiple',
-        'P/S of 3.4x is high vs. pure EMS players (JBL 0.9x, SANM 0.7x) but comparable to Fabrinet (3.5x), another optical/AI-infrastructure play',
+        'Trailing P/E of ~72.4x (rescaled from 55.3x pre-refresh) is high in absolute terms, but reflects a real transformation from cyclical PCB maker to critical AI + defense infrastructure supplier',
+        'Forward P/E of ~24.6x (rescaled from 18.8x pre-refresh; vs. a ~17x peer average, pre-refresh) is still reasonable against ~32% EPS growth (FY26→FY27); implied PEG of ~0.47 (rescaled from ~0.36 trailing) suggests growth still largely justifies the multiple',
+        'P/S of ~4.5x (rescaled from 3.4x pre-refresh) is high vs. pure EMS players (JBL 0.9x, SANM 0.7x, pre-refresh) but comparable to Fabrinet (3.5x, pre-refresh), another optical/AI-infrastructure play',
         'Not the cheapest name in the group — SANM and JBL are more "value" on multiples — but TTMI offers the purest advanced-PCB exposure to AI plus a higher net margin than JBL/SANM',
       ],
       justifiedIf: [
@@ -1580,9 +1580,9 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['HIVE', 'RIOT', 'MARA', 'CLSK', 'WULF'],
       metrics: [
-        { label: 'Price', values: ['$2.54', '$18.24', '$10.05', '$12.01', '$15.09'] },
-        { label: 'Market cap', values: ['$0.7B', '$6.9B', '$3.8B', '$3.1B', '$7.5B'] },
-        { label: 'P/S (TTM)', values: ['2.3x', '10.6x', '4.4x', '4.2x', '44.5x'] },
+        { label: 'Price', values: ['$2.91 (Aug 5, 2026)', '$18.24', '$10.05', '$12.01', '$15.09'] },
+        { label: 'Market cap', values: ['~$0.80B (Aug 5, 2026)', '$6.9B', '$3.8B', '$3.1B', '$7.5B'] },
+        { label: 'P/S (TTM)', values: ['~2.6x (rescaled from 2.3x pre-refresh, not independently re-verified)', '10.6x', '4.4x', '4.2x', '44.5x'] },
         { label: 'Revenue growth YoY', values: ['+158%', '+3.6%', '-18.4%', '-24.9%', '-1.1%'] },
         { label: 'Hash rate (EH/s)', values: ['25.1', '33.8', '58.0', '90.0', '10.0'] },
         { label: 'Power (MW)', values: ['440', '600', '250', '1,000', '300'] },
@@ -1591,10 +1591,10 @@ export const companies: Record<string, Company> = {
       ],
       verdictTone: 'low',
       verdictPoints: [
-        'The lowest P/S in the group (2.3x vs. 4.2–10.6x for RIOT/MARA/CLSK, and a startling 44.5x for WULF)',
+        'Among the lowest P/S in the group (~2.6x rescaled post-refresh vs. 4.2–10.6x for RIOT/MARA/CLSK, and a startling 44.5x for WULF)',
         'The only peer with positive and massive revenue growth (+158% YoY) — RIOT, MARA and CLSK are all declining',
-        'Smallest market cap in the group ($0.7B) despite a real infrastructure base (440 MW active, 25.1 EH/s)',
-        'Highest analyst upside-to-target in the peer set (+179% vs. 63–151% for peers) — Buy rating, 7 of 8 analysts',
+        'Smallest market cap in the group (~$0.80B) despite a real infrastructure base (440 MW active, 25.1 EH/s)',
+        'Still among the highest analyst upside-to-target in the peer set (~+145% to the $7.13 average target post-refresh, down from +179% pre-refresh) — Buy rating, 7 of 8 analysts',
       ],
       justifiedIf: [
         'The $220M Bell Canada + Cohere GPU-cloud contract keeps converting and the broader $660M FY2028 HPC ARR pipeline materializes',
@@ -3106,23 +3106,23 @@ export const companies: Record<string, Company> = {
   },
   priceMap: {
     zones: [
-      { tier: 'ideal', range: '₩600,000 – ₩800,000', rationale: 'Near pre-Siltron-speculation levels; would reflect a real reset of the transformation premium' },
-      { tier: 'acceptable', range: '₩800,000 – ₩1,300,000', rationale: 'Current trading zone — still carries meaningful deal-completion and integration risk' },
-      { tier: 'expensive', range: '>₩1,800,000', rationale: 'Approaches prior 2026 highs; priced for a flawless Siltron close and integration with no execution slippage' },
+      { tier: 'ideal', range: '₩710,000 – ₩947,000', rationale: 'Near pre-Siltron-speculation levels; would reflect a real reset of the transformation premium (rescaled from ₩600,000–₩800,000 pre-refresh)' },
+      { tier: 'acceptable', range: '₩947,000 – ₩1,539,000', rationale: 'Current trading zone — still carries meaningful deal-completion and integration risk (rescaled from ₩800,000–₩1,300,000 pre-refresh)' },
+      { tier: 'expensive', range: '>₩2,130,000', rationale: 'Approaches prior 2026 highs; priced for a flawless Siltron close and integration with no execution slippage (rescaled from >₩1,800,000 pre-refresh)' },
     ],
     technical: [
       'All-time high ₩2,489,000 (2026, on Siltron deal speculation)',
       '52-week low ₩468,000',
       'Stock jumped over 5% on Dec 24, 2025 when financing-structure uncertainty (treasury shares vs. a rights offering) was resolved — a reminder of how deal-mechanics headlines move this name',
-      'Currently trading well off the 2026 high, reflecting the gap between the SPA signing (July 31, 2026) and the actual deal close (~January 2027)',
+      'The stock hit its daily limit (+30%) on Jul 31, 2026 when the SK Siltron SPA was formally signed/approved, then added a further +5.81% by Aug 3, 2026 close (₩1,238,000) — still well off the 2026 ATH, but the gap has narrowed sharply since the deal news landed',
     ],
     scenarios: [
-      { label: 'BASE', prob: 45, note: 'The SK Siltron deal closes roughly on schedule (~Jan 2027) without major regulatory friction; Electro-Materials and Bobcat keep delivering — stock consolidates broadly in the ₩800,000-₩1,300,000 range awaiting Siltron consolidation.' },
+      { label: 'BASE', prob: 45, note: 'The SK Siltron deal closes roughly on schedule (~Jan 2027) without major regulatory friction; Electro-Materials and Bobcat keep delivering — stock consolidates broadly in the ₩947,000-₩1,539,000 range awaiting Siltron consolidation (rescaled from ₩800,000-₩1,300,000 pre-refresh).' },
       { label: 'BULL', prob: 20, note: 'Integration executes cleanly, Doosan secures the remaining 29.4% Siltron stake from Chey Tae-won, wafer sales trend ahead of the ₩3T/2031 target — re-rate back toward 2026 highs.' },
-      { label: 'BEAR', prob: 35, note: 'Regulatory delay, financing/dilution overhang, or a Bobcat demand slowdown (North American construction cycle, tariff policy) reasserts the conglomerate discount — retest of ₩600,000-₩700,000.' },
+      { label: 'BEAR', prob: 35, note: 'Regulatory delay, financing/dilution overhang, or a Bobcat demand slowdown (North American construction cycle, tariff policy) reasserts the conglomerate discount — retest of ₩710,000-₩828,000 (rescaled from ₩600,000-₩700,000 pre-refresh).' },
     ],
     horizon: '12-18 months (deal close alone is not expected until ~January 2027)',
-    invalidation: 'Weekly close below ₩600,000',
+    invalidation: 'Weekly close below ₩710,000 (rescaled from ₩600,000 pre-refresh)',
   },
   risks: [
     { risk: 'SK Siltron deal completion risk', severity: 'high', note: 'SPA signed July 31, 2026 but close isn\'t expected until ~January 2027; regulatory approvals and the separate negotiation for Chey Tae-won\'s 29.4% stake are both still open.' },
@@ -3163,7 +3163,7 @@ export const companies: Record<string, Company> = {
       'Doosan Corporation is, today, primarily a construction-equipment and industrial holding company with a small but genuine semiconductor-materials/testing sliver (Electro-Materials, Doosan Tesna). The pending SK Siltron acquisition is a real and significant strategic pivot — if it closes as planned around January 2027 and the remaining stake gets resolved, it would make Doosan a legitimate global wafer supplier. But as of August 2026 that deal has not closed, the semiconductor businesses remain a minority of consolidated revenue, and the stock\'s extreme trailing multiples suggest the market has already paid up for a transformation that is still, mechanically, in progress rather than done.',
   },
   sourceNote:
-    'Compiled from Doosan Corporation Q1/Q2 2026 earnings releases, Seoul Economic Daily, Korea JoongAng Daily, The Korea Times and Korea Herald coverage of the SK Siltron transaction, and third-party data aggregators (Morningstar, stockanalysis.com) as of early August 2026. P/E and market-cap figures vary substantially across sources given thin/volatile consolidated earnings — treat the trailing P/E figures here as directionally indicative ("very expensive on current earnings"), not precise, and cross-check before live use. The SK Siltron deal was signed but not yet closed as of this writing.',
+    'Compiled from Doosan Corporation Q1/Q2 2026 earnings releases, Seoul Economic Daily, Korea JoongAng Daily, The Korea Times and Korea Herald coverage of the SK Siltron transaction, and third-party data aggregators (Morningstar, stockanalysis.com) as of early August 2026. P/E and market-cap figures vary substantially across sources given thin/volatile consolidated earnings — treat the trailing P/E figures here as directionally indicative ("very expensive on current earnings"), not precise, and cross-check before live use. The SK Siltron deal was signed but not yet closed as of this writing. Price refreshed Aug 5, 2026 via live web lookup (Korean financial press — fnnews.com, ebn.co.kr — cross-checked against the Jul 31, 2026 SK Siltron SPA-signing news) after the prior ₩1,046,000 (Jul 28) snapshot was found stale — the stock hit its daily limit on the SPA news and closed Aug 3, 2026 at ₩1,238,000, a ~18.4% rise. Market cap, trailing P/E and P/S were mechanically rescaled by that same price ratio rather than independently re-verified — treat them as directional, not precise.',
 },
   '300476.SZ': {
     ticker: '300476.SZ',
@@ -3412,9 +3412,9 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['600961.SS', '000657.SZ'],
       metrics: [
-        { label: 'Price', values: ['¥16.23', '¥55.51'] },
-        { label: 'Market cap', values: ['~¥16.7B', '~¥132-170B (noisy)'] },
-        { label: 'Trailing P/E', values: ['~15.7x', '~79.9x'] },
+        { label: 'Price', values: ['¥25.98 (Aug 4-5, 2026)', '¥55.51'] },
+        { label: 'Market cap', values: ['~¥26.7B (rescaled from ~¥16.7B pre-refresh, not independently re-verified)', '~¥132-170B (noisy)'] },
+        { label: 'Trailing P/E', values: ['~25.1x (rescaled from ~15.7x pre-refresh, not independently re-verified)', '~79.9x'] },
         { label: 'ROE', values: ['~23.1%', 'n/a'] },
         { label: 'Net margin', values: ['~5%', 'n/a'] },
         { label: 'Revenue growth (FY2024)', values: ['+1.8%', 'n/a'] },
@@ -3434,22 +3434,22 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '¥10 – ¥12', rationale: 'Near the lower end of the reported 52-week range' },
-        { tier: 'acceptable', range: '¥12 – ¥18', rationale: 'Current trading zone' },
-        { tier: 'expensive', range: '>¥24', rationale: 'Near the reported 52-week high (~¥27.5)' },
+        { tier: 'ideal', range: '¥16 – ¥19', rationale: 'Near the lower end of the reported 52-week range (rescaled from ¥10–¥12 pre-refresh)' },
+        { tier: 'acceptable', range: '¥19 – ¥29', rationale: 'Current trading zone (rescaled from ¥12–¥18 pre-refresh)' },
+        { tier: 'expensive', range: '>¥38', rationale: 'Now well above the stock\'s pre-refresh 52-week high (~¥27.5) — this level would require the scarcity-premium re-rating to extend meaningfully further than it already has (rescaled from >¥24 pre-refresh)' },
       ],
       technical: [
-        '52-week range approximately ¥7.66 – ¥27.48 (figures vary meaningfully by source; treat as approximate)',
-        'Current price ¥16.23, roughly double the trailing-year low',
+        '52-week range approximately ¥7.66 – ¥27.48 (figures vary meaningfully by source; treat as approximate) — current price now sits near the top of this range',
+        'Current price ¥25.98 (Aug 4-5, 2026), roughly 3.4x the trailing-year low and up ~60% from the ¥16.23 level this profile previously carried',
         'Price action tracks the China critical-minerals/export-control news cycle more closely than company-specific fundamentals',
       ],
       scenarios: [
-        { label: 'BASE', prob: 50, note: 'Base-metal prices and byproduct-metal premiums hold near current levels — grinds toward ¥18-22.' },
-        { label: 'BULL', prob: 25, note: 'Further tightening of export controls on indium/germanium/bismuth, or a Minmetals-group strategic-metals asset injection, re-rates the stock toward its ~¥27 high.' },
-        { label: 'BEAR', prob: 25, note: 'A lead/zinc price correction, or further easing of export controls (as partially occurred in the Nov 2025-Nov 2026 window) removing the scarcity premium — retraces toward ¥10-12.' },
+        { label: 'BASE', prob: 50, note: 'Base-metal prices and byproduct-metal premiums hold near current levels — grinds toward ¥29-35 (rescaled from ¥18-22 pre-refresh).' },
+        { label: 'BULL', prob: 25, note: 'Further tightening of export controls on indium/germanium/bismuth, or a Minmetals-group strategic-metals asset injection, re-rates the stock toward ¥43, a break well above the pre-refresh ~¥27 reference high (rescaled from ~¥27 pre-refresh).' },
+        { label: 'BEAR', prob: 25, note: 'A lead/zinc price correction, or further easing of export controls (as partially occurred in the Nov 2025-Nov 2026 window) removing the scarcity premium — retraces toward ¥16-19 (rescaled from ¥10-12 pre-refresh).' },
       ],
       horizon: '12 months',
-      invalidation: 'Weekly close below ¥10',
+      invalidation: 'Weekly close below ¥16 (rescaled from ¥10 pre-refresh)',
     },
     risks: [
       { risk: 'Commodity-price cyclicality', severity: 'high', note: 'The core business remains a lead/zinc/base-metals smelter; earnings are exposed to global base-metal price cycles independent of any strategic-minerals narrative.' },
@@ -3476,7 +3476,7 @@ export const companies: Record<string, Company> = {
       scores: [
         { criterion: 'Business quality', stars: 3, note: 'A solid, high-volume commodity smelter with thin margins and a strategic-metals kicker.' },
         { criterion: 'Semiconductor/AI exposure', stars: 2, note: 'Indirect and thin — byproduct-metal exposure only, with no direct semiconductor product or customer relationship.' },
-        { criterion: 'Valuation', stars: 4, note: '~15.7x trailing P/E is undemanding relative to the "critical minerals" narrative already priced into peer names.' },
+        { criterion: 'Valuation', stars: 4, note: '~25.1x trailing P/E (up from ~15.7x after an August 2026 price refresh) is still undemanding relative to the "critical minerals" narrative already priced into peer names.' },
         { criterion: 'Strategic-scarcity optionality', stars: 4, note: 'Indium/germanium/bismuth export controls create real, if policy-dependent, asymmetric upside.' },
         { criterion: 'Risk', stars: 3, note: 'Commodity cyclicality and export-control policy reversal risk cut in both directions.' },
         { criterion: 'Entry timing', stars: 3, note: 'No clear near-term catalyst beyond commodity-price and export-policy news flow.' },
@@ -3486,7 +3486,7 @@ export const companies: Record<string, Company> = {
         'Zhuzhou Smelter is best understood as a China critical-minerals/export-control theme stock that happens to sit inside the semiconductor and display supply chain through its indium and germanium byproducts — not as a direct semiconductor-materials company in the way Elite Material or Guangdong Dtech are. The valuation (a conventional smelter multiple, not an AI-mania multiple) reflects that the market largely agrees: this is priced as a metals company with strategic optionality, not as a growth story. Anyone approaching this ticker expecting a rare-earth-magnets-style direct semiconductor play should recalibrate expectations before sizing a position.',
     },
     sourceNote:
-      'IMPORTANT: this ticker does not correspond to "China Minmetals Corporation" itself — Minmetals is an unlisted central state-owned parent. 600961.SS is Zhuzhou Smelter Group Co., Ltd, one of Minmetals\' eight publicly-listed subsidiaries, and a base-metals smelter rather than a rare-earth or semiconductor-materials pure play; that distinction is reflected throughout this entry. Compiled from Yahoo Finance, Investing.com, Bloomberg, Moomoo, Simply Wall St and Chinese regulatory/trade-press sources (Global Trade Alert, SMM, IEA policy tracker) as of August 2026. Financial figures for this name are sparser and noisier than the other five tickers in this set — treat all metrics here as directional and verify against a live terminal before use.',
+      'IMPORTANT: this ticker does not correspond to "China Minmetals Corporation" itself — Minmetals is an unlisted central state-owned parent. 600961.SS is Zhuzhou Smelter Group Co., Ltd, one of Minmetals\' eight publicly-listed subsidiaries, and a base-metals smelter rather than a rare-earth or semiconductor-materials pure play; that distinction is reflected throughout this entry. Compiled from Yahoo Finance, Investing.com, Bloomberg, Moomoo, Simply Wall St and Chinese regulatory/trade-press sources (Global Trade Alert, SMM, IEA policy tracker) as of August 2026. Financial figures for this name are sparser and noisier than the other five tickers in this set — treat all metrics here as directional and verify against a live terminal before use. Price refreshed Aug 5, 2026 via live web lookup (Sina Finance, cross-checked against reporting of a Q1 2026 net-profit surge of +313% YoY and H1 2026 guidance of +173-276% YoY) after the prior ¥16.23 snapshot was found stale — the stock now trades near ¥25.98, a ~60% rise. Market cap and trailing P/E were mechanically rescaled by that same price ratio rather than independently re-verified — treat them as directional, not precise.',
   },
 
   '3037.TW': {
