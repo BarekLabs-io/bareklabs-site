@@ -67,7 +67,7 @@ export default function SoukSignal() {
         <Reveal delay={200}>
           <p className="mt-6 max-w-xl text-xl font-light leading-snug tracking-tight text-foreground/90 md:text-2xl">
             {t.souk.hero.welcome1}
-            <span className="font-serif-lab italic text-signal">{t.souk.hero.welcomeAccent}</span>
+            <span className="font-serif-lab italic font-semibold">{t.souk.hero.welcomeAccent}</span>
             {t.souk.hero.welcome2}
           </p>
         </Reveal>
@@ -91,38 +91,13 @@ export default function SoukSignal() {
             <div className="md:col-span-7">
               <Reveal delay={100}>
                 <h2 className="text-2xl font-light leading-snug tracking-tight md:text-3xl">
-                  {t.souk.read.title1} <span className="font-serif-lab italic text-signal">{t.souk.read.title2}</span>
+                  {t.souk.read.title1} <span className="font-serif-lab italic font-semibold">{t.souk.read.title2}</span>
                 </h2>
               </Reveal>
               <Reveal delay={180}>
                 <p className="mt-5 max-w-xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.souk.read.body}</p>
               </Reveal>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-line">
-        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
-          <SectionHead index="FEEDS" label={t.souk.components.head} right={t.souk.components.headRight} />
-          <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-2">
-            {t.souk.components.rows.map((r, i) => (
-              <Reveal key={r.k} delay={i * 50} className="group flex items-center justify-between gap-6 bg-card2 p-6 transition-colors hover:bg-[var(--hover-bg)] md:p-7">
-                <div>
-                  <div className="font-mono-lab text-[10px] tracking-[0.2em] text-dim">{r.k}</div>
-                  <div className="mt-2 font-mono-lab text-[10px] tracking-wider text-faint">{r.note}</div>
-                </div>
-                <div
-                  className={cn(
-                    'font-mono-lab text-xl tracking-tight md:text-2xl',
-                    r.tone === 'up' ? 'text-signal' : r.tone === 'down' ? 'text-danger' : 'text-warn'
-                  )}
-                  dir="ltr"
-                >
-                  {r.v}
-                </div>
-              </Reveal>
-            ))}
           </div>
         </div>
       </section>
@@ -153,6 +128,32 @@ export default function SoukSignal() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-line">
+        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
+          <SectionHead index="FEEDS" label={t.souk.components.head} right={t.souk.components.headRight} />
+          <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-2">
+            {t.souk.components.rows.map((r, i) => (
+              <Reveal key={r.k} delay={i * 50} className="group flex items-center justify-between gap-6 bg-card2 p-6 transition-colors hover:bg-[var(--hover-bg)] md:p-7">
+                <div>
+                  <div className="font-mono-lab text-[10px] tracking-[0.2em] text-dim">{r.k}</div>
+                  <div className="mt-1 font-mono-lab text-[10px] leading-4 tracking-wider text-dim/80">{r.what}</div>
+                  <div className="mt-2 font-mono-lab text-[10px] tracking-wider text-faint">{r.note}</div>
+                </div>
+                <div
+                  className={cn(
+                    'font-mono-lab text-xl tracking-tight md:text-2xl',
+                    r.tone === 'up' ? 'text-signal' : r.tone === 'down' ? 'text-danger' : 'text-warn'
+                  )}
+                  dir="ltr"
+                >
+                  {r.v}
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>

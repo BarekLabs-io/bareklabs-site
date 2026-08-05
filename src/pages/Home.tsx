@@ -85,7 +85,7 @@ export default function Home() {
             <Reveal delay={180}>
               <span className="block">
                 {t.home.hero2}
-                <span className="font-serif-lab italic font-normal text-signal">,</span>
+                <span className="font-serif-lab italic font-normal">,</span>
               </span>
             </Reveal>
             <Reveal delay={280}>
@@ -126,7 +126,7 @@ export default function Home() {
             <div className="md:col-span-8">
               <Reveal delay={100}>
                 <p className="text-3xl font-light leading-[1.25] tracking-tight md:text-5xl">
-                  {m.big1} <span className="font-serif-lab italic text-signal">{m.big1Accent}</span>
+                  {m.big1} <span className="font-serif-lab italic font-semibold">{m.big1Accent}</span>
                   {m.big2} <span className="outline-text">{m.big2Accent}</span>
                   {m.big3}
                 </p>
