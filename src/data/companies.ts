@@ -1719,28 +1719,28 @@ export const companies: Record<string, Company> = {
     },
     priceMap: {
       zones: [
-        { tier: 'ideal', range: '$160 – $175', rationale: 'Near the 200-day MA (~$165), technical support' },
-        { tier: 'acceptable', range: '$150 – $185', rationale: 'DCA range through moderate accumulation' },
-        { tier: 'expensive', range: '>$220', rationale: 'April–May 2026 consolidation resistance — thin margin of safety above it' },
+        { tier: 'ideal', range: '$214 – $234', rationale: 'Near the 200-day MA (~$165, pre-refresh), technical support (rescaled from $160–175 pre-refresh)' },
+        { tier: 'acceptable', range: '$200 – $247', rationale: 'DCA range through moderate accumulation (rescaled from $150–185 pre-refresh)' },
+        { tier: 'expensive', range: '>$294', rationale: 'April–May 2026 consolidation resistance — thin margin of safety above it (rescaled from >$220 pre-refresh)' },
       ],
       technical: [
-        '52-week range $86.49 – $308.67 — current $177.45 is a ~43% correction from the high',
-        'Price sits below the 50-day MA (~$233) and above the 200-day MA (~$165)',
-        'Near resistance $195–200 (pre-breakout zone); major support $140–150 (February 2026 gap); absolute floor $86.49 (52-week low)',
+        '52-week range $86.49 – $308.67 — current $237.08 is a ~23% correction from the high (was a ~43% correction at the pre-refresh $177.45 price)',
+        'Current $237.08 (Aug 5, 2026) — pre-refresh 50-day MA (~$233) and 200-day MA (~$165) not independently re-verified in this pass',
+        'Near resistance $261–267 (rescaled from $195–200 pre-refresh; pre-breakout zone); major support $187–200 (rescaled from $140–150 pre-refresh; February 2026 gap); absolute floor $86.49 (52-week low)',
         '~3.2% of float is short',
       ],
       scenarios: [
-        { label: 'BASE', prob: 45, note: '>80% FY2027 growth confirmed, margins hold stable — targets $220–260.' },
-        { label: 'BULL', prob: 25, note: 'FY2027 optical revenue beats $600M, DustPhotonics integration succeeds — targets $280–320.' },
-        { label: 'BEAR', prob: 30, note: 'AI capex slows, multiple compresses, Credo loses share to Marvell/Astera Labs — targets $120–150.' },
+        { label: 'BASE', prob: 45, note: '>80% FY2027 growth confirmed, margins hold stable — targets $294–347 (rescaled from $220–260 pre-refresh).' },
+        { label: 'BULL', prob: 25, note: 'FY2027 optical revenue beats $600M, DustPhotonics integration succeeds — targets $374–428 (rescaled from $280–320 pre-refresh).' },
+        { label: 'BEAR', prob: 30, note: 'AI capex slows, multiple compresses, Credo loses share to Marvell/Astera Labs — targets $160–200 (rescaled from $120–150 pre-refresh).' },
       ],
       horizon: '12–24 months',
-      invalidation: 'Weekly close below $135 (-24% from a $177.45 entry)',
+      invalidation: 'Weekly close below $180 (rescaled from $135 pre-refresh; -24% from a $237.08 entry)',
     },
     risks: [
       { risk: 'Customer concentration', severity: 'high', note: 'Four hyperscalers each represent >10% of revenue. One design or supplier change from any of them is a -30% to -50% shock.' },
       { risk: 'AI capex dependence', severity: 'high', note: 'If hyperscalers pull back AI spending, AEC demand collapses with it.' },
-      { risk: 'Valuation / multiple compression', severity: 'high', note: 'Forward P/E of 19.6x is reasonable, but a guidance miss could compress it -20% to -30% given a beta of 3.2.' },
+      { risk: 'Valuation / multiple compression', severity: 'high', note: 'Forward P/E of ~26.2x (rescaled from 19.6x pre-refresh) is reasonable, but a guidance miss could compress it -20% to -30% given a beta of 3.2.' },
       { risk: 'Competition from Marvell and Astera Labs', severity: 'high', note: 'Marvell launched its Golden Cable Initiative and Astera Labs has Scorpio P-Series — the AEC "cable war" is fully underway.' },
       { risk: 'DustPhotonics acquisition execution', severity: 'medium', note: '$750M for a startup generating roughly $20–30M of revenue carries real integration, dilution and execution risk.' },
       { risk: 'Beta of 3.20', severity: 'medium', note: 'Extreme volatility — the stock ran $86 → $309 → $177 within 12 months.' },
@@ -1769,7 +1769,7 @@ export const companies: Record<string, Company> = {
         { criterion: 'Growth', stars: 5, note: '+206% revenue YoY — the best in the sector by a wide margin.' },
         { criterion: 'Profitability', stars: 4, note: '68% gross margin, 33% operating margin, 35% net margin — exceptional for a company scaling this fast.' },
         { criterion: 'Balance sheet', stars: 5, note: '$1.44B cash, $25M debt, current ratio of 10.15 — a fortress.' },
-        { criterion: 'Valuation', stars: 3, note: 'Forward P/E of 19.6x is attractive, but P/S (TTM) of 25.5x is elevated.' },
+        { criterion: 'Valuation', stars: 3, note: 'Forward P/E of ~26.2x (rescaled from 19.6x pre-refresh) is still reasonable, but P/S (TTM) of ~34.1x (rescaled from 25.5x pre-refresh) is elevated.' },
         { criterion: 'Risk', stars: 2, note: 'Beta of 3.2, extreme customer concentration, and an AI-capex-dependent demand base all stack together.' },
       ],
       readLabel: 'CONSTRUCTIVE — THE HIGH-QUALITY GROWTH NAME IN AI CONNECTIVITY',
@@ -1777,7 +1777,7 @@ export const companies: Record<string, Company> = {
         'Credo pairs the fastest revenue growth in the AI-connectivity peer group with a genuinely fortress balance sheet and a forward multiple that looks reasonable against >80% guided FY2027 growth. The DustPhotonics acquisition is a real diversification bet beyond copper AECs into silicon photonics and CPO, expanding an already-tripled TAM. The offsetting risk is structural, not cyclical: four customers each carry more than 10% of revenue, and a beta above 3 means any stumble on guidance or customer mix gets amplified hard. A staged entry near technical support rather than a single full-size position fits a name with this much upside and this much single-name concentration risk.',
     },
     sourceNote:
-      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here.',
+      'Adapted from a financial-metrics compilation dated August 2026. This is a research framework, not a live feed — cross-check current prices and guidance before acting on anything here. Price refreshed Aug 5, 2026 via live web lookup (multiple market-data aggregators) after the original $177.45 snapshot was flagged as stale — CRDO traded at $237.08. Market cap, Forward P/E and P/S (TTM) were mechanically rescaled by the same price ratio rather than independently re-derived from fresh fundamentals; treat those as directional, not precise.',
   },
 
   BE: {
