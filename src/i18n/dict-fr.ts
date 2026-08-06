@@ -404,7 +404,7 @@ export const fr: Dict = {
       stocks: {
         code: '03.A',
         name: 'ACTIONS',
-        desc: 'Positions actions régionales avec marks simulés en direct. Chaque entrée reliée à une thèse publiée.',
+        desc: 'Positions actions régionales. Le dernier prix vient du flux de cotation ; le registre, lui, ne bouge pas. Chaque entrée reliée à une thèse publiée.',
         stats: ['0 OUVERTE', 'LONG/SHORT', 'RÉGIONAL'],
       },
       crypto: {
@@ -439,23 +439,15 @@ export const fr: Dict = {
       desc: 'POSITIONS ACTIONS, EN DIRECT. LES PRIX BOUGENT, LE P&L BOUGE, LE REGISTRE NE BOUGE PAS. CHAQUE ENTRÉE RELIÉE À UNE THÈSE PUBLIÉE.',
     },
     head: 'Positions',
-    headRight: 'PRIX SIMULÉS EN DIRECT',
+    headRight: 'FLUX EN DIRECT · DIFFÉRÉ 15-20 MIN',
     tabs: { open: 'OUVERTES', closed: 'CLÔTURÉES' },
     cols: { ticker: 'TICKER', side: 'SENS', entry: 'ENTRÉE', last: 'DERNIER', size: 'TAILLE', pnl: 'P&L', opened: 'OUVERTE LE' },
-    open: [
-      { t: 'ATW', name: 'Attijariwafa Bank', side: 'LONG' as const, entry: 398.2, base: 412.5, size: '1.5R', pnl: '+3.6%', open: '2026.07.28' },
-      { t: 'LBV', name: 'Label Vie', side: 'LONG' as const, entry: 198.0, base: 205.4, size: '1.0R', pnl: '+3.7%', open: '2026.08.01' },
-      { t: 'IAM', name: 'Maroc Telecom', side: 'LONG' as const, entry: 126.4, base: 129.95, size: '0.8R', pnl: '+2.8%', open: '2026.07.15' },
-      { t: 'CSRH', name: 'Cash Plus Hldg', side: 'SHORT' as const, entry: 121.3, base: 118.2, size: '0.5R', pnl: '+2.6%', open: '2026.08.02' },
-    ],
-    closed: [
-      { t: 'TQM', side: 'LONG' as const, pnl: '+5.2%', r: '+1.9R', note: 'Cassure de largeur, objectif atteint' },
-      { t: 'GAZ', side: 'LONG' as const, pnl: '-1.8%', r: '-0.6R', note: 'Stoppé — thèse intacte, timing erroné' },
-      { t: 'MNG', side: 'LONG' as const, pnl: '+7.4%', r: '+2.4R', note: 'Jeu de dérive post-résultats, objectif plein' },
-      { t: 'S2M', side: 'SHORT' as const, pnl: '+3.1%', r: '+1.1R', note: 'Figure de distribution résolue' },
-      { t: 'DYT', side: 'LONG' as const, pnl: '-2.2%', r: '-0.8R', note: 'Stoppé — régime changé en cours de trade' },
-    ],
-    disclaimer: 'LES PRIX AFFICHÉS SONT SIMULÉS À TITRE DE DÉMONSTRATION. LES FLUX D’EXÉCUTION RÉELS SE BRANCHERONT SUR LE MÊME REGISTRE AU LANCEMENT.',
+    open: [] as { t: string; name: string; side: 'LONG' | 'SHORT'; symbol?: string; entry: number; size: string; pnl: string; open: string }[],
+    closed: [] as { t: string; side: 'LONG' | 'SHORT'; pnl: string; r: string; note: string }[],
+    disclaimer: 'LES PRIX DE CETTE PAGE PROVIENNENT DU FLUX DE COTATION EN DIRECT (DIFFÉRÉ DE 15 À 20 MIN) ET AFFICHENT UN TIRET QUAND LE FLUX N\'A RIEN. RIEN ICI N\'EST UN CONSEIL.',
+    openEmpty: 'Aucune position ouverte au registre.',
+    closedEmpty: 'Aucune transaction clôturée enregistrée.',
+    ledgerNote: 'Ce registre ne liste que des transactions réellement prises. Il est vide parce qu\'aucune n\'a été enregistrée, pas parce que rien n\'a chargé — un tracker qui invente un historique vaut moins qu\'un tracker vide.',
     side: { LONG: 'LONG', SHORT: 'SHORT' } as Record<string, string>,
   },
   crypto: {
@@ -466,14 +458,10 @@ export const fr: Dict = {
       desc: 'NOS POSITIONS CRYPTO, SUIVIES DE LA MÊME FAÇON QUE TOUT LE RESTE ICI : SPOT D’ABORD, DIMENSIONNÉES PAR CONVICTION, ET HONNÊTES SUR LE FINANCEMENT ET LE RÉGIME AVANT D’AJOUTER LE MOINDRE LEVIER.',
     },
     head: 'Livre & régime',
-    headRight: 'PRIX SIMULÉS EN DIRECT',
+    headRight: 'FLUX EN DIRECT · DIFFÉRÉ 15-20 MIN',
     tabs: { positions: 'POSITIONS', regime: 'RÉGIME' },
     cols: { pair: 'PAIRE', side: 'SENS', entry: 'ENTRÉE', last: 'DERNIER', size: 'TAILLE', funding: 'FINANCEMENT', status: 'STATUT' },
-    positions: [
-      { t: 'BTC/USD', side: 'LONG' as const, entry: 94210, base: 97431, size: '1.2R', funding: 'NEUTRE', open: '2026.07.22' },
-      { t: 'SOL/USD', side: 'LONG' as const, entry: 198.4, base: 214.6, size: '0.8R', funding: 'LÉGÈREMENT +', open: '2026.07.30' },
-      { t: 'ETH/USD', side: 'FLAT', entry: 0, base: 3812, size: '—', funding: 'RESET', open: 'CLÔTURÉ +6,4 % R' },
-    ],
+    positions: [] as { t: string; side: 'LONG' | 'SHORT' | 'FLAT'; symbol?: string; entry: number | null; size: string; funding: string; status: string; open: string }[],
     regime: [
       { k: 'RÉGIME DE FINANCEMENT', v: 'NEUTRE', tone: 'mid', note: 'Le levier n’est pas le moteur — le spot l’est' },
       { k: 'FLUX STABLECOINS', v: 'ENTRANT', tone: 'up', note: 'Poudre sèche en accumulation sur les exchanges' },
@@ -481,7 +469,10 @@ export const fr: Dict = {
       { k: 'CORRÉLATION À LA MACRO', v: '0.34', tone: 'up', note: 'Découplage — fenêtre idiosyncrasique' },
     ],
     disclaimer:
-      'LES PRIX AFFICHÉS SONT SIMULÉS À TITRE DE DÉMONSTRATION. LES POSITIONS CRYPTO PORTENT DES RISQUES SPÉCIFIQUES — CONSERVATION, GAPS, CASCADES DE LIQUIDATION — DOCUMENTÉS PAR TRADE.',
+      'LES PRIX DE CETTE PAGE PROVIENNENT DU FLUX DE COTATION EN DIRECT (DIFFÉRÉ DE 15 À 20 MIN) ET AFFICHENT UN TIRET QUAND LE FLUX N\'A RIEN. LES POSITIONS CRYPTO PORTENT DES RISQUES SPÉCIFIQUES — CONSERVATION, GAPS, CASCADES DE LIQUIDATION — DOCUMENTÉS PAR TRANSACTION.',
+    openEmpty: 'Aucune position ouverte au registre.',
+    closedEmpty: 'Aucune transaction clôturée enregistrée.',
+    ledgerNote: "Ce registre ne liste que des transactions réellement prises. Il est vide parce qu'aucune n'a été enregistrée, pas parce que rien n'a chargé — un tracker qui invente un historique vaut moins qu'un tracker vide.",
     side: { LONG: 'LONG', SHORT: 'SHORT', FLAT: 'À PLAT' } as Record<string, string>,
   },
   about: {

@@ -1,15 +1,28 @@
 import { useState } from 'react'
-import { Reveal, useLivePrice } from '@/components/lab'
+import { Reveal } from '@/components/lab'
+import { useLiveQuotes } from '@/lib/useLiveQuotes'
+import { NO_VALUE, formatLevel } from '@/data/marketTape'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 
-function LiveCell({ base, vol }: { base: number; vol?: number }) {
-  const { price, dir } = useLivePrice(base, vol ?? 0.003)
+/* The last price of a position comes from the quote feed and nowhere else.
+ * A position whose ticker the feed does not cover shows a dash — the ledger
+ * would rather say nothing than show a number it cannot stand behind. */
+function LiveCell({ quote }: { quote?: { price: number } }) {
   return (
-    <span className={cn('font-mono-lab text-sm tabular-nums transition-colors duration-500', dir > 0 ? 'text-signal' : 'text-danger')}>
-      {price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+    <span className={cn('font-mono-lab text-sm tabular-nums', quote ? 'text-foreground' : 'text-faint')}>
+      {quote ? formatLevel(quote.price) : NO_VALUE}
     </span>
+  )
+}
+
+function EmptyLedger({ message, note }: { message: string; note: string }) {
+  return (
+    <div className="border border-dashed border-line px-6 py-14 text-center">
+      <p className="font-mono-lab text-[12px] tracking-wide text-dim">{message}</p>
+      <p className="mx-auto mt-3 max-w-xl font-mono-lab text-[10px] leading-5 tracking-wide text-faint">{note}</p>
+    </div>
   )
 }
 
@@ -20,6 +33,7 @@ export default function Stocks() {
   const { t } = useLang()
   const OPEN = t.stocks.open
   const CLOSED = t.stocks.closed
+  const { quotes } = useLiveQuotes(OPEN.map((p) => p.symbol ?? p.t))
 
   return (
     <>
@@ -49,7 +63,11 @@ export default function Stocks() {
             ))}
           </div>
 
-          {tab === 'OPEN' ? (
+          {tab === 'OPEN' && OPEN.length === 0 ? (
+            <EmptyLedger message={t.stocks.openEmpty} note={t.stocks.ledgerNote} />
+          ) : tab === 'CLOSED' && CLOSED.length === 0 ? (
+            <EmptyLedger message={t.stocks.closedEmpty} note={t.stocks.ledgerNote} />
+          ) : tab === 'OPEN' ? (
             <div className="overflow-x-auto border border-line">
               <table className="w-full min-w-[760px]">
                 <thead>
@@ -74,7 +92,7 @@ export default function Stocks() {
                         {t.stocks.side[p.side]}
                       </td>
                       <td className="px-6 py-4 text-end font-mono-lab text-sm tabular-nums text-dim" dir="ltr">{p.entry.toFixed(2)}</td>
-                      <td className="px-6 py-4 text-end" dir="ltr"><LiveCell base={p.base} /></td>
+                      <td className="px-6 py-4 text-end" dir="ltr"><LiveCell quote={quotes[p.symbol ?? p.t]} /></td>
                       <td className="px-6 py-4 text-end font-mono-lab text-[11px] text-dim" dir="ltr">{p.size}</td>
                       <td className="px-6 py-4 text-end font-mono-lab text-sm text-signal" dir="ltr">{p.pnl}</td>
                       <td className="px-6 py-4 text-end font-mono-lab text-[10px] text-faint" dir="ltr">{p.open}</td>

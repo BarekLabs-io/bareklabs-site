@@ -1,15 +1,26 @@
 import { useState } from 'react'
-import { Reveal, useLivePrice } from '@/components/lab'
+import { Reveal } from '@/components/lab'
+import { useLiveQuotes } from '@/lib/useLiveQuotes'
+import { NO_VALUE, formatLevel } from '@/data/marketTape'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 
-function LiveCell({ base, vol, dp = 2 }: { base: number; vol?: number; dp?: number }) {
-  const { price, dir } = useLivePrice(base, vol ?? 0.006)
+/* See Stocks.tsx — last price is fed, never simulated. */
+function LiveCell({ quote }: { quote?: { price: number } }) {
   return (
-    <span className={cn('font-mono-lab text-sm tabular-nums transition-colors duration-500', dir > 0 ? 'text-signal' : 'text-danger')}>
-      {price.toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp })}
+    <span className={cn('font-mono-lab text-sm tabular-nums', quote ? 'text-foreground' : 'text-faint')}>
+      {quote ? formatLevel(quote.price) : NO_VALUE}
     </span>
+  )
+}
+
+function EmptyLedger({ message, note }: { message: string; note: string }) {
+  return (
+    <div className="border border-dashed border-line px-6 py-14 text-center">
+      <p className="font-mono-lab text-[12px] tracking-wide text-dim">{message}</p>
+      <p className="mx-auto mt-3 max-w-xl font-mono-lab text-[10px] leading-5 tracking-wide text-faint">{note}</p>
+    </div>
   )
 }
 
@@ -18,6 +29,7 @@ type Tab = 'POSITIONS' | 'REGIME'
 export default function Crypto() {
   const [tab, setTab] = useState<Tab>('POSITIONS')
   const { t } = useLang()
+  const { quotes } = useLiveQuotes(t.crypto.positions.map((p) => p.symbol ?? p.t))
 
   return (
     <>
@@ -47,7 +59,9 @@ export default function Crypto() {
             ))}
           </div>
 
-          {tab === 'POSITIONS' ? (
+          {tab === 'POSITIONS' && t.crypto.positions.length === 0 ? (
+            <EmptyLedger message={t.crypto.openEmpty} note={t.crypto.ledgerNote} />
+          ) : tab === 'POSITIONS' ? (
             <div className="overflow-x-auto border border-line">
               <table className="w-full min-w-[760px]">
                 <thead>
@@ -75,7 +89,7 @@ export default function Crypto() {
                         {p.entry ? p.entry.toLocaleString() : '—'}
                       </td>
                       <td className="px-6 py-4 text-end" dir="ltr">
-                        <LiveCell base={p.base} dp={p.base > 1000 ? 0 : 1} />
+                        <LiveCell quote={quotes[p.symbol ?? p.t]} />
                       </td>
                       <td className="px-6 py-4 text-end font-mono-lab text-[11px] text-dim" dir="ltr">{p.size}</td>
                       <td className="px-6 py-4 text-end font-mono-lab text-[10px] tracking-wider text-dim">{p.funding}</td>

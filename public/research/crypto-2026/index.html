@@ -267,6 +267,15 @@
             text-transform: uppercase;
         }
         .data-table td { color: #fff; }
+
+        .px-provenance {
+            font-size: 11px; line-height: 1.6; color: #8892a4;
+            border-left: 2px solid var(--border-color); padding-left: 12px; margin: 14px 0 18px;
+        }
+        .live-px[data-empty="1"], .live-chg[data-empty="1"] { color: #6b7488; }
+        .live-chg.up { color: var(--barek-green); }
+        .live-chg.down { color: #ff5c5c; }
+        .px-asof { font-size: 10px; color: #6b7488; font-family: 'JetBrains Mono', monospace; }
         .asset-tag {
             background: rgba(0, 255, 136, 0.1);
             color: var(--barek-green);
@@ -314,6 +323,7 @@
             <div class="section-box" style="position: relative; overflow: hidden;">
                 <div class="section-header">3. Price Action, Momentum & Signaux Clés (Live)</div>
                 <p>Actualisation de l'état des marchés. Le Bitcoin pousse vers de nouveaux sommets historiques, tractant un écosystème altcoin hautement sélectif où la valorisation suit les fondamentaux d'infrastructure.</p>
+                <p class="px-provenance">Les prix ci-dessous sont tirés en direct du flux de cotation du site (délai de 15&nbsp;à&nbsp;20&nbsp;minutes) et affichent un tiret tant qu'aucune cotation n'est revenue&nbsp;; ils ne sont pas figés dans le document. L'analyse en regard, elle, a été rédigée le 6&nbsp;août&nbsp;2026 : elle commente les niveaux de cette date et ne se met pas à jour avec le prix.</p>
                 
                 <table class="data-table">
                     <thead>
@@ -326,27 +336,27 @@
                     <tbody>
                         <tr>
                             <td><span class="asset-tag">BTC</span></td>
-                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);">97,507 $</td>
+                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);"><span class="live-px" data-symbol="BTC-USD">—</span></td>
                             <td>Approche de la barrière psychologique des 100k. L'absorption institutionnelle assèche l'offre OTC. Le marché de détail est désormais minoritaire dans la formation des prix.</td>
                         </tr>
                         <tr>
                             <td><span class="asset-tag">ETH</span></td>
-                            <td style="font-family: 'JetBrains Mono';">3,809 $</td>
+                            <td style="font-family: 'JetBrains Mono';"><span class="live-px" data-symbol="ETH-USD">—</span></td>
                             <td>Phase de consolidation technique. Subit la rotation des capitaux vers les L2 et Solana, mais conserve son statut de couche de règlement la plus sécurisée pour la TradFi.</td>
                         </tr>
                         <tr>
                             <td><span class="asset-tag">TAO</span></td>
-                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);">412.00 $</td>
+                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);"><span class="live-px" data-symbol="TAO22974-USD">—</span></td>
                             <td>Confirmation de la thèse IA décentralisée. Momentum structurel fort validant notre modélisation initiale. L'adoption par les clusters d'entreprise s'accélère.</td>
                         </tr>
                         <tr>
                             <td><span class="asset-tag">ICP</span></td>
-                            <td style="font-family: 'JetBrains Mono';">12.83 $</td>
+                            <td style="font-family: 'JetBrains Mono';"><span class="live-px" data-symbol="ICP-USD">—</span></td>
                             <td>Résilience inattendue et re-tarification à la hausse suite à l'intégration de capacités Cloud souveraines et AWS. Rejet décisif des zones basses précédentes.</td>
                         </tr>
                         <tr>
                             <td><span class="asset-tag">ZEC</span></td>
-                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);">58.39 $</td>
+                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);"><span class="live-px" data-symbol="ZEC-USD">—</span></td>
                             <td>La rareté de l'actif combinée au nouveau narratif institutionnel "Privacy & ZKP" maintient une pression acheteuse continue sur cet actif historiquement volatil.</td>
                         </tr>
                     </tbody>
@@ -368,38 +378,31 @@
                 
                 <div class="watchlist-item">
                     <span class="wl-asset">BTC</span>
-                    <span class="wl-price">97,507</span>
-                    <span class="wl-change up">+2.18%</span>
+                    <span class="wl-price live-px" data-symbol="BTC-USD">—</span><span class="wl-change live-chg" data-symbol="BTC-USD">—</span>
                 </div>
                 <div class="watchlist-item">
                     <span class="wl-asset">ETH</span>
-                    <span class="wl-price">3,809</span>
-                    <span class="wl-change down">-1.04%</span>
+                    <span class="wl-price live-px" data-symbol="ETH-USD">—</span><span class="wl-change live-chg" data-symbol="ETH-USD">—</span>
                 </div>
                 <div class="watchlist-item">
                     <span class="wl-asset">SOL</span>
-                    <span class="wl-price">214.76</span>
-                    <span class="wl-change up">+3.41%</span>
+                    <span class="wl-price live-px" data-symbol="SOL-USD">—</span><span class="wl-change live-chg" data-symbol="SOL-USD">—</span>
                 </div>
                 <div class="watchlist-item">
                     <span class="wl-asset">TAO</span>
-                    <span class="wl-price">412.00</span>
-                    <span class="wl-change up">+5.02%</span>
+                    <span class="wl-price live-px" data-symbol="TAO22974-USD">—</span><span class="wl-change live-chg" data-symbol="TAO22974-USD">—</span>
                 </div>
                 <div class="watchlist-item">
                     <span class="wl-asset">ICP</span>
-                    <span class="wl-price">12.83</span>
-                    <span class="wl-change down">-0.86%</span>
+                    <span class="wl-price live-px" data-symbol="ICP-USD">—</span><span class="wl-change live-chg" data-symbol="ICP-USD">—</span>
                 </div>
                 <div class="watchlist-item">
                     <span class="wl-asset">ZEC</span>
-                    <span class="wl-price">58.39</span>
-                    <span class="wl-change up">+4.17%</span>
+                    <span class="wl-price live-px" data-symbol="ZEC-USD">—</span><span class="wl-change live-chg" data-symbol="ZEC-USD">—</span>
                 </div>
                 <div class="watchlist-item" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);">
                     <span class="wl-asset">S&P 500</span>
-                    <span class="wl-price">6,412.78</span>
-                    <span class="wl-change up">+0.42%</span>
+                    <span class="wl-price live-px" data-symbol="^GSPC">—</span><span class="wl-change live-chg" data-symbol="^GSPC">—</span>
                 </div>
             </div>
 
@@ -500,5 +503,54 @@
             }
         });
     </script>
+
+<script>
+/* The document ships with no prices in it. Every figure is fetched from the
+   site's own quote proxy at read time, so the report cannot go stale in the
+   way a number typed into the HTML does. A symbol the feed has nothing for
+   stays a dash — it is never back-filled with the last thing we saw. */
+(function () {
+  var nodes = document.querySelectorAll('.live-px, .live-chg');
+  if (!nodes.length) return;
+  var symbols = Array.from(new Set(Array.from(nodes).map(function (n) { return n.dataset.symbol; })));
+
+  function level(v) {
+    var d = Math.abs(v) >= 10000 ? 0 : 2;
+    return v.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+  }
+
+  function paint(quotes) {
+    nodes.forEach(function (n) {
+      var q = quotes[n.dataset.symbol];
+      var isChange = n.classList.contains('live-chg');
+      if (!q || (isChange && q.changePercent == null)) {
+        n.textContent = '—';
+        n.dataset.empty = '1';
+        n.classList.remove('up', 'down');
+        return;
+      }
+      delete n.dataset.empty;
+      if (isChange) {
+        var p = q.changePercent;
+        n.textContent = (p >= 0 ? '+' : '') + p.toFixed(2) + '%';
+        n.classList.toggle('up', p >= 0);
+        n.classList.toggle('down', p < 0);
+      } else {
+        // the table cells carry a currency suffix, the sidebar ones do not
+        n.textContent = level(q.price) + (n.classList.contains('wl-price') ? '' : ' $');
+      }
+    });
+  }
+
+  function load() {
+    fetch('/api/quotes?symbols=' + encodeURIComponent(symbols.join(',')))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d && d.quotes) paint(d.quotes); })
+      .catch(function () { /* leave the dashes in place */ });
+  }
+  load();
+  setInterval(load, 90000);
+})();
+</script>
 </body>
 </html>

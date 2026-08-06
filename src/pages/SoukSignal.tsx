@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import { MarketCanvas, Reveal, useLivePrice } from '@/components/lab'
+import { MarketCanvas, Reveal } from '@/components/lab'
+import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
@@ -60,13 +61,13 @@ function keyMetric(ticker: string, pattern: RegExp): string | null {
   return c.valuation.metrics.find((m) => pattern.test(m.label))?.values[0] ?? null
 }
 
-/* Same real watchlist row the board below lists in full — just ticking
- * through the site's existing simulated-live mechanism (useLivePrice) for
- * the terminal hero's "it's alive" read, price and setup all real. */
-function MiniWatchRow({ row }: { row: { t: string; s: string; sig: string; up: boolean } }) {
+/* Price is the live quote where the feed has one, otherwise the researched
+ * snapshot from the deep dive — which is dated, so it is shown dimmed and
+ * without a live marker. It is never nudged on a timer to look alive. */
+function MiniWatchRow({ row, quote }: { row: { t: string; s: string; sig: string; up: boolean }; quote?: { price: number } }) {
   const raw = keyMetric(row.t, /^price|^share price/i)
   const base = parseMetricValue(raw ?? undefined)
-  const { price } = useLivePrice(base ?? 0, 0.0015)
+  const price = quote?.price ?? base
   return (
     <Link
       to={tickerHref(row.t)}
@@ -75,8 +76,8 @@ function MiniWatchRow({ row }: { row: { t: string; s: string; sig: string; up: b
       <div className="min-w-0">
         <div className="flex items-baseline gap-2" dir="ltr">
           <span className="text-foreground transition-colors group-hover:text-signal">{row.t}</span>
-          {base != null && (
-            <span className="tabular-nums text-dim">
+          {price != null && (
+            <span className={cn('tabular-nums', quote ? 'text-dim' : 'text-faint')} title={quote ? undefined : 'Researched snapshot — not live'}>
               {price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
           )}
@@ -120,6 +121,7 @@ export default function SoukSignal() {
   }, [])
 
   const miniWatch = t.souk.watchlist.rows.slice(0, 6)
+  const { quotes } = useLiveQuotes(miniWatch.map((r) => r.t))
 
   return (
     <>
@@ -190,7 +192,7 @@ export default function SoukSignal() {
                   </div>
                   <div className="mt-3">
                     {miniWatch.map((r) => (
-                      <MiniWatchRow key={r.t} row={r} />
+                      <MiniWatchRow key={r.t} row={r} quote={quotes[r.t]} />
                     ))}
                   </div>
                   <a
