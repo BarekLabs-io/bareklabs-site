@@ -20,8 +20,10 @@ type Row = {
   price: number | null
   marketCap: string | null
   forwardPE: string | null
+  evEbitda: string | null
   verdictTone: 'high' | 'fair' | 'low'
   riskTier: RiskTier
+  riskNote: string
 }
 
 const SEGMENT_ORDER = new Map(SEGMENTS.map((s, i) => [s.key, i]))
@@ -51,11 +53,11 @@ function starsToTier(stars: number): RiskTier {
   return stars >= 3.5 ? 'low' : stars >= 2.5 ? 'medium' : 'high'
 }
 
-function riskTierOf(c: (typeof companies)[string]): RiskTier {
+function riskOf(c: (typeof companies)[string]): { tier: RiskTier; note: string } {
   const riskScore = c.synthesis.scores.find((s) => /risk/i.test(s.criterion))
-  if (riskScore) return starsToTier(riskScore.stars)
+  if (riskScore) return { tier: starsToTier(riskScore.stars), note: riskScore.note }
   const avg = c.synthesis.scores.reduce((sum, s) => sum + s.stars, 0) / c.synthesis.scores.length
-  return starsToTier(avg)
+  return { tier: starsToTier(avg), note: c.synthesis.summary }
 }
 
 const ROWS: Row[] = Object.values(companies)
@@ -63,7 +65,9 @@ const ROWS: Row[] = Object.values(companies)
     const priceMetric = c.valuation.metrics.find((m) => /^price|^share price/i.test(m.label))
     const capMetric = c.valuation.metrics.find((m) => /market cap/i.test(m.label))
     const peMetric = c.valuation.metrics.find((m) => /forward p\/e/i.test(m.label))
+    const evEbitdaMetric = c.valuation.metrics.find((m) => /ev\s*\/?\s*ebitda/i.test(m.label))
     const segment = SEGMENT_OF[c.ticker] ?? 'adjacent'
+    const risk = riskOf(c)
     return {
       ticker: c.ticker,
       name: c.name,
@@ -76,8 +80,10 @@ const ROWS: Row[] = Object.values(companies)
       price: parseMetricValue(priceMetric?.values[0]),
       marketCap: capMetric?.values[0] ?? null,
       forwardPE: peMetric?.values[0] ?? null,
+      evEbitda: evEbitdaMetric?.values[0] ?? null,
       verdictTone: c.valuation.verdictTone,
-      riskTier: riskTierOf(c),
+      riskTier: risk.tier,
+      riskNote: risk.note,
     }
   })
   .sort((a, b) => a.segmentOrder - b.segmentOrder || a.ticker.localeCompare(b.ticker))
@@ -208,8 +214,8 @@ export default function Screener() {
           <span><span className="text-dim">RISK</span> — the deep dive's overall risk-quality read, not a count of flagged items. Hover a badge for detail.</span>
         </Reveal>
 
-        <div className="mt-3 overflow-x-auto border border-line">
-          <table className="w-full min-w-[1040px]">
+        <div className="mt-3 overflow-x-auto border border-line bg-panel p-1">
+          <table className="w-full min-w-[1140px] border-collapse bg-card2">
             <thead>
               <tr className="border-b border-line bg-ticker font-mono-lab text-[9px] tracking-[0.2em] text-faint">
                 <th className="px-3 py-3 text-start">TICKER</th>
@@ -219,6 +225,7 @@ export default function Screener() {
                 <th className="px-3 py-3 text-end">PRICE</th>
                 <th className="px-3 py-3 text-end">MKT CAP</th>
                 <th className="px-3 py-3 text-end">FWD P/E</th>
+                <th className="px-3 py-3 text-end">EV/EBITDA</th>
                 <th className="px-3 py-3 text-center">VS. PEERS</th>
                 <th className="px-3 py-3 text-center">RISK</th>
               </tr>
@@ -246,17 +253,22 @@ export default function Screener() {
                   <td className="px-3 py-3.5 text-end font-mono-lab text-[11px] tabular-nums text-dim" dir="ltr">
                     {r.forwardPE ?? '—'}
                   </td>
+                  <td className="px-3 py-3.5 text-end font-mono-lab text-[11px] tabular-nums text-dim" dir="ltr">
+                    {r.evEbitda ?? '—'}
+                  </td>
                   <td className="px-3 py-3.5 text-center">
                     <Badge tone={verdictBadgeTone(r.verdictTone)} title={VERDICT_EXPLAIN[r.verdictTone]}>{VERDICT_LABEL[r.verdictTone]}</Badge>
                   </td>
                   <td className="px-3 py-3.5 text-center">
-                    <Badge tone={riskBadgeTone(r.riskTier)} title={RISK_EXPLAIN[r.riskTier]}>{RISK_LABEL[r.riskTier]}</Badge>
+                    <Badge tone={riskBadgeTone(r.riskTier)} title={`${RISK_EXPLAIN[r.riskTier]}\n\n${r.ticker}: ${r.riskNote}`}>
+                      {RISK_LABEL[r.riskTier]}
+                    </Badge>
                   </td>
                 </tr>
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={9} className="px-3 py-12 text-center font-mono-lab text-[11px] tracking-wide text-faint">
+                  <td colSpan={10} className="px-3 py-12 text-center font-mono-lab text-[11px] tracking-wide text-faint">
                     No tickers match these filters.
                   </td>
                 </tr>
