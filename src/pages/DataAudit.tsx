@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { companies } from '@/data/companies'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { useFundamentals } from '@/lib/useFundamentals'
-import { formatUsdCompact, parseMarketCapUsd } from '@/lib/marketCap'
+import { formatUsdCompact, parseMarketCapUsd, toUsd } from '@/lib/marketCap'
 import { currencyOf, formatMoney } from '@/data/valueChain'
 import { parseMetricValue } from '@/lib/priceSeries'
 
@@ -41,7 +41,9 @@ export default function DataAudit() {
          * unlike price we have never had anything to check it against. */
         const capRaw = companies[t].valuation.metrics.find((mm) => /market cap/i.test(mm.label))?.values[0]
         const capOurs = parseMarketCapUsd(capRaw, currencyOf(t))
-        const capReal = fundamentals[t]?.marketCap ?? null
+        // The provider quotes cap in the listing currency; ours is in USD.
+        const capRealNative = fundamentals[t]?.marketCap ?? null
+        const capReal = capRealNative != null ? toUsd(capRealNative, currencyOf(t)) : null
         const capDrift = capOurs != null && capReal != null && capOurs > 0 ? (capReal - capOurs) / capOurs : null
         return { t, name: companies[t].name, asOf: companies[t].asOf, snap, live, drift, capOurs, capReal, capDrift }
       })

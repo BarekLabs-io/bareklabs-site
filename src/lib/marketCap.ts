@@ -35,10 +35,14 @@ const MULTIPLIER: Record<string, number> = { T: 1e12, B: 1e9, M: 1e6, K: 1e3 }
 /* Some entries fold two figures into one row — "Share price / Market cap"
  * carrying "~€201 / ~€15.7bn". Reading that row for a cap picks up the price
  * and silently produces a $217 company. When both are present, the cap is the
- * part after the slash. */
+ * part after the separator.
+ *
+ * It must be " / " with spaces. Splitting on any slash also cuts inside dates
+ * — "as of 4/30/2026" made one microcap parse as "30", i.e. a $32 company —
+ * and researched prose is full of dates. */
 function capSide(raw: string): string {
-  const i = raw.indexOf('/')
-  return i > 0 ? raw.slice(i + 1) : raw
+  const i = raw.indexOf(' / ')
+  return i > 0 ? raw.slice(i + 3) : raw
 }
 
 /** Averages "17-18", "22–28" style ranges; returns a single number otherwise. */
@@ -101,6 +105,18 @@ export function parseAmountNative(raw: string | undefined | null): number | null
   if (!raw) return null
   const native = toNumber(raw.match(ANY_RE))
   return native != null && native > 0 ? native : null
+}
+
+/**
+ * Convert an amount quoted in a listing currency into USD.
+ * Data providers report market cap in the company's own currency, so a
+ * Japanese name comes back as a number 150x larger than its dollar value —
+ * comparing that against a USD figure reads as a 12,000% discrepancy when the
+ * two agree.
+ */
+export function toUsd(amount: number, currency: string): number | null {
+  const rate = USD_PER[currency.toUpperCase()]
+  return rate == null ? null : amount * rate
 }
 
 /** Compact display for a USD amount derived above — always mark it as approximate. */
