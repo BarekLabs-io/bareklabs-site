@@ -168,8 +168,10 @@ export const fr: Dict = {
       serif: '',
       desc: 'DES LECTURES COURTES ET DENSES. CHAQUE NOTE PORTE UN SCORE DE CONFIANCE — RAPPEL QUE LA CONNAISSANCE EST UNE PROBABILITÉ, PAS UNE POSTURE.',
     },
-    filters: ['TOUT', 'PAIEMENTS', 'ÉNERGIE & ESPACE'],
+    filters: ['TOUT', 'CRYPTO', 'CLOUD & IA', 'PAIEMENTS', 'ÉNERGIE & ESPACE'],
     notes: [
+      { d: '2026.08.06', tag: 'CRYPTO', t: 'La crypto en 2026 : à quoi ressemble le cycle à partir d’ici', read: '14', conf: 75, to: '/analysis/crypto-2026' },
+      { d: '2026.08.06', tag: 'CLOUD & IA', t: 'Oracle : le titre que je regarde de plus près en ce moment', read: '16', conf: 78, to: '/analysis/oracle' },
       { d: '2026.08.06', tag: 'PAIEMENTS', t: 'Le péage invisible : à qui appartient vraiment l’argent que vous dépensez', read: '24', conf: 82, to: '/analysis/global-payments' },
       { d: '2026.08.04', tag: 'ÉNERGIE & ESPACE', t: 'La nouvelle économie spatiale : SPCX, RKLB, ASTS — reprix en public', read: '18', conf: 80, to: '/analysis/space-economy' },
     ],

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAREK LABS — Oracle : le titre que je regarde de plus près en ce moment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#EAE7DE; --ink-dim:#9CA6B4; --ink-faint:#5C6675;
+    --bg:#0D131C; --panel:#141C28; --panel-2:#182234;
+    --line:#28323F; --line-soft:#1D2733;
+    --accent:#3ECF8E; --accent-dim:#237A54; --red:#E2635C; --cyan:#5FB8DE;
+    --paper:#EAE7DE;
+    --serif-display:'Fraunces', Georgia, serif;
+    --serif-body:'Source Serif 4', Georgia, serif;
+    --mono:'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif-body);font-size:17.5px;line-height:1.68;-webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--accent);color:#051109;}
+  a{color:var(--accent);text-decoration-color:rgba(62,207,142,.35);}
+  .wrap{max-width:780px;margin:0 auto;padding:0 20px;}
+
+  .masthead{border-bottom:1px solid var(--line);padding:22px 0;}
+  .mh-row{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  .brand{font-family:'IBM Plex Sans',system-ui,sans-serif;font-weight:700;font-size:21px;letter-spacing:.005em;color:var(--paper);display:inline-flex;align-items:baseline;gap:7px;}
+  .brand .lab{font-weight:300;font-size:13px;letter-spacing:.11em;color:var(--paper);}
+  .mh-tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
+
+  header.hero{padding:50px 0 26px;border-bottom:1px solid var(--line);}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin:0 0 16px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:22px;height:1px;background:var(--accent-dim);}
+  h1.title{font-family:var(--serif-display);font-weight:600;font-size:clamp(30px,6.4vw,44px);line-height:1.1;letter-spacing:-.01em;margin:0 0 16px;color:var(--paper);}
+  h1.title em{font-style:italic;font-weight:400;color:var(--accent);}
+  .dek{font-size:19px;color:var(--ink-dim);max-width:58ch;margin:0 0 22px;}
+  .byline{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);flex-wrap:wrap;}
+  .byline .dot{width:4px;height:4px;border-radius:50%;background:var(--ink-faint);}
+
+  .quoteboard{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:2px;overflow:hidden;background:var(--panel);margin-top:26px;}
+  .qb-cell{padding:12px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .qb-cell:nth-child(3n){border-right:none;}
+  .qb-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px;}
+  .qb-value{font-family:var(--mono);font-size:16.5px;font-weight:600;color:var(--paper);}
+  .qb-value.up{color:var(--accent);} .qb-value.down{color:var(--red);}
+  .qb-sub{font-family:var(--mono);font-size:10px;color:var(--ink-faint);margin-top:2px;}
+  @media(max-width:600px){.quoteboard{grid-template-columns:repeat(2,1fr);}.qb-cell:nth-child(3n){border-right:1px solid var(--line);}.qb-cell:nth-child(2n){border-right:none;}}
+
+  article{padding:6px 0 0;}
+  section.chap{padding:42px 0;border-bottom:1px solid var(--line);}
+  section.chap:last-of-type{border-bottom:none;}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-dim);margin-bottom:10px;}
+  h2.h{font-family:var(--serif-display);font-weight:600;font-size:clamp(23px,4.2vw,29px);color:var(--paper);margin:0 0 18px;letter-spacing:-.01em;}
+  h3.sub{font-family:var(--serif-display);font-weight:600;font-size:19px;color:var(--paper);margin:28px 0 12px;}
+  p{margin:0 0 17px;color:var(--ink);}
+  .lede{font-size:19px;color:var(--paper);}
+  strong{color:var(--paper);font-weight:600;}
+  ul.list,ol.list{margin:0 0 18px;padding-left:22px;}
+  ul.list li,ol.list li{margin-bottom:9px;}
+  ul.list li::marker{color:var(--accent-dim);}
+
+  .callout{border-left:2px solid var(--accent-dim);background:var(--panel);padding:16px 20px;margin:22px 0;border-radius:0 3px 3px 0;}
+  .callout .cl{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:7px;}
+  .callout p{margin:0;color:var(--ink-dim);font-size:15.5px;}
+  .callout p+p{margin-top:10px;}
+
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0;}
+  .trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:22px 0;}
+  @media(max-width:640px){.duo{grid-template-columns:1fr;}.trio{grid-template-columns:1fr;}}
+  .card{border:1px solid var(--line);border-radius:3px;padding:16px 18px;}
+  .card.bull{border-top:2px solid var(--accent);} .card.bear{border-top:2px solid var(--red);} .card.neutral{border-top:2px solid var(--cyan);}
+  .card .lb{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;margin-bottom:9px;}
+  .card.bull .lb{color:var(--accent);} .card.bear .lb{color:var(--red);} .card.neutral .lb{color:var(--cyan);}
+  .card p{font-size:14.5px;color:var(--ink-dim);margin:0;}
+
+  .chart-block{margin:24px 0 28px;}
+  .chart-frame{background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:18px 16px 10px;overflow:hidden;}
+  .chart-headline{font-size:15px;color:var(--paper);font-weight:600;margin-bottom:12px;line-height:1.4;}
+  .chart-cap{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-top:10px;line-height:1.55;}
+  .exhibit{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);margin-top:4px;}
+  .chart-svg-holder{width:100%;} .chart-svg-holder svg{width:100%;height:auto;display:block;overflow:visible;}
+
+  .table-wrap{overflow-x:auto;margin:20px 0 26px;border:1px solid var(--line);border-radius:3px;}
+  table{border-collapse:collapse;width:100%;min-width:500px;font-size:14px;}
+  table.narrow{min-width:0;}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);text-align:left;padding:11px 13px;background:var(--panel-2);border-bottom:2px solid var(--accent-dim);white-space:nowrap;}
+  th.num{text-align:right;}
+  td{padding:10px 13px;border-bottom:1px solid var(--line-soft);color:var(--ink-dim);vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td.num,th.num{font-family:var(--mono);text-align:right;color:var(--ink);white-space:nowrap;}
+  td.hl{color:var(--paper);font-weight:600;}
+  td.risk{color:var(--red);font-weight:700;}
+  .tag{display:inline-block;font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:2px;}
+  .tag.pos{background:rgba(62,207,142,.16);color:var(--accent);}
+  .tag.neg{background:rgba(226,99,92,.16);color:var(--red);}
+  .tag.neu{background:rgba(95,184,222,.16);color:var(--cyan);}
+
+  .signoff{padding:40px 0;}
+  .signoff-box{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:24px 22px;}
+  .signoff-box p{font-size:16px;}
+  .signoff-brand{font-family:'IBM Plex Sans',system-ui,sans-serif;margin-top:10px;display:inline-flex;align-items:baseline;gap:6px;}
+  .signoff-brand b{color:var(--paper);font-weight:700;font-size:15px;}
+  .signoff-brand span{color:var(--paper);font-weight:300;font-size:10.5px;letter-spacing:.1em;}
+
+  footer{padding:36px 0 56px;}
+  .disclaimer{background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:16px 18px;font-size:13px;color:var(--ink-faint);line-height:1.6;margin-bottom:26px;}
+  .disclaimer .nfa{color:var(--accent);font-family:var(--mono);font-weight:600;}
+  .sources{font-size:12.5px;color:var(--ink-faint);line-height:1.85;}
+  .sources .st{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;margin-bottom:9px;}
+  .sources ul{margin:0;padding-left:16px;columns:2;column-gap:26px;}
+  @media(max-width:600px){.sources ul{columns:1;}}
+  .sources li{margin-bottom:5px;break-inside:avoid;}
+  .colophon{margin-top:24px;display:flex;align-items:baseline;gap:10px;font-family:var(--mono);font-size:11px;color:var(--ink-faint);}
+  .colophon .cb{font-family:'IBM Plex Sans',system-ui,sans-serif;display:inline-flex;align-items:baseline;gap:5px;}
+  .colophon .cb b{color:var(--ink-dim);font-weight:700;font-size:12px;}
+  .colophon .cb span{color:var(--ink-dim);font-weight:300;font-size:9px;letter-spacing:.1em;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="mh-row">
+      <div class="brand">BAREK<span class="lab">/ LABS</span></div>
+      <div class="mh-tag">Insights — Recherche &amp; Analyse</div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <p class="kicker">Deep dive · $ORCL</p>
+    <h1 class="title">Oracle, ou pourquoi <em>tout le monde a raison</em> en même temps</h1>
+    <p class="dek">638 Mds$ de backlog, -56% depuis son sommet, et un consensus qui prévoit encore +75% de hausse. J'ai voulu comprendre ce dossier chiffres en main plutôt qu'à coups de gros titres — voici ce que j'y ai trouvé.</p>
+    <div class="byline">Par BAREK LABS<span class="dot"></span>~18 min de lecture<span class="dot"></span>Pas un conseil en investissement</div>
+
+    <div class="quoteboard">
+      <div class="qb-cell"><div class="qb-label">ORCL · NYSE</div><div class="qb-value">144,4 $</div><div class="qb-sub">Dernière clôture</div></div>
+      <div class="qb-cell"><div class="qb-label">52 semaines</div><div class="qb-value" style="font-size:14px;">114,50–345,72 $</div><div class="qb-sub">bas 28 juil · haut 10 sept 25</div></div>
+      <div class="qb-cell"><div class="qb-label">Cap. boursière</div><div class="qb-value">~417 Mds$</div><div class="qb-sub">2,88 Mds titres</div></div>
+      <div class="qb-cell"><div class="qb-label">RPO (backlog)</div><div class="qb-value up">638 Mds$</div><div class="qb-sub">+363% YoY</div></div>
+      <div class="qb-cell"><div class="qb-label">FCF FY26</div><div class="qb-value down">-23,7 Mds$</div><div class="qb-sub">vs +32,0 Mds$ OCF</div></div>
+      <div class="qb-cell"><div class="qb-label">Consensus</div><div class="qb-value up">~252 $</div><div class="qb-sub">+74% vs cours</div></div>
+      <div class="qb-cell"><div class="qb-label">Fwd P/E</div><div class="qb-value">18,1x</div><div class="qb-sub">EV/EBITDA 12,4x</div></div>
+      <div class="qb-cell"><div class="qb-label">Guidance FY27</div><div class="qb-value">90 Mds$</div><div class="qb-sub">confirmée officiellement</div></div>
+      <div class="qb-cell"><div class="qb-label">Ratio D/E</div><div class="qb-value down">344%</div><div class="qb-sub">dette financière seule</div></div>
+    </div>
+  </header>
+
+  <article>
+
+  <section class="chap">
+    <p class="lede">Il y a un an, si vous m'aviez demandé ce que je pensais d'Oracle, je vous aurais parlé de bases de données et de licences Java. Aujourd'hui, c'est devenu l'un des titres les plus disputés de la tech américaine — et pas pour des raisons évidentes. Le titre a perdu plus de la moitié de sa valeur depuis son sommet de septembre. Sa note de crédit a été dégradée cet été. Il y a des articles sur des dérapages de chantier au Wisconsin et au Nouveau-Mexique. Et pourtant, les analystes qui couvrent ce dossier gardent un objectif de cours moyen impliquant plus de 70% de hausse. Ça ne colle pas à première vue — et c'est exactement le genre de situation qui mérite qu'on ouvre le capot plutôt que de se fier au titre de l'article.</p>
+    <p>Je ne suis pas ingénieur logiciel et je ne prétendrai jamais l'être ici. Ce que je fais depuis une dizaine d'années, c'est lire des comptes de résultat et des bilans, et piloter des opérations business à l'échelle internationale — dans des environnements où le cloud, l'ERP et l'infrastructure data ne sont pas des sujets abstraits, mais des lignes de budget qu'on négocie, des fournisseurs qu'on audite, des pannes de production qu'on subit en direct. Ça ne fait pas de moi un expert GPU. Mais ça me donne un œil d'opérateur sur ce type de dossier — je sais reconnaître quand un narratif commercial ne colle pas avec la réalité d'un déploiement, et je sais lire un bilan sans me faire raconter d'histoires.</p>
+    <p>Alors voilà le plan&nbsp;: price action, mécanique FP&amp;A (RPO, capex, cash-flow, dette), volet technique (dépréciation GPU, infrastructure réseau), risque de concentration client via Stargate/OpenAI, et la question qui fâche — est-ce que le cloud IA d'Oracle est seulement rentable. Je ne vais pas vous dire d'acheter ou de vendre. Je vais vous donner les chiffres, avec leurs sources, pour que vous puissiez vous faire votre propre avis.</p>
+  </section>
+
+  <!-- PRICE ACTION -->
+  <section class="chap">
+    <p class="eyebrow">Chapitre 1</p>
+    <h2 class="h">Le grand huit boursier</h2>
+    <p class="lede">Peu de mega caps ont vécu une année aussi bipolaire. Le 9 septembre 2025, ORCL clôture à 228,60$. Le lendemain, le titre bondit de <strong>42% en une séance</strong> — Oracle vient de révéler un RPO en hausse de 359% sur un an, à 455 Mds$, porté par un contrat cloud massif avec OpenAI. Pendant quelques heures, sur le papier, Larry Ellison devient l'homme le plus riche du monde. Le 10 septembre 2025 reste à ce jour la clôture historique du titre&nbsp;: 324,63$.</p>
+
+    <div class="chart-block">
+      <div class="chart-frame"><div id="priceChart" class="chart-svg-holder"></div></div>
+      <p class="chart-cap">Cours ORCL à dates clés, sept. 2025 → août 2026. Construit à partir de points de référence datés, pas d'un flux quotidien continu.</p>
+      <p class="exhibit">Exhibit 1 — Price Action</p>
+    </div>
+
+    <p>Depuis ce pic, la réalité du capex s'est imposée par étapes. Le 10 juin 2026, les résultats FY26 battent le consensus sur le chiffre d'affaires et le RPO — mais la guidance capex FY27 (90-95 Mds$) fait chuter le titre en after-hours. Le 9 juillet, S&amp;P dégrade la note de crédit à BBB-, un cran au-dessus du junk. Puis viennent les articles sur les dérapages de chantier. Le titre touche un plus bas sur 52 semaines à <strong>114,50$ le 28 juillet</strong> — soit -56% depuis le sommet de septembre.</p>
+
+    <p>Depuis fin juillet, ça repart&nbsp;: contrat Pentagone à 7 Mds$, intégration de Gemini dans OCI, et Mizuho qui publie une note disant que le titre peut plus que doubler depuis ces niveaux. Au 4 août, le titre cote 144,39$ — encore -28% sur l'année civile 2026, mais +26% depuis son point bas de juillet.</p>
+
+    <div class="callout">
+      <p class="cl">Ce qui me frappe le plus dans ce dossier</p>
+      <p>41 à 49 analystes couvrent le titre, consensus <strong>Achat</strong>, objectif moyen autour de <strong>252$</strong> — de 110$ (CLSA, prudent) à 400$ (Guggenheim, Jefferies, Global Equities Research). À 144$, ça fait un upside implicite de <strong>+74%</strong>, l'un des écarts les plus larges de toute la tech de grande capitalisation.</p>
+    </div>
+  </section>
+
+  <!-- FP&A -->
+  <section class="chap">
+    <p class="eyebrow">Chapitre 2</p>
+    <h2 class="h">FP&amp;A — le cœur du réacteur</h2>
+    <p class="lede">C'est ici que se joue vraiment la thèse. Trois courbes à connaître par cœur&nbsp;: le RPO qui explose, le capex qui le suit avec un décalage, et le cash-flow qui encaisse la différence.</p>
+
+    <h3 class="sub">Le socle, avant l'IA</h3>
+    <p>Oracle vend des bases de données depuis 1977, et ce socle logiciel génère toujours un chiffre d'affaires solide et une marge brute qu'aucun pure-player IA n'approche. Le chiffre d'affaires total est passé de 42 Mds$ en FY22 à 67,4 Mds$ en FY26 — croissance régulière, jusqu'à ce que la guidance FY27 (90 Mds$, confirmée) marque une vraie rupture de pente.</p>
+
+    <div class="chart-block">
+      <div class="chart-frame">
+        <div class="chart-headline">Le mix cloud s'accélère — la trajectoire du capex dit d'où vient la croissance</div>
+        <div id="revChart" class="chart-svg-holder"></div>
+      </div>
+      <p class="chart-cap">Chiffre d'affaires total par exercice, cloud vs non-cloud, en Mds$. FY22-FY26 : réel (10-K). FY27 : guidance officielle.</p>
+      <p class="exhibit">Exhibit 2 — Revenue Trajectory</p>
+    </div>
+
+    <h3 class="sub">Le RPO — le vrai backlog monster</h3>
+    <p>Le Remaining Performance Obligations, c'est la valeur des contrats signés mais pas encore reconnus en revenu. Sa trajectoire sur six trimestres est vertigineuse&nbsp;: <strong>stable autour de 130-138 Mds$ jusqu'en mai 2025</strong>, puis un bond de <strong>+330 Mds$ en un seul trimestre</strong> (T1 FY26, la révélation OpenAI), avant de continuer à grimper jusqu'à 638 Mds$.</p>
+
+    <div class="chart-block">
+      <div class="chart-frame"><div id="rpoChart" class="chart-svg-holder"></div></div>
+      <p class="chart-cap">RPO trimestriel, en Mds$, ligne pointillée = revenu annuel FY26 pour échelle. Les six derniers points viennent directement des 8-K SEC d'Oracle.</p>
+      <p class="exhibit">Exhibit 3 — The Backlog Monster</p>
+    </div>
+
+    <div class="callout">
+      <p class="cl">Le détail qui change la lecture du RPO</p>
+      <p>Le 10-Q d'Oracle précise noir sur blanc la cadence de conversion&nbsp;: sur les 552,6 Mds$ de RPO au 28 février 2026, <strong>seuls ~12% sont attendus en revenu sur les 12 mois suivants</strong> (~66 Mds$), 31% sur les mois 13-36, 35% sur les mois 37-60, le solde au-delà. En appliquant la même logique à 638 Mds$, la tranche « prochains 12 mois » tourne vraisemblablement autour de <strong>75-85 Mds$</strong>. Le RPO total est un backlog à 5 ans et plus, pas une prévision de revenu à un an.</p>
+    </div>
+
+    <h3 class="sub">Le piège du capex</h3>
+    <p>21,2 Mds$ en FY25. 55,7 Mds$ en FY26 — déjà 5,7 Mds$ au-dessus de la guidance d'Oracle, elle-même relevée plusieurs fois depuis un point de départ à 35 Mds$. Et maintenant <strong>90 à 95 Mds$ visés pour FY27</strong>, confirmés dans le 10-K déposé fin juin.</p>
+
+    <div class="chart-block">
+      <div class="chart-frame"><div id="ttmChart" class="chart-svg-holder"></div></div>
+      <p class="chart-cap">Cash-flow opérationnel, capex et free cash flow, cumul 12 mois glissants (TTM), par trimestre. T4 FY26 = année pleine. Sources : communiqués Oracle, 10-Q/10-K.</p>
+      <p class="exhibit">Exhibit 4 — The Capex Trap</p>
+    </div>
+
+    <p>L'OCF progresse (+54% sur FY26), mais le capex progresse plus vite, trimestre après trimestre, depuis début FY25. Oracle investit chaque dollar généré — et emprunte le reste. Pour combler l'écart&nbsp;: 43 Mds$ de dette et 5 Mds$ d'equity levés sur FY26, et ~40 Mds$ de plus prévus sur FY27 (dont 20 Mds$ d'émission d'actions au marché), sans nouvelle dette obligataire prévue sur l'année calendaire 2026.</p>
+
+    <h3 class="sub">The Debt Question</h3>
+    <p>C'est le point où je suis allé chercher directement le 10-K plutôt que de me fier à un agrégateur, parce que les chiffres de dette d'Oracle qui circulent varient beaucoup selon la source. Voici le bilan consolidé, ligne par ligne&nbsp;:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Poste (Mds$)</th><th class="num">Mai 25</th><th class="num">Nov 25</th><th class="num">Fév 26</th><th class="num">Mai 26</th></tr></thead>
+        <tbody>
+          <tr><td class="hl">Cash &amp; équivalents</td><td class="num">10,8</td><td class="num">19,2</td><td class="num">38,5</td><td class="num">31,3</td></tr>
+          <tr><td class="hl">Dette financière (notes payable)</td><td class="num">92,6</td><td class="num">108,1</td><td class="num">134,6</td><td class="num">129,5</td></tr>
+          <tr><td class="hl">+ passifs de location (ASC 842)</td><td class="num">11,5</td><td class="num">16,3</td><td class="num">18,5</td><td class="num">26,6</td></tr>
+          <tr><td class="hl">Capitaux propres</td><td class="num">20,5</td><td class="num">30,0</td><td class="num">38,5</td><td class="num">37,6</td></tr>
+          <tr><td class="risk">Dette / Capitaux propres</td><td class="num risk">452%</td><td class="num risk">361%</td><td class="num risk">350%</td><td class="num risk">344%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="exhibit" style="margin-top:-16px;margin-bottom:20px;">Exhibit 5 — The Debt Question · Source : 10-K/10-Q Oracle, SEC EDGAR</p>
+
+    <p style="font-size:14.5px;color:var(--ink-faint);">Note méthodo&nbsp;: les leases sont sur le bilan depuis ASC 842, donc « hors-bilan » n'est plus tout à fait juste pour la dette elle-même. Ce qui reste hors-bilan&nbsp;: les special purpose vehicles (SPV) qu'Oracle utilise pour financer certains data centers via des tiers — Blue Owl, Crusoe, JPMorgan notamment, pour environ 13, 38 et 18 Mds$ sur des sites au Texas, Wisconsin et Nouveau-Mexique.</p>
+
+    <p>Le D/E s'est en fait <em>amélioré</em> entre mai 2025 et mai 2026 (452% → 344%) — les capitaux propres ont quasiment doublé (résultat net +36%, plus une émission d'actions préférentielles de 5 Mds$ en février). Reste que <strong>S&amp;P a dégradé Oracle de BBB à BBB- le 9 juillet</strong>, un cran au-dessus du junk, citant un ratio dette ajustée/EBITDA pouvant atteindre 4,3-4,5x sur FY27 (contre 3,3x en mai 2025) et un déficit de FCF pouvant doubler à -42 Mds$. Moody's est en perspective négative. Le CDS 5 ans a grimpé à 203 points de base, un plus haut en 18 ans.</p>
+  </section>
+
+  <!-- ENGINEERING -->
+  <section class="chap">
+    <p class="eyebrow">Chapitre 3</p>
+    <h2 class="h">Le volet technique — GPU, dépréciation, réseau</h2>
+    <p class="lede">Deux questions distinctes se cachent sous « le cloud IA est-il rentable »&nbsp;: combien de temps un GPU reste-t-il économiquement utile, et Oracle a-t-il un vrai avantage d'infrastructure ou juste un ticket d'entrée acheté à coup de milliards.</p>
+
+    <p>En novembre 2025, Michael Burry a accusé les hyperscalers de gonfler leurs résultats en amortissant leurs GPU sur des durées trop longues face à une obsolescence réelle plus proche de 2-3 ans. Son chiffrage&nbsp;: jusqu'à <strong>26,9% de surestimation du résultat d'Oracle d'ici 2028</strong> — la plus élevée avec Meta. Oracle amortit sur 6 ans, inchangé depuis l'extension du secteur en 2022-2024. Amazon a raccourci une partie de son parc à 5 ans en 2025 ; Meta a étendu à 5,5. Le prix de location des H100 est tombé d'un pic de 8-10$/heure à ~2,85-3,50$/heure.</p>
+
+    <div class="duo">
+      <div class="card bull"><div class="lb">La défense</div><p>Un changement d'estimation comptable encadré (ASC 250), audité — pas une erreur ni une fraude. Chaque opérateur peut légitimement arriver à une durée différente.</p></div>
+      <div class="card bear"><div class="lb">Le doute</div><p>Sur 10 Mds$ de GPU, amortir en 3 ans plutôt qu'en 6 fait varier le résultat d'exploitation d'environ 1,8 Md$/an — depuis une hypothèse, pas une vente.</p></div>
+    </div>
+
+    <p>Le free cash flow, indifférent à la durée choisie, reste la métrique la plus fiable pour juger Oracle aujourd'hui — bien plus que l'EPS GAAP, en hausse de 34% sur FY26.</p>
+
+    <p>Côté infra, l'avantage est réel, pas que marketing. SemiAnalysis a attribué à OCI une notation <strong>ClusterMAX Gold</strong>, avec un réseau RDMA jugé compétitif face au Spectrum-X de Nvidia. Les clusters Zettascale10 montent jusqu'à 131 072 GPU Blackwell interconnectés, latence annoncée jusqu'à 2,5 microsecondes. L'utilisation GPU a atteint 97,5% au T4 FY26, avec 92% de la capacité renouvelée à échéance.</p>
+
+    <p>Mais la physique rattrape le tableur&nbsp;: le campus Wisconsin (~15 Mds$, ~1 GW) est en contentieux avec le régulateur électrique local, qui exige des garanties au-delà de 100 M$/an pour tout opérateur noté sous A- — Oracle, à BBB-, est concerné, et a assigné le régulateur en justice en juin. Bloomberg a rapporté un report de 2027 à 2028 de certains data centers OpenAI ; Oracle a démenti quelques jours plus tard. Les deux versions coexistent dans la presse ; aucune n'est vérifiable de l'extérieur.</p>
+  </section>
+
+  <!-- STARGATE -->
+  <section class="chap">
+    <p class="eyebrow">Chapitre 4</p>
+    <h2 class="h">Stargate &amp; OpenAI — le vrai risque de concentration</h2>
+    <p class="lede">C'est le nœud de toute la thèse. Le contrat OpenAI&nbsp;: 300 Mds$ sur 5 ans, 4,5 GW de capacité, démarrage en 2027 — un run-rate proche de 60 Mds$/an.</p>
+
+    <div class="chart-block">
+      <div class="chart-frame"><div id="stargateChart" class="chart-svg-holder"></div></div>
+      <p class="chart-cap">Jalons datés clés, juil. 2025 → démarrage du contrat en 2027.</p>
+      <p class="exhibit">Exhibit 6 — Stargate Timeline</p>
+    </div>
+
+    <p>Point de rigueur sur la source&nbsp;: le chiffre de 300 Mds$ vient d'abord du Wall Street Journal (10 septembre 2025, citant des sources proches du dossier), confirmé indépendamment par CNBC — ni Oracle ni OpenAI n'a publié ce montant exact dans un communiqué conjoint ou un dépôt SEC. Ce qui est officiellement confirmé des deux côtés&nbsp;: les 4,5 GW de capacité et le démarrage en 2027.</p>
+
+    <p>Sur la concentration&nbsp;: Bank of America estimait qu'OpenAI représentait <strong>plus de 50% du RPO total</strong> à l'annonce des résultats T4 — un analyste évoquait dès septembre 2025 une hypothèse haute à plus de 90%. Un facteur explicitement cité par S&amp;P dans sa dégradation, et objectivement le risque numéro un ici.</p>
+
+    <p>Le problème n'est pas qu'OpenAI disparaisse — c'est que ses revenus ne suivent pas encore le rythme. Mi-2026&nbsp;: environ 25 Mds$ de revenu annualisé, en forte hausse, mais avec une perte opérationnelle projetée à ~14 Mds$ pour 2026 seul. Le cash-flow positif n'est visé qu'à partir de 2030.</p>
+
+    <div class="callout">
+      <p class="cl">Le mécanisme derrière le risque</p>
+      <p>La stratégie assumée d'OpenAI est de garder son bilan léger — transformer le capex en engagements d'achat pluriannuels plutôt que de posséder les data centers. Ça déplace le risque de construction et de levier vers des partenaires comme Oracle. Si OpenAI ne peut pas honorer ses engagements, Oracle reste avec des baux sur-mesure difficiles à réaffecter à conditions équivalentes. Exactement le point relevé par S&amp;P.</p>
+    </div>
+
+    <p>À décharge&nbsp;: un tour de table record de 122 Mds$ (valorisation 852 Mds$), un dossier d'IPO confidentiel visant plus de 1000 Mds$ (juin 2026), et un accord Microsoft renégocié plafonnant les obligations à 38 Mds$ jusqu'en 2030 — contre ~135 Mds$ avant. Et le contrat n'est pas qu'une promesse future&nbsp;: Abilene est déjà en production, 1,2 GW livré et facturé.</p>
+  </section>
+
+  <!-- DIVERSIFICATION -->
+  <section class="chap">
+    <p class="eyebrow">Chapitre 5</p>
+    <h2 class="h">TikTok, Pentagone, Meta, Google — la carte de diversification</h2>
+    <p class="lede">Le narratif « Oracle = pari OpenAI » est incomplet. Sur douze mois, Oracle a signé ou renforcé au moins quatre relations qui réduisent, sur le papier, la dépendance à un seul client.</p>
+    <ul class="list">
+      <li><strong>TikTok</strong> — la JV TikTok USDS a bouclé le 22 janvier 2026&nbsp;: Oracle, Silver Lake et MGX détiennent chacun 15%. Oracle héberge toutes les données US sur OCI et supervise l'audit de l'algorithme. La contribution financière directe n'est pas détaillée — la valeur ici est réputationnelle.</li>
+      <li><strong>Pentagone</strong> — le 23 juillet 2026, le DoD a attribué à Oracle un contrat-cadre pouvant atteindre 6,9-7 Mds$ sur 10 ans.</li>
+      <li><strong>Meta</strong> — un contrat cloud d'environ 20 Mds$ serait proche de la finalisation.</li>
+      <li><strong>Google</strong> — juillet 2026, Gemini intégré directement dans OCI AI Agent Studio, plaçant Oracle aux côtés de Meta, OpenAI et xAI comme hébergeur multi-modèles.</li>
+    </ul>
+    <p>Ce que je pense sous-évalué par le marché&nbsp;: Oracle devient une infrastructure neutre pour plusieurs labos IA concurrents à la fois, ce qui dilue mécaniquement le poids relatif d'OpenAI avec le temps — même si, aujourd'hui, ça reste marginal face à l'échelle du pari Stargate.</p>
+  </section>
+
+  <!-- MARGIN -->
+  <section class="chap">
+    <p class="eyebrow">Chapitre 6</p>
+    <h2 class="h">Le cloud IA est-il seulement rentable&nbsp;?</h2>
+    <p class="lede">Réponse honnête&nbsp;: pas encore au niveau du groupe, mais la trajectoire est mesurable.</p>
+    <div class="chart-block">
+      <div class="chart-frame"><div id="marginChart" class="chart-svg-holder"></div></div>
+      <p class="chart-cap">Comparaison de marges selon la source, en %. Les trois chiffres mesurent des périmètres différents.</p>
+      <p class="exhibit">Exhibit 7 — Margin Reality Check</p>
+    </div>
+    <div class="duo">
+      <div class="card bear"><div class="lb">Le signal qui inquiète</div><p>Des documents internes rapportés dans la presse évoquent une marge moyenne de <strong>16%</strong> sur les contrats cloud IA — bien sous la marge brute groupe de 65,8%.</p></div>
+      <div class="card bull"><div class="lb">Le signal qui rassure</div><p>Le management a indiqué une marge brute de <strong>32%</strong> sur la capacité IA livrée au T3 FY26 — au-dessus de son objectif de 30%.</p></div>
+    </div>
+    <p>La lecture de Futurum Group me semble juste&nbsp;: le principal frein n'est pas la capacité déjà livrée et facturée, mais le coût de portage d'une capacité massive en construction simultanée — un problème de timing plus que de demande structurelle. Reste que la marge IA se situe nettement sous la moyenne historique du groupe. C'est un fait chiffré, pas une opinion.</p>
+  </section>
+
+  <!-- COMPETITIVE -->
+  <section class="chap">
+    <p class="eyebrow">Chapitre 7</p>
+    <h2 class="h">Oracle face aux neoclouds et aux hyperscalers</h2>
+    <p class="lede">Oracle n'est ni tout à fait un hyperscaler établi, ni un neocloud pure-player — probablement pourquoi le titre est si difficile à valoriser proprement par un marché qui raisonne par comparables.</p>
+
+    <div class="chart-block">
+      <div class="chart-frame"><div id="shareChart" class="chart-svg-holder"></div></div>
+      <p class="chart-cap">Part de marché cloud infrastructure, 2024 (réel, Synergy Research) vs 2028 (projection BAREK LABS).</p>
+      <p class="exhibit">Exhibit 8 — Cloud Market Share Shift</p>
+    </div>
+
+    <p>Le contraste avec les neoclouds est net&nbsp;: chez CoreWeave, la charge d'intérêts représentait <strong>25,8% du chiffre d'affaires</strong> au T1 2026 — jusqu'à 46,3% de l'EBITDA ajusté. Oracle, même à BBB-, n'en est pas là. Face à des hyperscalers qui autofinancent leur capex (Google génère ~73 Mds$ de FCF), Oracle reste structurellement dépendante des marchés de capitaux.</p>
+
+    <div class="chart-block">
+      <div class="chart-frame">
+        <div class="chart-headline" id="peerHeadline">Oracle décote face à la médiane du peer group malgré une croissance supérieure</div>
+        <div id="peerChart" class="chart-svg-holder"></div>
+      </div>
+      <p class="chart-cap">Forward P/E vs croissance du revenu, pairs sélectionnés. Source&nbsp;: consensus Yahoo Finance / MarketBeat, début août 2026.</p>
+      <p class="exhibit">Exhibit 9 — Peer Comparison</p>
+    </div>
+  </section>
+
+  <!-- VALUATION -->
+  <section class="chap">
+    <p class="eyebrow">Chapitre 8</p>
+    <h2 class="h">Valorisation — l'écart qui ne se referme pas</h2>
+
+    <div class="chart-block">
+      <div class="chart-frame"><div id="valChart" class="chart-svg-holder"></div></div>
+      <p class="chart-cap">Fourchette de prix cibles issue de sources réelles et attribuées — aucun de ces chiffres n'est un modèle propriétaire BAREK LABS.</p>
+      <p class="exhibit">Exhibit 10 — Where the Street Sits</p>
+    </div>
+
+    <p>Toute DCF sur ce nom est extrêmement sensible aux hypothèses de coût du capital et de croissance terminale. Pour le rendre concret plutôt que de l'affirmer, voici notre propre grille de sensibilité — construite de façon transparente, pas copiée&nbsp;: projeter le revenu à FY30 sur la base du CAGR de 31% reconfirmé par Oracle (→ ~198 Mds$), appliquer une hypothèse de marge FCF normalisée de 22% (proche des marges des hyperscalers matures une fois le pic de capex passé), puis actualiser la valeur terminale au WACC retenu.</p>
+
+    <div class="chart-block">
+      <div class="chart-frame"><div id="dcfHeat" class="chart-svg-holder"></div></div>
+      <p class="chart-cap">Prix/action implicite ($) selon WACC et croissance terminale. Cas de base surligné (WACC 10,5%, croissance 3,0%) ≈ cours actuel — un test de cohérence, pas une prédiction.</p>
+      <p class="exhibit">Exhibit 11 — DCF Sensitivity: WACC vs. Terminal Growth</p>
+    </div>
+
+    <p>24/7 Wall St. situe sa juste valeur autour de 105-115$, pariant que le coût réel du plan de financement n'est pas encore pleinement intégré. Un scénario calé sur la guidance officielle justifierait une revalorisation substantielle sans supposer un seul contrat de plus. La phrase qui résume tout&nbsp;: tant que le RPO ne se convertit pas en cash plus vite que le capex ne le consomme, ce titre n'a pas de plancher de valorisation autre que le sentiment de marché.</p>
+  </section>
+
+  <!-- RISK TABLE -->
+  <section class="chap">
+    <p class="eyebrow">Chapitre 9</p>
+    <h2 class="h">Ce que je retiens — en tableau, sans trancher</h2>
+    <p class="lede">Un même fait, lu à travers deux prismes. Aucune colonne n'a tort — c'est le poids qu'on lui accorde qui distingue haussiers et baissiers.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Facteur</th><th>Lecture haussière</th><th>Lecture baissière</th></tr></thead>
+        <tbody>
+          <tr><td class="hl">RPO 638 Mds$</td><td>Visibilité de revenu inégalée, +363% YoY</td><td>Plus de 50% concentré sur un client dont la solvabilité future reste à démontrer</td></tr>
+          <tr><td class="hl">Capex 90-95 Mds$ FY27</td><td>Le ticket d'entrée pour dominer la prochaine décennie du cloud IA</td><td>Déficit de FCF projeté jusqu'à -42 Mds$</td></tr>
+          <tr><td class="hl">D/E 344%</td><td>En amélioration sur un an, capitaux propres qui doublent</td><td>Reste l'un des bilans les plus tendus de la tech de grande cap</td></tr>
+          <tr><td class="hl">Notation BBB-</td><td>Encore investment grade</td><td>Un cran du high yield, CDS au plus haut en 18 ans</td></tr>
+          <tr><td class="hl">Marge IA 16-32%</td><td>Amélioration attendue avec l'échelle</td><td>Bien sous la marge brute historique du groupe (65,8%)</td></tr>
+          <tr><td class="hl">Diversification</td><td>Réduit mécaniquement la dépendance à OpenAI</td><td>Reste marginale face à l'échelle de Stargate</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- BULL/NEUTRAL/BEAR -->
+  <section class="chap">
+    <p class="eyebrow">Chapitre 10</p>
+    <h2 class="h">Trois façons dont ça peut tourner</h2>
+    <p class="lede">Pas une prédiction — trois trajectoires cohérentes en elles-mêmes, pour suivre laquelle les prochains trimestres viendront confirmer.</p>
+    <div class="trio">
+      <div class="card bull">
+        <div class="lb">Bull</div>
+        <p>La conversion RPO→cash s'accélère, la marge sur la capacité livrée tient au-dessus de 30% avec l'échelle, l'IPO d'OpenAI dérisque la question de la contrepartie, la diversification continue de s'élargir. Une revalorisation vers le consensus (252$) ou plus devient plausible.</p>
+      </div>
+      <div class="card neutral">
+        <div class="lb">Neutral</div>
+        <p>Le backlog continue de croître mais la conversion reste lente, les marges s'améliorent progressivement, la dette continue de grimper mais reste investment grade. Le titre oscille dans une large fourchette 130-190$ pendant plusieurs trimestres, le marché attendant plus de données.</p>
+      </div>
+      <div class="card bear">
+        <div class="lb">Bear</div>
+        <p>Un grand client labo IA connaît un trou d'air de financement, le capex continue de dépasser la conversion, le déficit de FCF s'élargit vers le scénario -42 Mds$ de S&amp;P, une deuxième dégradation déclenche des coûts de financement plus élevés. Le titre retesté ou casse le plus bas de 114,50$.</p>
+      </div>
+    </div>
+  </section>
+
+  </article>
+
+  <div class="signoff">
+    <div class="signoff-box">
+      <p>Voilà où j'en suis&nbsp;: Oracle aujourd'hui, c'est deux entreprises dans un seul ticker. Un socle logiciel réel, rentable, qui continue de gagner du terrain jusque dans le cloud de ses concurrents. Et un pari infrastructure réel, financé par un levier réel, dont la rentabilité reste à prouver trimestre après trimestre. Les deux sont vrais en même temps. C'est précisément pour ça que ce titre fait autant de bruit — et exactement le genre de dossier que j'ai envie de continuer à suivre ici.</p>
+      <p style="margin-top:14px;">Si ce format vous parle, les prochains deep dives BAREK LABS suivront la même logique&nbsp;: chiffres d'abord, avis ensuite. <strong>NFA. DYOR.</strong></p>
+      <div class="signoff-brand"><b>BAREK</b><span>/ LABS</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="disclaimer">
+      <b>Avertissement.</b> Ce contenu est une synthèse d'informations publiques à visée informative et pédagogique, rédigée par BAREK LABS. <span class="nfa">Not financial advice. Do your own research.</span> Il ne constitue pas une recommandation d'achat, de conservation ou de vente. Les données de marché évoluent en continu et peuvent avoir changé depuis la publication. Avant toute décision d'investissement, référez-vous aux documents officiels d'Oracle (10-K, 10-Q, communiqués SEC) et consultez un conseiller financier agréé.
+    </div>
+    <div class="sources">
+      <p class="st">Sources principales</p>
+      <ul>
+        <li>Oracle Investor Relations — 8-K T1-T4 FY26, 10-K/10-Q (SEC EDGAR)</li>
+        <li>S&amp;P Global Ratings — note BBB-, 9 juillet 2026</li>
+        <li>CNBC, Reuters, Bloomberg — couverture résultats et Stargate</li>
+        <li>Wall Street Journal — révélation contrat OpenAI, sept. 2025</li>
+        <li>Data Center Dynamics, Data Center Frontier — Stargate/OCI</li>
+        <li>SemiAnalysis — classement ClusterMAX, infrastructure OCI</li>
+        <li>Financial Times, Nikkei — financement hors-bilan (SPV)</li>
+        <li>Sacra, The Information — financials OpenAI</li>
+        <li>Synergy Research — parts de marché cloud historiques</li>
+        <li>Yahoo Finance, MarketBeat, TIKR — consensus analystes et multiples</li>
+        <li>Morningstar, Futurum Group — analyse marge OCI</li>
+        <li>24/7 Wall St., Benzinga — sentiment de marché et price action</li>
+      </ul>
+    </div>
+    <div class="colophon">
+      <span class="cb"><b>BAREK</b><span>/ LABS</span></span>
+      <span>· Insights · $ORCL</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const NS="http://www.w3.org/2000/svg";
+  const COL={accent:'#3ECF8E',accentDim:'#237A54',red:'#E2635C',cyan:'#5FB8DE',paper:'#EAE7DE',dim:'#9CA6B4',faint:'#5C6675',line:'#28323F',lineSoft:'#1D2733',grey:'#3E4A5A',bg:'#0D131C'};
+  function make(tag,attrs,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;return e;}
+  function fmt1(n){return n.toFixed(1).replace('.',',');}
+  function txt(x,y,s,size,fill,anchor,weight){return make('text',{x:x,y:y,'text-anchor':anchor||'middle','font-size':size,fill:fill,'font-family':"'IBM Plex Mono',monospace",'font-weight':weight||400},s);}
+  function mount(id,W,H){const host=document.getElementById(id);const svg=make('svg',{viewBox:`0 0 ${W} ${H}`});host.appendChild(svg);return svg;}
+  function multiline(svg,cx,y0,label,size,fill,lh){String(label).split('\n').forEach((ln,i)=>svg.appendChild(txt(cx,y0+i*lh,ln,size,fill)));}
+  function calloutBox(svg,cx,cy,lines,color){
+    const w=Math.max(...lines.map(l=>l.length))*6.3+18, h=lines.length*14+12;
+    svg.appendChild(make('rect',{x:cx-w/2,y:cy-h/2,width:w,height:h,rx:3,fill:COL.bg,stroke:color,'stroke-width':1.3}));
+    lines.forEach((l,i)=>svg.appendChild(txt(cx,cy-h/2+16+i*14,l,10.5,color,'middle',600)));
+    return {w,h};
+  }
+
+  function barChart(id,labels,data,colors,o){
+    o=o||{};const W=700,H=280,padL=46,padR=14,padT=22,padB=o.padB||48;
+    const plotW=W-padL-padR,plotH=H-padT-padB;const svg=mount(id,W,H);const yMax=o.yMax;
+    for(let s=0;s<=(o.steps||4);s++){const v=yMax*s/(o.steps||4);const y=padT+plotH-(v/yMax)*plotH;
+      svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:y,y2:y,stroke:COL.lineSoft,'stroke-width':1}));
+      svg.appendChild(txt(padL-8,y+4,(o.yFmt?o.yFmt(v):Math.round(v)),10,COL.faint,'end'));}
+    const n=data.length,slot=plotW/n,barW=Math.min(o.barW||64,slot*0.5);
+    data.forEach((v,i)=>{const cx=padL+slot*i+slot/2;const h=(v/yMax)*plotH;const y=padT+plotH-h;
+      svg.appendChild(make('rect',{x:cx-barW/2,y:y,width:barW,height:h,rx:2,fill:colors[i]||COL.accent}));
+      svg.appendChild(txt(cx,y-9,(o.valFmt?o.valFmt(v):fmt1(v)),13,COL.paper,'middle',600));
+      multiline(svg,cx,padT+plotH+20,labels[i],10.5,COL.dim,13);});
+    svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:padT+plotH,y2:padT+plotH,stroke:COL.line,'stroke-width':1}));
+  }
+
+  function stackedBarChart(id,labels,series,o){
+    o=o||{};const W=700,H=300,padL=46,padR=14,padT=26,padB=48;
+    const plotW=W-padL-padR,plotH=H-padT-padB;const svg=mount(id,W,H);
+    const totals=labels.map((_,i)=>series.reduce((s,ser)=>s+ser.data[i],0));
+    const yMax=o.yMax||Math.ceil(Math.max(...totals)/20)*20;
+    for(let s=0;s<=4;s++){const v=yMax*s/4;const y=padT+plotH-(v/yMax)*plotH;
+      svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:y,y2:y,stroke:COL.lineSoft,'stroke-width':1}));
+      svg.appendChild(txt(padL-8,y+4,'$'+Math.round(v)+'B',10,COL.faint,'end'));}
+    const n=labels.length,slot=plotW/n,barW=Math.min(o.barW||46,slot*0.58);
+    const tops=[];
+    labels.forEach((lab,i)=>{
+      const cx=padL+slot*i+slot/2; let cumBottom=padT+plotH;
+      series.forEach(ser=>{const v=ser.data[i];const h=(v/yMax)*plotH;const y=cumBottom-h;
+        svg.appendChild(make('rect',{x:cx-barW/2,y:y,width:barW,height:h,fill:ser.color}));
+        cumBottom=y;});
+      tops.push({cx,top:cumBottom});
+      svg.appendChild(txt(cx,cumBottom-8,'$'+Math.round(totals[i])+'B',12,COL.paper,'middle',700));
+      svg.appendChild(txt(cx,padT+plotH+18,lab,11,COL.dim));
+    });
+    svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:padT+plotH,y2:padT+plotH,stroke:COL.line,'stroke-width':1}));
+    let lx=padL;
+    series.forEach(s=>{svg.appendChild(make('rect',{x:lx,y:6,width:10,height:10,rx:2,fill:s.color}));
+      svg.appendChild(txt(lx+15,15,s.name,10.5,COL.dim,'start')); lx+=16+s.name.length*6.4+18;});
+    if(o.annotateIdx!=null){
+      const t=tops[o.annotateIdx];
+      const bx=Math.min(t.cx+95,W-90), by=Math.max(t.top-38,34);
+      svg.appendChild(make('line',{x1:t.cx,y1:t.top,x2:bx,y2:by+10,stroke:COL.accent,'stroke-width':1.2,'stroke-dasharray':'3,2'}));
+      svg.appendChild(make('circle',{cx:t.cx,cy:t.top,r:3,fill:COL.accent}));
+      calloutBox(svg,bx,by,o.annotateText,COL.accent);
+    }
+  }
+
+  function groupedBarChart(id,labels,series,o){
+    o=o||{};const W=700,H=300,padL=46,padR=14,padT=36,padB=46;
+    const plotW=W-padL-padR,plotH=H-padT-padB;const svg=mount(id,W,H);
+    const yMax=o.yMax||Math.max(...series.flatMap(s=>s.data))*1.2;
+    for(let s=0;s<=4;s++){const v=yMax*s/4;const y=padT+plotH-(v/yMax)*plotH;
+      svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:y,y2:y,stroke:COL.lineSoft,'stroke-width':1}));
+      svg.appendChild(txt(padL-8,y+4,Math.round(v)+(o.pct?'%':(o.suffix||'')),10,COL.faint,'end'));}
+    const n=labels.length,slot=plotW/n,groupW=slot*0.7,barW=groupW/series.length;
+    labels.forEach((lab,i)=>{
+      series.forEach((s,j)=>{
+        const x=padL+slot*i+(slot-groupW)/2+barW*j;
+        const h=(s.data[i]/yMax)*plotH; const y=padT+plotH-h;
+        svg.appendChild(make('rect',{x:x,y:y,width:barW*0.86,height:h,rx:2,fill:s.color}));
+        svg.appendChild(txt(x+barW*0.43,y-7,(o.valFmt?o.valFmt(s.data[i]):Math.round(s.data[i])+(o.pct?'%':'')),9.8,COL.paper,'middle',600));
+      });
+      svg.appendChild(txt(padL+slot*i+slot/2,padT+plotH+20,lab,11,COL.dim));
+    });
+    svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:padT+plotH,y2:padT+plotH,stroke:COL.line,'stroke-width':1}));
+    let lx=padL;
+    series.forEach(s=>{svg.appendChild(make('rect',{x:lx,y:8,width:10,height:10,rx:2,fill:s.color}));
+      svg.appendChild(txt(lx+15,17,s.name,10.5,COL.dim,'start')); lx+=16+s.name.length*6.4+18;});
+  }
+
+  function multiLineChart(id,labels,series,o){
+    o=o||{};const W=720,H=300,padL=48,padR=14,padT=36,padB=46;
+    const plotW=W-padL-padR,plotH=H-padT-padB;const svg=mount(id,W,H);
+    const all=series.flatMap(s=>s.data);
+    const yMax=Math.ceil(Math.max(...all)/10)*10, yMin=Math.floor(Math.min(...all)/10)*10;
+    const range=(yMax-yMin)||1;
+    for(let s=0;s<=4;s++){const v=yMin+range*s/4;const y=padT+plotH-((v-yMin)/range)*plotH;
+      svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:y,y2:y,stroke:COL.lineSoft,'stroke-width':1}));
+      svg.appendChild(txt(padL-8,y+4,Math.round(v),10,COL.faint,'end'));}
+    if(yMin<0){const zy=padT+plotH-((0-yMin)/range)*plotH;
+      svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:zy,y2:zy,stroke:COL.line,'stroke-width':1.4}));}
+    const n=labels.length,stepX=plotW/(n-1);
+    series.forEach(s=>{
+      const pts=s.data.map((v,i)=>({x:padL+stepX*i,y:padT+plotH-((v-yMin)/range)*plotH}));
+      const d='M '+pts.map(p=>p.x+' '+p.y).join(' L ');
+      svg.appendChild(make('path',{d:d,fill:'none',stroke:s.color,'stroke-width':2.25,'stroke-linejoin':'round','stroke-linecap':'round'}));
+      pts.forEach(p=>svg.appendChild(make('circle',{cx:p.x,cy:p.y,r:3,fill:s.color,stroke:COL.bg,'stroke-width':1.5})));
+    });
+    labels.forEach((lab,i)=>{const x=padL+stepX*i;
+      svg.appendChild(make('text',{x:x,y:padT+plotH+18,'text-anchor':'end','font-size':9.5,fill:COL.dim,'font-family':"'IBM Plex Mono',monospace",transform:`rotate(-48 ${x} ${padT+plotH+18})`},lab));});
+    let lx=padL;
+    series.forEach(s=>{svg.appendChild(make('line',{x1:lx,x2:lx+16,y1:8,y2:8,stroke:s.color,'stroke-width':2.5}));
+      svg.appendChild(txt(lx+21,12,s.name,10.5,COL.dim,'start')); lx+=26+s.name.length*6.4+16;});
+  }
+
+  function lineAreaChart(id,labels,data,o){
+    o=o||{};const W=o.W||740,H=o.H||280,padL=50,padR=16,padT=24,padB=o.padB||58;
+    const plotW=W-padL-padR,plotH=H-padT-padB;const svg=mount(id,W,H);
+    const yMax=o.yMax||Math.ceil(Math.max(...data)/(o.step||20))*(o.step||20);
+    const yMin=o.yMin!=null?o.yMin:0;
+    const range=(yMax-yMin)||1;
+    for(let s=0;s<=4;s++){const v=yMin+range*s/4;const y=padT+plotH-((v-yMin)/range)*plotH;
+      svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:y,y2:y,stroke:COL.lineSoft,'stroke-width':1}));
+      svg.appendChild(txt(padL-8,y+4,(o.yFmt?o.yFmt(v):Math.round(v)),10,COL.faint,'end'));}
+    if(o.refValue!=null){
+      const ry=padT+plotH-((o.refValue-yMin)/range)*plotH;
+      svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:ry,y2:ry,stroke:COL.dim,'stroke-width':1.3,'stroke-dasharray':'5,4'}));
+      svg.appendChild(txt(W-padR,ry-6,o.refLabel||'',9.5,COL.dim,'end'));
+    }
+    const n=data.length,stepX=plotW/(n-1);
+    const pts=data.map((v,i)=>({x:padL+stepX*i,y:padT+plotH-((v-yMin)/range)*plotH}));
+    const linePath='M '+pts.map(p=>p.x+' '+p.y).join(' L ');
+    const areaPath=linePath+` L ${pts[n-1].x} ${padT+plotH} L ${pts[0].x} ${padT+plotH} Z`;
+    const gid='grad-'+id, fid='glow-'+id;
+    const defs=make('defs',{});
+    const grad=make('linearGradient',{id:gid,x1:'0',y1:'0',x2:'0',y2:'1'});
+    grad.appendChild(make('stop',{offset:'0%','stop-color':o.color||COL.accent,'stop-opacity':.32}));
+    grad.appendChild(make('stop',{offset:'100%','stop-color':o.color||COL.accent,'stop-opacity':0}));
+    defs.appendChild(grad);
+    const f=make('filter',{id:fid,x:'-60%',y:'-60%',width:'220%',height:'220%'});
+    f.appendChild(make('feGaussianBlur',{stdDeviation:'2.2',result:'b'}));
+    const mg=make('feMerge',{}); mg.appendChild(make('feMergeNode',{in:'b'})); mg.appendChild(make('feMergeNode',{in:'SourceGraphic'}));
+    f.appendChild(mg); defs.appendChild(f); svg.appendChild(defs);
+    svg.appendChild(make('path',{d:areaPath,fill:`url(#${gid})`}));
+    svg.appendChild(make('path',{d:linePath,fill:'none',stroke:o.color||COL.accent,'stroke-width':2.4,'stroke-linejoin':'round','stroke-linecap':'round',filter:`url(#${fid})`}));
+    pts.forEach((p,i)=>{
+      const big=o.bigPoints&&o.bigPoints[i];
+      svg.appendChild(make('circle',{cx:p.x,cy:p.y,r:big?6:3.2,fill:big&&big.color?big.color:(o.color||COL.accent),stroke:COL.bg,'stroke-width':2}));
+    });
+    labels.forEach((lab,i)=>{const x=padL+stepX*i;
+      svg.appendChild(make('text',{x:x,y:padT+plotH+18,'text-anchor':'end','font-size':9.5,fill:COL.dim,'font-family':"'IBM Plex Mono',monospace",transform:`rotate(-50 ${x} ${padT+plotH+18})`},lab));});
+    svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:padT+plotH,y2:padT+plotH,stroke:COL.line,'stroke-width':1}));
+    if(o.annotateIdx!=null){
+      const p=pts[o.annotateIdx];
+      const bx=Math.max(p.x-90,90), by=Math.max(p.y-46,34);
+      svg.appendChild(make('line',{x1:p.x,y1:p.y,x2:bx,y2:by+12,stroke:o.color||COL.accent,'stroke-width':1.2,'stroke-dasharray':'3,2'}));
+      calloutBox(svg,bx,by,o.annotateText,o.color||COL.accent);
+    }
+    return {svg,pts,padL,padT,plotW,plotH,yMax,yMin,range};
+  }
+
+  function horizontalBarChart(id,labels,data,colors,o){
+    o=o||{};const W=700,H=230,padL=180,padR=58,padT=14,padB=14;
+    const plotW=W-padL-padR,plotH=H-padT-padB;const svg=mount(id,W,H);
+    const xMax=o.xMax||Math.max(...data)*1.15;
+    const n=data.length,slot=plotH/n,barH=Math.min(28,slot*0.5);
+    svg.appendChild(make('line',{x1:padL,x2:padL,y1:padT,y2:H-padB,stroke:COL.line,'stroke-width':1}));
+    data.forEach((v,i)=>{
+      const y=padT+slot*i+slot/2;
+      const w=(v/xMax)*plotW;
+      svg.appendChild(txt(padL-10,y+4,labels[i],10.5,COL.dim,'end'));
+      svg.appendChild(make('rect',{x:padL,y:y-barH/2,width:w,height:barH,rx:2,fill:colors[i]}));
+      svg.appendChild(txt(padL+w+8,y+4,'$'+Math.round(v),13,COL.paper,'start',600));
+    });
+  }
+
+  function heatColor(t){
+    t=Math.max(0,Math.min(1,t));
+    const stops=[[194,80,72],[212,158,58],[62,207,142]];
+    let seg,u;
+    if(t<0.5){seg=[stops[0],stops[1]];u=t/0.5;} else {seg=[stops[1],stops[2]];u=(t-0.5)/0.5;}
+    const r=Math.round(seg[0][0]+(seg[1][0]-seg[0][0])*u);
+    const g=Math.round(seg[0][1]+(seg[1][1]-seg[0][1])*u);
+    const b=Math.round(seg[0][2]+(seg[1][2]-seg[0][2])*u);
+    return `rgb(${r},${g},${b})`;
+  }
+
+  function heatmap(id,rowLabels,colLabels,matrix,o){
+    o=o||{};const W=700,H=350,padL=68,padR=20,padT=34,padB=52;
+    const plotW=W-padL-padR,plotH=H-padT-padB;const svg=mount(id,W,H);
+    const nRows=rowLabels.length,nCols=colLabels.length;
+    const cellW=plotW/nCols,cellH=plotH/nRows;
+    const allVals=matrix.flat();
+    const vMin=Math.min(...allVals),vMax=Math.max(...allVals);
+    matrix.forEach((row,ri)=>{
+      row.forEach((v,ci)=>{
+        const t=(v-vMin)/(vMax-vMin||1);
+        const x=padL+ci*cellW,y=padT+ri*cellH;
+        const isBase=o.baseRow===ri&&o.baseCol===ci;
+        svg.appendChild(make('rect',{x:x+1,y:y+1,width:cellW-2,height:cellH-2,fill:heatColor(t),rx:2}));
+        if(isBase) svg.appendChild(make('rect',{x:x+1,y:y+1,width:cellW-2,height:cellH-2,fill:'none',stroke:COL.paper,'stroke-width':2.4,rx:2}));
+        const txtColor=t>0.4?COL.bg:COL.paper;
+        svg.appendChild(txt(x+cellW/2,y+cellH/2+4,'$'+Math.round(v),12.5,txtColor,'middle',700));
+      });
+    });
+    rowLabels.forEach((lab,ri)=>svg.appendChild(txt(padL-10,padT+ri*cellH+cellH/2+4,lab,10.5,COL.dim,'end')));
+    colLabels.forEach((lab,ci)=>svg.appendChild(txt(padL+ci*cellW+cellW/2,padT-12,lab,10.5,COL.dim,'middle')));
+    svg.appendChild(txt(padL+plotW/2,H-8,o.xTitle||'Croissance terminale',10.5,COL.faint,'middle'));
+    svg.appendChild(make('text',{x:16,y:padT+plotH/2,'text-anchor':'middle','font-size':10.5,fill:COL.faint,'font-family':"'IBM Plex Mono',monospace",transform:`rotate(-90 16 ${padT+plotH/2})`},o.yTitle||'WACC'));
+  }
+
+  function timeline(id,points){
+    const W=720,H=175,padL=24,padR=24,lineY=50;
+    const svg=mount(id,W,H);
+    const plotW=W-padL-padR,n=points.length,stepX=n>1?plotW/(n-1):0;
+    svg.appendChild(make('line',{x1:padL,x2:W-padR,y1:lineY,y2:lineY,stroke:COL.line,'stroke-width':2}));
+    points.forEach((p,i)=>{
+      const x=padL+stepX*i;
+      svg.appendChild(txt(x,lineY-18,p.date,10.5,COL.faint,'middle',600));
+      svg.appendChild(make('circle',{cx:x,cy:lineY,r:7,fill:p.color||COL.accent,stroke:COL.bg,'stroke-width':3}));
+      const lines=String(p.label).split('\n');
+      lines.forEach((ln,li)=>svg.appendChild(txt(x,lineY+28+li*14,ln,11,COL.paper,'middle',500)));
+    });
+  }
+
+  // ---- render ----
+  lineAreaChart('priceChart',
+    ["9 sept 25","10 sept 25","20 sept 25","31 déc 25","avr 26","24 juin 26","9 juil 26","16 juil 26","28 juil 26","31 juil 26","4 août 26"],
+    [228.6,324.63,308.66,214,190.23,165.00,140,131,114.50,129.87,144.39],
+    {color:COL.paper, yFmt:v=>Math.round(v)+' $', step:40, bigPoints:{1:{color:COL.accent},8:{color:COL.red}}});
+
+  stackedBarChart('revChart',['FY22','FY23','FY24','FY25','FY26','FY27E'],
+    [
+      {name:'Cloud',color:COL.accent,data:[15,18,20,24,34,54]},
+      {name:'Non-cloud',color:COL.grey,data:[27,32,33,33,33.4,36]}
+    ],{yMax:100,annotateIdx:5,annotateText:['FY27E : 90 Mds$ guidés','Démarrage contrat Stargate']});
+
+  lineAreaChart('rpoChart',
+    ["T3 FY25\n(fév 25)","T4 FY25\n(mai 25)","T1 FY26\n(août 25)","T2 FY26\n(nov 25)","T3 FY26\n(fév 26)","T4 FY26\n(mai 26)"],
+    [130,138,455,523,553,638],
+    {color:COL.cyan, yFmt:v=>Math.round(v)+' Mds$', step:100, yMax:700, refValue:67.4, refLabel:'Revenu FY26 (67,4 Mds$)',
+     bigPoints:{5:{color:COL.accent}}, padB:70,
+     annotateIdx:5, annotateText:['RPO = 9,5x le revenu FY26','638 Mds$, +363% YoY']});
+
+  multiLineChart('ttmChart',
+    ['T1\nFY25','T2\nFY25','T3\nFY25','T4\nFY25','T1\nFY26','T2\nFY26','T3\nFY26','T4\nFY26'],
+    [
+      {name:'OCF (TTM)',color:COL.accent,data:[20.3,20.7,20.8,20.8,21.5,22.3,23.5,32.0]},
+      {name:'Capex (TTM)',color:COL.red,data:[7.9,10.7,14.9,21.2,27.4,35.5,48.3,55.7]},
+      {name:'FCF (TTM)',color:COL.paper,data:[12.4,10.0,5.9,-0.4,-5.9,-13.2,-24.7,-23.7]}
+    ]);
+
+  barChart('marginChart',
+    ['Marge moy. deals IA\n(fuite documents internes)','Marge capacité IA livrée\nT3 FY26 (guidance mgmt)','Marge brute\nconsolidée groupe'],
+    [16,32,65.8],[COL.red,COL.cyan,COL.accent],
+    {yMax:80,steps:4,valFmt:v=>fmt1(v)+'%'});
+
+  groupedBarChart('shareChart',['AWS','Azure','Google Cloud','Oracle','Autres'],
+    [
+      {name:'2024',color:COL.grey,data:[31,24,11,2,32]},
+      {name:'2028E',color:COL.accent,data:[28,22,12,8,30]}
+    ],{yMax:40,pct:true});
+
+  const peerFwdPE=[18.1,28.0,32.0,22.0,25.0];
+  const peerGrowth=[34,13,11,12,10];
+  groupedBarChart('peerChart',['ORCL','MSFT','AMZN','GOOGL','CRM'],
+    [
+      {name:'Fwd P/E',color:COL.accent,data:peerFwdPE},
+      {name:'Croiss. revenu %',color:COL.cyan,data:peerGrowth}
+    ],{yMax:38});
+  (function(){
+    const med=(28.0+25.0)/2;
+    const disc=Math.round((med-18.1)/med*100);
+    document.getElementById('peerHeadline').textContent = `Oracle décote d'environ ${disc}% face à la médiane du forward P/E des pairs (${med.toFixed(1).replace('.',',')}x), malgré une croissance 2 à 3x supérieure.`;
+  })();
+
+  horizontalBarChart('valChart',
+    ['Bear (24/7 Wall St.)','Cours actuel','Consensus analystes','Cible haute (Guggenheim)'],
+    [110,144.4,252,400],
+    [COL.red,COL.paper,COL.accent,COL.cyan],{xMax:440});
+
+  heatmap('dcfHeat',['9,0%','10,0%','10,5%','11,0%','12,0%'],['2,0%','2,5%','3,0%','3,5%'],
+    [
+      [160,173,188,206],
+      [135,145,156,169],
+      [125,133,143,154],
+      [116,123,132,141],
+      [101,107,113,121]
+    ],{baseRow:2,baseCol:2,yTitle:'WACC',xTitle:'Croissance terminale'});
+
+  timeline('stargateChart',[
+    {date:"Juil 25",label:'Cadre Stargate 4,5 GW\nsigné',color:COL.grey},
+    {date:"Sept 25",label:'Contrat 300 Mds$/5 ans révélé\nRPO +359% à 455 Mds$',color:COL.accent},
+    {date:"Jan 26",label:'JV TikTok bouclée\ndiversification amorcée',color:COL.grey},
+    {date:"Juin 26",label:'Capex FY26 55,7 Mds$\nGuidance FY27 90-95 Mds$',color:COL.grey},
+    {date:"2027",label:'Démarrage du contrat\n~60 Mds$/an run-rate',color:COL.accent}
+  ]);
+})();
+</script>
+</body>
+</html>

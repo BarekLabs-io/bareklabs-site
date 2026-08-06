@@ -166,8 +166,10 @@ export const en = {
       serif: '',
       desc: 'SHORT, DENSE READS. EACH NOTE CARRIES A CONFIDENCE SCORE — A REMINDER THAT KNOWLEDGE IS A PROBABILITY, NOT A POSTURE.',
     },
-    filters: ['ALL', 'PAYMENTS', 'ENERGY & SPACE'],
+    filters: ['ALL', 'CRYPTO', 'CLOUD & AI', 'PAYMENTS', 'ENERGY & SPACE'],
     notes: [
+      { d: '2026.08.06', tag: 'CRYPTO', t: 'Crypto in 2026: what the cycle looks like from here', read: '14', conf: 75, to: '/analysis/crypto-2026' },
+      { d: '2026.08.06', tag: 'CLOUD & AI', t: "Oracle: the stock I'm watching closest right now", read: '16', conf: 78, to: '/analysis/oracle' },
       { d: '2026.08.06', tag: 'PAYMENTS', t: 'The invisible toll road: who really owns the money you spend', read: '24', conf: 82, to: '/analysis/global-payments' },
       { d: '2026.08.04', tag: 'ENERGY & SPACE', t: 'The New Space Economy: SPCX, RKLB, ASTS — repriced in public', read: '18', conf: 80, to: '/analysis/space-economy' },
     ],

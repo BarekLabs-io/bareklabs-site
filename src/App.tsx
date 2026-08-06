@@ -8,6 +8,8 @@ import Ideas from './pages/Ideas'
 import AiValueChain from './pages/AiValueChain'
 import SpaceEconomy from './pages/SpaceEconomy'
 import GlobalPayments from './pages/GlobalPayments'
+import Oracle from './pages/Oracle'
+import Crypto2026 from './pages/Crypto2026'
 import SoukSignal from './pages/SoukSignal'
 import TradeTracker from './pages/TradeTracker'
 import Stocks from './pages/Stocks'
@@ -31,6 +33,8 @@ export default function App() {
         <Route path="/analysis/ai-value-chain" element={<AiValueChain />} />
         <Route path="/analysis/space-economy" element={<SpaceEconomy />} />
         <Route path="/analysis/global-payments" element={<GlobalPayments />} />
+        <Route path="/analysis/oracle" element={<Oracle />} />
+        <Route path="/analysis/crypto-2026" element={<Crypto2026 />} />
         <Route path="/souk-signal" element={<SoukSignal />} />
         <Route path="/trade-tracker" element={<TradeTracker />} />
         <Route path="/trade-tracker/stocks" element={<Stocks />} />
