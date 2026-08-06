@@ -1,3 +1,4 @@
+import { ReportFrame } from '@/components/ReportFrame'
 import { useLang } from '@/i18n/LanguageContext'
 
 /* The report is a self-contained bilingual (FR/EN) HTML document served from
@@ -10,11 +11,10 @@ export default function GlobalPayments() {
   const reportLang = lang === 'fr' ? 'fr' : 'en'
 
   return (
-    <iframe
-      key={reportLang}
+    <ReportFrame
+      reloadKey={reportLang}
       src={`/research/global-payments/index.html?lang=${reportLang}`}
       title="The Invisible Toll — The Global Payments Ecosystem"
-      className="block h-[calc(100vh-64px)] w-full border-0"
     />
   )
 }

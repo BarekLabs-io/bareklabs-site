@@ -1,55 +1,57 @@
 import { Link } from 'react-router'
-import { TICKER_ITEMS } from '@/components/Layout'
-import { useLivePrice } from '@/components/lab'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
+import { useLiveQuotes } from '@/lib/useLiveQuotes'
+import { TAPE_INSTRUMENTS, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
 
-/* A compact "desk" panel — reuses the exact same tape data already shown
- * sitewide (see TICKER_ITEMS in Layout.tsx), just re-cut into a watchlist
- * shape, ticking through the same simulated-live mechanism already used
- * for the corner quote on this page (useLivePrice). No new numbers are
- * invented here — same source, same simulation convention. */
-const WATCH_SYMBOLS = ['BTC', 'ETH', 'SOL', 'TAO', 'ICP', 'ZEC', 'S&P 500']
+/* A compact desk panel over the hero. Prices and changes come from the live
+ * quotes feed and nothing else — where a quote is missing the row shows a
+ * dash. There is deliberately no simulated tick: a number that drifts on a
+ * timer looks more authoritative than a static one while being less true. */
+const WATCH = ['BTC', 'ETH', 'SOL', 'TAO', 'ICP', 'ZEC', 'S&P 500']
 
-function parseValue(v: string): number {
-  return Number(v.replace(/,/g, ''))
-}
-
-function formatValue(n: number, decimals: number): string {
-  return n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
-}
-
-function WatchRow({ s, v, d, up }: { s: string; v: string; d: string; up: boolean }) {
-  const base = parseValue(v)
-  const decimals = v.includes('.') ? v.split('.')[1].length : 0
-  const { price, dir } = useLivePrice(base, 0.0012)
+function WatchRow({ label, symbol, quote }: { label: string; symbol: string; quote?: { price: number; changePercent: number | null } }) {
+  const up = quote?.changePercent != null ? quote.changePercent >= 0 : null
   return (
-    <div className="flex items-center justify-between border-b border-line/60 py-2 font-mono-lab text-[11px] tracking-wide last:border-0" dir="ltr">
-      <span className="text-dim">{s}</span>
-      <span className={cn('tabular-nums', dir > 0 ? 'text-foreground' : 'text-foreground/80')}>{formatValue(price, decimals)}</span>
-      <span className={cn('w-14 text-end tabular-nums', up ? 'text-signal' : 'text-danger')}>{d}</span>
+    <div
+      key={symbol}
+      className="flex items-center justify-between border-b border-line/60 py-2 font-mono-lab text-[11px] tracking-wide last:border-0"
+      dir="ltr"
+    >
+      <span className="text-dim">{label}</span>
+      <span className="tabular-nums text-foreground">{quote ? formatLevel(quote.price) : NO_VALUE}</span>
+      <span className={cn('w-16 text-end tabular-nums', up == null ? 'text-faint' : up ? 'text-signal' : 'text-danger')}>
+        {quote?.changePercent != null ? formatChange(quote.changePercent) : NO_VALUE}
+      </span>
     </div>
   )
 }
 
 export function LiveDesk({ className }: { className?: string }) {
   const { t } = useLang()
-  const rows = WATCH_SYMBOLS.map((s) => TICKER_ITEMS.find((it) => it.s === s)).filter(
-    (it): it is (typeof TICKER_ITEMS)[number] => !!it
+  const rows = WATCH.map((label) => TAPE_INSTRUMENTS.find((i) => i.s === label)).filter(
+    (i): i is TapeRow => !!i
   )
+  const { quotes, asOf } = useLiveQuotes(rows.map((r) => r.symbol))
+  const hasData = rows.some((r) => quotes[r.symbol])
 
   return (
     <div className={cn('pointer-events-auto border border-line bg-panel/85 backdrop-blur-sm', className)}>
       <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
         <div className="flex items-center gap-2 font-mono-lab text-[9px] tracking-[0.25em] text-dim">
-          <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
+          {/* The live dot only pulses when something actually arrived. */}
+          <span className={cn('inline-block h-1.5 w-1.5 rounded-full', hasData ? 'dot-live bg-signal' : 'bg-faint')} />
           {t.home.liveDesk.watchlist}
         </div>
-        <span className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">{t.home.liveDesk.majors}</span>
+        <span className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">
+          {hasData && asOf
+            ? new Date(asOf).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+            : t.home.liveDesk.majors}
+        </span>
       </div>
       <div className="px-4 py-1">
         {rows.map((r) => (
-          <WatchRow key={r.s} {...r} />
+          <WatchRow key={r.symbol} label={r.s} symbol={r.symbol} quote={quotes[r.symbol]} />
         ))}
       </div>
 
@@ -84,3 +86,5 @@ export function LiveDesk({ className }: { className?: string }) {
     </div>
   )
 }
+
+type TapeRow = (typeof TAPE_INSTRUMENTS)[number]

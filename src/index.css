@@ -432,4 +432,16 @@
   .chain-flow .flow-node {
     animation: chain-flow 3.5s ease-in-out infinite;
   }
+
+  /* --- embedded research reports (see ReportFrame) ---
+     A report fills the viewport under the header and scrolls itself, so the
+     page behind it must not scroll too — otherwise every gesture has to be
+     made twice, once in the document and once in the page. The footer would
+     sit permanently below the fold, so it is dropped while a report is open. */
+  html.report-open body {
+    overflow: hidden;
+  }
+  html.report-open footer {
+    display: none;
+  }
 }

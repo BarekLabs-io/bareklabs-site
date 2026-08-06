@@ -1,24 +1,33 @@
 import { Link } from 'react-router'
-import { MarketCanvas, Reveal, useLivePrice, useSpotlight } from '@/components/lab'
+import { MarketCanvas, Reveal, useSpotlight } from '@/components/lab'
 import { WorldMap } from '@/components/WorldMap'
 import { LiveDesk } from '@/components/LiveDesk'
-import { SectionHead, TICKER_ITEMS } from '@/components/Layout'
+import { SectionHead } from '@/components/Layout'
+import { useLiveQuotes } from '@/lib/useLiveQuotes'
+import { TAPE_INSTRUMENTS, TAPE_SYMBOLS, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
 import { BrandMark } from '@/components/Brand'
 import { useLang } from '@/i18n/LanguageContext'
 
 function Ticker() {
-  const items = [...TICKER_ITEMS, ...TICKER_ITEMS]
+  const { quotes } = useLiveQuotes(TAPE_SYMBOLS)
+  const items = [...TAPE_INSTRUMENTS, ...TAPE_INSTRUMENTS]
   return (
     <div className="overflow-hidden border-y border-line bg-ticker">
       <div className="ticker-track flex w-max items-center py-2.5">
-        {items.map((it, i) => (
-          <div key={i} className="flex items-center gap-3 px-6 font-mono-lab text-[11px] tracking-wider" dir="ltr">
-            <span className="text-dim">{it.s}</span>
-            <span className="text-foreground">{it.v}</span>
-            <span className={it.up ? 'text-signal' : 'text-danger'}>{it.d}</span>
-            <span className="ms-3 text-faint">·</span>
-          </div>
-        ))}
+        {items.map((it, i) => {
+          const q = quotes[it.symbol]
+          const up = q?.changePercent != null ? q.changePercent >= 0 : null
+          return (
+            <div key={i} className="flex items-center gap-3 px-6 font-mono-lab text-[11px] tracking-wider" dir="ltr">
+              <span className="text-dim">{it.s}</span>
+              <span className="text-foreground">{q ? formatLevel(q.price) : NO_VALUE}</span>
+              <span className={up == null ? 'text-faint' : up ? 'text-signal' : 'text-danger'}>
+                {q?.changePercent != null ? formatChange(q.changePercent) : NO_VALUE}
+              </span>
+              <span className="ms-3 text-faint">·</span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -53,12 +62,22 @@ function ModuleCard({ mod, to, i }: { mod: { code: string; name: string; desc: s
   )
 }
 
-function LiveQuote() {
-  const { price, dir } = useLivePrice(4213.86, 0.002)
+/* Was a "BVX COMP" index at a hardcoded 4,213.86 with a random walk on top.
+ * No such index exists — we publish no composite — so it is replaced by a
+ * real quoted instrument, and shows a dash until the feed answers. */
+const HERO_INSTRUMENT = TAPE_INSTRUMENTS.find((i) => i.s === 'NASDAQ')!
+
+function HeroQuote() {
+  const { quotes } = useLiveQuotes([HERO_INSTRUMENT.symbol])
+  const q = quotes[HERO_INSTRUMENT.symbol]
+  const up = q?.changePercent != null ? q.changePercent >= 0 : null
   return (
-    <span className={dir > 0 ? 'text-signal' : 'text-danger'}>
-      {price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-    </span>
+    <>
+      {HERO_INSTRUMENT.s}{' '}
+      <span className={up == null ? 'text-faint' : up ? 'text-signal' : 'text-danger'}>
+        {q ? formatLevel(q.price) : NO_VALUE}
+      </span>
+    </>
   )
 }
 
@@ -111,14 +130,14 @@ export default function Home() {
         </div>
         {/* corner metadata */}
         <div className="pointer-events-none absolute end-5 top-24 z-10 hidden font-mono-lab text-[10px] leading-5 tracking-wider text-dim md:end-10 md:block xl:hidden">
-          <div className="flicker" dir="ltr">BVX COMP <LiveQuote /></div>
+          <div className="flicker" dir="ltr"><HeroQuote /></div>
           <div className="text-faint">{t.home.cornerFeed}</div>
         </div>
 
         {/* live desk — hidden below xl so it never crowds the hero text */}
         <Reveal delay={500} className="pointer-events-none absolute end-5 top-32 z-10 hidden w-[300px] xl:block xl:end-10">
           <div className="mb-3 font-mono-lab text-[10px] leading-5 tracking-wider text-dim" dir="ltr">
-            <span className="flicker">BVX COMP <LiveQuote /></span>
+            <span className="flicker"><HeroQuote /></span>
           </div>
           <LiveDesk />
         </Reveal>
