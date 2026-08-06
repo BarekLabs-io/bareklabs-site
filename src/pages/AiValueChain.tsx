@@ -8,6 +8,7 @@ import { companies } from '@/data/companies'
 import { countryOf, currencyOf, formatMoney } from '@/data/valueChain'
 import { CHAIN_EXTRA } from '@/data/chainExtra'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
+import { DcfSimulator } from '@/components/DcfSimulator'
 import { parseMarketCapUsd, formatUsdCompact } from '@/lib/marketCap'
 
 type ChainItem = { t: string; name: string; role: string; priv?: boolean }
@@ -531,6 +532,13 @@ export default function AiValueChain() {
                   </div>
                 </div>
               </div>
+            </div>
+          </Reveal>
+
+          {/* ===== DCF SIMULATOR — follows the constellation selection ===== */}
+          <Reveal delay={160}>
+            <div className="mt-4">
+              <DcfSimulator ticker={selItem.t} livePrice={liveQuote?.price ?? null} />
             </div>
           </Reveal>
         </div>

@@ -220,8 +220,18 @@ const ZERO_DECIMAL_CURRENCIES = new Set(['JPY', 'KRW', 'CNY', 'TWD'])
 export function formatMoney(value: number, currency: string): string {
   const decimals = ZERO_DECIMAL_CURRENCIES.has(currency) ? 0 : 2
   const num = value.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+  return withCurrency(num, currency)
+}
+
+/**
+ * Attach a currency to an already-formatted number.
+ * Needed where the caller controls the precision — a figure abbreviated to
+ * "6.99" trillion has to keep its decimals whatever the currency's usual
+ * quoting convention, or ¥6.99T and ¥7.14T both print as "¥7T".
+ */
+export function withCurrency(formatted: string, currency: string): string {
   const symbol = CURRENCY_SYMBOL[currency]
-  return symbol ? `${symbol}${num}` : `${num} ${currency}`
+  return symbol ? `${symbol}${formatted}` : `${formatted} ${currency}`
 }
 
 export function segmentOf(ticker: string): SegmentKey {

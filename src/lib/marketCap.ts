@@ -77,6 +77,20 @@ export function parseMarketCapUsd(raw: string | undefined | null, currency = 'US
   return native * rate
 }
 
+/**
+ * An amount as written, in its *own* currency and at full scale — no FX, but
+ * the T/B/M/K suffix is honoured. Needed anywhere two researched figures are
+ * combined: "$13.1B" and "$95.9M" are a thousandfold apart, so a parser that
+ * drops the suffix turns one into the other. Also used wherever a cap is
+ * divided by a price (to get a share count), since a USD-converted cap over a
+ * local-currency price is wrong by the exchange rate.
+ */
+export function parseAmountNative(raw: string | undefined | null): number | null {
+  if (!raw) return null
+  const native = toNumber(raw.match(ANY_RE))
+  return native != null && native > 0 ? native : null
+}
+
 /** Compact display for a USD amount derived above — always mark it as approximate. */
 export function formatUsdCompact(usd: number): string {
   if (usd >= 1e12) return `$${(usd / 1e12).toFixed(usd / 1e12 >= 10 ? 0 : 1)}T`
