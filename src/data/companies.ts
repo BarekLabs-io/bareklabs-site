@@ -7185,4 +7185,1380 @@ AMKR: {
   },
   sourceNote: 'Compiled from ASM Q1 2026 results (Apr 21, 2026) and Q2 2026 results (Jul 28, 2026, globenewswire.com/asm.com investor materials), the Sept 23, 2025 Investor Day 2027/2030 target disclosures, and aggregator/financial-press data (stockanalysis.com, GuruFocus, Investing.com earnings-call coverage, Bits&Chips) captured late July-Aug 5, 2026. Note the honest, significant 2026 volatility this name has shown: an all-time high of €1,092.6 on Jun 22, 2026 has given way to a ~€795-820 trading range in early August 2026 (spot €810.80 on Aug 5) — a roughly 25-27% drawdown, including a single-session drop of over 8% on the Jul 28 earnings reaction despite record revenue. China revenue-share and net-margin/ROE figures showed real variance across sources/dates in this pass and are flagged rather than smoothed over; treat all multiples here as directionally accurate, not to-the-decimal precise.',
 },
+  NVDA: {
+    ticker: 'NVDA',
+    name: 'NVIDIA Corporation',
+    tagline: 'The dominant merchant-silicon platform for AI training and inference — GPUs, networking and full rack-scale systems, priced as the default winner of the buildout.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'NVIDIA is a fabless designer sitting at the center of the AI accelerator market — it does not fabricate its own chips (TSMC does, on leading-edge nodes) but controls the GPU architecture, the CUDA software stack, and increasingly the networking (NVLink, Spectrum-X) and rack-scale system design (NVL72/NVL144, Vera Rubin) that hyperscalers build entire datacenters around. Its scale gives it first call on TSMC CoWoS advanced-packaging capacity and HBM allocation from SK Hynix, Samsung and Micron — both of which are structural bottlenecks the rest of the industry competes for.',
+      rows: [
+        { level: 'Foundry (fabrication)', players: 'TSMC (4NP/3nm nodes)', position: 'NVIDIA is fabless — entirely dependent on TSMC leading-edge and CoWoS advanced-packaging capacity', tone: 'client' },
+        { level: 'HBM memory supply', players: 'SK Hynix, Samsung, Micron', position: 'Critical input for every Blackwell/Rubin accelerator — NVIDIA gets first-priority allocation given its volume', tone: 'client' },
+        { level: 'Fabless GPU/accelerator design (this company)', players: 'NVIDIA', position: 'Core business — Blackwell (GB200/GB300) shipping now, Vera Rubin ramping 2H FY2027', tone: 'core' },
+        { level: 'Networking / interconnect', players: 'NVIDIA (NVLink, Spectrum-X, Mellanox heritage), Broadcom, Marvell', position: 'NVIDIA increasingly sells the switch and NIC silicon around its own GPUs, not just the GPU itself', tone: 'core' },
+        { level: 'Rack-scale systems', players: 'NVIDIA NVL72/NVL144, ODM partners (Foxconn, Quanta, Wistron)', position: 'Selling full liquid-cooled racks, not discrete chips — raises the average selling price and the switching cost', tone: 'growth' },
+        { level: 'Hyperscaler / AI-lab customers', players: 'Microsoft, Google, Amazon, Meta, OpenAI, Anthropic, Oracle, xAI', position: 'Direct, disclosed multi-gigawatt commitments — the demand side of the buildout', tone: 'client' },
+        { level: 'Custom ASIC competitors (indirect)', players: 'Broadcom/Google TPU, Broadcom/Anthropic-Google TPU deal, Amazon Trainium (via Marvell/Annapurna), Microsoft Maia', position: 'Hyperscalers increasingly design their own accelerators to reduce NVIDIA dependence — the single biggest structural risk to the merchant-GPU model', tone: 'indirect' },
+      ],
+      segments: [
+        'Data Center: $75.2B in Q1 FY2027 (quarter ended Apr 2026), +92% YoY — Blackwell GB200/GB300 now the majority of Data Center revenue',
+        'Q1 FY2027 total revenue: $81.6-82.0B (sources vary slightly on rounding), +85% YoY, 14th straight quarter of sequential growth per company commentary',
+        'Q2 FY2027 guided revenue: $91.0B ± 2%, with GAAP/non-GAAP gross margin guided to ~74.9%/75.0% ± 50bps',
+        'Gaming, Professional Visualization and Automotive remain small relative to Data Center but are not broken out in most third-party summaries used here',
+      ],
+      aiShift:
+        'NVIDIA is the AI buildout in merchant-silicon form — Blackwell is shipping in volume, Vera Rubin is guided to ramp in 2H FY2027, and management has pointed to "at least $1 trillion" of cumulative Blackwell+Rubin revenue through the end of calendar 2027. The company has also moved from selling chips to selling infrastructure commitments: a letter of intent with OpenAI for at least 10GW of NVIDIA systems (with NVIDIA investing progressively as each GW deploys — a figure originally framed as up to $100B that CEO Jensen Huang has since said publicly is "probably not in the cards" at that size), a disclosed up-to-$10B commitment to Anthropic, and reported discussions around a $250B Ohio data-center financing package tied to OpenAI. The flip side of that scale is that the same hyperscalers writing those checks (Google, Amazon, Microsoft, and now Anthropic via its expanded Google/Broadcom TPU deal) are simultaneously the biggest funders of custom-ASIC alternatives to NVIDIA silicon.',
+    },
+    valuation: {
+      peers: ['NVDA', 'AMD', 'AVGO', 'TSM'],
+      metrics: [
+        { label: 'Price', values: ['~$212–219 (Aug 3–5, 2026; intraday moves of this size reflect a live semiconductor rally, not a data error)', '$518.58 (Aug 4, 2026)', '~$392–421 (Aug 3–5, 2026, same rally)', '~$406–419 (Aug 3–5, 2026, same rally)'] },
+        { label: 'Market cap', values: ['~$5.1–5.3T (Aug 2026) — the largest company in the world by this measure', '$790.25B (Aug 3, 2026)', '~$1.87–1.99T (Aug 2026, cross-source variance)', '~$2.15T (Aug 2026)'] },
+        { label: 'Trailing P/E', values: ['~31.6x', '172.93x', 'not independently captured this pass', '~26.2x'] },
+        { label: 'Forward P/E', values: ['~20.7x (one source cites up to ~24x — cross-source variance)', '49.16x', '~19.4x (one source cites ~24.2x)', '~18.4–25.3x (wide cross-source variance)'] },
+        { label: 'PEG (trailing)', values: ['~0.47', 'not captured', 'not captured', 'not captured'] },
+        { label: 'P/S (TTM)', values: ['~15–17x (EV/Sales cited at ~22.4x by one source; not fully reconciled)', '21.25x', '~16–17x (forward P/S cited between 15.9x–17.2x depending on source/date)', 'not captured'] },
+        { label: 'EV/EBITDA', values: ['~27–30x (cross-source variance)', 'not captured', '~44.2x', '~17.8–18.0x'] },
+        { label: 'Gross margin', values: ['74.15% (74.9–75.0% guided for Q2 FY2027)', '52.8% (Q1 2026)', '68.35% (TTM)', '67.7% (Q2 2026, +1.5pt sequential on 2nm ramp)'] },
+        { label: 'Operating margin', values: ['~64.0%', 'not captured', 'not captured', 'not captured'] },
+        { label: 'Net margin', values: ['~63.0% (Q1 FY2027 GAAP net income was heavily boosted by equity-security gains — treat as elevated, not a clean run-rate)', '13.5% (Q1 2026)', '38.85% (Apr 2026)', '55.6% (Q2 2026)'] },
+        { label: 'ROE', values: ['~114–132% (sources vary; both are extreme by any standard)', 'not captured', '37.28%', '45.9% (Q2 2026)'] },
+        { label: 'Beta', values: ['~2.2', 'not captured', '~1.47', '~1.25–1.39 (source variance)'] },
+        { label: 'Dividend yield', values: ['~0.47% ($1.00 annualized, post the Q1 FY2027 dividend increase)', 'not captured', '~0.62%', '~0.91–0.99%'] },
+      ],
+      verdictTone: 'fair',
+      verdictPoints: [
+        'Forward P/E of ~20.7x and PEG of ~0.47 look genuinely inexpensive for a company still growing Data Center revenue 92% YoY — this is not priced like a typical mega-cap, closer to how a much smaller, faster-growing company would trade',
+        'The catch is scale, not the multiple: at ~$5.1–5.3T market cap NVIDIA needs to keep adding tens of billions in quarterly revenue just to hold the multiple flat — the Q2 FY2027 guide of $91.0B implies another double-digit-billion sequential step-up',
+        'Trailing net margin is inflated this year by GAAP equity-security gains tied to strategic investments (OpenAI, Anthropic, others) — the operating business is extremely profitable on its own, but headline net-margin comparisons to AMD/AVGO overstate the gap somewhat',
+        'Price action has been volatile day to day (a multi-percent single-day move was visible in the Aug 3–5, 2026 window across this whole peer set) — treat any single price snapshot as a point-in-time read, not a stable level',
+      ],
+      justifiedIf: [
+        'Vera Rubin ramps on the guided 2H FY2027 schedule and the "at least $1 trillion" cumulative Blackwell+Rubin revenue framing through end-2027 holds',
+        'The OpenAI (10GW letter of intent), Anthropic (~$10B) and other hyperscaler commitments convert to actual delivered/paid capacity rather than remaining announcements',
+        'Custom-ASIC programs (Google TPU/Broadcom, Amazon Trainium, Microsoft Maia) erode NVIDIA share at the margin rather than displacing it wholesale — the bull case assumes NVIDIA keeps the large majority of training and a meaningful share of inference',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$160 – $185', rationale: 'A meaningful pullback from the current ~$212–219 zone — closer to where the stock traded in early-to-mid 2025 before the current leg of the buildout' },
+        { tier: 'acceptable', range: '$185 – $236', rationale: 'Brackets the current trading range up to the split-adjusted 52-week/all-time high of $236.54 (May 14, 2026)' },
+        { tier: 'expensive', range: '> $240', rationale: 'A fresh push past the current all-time high with no corresponding step-up in guidance would mean paying for growth not yet confirmed' },
+      ],
+      technical: [
+        'Split-adjusted all-time high $236.54 (May 14, 2026) — current ~$212–219 (Aug 2026) is roughly 7–10% below that level',
+        'Some aggregators still surface a pre-split $1,255.87 "all-time high" (June 6, 2024) — that figure predates NVIDIA\'s 10-for-1 split (effective June 2024) and is not comparable to current split-adjusted prices; the real post-split high is the $236.54 figure above',
+        'An all-time intraday high near $212 was reported for Oct 29, 2025 by one source, superseded by the May 2026 high — historical price data for this stock shows real cross-source disagreement even before accounting for split adjustment',
+        'Next earnings: Q2 FY2027 results expected late August 2026 (exact date not independently confirmed in this pass) — guidance is $91.0B revenue ± 2%',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 45, note: 'Blackwell shipments continue at pace, Q2 FY2027 print lands near the $91B guide, Vera Rubin ramp stays on schedule — grinds back toward the $230–260 area over 12 months.' },
+        { label: 'BULL', prob: 25, note: 'OpenAI/Anthropic/other hyperscaler commitments convert faster than modeled, Vera Rubin pulls forward, China demand normalizes — a push toward $280–320.' },
+        { label: 'BEAR', prob: 30, note: 'A guidance miss, a custom-ASIC share-loss data point at a major hyperscaler, or renewed China export-control tightening (NVIDIA has flagged the China AI-accelerator market, worth an estimated ~$50B, as a potential total loss) triggers a reset toward $150–175.' },
+      ],
+      horizon: '12–18 months',
+      invalidation: 'Weekly close below $150 (a return to pre-2025-buildout levels) or a disclosed loss/cancellation of a named hyperscaler multi-gigawatt commitment',
+    },
+    risks: [
+      { risk: 'China export-control policy whiplash', severity: 'high', note: 'NVIDIA took a $4.5B charge in Q1 FY2026 on H20 excess inventory when China sales were halted, then policy reversed months later. Management states the China AI-accelerator market it is currently locked out of could reach ~$50B — and separately notes that a year of policy uncertainty means many Chinese customers are no longer ordering at all, unwilling to bet on a policy that could flip again.' },
+      { risk: 'Custom-ASIC substitution at hyperscalers', severity: 'high', note: 'The same customers writing multi-gigawatt checks to NVIDIA (Google, Amazon, Microsoft, and Anthropic via its Google/Broadcom TPU deal) are simultaneously funding in-house or co-designed alternatives (Google TPU, Amazon Trainium via Marvell, Microsoft Maia) explicitly to reduce NVIDIA dependence.' },
+      { risk: 'Customer/partner commitment concentration', severity: 'high', note: 'A large share of forward-looking narrative rests on a small number of named deals (OpenAI 10GW letter of intent, Anthropic ~$10B commitment) that are not yet fully executed contracts — Huang himself has walked back the headline $100B OpenAI figure.' },
+      { risk: 'Valuation at mega-cap scale', severity: 'medium', note: 'A forward P/E in the low-20s looks reasonable on growth, but sustaining it at a ~$5T+ market cap requires tens of billions of incremental quarterly revenue — the law of large numbers works against indefinite 80-90% YoY growth.' },
+      { risk: 'Supply-chain concentration (TSMC, HBM)', severity: 'medium', note: 'NVIDIA is entirely fabless and depends on TSMC leading-edge/CoWoS capacity and a three-supplier HBM market (SK Hynix, Samsung, Micron) shared with AMD and every other accelerator maker.' },
+      { risk: 'AI-capex cyclicality / digestion risk', severity: 'medium', note: 'The bull case assumes hyperscaler capex keeps compounding; any broad pause or digestion in AI infrastructure spend would hit NVIDIA harder than most peers given its size and the multiple already assigned.' },
+    ],
+    backlog: {
+      visibility: [
+        'Q2 FY2027 revenue guided to $91.0B ± 2%, GAAP/non-GAAP gross margin guided ~74.9%/75.0% ± 50bps',
+        'Management guidance of "at least $1 trillion" of cumulative Blackwell + Vera Rubin revenue through end of calendar 2027',
+        'Vera Rubin platform on track for a 2H FY2027 ramp per company commentary',
+        'Q1 FY2027 marked the 14th straight quarter of sequential revenue growth and the third consecutive YoY growth acceleration, per company/analyst commentary',
+      ],
+      wins: [
+        'OpenAI/NVIDIA letter of intent to deploy at least 10GW of NVIDIA systems; first 1GW targeted for 2H 2026 on the Vera Rubin platform, with NVIDIA investing progressively as each GW deploys',
+        'Up to $10B committed to Anthropic (alongside a separate $5B Microsoft commitment and Anthropic\'s own $30B Azure compute commitment)',
+        'Reported discussions around funding guarantees for a $250B OpenAI-linked Ohio data-center project (SB Energy/SoftBank-affiliated site)',
+        'GB300 shipments have crossed GB200 and now represent roughly two-thirds of Blackwell revenue, per Q1 FY2027-era commentary',
+        'Dividend raised alongside the Q1 FY2027 report',
+      ],
+      clients: ['Microsoft', 'Google', 'Amazon', 'Meta', 'OpenAI', 'Anthropic', 'Oracle', 'xAI'],
+      suppliers: ['TSMC (foundry, CoWoS advanced packaging)', 'SK Hynix, Samsung, Micron (HBM)', 'Foxconn, Quanta, Wistron and other ODM partners (rack-scale system assembly)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 5, note: 'The default platform for AI training and increasingly inference, with a software moat (CUDA) that has held for over a decade and margins ~74% gross that dwarf the rest of the semiconductor industry.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'As direct as AI-infrastructure exposure gets — Data Center revenue +92% YoY on a base already above $75B/quarter.' },
+        { criterion: 'Valuation', stars: 4, note: 'Forward P/E in the low-20s and a sub-1 PEG are genuinely reasonable multiples for the growth rate, an unusual combination at this market cap.' },
+        { criterion: 'Risk', stars: 3, note: 'China policy whiplash, hyperscaler custom-ASIC substitution, and concentration in a handful of enormous, not-fully-executed commitments are real and quantified, not diffuse.' },
+        { criterion: 'Entry timing', stars: 3, note: 'Roughly 7-10% below the split-adjusted all-time high as of Aug 2026 — a reasonable but not deeply discounted entry, and the stock has shown real day-to-day volatility even within this research window.' },
+      ],
+      readLabel: 'CORE HOLDING, PRICED MORE REASONABLY THAN ITS SIZE SUGGESTS',
+      summary:
+        'NVIDIA is the single most direct, highest-quality way to own the AI infrastructure buildout in public markets, and — somewhat counterintuitively for the world\'s largest company — its forward multiple (~20.7x) and PEG (~0.47) are not obviously expensive relative to the growth on the tape. The real risks are structural rather than valuation-driven: China policy has already cost billions in a single quarter and remains genuinely unpredictable: the same hyperscalers funding NVIDIA\'s biggest forward commitments (OpenAI, Anthropic) are simultaneously funding the custom-silicon programs designed to need less of it over time, and a large share of the bullish narrative rests on letters of intent and framework agreements rather than fully executed contracts.',
+    },
+    sourceNote:
+      'Compiled Aug 6, 2026 via live web research across stockanalysis.com, gurufocus.com, macrotrends.net, financecharts.com, CNBC, Yahoo Finance, and primary sources including NVIDIA\'s Q1 FY2027 earnings materials/8-K, its FY2026 annual report (SEC Form ARS), OpenAI/NVIDIA and Anthropic press releases, and Reuters/Forbes/Al Jazeera coverage of the OpenAI infrastructure discussions. NVDA price and market cap showed real intraday/cross-source variance in the Aug 3-5, 2026 window (a visible semiconductor-sector rally was underway across this entire peer set on those dates) and are presented as ranges rather than single points; several metrics (PEG, EV/EBITDA, operating margin) likewise showed source disagreement and are flagged inline. This is a research framework, not a live feed — cross-check current prices, multiples and the upcoming Q2 FY2027 print before acting on anything here.',
+  },
+
+  TSM: {
+    ticker: 'TSM',
+    name: 'Taiwan Semiconductor Manufacturing Company (ADR)',
+    tagline: 'The sole leading-edge foundry every fabless AI-chip designer — NVIDIA, AMD, Apple, Broadcom, Google, Amazon — ultimately depends on, at record margins during a record capex cycle.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'TSMC does not design chips — it manufactures nearly everyone else\'s. As the world\'s dominant leading-edge foundry (2nm/3nm/5nm nodes), it sits directly between chip designers (NVIDIA, AMD, Apple, Broadcom, Google, Amazon, Qualcomm) and the equipment/materials suppliers (ASML, LRCX, AMAT, KLAC) that build its fabs. Nearly every AI accelerator sold today, regardless of which logo is on the box, is fabricated on a TSMC line. This ADR trades on the NYSE, with each ADS representing five TSMC ordinary shares listed in Taiwan (TWSE: 2330).',
+      rows: [
+        { level: 'Equipment (WFE) / materials', players: 'ASML, LRCX, AMAT, KLAC', position: 'Upstream suppliers — TSMC is their single largest customer for leading-edge tools', tone: 'client' },
+        { level: 'Leading-edge foundry (this company)', players: 'TSMC', position: 'Core business — the dominant leading-edge foundry, an estimated majority share of global foundry revenue', tone: 'core' },
+        { level: 'Trailing/mature-node foundry competitors', players: 'UMC, GlobalFoundries, SMIC (China, export-restricted)', position: 'Compete on older nodes; none currently match TSMC at 3nm/2nm volume and yield', tone: 'indirect' },
+        { level: 'Integrated-device competitors', players: 'Samsung Foundry, Intel Foundry', position: 'The only two organizations attempting to compete at the leading edge, both still behind TSMC on yield/volume by most public accounts', tone: 'indirect' },
+        { level: 'Fabless customers', players: 'NVIDIA, AMD, Apple, Broadcom, Qualcomm, Google, Amazon, Microsoft (custom silicon)', position: 'Direct customers — TSMC fabricates essentially every major AI accelerator design regardless of which company designed it', tone: 'client' },
+        { level: 'Advanced packaging', players: 'TSMC CoWoS (in-house), Amkor, ASE (subcontracted overflow)', position: 'CoWoS capacity has been a binding constraint on AI-accelerator supply; TSMC is expanding aggressively', tone: 'growth' },
+      ],
+      segments: [
+        'Q2 2026 revenue: $40.20B (NT$1.27 trillion), +36% YoY, at the high end of guidance',
+        '2nm contributed 3% of wafer revenue in its debut quarter (Q2 2026); 3nm and 5nm combined were 63% of wafer revenue',
+        'Q2 2026 gross margin: 67.7%, up 1.5 points sequentially; management has guided Q3 margin to moderate somewhat on 2nm-ramp dilution',
+        'FY2026 capex guidance raised to $60-64B (from a prior $52-56B range) on what management called "stronger and stronger" AI demand',
+        'FY2026 USD revenue growth outlook raised to "40%-plus" per multiple contemporaneous reports of the Q2 2026 call',
+      ],
+      aiShift:
+        'TSMC is the physical chokepoint of the entire AI accelerator industry — NVIDIA, AMD, Broadcom\'s custom ASICs, Google\'s TPUs, Amazon\'s Trainium and Apple\'s silicon are all fabricated on TSMC lines, mostly on 3nm today with 2nm now ramping. That gives TSMC extraordinary pricing power and margin (67.7% gross in Q2 2026) even as it under-writes the industry\'s single largest capex program: a newly announced additional $100B Arizona investment brings total committed US spending to $265B across multiple leading-edge fabs (2nm and below) plus advanced-packaging facilities — a direct response to both AI-driven demand and US policy pressure to onshore capacity.',
+    },
+    valuation: {
+      peers: ['TSM', 'INTC', 'UMC'],
+      metrics: [
+        { label: 'Price (ADR)', values: ['~$406–419 (Aug 3–5, 2026)', '~$100–102 (Aug 4–5, 2026)', '~$21.08 (May 27, 2026 — not refreshed to Aug in this pass)'] },
+        { label: 'Market cap', values: ['~$2.15T (Aug 2026)', '~$512.5B (Aug 5, 2026)', '~$21.8B (Apr 2026 — not refreshed to Aug in this pass)'] },
+        { label: 'Trailing P/E', values: ['~26.2x', 'not meaningful — Intel remains structurally unprofitable/marginal on a GAAP basis in recent periods', '~33.0x (94% above its own 10-year median per one source)'] },
+        { label: 'Forward P/E', values: ['~18.4x (one source cites ~25.3x — meaningful cross-source variance, likely reflecting different estimate-update timing)', '~59.3x (described by one source as "significantly overvalued" vs. a ~27.8x semiconductor-industry median)', 'not captured in this pass'] },
+        { label: 'EV/EBITDA', values: ['~17.8–18.0x', 'not captured', 'not captured'] },
+        { label: 'Gross margin', values: ['67.7% (Q2 2026)', 'materially lower — Intel Foundry remains loss-making; consolidated figure not captured in this pass', 'not captured'] },
+        { label: 'Net margin', values: ['55.6% (Q2 2026)', 'not captured (recent net results have been volatile/near breakeven at points)', 'not captured'] },
+        { label: 'ROE', values: ['45.9% (Q2 2026), up from 40.5% in Q1 2026', 'not captured', 'not captured'] },
+        { label: 'Beta', values: ['~1.25–1.39 (source variance)', 'not captured', 'not captured'] },
+        { label: 'Dividend yield', values: ['~0.91–0.99% (source variance); TTM dividends per ADR ~$3.34', 'not captured', 'not captured'] },
+        { label: 'Revenue growth YoY', values: ['+36% (Q2 2026, USD)', 'roughly flat to modestly positive per recent quarters — not independently captured this pass', 'not captured'] },
+      ],
+      verdictTone: 'fair',
+      verdictPoints: [
+        'A forward P/E in the high-teens to mid-20s (depending on source) for a company growing revenue ~36-40%+ with 67.7% gross margins and 45.9% ROE is not an obviously rich multiple relative to the growth and quality on offer',
+        'Genuine cross-source disagreement on the forward P/E (as low as ~18.4x, as high as ~25.3x) likely reflects the pace at which analyst estimates are being revised upward mid-cycle — treat any single figure as directional',
+        'TSMC is priced far more conservatively than the fabless AI names (NVDA, AVGO) it manufactures for, despite arguably having the least substitutable position in the entire chain — the closest thing to a structural chokepoint that exists in AI hardware',
+        'Intel and UMC are shown here as the closest listed foundry comparables, but neither is currently a credible leading-edge competitor at scale — Samsung Foundry, the other real leading-edge competitor, is not separately listed and is omitted rather than approximated with an unreliable proxy',
+      ],
+      justifiedIf: [
+        'The raised FY2026 capex ($60-64B) and revenue growth ("40%-plus") guidance holds through the back half of the year as the 2nm ramp scales',
+        'CoWoS advanced-packaging capacity expansion keeps pace with AI-accelerator demand rather than becoming a fresh bottleneck',
+        'The $265B cumulative US (Arizona) investment executes on schedule without diluting margins below the current ~67-68% gross level',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$320 – $360', rationale: 'A meaningful pullback from the current ~$406–419 range, closer to where the stock traded before the sharpest leg of the 2026 AI-capex re-rating' },
+        { tier: 'acceptable', range: '$360 – $420', rationale: 'Brackets the current trading range' },
+        { tier: 'expensive', range: '> $450', rationale: 'Would push the forward multiple well past the current already-uncertain 18-25x range without a corresponding guidance raise' },
+      ],
+      technical: [
+        'Aug 3, 2026 close $406.11; Aug 5, 2026 close $414.00 (down $3.17/-0.76% that session) — both figures from the same research window, illustrating normal day-to-day movement rather than a data conflict',
+        '52-week and all-time-high figures were not independently reconciled in this pass — treat any single cited level with caution',
+        'Q2 2026 earnings (reported mid-July 2026) were the last confirmed print in this research window; delivered record profit and the raised capex/revenue guidance summarized above',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 45, note: 'FY2026 growth tracks the raised "40%-plus" guide, 2nm ramps without a margin air-pocket beyond the flagged Q3 moderation — grinds toward $440–480 over 12-18 months.' },
+        { label: 'BULL', prob: 25, note: 'AI-accelerator demand pulls CoWoS and 2nm capacity utilization even higher, pricing power improves further, the Arizona buildout de-risks US policy exposure — a push toward $520–560.' },
+        { label: 'BEAR', prob: 30, note: 'A China/Taiwan geopolitical shock, an AI-capex digestion cycle across NVIDIA/AMD/hyperscaler customers, or a 2nm yield/margin disappointment resets the multiple — retests $280–320.' },
+      ],
+      horizon: '12–24 months',
+      invalidation: 'Weekly close below $280 (structure break) or a confirmed, material disruption to Taiwan-based fab operations',
+    },
+    risks: [
+      { risk: 'Taiwan geopolitical risk', severity: 'high', note: 'The large majority of TSMC\'s leading-edge capacity remains concentrated in Taiwan; a cross-strait crisis is a low-probability but existential risk that no amount of diversification (Arizona, Japan, Germany) fully offsets in the near term.' },
+      { risk: 'Customer concentration in AI-accelerator demand', severity: 'medium', note: 'A large and growing share of incremental revenue is tied to a handful of AI-accelerator customers (NVIDIA chief among them) — a slowdown in hyperscaler AI capex would hit TSMC\'s growth rate directly, even though its customer base is broader than any single fabless designer\'s.' },
+      { risk: 'Execution risk on the 2nm ramp and margin trajectory', severity: 'medium', note: 'Management itself has flagged Q3 2026 gross-margin moderation tied to 2nm ramp costs — new-node ramps are historically where foundry margin surprises (in either direction) tend to show up.' },
+      { risk: 'US/Taiwan policy and tariff exposure', severity: 'medium', note: 'The $265B cumulative US investment commitment reflects real policy pressure (CHIPS Act era incentives, tariff threats, "onshoring" pressure) as much as pure demand economics — a shift in US trade or industrial policy could alter the economics of that buildout.' },
+      { risk: 'Competitive catch-up at the leading edge', severity: 'low', note: 'Samsung Foundry and Intel Foundry are both explicitly trying to compete at 2nm and below; neither has yet matched TSMC on yield/volume by most public accounts, but both are large, well-capitalized competitors with government backing in their home markets.' },
+      { risk: 'ADR/currency and reporting structure', severity: 'low', note: 'As a Taiwan-domiciled company reporting via 6-K filings with an ADR structure (1 ADS = 5 ordinary shares), US investors carry incremental currency, listing-structure and disclosure-timing considerations relative to US-domiciled semiconductor peers.' },
+    ],
+    backlog: {
+      visibility: [
+        'FY2026 capex guidance raised to $60-64B (from $52-56B)',
+        'FY2026 USD revenue growth outlook raised to "40%-plus" per multiple contemporaneous reports of the Q2 2026 earnings call',
+        '2nm node ramping (3% of Q2 2026 wafer revenue in its debut quarter) with further ramp guided through 2H 2026',
+        'Cumulative committed US investment raised to $265B across multiple Arizona fabs (2nm and below) plus advanced-packaging facilities',
+      ],
+      wins: [
+        'Record Q2 2026 profit on 36% YoY USD revenue growth and 67.7% gross margin',
+        'Additional $100B Arizona investment announced on top of prior commitments',
+        '2nm customer demand described by management as "stronger and stronger"',
+        'Continued CoWoS advanced-packaging capacity expansion to relieve what has been an industry-wide AI-accelerator supply bottleneck',
+      ],
+      clients: ['NVIDIA', 'AMD', 'Apple', 'Broadcom', 'Qualcomm', 'Google', 'Amazon'],
+      suppliers: ['ASML (EUV/DUV lithography)', 'Lam Research, Applied Materials, KLA (etch/deposition/inspection)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 5, note: 'The closest thing to an irreplaceable chokepoint in the entire AI hardware chain — every major fabless AI-chip designer ultimately depends on TSMC leading-edge capacity.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'Indirect but comprehensive — TSMC captures AI-driven demand from every fabless customer simultaneously, rather than betting on any single accelerator architecture winning.' },
+        { criterion: 'Valuation', stars: 4, note: 'A high-teens to mid-20s forward P/E for ~36%+ revenue growth and 67.7% gross margins is a reasonable, arguably conservative, multiple relative to comparable AI-infrastructure names.' },
+        { criterion: 'Risk', stars: 3, note: 'Taiwan geopolitical risk is real, low-probability-but-high-severity, and structurally undiversifiable in the near term regardless of the Arizona buildout.' },
+        { criterion: 'Entry timing', stars: 3, note: 'Trading within a normal-looking recent range as of Aug 2026 — not deeply discounted, not obviously stretched either.' },
+      ],
+      readLabel: 'STRUCTURAL CHOKEPOINT, PRICED MORE CONSERVATIVELY THAN ITS CUSTOMERS',
+      summary:
+        'TSMC captures AI-driven semiconductor demand more comprehensively than any single fabless designer, because it manufactures for nearly all of them at once — NVIDIA, AMD, Broadcom\'s custom ASICs, Google\'s TPUs and Apple\'s silicon all run through the same leading-edge lines. Record Q2 2026 profitability, a raised "40%-plus" revenue growth outlook, and a forward multiple that trades at a real discount to its largest fabless customers make the valuation case straightforward. The risk that does not show up in any multiple is geopolitical: TSMC\'s capacity remains overwhelmingly concentrated in Taiwan, and no amount of Arizona/Japan/Germany diversification changes that fact within this decade.',
+    },
+    sourceNote:
+      'Compiled Aug 6, 2026 via live web research across stockanalysis.com, gurufocus.com, macrotrends.net, dividendmax.com/dividend.com, CNBC, and primary sources including TSMC\'s Q1 and Q2 2026 Form 6-K filings (SEC), and contemporaneous coverage from Yahoo Finance, BigGo Finance, VanEck and XenoSpectrum of the July 2026 Q2 earnings call. Cross-source variance was material on several figures — TSM forward P/E ranged from ~18.4x to ~25.3x, and INTC/UMC price and market-cap figures were pulled from slightly different dates within the research window (UMC in particular reflects a May 2026 snapshot, not independently refreshed to Aug 2026) — treat those as directional. This is a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here.',
+  },
+
+  AVGO: {
+    ticker: 'AVGO',
+    name: 'Broadcom Inc.',
+    tagline: 'One of only two companies hyperscalers trust to co-design custom AI accelerators at scale, with a $73B AI backlog and named programs for Google, Meta, OpenAI and Anthropic — plus the merchant networking silicon that ties AI clusters together.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Broadcom spans custom AI silicon (XPU/ASIC co-design for hyperscalers), data-center networking/switching (Tomahawk, Jericho), and — since the 2023 acquisition — enterprise infrastructure software via VMware. Along with Marvell, it controls an estimated large majority of the custom AI-ASIC co-design market: the segment building ground-up custom accelerators (Google TPU, Meta MTIA, and now disclosed programs for OpenAI and Anthropic) that compete directly with NVIDIA merchant GPUs for hyperscaler training and inference budgets.',
+      rows: [
+        { level: 'Fabrication (front-end)', players: 'TSMC', position: 'Broadcom is fabless — no fab, and shares TSMC leading-edge/CoWoS capacity with NVIDIA, AMD and every other AI-chip designer', tone: 'client' },
+        { level: 'Custom AI silicon (ASIC co-design, this company)', players: 'Broadcom, Marvell (~two-company majority of the market)', position: 'Core business — six disclosed hyperscale custom-silicon customers including Google, Meta, Anthropic and OpenAI, plus two unnamed', tone: 'core' },
+        { level: 'Networking / switching', players: 'Broadcom (Tomahawk, Jericho), Marvell, Cisco', position: 'Merchant switch silicon connecting AI GPU/accelerator clusters — a direct beneficiary of scale-out AI infrastructure regardless of which accelerator wins', tone: 'core' },
+        { level: 'Enterprise infrastructure software', players: 'VMware (Broadcom-owned)', position: 'Non-AI legacy/adjacent business — a source of the "VMware warning" investors watch each quarter as software growth normalizes post-acquisition', tone: 'none' },
+        { level: 'Hyperscaler / AI-lab customers', players: 'Google, Meta, Anthropic, OpenAI, plus two undisclosed', position: 'Direct, named co-design customers — OpenAI\'s first-generation XPU targeted for volume deployment in 2027 at over 1GW of capacity', tone: 'core' },
+        { level: 'Advanced packaging', players: 'TSMC CoWoS, ASE, Amkor', position: 'Indirect exposure via custom-silicon and networking-chip volume', tone: 'indirect' },
+      ],
+      segments: [
+        'AI semiconductor revenue: guided to $16B in Q3 FY2026, up more than 200% YoY',
+        'FY2026 full-year AI semiconductor revenue guided to ~$56B, roughly 180% growth over FY2025, per the June 3, 2026 earnings call',
+        'FY2027 target: more than $100B in AI chip revenue, per management commentary',
+        'Q3 FY2026 consolidated revenue guided to ~$29.4B, +84% YoY, with non-GAAP operating margin guided stable around 67%',
+        'Q3 FY2026 earnings scheduled for September 2, 2026, after market close',
+      ],
+      aiShift:
+        'Broadcom has built the single largest disclosed forward order book of any AI-semiconductor company outside NVIDIA: a $73B AI backlog — larger than Broadcom\'s entire FY2025 revenue base — with delivery scheduled over roughly the next 18 months. Custom AI accelerators are now being developed for six hyperscale customers (Google, Meta, Anthropic and OpenAI disclosed by name, plus two undisclosed), each on an 18-24 month design cycle tied to that customer\'s specific model architecture. The most significant recent development is the expanded three-way Anthropic/Google/Broadcom agreement for roughly 3.5GW of next-generation Google TPU capacity coming online from 2027 (on top of 1GW already deploying in 2026) — a structural validation that at least one frontier AI lab now sources meaningfully from custom Broadcom-fabricated silicon rather than merchant GPUs alone.',
+    },
+    valuation: {
+      peers: ['AVGO', 'NVDA', 'MRVL', 'AMD'],
+      metrics: [
+        { label: 'Price', values: ['~$392–421 (Aug 3–5, 2026; a same-window rally visible across the whole AI-semiconductor peer set)', '~$212–219 (Aug 3–5, 2026)', '~$210–222 (Aug 5, 2026, intraday range)', '$518.58 (Aug 4, 2026)'] },
+        { label: 'Market cap', values: ['~$1.87–1.99T (Aug 2026, cross-source variance); crossed $2T briefly in April 2026 per one source', '~$5.1–5.3T (Aug 2026)', '~$168–222B (wide cross-source variance)', '$790.25B (Aug 3, 2026)'] },
+        { label: 'Forward P/E', values: ['~19.4x (one source cites ~24.2x — cross-source variance)', '~20.7x', '~56.7x (one source cites trailing P/E of ~66.2x)', '49.16x'] },
+        { label: 'P/S (forward)', values: ['~15.9–17.2x (source variance)', '~15–17x', '22.4x (TTM)', '21.25x'] },
+        { label: 'EV/EBITDA', values: ['~44.2x (with EV/FCF cited at ~56.0x by one source)', '~27–30x', 'not captured', 'not captured'] },
+        { label: 'Gross margin', values: ['68.35% (TTM)', '74.15%', '51.5%', '52.8% (Q1 2026)'] },
+        { label: 'Net margin', values: ['38.85% (Apr 2026); another source cites 41.96%', '~63.0% (elevated by equity-security gains)', 'not captured', '13.5% (Q1 2026)'] },
+        { label: 'ROE', values: ['37.28%', '~114–132%', 'not captured', 'not captured'] },
+        { label: 'Beta', values: ['~1.47', '~2.2', '~2.20', 'not captured'] },
+        { label: 'Dividend yield', values: ['~0.62%', '~0.47%', '~0.12%', 'not captured'] },
+      ],
+      verdictTone: 'fair',
+      verdictPoints: [
+        'A forward P/E around 19-24x for a company guiding AI semiconductor revenue up ~180% for the full year and targeting >$100B of AI chip revenue in FY2027 is a materially cheaper multiple than most other named AI-infrastructure plays in this peer set',
+        'EV/EBITDA (~44x) and EV/FCF (~56x) tell a richer story than the P/E alone — VMware\'s software cash flows and amortization from the acquisition complicate a clean read, and this gap between "cheap on P/E" and "rich on EV/EBITDA" is worth sitting with rather than resolving in either direction',
+        'Gross margin (68.35%) sits between AMD\'s (52.8%) and NVIDIA\'s (74.15%), reflecting a genuine mix of high-margin custom-silicon IP licensing and lower-margin networking/software revenue',
+        'The stock has shown real single-day volatility within this research window (a multi-percent move visible Aug 3-5, 2026 across the whole peer set) — any single price/market-cap figure here should be read as a snapshot, not a stable level',
+      ],
+      justifiedIf: [
+        'The $73B AI backlog converts to delivered, recognized revenue on the guided ~18-month schedule',
+        'FY2026 full-year AI semiconductor revenue lands at or above the ~$56B guide, and FY2027 tracks toward the >$100B target',
+        'Broadcom and Marvell maintain their combined majority share of custom AI-ASIC co-design against any new entrants, and no named hyperscaler customer (Google, Meta, Anthropic, OpenAI) pulls back or in-sources a program',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$300 – $340', rationale: 'A meaningful pullback from the current ~$392–421 range, closer to where the stock traded before the sharpest 2026 AI-backlog-driven re-rating' },
+        { tier: 'acceptable', range: '$340 – $420', rationale: 'Brackets the current trading range, below the reported June 2026 closing all-time high' },
+        { tier: 'expensive', range: '> $480', rationale: 'Approaches or exceeds the reported 52-week high of $495 and June 2026 closing ATH of $480.77 — priced for flawless execution on the $73B backlog' },
+      ],
+      technical: [
+        'Reported all-time closing high $480.77 (June 2, 2026); 52-week high cited at $495.00 by one source (~26% above an Aug 3, 2026 close of $392.23)',
+        'Aug 3, 2026 close $392.23; a subsequent same-window quote near $421.38 (+5.26%) suggests a sharp rally into Aug 5-6, 2026, consistent with the broader semiconductor-sector move visible in this peer set — treat the exact current level as a moving target, not a fixed number',
+        'Stock fell on the June 3, 2026 Q2 FY2026 print despite AI revenue doubling, driven by softer software/VMware commentary — a reminder that the market has been discriminating between the AI-silicon and legacy-software halves of the business',
+        'Q3 FY2026 earnings scheduled for September 2, 2026, after market close',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 40, note: 'FY2026 AI semiconductor revenue lands near the ~$56B guide, the $73B backlog converts on schedule, VMware growth stabilizes — grinds toward $450–500 over 12-18 months.' },
+        { label: 'BULL', prob: 30, note: 'OpenAI\'s 2027 XPU deployment and the expanded Anthropic/Google TPU capacity pull forward faster than guided, additional named hyperscaler wins are disclosed — a push toward $550–650.' },
+        { label: 'BEAR', prob: 30, note: 'A named hyperscaler customer pulls back or delays a custom-silicon program, VMware growth disappoints again, or AI capex broadly digests after 2026\'s surge — retests $260–300.' },
+      ],
+      horizon: '12–18 months',
+      invalidation: 'Weekly close below $260 (giving back most of the 2026 AI-backlog re-rating) or a disclosed cancellation/delay of a named hyperscaler custom-silicon program',
+    },
+    risks: [
+      { risk: 'Hyperscaler/named-customer concentration', severity: 'high', note: 'The disclosed custom-silicon customer base is six names (four disclosed: Google, Meta, Anthropic, OpenAI), each on a single, long design cycle per generation — losing or seeing any one program in-sourced or delayed is a multi-billion-dollar swing given the $73B backlog is concentrated across so few relationships.' },
+      { risk: 'NVIDIA merchant-GPU competition for the same budgets', severity: 'high', note: 'Broadcom\'s entire custom-ASIC thesis depends on hyperscalers continuing to allocate a growing share of AI capex to purpose-built silicon instead of NVIDIA GPUs — a strategy reversal at any major customer would hit the backlog conversion story directly.' },
+      { risk: 'Marvell competitive overlap', severity: 'medium', note: 'Broadcom and Marvell together dominate custom AI-ASIC co-design; any given hyperscaler program going to Marvell instead of Broadcom (or vice versa) is close to a zero-sum outcome between the two.' },
+      { risk: 'VMware/software segment growth deceleration', severity: 'medium', note: 'The June 2026 stock reaction to softer software commentary alongside doubling AI revenue shows the market is actively discounting the non-AI half of the business — a real, recurring source of quarter-to-quarter volatility.' },
+      { risk: 'Valuation gap between P/E and EV/EBITDA', severity: 'medium', note: 'A forward P/E near 19-24x looks reasonable, but EV/EBITDA near 44x and EV/FCF near 56x suggest debt, amortization from the VMware deal, and cash-flow timing complicate a simple "cheap" read — worth independently modeling rather than relying on any single multiple.' },
+      { risk: 'AI-capex cyclicality', severity: 'medium', note: 'Both the custom-silicon and networking segments are directly levered to hyperscaler AI infrastructure capex, which remains at historically elevated levels across this entire peer set.' },
+    ],
+    backlog: {
+      visibility: [
+        '$73B AI backlog, larger than Broadcom\'s entire FY2025 revenue base, with delivery guided over roughly the next 18 months',
+        'FY2026 AI semiconductor revenue guided to ~$56B (~180% YoY growth); Q3 FY2026 AI semiconductor revenue guided to $16B (+200%+ YoY)',
+        'FY2027 target of more than $100B in AI chip revenue per management commentary',
+        'Q3 FY2026 consolidated revenue guided to ~$29.4B (+84% YoY); earnings scheduled September 2, 2026',
+      ],
+      wins: [
+        'Custom AI accelerator programs disclosed for six hyperscale customers: Google, Meta, Anthropic, OpenAI (named) plus two undisclosed',
+        'OpenAI\'s first-generation XPU slated for volume deployment in 2027 at over 1GW of capacity',
+        'Expanded three-way Anthropic/Google/Broadcom agreement for ~3.5GW of next-generation Google TPU capacity coming online from 2027, on top of 1GW already deploying in 2026',
+        'Each custom-silicon program engineered to one customer\'s specific model architecture over an 18-24 month design cycle — a structurally sticky, long-duration relationship once won',
+      ],
+      clients: ['Google', 'Meta', 'Anthropic', 'OpenAI', 'two undisclosed hyperscale customers'],
+      suppliers: ['TSMC (fabless manufacturing, advanced packaging)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'AI infrastructure theme', stars: 5, note: 'One of only two companies (with Marvell) trusted by hyperscalers to co-design ground-up custom AI silicon at scale, now with a $73B backlog and named programs at four of the industry\'s most important AI labs/hyperscalers.' },
+        { criterion: 'Growth', stars: 5, note: 'AI semiconductor revenue guided up ~180% for FY2026 and targeted above $100B for FY2027 — among the fastest disclosed growth rates of any large-cap AI-infrastructure name.' },
+        { criterion: 'Profitability', stars: 4, note: '68.35% gross margin and strong ROE (37.28%), though EV/EBITDA and EV/FCF multiples run richer than the P/E alone would suggest, reflecting VMware-related debt and amortization.' },
+        { criterion: 'Valuation', stars: 4, note: 'Forward P/E in the high-teens to mid-20s is cheap relative to the growth rate and to most named peers in this set, though the EV-based multiples argue for more caution than the P/E alone implies.' },
+        { criterion: 'Risk', stars: 3, note: 'Concentration in a handful of named hyperscaler relationships, direct competition with NVIDIA for the same AI-capex dollars, and a persistently volatile VMware/software narrative are all real, quantified risks.' },
+      ],
+      readLabel: 'THE CUSTOM-SILICON DUOPOLY LEADER, WITH THE LARGEST DISCLOSED AI BACKLOG OUTSIDE NVIDIA',
+      summary:
+        'Broadcom has converted its custom-ASIC co-design relationships into the most concrete, dollar-quantified forward order book of any AI-semiconductor company outside NVIDIA — a $73B backlog, named programs at Google, Meta, Anthropic and OpenAI, and a credible path to over $100B of AI chip revenue in FY2027. The multiple on offer (forward P/E in the high-teens to mid-20s) looks genuinely reasonable for that growth. The two things worth watching closely are the same two that have already moved the stock in 2026: whether VMware/software growth stabilizes rather than becoming a recurring drag on an otherwise excellent AI print, and whether the EV/EBITDA-EV/FCF multiples (both meaningfully richer than the P/E) reflect debt and amortization dynamics that matter more than the headline earnings multiple suggests.',
+    },
+    sourceNote:
+      'Compiled Aug 6, 2026 via live web research across stockanalysis.com, gurufocus.com, macrotrends.net, CNBC, and primary/near-primary sources including Broadcom\'s Q2 FY2026 earnings release and call transcript (June 3, 2026), its Q3 FY2026 earnings-date announcement (broadcom.com, Sept 2, 2026), Anthropic\'s own press release on the expanded Google/Broadcom TPU partnership, and contemporaneous coverage from Investing.com, Benzinga, CNBC, Qz and the Futurum Group. Price and market-cap figures showed real intraday/cross-source variance in the Aug 3-5, 2026 window (a visible semiconductor-sector rally was underway across this entire peer set on those dates); EV/EBITDA vs. forward-P/E showed a wide enough gap to flag explicitly rather than resolve. This is a research framework, not a live feed — cross-check current prices, multiples and the Sept 2, 2026 Q3 print before acting on anything here.',
+  },
+  MSFT: {
+    ticker: 'MSFT',
+    name: 'Microsoft',
+    tagline: 'Azure AI capacity plus the enterprise distribution channel for copilots — the hyperscaler with the deepest enterprise moat and the messiest AI-lab partnership.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Microsoft sits at the cloud-and-apps layer of the AI value chain: it buys silicon from NVIDIA and AMD (plus a small, still-nascent in-house Maia accelerator program), turns it into Azure compute, and monetizes that compute twice — once as raw cloud capacity, once as Copilot seats layered on top of Microsoft 365 and GitHub. Its OpenAI relationship, restructured in April 2026, is no longer exclusive but remains the single largest strategic dependency in the stack.',
+      rows: [
+        { level: 'Silicon / AI accelerators', players: 'NVIDIA, AMD, Microsoft Maia (in-house, still small-scale)', position: 'Buyer at massive scale; in-house ASIC program immature vs. Amazon Trainium or Google TPU', tone: 'client' },
+        { level: 'Cloud infrastructure (hyperscale)', players: 'Microsoft Azure, AWS, Google Cloud, Oracle', position: 'Core business — Azure crossed $100B annualized revenue in FY2026 (+41% for the full year)', tone: 'core' },
+        { level: 'Foundation models', players: 'OpenAI (GPT), Microsoft in-house (Phi, MAI), Anthropic (Azure marketplace)', position: 'Anchor investor (~27% of OpenAI Group PBC) and primary — no longer exclusive — cloud partner', tone: 'core' },
+        { level: 'Enterprise apps / distribution', players: 'Microsoft 365 Copilot, GitHub Copilot, Dynamics 365', position: 'Core business — 30M+ paid Copilot seats, net adds accelerating', tone: 'core' },
+        { level: 'AI datacenter capacity (external)', players: 'Nebius, CoreWeave, other neoclouds', position: 'Direct capacity buyer on top of owned build-out — Nebius alone is a $17.4–19.4B, 5-year GPU capacity deal', tone: 'client' },
+      ],
+      segments: [
+        'Intelligent Cloud (Azure + server products): the growth engine — Azure/other cloud services +43% YoY in Q4 FY2026, crossing $100B in annualized revenue for the first time',
+        'Productivity & Business Processes (Microsoft 365, Copilot, Dynamics, LinkedIn): the monetization layer for AI features — Microsoft 365 Copilot passed 30M paid seats in Q4 FY2026, with net paid-seat additions more than doubling sequentially',
+        'More Personal Computing (Windows, Xbox, Search/Bing/Copilot consumer): smallest AI-growth lever of the three segments',
+      ],
+      aiShift:
+        'Microsoft is monetizing AI on two fronts simultaneously: as an infrastructure landlord (Azure capacity, increasingly capacity-constrained and rationed toward the highest-value workloads) and as a software-seat vendor (Copilot embedded across the Office/GitHub/Dynamics stack). The April 2026 restructuring of the OpenAI partnership ended Microsoft\'s cloud exclusivity — OpenAI can now run on any cloud — but locked in an incremental commercial commitment from OpenAI to Azure reported at roughly $250B through 2030, "independent of OpenAI\'s technology progress." That trade (less exclusivity, more contracted revenue) is the central strategic bet embedded in the stock right now.',
+    },
+    valuation: {
+      peers: ['MSFT', 'GOOGL', 'META', 'AMZN'],
+      metrics: [
+        { label: 'Price', values: ['$487.46 (Aug 6, 2026)', '$360.13 (Aug 5–6, 2026, post-selloff)', '$566.91 (Aug 6, 2026)', '$277.42 (Aug 4, 2026)'] },
+        { label: 'Market cap', values: ['~$3.62T', '~$4.3–4.4T (aggregators disagree, $4.34–4.59T range)', '~$1.43–1.5T', '~$3.0T'] },
+        { label: 'Trailing P/E', values: ['~27.2–27.5x', '~18.2–18.9x (see note — GAAP-earnings distorted)', '~22.2x', '~22.0x'] },
+        { label: 'Forward P/E', values: ['~25.1–25.9x', '~27.5–27.9x', '~17.0–17.3x', '~24.5–31x (wide aggregator spread)'] },
+        { label: 'P/S (TTM)', values: ['~10.9x (computed: mcap/$331.8B FY26 revenue; aggregators range 7.9–11.1x)', '~9.8–10.2x', '~6.6x', '~4.3x (computed, approximate)'] },
+        { label: 'P/B', values: ['~11.7x (last verified ~Nov 2025, not refreshed to Aug price)', '~10.3–10.5x (last verified ~Jan 2026, likely higher now)', '~6.6x (computed from ROE/net income, not directly sourced)', '—'] },
+        { label: 'EV/EBITDA', values: ['~19.1x', '~24–26x (one source: 17.6x — methodology unclear, flagged)', '~13.1x (looks low vs. P/E; not independently verified)', '—'] },
+        { label: 'PEG (trailing)', values: ['~1.3x (sources range 0.76–1.6x)', '~1.0x (sources range 0.55–2.0x)', '0.82', '1.46'] },
+        { label: 'ROE', values: ['34.0%', '48.7%', '29.9%', '—'] },
+        { label: 'Net margin', values: ['~39% (approx., FY2026)', '54.8% TTM — inflated by unrealized equity-investment gains, see note', '29.8% TTM', '—'] },
+        { label: 'Gross margin', values: ['67.9% (FY2026)', '60.9%', '81.8%', '50.8%'] },
+        { label: 'Operating margin', values: ['46.8% (FY2026)', '33.1%', '~31% (Q2 2026 GAAP, compressed by $2.4B legal + $1.18B severance charges)', '12.1%'] },
+        { label: 'Beta', values: ['1.13', '1.25', '~1.25 (approximate)', '1.45'] },
+        { label: 'Dividend yield', values: ['0.74%', '0.23%', '0.38%', '0% (no dividend)'] },
+      ],
+      verdictTone: 'fair',
+      verdictPoints: [
+        'Forward P/E of ~25.5x is not extreme for a business posting 40%+ Azure growth and 30M+ Copilot seats, but it is a premium to Alphabet\'s headline (GAAP-distorted) trailing multiple and roughly in line with Alphabet\'s cleaner forward P/E',
+        'Net margin (~39%) and operating margin (46.8%) are best-in-class among the three, reflecting the software/services mix — but free cash flow fell as capex hit a record $41B in the quarter',
+        'The OpenAI restructuring is a genuine two-sided trade: Microsoft gave up cloud exclusivity but locked in a large multi-year Azure purchase commitment from OpenAI — the market has not fully resolved whether that net favors Microsoft',
+      ],
+      justifiedIf: [
+        'Azure growth holds near the guided ~45% constant-currency range and Copilot seat growth keeps compounding off the 30M base',
+        'OpenAI\'s ~$250B Azure commitment draws down roughly on schedule despite the loss of exclusivity',
+        'Capex intensity (record $41B in Q4 FY2026, guided higher for FY2027) is matched by AI-monetization revenue rather than eroding free cash flow further',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$410 – $440', rationale: 'Mid-recovery zone between the 52-week low ($349.20) and current price, ~10–16% below spot' },
+        { tier: 'acceptable', range: '$440 – $500', rationale: 'Current zone — post-earnings-pop consolidation, defensible but not a gift' },
+        { tier: 'expensive', range: '>$540', rationale: 'Approaches the Oct 28, 2025 all-time-high close of $541.06 — forward P/E would push toward 29x+' },
+      ],
+      technical: [
+        'ATH close $541.06 (Oct 28, 2025); current $487.46 is a ~9.9% pullback from that peak',
+        '52-week range: $349.20 (low, Jun 25, 2026) – $553.72 (high, Oct 28, 2025)',
+        'Current price is ~39.6% above the 52-week low, most of that recovered after the Jul 29, 2026 FY26 Q4 earnings beat triggered a ~15% single-day jump',
+        'Average analyst target clusters $563–$592 across polled cohorts (56–97 analysts depending on source); high target $870, low target $400',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 50, note: 'Azure growth holds near the ~45% cc guide, Copilot seat growth compounds, OpenAI\'s Azure commitments draw down on schedule — grinds toward the $563–592 consensus range over 12–18 months.' },
+        { label: 'BULL', prob: 25, note: 'Enterprise Copilot monetization inflects faster than modeled and Azure reaccelerates past guidance — pushes toward the $700–870 high-end targets.' },
+        { label: 'BEAR', prob: 25, note: 'AI capex fails to show a clean ROI, free-cash-flow compression continues, or OpenAI meaningfully diversifies spend away from Azure now that exclusivity is gone — retests the $400–440 low-end target zone.' },
+      ],
+      horizon: '12–18 months',
+      invalidation: 'Weekly close below $400 (breach of the low-end analyst target cluster and a structural break)',
+    },
+    risks: [
+      { risk: 'Capex intensity vs. monetization', severity: 'high', note: 'Record $41B quarterly capex (roughly two-thirds short-lived assets like GPUs/CPUs) and free cash flow already down 23% YoY; FY2027 capex guided higher again. The stock is pricing continued AI-monetization follow-through, not just cloud growth.' },
+      { risk: 'OpenAI relationship reset', severity: 'medium', note: 'The April 2026 restructuring ended Azure exclusivity — OpenAI can now deploy on any cloud (it is already pursuing the $500B Stargate build with Oracle/SoftBank). Microsoft keeps a ~27% equity stake and a reported ~$250B minimum Azure purchase commitment through 2030, but the captive-compute advantage is gone.' },
+      { risk: 'Cloud AI competitive intensity', severity: 'medium', note: 'Google Cloud grew 82% YoY in Q2 2026 (from a smaller base) versus Azure\'s 43% — the growth-rate gap matters even if Azure\'s absolute base is larger. AWS and neoclouds add further GPU-capacity competition.' },
+      { risk: 'Free cash flow / margin trajectory', severity: 'medium', note: 'Rising depreciation from the AI buildout and continued heavy capex could compress margins faster than Copilot/Azure AI revenue offsets it — a dynamic every hyperscaler now shares.' },
+      { risk: 'GPU/silicon supplier dependence', severity: 'low', note: 'Maia (in-house AI accelerator) remains small-scale versus Amazon Trainium or Google TPU; Microsoft is still overwhelmingly reliant on NVIDIA and, secondarily, AMD.' },
+      { risk: 'Valuation', severity: 'medium', note: 'Forward P/E ~25.5x leaves limited room for a Copilot-monetization or Azure-growth disappointment, though it is not stretched relative to the growth on offer.' },
+      { risk: 'Regulatory', severity: 'low', note: 'Materially less exposed than Google or Meta on structural antitrust this cycle, though EU/DOJ scrutiny of Teams/Copilot bundling persists as a background risk.' },
+    ],
+    backlog: {
+      visibility: [
+        'FY2026 (ended Jun 30, 2026) total revenue $331.8B, +18% YoY; Q4 FY2026 revenue $90B, +18% YoY, beating the ~$87.6B consensus',
+        'Azure and other cloud services +43% YoY in Q4, crossing $100B in annualized revenue for the first time; full-year Azure revenue +41%',
+        'Q4 FY2026 GAAP net income $35.8B, +31% YoY; adjusted EPS $4.74 vs. ~$4.24 consensus',
+        'Record Q4 capital spending of ~$41B, about two-thirds on short-lived assets (GPUs/CPUs); FY2027 capex guided to grow further, with one analyst estimate citing a $255–260B range (not confirmed company guidance — treat as an estimate)',
+        'Management guides Azure growth of ~45% in constant currency for the next quarter',
+      ],
+      wins: [
+        'Restructured OpenAI partnership (Apr 27, 2026): non-exclusive cloud arrangement, Microsoft retains ~27% stake in OpenAI Group PBC (valued ~$135B as of the Oct 2025 agreement) and a reported ~$250B minimum Azure purchase commitment from OpenAI through 2030',
+        'Microsoft 365 Copilot passed 30M paid seats in Q4 FY2026, with net paid-seat additions more than doubling sequentially',
+        'Nebius five-year GPU-capacity deal worth $17.4B (up to $19.4B with the option), anchored by a new Vineland, NJ datacenter',
+        'GitHub Copilot and Dynamics 365 Copilot continuing to layer AI monetization onto the existing enterprise installed base',
+      ],
+      clients: ['Broad Microsoft 365 / Azure enterprise customer base', 'OpenAI (Azure capacity purchaser + equity partner)'],
+      suppliers: ['NVIDIA (primary GPU supplier)', 'AMD (secondary GPU supplier)', 'Nebius (leased GPU capacity, $17.4–19.4B contract)', 'TSMC (Maia fabrication)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 5, note: 'Best-in-class margins among the three (46.8% operating margin), a genuine enterprise distribution moat via Microsoft 365/GitHub, and now a $100B+ annualized Azure business.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'Azure is capacity-constrained by demand, not lack of it; Copilot seat growth is accelerating; OpenAI remains the largest single AI-lab relationship in the industry even post-restructuring.' },
+        { criterion: 'Valuation', stars: 3, note: 'Forward P/E ~25.5x is reasonable for the growth, not cheap — leaves limited room for disappointment.' },
+        { criterion: 'Risk', stars: 4, note: 'Lower structural/regulatory risk than Google or Meta; the main open question is whether record capex converts to durable AI revenue.' },
+        { criterion: 'Entry timing', stars: 3, note: 'A ~10% pullback from the all-time-high close is a reasonable, not exceptional, entry point after a sharp post-earnings run.' },
+      ],
+      readLabel: 'CONSTRUCTIVE — HIGHEST QUALITY, NOT THE CHEAPEST',
+      summary:
+        'Microsoft is the most balanced of the three names here: real enterprise distribution (Copilot), real infrastructure scarcity value (Azure), and the deepest AI-lab relationship in the industry, even after that relationship\'s exclusivity was traded away in April 2026 for a larger contracted revenue commitment. The risk is not the franchise — it is whether the record capex cycle (a record $41B in a single quarter) converts into durable AI monetization fast enough to keep free cash flow from eroding further.',
+    },
+    sourceNote:
+      'Compiled from a web research pass dated Aug 6, 2026: Microsoft FY2026 Q4 earnings release and investor call (Jul 29, 2026), the Apr 27, 2026 Microsoft/OpenAI partnership restructuring announcement (Microsoft and OpenAI newsrooms, Forbes, The Register, Redmondmag), and price/valuation data aggregated via search-engine summaries of stockanalysis.com, GuruFocus, MacroTrends, Morningstar and Yahoo Finance (direct fetch of several of these returned HTTP 403 during this pass, so figures reflect summarized snapshots, not a single verified terminal feed — cross-aggregator P/S figures alone ranged from 7.9x to 11.1x). This is a research framework, not a live feed — cross-check current prices, multiples and guidance before acting on anything here.',
+  },
+
+  GOOGL: {
+    ticker: 'GOOGL',
+    name: 'Alphabet',
+    tagline: 'Full stack: TPU silicon, Gemini models, cloud and consumer surfaces — the only hyperscaler that owns its own AI chip, its own frontier model, and now sells surplus compute to a direct model-layer competitor.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Alphabet is the most vertically integrated name in this batch: it designs its own AI accelerator (TPU, now in its 7th generation — "Ironwood"), trains its own frontier model family (Gemini), runs the cloud those run on (Google Cloud), and owns the largest ad-funded consumer distribution surface on earth (Search, YouTube, Android). It is now also a merchant AI-silicon vendor — Google is renting TPU capacity to Anthropic, a direct Gemini competitor, in a deal that doubles as the market\'s clearest third-party endorsement of the TPU program.',
+      rows: [
+        { level: 'Custom AI silicon', players: 'Google TPU (Ironwood, 7th gen), Broadcom (co-design partner)', position: 'Core, vertically integrated — now selling external TPU capacity to Anthropic (up to 1M chips, 5GW over 5 years)', tone: 'core' },
+        { level: 'Cloud infrastructure', players: 'Google Cloud, Microsoft Azure, AWS', position: 'Core business — Cloud revenue +82% YoY to $24.8B in Q2 2026, the fastest growth rate of the big three clouds', tone: 'core' },
+        { level: 'Foundation models', players: 'Gemini (Google DeepMind), OpenAI, Anthropic', position: 'Core — Gemini is the in-house frontier model; TPUs also now power a rival lab (Anthropic) as merchant compute', tone: 'core' },
+        { level: 'Consumer surfaces / distribution', players: 'Search, YouTube, Android, Gemini app, Chrome', position: 'Core business — the ad-funded distribution layer AI features are being embedded into', tone: 'core' },
+        { level: 'Regulatory constraint', players: 'US DOJ/states (search + ad-tech cases), EU', position: 'Two live antitrust cases directly constrain default-placement and bundling of Search, Chrome and the Gemini app', tone: 'indirect' },
+      ],
+      segments: [
+        'Google Services (Search, YouTube ads, Android, subscriptions/devices): the cash engine and the primary AI-feature distribution surface',
+        'Google Cloud (GCP + Workspace): the fastest-growing major segment — +82% YoY in Q2 2026, cloud backlog reached $514B',
+        'Other Bets (Waymo, Verily, etc.): immaterial to the AI-value-chain thesis at current scale',
+      ],
+      aiShift:
+        'Alphabet\'s AI shift is structurally different from Microsoft\'s or Meta\'s: it is monetizing compute on three levels at once — as merchant silicon (TPU capacity sold to Anthropic), as cloud infrastructure (GCP), and as an embedded consumer feature (Gemini in Search/Android). The tradeoff is real: Google\'s own DeepMind researchers have reportedly been queuing for TPU compute behind paying external customers, an internal capacity squeeze that is the flip side of TPU demand being genuinely strong enough to sell externally. Two live antitrust cases (the search-monopoly remedies, on appeal, and the ad-tech/AdX case, remedies ruling still pending as of this research pass) constrain how aggressively Google can bundle Gemini into its distribution surfaces going forward.',
+    },
+    valuation: {
+      peers: ['GOOGL', 'MSFT', 'META', 'AMZN'],
+      metrics: [
+        { label: 'Price', values: ['$360.13 (Aug 5–6, 2026, post AI-leadership-shakeup selloff)', '$487.46 (Aug 6, 2026)', '$566.91 (Aug 6, 2026)', '$277.42 (Aug 4, 2026)'] },
+        { label: 'Market cap', values: ['~$4.3–4.4T (aggregators disagree, $4.34–4.59T range)', '~$3.62T', '~$1.43–1.5T', '~$3.0T'] },
+        { label: 'Trailing P/E', values: ['~18.2–18.9x (see note — GAAP-earnings distorted)', '~27.2–27.5x', '~22.2x', '~22.0x'] },
+        { label: 'Forward P/E', values: ['~27.5–27.9x', '~25.1–25.9x', '~17.0–17.3x', '~24.5–31x (wide aggregator spread)'] },
+        { label: 'P/S (TTM)', values: ['~9.8–10.2x', '~10.9x (computed)', '~6.6x', '~4.3x (computed, approximate)'] },
+        { label: 'P/B', values: ['~10.3–10.5x (last verified ~Jan 2026, likely higher now)', '~11.7x (last verified ~Nov 2025)', '~6.6x (computed, not directly sourced)', '—'] },
+        { label: 'EV/EBITDA', values: ['~24–26x (one source: 17.6x — methodology unclear, flagged)', '~19.1x', '~13.1x (looks low vs. P/E; not independently verified)', '—'] },
+        { label: 'PEG (trailing)', values: ['~1.0x (sources range 0.55–2.0x)', '~1.3x (sources range 0.76–1.6x)', '0.82', '1.46'] },
+        { label: 'ROE', values: ['48.7%', '34.0%', '29.9%', '—'] },
+        { label: 'Net margin', values: ['54.8% TTM — inflated by unrealized equity-investment gains, see note', '~39% (approx., FY2026)', '29.8% TTM', '—'] },
+        { label: 'Gross margin', values: ['60.9%', '67.9% (FY2026)', '81.8%', '50.8%'] },
+        { label: 'Operating margin', values: ['33.1%', '46.8% (FY2026)', '~31% (Q2 2026 GAAP, compressed by legal + severance charges)', '12.1%'] },
+        { label: 'Beta', values: ['1.25', '1.13', '~1.25 (approximate)', '1.45'] },
+        { label: 'Dividend yield', values: ['0.23%', '0.74%', '0.38%', '0% (no dividend)'] },
+      ],
+      verdictTone: 'fair',
+      verdictPoints: [
+        'The headline trailing P/E (~18.5x) looks cheap relative to Microsoft and Meta, but Alphabet\'s TTM net margin of ~55% is inflated by unrealized mark-to-market gains on equity investments — a real but non-cash, non-recurring driver. The forward P/E (~27.6x), which strips most of that distortion out via forward earnings estimates, is a more honest comparison point and lands close to Microsoft\'s',
+        'Cloud is now growing faster than either Azure or AWS in percentage terms (+82% YoY) off a smaller base — the clearest evidence Google Cloud is closing the scale gap',
+        'Capex guidance has been raised twice in 2026 (now $195–205B, from an original $180–190B), with management flagging a "significant" further increase for 2027 — the multiple is increasingly a bet on Cloud/TPU monetization catching up to the spend',
+      ],
+      justifiedIf: [
+        'Google Cloud sustains 60%+ growth and the $514B backlog converts to revenue roughly on schedule',
+        'The TPU external-sales program (Anthropic and any future customers) scales into a genuine third revenue pillar alongside ads and cloud',
+        'The pending ad-tech (AdX/DFP) remedies ruling lands on behavioral rather than structural (divestiture) terms',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$300 – $330', rationale: 'A deeper pullback zone, ~10–17% below spot, last visited in the pre-rally consolidation' },
+        { tier: 'acceptable', range: '$330 – $390', rationale: 'Current zone, spanning the recent AI-leadership-driven selloff' },
+        { tier: 'expensive', range: '>$410', rationale: 'At or above the 52-week high — forward multiple stretches further without a Cloud-growth reacceleration' },
+      ],
+      technical: [
+        '52-week high $408.61 (May 18, 2026); 52-week low $193.67 (Aug 6, 2025) — a ~94% trailing-year move before the recent pullback',
+        'Current $360.13 is ~11.9% below the 52-week high, and roughly +86% above the 52-week low',
+        'Recent volatility: shares fell ~4% in a single session around Aug 5–6, 2026 tied to an AI-division leadership shakeup (reported departures including Jeff Dean)',
+        'Average analyst target ~$427.59 (64 analysts polled), high target $515, low target $340 — some cohorts show a lower ~$401.62 average',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 50, note: 'Google Cloud growth stays well above 50%, the $195–205B capex guide holds without another raise, and the pending ad-tech ruling lands mostly behavioral — grinds toward the $420–460 consensus/high-end range over 12–18 months.' },
+        { label: 'BULL', prob: 20, note: 'TPU external sales scale beyond Anthropic, Gemini monetization inflects, and the antitrust overhangs resolve favorably — pushes toward the $500–515 high-end targets.' },
+        { label: 'BEAR', prob: 30, note: 'A structural AdX/DFP divestiture is ordered, capex is raised again without matching Cloud-margin improvement, or the search-remedies appeal goes against Google — retests the $300–340 low-end target zone.' },
+      ],
+      horizon: '12–18 months',
+      invalidation: 'Weekly close below $300, or a confirmed structural ad-tech divestiture order (a fundamental break of the ad-monetization stack)',
+    },
+    risks: [
+      { risk: 'Ad-tech antitrust (AdX/DFP)', severity: 'high', note: 'Judge Brinkema (EDVA) found Google illegally monopolized the publisher ad-server and ad-exchange markets in April 2025. The remedies trial closed Nov 21, 2025; the DOJ is seeking a forced sale of AdX. As of this research pass the ruling had not been publicly issued — legal analysts expected it "imminently" back in early April 2026, so the timeline itself has already slipped. A divestiture order would be the most significant forced U.S. corporate breakup since AT&T in 1984.' },
+      { risk: 'Search antitrust appeal', severity: 'medium', note: 'The Sept 2025 remedies (data-sharing mandate; ban on exclusive default-placement contracts for Search, Chrome and the Gemini app) rejected a Chrome divestiture, but both the DOJ/states and Google have appealed to the DC Circuit — oral arguments expected late 2026/early 2027. A harsher outcome on appeal remains a live tail risk.' },
+      { risk: 'Capex escalation / free cash flow', severity: 'high', note: 'FY2026 capex guidance was raised to $195–205B (from $180–190B); Q2 2026 capex alone was $44.9B, pushing free cash flow negative for the quarter. Management has flagged a "significant" further increase for 2027.' },
+      { risk: 'GAAP earnings quality', severity: 'medium', note: 'TTM net margin (~55%) is materially boosted by unrealized/mark-to-market gains on equity investments — a real accounting effect (not fabricated), but one that makes the headline trailing P/E look cheaper than the underlying operating business supports. Use the forward P/E, not the trailing one, for comparison.' },
+      { risk: 'Internal TPU capacity squeeze', severity: 'medium', note: 'Reports indicate Google\'s own DeepMind researchers are queuing for TPU compute behind paying external customers like Anthropic — a sign of genuine demand, but also a risk that Gemini\'s own roadmap gets deprioritized versus contracted external revenue.' },
+      { risk: 'Key AI-personnel stability', severity: 'low', note: 'The recent AI-leadership shakeup (reported departures including Jeff Dean) triggered a real single-day ~4% stock decline — a reminder of how sensitive the market is to any signal of instability in Google\'s AI leadership.' },
+      { risk: 'Cloud margin pressure from bridge capacity', severity: 'medium', note: 'Management has explicitly warned of Q3 2026 Cloud margin pressure from leasing third-party compute to bridge demand ahead of Google\'s own capacity coming online.' },
+    ],
+    backlog: {
+      visibility: [
+        'Q2 2026 revenue $119.8B, +24.0% YoY; operating income $40.8B (34.0% operating margin)',
+        'Google Cloud revenue $24.8B in Q2 2026, +82.0% YoY, driven by enterprise AI/AI infrastructure demand; Cloud backlog reached $514B',
+        'FY2026 capex guidance raised twice, now $195–205B (from an original $180–190B)',
+        'Trailing-twelve-month revenue ~$445.9B, TTM net income ~$244.1B (net-margin figure carries the equity-gains caveat noted above)',
+      ],
+      wins: [
+        'Google–Anthropic deal: up to $40B investment, up to 1 million 7th-generation Ironwood TPUs, and 5GW of TPU capacity over 5 years — Google\'s clearest move yet into merchant AI silicon, competing directly with NVIDIA',
+        'A separate Broadcom-mediated supply line adds a further 3.5GW of TPU capacity for Anthropic starting 2027, on top of the 1GW already being delivered in 2026',
+        'Anthropic training a competing frontier model on Google\'s own silicon is read by analysts as the clearest third-party endorsement of the Ironwood TPU program to date',
+      ],
+      clients: ['Anthropic (TPU capacity + Google Cloud)', 'Broad Google Cloud enterprise customer base', 'Search/Android/YouTube consumer base (ad-funded)'],
+      suppliers: ['Broadcom (TPU co-design)', 'TSMC (TPU fabrication)', 'NVIDIA (supplemental GPU capacity for GCP)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 5, note: 'The only name in this batch that owns silicon, model, cloud and consumer distribution simultaneously — full vertical integration.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'Fastest cloud growth of the big three (+82% YoY) plus a genuinely novel second revenue lever in merchant TPU sales.' },
+        { criterion: 'Valuation', stars: 3, note: 'Cheap-looking on a distorted trailing P/E; fairly valued, not cheap, on the cleaner forward multiple (~27.6x).' },
+        { criterion: 'Risk', stars: 2, note: 'Two live, structurally significant antitrust cases (search remedies on appeal; ad-tech divestiture ruling still pending) are real, near-term, idiosyncratic risks the other two names in this batch do not carry at the same intensity.' },
+        { criterion: 'Entry timing', stars: 3, note: 'A ~12% pullback from the 52-week high, but the stock is still up roughly 86% over the trailing year — not a distressed entry point.' },
+      ],
+      readLabel: 'CONSTRUCTIVE, LEGAL OVERHANG — WATCH THE ADX RULING',
+      summary:
+        'The most structurally interesting name here: Alphabet is the only hyperscaler monetizing AI as silicon, model, cloud and consumer product at once, and the Anthropic TPU deal is real evidence the chip program can stand on its own commercially. The headline valuation is misleadingly cheap because of a GAAP earnings-quality quirk (unrealized equity gains) — the true multiple is closer to Microsoft\'s. The dominant near-term risk isn\'t competitive, it\'s legal: a still-pending ad-tech remedies ruling that could, in the worst case, force a structural breakup of the ad-exchange business.',
+    },
+    sourceNote:
+      'Compiled from a web research pass dated Aug 6, 2026: Alphabet Q2 2026 earnings release and call (Jul 22, 2026), CNBC/Investing.com/Digiday/AdExchanger coverage of the DOJ v. Google search-remedies (Sept 2025 ruling, appeals filed Jan–Feb 2026) and ad-tech (Judge Brinkema, EDVA — liability found Apr 2025, remedies closing arguments Nov 21, 2025, ruling still pending as of this pass) cases, DataCenterDynamics/SemiAnalysis coverage of the Google–Anthropic TPU deal, and price/valuation data aggregated via search-engine summaries of stockanalysis.com, MacroTrends, GuruFocus and Yahoo Finance (direct fetch of several of these returned HTTP 403 during this pass). Price and market-cap figures showed real cross-aggregator disagreement (market cap cited anywhere from $4.34T to $4.59T depending on snapshot timing/share-count assumptions) — treat every multiple here as directional, and cross-check current prices and the AdX ruling status before acting on anything here.',
+  },
+
+  META: {
+    ticker: 'META',
+    name: 'Meta Platforms',
+    tagline: 'The open-weight Llama strategy is quietly being walked back — Meta is now monetizing AI through ads and engagement while betting up to $145B a year on a still-unproven "superintelligence" push.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Meta is the pure demand-side hyperscaler in this batch — it buys silicon and leases/builds datacenter capacity but does not sell cloud externally; its entire AI investment is monetized through its own advertising and engagement surfaces (Facebook, Instagram, WhatsApp, Threads). 2026 has brought a real strategic pivot: after Llama 4 failed to close the gap with GPT and Claude, Meta Superintelligence Labs shipped Muse Spark in April 2026 as Meta\'s first closed-weight model since the Llama era began — the open-weight strategy the tagline above describes is now explicitly a hybrid, not a given.',
+      rows: [
+        { level: 'Silicon / AI accelerators', players: 'NVIDIA, AMD (MI450 — up to 6GW committed), Meta MTIA (in-house, smaller scale)', position: 'Buyer at massive scale; in-house ASIC program secondary to merchant GPUs', tone: 'client' },
+        { level: 'Cloud / datacenter capacity', players: 'Meta-owned datacenters, plus leased capacity (Nebius, and others)', position: 'Consumes but does not sell cloud externally — demand-only hyperscaler', tone: 'client' },
+        { level: 'Foundation models', players: 'Llama (open-weight, legacy strategy), Muse (Meta Superintelligence Labs, closed-weight, new)', position: 'Core, strategy actively shifting from pure open-weight to a hybrid open/closed split', tone: 'core' },
+        { level: 'Consumer apps / advertising', players: 'Facebook, Instagram, WhatsApp, Threads', position: 'Core business — 3.6B daily active people, ad-funded monetization of every AI feature', tone: 'core' },
+        { level: 'Regulatory', players: 'FTC (won at trial), EU (DMA/DSA, ongoing)', position: 'Meta prevailed in the FTC Instagram/WhatsApp monopolization case (Nov 2025); FTC has appealed', tone: 'indirect' },
+      ],
+      segments: [
+        'Family of Apps (Facebook, Instagram, WhatsApp, Threads, Messenger): ~97%+ of revenue, almost entirely advertising',
+        'Reality Labs (VR/AR, Orion/smart glasses): a persistent, large cash drag, not a near-term AI-monetization lever',
+        'Meta Superintelligence Labs (MSL): the new AI-model organization under Chief AI Officer Alexandr Wang (ex-Scale AI), shipping Muse Spark and Muse Image alongside continued Llama releases',
+      ],
+      aiShift:
+        'Meta\'s AI shift has two distinct, sometimes contradictory threads. On the product side, AI is being used to improve ad targeting/pricing (price per ad +12% YoY in Q2 2026) and to build new engagement surfaces (Meta AI daily interactions reportedly up 60% since the Muse Spark integration; Business AIs on WhatsApp/Messenger reaching 10M weekly conversations). On the model-strategy side, Meta has quietly reversed course: Llama 4 (2025) was supposed to close the gap with GPT and Claude on the strength of open-weight distribution plus Meta\'s compute scale; it did not. Meta Superintelligence Labs shipped Muse Spark as a closed-weight model in April 2026 — the first closed release since the Llama era began — while a near-term Llama 5 release was, as of mid-2026, treated as a low-probability scenario rather than the central case. The "open-weight strategy monetized through ads" framing is now a description of Meta\'s recent past more than its committed future.',
+    },
+    valuation: {
+      peers: ['META', 'GOOGL', 'MSFT', 'AMZN'],
+      metrics: [
+        { label: 'Price', values: ['$566.91 (Aug 6, 2026)', '$360.13 (Aug 5–6, 2026, post AI-leadership-shakeup selloff)', '$487.46 (Aug 6, 2026)', '$277.42 (Aug 4, 2026)'] },
+        { label: 'Market cap', values: ['~$1.43–1.5T', '~$4.3–4.4T (aggregators disagree, $4.34–4.59T range)', '~$3.62T', '~$3.0T'] },
+        { label: 'Trailing P/E', values: ['~22.2x', '~18.2–18.9x (see note — GAAP-earnings distorted)', '~27.2–27.5x', '~22.0x'] },
+        { label: 'Forward P/E', values: ['~17.0–17.3x', '~27.5–27.9x', '~25.1–25.9x', '~24.5–31x (wide aggregator spread)'] },
+        { label: 'P/S (TTM)', values: ['~6.6x', '~9.8–10.2x', '~10.9x (computed)', '~4.3x (computed, approximate)'] },
+        { label: 'P/B', values: ['~6.6x (computed from ROE/net income, not directly sourced)', '~10.3–10.5x (last verified ~Jan 2026)', '~11.7x (last verified ~Nov 2025)', '—'] },
+        { label: 'EV/EBITDA', values: ['~13.1x (looks low vs. P/E; not independently verified)', '~24–26x (one source: 17.6x — methodology unclear, flagged)', '~19.1x', '—'] },
+        { label: 'PEG (trailing)', values: ['0.82', '~1.0x (sources range 0.55–2.0x)', '~1.3x (sources range 0.76–1.6x)', '1.46'] },
+        { label: 'ROE', values: ['29.9%', '48.7%', '34.0%', '—'] },
+        { label: 'Net margin', values: ['29.8% TTM', '54.8% TTM — inflated by unrealized equity-investment gains, see note', '~39% (approx., FY2026)', '—'] },
+        { label: 'Gross margin', values: ['81.8%', '60.9%', '67.9% (FY2026)', '50.8%'] },
+        { label: 'Operating margin', values: ['~31% (Q2 2026 GAAP, compressed by $2.4B legal + $1.18B severance charges)', '33.1%', '46.8% (FY2026)', '12.1%'] },
+        { label: 'Beta', values: ['~1.25 (approximate)', '1.25', '1.13', '1.45'] },
+        { label: 'Dividend yield', values: ['0.38%', '0.23%', '0.74%', '0% (no dividend)'] },
+      ],
+      verdictTone: 'fair',
+      verdictPoints: [
+        'Meta screens as the cheapest of the three on forward P/E (~17.1x) and PEG (0.82), the two metrics best suited to a business still growing revenue in the high-20s% while absorbing heavy AI capex',
+        'Gross margin (81.8%) is the highest of the three — the advertising business itself remains extremely profitable; the Q2 2026 operating-margin compression to ~31% was driven by one-time-ish items (legal charges, severance), not core-business deterioration',
+        'The EV/EBITDA figure sourced this pass (~13.1x) looks low relative to the trailing P/E and was not independently cross-verified — treat it with more caution than the other multiples in this table',
+      ],
+      justifiedIf: [
+        'FY2026 capex stays inside the guided $130–145B range (already narrowed once) without another upward revision that isn\'t matched by a monetization story',
+        'Ad revenue growth holds in the high-20s% YoY range and price-per-ad continues compounding as AI-driven targeting improves',
+        'Muse Spark / Business-AI products (WhatsApp, Messenger) become a credible second monetization lever rather than a pure cost center',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$520 – $560', rationale: 'Near the 52-week low ($520.26), ~1–8% below spot' },
+        { tier: 'acceptable', range: '$560 – $650', rationale: 'Current zone, mid-way through the post-ATH correction' },
+        { tier: 'expensive', range: '>$720', rationale: 'Approaching the 52-week high — would require the capex/margin overhang to fully clear' },
+      ],
+      technical: [
+        '52-week high $796.25 (Aug 15, 2025); 52-week low $520.26 (Mar 27, 2026)',
+        'Current $566.91 is a ~28.8% correction from the 52-week high, and sits only ~9.0% above the 52-week low',
+        'The drawdown from the ATH roughly tracks two events: the escalating capex guide (now up to $145B) and the Q2 2026 legal-charge/severance hit to reported operating income',
+        'Average analyst target ranges $756.95–$842.85 depending on cohort (62–72 analysts); high target $1,000, low target $580',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 50, note: 'Ad revenue growth holds in the mid-to-high-20s% YoY, capex stays inside the $130–145B guided range, and Muse/agent products remain useful optionality rather than a drag — grinds toward the $757–843 consensus range over 12–18 months.' },
+        { label: 'BULL', prob: 20, note: 'Muse Spark and Business-AI products (WhatsApp/Messenger) become a genuine second monetization line faster than modeled, while ad pricing keeps compounding — pushes toward the $900–1,000 high-end targets.' },
+        { label: 'BEAR', prob: 30, note: 'Capex guidance is raised again without a matching ROI story, legal/regulatory charges recur (EU DMA/DSA exposure is ongoing), or ad growth decelerates — retests the $500–520 low / 52-week-low zone.' },
+      ],
+      horizon: '12–18 months',
+      invalidation: 'Weekly close below $500 (below the 52-week low, a structure break)',
+    },
+    risks: [
+      { risk: 'Capex/expense escalation without a proven AI payoff', severity: 'high', note: 'FY2026 capex guided to $130–145B and total expenses to $165–169B, while Meta Superintelligence Labs has yet to produce a standalone revenue line remotely comparable to advertising. Zuckerberg\'s public framing of this as a "~$135B bet" on superintelligence is an explicit admission the payoff is not yet proven.' },
+      { risk: 'Q2 2026 margin compression', severity: 'medium', note: 'GAAP operating income fell 8% YoY despite 28% revenue growth, driven by $2.4B in legal charges and $1.18B in severance. Legal-charge risk in particular is not obviously one-time given ongoing EU and U.S. regulatory exposure.' },
+      { risk: 'Open-weight strategy reversal / execution risk', severity: 'medium', note: 'Llama 4 did not close the capability gap with GPT/Claude despite the open-weight-plus-scale thesis. Meta Superintelligence Labs shipping the closed-weight Muse Spark (Apr 2026) is a tacit admission of that failure; whether the reorganized team under Alexandr Wang can build a credible frontier program is unproven.' },
+      { risk: 'FTC appeal (Instagram/WhatsApp)', severity: 'low', note: 'Meta won the FTC monopolization trial (Nov 18, 2025) when Judge Boasberg found the FTC failed to prove a current monopoly. The FTC has appealed to the DC Circuit — a low-probability, multi-year tail risk, not a near-term one.' },
+      { risk: 'EU regulatory exposure (DMA/DSA)', severity: 'medium', note: 'Meta\'s ads-based monetization model and cross-app data practices remain a recurring target for EU fines and mandated design changes, a structurally different regulatory posture than either the U.S. antitrust cases against Google.' },
+      { risk: 'Revenue concentration in advertising', severity: 'medium', note: 'Advertising is still ~97%+ of revenue (ad revenue $59.36B of $60.8B total in Q2 2026). Muse/agent products and Business AIs are optionality, not yet a second pillar — growth remains tied to ad pricing, impressions and platform engagement.' },
+      { risk: 'GPU/server depreciation assumptions', severity: 'medium', note: 'Like its hyperscaler peers, Meta has extended assumed useful life on servers/GPUs to smooth depreciation expense; if actual hardware obsolescence runs faster than assumed, future earnings could be restated lower.' },
+    ],
+    backlog: {
+      visibility: [
+        'Q2 2026 revenue $60.80B, +28% YoY; advertising revenue $59.36B, +27% YoY (ad impressions +14%, average price per ad +12%)',
+        'Daily active people across all apps reached 3.6B; Instagram surpassed 2B daily actives',
+        'FY2026 capex guidance narrowed to $130–145B (including finance-lease principal payments); total FY2026 expense guidance $165–169B',
+        'Q2 2026 net income $15.85B (diluted EPS $6.18); GAAP operating income fell 8% YoY on $2.4B legal charges + $1.18B severance',
+      ],
+      wins: [
+        'AMD MI450 GPU commitment: up to 6GW of MI450 accelerators deployed in Helios rack-scale servers — one of the largest disclosed non-NVIDIA AI-silicon commitments in the industry',
+        'Meta Superintelligence Labs shipped Muse Spark and Muse Image (its first closed-weight model family) in April 2026, alongside continued open-weight Llama development',
+        'Meta AI daily interactions reportedly up 60% since the Muse Spark integration; Business AIs on WhatsApp and Messenger reaching 10M weekly conversations',
+        'Won the FTC Instagram/WhatsApp monopolization trial outright (Nov 18, 2025), removing (pending appeal) the largest structural-breakup risk the company faced',
+      ],
+      clients: ['Advertisers across the Family of Apps (core revenue base)', '3.6B daily active people across Facebook, Instagram, WhatsApp, Threads'],
+      suppliers: ['NVIDIA (primary GPU supplier)', 'AMD (MI450, up to 6GW committed)', 'Nebius and other neoclouds (leased datacenter capacity)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 4, note: 'The highest gross margin (81.8%) of the three and a still-growing, high-30s%-underlying-margin ad business, though Reality Labs remains a persistent cash drag.' },
+        { criterion: 'AI growth exposure', stars: 3, note: 'AI is clearly improving the core ad business (price-per-ad +12%), but the standalone "superintelligence" bet (Muse, MSL) is unproven and the open-weight strategy that anchored Meta\'s AI narrative is being walked back.' },
+        { criterion: 'Valuation', stars: 4, note: 'Cheapest of the three on forward P/E (~17.1x) and PEG (0.82) — the market is already discounting real capex-and-execution risk.' },
+        { criterion: 'Risk', stars: 2, note: 'The largest capex-to-proven-payoff gap of the three names here, plus recurring legal/regulatory charge risk in both the U.S. and EU.' },
+        { criterion: 'Entry timing', stars: 4, note: 'A ~29% drawdown from the ATH, sitting near the 52-week low, is a genuinely deep pullback relative to Microsoft\'s or Alphabet\'s more modest corrections.' },
+      ],
+      readLabel: 'CONSTRUCTIVE ON PRICE, CAUTIOUS ON THE AI STORY',
+      summary:
+        'Meta is the value name of this batch on conventional multiples — cheapest forward P/E, lowest PEG, deepest drawdown from its all-time high — but that discount reflects real, specific risk: a capex program (up to $145B a year) running well ahead of any proven standalone AI revenue line, a model-strategy reversal (the open-weight Llama bet did not pan out and Meta is now shipping closed models under new leadership) that undercuts the very tagline the market knows Meta by, and recurring legal-charge volatility. The core advertising business remains excellent; the "superintelligence" bet layered on top of it is the part investors are being asked to underwrite without much evidence yet.',
+    },
+    sourceNote:
+      'Compiled from a web research pass dated Aug 6, 2026: Meta Q2 2026 earnings release and call (Jul 29, 2026, via investor.atmeta.com and press coverage), reporting on Meta Superintelligence Labs and the Muse Spark closed-weight release (StartupHub.ai, Digitimes, LogicHQ, Apr 2026), the FTC v. Meta trial outcome (Sullivan & Cromwell, CBS News, CNBC, Nov 2025) and subsequent FTC appeal, and price/valuation data aggregated via search-engine summaries of stockanalysis.com, GuruFocus, TipRanks and financecharts.com (direct fetch of several of these returned HTTP 403 during this pass). Two independent price snapshots this pass disagreed by roughly 4% ($566.91 dated Aug 6, 2026 vs. $591.42 undated) — the lower, explicitly dated figure was used throughout; the AMD MI450/Helios 6GW figure is corroborated by AMD\'s own company entry elsewhere on this site. This is a research framework, not a live feed — cross-check current prices, multiples and capex guidance before acting on anything here.',
+  },
+  MU: {
+    ticker: 'MU',
+    name: 'Micron Technology',
+    tagline:
+      'The last independent U.S.-headquartered memory maker — HBM has turned a brutally cyclical commodity business into one of NVIDIA\'s tightest supply constraints.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Micron doesn\'t design GPUs or AI accelerators — it makes the DRAM, HBM and NAND that sit next to them. That places it at a physical bottleneck of nearly every AI training and inference cluster, alongside SK Hynix and Samsung.',
+      rows: [
+        { level: 'Memory fabrication (DRAM/NAND)', players: 'Micron, SK Hynix, Samsung', position: 'Core business — the only leading-edge memory maker headquartered in the US', tone: 'core' },
+        { level: 'HBM design + stacking', players: 'SK Hynix, Samsung, Micron', position: '#3 by shipment share, but HBM4 shipments for NVIDIA Vera Rubin began March 2026 and are ramping ahead of plan', tone: 'core' },
+        { level: 'Advanced packaging', players: 'TSMC (base-die collaboration), in-house TSV/hybrid bonding', position: 'Mix of in-house and foundry packaging tie-ups for HBM stacks', tone: 'indirect' },
+        { level: 'Fabless AI accelerator design', players: 'NVIDIA, AMD, hyperscaler custom silicon (Trainium, Maia, TPU)', position: 'Direct customers — HBM3E and HBM4 are fully booked through calendar 2027, with demand extending into 2028', tone: 'client' },
+        { level: 'AI datacenter / hyperscalers', players: 'Microsoft, Google, Amazon, Meta, Oracle', position: 'End-demand driver, exposure runs both through GPU vendors and direct data-center DRAM/NAND/SSD sales', tone: 'indirect' },
+        { level: 'Upstream equipment/materials', players: 'Lam Research, Applied Materials, ASML, Tokyo Electron', position: 'Suppliers to Micron, not exposure for Micron', tone: 'none' },
+      ],
+      segments: [
+        'DRAM: record fiscal Q3 2026 revenue of $31.3B, +343% YoY, +67% sequentially — the majority of company revenue',
+        'NAND: record fiscal Q3 2026 revenue of $9.9B, +361% YoY, +99% sequentially',
+        'HBM: over $1B of HBM4 revenue shipped since the March 2026 Vera Rubin-platform ramp began, running at roughly 2x the pace of HBM3E 12-high with yields ahead of expectations',
+        'Consolidated gross margin 84.9% in fiscal Q3 2026 (+10 points sequentially); fiscal Q4 2026 guided to approximately 86%',
+      ],
+      aiShift:
+        'AI has converted Micron from a plain cyclical commodity-memory name into a structurally scarce supplier: HBM3E and HBM4 are fully booked through calendar 2027 with demand already extending into 2028, and DRAM average selling prices rose in the low-60% range sequentially in fiscal Q3 2026 on tight bit supply. The offsetting structural shift is Chinese domestic competition — ChangXin Memory Technologies (CXMT) is reported to be approaching Micron\'s own DRAM capacity (roughly 350K vs. ~375K wafer starts/month by some estimates) by the end of 2026, though it remains dependent on older DUV lithography and is not yet competitive on leading-edge DDR5 or HBM.',
+    },
+    valuation: {
+      peers: ['MU', '000660.KS', '005930.KS'],
+      metrics: [
+        { label: 'Price', values: ['$873.29 (Aug 5, 2026)', '₩1,668,000 (Aug 5, 2026)', '₩248,250 (Aug 5, 2026)'] },
+        { label: 'Market cap', values: ['~$1.008T', '~₩1,215.75T (~$833.8B)', '~₩1,527.6T (~$1.13T)'] },
+        { label: 'Trailing P/E', values: ['~19.7x–20.1x (varies by source/snapshot)', '~16.6x', '~10.9x (computed: price / TTM EPS ₩22,704)'] },
+        { label: 'Forward P/E', values: ['~6.1x–6.8x (varies by source/snapshot)', '~6.8x', '~6.8x'] },
+        { label: 'EV/EBITDA', values: ['~14.9x', 'n/a', 'n/a'] },
+        { label: 'P/S (TTM)', values: ['~10x–15x (wide source variance — different TTM windows)', 'n/a', 'n/a'] },
+        { label: 'Gross margin', values: ['~72.6% TTM avg (fiscal Q3 2026 quarter alone: 84.9%)', 'n/a', 'n/a'] },
+        { label: 'Operating margin', values: ['~65.6% TTM (reflects a recent-quarter surge, not a stable run-rate)', '76% (Q2 2026)', 'n/a'] },
+        { label: 'ROE (TTM)', values: ['66.6%', '~61%', '30.8%'] },
+        { label: 'Beta', values: ['~2.2', 'n/a', 'n/a'] },
+        { label: 'Dividend yield', values: ['0.07%', '0.17%', '0.61%'] },
+      ],
+      verdictTone: 'low',
+      verdictPoints: [
+        'Forward P/E of ~6-7x is extremely low for a company guiding $50B in quarterly revenue and record margins — the market is pricing meaningful skepticism that the current DRAM/HBM upcycle is durable',
+        'Trailing P/E (~20x) and P/S (low-teens on most trackers) are not cheap in absolute terms — the low forward multiple is a bet that fiscal 2026\'s exceptional prints (Q2 GAAP EPS $12.07, Q3 $24.67) continue rather than mean-revert',
+        'CXMT\'s rapid Chinese DRAM capacity buildout is a visible, well-covered overhang keeping the multiple compressed despite record current fundamentals — the stock is already down roughly 28% from its June 2026 all-time high on exactly this concern',
+      ],
+      justifiedIf: [
+        'HBM3E/HBM4 bookings — already covering calendar 2027, with demand into 2028 — convert to revenue on schedule and yields keep improving',
+        'DRAM/NAND pricing power persists rather than reversing as new domestic Chinese (CXMT) and competitor (Samsung, SK Hynix) supply comes online',
+        'The fiscal Q4 2026 guide ($50.0B ± $1.0B revenue, ~86% gross margin, $31.00 non-GAAP EPS) is met, validating the current earnings run-rate as durable rather than a cyclical peak',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$650 – $750', rationale: 'A further pullback toward the middle of the post-correction range — would price in a genuine CXMT/pricing scare, not just a headline wobble' },
+        { tier: 'acceptable', range: '$750 – $950', rationale: 'Spans the current level — scaling in here accepts memory-cycle and China-competition risk without paying ATH prices' },
+        { tier: 'expensive', range: '>$1,100', rationale: 'Approaches the June 2026 all-time high; requires the CXMT overhang to clear and pricing to stay firm' },
+      ],
+      technical: [
+        'All-time high $1,213.37 (June 25, 2026); some trackers show a 52-week intraday high of $1,255 — the two figures are not independently reconciled here',
+        '52-week low $106.75 (pre-AI-supercycle re-rating)',
+        'Current $873.29 (Aug 5, 2026) is a roughly 28% pullback from the ATH, driven largely by CXMT IPO/China DRAM-capacity headlines that hit the whole memory complex the same week (SanDisk -12%, SK Hynix -8%)',
+        'Stock remains up substantially over the trailing year on the DRAM/HBM upcycle despite the recent drawdown',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 45, note: 'HBM4 ramp and DRAM pricing hold through fiscal Q4 2026 and into FY2027 — stock grinds back toward $1,000–1,150 over 12–18 months.' },
+        { label: 'BULL', prob: 25, note: 'Rubin-cycle HBM4 demand and AI-server DRAM/NAND attach rates exceed plan, the CXMT overhang proves overstated near-term — retests or clears the $1,213 ATH.' },
+        { label: 'BEAR', prob: 30, note: 'CXMT capacity ramps faster than expected and/or a broader AI-capex digestion phase hits memory pricing — multiple compresses further toward $550–650.' },
+      ],
+      horizon: '12–18 months',
+      invalidation: 'Weekly close below $650 (loss of the post-correction support structure)',
+    },
+    risks: [
+      { risk: 'DRAM/NAND cyclicality', severity: 'high', note: 'Memory has always been a brutal boom-bust business; the current forward multiple assumes the upcycle holds rather than reverting to historical norms.' },
+      { risk: 'Chinese domestic competition (CXMT)', severity: 'high', note: 'CXMT is reported to be approaching Micron\'s own DRAM wafer-start capacity by late 2026; still behind on leading-edge/HBM but a real medium-term threat to commodity DRAM pricing.' },
+      { risk: 'Customer concentration', severity: 'medium', note: 'NVIDIA and a handful of hyperscalers drive the large majority of HBM demand; any allocation shift is a large swing factor.' },
+      { risk: 'Export control / geopolitics', severity: 'medium', note: 'US-China chip-tech tensions cut both ways — they constrain CXMT\'s access to advanced tools, but China has previously restricted Micron\'s own domestic sales (2023), and further retaliation is a live risk.' },
+      { risk: 'Capex / execution', severity: 'medium', note: 'A large capex ramp (Idaho, New York fabs, HBM capacity) carries yield-ramp and execution risk on an aggressive multi-year timeline.' },
+      { risk: 'Competitive share loss in HBM', severity: 'medium', note: 'Micron is the #3 HBM supplier behind SK Hynix and Samsung; Samsung has been clearing HBM4 qualification hurdles after trailing through 2025.' },
+      { risk: 'Valuation on a growth-deceleration scenario', severity: 'medium', note: 'Trailing multiples aren\'t a bargain — a guidance miss would hit hard given a beta near 2.2.' },
+    ],
+    backlog: {
+      visibility: [
+        'HBM3E and HBM4 fully booked through calendar 2027, with demand already extending into 2028',
+        'Fiscal Q4 2026 guide: $50.0B revenue (±$1.0B), ~86% gross margin, $31.00 non-GAAP EPS',
+        'Over $1B of HBM4 revenue shipped since the March 2026 ramp began',
+      ],
+      wins: [
+        'HBM4 shipments for NVIDIA\'s Vera Rubin platform began March 2026, ramping roughly 2x faster than HBM3E 12-high with yields ahead of expectations',
+        'Record fiscal Q3 2026 DRAM revenue $31.3B (+343% YoY) and NAND revenue $9.9B (+361% YoY)',
+        'Fiscal Q3 2026 consolidated gross margin of 84.9%, up 10 points sequentially, a record',
+        'DRAM ASPs up in the low-60% range sequentially in fiscal Q3 2026 on tight bit supply',
+      ],
+      clients: ['NVIDIA', 'AMD', 'AWS / Microsoft / Google (hyperscaler custom silicon and servers)'],
+      suppliers: ['Lam Research', 'Applied Materials', 'ASML', 'Tokyo Electron'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 4, note: 'Oligopoly memory market structure, but historically capital-intensive and cyclical relative to pure-software or IP-licensing businesses.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'DRAM, NAND and HBM are all directly levered to the AI buildout — HBM demand is booked years out.' },
+        { criterion: 'Valuation', stars: 4, note: 'The forward multiple is genuinely low for the growth on offer, though trailing multiples and P/S are not a bargain in absolute terms.' },
+        { criterion: 'Momentum / entry timing', stars: 3, note: 'Already down ~28% from the June 2026 ATH on CXMT jitters — cheaper than the peak, not at a cycle trough.' },
+        { criterion: 'Risk', stars: 2, note: 'Memory-cycle risk, a credible Chinese domestic competitor, and China-exposure geopolitics stack into a genuinely high-severity risk set.' },
+      ],
+      readLabel: 'STRUCTURALLY CENTRAL TO THE AI MEMORY CYCLE — BUT MEMORY IS STILL MEMORY',
+      summary:
+        'Micron sits at a real physical bottleneck in the AI buildout: HBM3E and HBM4 are sold out years in advance, and DRAM/NAND pricing is at record levels. The forward P/E looks cheap because the market has not fully believed this margin structure is durable — and the CXMT overhang is the specific, well-covered reason why, not a vague catch-all. This is a name where the thesis and the risk are the same fact: memory cycles eventually turn, and this time there\'s a credible new competitor (not just the usual three-way oligopoly) accelerating capacity into the tightest part of the cycle.',
+    },
+    sourceNote:
+      'Compiled from Micron\'s fiscal Q1–Q3 FY2026 earnings releases and call transcripts (through the May 28, 2026 quarter close), the company\'s fiscal Q4 2026 guidance, and third-party market-data trackers (stockanalysis.com, GuruFocus, MacroTrends, Investing.com, various aggregators), snapshot dated early August 2026. Forward P/E, P/S and market-cap figures show meaningful cross-source variance for MU specifically, given the stock\'s recent volatility around CXMT-related headlines — treat single-decimal precision on any of these as approximate. SK Hynix and Samsung figures are cross-referenced from this site\'s own SK Hynix (000660.KS) profile for internal consistency; several peer metrics were not independently available and are marked n/a rather than estimated. This is a research framework, not a live feed — cross-check current prices and guidance (next report: fiscal Q4 2026, expected around late September 2026) before acting on anything here.',
+  },
+
+  ANET: {
+    ticker: 'ANET',
+    name: 'Arista Networks',
+    tagline:
+      'The Ethernet fabric hyperscalers actually deploy at scale for AI clusters — riding GPU cluster growth without carrying GPU or memory cyclicality directly.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Arista doesn\'t build GPUs or memory — it builds the switches and EOS software that connect them into a functioning cluster, sitting in the data-center networking fabric layer between compute and storage.',
+      rows: [
+        { level: 'Compute (GPUs/accelerators)', players: 'NVIDIA, AMD, hyperscaler custom silicon', position: 'Not exposed directly — but cluster scale is the primary driver of Arista\'s addressable market', tone: 'indirect' },
+        { level: 'Memory (HBM/DRAM)', players: 'SK Hynix, Samsung, Micron', position: 'Not exposed', tone: 'none' },
+        { level: 'Data-center networking / switching', players: 'Arista, Cisco, HPE Networking (post-Juniper)', position: 'Core business — leading merchant Ethernet switch platform for AI back-end and front-end fabrics', tone: 'core' },
+        { level: 'Optics / interconnect', players: 'Arista Etherlink, Credo, Marvell, Broadcom', position: 'Etherlink platforms plus Linear Pluggable Optics partnerships to cut interconnect power', tone: 'core' },
+        { level: 'Hyperscalers / cloud titans', players: 'Microsoft, Meta, Google, Amazon, Oracle', position: 'Direct customers — Microsoft and Meta are each large enough to individually exceed 10% of revenue depending on shipment mix', tone: 'client' },
+        { level: 'Enterprise / campus networking', players: 'Cisco, HPE (Aruba/Juniper), Arista', position: 'Smaller, faster-growing adjacent segment beyond the AI-fabric core', tone: 'growth' },
+      ],
+      segments: [
+        'Q2 2026 revenue $3.036B, +37.7% YoY, +12.1% QoQ — the company\'s first quarter above $3B, beating the $2.83B consensus',
+        'Full-year 2026 revenue guidance raised to approximately $12.6B (~40% growth) — the third raise of the year',
+        'Cumulative Etherlink AI-fabric customers exceed 100, up from four to five at the start of 2024',
+        '7060XE7 1.6-terabit Etherlink portfolio launched: up to 100 Tbps of system bandwidth, ~60% lower interconnect power via Linear Pluggable Optics',
+      ],
+      aiShift:
+        'Management describes AI networking demand as "materially above available supply" — the more consequential read-through from the Q2 2026 call is that growth is no longer confined to back-end AI fabrics alone but is broadening into front-end and campus/enterprise networking as well. Arista has disclosed new techniques aimed at maximizing AI cluster utilization and resilience — multi-planar leaf-spine designs, the open Multipath Reliable Connection (MRC) protocol, and segment routing over IPv6 (SRv6) — positioning EOS software, not just switch hardware, as the durable differentiator as NVIDIA and Broadcom push their own fabric alternatives.',
+    },
+    valuation: {
+      peers: ['ANET', 'CSCO', 'HPE'],
+      metrics: [
+        { label: 'Price', values: ['$199.22 (Aug 5, 2026)', '$121.74 (Aug 4, 2026)', '$52.39 (early Aug 2026)'] },
+        { label: 'Market cap', values: ['~$242B–256B (wide source variance around the Aug 4 earnings pop)', '$471.08B', '~$69B (computed from ~1.32B shares)'] },
+        { label: 'Trailing P/E', values: ['~64.2x (Aug 3, 2026 snapshot, pre-earnings-pop)', '37.49x', 'n/a'] },
+        { label: 'Forward P/E', values: ['~44x–52x (source variance)', '23.98x', '~12.8x–15.9x (source variance)'] },
+        { label: 'EV/EBITDA', values: ['~46.3x', 'n/a', 'n/a'] },
+        { label: 'P/S (TTM)', values: ['~18x–22x (source variance)', 'n/a', 'n/a'] },
+        { label: 'Gross margin', values: ['64.3%', '64.3%', 'n/a'] },
+        { label: 'Operating margin', values: ['~42.9%', '23.7%', 'n/a'] },
+        { label: 'Net margin', values: ['~39.7%', '19.7%', 'n/a'] },
+        { label: 'ROE', values: ['~31.5%', '25.2%', 'n/a'] },
+        { label: 'Beta', values: ['1.61', 'n/a', '~1.0 (indicative, not independently verified)'] },
+      ],
+      verdictTone: 'high',
+      verdictPoints: [
+        'Trailing (~64x) and forward (~44–52x, depending on snapshot) P/E sit well above Cisco (37x/24x) and far above HPE, reflecting a structurally faster growth rate — +37.7% YoY versus low-to-mid-single-digit growth at the legacy networking incumbents',
+        'EV/EBITDA of ~46x and a beta of 1.61 price in continued AI-fabric share gains, not a margin of safety',
+        'The stock printed a fresh intraday all-time high ($215) on August 5, 2026, the day after the Q2 beat-and-raise — the market is already extrapolating the newly raised ~$12.6B FY2026 guide',
+      ],
+      justifiedIf: [
+        'The >100-customer Etherlink AI-fabric base keeps expanding and Microsoft/Meta hyperscaler spend doesn\'t pull back or lump into fewer, larger, lower-margin deals',
+        'FY2026 revenue clears the raised ~$12.6B guide and AI back-end/front-end fabric growth continues outrunning legacy campus/enterprise networking',
+        'Arista defends its merchant-silicon Ethernet position against NVIDIA\'s own Spectrum-X/NVLink push and Broadcom Tomahawk-based white-box competition',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$140 – $165', rationale: 'A real pullback to pre-2026-AI-fabric-rerating levels, well below the current post-earnings ATH' },
+        { tier: 'acceptable', range: '$165 – $210', rationale: 'Spans the current level — scaling in here accepts an elevated multiple in exchange for genuine AI-fabric growth' },
+        { tier: 'expensive', range: '>$230', rationale: 'Little multiple cushion left; requires the ~40%+ growth rate to persist for years, not quarters' },
+      ],
+      technical: [
+        'New intraday all-time high $215.00 on August 5, 2026, the day after the Q2 earnings beat; prior ATH was $189.82 (July 9, 2026)',
+        '52-week range $114.52 – $215.00',
+        'Stock rose roughly 12% on the August 4, 2026 earnings reaction (Q2 revenue $3.036B beat the $2.83B consensus) and continued higher (~+4%) on August 5',
+        'Next scheduled catalyst is the Q3 2026 earnings report (date not yet confirmed at this snapshot)',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 45, note: 'FY2026 revenue lands near the raised ~$12.6B guide, the Etherlink customer base keeps growing — grinds toward $220–250 over the next 12 months.' },
+        { label: 'BULL', prob: 25, note: 'AI back-end fabric demand keeps outrunning supply, a large new hyperscaler win or a Spectrum-X share-loss narrative reverses — re-rates toward $280–320.' },
+        { label: 'BEAR', prob: 30, note: 'AI-capex digestion, a large customer (Microsoft or Meta) pulls back or dual-sources more aggressively toward Cisco/white-box switches, or a guide miss resets the ~45–65x multiple — retests $130–160.' },
+      ],
+      horizon: '12–18 months',
+      invalidation: 'Weekly close below $150 (loss of the post-rerating support structure)',
+    },
+    risks: [
+      { risk: 'Hyperscaler customer concentration', severity: 'high', note: 'Microsoft and Meta can each individually exceed 10% of revenue depending on shipment mix — a pullback or dual-sourcing shift from either is a large single-customer swing.' },
+      { risk: 'Valuation', severity: 'high', note: 'Trailing P/E near 64x and EV/EBITDA near 46x leave little room for a growth deceleration; a beta of 1.61 amplifies any multiple reset.' },
+      { risk: 'NVIDIA vertical integration', severity: 'medium', note: 'NVIDIA increasingly bundles its own Ethernet (Spectrum-X) and NVLink fabric with GPU sales — a structural, long-run threat to Arista\'s back-end fabric share.' },
+      { risk: 'Broadcom / white-box competition', severity: 'medium', note: 'Broadcom Tomahawk silicon plus ODM white-box switches undercut Arista on commodity leaf-spine deployments at hyperscaler scale.' },
+      { risk: 'Cisco resurgence / HPE-Juniper combination', severity: 'medium', note: 'Cisco\'s own AI networking push, plus the July 2025 HPE-Juniper combination, narrows the field of credible alternative suppliers hyperscalers can point to.' },
+      { risk: 'AI capex cyclicality', severity: 'medium', note: 'Back-end fabric revenue is directly levered to hyperscaler GPU cluster buildout, currently at record levels — a capex digestion phase would hit Arista alongside the GPU/memory names.' },
+      { risk: 'Supply/demand imbalance as an execution risk', severity: 'low', note: 'Management\'s own characterization of demand as "materially above available supply" is double-edged: strong demand, but also allocation and execution risk if Arista can\'t fulfill it fast enough.' },
+    ],
+    backlog: {
+      visibility: [
+        'FY2026 revenue guidance raised to approximately $12.6B (~40% growth), the third raise in 2026',
+        'Cumulative Etherlink AI-fabric customer count exceeds 100, up from four to five at the start of 2024',
+        'Management describes AI networking demand as "materially above available supply"',
+      ],
+      wins: [
+        'Q2 2026 revenue of $3.036B (+37.7% YoY), the first quarter above $3B, beating the $2.83B consensus',
+        '7060XE7 1.6-terabit Etherlink portfolio launch — up to 100 Tbps of system bandwidth, ~60% lower interconnect power via Linear Pluggable Optics',
+        'Continued commitment from large cloud partners Microsoft and Meta, each capable of exceeding 10% of revenue',
+        'New AI-fabric techniques disclosed for scale-up/scale-out/scale-across clusters: multi-planar leaf-spine, Multipath Reliable Connection (MRC) protocol, SRv6',
+      ],
+      clients: ['Microsoft', 'Meta', 'Google', 'Amazon', 'Oracle'],
+      suppliers: ['Broadcom (merchant switch silicon)', 'Marvell', 'Credo (optical DSPs/AECs)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 5, note: 'Category-leading merchant Ethernet fabric provider; EOS software creates real switching costs once deployed at hyperscaler scale.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'AI back-end/front-end fabric is now the dominant growth driver, evidenced by the raised guide and the >100-customer Etherlink base.' },
+        { criterion: 'Valuation', stars: 2, note: 'Trailing and forward multiples are rich versus Cisco and HPE, and priced for continued outperformance rather than a margin of safety.' },
+        { criterion: 'Risk', stars: 3, note: 'Hyperscaler concentration and NVIDIA\'s own networking ambitions are real structural risks, partly offset by a genuine technical/software moat.' },
+        { criterion: 'Momentum / entry timing', stars: 2, note: 'A fresh all-time high the day after earnings leaves little cushion for anyone buying at the current price.' },
+      ],
+      readLabel: 'HIGH-QUALITY AI FABRIC LEADER, PRICED FOR CONTINUED EXECUTION AFTER A FRESH ATH',
+      summary:
+        'Arista is the cleanest public way to own the Ethernet fabric layer of AI infrastructure — it doesn\'t carry GPU allocation risk or memory-cycle risk, and its Q2 2026 beat-and-raise, third guidance raise of the year, and 100+ Etherlink customers all point to durable, broadening demand. The trade-off is that essentially none of that is a secret: the stock made a fresh all-time high the day after the print, and both trailing and forward multiples sit well above Cisco and HPE. This is a name to own for the AI-fabric growth thesis, not to expect a valuation discount from.',
+    },
+    sourceNote:
+      'Compiled from Arista Networks\' Q2 2026 earnings release and call (August 4, 2026), and third-party market-data trackers (stockanalysis.com, MacroTrends, GuruFocus, Investing.com, TradingKey), snapshot dated August 5, 2026. Market cap and forward P/E in particular show meaningful cross-source variance because the stock moved sharply (+12% then +4%) around the earnings date and different trackers captured different snapshots relative to that move — treat single-decimal precision on any of these as approximate. Juniper Networks is not listed as a peer because HPE completed its $14B acquisition of Juniper on July 2, 2025; HPE is used as the closest available successor comparable. This is a research framework, not a live feed — cross-check current prices and the next quarterly report before acting on anything here.',
+  },
+
+  SMCI: {
+    ticker: 'SMCI',
+    name: 'Super Micro Computer',
+    tagline:
+      'The AI GPU rack-scale integrator riding NVIDIA\'s fastest ramps — with a real accounting-controls and export-control history that hasn\'t fully receded.',
+    sector: 'TELECOM & TECH',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Supermicro doesn\'t design GPUs, memory or networking silicon — it builds and ships the rack-scale servers (its "Data Center Building Block Solutions" architecture) that package NVIDIA/AMD compute, third-party memory and networking gear into deployable AI infrastructure, competing on speed-to-market rather than component IP.',
+      rows: [
+        { level: 'Compute (GPUs/accelerators)', players: 'NVIDIA, AMD', position: 'Direct relationship — GB300 NVL72, B300 HGX and B200 NVL4 are the core current product lines', tone: 'client' },
+        { level: 'Memory (HBM/DRAM)', players: 'SK Hynix, Samsung, Micron', position: 'Component supplier into SMCI systems, not an SMCI exposure', tone: 'none' },
+        { level: 'Rack-scale server integration', players: 'Supermicro, Dell, HPE, Lenovo, ODMs (Foxconn, Wiwynn, Quanta)', position: 'Core business — historically one of the fastest integrators to bring each new NVIDIA reference platform to market', tone: 'core' },
+        { level: 'Networking / fabric', players: 'NVIDIA (NVLink/Spectrum-X), Arista, Broadcom', position: 'Integrated into SMCI racks, not SMCI-controlled IP', tone: 'indirect' },
+        { level: 'Large data-center customers', players: 'A concentrated handful of large buyers', position: 'Direct customers — one buyer alone was approximately 63% of revenue in fiscal Q2 2026', tone: 'client' },
+        { level: 'Cloud / colo / enterprise end demand', players: 'Neoclouds, enterprises, sovereign AI buyers', position: 'Indirect, mostly reached through the concentrated direct/large-customer channel', tone: 'indirect' },
+      ],
+      segments: [
+        'AI GPU platforms are approximately 90% of total revenue',
+        'FY2026 full-year net sales guided at $38.9B–$40.4B (as of the Q3 FY2026 update)',
+        'Fiscal Q4 2026 preliminary (issued July 21, 2026): revenue near the low end of the $11.0B–$12.5B guide; GAAP/non-GAAP gross margin 15–17%, well above the originally guided 8.2–8.4%, on favorable customer/product mix',
+        'Record backlog: total new orders exceeded $60B in fiscal Q4 2026 alone',
+        'Currently shipping GB300 NVL72, B300 HGX, B200 NVL4 and Dolphin Express PX product lines',
+      ],
+      aiShift:
+        'Supermicro\'s entire business is now essentially an AI GPU rack-scale bet — roughly 90% of revenue is AI GPU platforms, and the company has consistently been among the fastest to ship each new NVIDIA reference architecture (GB200, and now GB300 NVL72). That speed is the moat, but it is also the risk: the April 2026 cancellation of a reported $1.1B–$1.4B, 300–400-rack Oracle GB300 NVL72 order (of which SMCI had already shipped 100–200 racks) showed how quickly a single large customer decision can move results, and it followed reports that Oracle wanted distance from allegations tied to a former SMCI co-founder\'s alleged illicit chip sales to China.',
+    },
+    valuation: {
+      peers: ['SMCI', 'DELL', 'HPE'],
+      metrics: [
+        { label: 'Price', values: ['$30.32 (Aug 5, 2026)', '$467.27 (Aug 5, 2026)', '$52.39 (early Aug 2026)'] },
+        { label: 'Market cap', values: ['~$17B–20.5B (source variance)', '~$271B–302B (source variance)', '~$69B (computed from ~1.32B shares)'] },
+        { label: 'Trailing P/E', values: ['~15.1x (Aug 3, 2026 snapshot)', '~37.35x', 'n/a'] },
+        { label: 'Forward P/E', values: ['~8.6x–10.1x (source variance)', '~25.2x–25.5x', '~12.8x–15.9x (source variance)'] },
+        { label: 'EV/EBITDA', values: ['~14.7x–14.9x', 'n/a', 'n/a'] },
+        { label: 'P/S (TTM)', values: ['~0.58x', 'n/a', 'n/a'] },
+        { label: 'Gross margin', values: ['~6%–17% (extreme quarter-to-quarter swing — see note)', '~21.0%', 'n/a'] },
+        { label: 'ROE', values: ['~17.9%', 'n/a', 'n/a'] },
+        { label: 'Beta', values: ['~1.94', '~1.40', 'n/a'] },
+        { label: 'PEG', values: ['~0.91', 'n/a', 'n/a'] },
+        { label: 'Dividend yield', values: ['none', 'n/a', 'n/a'] },
+      ],
+      verdictTone: 'low',
+      verdictPoints: [
+        'Forward P/E of ~8.6–10x and a P/S near 0.6x are low by AI-infrastructure standards, but SMCI\'s gross margin has swung between roughly 6% and 17% within the same fiscal year on customer/product mix — a far less predictable earnings stream than Dell or HPE',
+        'The multiple embeds real, disclosed risk that Dell and HPE don\'t carry: an unresolved DOJ/SEC investigation opened after a March 2026 export-control indictment, a 2024 auditor resignation, and a single customer that was roughly 63% of one recent quarter\'s revenue',
+        'Record backlog (over $60B of new orders in fiscal Q4 2026 alone) argues demand isn\'t the constraint — margin durability and customer concentration are',
+      ],
+      justifiedIf: [
+        'The DOJ/SEC investigations — opened following the March 2026 indictment of two former employees and a contractor for an alleged export-control conspiracy — close without material findings against the company itself',
+        'Gross margin stabilizes in the low-to-mid teens rather than reverting toward the high-single-digits seen earlier in FY2026',
+        'The customer base broadens beyond its current concentration on one large buyer (~63% of one recent quarter) — the April 2026 Oracle GB300 order cancellation is a live example of what that concentration risk looks like in practice',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$18 – $24', rationale: 'Near the 52-week low; prices in a continuation of margin volatility and unresolved investigation risk' },
+        { tier: 'acceptable', range: '$24 – $36', rationale: 'Spans the current level — scaling in here accepts open investigation and customer-concentration risk' },
+        { tier: 'expensive', range: '>$48', rationale: 'Approaches the 52-week high; would require the investigation overhang to visibly clear' },
+      ],
+      technical: [
+        '52-week range approximately $19.48–$59.40 (figures vary slightly by source) — current $30.32 sits in the lower third',
+        'Down roughly 6.9% over the trailing week as of the August 5, 2026 snapshot per one tracker',
+        'Preliminary Q4 FY2026 business update issued July 21, 2026 (revenue near the low end of guidance, margin well above guidance); full earnings call scheduled for August 11, 2026',
+        'Highly volatile around investigation- and customer-order headlines through 2026, including a roughly 10% single-day drop on the reported Oracle order cancellation (April 2026)',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 40, note: 'FY2026 lands near the low end of the $38.9B–$40.4B guide, gross margin settles in the low-to-mid teens, the investigation drags on without a material charge — trades in a wide $28–$42 range over the next 12 months.' },
+        { label: 'BULL', prob: 25, note: 'The DOJ/SEC investigation closes cleanly, the GB300 NVL72 ramp broadens the customer base beyond current concentration, margin holds mid-teens — retests the $50s.' },
+        { label: 'BEAR', prob: 35, note: 'The investigation surfaces a material finding, another large customer order is pulled or delayed, gross margin reverts toward high-single-digits — retests the high-teens/$20 low.' },
+      ],
+      horizon: '6–12 months (shorter than typical given the open investigations and event-driven risk)',
+      invalidation: 'Weekly close below $19 (loss of 52-week-low support), or a materially adverse DOJ/SEC finding',
+    },
+    risks: [
+      { risk: 'Ongoing DOJ/SEC investigation', severity: 'high', note: 'A March 2026 indictment named two former employees and a contractor in an alleged $2.5B export-control conspiracy; SMCI itself is not charged, but faces an internal investigation led by independent directors with outside counsel and received an additional SEC subpoena in April 2026. Outcome and any company-level exposure are unresolved as of this writing.' },
+      { risk: 'Customer concentration', severity: 'high', note: 'One large data-center customer was approximately 63% of revenue in fiscal Q2 2026; the $1.1B–$1.4B Oracle GB300 NVL72 order cancellation in April 2026 is a direct illustration of how fast that concentration can move results.' },
+      { risk: 'Gross margin volatility', severity: 'high', note: 'Margin has swung from roughly 6–8% to 15–17% within the same fiscal year depending on customer/product mix and component costs, making forward earnings unusually hard to model.' },
+      { risk: 'Prior accounting-controls history', severity: 'medium', note: 'Ernst & Young resigned as auditor in October 2024 after raising governance and internal-controls concerns; BDO was appointed in November 2024 and delayed filings were brought current with no restatement of prior financials — a real governance precedent, not a one-off, even though it was resolved without restatement.' },
+      { risk: 'NVIDIA / hyperscaler dependency', severity: 'medium', note: 'Roughly 90% of revenue is AI GPU platforms tied overwhelmingly to NVIDIA\'s release cadence and allocation decisions; a slower generational transition or reallocation toward Dell/HPE/ODMs would hit SMCI disproportionately.' },
+      { risk: 'Competitive intensity', severity: 'medium', note: 'Dell, HPE, Lenovo and Taiwanese ODMs (Foxconn, Wiwynn, Quanta) all compete for the same rack-scale integration business, generally with stronger balance sheets and more diversified customer bases.' },
+      { risk: 'Working capital / balance sheet strain', severity: 'medium', note: 'Rapid AI-server revenue growth has historically strained SMCI\'s working capital and cash-conversion cycle.' },
+    ],
+    backlog: {
+      visibility: [
+        'Record backlog: total new orders exceeded $60B in fiscal Q4 2026 alone',
+        'FY2026 full-year net sales guided at $38.9B–$40.4B',
+        'Currently shipping GB300 NVL72, B300 HGX, B200 NVL4 and Dolphin Express PX product lines',
+      ],
+      wins: [
+        'Fiscal Q4 2026 gross margin came in well above guidance (15–17% actual vs. 8.2–8.4% guided) on favorable customer/product mix',
+        'Among the fastest integrators to bring each new NVIDIA reference platform (GB300 NVL72, B300, B200 NVL4) to market',
+      ],
+      clients: ['Large data-center/hyperscaler customers (concentrated — one buyer ~63% of fiscal Q2 2026 revenue)', 'Enterprise and sovereign-AI buyers (smaller, diversifying)'],
+      suppliers: ['NVIDIA (GPUs/reference platforms)', 'AMD', 'Memory suppliers (SK Hynix, Samsung, Micron)', 'Networking-silicon partners (Broadcom, others)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 2, note: 'Thin, volatile margins and weak customer diversification relative to Dell/HPE; speed-to-market is the moat, not IP or scale economics.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'Approximately 90% of revenue is direct AI GPU platform sales — about as concentrated an AI bet as exists in public markets.' },
+        { criterion: 'Valuation', stars: 3, note: 'Single-digit forward P/E and sub-1x P/S look cheap on the surface, but that discount is earned given real governance, investigation and concentration risk.' },
+        { criterion: 'Risk', stars: 1, note: 'An open DOJ/SEC investigation, ~63% single-customer concentration, and a 2024 auditor-resignation history stack multiple high-severity risks simultaneously.' },
+        { criterion: 'Momentum / entry timing', stars: 2, note: 'Trading in the lower third of its 52-week range with real event risk (investigation outcome, August 11, 2026 earnings) still pending.' },
+      ],
+      readLabel: 'REAL AI DEMAND, REAL UNRESOLVED RISK — NOT A CLEAN WAY TO PLAY THE RACK-SCALE RAMP',
+      summary:
+        'Supermicro\'s demand signal is genuinely strong — a record backlog north of $60B in a single quarter, and among the fastest shippers of every new NVIDIA rack-scale platform. But this is not a name where the low multiple is simply a market inefficiency to be arbitraged: it reflects a 2024 auditor resignation, an unresolved March 2026 DOJ export-control indictment with an active SEC subpoena, and revenue concentration (~63% from one buyer in a recent quarter) that has already shown up in results once, via the April 2026 Oracle order cancellation. Investors here are underwriting execution and governance risk on top of the normal AI-capex cyclicality that Dell and HPE also carry.',
+    },
+    sourceNote:
+      'Compiled from Supermicro\'s fiscal Q3 FY2026 earnings materials (May 2026), the July 21, 2026 preliminary fiscal Q4 2026 business update, SEC 8-K filings, and news coverage of the March 2026 DOJ export-control indictment and the October–November 2024 Ernst & Young resignation / BDO appointment, plus third-party market-data trackers (stockanalysis.com, GuruFocus, Investing.com), snapshot dated early August 2026. Market cap, forward P/E and gross-margin figures for SMCI show unusually wide cross-source variance, reflecting both real quarter-to-quarter volatility in the underlying business and differing snapshot dates — treat any single-decimal figure here as approximate. The full fiscal Q4 2026 earnings call was scheduled for August 11, 2026, after this snapshot was compiled; cross-check that report, and the status of the DOJ/SEC investigations, before acting on anything here. This is a research framework, not a live feed.',
+  },
+  CEG: {
+    ticker: 'CEG',
+    name: 'Constellation Energy Corporation',
+    tagline:
+      'The largest competitive nuclear fleet in the US, now selling reactor output directly to hyperscalers on 20-year contracts — the electron supplier restarting Three Mile Island for Microsoft.',
+    sector: 'ENERGY & SPACE',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Constellation (spun off from Exelon in 2022, Baltimore, MD) owns roughly 22 GW of nuclear generation — about one-fifth of all US nuclear capacity, the largest fleet of any operator — plus, since closing its ~$21.8B acquisition of Calpine on January 7, 2026, another ~23 GW of gas and geothermal generation. The combined ~55 GW makes Constellation the largest private-sector power producer in the US, serving roughly 2.5 million retail customers. Its nuclear fleet is the reason it sits at the center of the AI power story: reactors run flat-out, carbon-free, 24/7, which is exactly the load profile hyperscalers want for always-on training and inference and cannot get from wind or solar.',
+      rows: [
+        { level: 'Nuclear fuel / fabrication', players: 'Westinghouse, Centrus, Cameco', position: 'Fuel purchaser, not producer — not exposed upstream', tone: 'none' },
+        { level: 'Grid equipment / turbines', players: 'GEV, Siemens Energy, Mitsubishi Heavy', position: 'Equipment buyer, not maker — not exposed', tone: 'none' },
+        { level: 'Power generation / utilities', players: 'CEG, VST, NRG, PEG', position: 'Largest US nuclear generator; largest private power producer post-Calpine', tone: 'core' },
+        { level: 'Nuclear baseload', players: 'CEG (~22 GW, ~20% of US nuclear), VST, TLN', position: 'Core business — dominant, hardest-to-replicate fleet', tone: 'core' },
+        { level: 'Wholesale / capacity markets', players: 'PJM, ISO-NE, NYISO, MISO', position: 'Sells capacity and energy across multiple RTOs', tone: 'core' },
+        { level: 'AI datacenter / hyperscaler', players: 'Microsoft, Meta', position: 'Direct 20-year PPA counterparties — the primary new demand source', tone: 'client' },
+      ],
+      segments: [
+        'Generation: ~22 GW nuclear (largest US fleet) plus, post-Calpine (closed Jan 7, 2026), ~23 GW of natural gas and geothermal — combined ~55 GW across nuclear, gas, geothermal, hydro, wind and solar',
+        'Commercial & retail: energy supply to homes, businesses and public-sector customers across multiple US regions; ~2.5 million customers post-Calpine',
+        'Nuclear relicensing/uprate pipeline: the restart of Unit 1 at the former Three Mile Island site (renamed the Crane Clean Energy Center) is the highest-profile single project — targeted for a possible 2027 in-service date, originally guided to 2028, backed by roughly $1.6B of restart capex',
+        'March 2026: agreed to sell a set of PJM generation assets to LS Power as part of the FERC/DOJ antitrust resolution of the Calpine transaction — a real, sourced regulatory concession, not a rumor',
+      ],
+      aiShift:
+        'Hyperscalers training and serving frontier models need firm, carbon-free, 24/7 power — a load shape renewables alone cannot supply and merchant gas can only supply with carbon offsets. Nuclear baseload fits that need almost exactly, and it is scarce: no new large reactor has come online in the US outside Vogtle in decades, so the entire addressable supply is existing fleets like Constellation\'s. Microsoft\'s 20-year PPA to restart Crane/Three Mile Island Unit 1 (FERC granted a waiver advancing the restart in June 2026) and Meta\'s 20-year PPA for the full 1,121 MW output of the Clinton Clean Energy Center (signed June 2025, delivery from June 2027, plus a 30 MW uprate) are the two clearest, most-cited examples of this trade — hyperscalers paying up for contracted, existing or soon-to-restart nuclear rather than waiting years for new capacity to be built.',
+    },
+    valuation: {
+      peers: ['CEG', 'VST', 'NRG', 'PEG'],
+      metrics: [
+        { label: 'Price', values: ['~$276 (early Aug 2026 — see sourceNote, quotes varied $258–$310 across aggregators in the days around Aug 4–5, 2026)', '$143.23 (Aug 4, 2026 close)', '$120.99 (Aug 5, 2026)', '~$78 (late Jul 2026)'] },
+        { label: 'Market cap', values: ['~$98.5B (computed: 357.1M shares × ~$276)', '~$48.4B (computed: 337.8M shares × $143.23)', '~$25.5–28.0B (sources vary)', '~$39.8B'] },
+        { label: 'Trailing P/E', values: ['21.2x', '25.1x', '161.6x (GAAP-distorted by a one-time item — treat with real caution)', '17.0x'] },
+        { label: 'Forward P/E', values: ['~21.2x (repeated near-flat vs trailing across sources — plausibly reflects GAAP vs the $11–12 adjusted-operating-EPS guide, not independently reconciled)', '16.3x', 'N/A — not sourced', 'N/A — not sourced'] },
+        { label: 'EV/EBITDA', values: ['13.9x', '10.7x (ranged 9.3x–12.8x across 2026 snapshots)', '~10–16x (wide variance across sources)', '14.8x'] },
+        { label: 'P/S', values: ['~3.3x (computed: $98.5B ÷ $29.9B TTM revenue)', '2.9x', '~1.4x EV/Revenue (P/S not independently sourced)', '~3.1x (computed: $39.8B ÷ $12.8B TTM revenue)'] },
+        { label: 'P/B', values: ['2.7x', '17.5x (stands out vs peers — plausibly reflects years of aggressive buybacks shrinking book equity; not independently reconciled)', 'N/A — not sourced', 'N/A — not sourced'] },
+        { label: 'ROE', values: ['16.1%', '17.3%', '15.3%', '13.4%'] },
+        { label: 'Net margin', values: ['12.7% (TTM)', '11.5%', '~5% (recent FY)', '17.7% (TTM)'] },
+        { label: 'Gross margin', values: ['23.3% (TTM)', '38.6%', 'N/A — not sourced', 'N/A — not sourced'] },
+        { label: 'Beta', values: ['1.09', '1.41', '~1.2–1.3 (sources vary)', 'N/A — not sourced'] },
+        { label: 'Dividend yield', values: ['0.69% ($1.71/yr, $0.4265/qtr confirmed via Aug 4, 2026 declaration)', '0.58%', '1.32%', '3.5%'] },
+      ],
+      verdictTone: 'fair',
+      verdictPoints: [
+        'At ~21x trailing/forward earnings, CEG trades roughly in line with PEG (17.0x) and well below NRG\'s GAAP-distorted 161.6x — not the AI-infrastructure premium multiple LRCX or BE command, despite arguably the scarcest contracted asset in the whole value chain (irreplaceable nuclear baseload)',
+        'EV/EBITDA of 13.9x sits mid-pack against the utility peer group (10x–16x range across NRG reads, 14.8x for PEG) — the market is not yet pricing CEG as a structural AI winner the way it prices semiconductor-equipment or fuel-cell names',
+        'Q2 2026 was a real beat (EPS $2.55 vs $2.34 consensus, +$0.21) but revenue of $7.5B missed the $7.7B estimate, and full-year adjusted operating EPS guidance of $11–12 was reaffirmed, not raised — the market read this as "on track," not "accelerating"',
+        'P/B of 2.7x is unremarkable for a capital-intensive utility; the modest multiple looks more like "regulated-utility-plus-optionality" pricing than "AI-scarcity-asset" pricing',
+      ],
+      justifiedIf: [
+        'The Crane/Three Mile Island restart (Microsoft PPA) and the Clinton uprate (Meta PPA) both hit their 2027 in-service targets without a cost overrun or delay',
+        'Calpine integration proceeds cleanly post the LS Power divestiture, and the combined ~55 GW fleet delivers the synergies management guided to at close',
+        'PJM and other RTOs continue clearing capacity auctions near the $325/MW-day FERC-approved price collar ceiling, which directly lifts merchant nuclear economics',
+        'No additional large hyperscaler PPA defers or repriced lower as AI capex plans get revisited',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$240 – $260', rationale: 'Near the 52-week low ($243.30) — a meaningful discount to the ~$412.70 52-week/2026 intraday high' },
+        { tier: 'acceptable', range: '$260 – $320', rationale: 'Current trading zone through the March 2026 local high ($310.02) — defensible accumulation, not a gift' },
+        { tier: 'expensive', range: '>$360', rationale: 'Approaching the prior closing-ATH area ($346.32, Jan 2025) and the $360–380 average analyst price-target band — thinning margin of safety' },
+      ],
+      technical: [
+        '52-week range $243.30 – $412.70 (2026); note the $412.70 intraday level exceeds the prior all-time closing high of $346.32 set Jan 24, 2025 — so the true post-2025 high sits within the current 52-week window, not before it',
+        'Stock is down roughly 22% over the trailing 52 weeks per aggregator reads even as it sits well above its 52-week low — a genuinely volatile, not a smoothly trending, name in 2026',
+        'Average analyst price target ~$353–360 (consensus "Buy"), 20–30% above the ~$276 level used here',
+        'Price quotes were unusually inconsistent across aggregators in early Aug 2026 ($258 to $310 range) — plausibly real day-to-day volatility around the Calpine-integration and PJM-auction news flow rather than a data error; treat the $276 reference price as directional',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 45, note: 'Calpine integration and the Crane/Clinton PPAs proceed on the guided timeline, FY2026 lands inside the $11–12 adjusted-EPS guide — grinds toward $320–360 over 12–24 months.' },
+        { label: 'BULL', prob: 25, note: 'A new large hyperscaler nuclear PPA is announced, PJM capacity prices stay pinned near the $325/MW-day collar ceiling, and the restart timeline pulls forward — retests or exceeds the $412.70 high.' },
+        { label: 'BEAR', prob: 30, note: 'A Crane/TMI restart delay or cost overrun, political/ratepayer backlash against data-center-driven capacity prices, or an AI-capex pause that softens hyperscaler PPA demand — retraces toward $220–245.' },
+      ],
+      horizon: '12–24 months',
+      invalidation: 'Weekly close below $220 (below the 52-week low, breaking the 2026 base)',
+    },
+    risks: [
+      { risk: 'Ratepayer / political backlash', severity: 'high', note: 'PJM\'s capacity auction cleared at the FERC-approved $325/MW-day price ceiling — a direct benefit to CEG\'s merchant fleet, but also a direct, visible cost to consumers that has already drawn political scrutiny over data-center-driven price increases.' },
+      { risk: 'Nuclear restart/uprate execution', severity: 'high', note: 'The Crane (Three Mile Island) restart carries an estimated ~$1.6B capex bill and has already seen its in-service target move between 2027 and 2028; NRC and community review (a federal hearing on the restart was held in 2026) adds real timeline risk.' },
+      { risk: 'Calpine integration / antitrust', severity: 'medium', note: 'The March 2026 agreement to sell PJM generation assets to LS Power was a condition of FERC/DOJ clearing the Calpine deal — a real regulatory concession that trims the combined fleet\'s footprint versus the original deal thesis.' },
+      { risk: 'Hyperscaler counterparty concentration', severity: 'medium', note: 'Microsoft (Crane) and Meta (Clinton) are the two named anchor 20-year PPAs; both are investment-grade counterparties, but a broader AI-capex slowdown could chill the pipeline of additional deals the market is implicitly pricing in.' },
+      { risk: 'Leverage from the Calpine deal', severity: 'medium', note: 'The ~$21.8B Calpine acquisition was partly debt-funded; integration costs and the LS Power divestiture proceeds both affect near-term balance-sheet flexibility.' },
+      { risk: 'Nuclear fuel supply chain', severity: 'medium', note: 'US restrictions on Russian-origin enriched uranium have tightened the global enrichment supply chain CEG\'s fleet ultimately depends on, even though Constellation itself does not produce fuel.' },
+      { risk: 'Valuation re-rating either direction', severity: 'low', note: 'At ~21x earnings CEG is not priced like a scarcity asset today; a re-rating toward AI-infrastructure multiples would be a tailwind, but the reverse (a de-rating back toward plain-utility multiples if the AI-power narrative cools) is the mirror risk.' },
+    ],
+    backlog: {
+      visibility: [
+        'Q2 2026: EPS $2.55 vs $2.34 consensus (beat by $0.21); revenue $7.5B vs $7.7B consensus (a miss)',
+        'FY2026 guidance: $11–12 adjusted operating EPS, reaffirmed (not raised) after the Q2 print',
+        'Calpine acquisition closed Jan 7, 2026 (~$21.8B), creating a combined ~55 GW fleet serving ~2.5 million customers — the largest private-sector power producer in the US',
+        'March 2026: agreed to sell a defined set of PJM generation assets to LS Power to resolve FERC/DOJ antitrust conditions on the Calpine deal',
+        'June 2026: FERC granted a waiver advancing the Crane Clean Energy Center (Three Mile Island Unit 1) restart; the plant plans to permanently employ ~600 people (150 returning "boomerang" employees, 450 new hires)',
+      ],
+      wins: [
+        'Microsoft: 20-year PPA (signed 2024) for the full output of the restarted Crane Clean Energy Center (former Three Mile Island Unit 1) — targeted in-service as early as 2027, originally guided to 2028',
+        'Meta: 20-year PPA (signed June 2025) for the full 1,121 MW output of the Clinton Clean Energy Center in Illinois, starting June 2027, including a 30 MW plant uprate — keeps the plant running past the 2027 expiration of an Illinois zero-emission tax credit',
+      ],
+      clients: ['Microsoft', 'Meta', 'PJM and other regional wholesale markets', '~2.5 million retail customers (post-Calpine)'],
+      suppliers: ['Westinghouse (nuclear fuel and services)', 'LS Power (divestiture counterparty under the Calpine antitrust settlement)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 5, note: 'The largest US nuclear fleet plus, post-Calpine, the largest private power producer overall — an essentially irreplaceable asset base in a market with no new large reactors coming online.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'Direct, named 20-year PPAs with Microsoft and Meta for existing/restarted nuclear output — about as close to a pure, contracted AI-power trade as exists in public markets.' },
+        { criterion: 'Valuation', stars: 4, note: 'At ~21x earnings and 2.7x book, CEG is not priced like a scarcity asset — arguably cheap relative to the strategic value of the fleet, though a utility-style multiple is also the market\'s honest read of regulatory and political risk.' },
+        { criterion: 'Execution risk', stars: 3, note: 'The Crane restart timeline has already moved once; Calpine integration and the LS Power divestiture both add near-term complexity.' },
+        { criterion: 'Entry timing', stars: 3, note: 'A real, if noisy, pullback from the 2026 highs offers a reasonable entry window, but price data was unusually inconsistent across sources in early Aug 2026 — size accordingly.' },
+      ],
+      readLabel: 'CONSTRUCTIVE — SCARCITY VALUE ON CONTRACTED NUCLEAR BASELOAD',
+      summary:
+        'Constellation owns the single hardest-to-replicate asset in the AI power trade: an irreplaceable, 22 GW nuclear fleet now being directly contracted by Microsoft and Meta on 20-year terms for exactly the firm, carbon-free, always-on power AI data centers need and cannot get from renewables. The Calpine deal roughly doubled the fleet and made CEG the largest private power producer in the US, though it came with real regulatory friction (the LS Power divestiture) and integration risk. What is notable is that none of this is priced like a scarcity premium yet — CEG trades at a plain-utility-adjacent ~21x earnings, not the 30–60x multiples the market assigns to other AI-infrastructure picks-and-shovels names. The gating factors are execution (the Crane/Three Mile Island restart has already slipped once) and politics (PJM capacity prices at the FERC ceiling are a direct tailwind for CEG and a direct, visible cost for ratepayers, which invites regulatory blowback). This reads as a name to accumulate on volatility rather than chase, with position sizing reflecting genuinely noisy near-term price data.',
+    },
+    sourceNote:
+      'Compiled Aug 2026 via live web research (WebSearch across stockanalysis.com, Yahoo Finance, CNBC, Utility Dive, Power Engineering, World Nuclear News, SEC filings and Constellation/GE Vernova/Vistra press releases; direct WebFetch to most financial-data sites returned HTTP 403 and could not be used, so figures rely on search-engine-summarized snippets from those sites, cross-checked across multiple independent queries where possible). Business facts (Calpine close date and size, Microsoft/Meta PPA terms, LS Power divestiture, FERC capacity price collar, Q2 2026 EPS/revenue) were corroborated across 2+ independent sources each. Price and market cap were not: aggregator snapshots for CEG ranged from ~$248 to ~$310 across queries run within the same research pass in early Aug 2026, which may reflect genuine day-to-day/intraday volatility around Calpine-integration and PJM-auction news rather than stale data — the ~$276 figure used here is a middle estimate (implied by a ~$98.5B market cap ÷ 357.1M shares outstanding, both independently sourced) and should be treated as directional, not precise. P/E, P/S and other computed ratios inherit that same uncertainty. Cross-check current price and multiples before acting on anything here.',
+  },
+
+  VST: {
+    ticker: 'VST',
+    name: 'Vistra Corp.',
+    tagline:
+      'Texas\'s largest competitive power generator — a dispatchable gas-and-nuclear fleet now signing 20-year PPAs with Amazon and Meta and stacking on nuclear uprates for the AI load surge.',
+    sector: 'ENERGY & SPACE',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Vistra (Dallas, TX; the former TXU Energy generation business, publicly independent since 2016) operates roughly 43.7 GW of generation across ERCOT (Texas), PJM and other markets — the second-largest competitive nuclear fleet in the US (6,448 MW, including Comanche Peak in Texas and PJM plants Perry and Davis-Besse) layered on top of a large dispatchable gas fleet (~26,000 MW) plus legacy coal (~4,570 MW) and a growing solar/battery portfolio (~1,421 MW). Where Constellation is the pure-nuclear-baseload story, Vistra is the "dispatchable power plus optionality" story: gas that can ramp to meet AI-load spikes today, and a nuclear fleet with real uprate potential for the 2030s.',
+      rows: [
+        { level: 'Fuel supply (gas, coal, uranium)', players: 'Permian Basin gas, Westinghouse fuel services', position: 'Fuel purchaser and hedger, not a producer', tone: 'none' },
+        { level: 'Grid equipment / turbines', players: 'GEV, Siemens Energy, Mitsubishi Heavy', position: 'Equipment buyer for new gas builds — not exposed as a maker', tone: 'none' },
+        { level: 'Power generation / utilities', players: 'VST, CEG, NRG, TLN', position: 'Largest ERCOT competitive generator; 2nd-largest US competitive nuclear fleet', tone: 'core' },
+        { level: 'Dispatchable + nuclear baseload', players: 'VST (~26 GW gas, 6.4 GW nuclear), CEG, TLN', position: 'Core business — the flexible complement to pure-nuclear peers', tone: 'core' },
+        { level: 'Retail energy supply', players: 'Vistra retail brands (TXU Energy and others)', position: 'Vertically integrated retail arm supports margin stability', tone: 'core' },
+        { level: 'AI datacenter / hyperscaler', players: 'Amazon Web Services, Meta', position: 'Direct 20-year PPA counterparties for nuclear output and uprates', tone: 'client' },
+      ],
+      segments: [
+        'Generation fleet (~43.7 GW as of late 2025): ~26,000 MW natural gas (combined cycle, combustion turbine, steam), 6,448 MW nuclear, 4,570 MW coal, 1,421 MW solar/battery storage',
+        'Growth capacity under construction/agreement: 860 MW of new gas units at the Permian Basin plant; ~630 MW Coleto Creek coal-to-gas conversion; pending $4.7B Cogentrix acquisition adding 5.5 GW of modern gas capacity (expected to close 2H 2026)',
+        'Retail: vertically integrated supply to residential/commercial/industrial customers, mainly in deregulated ERCOT (Texas)',
+        'Nuclear uprate pipeline: up to ~3.2 GW of potential additional capacity across Comanche Peak and the PJM Beaver Valley/Perry/Davis-Besse fleet, though most uprates are not expected online before 2031',
+      ],
+      aiShift:
+        'AI data centers need power now, and grid interconnection queues run years — Vistra\'s answer is a large, already-built dispatchable gas fleet that can be contracted or expanded faster than new nuclear, plus a real (if longer-dated) nuclear uprate option. In March 2026, Vistra signed a 20-year PPA with Amazon Web Services for up to 1,200 MW from the Comanche Peak nuclear plant in Texas (delivery from Q4 2027, ramping to full capacity by 2032, with roughly 200 MW of potential uprate). Separately, Vistra signed 20-year PPAs with Meta for more than 2,600 MW of energy, capacity and uprates across its PJM nuclear fleet (Perry capacity from Dec 2026, Davis-Besse from Dec 2027, with uprates phased in from 2031 through 2034). Together these anchor Vistra\'s nuclear economics for two decades while its gas fleet remains the flexible, faster-to-market complement.',
+    },
+    valuation: {
+      peers: ['VST', 'CEG', 'NRG', 'TLN'],
+      metrics: [
+        { label: 'Price', values: ['$143.23 (Aug 4, 2026 close, down from a $155.94 prior close)', '~$276 (early Aug 2026, see CEG entry)', '$120.99 (Aug 5, 2026)', '$329.65 (Aug 5, 2026)'] },
+        { label: 'Market cap', values: ['~$48.4B (computed: 337.8M shares × $143.23)', '~$98.5B', '~$25.5–28.0B (sources vary)', '~$15.0B'] },
+        { label: 'Trailing P/E', values: ['25.1x', '21.2x', '161.6x (GAAP-distorted — treat with caution)', '-436.3x (a large GAAP loss/impairment, not an operating signal)'] },
+        { label: 'Forward P/E', values: ['16.3x', '~21.2x', 'N/A — not sourced', '16.4x'] },
+        { label: 'EV/EBITDA', values: ['10.7x (ranged 9.3x–12.8x across 2026 snapshots)', '13.9x', '~10–16x (wide variance across sources)', 'N/A — not sourced'] },
+        { label: 'P/S', values: ['2.9x', '~3.3x', '~1.4x EV/Revenue (P/S not independently sourced)', 'N/A — not sourced'] },
+        { label: 'P/B', values: ['17.5x (stands out — see note below)', '2.7x', 'N/A — not sourced', 'N/A — not sourced'] },
+        { label: 'ROE', values: ['17.3%', '16.1%', '15.3%', 'N/A — not sourced (distorted by the GAAP loss)'] },
+        { label: 'Net margin', values: ['11.5%', '12.7% (TTM)', '~5% (recent FY)', 'N/A — not sourced'] },
+        { label: 'Gross margin', values: ['38.6%', '23.3% (TTM)', 'N/A — not sourced', 'N/A — not sourced'] },
+        { label: 'Beta', values: ['1.41', '1.09', '~1.2–1.3 (sources vary)', 'N/A — not sourced'] },
+        { label: 'Dividend yield', values: ['0.58%', '0.69%', '1.32%', 'N/A — not sourced (does not appear to pay a regular dividend)'] },
+      ],
+      verdictTone: 'fair',
+      verdictPoints: [
+        'Vistra is the cheapest of the group on EV/EBITDA (10.7x vs 13.9x for CEG) despite arguably the strongest near-term growth story — Q1 2026 revenue was up 43% YoY and net income swung from a $268M loss to a $1.03B profit',
+        'The P/B of 17.5x is a genuine outlier versus every other name in this table; it most plausibly reflects years of large share buybacks shrinking book equity rather than a market that thinks Vistra\'s hard assets are worth 17x their carrying value — flagged, not smoothed over, because it was not independently reconciled in this pass',
+        'Forward P/E of 16.3x, well below the 25.1x trailing figure, implies the market expects real earnings growth as Cogentrix closes and the Meta/AWS PPAs begin contributing — none of which is in the reaffirmed 2026 guidance',
+        'A 1.41 beta is the highest in this peer group — Vistra is the most Texas-grid- and commodity-exposed name here, which cuts both ways in a genuine ERCOT demand surge',
+      ],
+      justifiedIf: [
+        'The Cogentrix acquisition ($4.7B, 5.5 GW of gas capacity) closes on schedule in 2H 2026 without integration surprises',
+        'The AWS Comanche Peak PPA (up to 1,200 MW from Q4 2027) and the Meta PJM nuclear PPAs (2,600+ MW, phased from Dec 2026) both convert to delivered, contracted revenue on schedule',
+        'ERCOT and PJM capacity/energy prices stay firm as data-center load growth continues to outrun new supply',
+        'No major weather event (an ERCOT-grid stress episode akin to Winter Storm Uri) forces a large unplanned capex or liability event',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$120 – $140', rationale: 'Near the 52-week low ($132.66) through the Aug 4, 2026 close — a meaningful discount to the ~$219.82 2026 high' },
+        { tier: 'acceptable', range: '$140 – $180', rationale: 'Current-to-moderate trading range; scaling in here is defensible given the reaffirmed 2026 guide' },
+        { tier: 'expensive', range: '>$205', rationale: 'Approaching the 52-week/2026 high ($219.82) — thin margin of safety above it' },
+      ],
+      technical: [
+        '52-week range $132.66 – $219.81/$219.82 (sources vary by a cent) — the 2026 high exceeds the prior all-time closing high of $191.56 set Jan 23, 2025, so the true post-2025 high sits inside the current 52-week window',
+        'Aug 4, 2026 saw an unusually large single-day move, closing $143.23 versus a $155.94 prior close (roughly -8%) — timing lines up with the run-up to Q1/Q2 2026 earnings territory and general pre-earnings positioning ahead of the Aug 7, 2026 report; not independently confirmed as earnings-related in this pass',
+        'Current price sits roughly 35% below the 52-week high and about 8% above the 52-week low — a genuinely volatile 12-month range, not a smooth trend',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 40, note: 'Cogentrix closes on schedule, the Meta/AWS nuclear PPAs begin contributing on the guided timeline — grinds toward $180–210 over 12–24 months.' },
+        { label: 'BULL', prob: 25, note: 'ERCOT/PJM demand growth outruns new supply further, additional hyperscaler PPAs are signed, nuclear uprate timelines pull forward — retests or exceeds the ~$220 high.' },
+        { label: 'BEAR', prob: 35, note: 'A natural-gas price collapse compresses spark spreads, an ERCOT grid-stress event forces unplanned capex, or Cogentrix integration disappoints — retraces toward $110–130.' },
+      ],
+      horizon: '12–24 months',
+      invalidation: 'Weekly close below $110 (below the 52-week low, breaking the 2026 base)',
+    },
+    risks: [
+      { risk: 'Commodity / power-price exposure', severity: 'high', note: 'Vistra\'s gas fleet (~26 GW) is the largest single piece of its capacity — natural gas and ERCOT/PJM power-price swings flow directly through merchant generation economics even with hedging in place.' },
+      { risk: 'Texas grid volatility', severity: 'high', note: 'As the largest ERCOT generator, Vistra is directly exposed to Texas grid-stress events (the kind that produced Winter Storm Uri in 2021) — both as an operational and a potential liability risk.' },
+      { risk: 'M&A integration / leverage', severity: 'medium', note: 'The pending $4.7B Cogentrix acquisition (5.5 GW of gas capacity, expected to close 2H 2026) is on top of an already active M&A program — integration risk and balance-sheet leverage both increase before the deal closes.' },
+      { risk: 'Nuclear uprate/relicensing timeline', severity: 'medium', note: 'Most of the contracted nuclear uprate capacity under the Meta and AWS PPAs is not expected online before 2031, and NRC relicensing/engineering review adds real multi-year execution risk to that tail of value.' },
+      { risk: 'New-build interconnection delays', severity: 'medium', note: 'The 860 MW Permian Basin gas build and the Coleto Creek coal-to-gas conversion both depend on equipment lead times and interconnection queues that have stretched across the sector.' },
+      { risk: 'Valuation outlier (P/B)', severity: 'medium', note: 'A P/B of 17.5x is far outside this peer group and was not independently reconciled in this research pass — worth specific diligence before treating it as a "cheap on book value" read.' },
+      { risk: 'Retail/regulatory competition', severity: 'low', note: 'Vistra\'s retail arm operates in a deregulated Texas market that remains subject to periodic regulatory review, though this has historically been a stable, lower-risk piece of the business.' },
+    ],
+    backlog: {
+      visibility: [
+        'Q1 2026: revenue $5.64B (+43% YoY vs $3.93B in Q1 2025); net income $1.03B (vs a $268M net loss in Q1 2025); adjusted EBITDA $1.494B, a record calendar-Q1 figure',
+        'FY2026 guidance reaffirmed: adjusted EBITDA of $6.8B–$7.6B; adjusted free cash flow before growth of $3.925B–$4.725B — both figures explicitly exclude any contribution from the pending Cogentrix acquisition or the Meta PPA',
+        'Pending: $4.7B Cogentrix acquisition (5.5 GW of modern gas capacity), expected to close 2H 2026',
+        'Under construction/agreement: 860 MW of new gas units at the Permian Basin Power Plant; ~630 MW Coleto Creek coal-to-gas conversion',
+      ],
+      wins: [
+        'Amazon Web Services: 20-year PPA for up to 1,200 MW from the Comanche Peak nuclear plant (Texas) — delivery from Q4 2027, ramping to full capacity by 2032, with roughly 200 MW of potential further uprate',
+        'Meta: 20-year PPAs for more than 2,600 MW of energy, capacity and uprates across Vistra\'s PJM nuclear fleet — Perry capacity from Dec 2026, Davis-Besse from Dec 2027, with plant uprates phased in from 2031 through 2034',
+        'Up to ~3.2 GW of additional contractable nuclear capacity identified across Comanche Peak and the Beaver Valley/Perry/Davis-Besse PJM fleet',
+      ],
+      clients: ['Amazon Web Services', 'Meta', 'TXU Energy retail customer base (Texas)'],
+      suppliers: ['Cogentrix (pending $4.7B acquisition target)'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 4, note: 'Largest competitive generator in ERCOT plus the #2 competitive nuclear fleet in the US — a genuinely diversified, dispatchable-plus-baseload asset base.' },
+        { criterion: 'AI growth exposure', stars: 4, note: 'Named 20-year PPAs with both Amazon Web Services and Meta anchor real, contracted nuclear demand, layered on a gas fleet that can respond to load growth faster than new nuclear can be built.' },
+        { criterion: 'Valuation', stars: 3, note: 'Cheapest of the peer group on EV/EBITDA, but the outlier P/B (17.5x) and wide multiple variance across sources argue for real diligence, not a reflexive "cheap" read.' },
+        { criterion: 'Risk', stars: 3, note: 'Commodity, Texas-grid and M&A-integration risk all stack on a beta (1.41) that is the highest in this peer set.' },
+        { criterion: 'Entry timing', stars: 3, note: 'A large single-session drop into Aug 4, 2026 (down from $155.94 to $143.23) sits well below the 2026 high — a real pullback, though the reason for the drop was not independently confirmed in this pass.' },
+      ],
+      readLabel: 'CONSTRUCTIVE — DISPATCHABLE POWER FOR THE AI-DRIVEN LOAD SURGE',
+      summary:
+        'Vistra is the complement to Constellation\'s pure-nuclear story: a large, flexible, already-built dispatchable gas fleet layered on the country\'s second-largest competitive nuclear fleet, now anchored by real 20-year PPAs with Amazon Web Services (Comanche Peak) and Meta (the PJM nuclear plants). The Q1 2026 turnaround — from a $268M loss to a $1.03B profit on 43% revenue growth — and the pending $4.7B Cogentrix acquisition both point to real near-term earnings momentum that is not yet reflected in the reaffirmed 2026 guidance. The catch is that Vistra carries the most commodity and Texas-grid exposure of any name in this group, and one specific data point in this research pass — a P/B of 17.5x, well outside the peer range — deserves independent verification before being treated as a valuation signal either way. This reads as a name worth owning for the dispatchable-power thesis, sized for real commodity and grid-event volatility rather than treated as a bond-like nuclear-scarcity play.',
+    },
+    sourceNote:
+      'Compiled Aug 2026 via live web research (WebSearch across stockanalysis.com, Yahoo Finance, Investing.com, Utility Dive, Power Engineering, World Nuclear News, Eurasia Review/Carbon Credits coverage of the Meta/AWS deals, SEC 8-K filings and Vistra investor-relations press releases; direct WebFetch to most financial-data sites returned HTTP 403 and could not be used). The Aug 4, 2026 closing price ($143.23, down from $155.94) came from a specific, internally consistent dated quote (open $143.90, day low $140.17) and was used as the reference price; other aggregator snapshots in the same research pass showed a materially higher figure (~$162) that appears to reflect a different, likely earlier, snapshot date rather than the same trading session — flagged rather than reconciled. Market cap was computed directly from a separately sourced share count (337.8M) rather than taken from any single aggregator. P/B of 17.5x was reported consistently in search results but could not be independently cross-checked against a balance-sheet source in this pass. Treat all multiples as directional; cross-check current price and guidance before acting on anything here.',
+  },
+
+  GEV: {
+    ticker: 'GEV',
+    name: 'GE Vernova Inc.',
+    tagline:
+      'The picks-and-shovels of electrification — gas turbines with a decade-long backlog and the grid hardware every new data center needs to actually connect to power.',
+    sector: 'ENERGY & SPACE',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'GE Vernova (spun off from General Electric in April 2024, Cambridge, MA) makes the physical equipment that generates and moves electricity: heavy-duty gas turbines and power generation equipment (Power segment), transformers, switchgear and grid software (Electrification segment), and wind turbines (Wind segment). It does not generate or sell power itself — it sells the machines that Constellation, Vistra and every utility and data-center developer need in order to build new capacity or connect it to the grid. That makes GEV the clearest "arms dealer" position in the AI power trade: it benefits from every gigawatt of new gas or grid capacity regardless of which utility or hyperscaler ultimately owns it.',
+      rows: [
+        { level: 'Raw materials / castings', players: 'Specialty steel, nickel-alloy and electrical-steel suppliers', position: 'Not exposed — an equipment manufacturer, not a materials producer', tone: 'none' },
+        { level: 'Power generation equipment', players: 'GEV, Siemens Energy, Mitsubishi Heavy Industries', position: 'Core business — heavy-duty gas turbines, the tightest-supplied piece of the value chain', tone: 'core' },
+        { level: 'Grid equipment / electrification', players: 'GEV, Siemens Energy, Hitachi Energy', position: 'Core business — transformers, switchgear, HVDC and grid software', tone: 'core' },
+        { level: 'Power generation / utilities', players: 'CEG, VST, NRG, PEG and utilities globally', position: 'Direct equipment customer — ~80% of GEV orders are still traditional utility/industrial buyers', tone: 'client' },
+        { level: 'AI datacenter / hyperscaler', players: 'Data-center developers and operators (not individually named in sourced materials)', position: 'Fast-growing but still minority order share — ~20% of orders and rising', tone: 'growth' },
+      ],
+      segments: [
+        'Power: heavy-duty gas turbines and related generation equipment/services — the gas-turbine order backlog reached 116 GW at Q2 2026 (up from 100 GW at Q1 2026), with management targeting a combined 125 GW of backlog plus slot reservations by year-end 2026',
+        'Electrification: grid equipment (transformers, switchgear, HVDC) and grid software — booked $2.4B of data-center-related equipment orders in Q2 2026 alone, more than all of 2025; segment guided to 18–20% organic revenue growth and 18–20% EBITDA margin for 2026',
+        'Wind: onshore and offshore wind turbines — the structurally weak segment, guided to a low-double-digit organic revenue decline and roughly $400M of EBITDA losses for 2026',
+        'Manufacturing capacity is the binding constraint on Power: roughly 10 GW/year of heavy-duty gas turbine output against a 116 GW backlog — close to a decade of committed output already booked — with expansion plans targeting 20 GW annualized output in Q3 2026, 24 GW by 2028, and actions toward 30 GW by 2030',
+      ],
+      aiShift:
+        'Every new gigawatt of AI-driven power demand ultimately has to pass through either a gas turbine or a grid connection — and both are GE Vernova products. Data-center orders reached over $5B year-to-date through Q2 2026, more than double the full-2025 total, and Electrification alone booked $2.4B in data-center equipment orders in Q2 2026, exceeding all of 2025. Still, management\'s own disclosure is that roughly 80% of gas-turbine orders remain "traditional" utility and industrial customers, with data centers at about 20% and rising — a real but still-minority share of demand, not (yet) a company that is majority AI-driven. The gas-turbine backlog of 116 GW against ~10 GW/year of current manufacturing capacity is both the strongest visibility signal in this file and the clearest capacity constraint: turbine slots are effectively sold out into the early 2030s.',
+    },
+    valuation: {
+      peers: ['GEV', 'Siemens Energy (SMNEY/ENR.DE)', 'Mitsubishi Heavy Industries (7011.T)'],
+      metrics: [
+        { label: 'Price', values: ['$1,006.76 (Aug 4, 2026 close)', '€150.86 (Aug 5, 2026)', '¥4,091 (Aug 4, 2026)'] },
+        { label: 'Market cap', values: ['~$270B (computed: ~267M shares × $1,006.76; independently corroborated at ~$273.6B in early Aug 2026 reads)', '~€129.0B (~$159.6B, Jun 2026)', '~¥13.44T (~$80.3B, May 2026)'] },
+        { label: 'Trailing P/E', values: ['~29x per most aggregator reads (also seen as high as ~87x on some snapshots) — GAAP EPS has been distorted by one-time gains (Q1 2026 net margin spiked to 50.9%); treat with real caution', '>80x per financial press ("no room for error" framing)', '~51–58x (sources vary)'] },
+        { label: 'Forward P/E', values: ['~40–48x across sources (wide variance, not reconciled)', 'N/A — not sourced', 'N/A — not sourced'] },
+        { label: 'EV/EBITDA', values: ['~87x on a trailing basis per one aggregator (TTM EBITDA is depressed by ongoing Wind-segment losses); on 2026 guided EBITDA (~$5.5–6.4B at the 12–14% margin guide on $45.5–46.5B revenue) this computes closer to ~42–49x — still rich, but a fairer read of a mid-ramp company', 'N/A — not sourced', 'N/A — not sourced'] },
+        { label: 'Revenue growth (2026)', values: ['+22% YoY in Q2 2026; FY2026 guide raised to $45.5–46.5B (from $44.5–45.5B)', '+14–16% comparable growth guided for FY2026', 'roughly flat to -1% guided for FY2026 (per one source)'] },
+        { label: 'Gross margin', values: ['~19–21% (sources vary)', 'N/A — not sourced', 'N/A — not sourced'] },
+        { label: 'Net margin', values: ['~26% (H1 2026); Q1 2026 alone spiked to ~51% on one-time gains — flagged as non-recurring, not a run-rate figure', 'N/A — not sourced', '~6.9% guided for FY2026'] },
+        { label: 'Beta', values: ['1.03', 'N/A — not sourced', 'N/A — not sourced'] },
+        { label: 'Dividend yield', values: ['~0.16–0.2% ($0.50/qtr, doubled from $0.25/qtr effective Q1 2026)', 'N/A — not sourced', 'N/A — not sourced'] },
+      ],
+      verdictTone: 'high',
+      verdictPoints: [
+        'GEV is priced for exceptional execution: even the more conservative forward-looking EV/EBITDA read (~42–49x on guided 2026 EBITDA) is a rich multiple for an industrial equipment maker, and the trailing GAAP P/E is genuinely hard to pin down across sources (29x to 87x) because one-time gains have distorted recent quarterly earnings',
+        'The 116 GW gas-turbine backlog against ~10 GW/year of current capacity is the single strongest visibility argument for the premium — turbine slots are sold out for most of a decade — but it also means near-term revenue growth is capacity-gated, not demand-gated',
+        'The Wind segment is a real, quantified drag (~$275–382M of quarterly EBITDA losses in 2026, ~$400M guided for the full year) that keeps consolidated margins and reported EPS messier than the AI-infrastructure narrative alone would suggest',
+        'Siemens Energy trades at an even richer trailing multiple (reported >80x) on a similar grid-and-turbine thesis, while Mitsubishi Heavy Industries (~51–58x) sits in between — the entire heavy-electrical-equipment peer group has re-rated sharply on AI-driven demand, not just GEV'
+      ],
+      justifiedIf: [
+        'Manufacturing capacity actually scales as guided (20 GW annualized by Q3 2026, 24 GW by 2028, 30 GW by 2030) without slippage, converting backlog into recognized revenue on schedule',
+        'Data-center order share keeps climbing from the current ~20% without a slowdown in AI capex from hyperscalers',
+        'Wind-segment losses stabilize near the ~$400M guided figure rather than widening further',
+        'The FY2026 guide ($45.5–46.5B revenue, $11.5–12.5B free cash flow) is met or beaten, as it was raised to be after the Q2 2026 print',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '$700 – $800', rationale: 'A meaningful discount to current levels, roughly the pre-2026-rally trading zone' },
+        { tier: 'acceptable', range: '$850 – $1,050', rationale: 'Current trading zone (spot $1,006.76) — consistent with continued backlog conversion, not a bargain' },
+        { tier: 'expensive', range: '>$1,150', rationale: 'Approaching the 2026 all-time high (~$1,175–1,196 depending on source) — minimal margin of safety' },
+      ],
+      technical: [
+        '52-week range $530.16 – ~$1,195.94; a 2026 all-time high was reported between $1,174.86 and $1,195.94 depending on the source (not reconciled to the dollar) — current $1,006.76 sits roughly 15–16% below that high',
+        'Jefferies reportedly raised its price target to $1,210 (Buy) around the time of the most recent ATH print, implying limited perceived further upside from already-elevated levels',
+        'The stock has been one of the strongest performers in the entire AI-infrastructure trade since its April 2024 spinoff from GE, with the 52-week low ($530.16) itself well above the spinoff price',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 45, note: 'Gas-turbine and Electrification backlog convert on the guided capacity-expansion timeline, Wind losses hold near $400M — grinds toward $1,100–1,300 over 12–24 months.' },
+        { label: 'BULL', prob: 20, note: 'Manufacturing capacity expansion beats the 20/24/30 GW targets, data-center order share keeps climbing past ~20%, Wind reaches breakeven sooner — breaks meaningfully above the ~$1,195 high.' },
+        { label: 'BEAR', prob: 35, note: 'A capacity-expansion delay, a widening of Wind losses, a tariff-driven margin hit (guided at $250–350M net impact for 2026), or a broader AI-capex pause — retraces toward $700–850.' },
+      ],
+      horizon: '12–24 months',
+      invalidation: 'Weekly close below $700 (a ~30% drawdown from spot, breaking the 2026 uptrend)',
+    },
+    risks: [
+      { risk: 'Manufacturing capacity constraint', severity: 'high', note: 'Current heavy-duty gas-turbine output is only ~10 GW/year against a 116 GW backlog — a delivery delay or a missed step in the 20/24/30 GW capacity-expansion plan directly delays revenue recognition, not just growth optics.' },
+      { risk: 'Valuation / multiple compression', severity: 'high', note: 'Trailing P/E readings ranged from ~29x to ~87x across sources in this pass, and even the more conservative forward EV/EBITDA read (~42–49x on guided 2026 EBITDA) leaves very little room for a guidance miss or a backlog-conversion delay.' },
+      { risk: 'Wind segment losses', severity: 'medium', note: 'Quarterly Wind EBITDA losses widened through 2026 ($382M in Q1, $275M in Q2) on weak onshore demand and higher offshore project costs; the ~$400M full-year loss guide is a real drag on consolidated profitability, not a rounding error.' },
+      { risk: 'Tariff / trade policy exposure', severity: 'medium', note: 'Management guided to a $250–350M net tariff impact for 2026 — a direct, quantified margin headwind tied to trade policy outside the company\'s control.' },
+      { risk: 'Data-center order concentration/reversal', severity: 'medium', note: 'Data-center orders are growing fast (>$5B YTD through Q2 2026, more than double full-2025) but remain roughly 20% of the order book — a sharp AI-capex pullback would hit the highest-growth piece of demand hardest, even if the base utility business held up.' },
+      { risk: 'GAAP earnings volatility', severity: 'medium', note: 'One-time gains have materially distorted recent quarterly net margin (a spike to ~50.9% in Q1 2026), making trailing P/E and EV/EBITDA unusually unreliable as valuation anchors in this specific stretch.' },
+      { risk: 'Competitive capacity race', severity: 'low', note: 'Siemens Energy and Mitsubishi Heavy Industries are both expanding gas-turbine and grid-equipment capacity in response to the same demand signal — GEV\'s multi-year backlog lead is real today but not permanent.' },
+    ],
+    backlog: {
+      visibility: [
+        'Total company backlog: $176B at Q2 2026, up $13B sequentially from Q1 2026',
+        'Gas-turbine order backlog: 116 GW at Q2 2026 (up from 100 GW at Q1 2026), targeting a combined 125 GW of backlog plus slot reservations by year-end 2026',
+        'Q2 2026: revenue $11.1B (+22% YoY), orders $24.2B (+88% organic), free cash flow $5,107M (vs $194M in Q2 2025)',
+        'FY2026 guidance raised twice in 2026: revenue to $45.5–46.5B (from $44.5–45.5B) and free cash flow to $11.5–12.5B (from $6.5–7.5B) after the Q2 2026 beat',
+        'Manufacturing capacity expansion targets: 20 GW annualized gas-turbine output by Q3 2026, 24 GW by 2028, actions toward 30 GW by 2030 — largely within the existing manufacturing footprint',
+      ],
+      wins: [
+        'Electrification segment booked $2.4B of data-center-related equipment orders in Q2 2026 alone — more than the whole of 2025',
+        'Data-center orders company-wide exceeded $5B year-to-date through Q2 2026, more than double the full-2025 total',
+        'Board doubled the quarterly dividend to $0.50/share and raised the buyback authorization to $10B (from $6B) in the Dec 2025 multi-year outlook update, alongside raised medium-term financial targets',
+      ],
+      clients: ['Utilities and industrial customers (~80% of orders, not individually named in sourced materials)', 'Data-center developers and operators (~20% of orders and rising)'],
+      suppliers: [],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'Business quality', stars: 4, note: 'A near-duopoly/oligopoly position in heavy-duty gas turbines alongside Siemens Energy and Mitsubishi Heavy, plus a genuinely essential grid-equipment franchise — offset by a structurally loss-making Wind segment.' },
+        { criterion: 'AI growth exposure', stars: 5, note: 'Every new gigawatt of AI-driven power demand needs either a gas turbine or a grid connection GEV can supply — data-center orders more than doubled year-to-date through Q2 2026.' },
+        { criterion: 'Valuation', stars: 2, note: 'Trailing multiples that range from rich to extreme depending on the source (29x–87x P/E; ~87x trailing EV/EBITDA), even before accounting for GAAP-earnings distortion from one-time gains.' },
+        { criterion: 'Backlog / visibility', stars: 5, note: '$176B total backlog and a 116 GW gas-turbine order book against ~10 GW/year of current capacity — close to a decade of committed demand already on the books.' },
+        { criterion: 'Risk', stars: 3, note: 'Manufacturing-capacity execution, Wind-segment losses, tariff exposure and unusually volatile GAAP earnings all compound the valuation risk.' },
+        { criterion: 'Entry timing', stars: 2, note: 'Trading only ~15–16% below a 2026 all-time high after one of the strongest runs in the entire AI-infrastructure trade — not an obvious dip to buy.' },
+      ],
+      readLabel: 'CONSTRUCTIVE — THE PICKS-AND-SHOVELS PLAY, PRICED FOR PERFECTION',
+      summary:
+        'GE Vernova is the clearest "sells to everyone" position in the AI power trade — its gas turbines and grid equipment are needed regardless of which utility, hyperscaler or country ends up owning the generation, and the 116 GW gas-turbine backlog against roughly 10 GW/year of current manufacturing capacity is about as strong a multi-year revenue-visibility signal as exists anywhere in this file. The catch is that almost none of this is a secret: GEV has re-rated into one of the richest multiples among the names covered here, GAAP earnings have been genuinely distorted by one-time gains this year (making the P/E hard to pin down with any precision), and the Wind segment remains a real, quantified drag on consolidated profitability rather than a rounding error. Roughly 80% of orders are still traditional utility/industrial demand, not AI-driven — a reminder that the AI story, while real and accelerating, is still the minority of the book. This is a name to own for the structural, multi-decade electrification thesis, not to chase after a run this large without real conviction on execution.',
+    },
+    sourceNote:
+      'Compiled Aug 2026 via live web research (WebSearch across mgrid.org, Utility Dive, Turbomachinery Magazine, Power Engineering, GE Vernova investor-relations press releases and SEC 8-K filings, windpowermonthly.com, Baird Maritime/reNEWS coverage of Wind-segment results, and financial aggregators; direct WebFetch to SEC.gov filing URLs and most financial-data sites returned HTTP 403 and could not be used). Business and backlog facts (Q1/Q2 2026 revenue, orders, backlog, guidance raises, gas-turbine GW figures, Wind-segment EBITDA losses, tariff guidance, dividend/buyback actions) were corroborated across 2+ independent sources each and are the most reliable content in this entry. Valuation multiples were not: trailing P/E readings for GEV ranged from ~28x to ~87x and EV/EBITDA from the high-40s (on a forward-guidance basis, computed here) to ~87x (trailing, per one aggregator) depending on source and snapshot date, plausibly reflecting real GAAP-earnings distortion from one-time gains this year rather than simple data staleness — both readings are presented rather than collapsed into a single false-precision number. Price ($1,006.76, Aug 4, 2026 close) and the ~$270B market cap were cross-checked against an independently sourced share count (~267M) and against a separately reported ~$273.6B market-cap figure for early Aug 2026, and are reasonably consistent. Cross-check current price and multiples before acting on anything here.',
+  },
 }
