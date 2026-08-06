@@ -223,6 +223,8 @@ export const fr: Dict = {
       label: 'BAC À SABLE DE VALORISATION',
       title: 'DCF à deux étages —',
       spot: 'SPOT',
+      reset: 'RÉINITIALISER',
+      sandboxNote: 'Rien de ce que vous saisissez ici n\'est enregistré ni partagé — cela ne vit que dans cet onglet, et un rechargement restaure le point de départ recherché.',
       assumptions: 'HYPOTHÈSES — TOUTES MODIFIABLES',
       fields: {
         revenue: 'CA (TTM, M)',

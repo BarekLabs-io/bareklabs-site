@@ -113,6 +113,8 @@ function buildPrefill(ticker: string): Prefill {
   }
 }
 
+const DEFAULT_EXIT_PE = 30
+
 const FIELDS: { key: keyof DcfInputs; step: number; suffix?: string }[] = [
   { key: 'revenue', step: 10 },
   { key: 'growthPct', step: 0.5, suffix: '%' },
@@ -130,12 +132,25 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
   const d = t.chain.dcf
   const prefill = useMemo(() => buildPrefill(ticker), [ticker])
   const [inputs, setInputs] = useState<DcfInputs>(prefill.inputs)
-  const [targetPe, setTargetPe] = useState(30)
+  const [targetPe, setTargetPe] = useState(DEFAULT_EXIT_PE)
 
   // Re-seed whenever the constellation selection changes.
   useEffect(() => {
     setInputs(prefill.inputs)
+    setTargetPe(DEFAULT_EXIT_PE)
   }, [prefill])
+
+  /* Nothing here is stored or shared — the assumptions live in this tab's
+   * React state only, so one reader's edits never reach another, and a
+   * reload always comes back to the prefill. This just spares them the
+   * reload when they want the researched starting point back. */
+  const edited =
+    targetPe !== DEFAULT_EXIT_PE ||
+    (Object.keys(prefill.inputs) as (keyof DcfInputs)[]).some((k) => inputs[k] !== prefill.inputs[k])
+  const reset = () => {
+    setInputs(prefill.inputs)
+    setTargetPe(DEFAULT_EXIT_PE)
+  }
 
   const price = livePrice ?? prefill.price
   /* With no revenue or no margin the model still "works" — it returns zero,
@@ -180,12 +195,22 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
             {d.title} <span className="font-mono-lab text-sm text-dim" dir="ltr">{ticker}</span>
           </h3>
         </div>
-        {price != null && (
-          <div className="text-end font-mono-lab text-[10px] tracking-wider text-faint">
-            {d.spot}
-            <div className="mt-0.5 text-base tabular-nums text-foreground" dir="ltr">{fmt(price)}</div>
-          </div>
-        )}
+        <div className="flex items-center gap-5">
+          {edited && (
+            <button
+              onClick={reset}
+              className="border border-line px-3 py-1.5 font-mono-lab text-[9px] tracking-[0.2em] text-dim transition-colors duration-300 hover:border-signal hover:text-signal"
+            >
+              {d.reset}
+            </button>
+          )}
+          {price != null && (
+            <div className="text-end font-mono-lab text-[10px] tracking-wider text-faint">
+              {d.spot}
+              <div className="mt-0.5 text-base tabular-nums text-foreground" dir="ltr">{fmt(price)}</div>
+            </div>
+          )}
+        </div>
       </div>
 
       {!company ? (
@@ -245,6 +270,7 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
               </label>
             </div>
             <p className="mt-4 font-mono-lab text-[9px] leading-4 tracking-wide text-faint">{d.unitsNote}</p>
+            <p className="mt-2 font-mono-lab text-[9px] leading-4 tracking-wide text-faint">{d.sandboxNote}</p>
           </div>
 
           {/* ---- results ---- */}

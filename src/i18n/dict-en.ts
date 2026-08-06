@@ -232,6 +232,8 @@ export const en = {
       label: 'VALUATION SANDBOX',
       title: 'Two-stage DCF —',
       spot: 'SPOT',
+      reset: 'RESET TO RESEARCHED',
+      sandboxNote: 'Nothing you type here is saved or shared — it lives in this browser tab only, and a reload restores the researched starting point.',
       assumptions: 'ASSUMPTIONS — EDIT ANY OF THEM',
       fields: {
         revenue: 'REVENUE (TTM, M)',
