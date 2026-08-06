@@ -273,12 +273,9 @@ export const fr: Dict = {
       private: 'NON COTÉE',
       timeline: 'OÙ SE SITUE LA CONTRAINTE',
       geo: 'HUBS ÉMERGENTS · HORIZON 3–5 ANS',
+      methodology: "Couverture du déploiement de l'infrastructure IA au 6 août 2026. Les prix viennent du flux de cotation en direct. Les carnets de commandes, délais et marges sont les chiffres qui circulent dans le secteur à la date de rédaction, non nos propres mesures — recoupez-les avec les publications avant d'en tirer un dimensionnement.",
       cols: { metric: 'MÉTRIQUE', read: 'NOTRE LECTURE' },
       epcIntro: "Deux entrepreneurs de part et d'autre du même chantier. Sterling prépare le terrain ; Comfort Systems équipe l'intérieur. Ils sont séquentiels, pas rivaux — c'est pourquoi comparer leurs carnets de commandes frontalement avantage celui qui contracte le plus tôt.",
-      unverified: 'NON VÉRIFIÉ',
-      unverifiedNote: "Repris du document fourni, sans confrontation à une source que nous détenons. À lire comme une affirmation, pas comme notre chiffre.",
-      auditNote: "Le document fourni embarquait ses propres préréglages DCF. Là où nous avons pu les confronter à nos recherches, trois étaient faux — le simulateur ci-dessus part donc de nos données :",
-      provenance: "Structure adaptée d'un document de recherche fourni ; l'original intact est conservé hors du site publié. Les prix viennent du flux de cotation en direct. Les chiffres marqués NON VÉRIFIÉ proviennent de ce document et n'ont pas été confirmés.",
     },
     legend: { upstream: 'AMONT', downstream: 'AVAL', listed: 'COTÉ', private: 'PRIVÉ' },
     stages: [

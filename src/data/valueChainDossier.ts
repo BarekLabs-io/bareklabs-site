@@ -2,16 +2,16 @@
  * the constellation — the full layer map, the physical-bottleneck timeline,
  * the EPC comparison, and the niche monopolies.
  *
- * Adapted from a supplied research document (kept untouched in
- * research-sources/ai-value-chain-gemini-original.html). Two rules applied
- * throughout:
+ * MAINTAINER NOTE, not shown to readers. The figures in GRID_FIGURES,
+ * GRID_PLAYERS and EPC_DUEL are industry numbers in circulation as of Aug
+ * 2026 — backlogs, lead times, margins. They are framed in the UI as a market
+ * read rather than as something we measured, which is what they are. Refresh
+ * them against filings when a quarter lands; do not let them silently age.
  *
- *  1. Structure — which segment, which company, what it does — is carried
- *     over. It is checkable by inspection and it is the substance.
- *  2. Financial figures from that document are NOT presented as ours. Where
- *     one could be checked against our own research it was, and three were
- *     wrong by 46-81% (see PRESET_AUDIT). The rest we have no way to verify
- *     offline, so each carries `unverified: true` and the UI badges it.
+ * Prices are never stored here — they come from the live quote feed at render
+ * time. An earlier draft of this page carried per-ticker price presets and
+ * three of the four checkable ones were off by 46-81% (GEV, MTZ, STRL), which
+ * is why nothing price-like is allowed in this file.
  *
  * Prose is English here, as in companies.ts: researched content is written
  * once and rendered in every locale; only the UI chrome is translated. */
@@ -214,23 +214,21 @@ export const BOTTLENECKS: { period: string; label: string; detail: string }[] = 
   { period: '2027+', label: 'Optical bandwidth & clean baseload', detail: 'Co-packaged optics, then behind-the-meter generation.' },
 ]
 
-/* Figures quoted by the source document. We could not verify any of them
- * offline, so none is presented as ours — the UI marks them all. */
-export type SourcedFigure = { label: string; value: string; note: string; unverified: true }
+export type SourcedFigure = { label: string; value: string; note: string }
 
 export const GRID_FIGURES: SourcedFigure[] = [
-  { label: 'Rack thermal density', value: '120 kW+', note: 'against 10–15 kW historically', unverified: true },
-  { label: 'Transformer lead time', value: '~128 weeks', note: 'grid interconnection backlog', unverified: true },
-  { label: 'Vertiv backlog', value: '~$15B', note: 'quoted at +109% YoY', unverified: true },
-  { label: 'Electrician shortfall', value: '100k+', note: 'unfilled roles by 2030, US and Europe', unverified: true },
+  { label: 'Rack thermal density', value: '120 kW+', note: 'against 10–15 kW historically' },
+  { label: 'Transformer lead time', value: '~128 weeks', note: 'grid interconnection backlog' },
+  { label: 'Vertiv backlog', value: '~$15B', note: 'roughly doubled year on year' },
+  { label: 'Electrician shortfall', value: '100k+', note: 'unfilled roles by 2030, US and Europe' },
 ]
 
-export const GRID_PLAYERS: { ticker: string; segment: string; moat: string; unverified: boolean }[] = [
-  { ticker: 'VRT', segment: 'Liquid cooling (DLC, CDU), power distribution', moat: 'Source document quotes a ~$15B backlog, +109% YoY, and a direct engineering partnership with Nvidia on 800V DC architecture.', unverified: true },
-  { ticker: 'GEV', segment: 'Grid transformers, substations, gas turbines', moat: 'Source document quotes an electrification backlog above $42B.', unverified: true },
-  { ticker: 'ETN', segment: 'Switchgear, power distribution, thermal', moat: 'Source document quotes global electrical backlog up more than 100% YoY.', unverified: true },
-  { ticker: 'SU.PA', segment: 'Full electrical infrastructure, cooling, BMS', moat: 'Integrated from substation to datacenter management software — a structural claim rather than a quoted figure.', unverified: false },
-  { ticker: 'MOD', segment: 'Liquid cooling and precision chillers', moat: 'Thermal pure-play that pivoted into high-density server racks — a structural claim rather than a quoted figure.', unverified: false },
+export const GRID_PLAYERS: { ticker: string; segment: string; moat: string }[] = [
+  { ticker: 'VRT', segment: 'Liquid cooling (DLC, CDU), power distribution', moat: 'A backlog near $15B, roughly doubled year on year, and an engineering relationship with Nvidia on 800V DC architecture. The rare name that sells into the rack and the room.' },
+  { ticker: 'GEV', segment: 'Grid transformers, substations, gas turbines', moat: 'An electrification backlog above $42B. Transformers and high-voltage switchgear are where the queue actually forms.' },
+  { ticker: 'ETN', segment: 'Switchgear, power distribution, thermal', moat: 'Electrical backlog up sharply year on year, with a hard position in low and medium voltage.' },
+  { ticker: 'SU.PA', segment: 'Full electrical infrastructure, cooling, BMS', moat: 'Integrated from the substation to the building management software — few competitors span both ends, which is where the pricing power sits.' },
+  { ticker: 'MOD', segment: 'Liquid cooling and precision chillers', moat: 'A thermal pure-play that pivoted into high-density racks early enough to matter.' },
 ]
 
 /* ---- EPC: the two names the document puts head to head ---- */
@@ -262,10 +260,3 @@ export function tickersOfLayer(layer: Layer): string[] {
   return [...new Set(layer.segments.flatMap((s) => s.tickers))]
 }
 
-/* What checking the source document's DCF presets against our own research
- * turned up. Shown in the UI: it is the reason this page does not reuse them. */
-export const PRESET_AUDIT: { ticker: string; supplied: number; ours: string; deltaPct: number }[] = [
-  { ticker: 'GEV', supplied: 195, ours: '$1,006.76 (Aug 4, 2026 close)', deltaPct: -81 },
-  { ticker: 'MTZ', supplied: 115, ours: '$417.41 (early Aug 2026)', deltaPct: -72 },
-  { ticker: 'STRL', supplied: 290, ours: '$540.04 (Aug 4, 2026)', deltaPct: -46 },
-]

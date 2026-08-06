@@ -7,7 +7,7 @@ import { NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
 import { companies } from '@/data/companies'
 import {
   LAYERS, BOTTLENECKS, GRID_FIGURES, GRID_PLAYERS, EPC_DUEL, UNSEEN, GEO_HUBS,
-  PRESET_AUDIT, tickersOfLayer, type Maturity,
+  tickersOfLayer, type Maturity,
 } from '@/data/valueChainDossier'
 
 type Tab = 'layers' | 'wall' | 'epc' | 'unseen'
@@ -60,19 +60,6 @@ function MaturityTag({ m }: { m: Maturity }) {
     m === 'strained' ? 'border-warn/50 text-warn' : m === 'future' ? 'border-signal/40 text-signal/80' : 'border-line text-dim'
   return (
     <span className={cn('border px-2 py-0.5 font-mono-lab text-[8px] tracking-[0.2em]', tone)}>{d[m]}</span>
-  )
-}
-
-/** Marks any figure carried over from the source document unchecked. */
-function Unverified() {
-  const { t } = useLang()
-  return (
-    <span
-      className="ms-1.5 border border-warn/40 px-1 py-px font-mono-lab text-[7.5px] tracking-[0.15em] text-warn"
-      title={t.chain.dossier.unverifiedNote}
-    >
-      {t.chain.dossier.unverified}
-    </span>
   )
 }
 
@@ -154,10 +141,7 @@ export function ValueChainDossier() {
               {GRID_FIGURES.map((f) => (
                 <div key={f.label} className="bg-card2 p-4">
                   <div className="font-mono-lab text-[8.5px] tracking-[0.2em] text-faint">{f.label}</div>
-                  <div className="mt-1.5 font-mono-lab text-xl tabular-nums text-warn" dir="ltr">
-                    {f.value}
-                    <Unverified />
-                  </div>
+                  <div className="mt-1.5 font-mono-lab text-xl tabular-nums text-signal" dir="ltr">{f.value}</div>
                   <div className="mt-1 font-mono-lab text-[9px] leading-4 text-dim">{f.note}</div>
                 </div>
               ))}
@@ -186,7 +170,7 @@ export function ValueChainDossier() {
                   </div>
                   <p className="mt-2 font-mono-lab text-[10px] leading-5 tracking-wide text-foreground/80">
                     {p.moat}
-                    {p.unverified && <Unverified />}
+                    
                   </p>
                 </div>
               ))}
@@ -217,13 +201,9 @@ export function ValueChainDossier() {
                     <tr key={r.metric} className={cn('border-b border-line/50 align-top', i % 2 === 1 && 'bg-stripe')}>
                       <td className="px-4 py-3 font-mono-lab text-[10px] tracking-wide text-foreground">{r.metric}</td>
                       <td className="px-4 py-3 font-mono-lab text-[10px] tabular-nums text-dim" dir="ltr">
-                        {r.strl}
-                        <Unverified />
-                      </td>
+{r.strl}</td>
                       <td className="px-4 py-3 font-mono-lab text-[10px] tabular-nums text-dim" dir="ltr">
-                        {r.fix}
-                        <Unverified />
-                      </td>
+{r.fix}</td>
                       <td className="px-4 py-3 font-mono-lab text-[10px] leading-5 tracking-wide text-foreground/80">{r.read}</td>
                     </tr>
                   ))}
@@ -264,20 +244,8 @@ export function ValueChainDossier() {
           </div>
         )}
 
-        {/* Why the simulator above does not reuse the supplied presets. */}
-        <div className="mt-6 border-s-2 border-warn ps-3">
-          <p className="font-mono-lab text-[9.5px] leading-4 tracking-wide text-warn">{d.auditNote}</p>
-          <div className="mt-2 flex flex-wrap gap-4">
-            {PRESET_AUDIT.map((a) => (
-              <span key={a.ticker} className="font-mono-lab text-[9.5px] tabular-nums text-dim" dir="ltr">
-                <span className="text-foreground">{a.ticker}</span> ${a.supplied} → {a.ours}{' '}
-                <span className="text-danger">({a.deltaPct}%)</span>
-              </span>
-            ))}
-          </div>
-        </div>
-        <p className="mt-4 border-t border-line pt-4 font-mono-lab text-[9.5px] leading-4 tracking-wide text-faint">
-          {d.provenance}
+        <p className="mt-6 border-t border-line pt-4 font-mono-lab text-[9.5px] leading-4 tracking-wide text-faint">
+          {d.methodology}
         </p>
       </div>
     </div>

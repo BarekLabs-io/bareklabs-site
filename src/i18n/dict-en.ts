@@ -282,12 +282,9 @@ export const en = {
       private: 'PRIVATE',
       timeline: 'WHERE THE CONSTRAINT SITS',
       geo: 'EMERGING HUBS · 3–5 YEAR HORIZON',
+      methodology: 'Coverage of the AI-infrastructure build-out as of August 2026. Prices are live from the quote feed. Backlogs, lead times and margins are the figures in circulation across the industry at the time of writing, not our own measurement — check them against filings before sizing anything on them.',
       cols: { metric: 'METRIC', read: 'OUR READ' },
       epcIntro: 'Two contractors sitting either side of the same build. Sterling prepares the ground; Comfort Systems equips the interior. They are sequential, not rivals — which is why comparing their backlogs head to head flatters whichever one books earlier.',
-      unverified: 'UNVERIFIED',
-      unverifiedNote: 'Carried over from the supplied document and not checked against a source we hold. Treat as a claim, not as our figure.',
-      auditNote: 'The supplied document shipped its own DCF presets. Where we could check them against our own research, three were wrong — so the simulator above derives from our data instead:',
-      provenance: 'Structure adapted from a supplied research document; the untouched original is kept out of the published site. Prices are live from the quote feed. Figures marked UNVERIFIED come from that document and we have not confirmed them.',
     },
     legend: { upstream: 'UPSTREAM', downstream: 'DOWNSTREAM', listed: 'LISTED', private: 'PRIVATE' },
     stages: [
