@@ -273,6 +273,22 @@ export const en = {
       disclaimer: 'A DCF is an argument, not a measurement: it returns exactly what you assume. Nothing here is advice or a price target.',
       noData: 'No deep dive on file for this ticker yet, so there is nothing to prefill from.',
     },
+    dossier: {
+      label: 'DOSSIER',
+      title: 'The infrastructure behind the chain',
+      intro: 'The layer map in full, the moving bottleneck, the contractors who actually pour the concrete, and the niche monopolies nobody quotes. Tickers carry a live price; a green ticker has a deep dive on file.',
+      tabs: { layers: '7 LAYERS', wall: 'THE PHYSICAL WALL', epc: 'EPC · STRL vs FIX', unseen: 'UNSEEN HEROES' },
+      maturity: { live: 'IN PRODUCTION', strained: 'SUPPLY STRAINED', future: 'NOT YET AT SCALE' } as Record<string, string>,
+      private: 'PRIVATE',
+      timeline: 'WHERE THE CONSTRAINT SITS',
+      geo: 'EMERGING HUBS · 3–5 YEAR HORIZON',
+      cols: { metric: 'METRIC', read: 'OUR READ' },
+      epcIntro: 'Two contractors sitting either side of the same build. Sterling prepares the ground; Comfort Systems equips the interior. They are sequential, not rivals — which is why comparing their backlogs head to head flatters whichever one books earlier.',
+      unverified: 'UNVERIFIED',
+      unverifiedNote: 'Carried over from the supplied document and not checked against a source we hold. Treat as a claim, not as our figure.',
+      auditNote: 'The supplied document shipped its own DCF presets. Where we could check them against our own research, three were wrong — so the simulator above derives from our data instead:',
+      provenance: 'Structure adapted from a supplied research document; the untouched original is kept out of the published site. Prices are live from the quote feed. Figures marked UNVERIFIED come from that document and we have not confirmed them.',
+    },
     legend: { upstream: 'UPSTREAM', downstream: 'DOWNSTREAM', listed: 'LISTED', private: 'PRIVATE' },
     stages: [
       {

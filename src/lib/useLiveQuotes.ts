@@ -17,6 +17,19 @@ type QuotesResponse = { asOf: number; quotes: Record<string, LiveQuote | null> }
 
 const REFRESH_MS = 90_000
 
+/* One request fans out to one upstream fetch per symbol inside the serverless
+ * function, and the function has a hard wall-clock limit. Past a few dozen
+ * symbols a single call risks timing out and returning nothing at all, so a
+ * long roster is split into parallel requests instead — each safely under the
+ * limit, each separately edge-cached, all in flight at once. */
+const MAX_PER_REQUEST = 25
+
+function chunk<T>(items: T[], size: number): T[][] {
+  const out: T[][] = []
+  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size))
+  return out
+}
+
 /** Fetches live prices for a fixed set of tickers. Silently no-ops on any
  * failure — callers read `quotes[ticker]` and fall back when it's undefined. */
 export function useLiveQuotes(tickers: string[]): { quotes: Record<string, LiveQuote>; asOf: number | null } {
@@ -32,16 +45,29 @@ export function useLiveQuotes(tickers: string[]): { quotes: Record<string, LiveQ
 
     const load = async () => {
       try {
-        const res = await fetch(`/api/quotes?symbols=${encodeURIComponent(keyRef.current)}`)
-        if (!res.ok || cancelled) return
-        const data: QuotesResponse = await res.json()
+        const batches = chunk(keyRef.current.split(','), MAX_PER_REQUEST)
+        const responses = await Promise.all(
+          batches.map((b) =>
+            fetch(`/api/quotes?symbols=${encodeURIComponent(b.join(','))}`)
+              .then((r) => (r.ok ? (r.json() as Promise<QuotesResponse>) : null))
+              .catch(() => null)
+          )
+        )
         if (cancelled) return
         const next: Record<string, LiveQuote> = {}
-        for (const [ticker, q] of Object.entries(data.quotes)) {
-          if (q) next[ticker] = q
+        let latest = 0
+        for (const data of responses) {
+          if (!data) continue
+          latest = Math.max(latest, data.asOf)
+          for (const [ticker, q] of Object.entries(data.quotes)) {
+            if (q) next[ticker] = q
+          }
         }
+        // A batch that failed leaves its symbols absent, which the UI already
+        // renders as a dash — better than dropping the batches that worked.
+        if (Object.keys(next).length === 0) return
         setQuotes(next)
-        setAsOf(data.asOf)
+        setAsOf(latest || Date.now())
       } catch {
         // No live data this round — existing state (or the caller's static
         // fallback) stands. Never surface this as an error to the page.

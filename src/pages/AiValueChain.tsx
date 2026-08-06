@@ -9,6 +9,7 @@ import { countryOf, currencyOf, formatMoney } from '@/data/valueChain'
 import { CHAIN_EXTRA } from '@/data/chainExtra'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { DcfSimulator } from '@/components/DcfSimulator'
+import { ValueChainDossier } from '@/components/ValueChainDossier'
 import { parseMarketCapUsd, formatUsdCompact } from '@/lib/marketCap'
 
 type ChainItem = { t: string; name: string; role: string; priv?: boolean }
@@ -539,6 +540,13 @@ export default function AiValueChain() {
           <Reveal delay={160}>
             <div className="mt-4">
               <DcfSimulator ticker={selItem.t} livePrice={liveQuote?.price ?? null} />
+            </div>
+          </Reveal>
+
+          {/* ===== DOSSIER — the four analytical modules ===== */}
+          <Reveal delay={200}>
+            <div className="mt-4">
+              <ValueChainDossier />
             </div>
           </Reveal>
         </div>

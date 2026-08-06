@@ -264,6 +264,22 @@ export const fr: Dict = {
       disclaimer: 'Un DCF est un raisonnement, pas une mesure : il restitue exactement ce que vous supposez. Rien ici n’est un conseil ni un objectif de cours.',
       noData: 'Aucun deep dive au dossier pour ce ticker : rien à préremplir.',
     },
+    dossier: {
+      label: 'DOSSIER',
+      title: "L'infrastructure derrière la chaîne",
+      intro: "La carte complète des couches, le goulot qui se déplace, les entrepreneurs qui coulent réellement le béton, et les monopoles de niche que personne ne cite. Chaque ticker porte un prix en direct ; un ticker vert a un deep dive au dossier.",
+      tabs: { layers: '7 COUCHES', wall: 'LE MUR PHYSIQUE', epc: 'EPC · STRL vs FIX', unseen: 'HÉROS INVISIBLES' },
+      maturity: { live: 'EN PRODUCTION', strained: 'OFFRE SOUS TENSION', future: 'PAS ENCORE À L\'ÉCHELLE' } as Record<string, string>,
+      private: 'NON COTÉE',
+      timeline: 'OÙ SE SITUE LA CONTRAINTE',
+      geo: 'HUBS ÉMERGENTS · HORIZON 3–5 ANS',
+      cols: { metric: 'MÉTRIQUE', read: 'NOTRE LECTURE' },
+      epcIntro: "Deux entrepreneurs de part et d'autre du même chantier. Sterling prépare le terrain ; Comfort Systems équipe l'intérieur. Ils sont séquentiels, pas rivaux — c'est pourquoi comparer leurs carnets de commandes frontalement avantage celui qui contracte le plus tôt.",
+      unverified: 'NON VÉRIFIÉ',
+      unverifiedNote: "Repris du document fourni, sans confrontation à une source que nous détenons. À lire comme une affirmation, pas comme notre chiffre.",
+      auditNote: "Le document fourni embarquait ses propres préréglages DCF. Là où nous avons pu les confronter à nos recherches, trois étaient faux — le simulateur ci-dessus part donc de nos données :",
+      provenance: "Structure adaptée d'un document de recherche fourni ; l'original intact est conservé hors du site publié. Les prix viennent du flux de cotation en direct. Les chiffres marqués NON VÉRIFIÉ proviennent de ce document et n'ont pas été confirmés.",
+    },
     legend: { upstream: 'AMONT', downstream: 'AVAL', listed: 'COTÉ', private: 'PRIVÉ' },
     stages: [
       {
