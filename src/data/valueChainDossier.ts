@@ -96,7 +96,11 @@ export const LAYERS: Layer[] = [
       {
         name: 'IC substrates & advanced packaging',
         role: 'Multi-layer ABF substrates, dicing and CoWoS-class assembly.',
-        tickers: ['4062.T', '6967.T', '3037.TW', 'ATS.VI', 'ASX', 'BESI.AS'],
+        tickers: ['4062.T', '3037.TW', 'ATS.VI', 'ASX', 'BESI.AS'],
+        // Shinko Electric was taken private by the JIC-led consortium, so it
+        // no longer quotes — it stays on the map because it still makes the
+        // substrates, but as an unlisted name rather than a dead ticker.
+        privates: ['Shinko Electric'],
         maturity: 'strained',
       },
     ],
@@ -185,8 +189,7 @@ export const LAYERS: Layer[] = [
       {
         name: 'Colocation REITs & neoclouds',
         role: 'Leased capacity and GPU-first clouds serving the overflow.',
-        tickers: ['EQIX', 'DLR', 'NBIS'],
-        privates: ['CoreWeave'],
+        tickers: ['EQIX', 'DLR', 'NBIS', 'CRWV'],
         maturity: 'live',
       },
     ],
@@ -260,3 +263,74 @@ export function tickersOfLayer(layer: Layer): string[] {
   return [...new Set(layer.segments.flatMap((s) => s.tickers))]
 }
 
+
+/* ---------------------------------------------------------------------------
+ * Feeding the constellation
+ *
+ * The constellation used to draw only tickers that have a deep dive on file,
+ * which quietly hid most of the chain — 52 of the 78 names below never
+ * appeared. A node without a deep dive is still worth plotting: it carries a
+ * live price and a role, and the detail panel already says when no deep dive
+ * exists. So the dossier is a second source of nodes alongside companies.ts.
+ * ------------------------------------------------------------------------- */
+
+export type StageKey = 'ENERGY' | 'FAB' | 'LINK' | 'COMPUTE' | 'STACK'
+
+/** Which constellation stage each dossier segment belongs to. */
+export const SEGMENT_STAGE: Record<string, StageKey> = {
+  'Nuclear base-load & IPPs': 'ENERGY',
+  'SMR & advanced nuclear': 'ENERGY',
+  'Grid equipment & transformers': 'ENERGY',
+  'Backup generation & turbines': 'ENERGY',
+  'EDA software & IP cores': 'FAB',
+  'Lithography & WFE': 'FAB',
+  'Foundries': 'FAB',
+  'IC substrates & advanced packaging': 'FAB',
+  'GPGPU & AI accelerators': 'COMPUTE',
+  'Custom ASIC & silicon IP': 'COMPUTE',
+  'HBM memory (HBM3e / HBM4)': 'LINK',
+  'Retimers & interconnect': 'LINK',
+  'Liquid cooling (DLC & CDU)': 'ENERGY',
+  'Engineering & construction': 'ENERGY',
+  'Server ODM / OEM assembly': 'COMPUTE',
+  'Transceivers & optics (800G / 1.6T)': 'LINK',
+  'Hyperscalers': 'STACK',
+  'Colocation REITs & neoclouds': 'STACK',
+  'Silicon photonics & CPO': 'LINK',
+}
+
+/** Company names for tickers the site holds no deep dive for. */
+export const TICKER_NAMES: Record<string, string> = {
+  'TLN': 'Talen Energy', 'CCJ': 'Cameco', 'PPC.AT': 'PPC', 'BWXT': 'BWX Technologies',
+  'OKLO': 'Oklo', 'SMR': 'NuScale Power', 'RR.L': 'Rolls-Royce', 'ETN': 'Eaton',
+  'SU.PA': 'Schneider Electric', 'SIE.DE': 'Siemens', '6501.T': 'Hitachi', 'POWL': 'Powell Industries',
+  'CAT': 'Caterpillar', '7011.T': 'Mitsubishi Heavy', 'SNPS': 'Synopsys', 'CDNS': 'Cadence',
+  'ARM': 'Arm Holdings', '005930.KS': 'Samsung Electronics', 'INTC': 'Intel', '4062.T': 'Ibiden',
+  'ASX': 'ASE Technology', 'QCOM': 'Qualcomm', 'APH': 'Amphenol',
+  'VRT': 'Vertiv', 'MOD': 'Modine Manufacturing', 'NVT': 'nVent Electric', 'TT': 'Trane Technologies',
+  'PWR': 'Quanta Services', 'EME': 'EMCOR Group', 'FIX': 'Comfort Systems USA', 'IESC': 'IES Holdings',
+  '2317.TW': 'Hon Hai (Foxconn)', '2382.TW': 'Quanta Computer', '6669.TW': 'Wiwynn',
+  'DELL': 'Dell Technologies', 'COHR': 'Coherent', 'AMZN': 'Amazon', 'ORCL': 'Oracle',
+  'EQIX': 'Equinix', 'DLR': 'Digital Realty', 'CRWV': 'CoreWeave', '011790.KS': 'SKC', '4063.T': 'Shin-Etsu Chemical',
+  '6971.T': 'Kyocera', '6856.T': 'Horiba', 'MKSI': 'MKS Instruments',
+}
+
+export type DossierNode = { t: string; name: string; role: string; stage: StageKey }
+
+/** Every dossier ticker, flattened into constellation-node shape. */
+export function dossierNodes(): DossierNode[] {
+  const out: DossierNode[] = []
+  const seen = new Set<string>()
+  for (const layer of LAYERS) {
+    for (const seg of layer.segments) {
+      const stage = SEGMENT_STAGE[seg.name]
+      if (!stage) continue
+      for (const t of seg.tickers) {
+        if (seen.has(t)) continue
+        seen.add(t)
+        out.push({ t, name: TICKER_NAMES[t] ?? t, role: seg.role, stage })
+      }
+    }
+  }
+  return out
+}

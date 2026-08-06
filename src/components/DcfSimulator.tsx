@@ -190,7 +190,7 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
     <div className="border border-line bg-panel">
       <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-line px-6 py-4">
         <div>
-          <div className="font-mono-lab text-[9px] tracking-[0.3em] text-signal">{d.label}</div>
+          <div className="font-mono-lab text-[10.5px] tracking-[0.3em] text-signal">{d.label}</div>
           <h3 className="mt-1 text-lg font-medium tracking-tight md:text-xl">
             {d.title} <span className="font-mono-lab text-sm text-dim" dir="ltr">{ticker}</span>
           </h3>
@@ -199,13 +199,13 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
           {edited && (
             <button
               onClick={reset}
-              className="border border-line px-3 py-1.5 font-mono-lab text-[9px] tracking-[0.2em] text-dim transition-colors duration-300 hover:border-signal hover:text-signal"
+              className="border border-line px-3 py-1.5 font-mono-lab text-[10.5px] tracking-[0.2em] text-dim transition-colors duration-300 hover:border-signal hover:text-signal"
             >
               {d.reset}
             </button>
           )}
           {price != null && (
-            <div className="text-end font-mono-lab text-[10px] tracking-wider text-faint">
+            <div className="text-end font-mono-lab text-[11.5px] tracking-wider text-faint">
               {d.spot}
               <div className="mt-0.5 text-base tabular-nums text-foreground" dir="ltr">{fmt(price)}</div>
             </div>
@@ -214,18 +214,18 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
       </div>
 
       {!company ? (
-        <p className="px-6 py-8 font-mono-lab text-[11px] leading-5 tracking-wide text-faint">{d.noData}</p>
+        <p className="px-6 py-8 font-mono-lab text-[12.5px] leading-6 tracking-wide text-faint">{d.noData}</p>
       ) : (
         <div className="grid gap-0 lg:grid-cols-12">
           {/* ---- assumptions ---- */}
           <div className="border-b border-line p-6 lg:col-span-5 lg:border-b-0 lg:border-e">
-            <div className="font-mono-lab text-[9px] tracking-[0.25em] text-dim">{d.assumptions}</div>
+            <div className="font-mono-lab text-[10.5px] tracking-[0.25em] text-dim">{d.assumptions}</div>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {FIELDS.map((f) => {
                 const prov = prefill.provenance[f.key]
                 return (
                   <label key={f.key} className="block">
-                    <span className="flex items-baseline justify-between font-mono-lab text-[9px] tracking-[0.12em] text-faint">
+                    <span className="flex items-baseline justify-between font-mono-lab text-[10.5px] tracking-[0.12em] text-faint">
                       <span>{d.fields[f.key]}</span>
                       {/* Every field is badged, defaults included — an unlabelled
                           box reads as researched when it is just a starting value. */}
@@ -251,32 +251,32 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
                       step={f.step}
                       value={Number.isFinite(inputs[f.key] as number) ? (inputs[f.key] as number) : ''}
                       onChange={(e) => set(f.key, e.target.value)}
-                      className="mt-1 w-full border border-line bg-card2 px-2.5 py-1.5 font-mono-lab text-[12px] tabular-nums text-foreground focus:border-signal focus:outline-none"
+                      className="mt-1 w-full border border-line bg-card2 px-2.5 py-1.5 font-mono-lab text-[13px] tabular-nums text-foreground focus:border-signal focus:outline-none"
                       dir="ltr"
                     />
                   </label>
                 )
               })}
               <label className="block">
-                <span className="font-mono-lab text-[9px] tracking-[0.12em] text-faint">{d.fields.targetPe}</span>
+                <span className="font-mono-lab text-[10.5px] tracking-[0.12em] text-faint">{d.fields.targetPe}</span>
                 <input
                   type="number"
                   step={1}
                   value={targetPe}
                   onChange={(e) => setTargetPe(Number(e.target.value) || 0)}
-                  className="mt-1 w-full border border-line bg-card2 px-2.5 py-1.5 font-mono-lab text-[12px] tabular-nums text-foreground focus:border-signal focus:outline-none"
+                  className="mt-1 w-full border border-line bg-card2 px-2.5 py-1.5 font-mono-lab text-[13px] tabular-nums text-foreground focus:border-signal focus:outline-none"
                   dir="ltr"
                 />
               </label>
             </div>
-            <p className="mt-4 font-mono-lab text-[9px] leading-4 tracking-wide text-faint">{d.unitsNote}</p>
-            <p className="mt-2 font-mono-lab text-[9px] leading-4 tracking-wide text-faint">{d.sandboxNote}</p>
+            <p className="mt-4 font-mono-lab text-[10.5px] leading-6 tracking-wide text-faint">{d.unitsNote}</p>
+            <p className="mt-2 font-mono-lab text-[10.5px] leading-6 tracking-wide text-faint">{d.sandboxNote}</p>
           </div>
 
           {/* ---- results ---- */}
           <div className="p-6 lg:col-span-7">
             {!computable ? null : !result ? (
-              <div className="border border-danger/40 bg-danger/5 p-4 font-mono-lab text-[11px] leading-5 tracking-wide text-danger">
+              <div className="border border-danger/40 bg-danger/5 p-4 font-mono-lab text-[12.5px] leading-6 tracking-wide text-danger">
                 {d.invalid}
               </div>
             ) : (
@@ -308,7 +308,7 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
 
                 {/* projected free cash flow */}
                 <div className="mt-6">
-                  <div className="font-mono-lab text-[9px] tracking-[0.25em] text-dim">
+                  <div className="font-mono-lab text-[10.5px] tracking-[0.25em] text-dim">
                     {d.fcfLabel} <span className="text-faint">· M</span>
                   </div>
                   <div className="mt-3 flex items-end gap-2">
@@ -317,14 +317,14 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
                       const h = Math.max(4, (Math.abs(v) / max) * 84)
                       return (
                         <div key={i} className="flex flex-1 flex-col items-center gap-1.5">
-                          <span className="font-mono-lab text-[9px] tabular-nums text-dim" dir="ltr">
+                          <span className="font-mono-lab text-[10.5px] tabular-nums text-dim" dir="ltr">
                             {Math.round(v).toLocaleString('en-US')}
                           </span>
                           <div
                             className={cn('w-full transition-all duration-500', v >= 0 ? 'bg-signal/70' : 'bg-danger/70')}
                             style={{ height: `${h}px` }}
                           />
-                          <span className="font-mono-lab text-[9px] text-faint">Y{i + 1}</span>
+                          <span className="font-mono-lab text-[10.5px] text-faint">Y{i + 1}</span>
                         </div>
                       )
                     })}
@@ -332,7 +332,7 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
                 </div>
 
                 {result.terminalWeight > 0.8 && (
-                  <p className="mt-5 border-s-2 border-warn ps-3 font-mono-lab text-[10px] leading-4 tracking-wide text-warn">
+                  <p className="mt-5 border-s-2 border-warn ps-3 font-mono-lab text-[11.5px] leading-6 tracking-wide text-warn">
                     {d.terminalWarning}
                   </p>
                 )}
@@ -340,14 +340,14 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
             )}
 
             {missing.length > 0 && (
-              <p className="mt-5 border-s-2 border-danger ps-3 font-mono-lab text-[10px] leading-4 tracking-wide text-danger">
+              <p className="mt-5 border-s-2 border-danger ps-3 font-mono-lab text-[11.5px] leading-6 tracking-wide text-danger">
                 {d.missingWarning.replace(
                   '{fields}',
                   missing.map(([k]) => d.fields[k as keyof typeof d.fields] ?? k).join(', ')
                 )}
               </p>
             )}
-            <p className="mt-5 border-t border-line pt-4 font-mono-lab text-[9.5px] leading-4 tracking-wide text-faint">
+            <p className="mt-5 border-t border-line pt-4 font-mono-lab text-[12.5px] leading-6 tracking-wide text-faint">
               {d.disclaimer}
             </p>
           </div>
@@ -370,11 +370,11 @@ function Outcome({
 }) {
   return (
     <div className="border border-line bg-card2 p-4">
-      <div className="font-mono-lab text-[9px] tracking-[0.2em] text-faint">{label}</div>
+      <div className="font-mono-lab text-[10.5px] tracking-[0.2em] text-faint">{label}</div>
       <div className="mt-2 font-mono-lab text-2xl tabular-nums text-foreground" dir="ltr">{value}</div>
       {upside != null && (
         <div
-          className={cn('mt-1 font-mono-lab text-[11px] tabular-nums', upside >= 0 ? 'text-signal' : 'text-danger')}
+          className={cn('mt-1 font-mono-lab text-[12.5px] tabular-nums', upside >= 0 ? 'text-signal' : 'text-danger')}
           dir="ltr"
         >
           {upside >= 0 ? '+' : ''}{upside.toFixed(1)}% <span className="text-faint">{upsideLabel}</span>
@@ -387,7 +387,7 @@ function Outcome({
 function Cell({ label, value, tone }: { label: string; value: string; tone?: 'warn' }) {
   return (
     <div className="bg-card2 p-3">
-      <div className="font-mono-lab text-[8.5px] tracking-[0.18em] text-faint">{label}</div>
+      <div className="font-mono-lab text-[11.5px] tracking-[0.18em] text-faint">{label}</div>
       <div
         className={cn('mt-1 font-mono-lab text-[13px] tabular-nums', tone === 'warn' ? 'text-warn' : 'text-foreground')}
         dir="ltr"

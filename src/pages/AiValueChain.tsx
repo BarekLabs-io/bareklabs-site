@@ -10,7 +10,9 @@ import { CHAIN_EXTRA } from '@/data/chainExtra'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { DcfSimulator } from '@/components/DcfSimulator'
 import { ValueChainDossier } from '@/components/ValueChainDossier'
-import { parseMarketCapUsd, formatUsdCompact } from '@/lib/marketCap'
+import { dossierNodes } from '@/data/valueChainDossier'
+import { ChainFlow } from '@/components/ChainFlow'
+import { parseMarketCapUsd } from '@/lib/marketCap'
 
 type ChainItem = { t: string; name: string; role: string; priv?: boolean }
 type ChainStage = { n: string; k: string; name: string; desc: string; items: ChainItem[] }
@@ -22,29 +24,55 @@ function PickCard({ p, i }: { p: { t: string; title: string; d: string }; i: num
   return (
     <Reveal delay={i * 90}>
       <div ref={ref} className="spot-card border border-line p-7 md:p-9">
-        <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal" dir="ltr">{p.t}</div>
+        <div className="font-mono-lab text-[11.5px] tracking-[0.3em] text-signal" dir="ltr">{p.t}</div>
         <h3 className="mt-6 text-xl font-medium tracking-tight md:text-2xl">{p.title}</h3>
-        <p className="mt-4 font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{p.d}</p>
+        <p className="mt-4 font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{p.d}</p>
       </div>
     </Reveal>
   )
 }
 
-/* Merges the hand-curated headline names (from the i18n dict) with the wider,
- * real Screener roster (CHAIN_EXTRA -> companies.ts) so the constellation
- * actually reflects the full covered universe, not just US mega-caps. */
+/* Three sources feed the constellation, in descending order of depth:
+ *   1. the hand-curated headline names in the i18n dict,
+ *   2. the Screener roster (CHAIN_EXTRA -> companies.ts), which have deep dives,
+ *   3. the dossier, which covers the rest of the chain.
+ * A node from (3) has no deep dive, and the detail panel says so — but it
+ * still carries a live price and a role, and plotting it is the difference
+ * between a map of the chain and a map of the names we happen to have
+ * written up. */
 function useMergedStages(baseStages: ChainStage[]): ChainStage[] {
-  return useMemo(
-    () =>
-      baseStages.map((st) => {
-        const seen = new Set(st.items.map((it) => it.t))
-        const extra: ChainItem[] = (CHAIN_EXTRA[st.k] ?? [])
-          .filter((t) => !seen.has(t) && companies[t])
-          .map((t) => ({ t, name: companies[t].name, role: companies[t].tagline }))
-        return { ...st, items: [...st.items, ...extra] }
-      }),
-    [baseStages]
-  )
+  return useMemo(() => {
+    /* One ticker, one column. The set is global rather than per stage: some
+     * names genuinely belong to two layers — Broadcom sells interconnect and
+     * custom accelerators — and plotting them twice makes the map look like
+     * it has more coverage than it does. First placement wins, and the
+     * sources are walked most-curated first. */
+    const placed = new Set<string>()
+    baseStages.forEach((st) => st.items.forEach((it) => placed.add(it.t)))
+
+    const withExtra = baseStages.map((st) => {
+      const items: ChainItem[] = [...st.items]
+      for (const t of CHAIN_EXTRA[st.k] ?? []) {
+        if (placed.has(t) || !companies[t]) continue
+        placed.add(t)
+        items.push({ t, name: companies[t].name, role: companies[t].tagline })
+      }
+      return { ...st, items }
+    })
+
+    const fromDossier = dossierNodes()
+    return withExtra.map((st) => {
+      const items = [...st.items]
+      for (const n of fromDossier) {
+        if (n.stage !== st.k || placed.has(n.t)) continue
+        placed.add(n.t)
+        // Prefer the deep dive's own words where we have one.
+        const c = companies[n.t]
+        items.push({ t: n.t, name: c?.name ?? n.name, role: c?.tagline ?? n.role })
+      }
+      return { ...st, items }
+    })
+  }, [baseStages])
 }
 
 function keyMetric(ticker: string, pattern: RegExp): string | null {
@@ -54,24 +82,9 @@ function keyMetric(ticker: string, pattern: RegExp): string | null {
   return m?.values[0] ?? null
 }
 
-/* ---------- CONSTELLATION LAYOUT ---------- */
-const VB_W = 1440
-const VB_H = 620
-const MARGIN_X = 182
-const HUB_Y = 165
-const HUB_R = 30
-const SAT_DIST = 100
-const SAT_R = 7
-/* Bubble radius range when sized by a metric. Area (not radius) is made
- * proportional to the value — radius-proportional sizing exaggerates large
- * values by the square and is a classic way to mislead with a bubble chart. */
-const R_MIN = 4.5
-const R_MAX = 17
 
 type SizeMode = 'cap' | 'share' | 'flat'
 
-type Hub = { x: number; y: number }
-type Sat = { x: number; y: number; angle: number; ring: number }
 
 /** Per-ticker sizing inputs, derived from the researched market caps.
  *  `share` is the true fraction (shown as a %); `shareNorm` rescales it so the
@@ -116,51 +129,6 @@ function useCapData(stages: ChainStage[]) {
   }, [stages])
 }
 
-/** Area-proportional radius; falls back to a small neutral dot when unsized. */
-function radiusFor(info: CapInfo | undefined, mode: SizeMode, maxUsd: number): number {
-  if (mode === 'flat') return SAT_R
-  const value = mode === 'cap' ? info?.usd : info?.shareNorm
-  const max = mode === 'cap' ? maxUsd : 1
-  if (value == null || !max) return R_MIN
-  return R_MIN + (R_MAX - R_MIN) * Math.sqrt(Math.min(value / max, 1))
-}
-
-function useConstellation(stages: ChainStage[]) {
-  return useMemo(() => {
-    const n = stages.length
-    const step = n > 1 ? (VB_W - MARGIN_X * 2) / (n - 1) : 0
-    const hubs: Hub[] = stages.map((_, i) => ({
-      x: MARGIN_X + i * step,
-      y: HUB_Y + Math.sin(i * 1.15) * 22,
-    }))
-    const sats: Sat[][] = stages.map((st, si) => {
-      const k = st.items.length
-      const spreadStep = Math.min(30, 150 / Math.max(k - 1, 1)) // tighten spacing as satellite count grows
-      return st.items.map((_, j) => {
-        const angleDeg = 90 + (j - (k - 1) / 2) * spreadStep
-        const angleRad = (angleDeg * Math.PI) / 180
-        // Alternate inner/outer ring so bubbles and labels on adjacent tight
-        // angles don't collide — the gap has to clear two max-radius bubbles.
-        const ringIdx = k > 6 ? j % 2 : 0
-        const dist = SAT_DIST + ringIdx * 52
-        return {
-          x: hubs[si].x + dist * Math.cos(angleRad),
-          y: hubs[si].y + dist * Math.sin(angleRad),
-          angle: angleDeg,
-          ring: ringIdx,
-        }
-      })
-    })
-    const connectors = hubs.slice(0, -1).map((h, i) => {
-      const next = hubs[i + 1]
-      const midX1 = h.x + (next.x - h.x) * 0.42
-      const midX2 = h.x + (next.x - h.x) * 0.58
-      return `M ${h.x} ${h.y} C ${midX1} ${h.y}, ${midX2} ${next.y}, ${next.x} ${next.y}`
-    })
-    return { hubs, sats, connectors }
-  }, [stages])
-}
-
 export default function AiValueChain() {
   const { t } = useLang()
   const c = t.chain
@@ -174,13 +142,14 @@ export default function AiValueChain() {
   const selCompany = companies[selItem.t]
   const price = keyMetric(selItem.t, /^price|^share price/i)
   const marketCap = keyMetric(selItem.t, /market cap/i)
-  const { hubs, sats, connectors } = useConstellation(stages)
   const [sizeMode, setSizeMode] = useState<SizeMode>('cap')
   const { byTicker, maxUsd } = useCapData(stages)
   const selCap = byTicker.get(selItem.t)
-  // Live price for the selected node only — market cap stays on the
-  // researched snapshot (the quotes endpoint doesn't carry it).
-  const { quotes } = useLiveQuotes(selCompany ? [selItem.t] : [])
+  /* Every node on the map, so each one can carry today's move as a ring —
+   * not just the selected one. Market cap stays on the researched snapshot;
+   * the quotes endpoint carries price only. */
+  const allTickers = useMemo(() => [...new Set(stages.flatMap((st) => st.items.map((i) => i.t)))], [stages])
+  const { quotes } = useLiveQuotes(allTickers)
   const liveQuote = quotes[selItem.t]
 
   return (
@@ -200,7 +169,7 @@ export default function AiValueChain() {
                     key={m}
                     onClick={() => setMode(m)}
                     className={cn(
-                      'border px-4 py-1.5 font-mono-lab text-[9px] tracking-[0.25em] transition-all duration-300',
+                      'border px-4 py-1.5 font-mono-lab text-[10.5px] tracking-[0.25em] transition-all duration-300',
                       mode === m ? 'border-signal bg-signal text-[#0c0e12]' : 'border-line text-dim hover:text-foreground'
                     )}
                   >
@@ -215,13 +184,13 @@ export default function AiValueChain() {
           <Reveal>
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-line border-b-0 bg-panel px-4 py-3">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="font-mono-lab text-[9px] tracking-[0.25em] text-faint">{c.sizing.label}</span>
+                <span className="font-mono-lab text-[10.5px] tracking-[0.25em] text-faint">{c.sizing.label}</span>
                 {(['cap', 'share', 'flat'] as const).map((m) => (
                   <button
                     key={m}
                     onClick={() => setSizeMode(m)}
                     className={cn(
-                      'border px-3 py-1.5 font-mono-lab text-[9px] tracking-[0.18em] transition-all duration-300',
+                      'border px-3 py-1.5 font-mono-lab text-[10.5px] tracking-[0.18em] transition-all duration-300',
                       sizeMode === m ? 'border-signal text-signal' : 'border-line text-dim hover:text-foreground'
                     )}
                   >
@@ -229,7 +198,7 @@ export default function AiValueChain() {
                   </button>
                 ))}
               </div>
-              <div className="flex items-center gap-4 font-mono-lab text-[9px] tracking-wider text-faint">
+              <div className="flex items-center gap-4 font-mono-lab text-[10.5px] tracking-wider text-faint">
                 {sizeMode !== 'flat' && (
                   <span className="flex items-center gap-1.5">
                     <svg width="34" height="16" aria-hidden="true">
@@ -251,171 +220,20 @@ export default function AiValueChain() {
 
           <Reveal>
             <div className="overflow-x-auto border border-line bg-panel" dir="ltr">
-              <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className="min-w-[1180px]" role="img" aria-label={c.hint}>
-                {/* stage-to-stage flow connectors */}
-                {connectors.map((d, i) => {
-                  const isActivePath = i < sel.s || i === sel.s
-                  return (
-                    <g key={i}>
-                      <path d={d} fill="none" stroke="var(--line)" strokeWidth={1.5} />
-                      <path
-                        d={d}
-                        fill="none"
-                        stroke="rgb(var(--signal))"
-                        strokeWidth={1.5}
-                        opacity={isActivePath ? 0.5 : 0.12}
-                      />
-                      {mode === 'flow' && (
-                        <circle r={3.5} fill="rgb(var(--signal))">
-                          <animateMotion dur={`${2.4 + i * 0.3}s`} repeatCount="indefinite" path={d} />
-                        </circle>
-                      )}
-                    </g>
-                  )
-                })}
-
-                {/* satellite connector lines */}
-                {stages.map((st, si) =>
-                  st.items.map((it, ii) => {
-                    const sat = sats[si][ii]
-                    const hub = hubs[si]
-                    const active = sel.s === si && sel.i === ii
-                    return (
-                      <line
-                        key={`${st.k}-${it.t}-line`}
-                        x1={hub.x}
-                        y1={hub.y}
-                        x2={sat.x}
-                        y2={sat.y}
-                        stroke={active ? 'rgb(var(--signal))' : 'var(--line)'}
-                        strokeWidth={active ? 1.5 : 1}
-                        opacity={active ? 0.8 : 0.45}
-                      />
-                    )
-                  })
-                )}
-
-                {/* satellite ticker nodes */}
-                {stages.map((st, si) =>
-                  st.items.map((it, ii) => {
-                    const sat = sats[si][ii]
-                    const active = sel.s === si && sel.i === ii
-                    const isHover = hover?.s === si && hover?.i === ii
-                    /* In crowded stages the nodes alternate between an inner and
-                     * an outer ring, so alternate the label side to match —
-                     * neighbours then never stack their labels. (Radially
-                     * placed labels were tried and are worse here: they run
-                     * straight into the next node along the fan.) */
-                    const labelBelow = st.items.length > 6 ? sat.ring === 1 : sat.angle > 90
-                    const hasDive = !!companies[it.t]
-                    const cap = byTicker.get(it.t)
-                    const r = radiusFor(cap, sizeMode, maxUsd)
-                    const rDrawn = active || isHover ? r + 2.5 : r
-                    // Unsized nodes (private, or no cap figure) stay hollow so
-                    // a small bubble never reads as "small company" when it
-                    // actually means "no data".
-                    const unsized = sizeMode !== 'flat' && (sizeMode === 'cap' ? cap?.usd : cap?.shareNorm) == null
-                    return (
-                      <g
-                        key={`${st.k}-${it.t}`}
-                        onClick={() => { setSel({ s: si, i: ii }) }}
-                        onMouseEnter={() => setHover({ s: si, i: ii })}
-                        onMouseLeave={() => setHover(null)}
-                        className="cursor-pointer"
-                      >
-                        <circle
-                          cx={sat.x}
-                          cy={sat.y}
-                          r={rDrawn}
-                          fill={active ? 'rgb(var(--signal))' : unsized ? 'transparent' : 'var(--card2)'}
-                          fillOpacity={active ? 1 : unsized ? 0 : 0.9}
-                          stroke={active ? 'rgb(var(--signal))' : isHover ? 'rgb(var(--signal))' : hasDive ? 'var(--line-hover)' : 'var(--line)'}
-                          strokeWidth={1.5}
-                          strokeDasharray={unsized || !hasDive ? '2 2' : undefined}
-                          className="transition-all duration-300"
-                        />
-                        {/* inner dot keeps big hollow rings clickable and readable */}
-                        {!active && r > 12 && (
-                          <circle cx={sat.x} cy={sat.y} r={1.6} fill="var(--dim)" opacity={0.55} />
-                        )}
-                        {it.priv && (
-                          <circle cx={sat.x + rDrawn * 0.72} cy={sat.y - rDrawn * 0.72} r={3} fill="rgb(var(--warn))" />
-                        )}
-                        <text
-                          x={sat.x}
-                          y={labelBelow ? sat.y + rDrawn + 14 : sat.y - rDrawn - 7}
-                          textAnchor="middle"
-                          className="font-mono-lab pointer-events-none select-none"
-                          style={{ fontSize: 10.5, letterSpacing: '0.05em', fill: active || isHover ? 'rgb(var(--signal))' : 'var(--dim)' }}
-                        >
-                          {it.t}
-                        </text>
-                        <title>
-                          {it.name} — {it.role}
-                          {cap?.usd != null ? `\nMarket cap ≈ ${formatUsdCompact(cap.usd)}` : '\nNo market-cap figure on file'}
-                          {cap?.share != null ? ` · ${(cap.share * 100).toFixed(1)}% of this layer's covered cap` : ''}
-                        </title>
-                      </g>
-                    )
-                  })
-                )}
-
-                {/* stage hub nodes */}
-                {stages.map((st, si) => {
-                  const hub = hubs[si]
-                  const isSel = sel.s === si
-                  return (
-                    <g key={st.k} onClick={() => setSel({ s: si, i: 0 })} className="cursor-pointer">
-                      <circle
-                        cx={hub.x}
-                        cy={hub.y}
-                        r={HUB_R}
-                        fill={isSel ? 'rgb(var(--signal))' : 'var(--card2)'}
-                        fillOpacity={isSel ? 0.14 : 1}
-                        stroke={isSel ? 'rgb(var(--signal))' : 'var(--line-hover)'}
-                        strokeWidth={isSel ? 2 : 1.5}
-                        className="transition-all duration-300"
-                      />
-                      <text
-                        x={hub.x}
-                        y={hub.y - 3}
-                        textAnchor="middle"
-                        className="font-mono-lab pointer-events-none select-none"
-                        style={{ fontSize: 11, letterSpacing: '0.15em', fill: isSel ? 'rgb(var(--signal))' : 'var(--foreground)' }}
-                      >
-                        {st.n}
-                      </text>
-                      <text
-                        x={hub.x}
-                        y={hub.y + 12}
-                        textAnchor="middle"
-                        className="font-mono-lab pointer-events-none select-none"
-                        style={{ fontSize: 8, letterSpacing: '0.1em', fill: 'var(--faint)' }}
-                      >
-                        {st.k}
-                      </text>
-                      <text
-                        x={hub.x}
-                        y={hub.y - HUB_R - 12}
-                        textAnchor="middle"
-                        className="pointer-events-none select-none"
-                        style={{ fontSize: 13, fontWeight: 300, fill: 'var(--prose)' }}
-                      >
-                        {st.name}
-                      </text>
-                      <text
-                        x={hub.x}
-                        y={hub.y + HUB_R + 22}
-                        textAnchor="middle"
-                        className="font-mono-lab pointer-events-none select-none"
-                        style={{ fontSize: 9, letterSpacing: '0.1em', fill: 'var(--faint)' }}
-                      >
-                        {st.items.length} TICKERS
-                      </text>
-                    </g>
-                  )
-                })}
-              </svg>
+              <ChainFlow
+                stages={stages}
+                sel={sel}
+                setSel={setSel}
+                hover={hover}
+                setHover={setHover}
+                sizeMode={sizeMode}
+                byTicker={byTicker}
+                maxUsd={maxUsd}
+                quotes={quotes}
+                flowing={mode === 'flow'}
+                hasDive={(t) => !!companies[t]}
+                label={c.hint}
+              />
             </div>
           </Reveal>
 
@@ -423,21 +241,21 @@ export default function AiValueChain() {
           <Reveal delay={120}>
             <div className="mt-8 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-12">
               <div className="bg-panel p-7 md:col-span-3 md:p-9">
-                <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.detail.stage}</div>
+                <div className="font-mono-lab text-[10.5px] tracking-[0.3em] text-faint">{c.detail.stage}</div>
                 <div className="mt-3 flex items-baseline gap-3">
-                  <span className="font-mono-lab text-[10px] text-signal" dir="ltr">{selStage.n}</span>
+                  <span className="font-mono-lab text-[11.5px] text-signal" dir="ltr">{selStage.n}</span>
                   <span className="text-lg font-light tracking-tight">{selStage.name}</span>
                 </div>
-                <p className="mt-4 font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{selStage.desc}</p>
+                <p className="mt-4 font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{selStage.desc}</p>
               </div>
               <div className="bg-panel p-7 md:col-span-6 md:p-9">
                 <div className="flex items-baseline justify-between gap-4">
-                  <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.detail.role}</div>
+                  <div className="font-mono-lab text-[10.5px] tracking-[0.3em] text-faint">{c.detail.role}</div>
                   <div className="flex items-center gap-2">
-                    <span className="border border-line px-2 py-0.5 font-mono-lab text-[8px] tracking-[0.2em] text-dim" dir="ltr">
+                    <span className="border border-line px-2 py-0.5 font-mono-lab text-[9.5px] tracking-[0.2em] text-dim" dir="ltr">
                       {countryOf(selItem.t)}
                     </span>
-                    <span className="border border-line px-2 py-0.5 font-mono-lab text-[8px] tracking-[0.2em] text-dim" dir="ltr">
+                    <span className="border border-line px-2 py-0.5 font-mono-lab text-[9.5px] tracking-[0.2em] text-dim" dir="ltr">
                       {selItem.priv ? c.legend.private : c.legend.listed}
                     </span>
                   </div>
@@ -446,18 +264,18 @@ export default function AiValueChain() {
                   <span className="font-mono-lab text-2xl tracking-tight text-signal" dir="ltr">{selItem.t}</span>
                   <span className="text-xl font-light tracking-tight">{selItem.name}</span>
                 </div>
-                <p className="mt-4 font-mono-lab text-[12px] leading-6 tracking-wide text-foreground/80">{selItem.role}</p>
+                <p className="mt-4 font-mono-lab text-[13px] leading-6 tracking-wide text-foreground/80">{selItem.role}</p>
                 {selCompany && (price || marketCap) && (
                   <div className="mt-5 flex flex-wrap gap-6 border-t border-line pt-4">
                     {(price || liveQuote) && (
                       <div>
-                        <div className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">
+                        <div className="font-mono-lab text-[9.5px] tracking-[0.2em] text-faint">
                           PRICE {liveQuote && <span className="text-signal">· LIVE</span>}
                         </div>
                         <div className="mt-1 font-mono-lab text-sm tabular-nums text-foreground" dir="ltr">
                           {liveQuote ? formatMoney(liveQuote.price, liveQuote.currency ?? currencyOf(selItem.t)) : price}
                           {liveQuote?.changePercent != null && (
-                            <span className={cn('ms-1.5 text-[11px]', liveQuote.changePercent >= 0 ? 'text-signal' : 'text-danger')}>
+                            <span className={cn('ms-1.5 text-[12.5px]', liveQuote.changePercent >= 0 ? 'text-signal' : 'text-danger')}>
                               {liveQuote.changePercent >= 0 ? '+' : ''}{liveQuote.changePercent.toFixed(2)}%
                             </span>
                           )}
@@ -466,7 +284,7 @@ export default function AiValueChain() {
                     )}
                     {marketCap && (
                       <div>
-                        <div className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">MARKET CAP</div>
+                        <div className="font-mono-lab text-[9.5px] tracking-[0.2em] text-faint">MARKET CAP</div>
                         <div
                           className="mt-1 font-mono-lab text-sm tabular-nums text-foreground"
                           dir="ltr"
@@ -478,7 +296,7 @@ export default function AiValueChain() {
                     )}
                     {selCap?.share != null && (
                       <div>
-                        <div className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">{c.sizing.shareLabel}</div>
+                        <div className="font-mono-lab text-[9.5px] tracking-[0.2em] text-faint">{c.sizing.shareLabel}</div>
                         <div className="mt-1 flex items-baseline gap-2" dir="ltr">
                           <span className="font-mono-lab text-sm tabular-nums text-signal">
                             {(selCap.share * 100).toFixed(1)}%
@@ -498,31 +316,31 @@ export default function AiValueChain() {
                   {selCompany ? (
                     <Link
                       to={`/companies/${selItem.t}`}
-                      className="inline-flex items-center gap-2 border border-signal/50 px-4 py-2 font-mono-lab text-[10px] tracking-[0.2em] text-signal transition-all duration-300 hover:bg-signal hover:text-[#0c0e12]"
+                      className="inline-flex items-center gap-2 border border-signal/50 px-4 py-2 font-mono-lab text-[11.5px] tracking-[0.2em] text-signal transition-all duration-300 hover:bg-signal hover:text-[#0c0e12]"
                     >
                       DEEP DIVE →
                     </Link>
                   ) : (
-                    <span className="font-mono-lab text-[10px] tracking-[0.2em] text-faint">NO DEEP DIVE ON FILE YET</span>
+                    <span className="font-mono-lab text-[11.5px] tracking-[0.2em] text-faint">NO DEEP DIVE ON FILE YET</span>
                   )}
                 </div>
                 {selCap?.share != null && (
-                  <p className="mt-5 border-t border-line pt-4 font-mono-lab text-[9.5px] leading-4 tracking-wide text-faint">
+                  <p className="mt-5 border-t border-line pt-4 font-mono-lab text-[12.5px] leading-6 tracking-wide text-faint">
                     {c.sizing.shareNote}
                   </p>
                 )}
               </div>
               <div className="bg-panel p-7 md:col-span-3 md:p-9">
-                <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.detail.exposure}</div>
+                <div className="font-mono-lab text-[10.5px] tracking-[0.3em] text-faint">{c.detail.exposure}</div>
                 <div className="mt-4 flex flex-col gap-2">
-                  <div className="flex items-center justify-between font-mono-lab text-[10px] tracking-wider">
+                  <div className="flex items-center justify-between font-mono-lab text-[11.5px] tracking-wider">
                     <span className="text-dim">{c.legend.upstream}</span>
                     <span className="text-signal" dir="ltr">{sel.s === 0 ? '—' : `${sel.s} ${sel.s === 1 ? 'STAGE' : 'STAGES'}`}</span>
                   </div>
                   <div className="h-1 w-full bg-track">
                     <div className="h-full bg-signal/70 transition-all duration-500" style={{ width: `${(sel.s / (stages.length - 1)) * 100}%` }} />
                   </div>
-                  <div className="flex items-center justify-between font-mono-lab text-[10px] tracking-wider">
+                  <div className="flex items-center justify-between font-mono-lab text-[11.5px] tracking-wider">
                     <span className="text-dim">{c.legend.downstream}</span>
                     <span className="text-signal" dir="ltr">
                       {stages.length - 1 - sel.s === 0 ? '—' : `${stages.length - 1 - sel.s} ${stages.length - 1 - sel.s === 1 ? 'STAGE' : 'STAGES'}`}
@@ -562,10 +380,10 @@ export default function AiValueChain() {
             ))}
           </div>
           <Reveal className="mt-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-            <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{c.picks.note}</p>
+            <p className="font-mono-lab text-[11.5px] leading-6 tracking-wider text-faint">{c.picks.note}</p>
             <Link
               to="/analysis/ideas"
-              className="border border-foreground/30 px-6 py-2.5 font-mono-lab text-[10px] tracking-[0.25em] transition-all duration-300 hover:border-signal hover:bg-signal hover:text-[#0c0e12]"
+              className="border border-foreground/30 px-6 py-2.5 font-mono-lab text-[11.5px] tracking-[0.25em] transition-all duration-300 hover:border-signal hover:bg-signal hover:text-[#0c0e12]"
             >
               {t.nav.sub.ideas.label} →
             </Link>
