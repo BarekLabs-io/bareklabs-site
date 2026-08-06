@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { MarketCanvas, Reveal, useLivePrice, useSpotlight } from '@/components/lab'
 import { WorldMap } from '@/components/WorldMap'
+import { LiveDesk } from '@/components/LiveDesk'
 import { SectionHead, TICKER_ITEMS } from '@/components/Layout'
 import { BrandMark } from '@/components/Brand'
 import { useLang } from '@/i18n/LanguageContext'
@@ -109,10 +110,18 @@ export default function Home() {
           </Reveal>
         </div>
         {/* corner metadata */}
-        <div className="pointer-events-none absolute end-5 top-24 z-10 hidden font-mono-lab text-[10px] leading-5 tracking-wider text-dim md:end-10 md:block">
+        <div className="pointer-events-none absolute end-5 top-24 z-10 hidden font-mono-lab text-[10px] leading-5 tracking-wider text-dim md:end-10 md:block xl:hidden">
           <div className="flicker" dir="ltr">BVX COMP <LiveQuote /></div>
           <div className="text-faint">{t.home.cornerFeed}</div>
         </div>
+
+        {/* live desk — hidden below xl so it never crowds the hero text */}
+        <Reveal delay={500} className="pointer-events-none absolute end-5 top-32 z-10 hidden w-[300px] xl:block xl:end-10">
+          <div className="mb-3 font-mono-lab text-[10px] leading-5 tracking-wider text-dim" dir="ltr">
+            <span className="flicker">BVX COMP <LiveQuote /></span>
+          </div>
+          <LiveDesk />
+        </Reveal>
       </section>
 
       <Ticker />

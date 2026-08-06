@@ -57,6 +57,13 @@ export const en = {
       'AN INDEPENDENT FINANCE & TECH LAB. WE PUBLISH RESEARCH, ENGINEER SIGNALS, TRACK EXECUTION AND ADVISE COMPANIES ON FINANCIAL & TECHNOLOGY TRANSFORMATION — IN THE OPEN, WITH RECEIPTS.',
     heroCta: 'ENTER THE LAB →',
     cornerFeed: 'FEED: REALTIME / DELAYED MIX',
+    liveDesk: {
+      watchlist: 'WATCHLIST',
+      majors: 'MAJORS',
+      signalLabel: 'SOUK SIGNAL',
+      signalCta: "Today's composite read →",
+      feedLabel: 'FROM THE LAB',
+    },
     manifesto: {
       label: '§ MANIFESTO',
       meta: 'EST. 2026\nPARIS / DUBAI / TUNIS\nINDEPENDENT, SELF-FUNDED',

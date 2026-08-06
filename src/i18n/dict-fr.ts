@@ -59,6 +59,13 @@ export const fr: Dict = {
       'UN LABO FINANCE & TECH INDÉPENDANT. NOUS PUBLIONS DE LA RECHERCHE, CONSTRUISONS DES SIGNAUX, SUIVONS L’EXÉCUTION ET ACCOMPAGNONS LA TRANSFORMATION FINANCIÈRE & TECHNOLOGIQUE DES ENTREPRISES — EN TOUTE TRANSPARENCE, AVEC LES PREUVES.',
     heroCta: 'ENTRER DANS LE LABO →',
     cornerFeed: 'FLUX : TEMPS RÉEL / DIFFÉRÉ MIXTE',
+    liveDesk: {
+      watchlist: 'LISTE DE SUIVI',
+      majors: 'PRINCIPAUX',
+      signalLabel: 'SOUK SIGNAL',
+      signalCta: "La lecture composite du jour →",
+      feedLabel: 'DEPUIS LE LABO',
+    },
     manifesto: {
       label: '§ MANIFESTE',
       meta: 'CRÉÉ EN 2026\nPARIS / DUBAÏ / TUNIS\nINDÉPENDANT, AUTOFINANCÉ',
