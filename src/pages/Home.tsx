@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { MarketCanvas, Reveal, useLivePrice, useSpotlight } from '@/components/lab'
+import { WorldMap } from '@/components/WorldMap'
 import { SectionHead, TICKER_ITEMS } from '@/components/Layout'
 import { BrandMark } from '@/components/Brand'
 import { useLang } from '@/i18n/LanguageContext'
@@ -95,7 +96,7 @@ export default function Home() {
           </h1>
           <Reveal delay={400}>
             <div className="pointer-events-auto mt-8 flex flex-col justify-between gap-6 border-t border-line pt-6 md:flex-row md:items-end">
-              <p className="max-w-xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.home.heroDesc}</p>
+              <p className="max-w-2xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim md:text-[14px] md:leading-7">{t.home.heroDesc}</p>
               <div className="flex items-center gap-6">
                 <Link
                   to="/analysis"
@@ -121,8 +122,11 @@ export default function Home() {
         <div className="mx-auto max-w-[1440px] px-5 py-24 md:px-10 md:py-36">
           <div className="grid gap-12 md:grid-cols-12">
             <Reveal className="md:col-span-4">
-              <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">{m.label}</div>
-              <div className="mt-4 whitespace-pre-line font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{m.meta}</div>
+              <div className="font-mono-lab text-[11px] tracking-[0.3em] text-signal">{m.label}</div>
+              <div className="mt-4 whitespace-pre-line font-mono-lab text-[11px] leading-6 tracking-wider text-faint">{m.meta}</div>
+              <div className="relative mt-8 h-52 border border-line bg-card2/40 md:h-64">
+                <WorldMap className="absolute inset-0 h-full w-full" />
+              </div>
             </Reveal>
             <div className="md:col-span-8">
               <Reveal delay={100}>
