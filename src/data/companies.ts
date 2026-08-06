@@ -430,12 +430,12 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['ATEYY (USD)', '6857.T (JPY)'],
       metrics: [
-        { label: 'Price', values: ['$172.93', '¥25,200'] },
-        { label: 'Market cap', values: ['$125B', '¥18.2T'] },
-        { label: 'Trailing P/E', values: ['55.1x', '49.5x'] },
+        { label: 'Price', values: ['$207.74 (Aug 6, 2026)', '¥25,200'] },
+        { label: 'Market cap', values: ['$150B (mechanically rescaled from $125B on the Aug 6, 2026 price; not independently re-derived)', '¥18.2T'] },
+        { label: 'Trailing P/E', values: ['66.2x (mechanically rescaled from 55.1x on the Aug 6, 2026 price; not independently re-derived)', '49.5x'] },
         { label: 'Forward P/E', values: ['N/A', '37.5x'] },
-        { label: 'P/S', values: ['16.8x', '16.5x'] },
-        { label: 'P/B', values: ['25.7x', '23.2x'] },
+        { label: 'P/S', values: ['20.2x (mechanically rescaled from 16.8x on the Aug 6, 2026 price; not independently re-derived)', '16.5x'] },
+        { label: 'P/B', values: ['30.9x (mechanically rescaled from 25.7x on the Aug 6, 2026 price; not independently re-derived)', '23.2x'] },
         { label: 'EV/EBITDA', values: ['33.3x', '33.3x'] },
         { label: 'Beta', values: ['1.19', '1.19'] },
         { label: 'ROE', values: ['57.6%', '57.6%'] },
@@ -2137,9 +2137,9 @@ export const companies: Record<string, Company> = {
   valuation: {
     peers: ['6146.T', '7729.T', 'AMAT'],
     metrics: [
-      { label: 'Price', values: ['¥71,900', '—', '$452.14'] },
-      { label: 'Market cap', values: ['~¥7.87T (~$36.4B)', '~¥782B (~$5.3B)', '$359B'] },
-      { label: 'Trailing P/E', values: ['~50.8x', '~26.4x', '42.5x'] },
+      { label: 'Price', values: ['¥61,590 (Aug 6, 2026)', '—', '$452.14'] },
+      { label: 'Market cap', values: ['~¥6.74T (~$31.2B) (mechanically rescaled from ~¥7.87T on the Aug 6, 2026 price; not independently re-derived)', '~¥782B (~$5.3B)', '$359B'] },
+      { label: 'Trailing P/E', values: ['~43.5x (mechanically rescaled from ~50.8x on the Aug 6, 2026 price; not independently re-derived)', '~26.4x', '42.5x'] },
       { label: 'Dividend yield', values: ['~0.9%', '—', '0.41%'] },
       { label: 'Beta', values: ['~0.9–1.0', '—', '1.57'] },
       { label: 'Revenue growth (latest Q guide)', values: ['+18.0%', '—', '~30%'] },
@@ -2342,9 +2342,9 @@ export const companies: Record<string, Company> = {
   valuation: {
     peers: ['4004.T', '4063.T', '4203.T'],
     metrics: [
-      { label: 'Price', values: ['¥18,680 (Aug 4, 2026)', '—', '¥5,472'] },
-      { label: 'Market cap', values: ['~¥4.33T (~$22–28B; rescaled from ~¥3.36T pre-refresh, not independently re-verified)', '¥14.47T', '~¥447B (~$3.0B)'] },
-      { label: 'Trailing P/E', values: ['~47.4x (rescaled from ~36.8x pre-refresh, not independently re-verified)', '—', '—'] },
+      { label: 'Price', values: ['¥15,155 (Aug 6, 2026)', '—', '¥5,472'] },
+      { label: 'Market cap', values: ['~¥3.51T (mechanically rescaled from ~¥4.33T on the Aug 6, 2026 price; not independently re-derived)', '¥14.47T', '~¥447B (~$3.0B)'] },
+      { label: 'Trailing P/E', values: ['~38.5x (mechanically rescaled from ~47.4x on the Aug 6, 2026 price; not independently re-derived)', '—', '—'] },
       { label: 'Forward P/E', values: ['—', '~22.3x', '—'] },
       { label: 'Dividend yield', values: ['~0.4–2.3% (source-dependent)', '—', '—'] },
       { label: 'Beta', values: ['1.27', '—', '—'] },
@@ -2548,9 +2548,9 @@ export const companies: Record<string, Company> = {
   valuation: {
     peers: ['6278.T', '6136.T'],
     metrics: [
-      { label: 'Price', values: ['¥22,700', '—'] },
-      { label: 'Market cap', values: ['~¥393.6B (~$2.6B)', '~¥307B (~$1.1B)'] },
-      { label: 'Trailing P/E', values: ['~64.4x', '~12.3x'] },
+      { label: 'Price', values: ['¥18,230 (Aug 6, 2026)', '—'] },
+      { label: 'Market cap', values: ['~¥316.1B (~$2.1B) (mechanically rescaled from ~¥393.6B on the Aug 6, 2026 price; not independently re-derived)', '~¥307B (~$1.1B)'] },
+      { label: 'Trailing P/E', values: ['~51.7x (mechanically rescaled from ~64.4x on the Aug 6, 2026 price; not independently re-derived)', '~12.3x'] },
       { label: 'P/S', values: ['—', '~1.18x'] },
       { label: 'P/B', values: ['—', '~1.16x'] },
       { label: 'Dividend yield', values: ['~0.55%', '—'] },
@@ -2862,11 +2862,11 @@ export const companies: Record<string, Company> = {
   valuation: {
     peers: ['000660.KS', '005930.KS', 'MU'],
     metrics: [
-      { label: 'Price', values: ['₩1,668,000 (Aug 5, 2026)', '₩248,250', '$873.29'] },
-      { label: 'Market cap', values: ['₩1,215.75T (~$833.8B)', '₩1,527.6T (~$1.13T)', '$1.008T'] },
-      { label: 'Trailing P/E', values: ['~16.6x', '~10.9x (computed: price / TTM EPS ₩22,704)', '19.7x'] },
-      { label: 'Forward P/E', values: ['~6.8x', '~6.8x', '~6.1x'] },
-      { label: 'P/B', values: ['~8.0x', '3.64x', 'n/a'] },
+      { label: 'Price', values: ['1,495,000 (Aug 6, 2026)', '₩248,250', '$873.29'] },
+      { label: 'Market cap', values: ['₩1,089.66T (~$747.3B) (mechanically rescaled from ₩1,215.75T on the Aug 6, 2026 price; not independently re-derived)', '₩1,527.6T (~$1.13T)', '$1.008T'] },
+      { label: 'Trailing P/E', values: ['~14.9x (mechanically rescaled from ~16.6x on the Aug 6, 2026 price; not independently re-derived)', '~10.9x (computed: price / TTM EPS ₩22,704)', '19.7x'] },
+      { label: 'Forward P/E', values: ['~6.1x (mechanically rescaled from ~6.8x on the Aug 6, 2026 price; not independently re-derived)', '~6.8x', '~6.1x'] },
+      { label: 'P/B', values: ['~7.2x (mechanically rescaled from ~8.0x on the Aug 6, 2026 price; not independently re-derived)', '3.64x', 'n/a'] },
       { label: 'ROE (TTM)', values: ['~61%', '30.8%', '66.6%'] },
       { label: 'Dividend yield', values: ['0.17%', '0.61%', '0.07%'] },
       { label: 'Op. margin (Q2 2026)', values: ['76%', 'n/a', 'n/a'] },
@@ -3194,9 +3194,9 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['300476.SZ', '002916.SZ', '002463.SZ'],
       metrics: [
-        { label: 'Price', values: ['¥201.22', '~¥217-333 (volatile)', '¥128.83'] },
-        { label: 'Market cap', values: ['~¥198B (~$28B)', '~¥180-260B (noisy)', '~¥241B'] },
-        { label: 'Trailing P/E', values: ['~46x', 'n/a', '~56.5x'] },
+        { label: 'Price', values: ['250.00 (Aug 6, 2026)', '~¥217-333 (volatile)', '¥128.83'] },
+        { label: 'Market cap', values: ['~¥246B (~$35B) (mechanically rescaled from ~¥198B on the Aug 6, 2026 price; not independently re-derived)', '~¥180-260B (noisy)', '~¥241B'] },
+        { label: 'Trailing P/E', values: ['~57x (mechanically rescaled from ~46x on the Aug 6, 2026 price; not independently re-derived)', 'n/a', '~56.5x'] },
         { label: 'Forward P/E', values: ['n/a', 'n/a', '~35.6x'] },
         { label: 'Gross margin', values: ['35.2% (FY2025)', 'n/a', 'n/a'] },
         { label: 'Net margin', values: ['~22.3% (FY2025)', 'n/a', 'n/a'] },
@@ -3306,9 +3306,9 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['301377.SZ', '6278.T'],
       metrics: [
-        { label: 'Price', values: ['¥548.70', '¥22,700'] },
-        { label: 'Market cap', values: ['~¥243B', '~$1.6B'] },
-        { label: 'Trailing P/E', values: ['~245x', 'n/a'] },
+        { label: 'Price', values: ['428.00 (Aug 6, 2026)', '¥22,700'] },
+        { label: 'Market cap', values: ['~¥189B (mechanically rescaled from ~¥243B on the Aug 6, 2026 price; not independently re-derived)', '~$1.6B'] },
+        { label: 'Trailing P/E', values: ['~191x (mechanically rescaled from ~245x on the Aug 6, 2026 price; not independently re-derived)', 'n/a'] },
         { label: 'ROE', values: ['~22.7% (TTM)', 'n/a'] },
         { label: 'Net margin', values: ['~24.5% (TTM)', 'n/a'] },
         { label: 'Gross margin', values: ['38.05% (Q1 2025)', 'n/a'] },
@@ -4291,10 +4291,10 @@ FN: {
   valuation: {
     peers: ['FN', 'CIEN', 'LITE', 'AAOI'],
     metrics: [
-      { label: 'Price', values: ['$443.60', '$408.30', '$849.47', '$131.63'] },
-      { label: 'Market cap', values: ['$15.9B', '$58.35B', '$54.94B', '~$10.6B'] },
+      { label: 'Price', values: ['$543.95 (Aug 6, 2026)', '$408.30', '$849.47', '$131.63'] },
+      { label: 'Market cap', values: ['$19.5B (mechanically rescaled from $15.9B on the Aug 6, 2026 price; not independently re-derived)', '$58.35B', '$54.94B', '~$10.6B'] },
       { label: 'Revenue growth YoY', values: ['+39%', '+40%', '+90%', '+51%'] },
-      { label: 'Forward P/E', values: ['44.1x', '45.3x', '44.3x', '—'] },
+      { label: 'Forward P/E', values: ['54.1x (mechanically rescaled from 44.1x on the Aug 6, 2026 price; not independently re-derived)', '45.3x', '44.3x', '—'] },
       { label: 'Gross margin', values: ['12.0%', '44.9%', '47.9%', '—'] },
       { label: 'Beta', values: ['1.22', '—', '—', '—'] },
     ],
@@ -4399,9 +4399,9 @@ CAMT: {
   valuation: {
     peers: ['CAMT', 'KLAC', 'ONTO', 'NVMI'],
     metrics: [
-      { label: 'Price', values: ['$171.00', '$193.81', '$280.39', '$437.98'] },
-      { label: 'Market cap', values: ['$6.56B', '~$253B', '$13.94B', '$13.93B'] },
-      { label: 'Forward P/E', values: ['36.4x', '26.7x', '34.9x', '37.2x'] },
+      { label: 'Price', values: ['$149.67 (Aug 6, 2026)', '$193.81', '$280.39', '$437.98'] },
+      { label: 'Market cap', values: ['$5.74B (mechanically rescaled from $6.56B on the Aug 6, 2026 price; not independently re-derived)', '~$253B', '$13.94B', '$13.93B'] },
+      { label: 'Forward P/E', values: ['31.9x (mechanically rescaled from 36.4x on the Aug 6, 2026 price; not independently re-derived)', '26.7x', '34.9x', '37.2x'] },
       { label: 'Revenue growth', values: ['+25% (H2 vs. H1 2026 guide)', '—', '—', '+30% (2026 guide)'] },
     ],
     verdictTone: 'fair',
@@ -4612,8 +4612,8 @@ NBIS: {
   valuation: {
     peers: ['NBIS', 'CRWV', 'IREN', 'APLD'],
     metrics: [
-      { label: 'Price', values: ['$221.92', '$91.90', '$41.17', '—'] },
-      { label: 'Market cap', values: ['$63.4B', '~$49-56B', '~$14.7B', '$7.98B'] },
+      { label: 'Price', values: ['$189.88 (Aug 6, 2026)', '$91.90', '$41.17', '—'] },
+      { label: 'Market cap', values: ['$54.2B (mechanically rescaled from $63.4B on the Aug 6, 2026 price; not independently re-derived)', '~$49-56B', '~$14.7B', '$7.98B'] },
       { label: 'Revenue growth YoY', values: ['+684% (Q1 2026)', '+168% (FY2025)', '—', '+407% (Q4 FY2026)'] },
       { label: 'Beta', values: ['1.40', '—', '4.28', '—'] },
     ],
@@ -5328,8 +5328,8 @@ NBIS: {
   valuation: {
     peers: ['BWEN — Broadwind', 'TPIC — TPI Composites', 'No close direct public pure-play peer for the post-pivot Gearing/Industrial Solutions mix'],
     metrics: [
-      { label: 'Price (Aug 5, 2026)', values: ['$5.03', 'varies (distressed)'] },
-      { label: 'Market cap (approx.)', values: ['~$113M (rescaled from ~$90M pre-refresh, not independently re-verified)', 'much smaller/distressed'] },
+      { label: 'Price (Aug 5, 2026)', values: ['$4.47 (Aug 6, 2026)', 'varies (distressed)'] },
+      { label: 'Market cap (approx.)', values: ['~$100M (mechanically rescaled from ~$113M on the Aug 6, 2026 price; not independently re-derived)', 'much smaller/distressed'] },
       { label: 'Q1 2026 revenue', values: ['$34.1M (-7.5% YoY)', 'n/a'] },
       { label: 'FY2026 revenue guidance', values: ['~$144.17M', 'n/a'] },
       { label: '52-week price range', values: ['$1.88 - $5.52', 'n/a'] },
@@ -5428,8 +5428,8 @@ NBIS: {
   valuation: {
     peers: ['AUUA.V — Aluula Composites', 'No direct public pure-play peer identified'],
     metrics: [
-      { label: 'Price (CAD, 2026, varies by date)', values: ['CAD $3.08 - $3.67 (thin, volatile trading across 2026)'] },
-      { label: 'Market cap (CAD, approx.)', values: ['~CAD $95-105M (varies by source/date)'] },
+      { label: 'Price (CAD, 2026, varies by date)', values: ['C$3.70 (Aug 6, 2026)'] },
+      { label: 'Market cap (CAD, approx.)', values: ['~CAD $114-126M (mechanically rescaled from ~CAD $95-105M on the Aug 6, 2026 price; not independently re-derived)'] },
       { label: 'Shares outstanding (approx.)', values: ['~30.87M (up ~99% YoY)'] },
       { label: 'TTM revenue (CAD, approx.)', values: ['~CAD $8.94M'] },
       { label: 'TTM net loss (CAD, approx.)', values: ['~-CAD $1.62M'] },
