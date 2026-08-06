@@ -4,6 +4,8 @@ import { PageHero, SectionHead } from '@/components/Layout'
 import { cn } from '@/lib/utils'
 import { companies } from '@/data/companies'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
+import { useFundamentals } from '@/lib/useFundamentals'
+import { formatUsdCompact, parseMarketCapUsd } from '@/lib/marketCap'
 import { currencyOf, formatMoney } from '@/data/valueChain'
 import { parseMetricValue } from '@/lib/priceSeries'
 
@@ -27,6 +29,7 @@ function researchedPrice(ticker: string): number | null {
 export default function DataAudit() {
   const tickers = useMemo(() => Object.keys(companies).sort(), [])
   const { quotes, asOf } = useLiveQuotes(tickers)
+  const { fundamentals, configured } = useFundamentals(tickers)
 
   const rows = useMemo(() => {
     return tickers
@@ -34,7 +37,13 @@ export default function DataAudit() {
         const snap = researchedPrice(t)
         const live = quotes[t]?.price ?? null
         const drift = snap != null && live != null && snap > 0 ? (live - snap) / snap : null
-        return { t, name: companies[t].name, asOf: companies[t].asOf, snap, live, drift }
+        /* Market cap is the second figure a stale snapshot corrupts, and
+         * unlike price we have never had anything to check it against. */
+        const capRaw = companies[t].valuation.metrics.find((mm) => /market cap/i.test(mm.label))?.values[0]
+        const capOurs = parseMarketCapUsd(capRaw, currencyOf(t))
+        const capReal = fundamentals[t]?.marketCap ?? null
+        const capDrift = capOurs != null && capReal != null && capOurs > 0 ? (capReal - capOurs) / capOurs : null
+        return { t, name: companies[t].name, asOf: companies[t].asOf, snap, live, drift, capOurs, capReal, capDrift }
       })
       .sort((a, b) => {
         // Worst first — this page exists to surface the problems, not the roster.
@@ -43,7 +52,7 @@ export default function DataAudit() {
         if (b.drift == null) return -1
         return Math.abs(b.drift) - Math.abs(a.drift)
       })
-  }, [tickers, quotes])
+  }, [tickers, quotes, fundamentals])
 
   const checked = rows.filter((r) => r.drift != null)
   const stale = checked.filter((r) => Math.abs(r.drift!) > DRIFT_LIMIT)
@@ -60,7 +69,7 @@ export default function DataAudit() {
 
       <section>
         <div className="mx-auto max-w-[1440px] px-5 py-12 md:px-10">
-          <div className="grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
             <div className="bg-panel p-5">
               <div className="font-mono-lab text-[10px] tracking-[0.2em] text-faint">TICKERS COVERED</div>
               <div className="mt-1.5 font-mono-lab text-2xl tabular-nums text-foreground">{rows.length}</div>
@@ -78,6 +87,20 @@ export default function DataAudit() {
             <div className="bg-panel p-5">
               <div className="font-mono-lab text-[10px] tracking-[0.2em] text-faint">NO QUOTE</div>
               <div className="mt-1.5 font-mono-lab text-2xl tabular-nums text-dim">{noQuote.length}</div>
+            </div>
+            <div className="bg-panel p-5">
+              <div className="font-mono-lab text-[10px] tracking-[0.2em] text-faint">FUNDAMENTALS FEED</div>
+              <div
+                className={cn(
+                  'mt-1.5 font-mono-lab text-2xl tabular-nums',
+                  configured == null ? 'text-dim' : configured ? 'text-signal' : 'text-danger'
+                )}
+              >
+                {configured == null ? '…' : configured ? 'ON' : 'OFF'}
+              </div>
+              <div className="mt-1 font-mono-lab text-[10px] leading-4 text-faint">
+                {configured === false ? 'FMP_API_KEY not set on this deployment' : `${Object.keys(fundamentals).length} answered`}
+              </div>
             </div>
           </div>
 
@@ -98,7 +121,7 @@ export default function DataAudit() {
             right={asOf ? `FEED ${new Date(asOf).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}` : 'WAITING'}
           />
           <div className="overflow-x-auto border border-line">
-            <table className="w-full min-w-[720px]">
+            <table className="w-full min-w-[960px]">
               <thead>
                 <tr className="border-b border-line bg-card2 font-mono-lab text-[10px] tracking-[0.2em] text-faint">
                   <th className="px-5 py-3 text-start">TICKER</th>
@@ -106,6 +129,8 @@ export default function DataAudit() {
                   <th className="px-5 py-3 text-end">RESEARCHED</th>
                   <th className="px-5 py-3 text-end">LIVE</th>
                   <th className="px-5 py-3 text-end">DRIFT</th>
+                  <th className="px-5 py-3 text-end">CAP (OURS)</th>
+                  <th className="px-5 py-3 text-end">CAP (FEED)</th>
                   <th className="px-5 py-3 text-end">SNAPSHOT</th>
                 </tr>
               </thead>
@@ -135,6 +160,23 @@ export default function DataAudit() {
                         dir="ltr"
                       >
                         {r.drift != null ? `${r.drift >= 0 ? '+' : ''}${(r.drift * 100).toFixed(1)}%` : '—'}
+                      </td>
+                      <td className="px-5 py-3 text-end font-mono-lab text-[12px] tabular-nums text-dim" dir="ltr">
+                        {r.capOurs != null ? formatUsdCompact(r.capOurs) : '—'}
+                      </td>
+                      <td
+                        className={cn(
+                          'px-5 py-3 text-end font-mono-lab text-[12px] tabular-nums',
+                          r.capDrift != null && Math.abs(r.capDrift) > DRIFT_LIMIT ? 'text-danger' : 'text-foreground'
+                        )}
+                        dir="ltr"
+                      >
+                        {r.capReal != null ? formatUsdCompact(r.capReal) : '—'}
+                        {r.capDrift != null && (
+                          <span className="ms-1.5 text-[10px] text-faint">
+                            {r.capDrift >= 0 ? '+' : ''}{(r.capDrift * 100).toFixed(0)}%
+                          </span>
+                        )}
                       </td>
                       <td className="px-5 py-3 text-end font-mono-lab text-[11px] text-faint" dir="ltr">{r.asOf}</td>
                     </tr>
