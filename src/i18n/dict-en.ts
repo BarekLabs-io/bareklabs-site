@@ -92,19 +92,18 @@ export const en = {
       ],
     },
     numbers: [
-      { k: '128', l: 'RESEARCH NOTES PUBLISHED' },
-      { k: '342', l: 'TRADES LOGGED & AUDITED' },
-      { k: '04', l: 'LIVE SIGNAL FEEDS' },
+      { k: '68', l: 'COMPANIES COVERED IN THE SCREENER' },
+      { k: '13', l: 'MARKETS, TOKYO TO TORONTO' },
+      { k: '04', l: 'LIVE MODULES — RESEARCH, SIGNAL, TRACKER' },
       { k: '24/7', l: 'MARKET SURVEILLANCE' },
     ],
     feed: {
       head: 'Latest from the lab',
       headRight: 'UPDATED DAILY',
       items: [
-        { d: '2026.08.03', tag: 'INSIGHT', t: 'Liquidity cycles in frontier exchanges: a breadth-first autopsy', to: '/analysis/insights' },
-        { d: '2026.08.01', tag: 'IDEA', t: 'Long consolidation: banking names vs. rate path — a barbell', to: '/analysis/ideas' },
-        { d: '2026.07.29', tag: 'SIGNAL', t: 'SOUK: turnover compression precedes expansion — watchlist reset', to: '/souk-signal' },
-        { d: '2026.07.26', tag: 'TRACKER', t: 'Closed: ETH momentum leg, +6.4% R — full log inside', to: '/trade-tracker/crypto' },
+        { d: '2026.08.04', tag: 'ENERGY & SPACE', t: 'The New Space Economy: SPCX, RKLB, ASTS — repriced in public', to: '/analysis/space-economy' },
+        { d: 'LIVE', tag: 'SIGNAL', t: "Souk Signal: today's composite read on regional markets", to: '/souk-signal' },
+        { d: 'LIVE', tag: 'SCREENER', t: '68 companies, one screener — valuation and risk at a glance', to: '/trade-tracker/screener' },
       ],
     },
     cta: {
@@ -183,68 +182,22 @@ export const en = {
     head: 'Open theses',
     headRight: 'CLICK TO EXPAND',
     disclaimer: 'IDEAS ARE RESEARCH ARTEFACTS, NOT RECOMMENDATIONS. SIZING AND EXECUTION LIVE IN THE TRADE TRACKER.',
-    items: [
-      {
-        id: 'IDEA-0142',
-        date: '2026.08.01',
-        status: 'ACTIVE' as const,
-        sector: 'BANKS',
-        title: 'Banking barbell: rate-path consolidation',
-        thesis: 'Large-cap banks price a cut that the data keeps postponing. Pair quality deposit franchises against rate-sensitive lenders.',
-        entry: 'Staggered, 3 tranches on breadth resets',
-        invalidation: 'Yield curve re-steepens >25bp in a month',
-        horizon: '2–4 MONTHS',
-        scenarios: [
-          { label: 'BASE', prob: 55, tone: 'up' as const },
-          { label: 'BULL', prob: 25, tone: 'up' as const },
-          { label: 'BEAR', prob: 20, tone: 'down' as const },
-        ],
-      },
-      {
-        id: 'IDEA-0139',
-        date: '2026.07.24',
-        status: 'WATCHING' as const,
-        sector: 'TELECOM',
-        title: 'Telecom cash-flow rerating',
-        thesis: 'Capex cycle peaks while data monetisation inflects. Free cash flow inflection unpriced by a market anchored to legacy multiples.',
-        entry: 'On confirmed FCF inflection print',
-        invalidation: 'Regulatory tariff intervention',
-        horizon: '6–12 MONTHS',
-        scenarios: [
-          { label: 'BASE', prob: 50, tone: 'up' as const },
-          { label: 'BULL', prob: 20, tone: 'up' as const },
-          { label: 'BEAR', prob: 30, tone: 'down' as const },
-        ],
-      },
-      {
-        id: 'IDEA-0135',
-        date: '2026.07.12',
-        status: 'ACTIVE' as const,
-        sector: 'CRYPTO',
-        title: 'ETH momentum continuation',
-        thesis: 'Funding neutral while spot-led accumulation persists on-chain. Momentum with clean leverage backdrop — rare alignment.',
-        entry: 'Pullback to 20D mean, confirmed by funding reset',
-        invalidation: 'Weekly close below 200D MA',
-        horizon: '3–6 WEEKS',
-        scenarios: [
-          { label: 'BASE', prob: 45, tone: 'up' as const },
-          { label: 'BULL', prob: 30, tone: 'up' as const },
-          { label: 'BEAR', prob: 25, tone: 'down' as const },
-        ],
-      },
-      {
-        id: 'IDEA-0128',
-        date: '2026.06.28',
-        status: 'CLOSED' as const,
-        sector: 'PHARMA',
-        title: 'Pharma defensive rotation',
-        thesis: 'Breadth deterioration in cyclicals while defensives accumulate quietly. Rotation completed at +4.1% R in 5 weeks.',
-        entry: 'Executed — see trade tracker',
-        invalidation: '—',
-        horizon: 'CLOSED +4.1% R',
-        scenarios: [{ label: 'HIT', prob: 100, tone: 'up' as const }],
-      },
-    ],
+    empty: {
+      label: 'NO LIVE THESES YET',
+      body: "This page ships theses with receipts — entry logic, invalidation levels, scenario maps — not placeholders. Nothing meets that bar yet, so nothing is posted. Once a real, documented thesis is ready, it lands here first.",
+    },
+    items: [] as {
+      id: string
+      date: string
+      status: 'ACTIVE' | 'WATCHING' | 'CLOSED'
+      sector: string
+      title: string
+      thesis: string
+      entry: string
+      invalidation: string
+      horizon: string
+      scenarios: { label: string; prob: number; tone: 'up' | 'mid' | 'down' }[]
+    }[],
   },
   chain: {
     hero: {
@@ -385,10 +338,10 @@ export const en = {
       desc: 'RADICAL TRANSPARENCY: EVERY TRACKED POSITION — ENTRY, SIZE, EXIT, RATIONALE — LOGGED AND TIMESTAMPED. WINS AND LOSSES, NO EDITING.',
     },
     stats: [
-      { k: '342', l: 'TRADES LOGGED' },
-      { k: '61.4%', l: 'HIT RATE' },
-      { k: '+1.8R', l: 'AVG EXPECTANCY' },
-      { k: '0', l: 'UNEXPLAINED LOSSES' },
+      { k: '0', l: 'TRADES LOGGED SO FAR' },
+      { k: '—', l: 'HIT RATE (NO TRADES YET)' },
+      { k: '—', l: 'AVG EXPECTANCY (NO TRADES YET)' },
+      { k: '100%', l: 'LOGGED BEFORE ENTRY, NO EXCEPTIONS' },
     ],
     ledgers: {
       head: 'Ledgers',
@@ -397,19 +350,19 @@ export const en = {
         code: '03.A',
         name: 'STOCKS',
         desc: 'Regional equity positions with live-simulated marks. Each entry tied to a published thesis.',
-        stats: ['4 OPEN', 'LONG/SHORT', 'REGIONAL'],
+        stats: ['0 OPEN', 'LONG/SHORT', 'REGIONAL'],
       },
       crypto: {
         code: '03.B',
         name: 'CRYPTO',
         desc: 'Digital asset book with funding and regime filters. Spot-led, leverage-aware.',
-        stats: ['2 OPEN', 'SPOT-LED', 'MOMENTUM'],
+        stats: ['0 OPEN', 'SPOT-LED', 'MOMENTUM'],
       },
       screener: {
         code: '03.C',
         name: 'SCREENER',
         desc: 'Every ticker we cover, searchable and filterable, with a fast read on valuation and risk before you dig deeper.',
-        stats: ['60 TICKERS', 'SEARCHABLE', 'FILTERABLE'],
+        stats: ['68 TICKERS', 'SEARCHABLE', 'FILTERABLE'],
       },
     },
     rules: {

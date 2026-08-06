@@ -79,7 +79,7 @@ export default function Home() {
               <BrandMark /> <span>/ {t.home.tagSuffix}</span>
             </div>
           </Reveal>
-          <h1 className="pointer-events-auto select-none text-5xl font-semibold leading-[0.95] tracking-[-0.02em] sm:text-6xl md:text-7xl lg:text-8xl">
+          <h1 className="pointer-events-auto select-none text-4xl font-semibold leading-[0.95] tracking-[-0.02em] sm:text-5xl md:text-6xl lg:text-7xl">
             <Reveal delay={80}>
               <span className="block">{t.home.hero1}</span>
             </Reveal>
@@ -95,7 +95,7 @@ export default function Home() {
           </h1>
           <Reveal delay={400}>
             <div className="pointer-events-auto mt-8 flex flex-col justify-between gap-6 border-t border-line pt-6 md:flex-row md:items-end">
-              <p className="max-w-md font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.home.heroDesc}</p>
+              <p className="max-w-xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.home.heroDesc}</p>
               <div className="flex items-center gap-6">
                 <Link
                   to="/analysis"

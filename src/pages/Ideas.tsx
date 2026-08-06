@@ -96,6 +96,19 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
   )
 }
 
+function EmptyTheses() {
+  const { t } = useLang()
+  return (
+    <Reveal>
+      <div className="border border-dashed border-line p-12 text-center md:p-20">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center border border-line font-mono-lab text-lg text-faint">—</div>
+        <div className="mt-6 font-mono-lab text-[11px] tracking-[0.3em] text-signal">{t.ideas.empty.label}</div>
+        <p className="mx-auto mt-4 max-w-xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.ideas.empty.body}</p>
+      </div>
+    </Reveal>
+  )
+}
+
 export default function Ideas() {
   const { t } = useLang()
   const FILTERS = t.ideas.filters
@@ -113,27 +126,33 @@ export default function Ideas() {
       <section>
         <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
           <SectionHead index="LEDGER" label={t.ideas.head} right={t.ideas.headRight} />
-          <div className="mb-10 flex flex-wrap gap-2">
-            {FILTERS.map((f) => (
-              <button
-                key={f}
-                onClick={() => setSector(f)}
-                className={cn(
-                  'border px-4 py-2 font-mono-lab text-[10px] tracking-[0.2em] transition-all duration-300',
-                  sector === f
-                    ? 'border-signal bg-signal text-[#0c0e12]'
-                    : 'border-line text-dim hover:border-line-hover hover:text-foreground'
-                )}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
-          <Carousel>
-            {items.map((idea, i) => (
-              <IdeaCard key={idea.id} idea={idea} i={i} />
-            ))}
-          </Carousel>
+          {t.ideas.items.length > 0 && (
+            <div className="mb-10 flex flex-wrap gap-2">
+              {FILTERS.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setSector(f)}
+                  className={cn(
+                    'border px-4 py-2 font-mono-lab text-[10px] tracking-[0.2em] transition-all duration-300',
+                    sector === f
+                      ? 'border-signal bg-signal text-[#0c0e12]'
+                      : 'border-line text-dim hover:border-line-hover hover:text-foreground'
+                  )}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          )}
+          {items.length > 0 ? (
+            <Carousel>
+              {items.map((idea, i) => (
+                <IdeaCard key={idea.id} idea={idea} i={i} />
+              ))}
+            </Carousel>
+          ) : (
+            <EmptyTheses />
+          )}
           <Reveal className="mt-10">
             <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{t.ideas.disclaimer}</p>
           </Reveal>
