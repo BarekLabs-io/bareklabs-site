@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 import { Reveal } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
+import { companies } from '@/data/companies'
 
 /* Composite = weighted blend of the six signal-component tones below.
    Breadth and foreign flow carry the most weight (the page's own "breadth &
@@ -47,6 +49,16 @@ function Gauge({ value, label }: { value: number; label: string }) {
   )
 }
 
+function tickerHref(t: string) {
+  return companies[t] ? `/companies/${t}` : '/trade-tracker/screener'
+}
+
+function keyMetric(ticker: string, pattern: RegExp): string | null {
+  const c = companies[ticker]
+  if (!c) return null
+  return c.valuation.metrics.find((m) => pattern.test(m.label))?.values[0] ?? null
+}
+
 export default function SoukSignal() {
   const [pulse, setPulse] = useState(0)
   const { t } = useLang()
@@ -65,7 +77,7 @@ export default function SoukSignal() {
         desc={t.souk.hero.desc}
       >
         <Reveal delay={200}>
-          <p className="mt-6 max-w-xl text-xl font-light leading-snug tracking-tight text-foreground/90 md:text-2xl">
+          <p className="mt-6 max-w-3xl text-xl font-light leading-snug tracking-tight text-foreground/90 md:text-2xl">
             {t.souk.hero.welcome1}
             <span className="font-serif-lab italic font-semibold">{t.souk.hero.welcomeAccent}</span>
             {t.souk.hero.welcome2}
@@ -83,8 +95,11 @@ export default function SoukSignal() {
         <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
           <div className="grid items-center gap-12 md:grid-cols-12">
             <Reveal className="md:col-span-5">
+              <div className="mb-3 inline-block border border-line px-2.5 py-1 font-mono-lab text-[9px] tracking-[0.2em] text-faint">
+                {t.souk.gaugeWhat}
+              </div>
               <Gauge value={composite} label={t.souk.gaugeLabel} />
-              <p className="mx-auto mt-4 max-w-[260px] text-center font-mono-lab text-[9px] leading-4 tracking-wider text-faint">
+              <p className="mx-auto mt-4 max-w-[280px] text-center font-mono-lab text-[9px] leading-4 tracking-wider text-faint">
                 {t.souk.methodNote}
               </p>
             </Reveal>
@@ -95,7 +110,7 @@ export default function SoukSignal() {
                 </h2>
               </Reveal>
               <Reveal delay={180}>
-                <p className="mt-5 max-w-xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.souk.read.body}</p>
+                <p className="mt-5 max-w-2xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.souk.read.body}</p>
               </Reveal>
             </div>
           </div>
@@ -116,16 +131,31 @@ export default function SoukSignal() {
                 </tr>
               </thead>
               <tbody>
-                {t.souk.watchlist.rows.map((r, i) => (
-                  <tr key={r.t} className={cn('border-b border-line/50 transition-colors bg-row-hover', i % 2 === 1 && 'bg-stripe')}>
-                    <td className="px-6 py-4 font-mono-lab text-sm font-medium text-foreground" dir="ltr">{r.t}</td>
-                    <td className="px-6 py-4 font-mono-lab text-[11px] text-dim">{r.s}</td>
-                    <td className="hidden px-6 py-4 font-mono-lab text-[11px] text-dim md:table-cell">{r.g}</td>
-                    <td className={cn('px-6 py-4 text-end font-mono-lab text-[10px] tracking-[0.2em]', r.up ? 'text-signal' : 'text-danger')}>
-                      {r.sig}
-                    </td>
-                  </tr>
-                ))}
+                {t.souk.watchlist.rows.map((r, i) => {
+                  const price = keyMetric(r.t, /^price|^share price/i)
+                  const marketCap = keyMetric(r.t, /market cap/i)
+                  return (
+                    <tr key={r.t} className={cn('border-b border-line/50 transition-colors bg-row-hover', i % 2 === 1 && 'bg-stripe')}>
+                      <td className="px-6 py-4">
+                        <Link to={tickerHref(r.t)} className="group inline-flex flex-col gap-0.5">
+                          <span className="font-mono-lab text-sm font-medium text-foreground transition-colors group-hover:text-signal" dir="ltr">
+                            {r.t} <span className="text-faint">→</span>
+                          </span>
+                          {companies[r.t] && (
+                            <span className="font-mono-lab text-[9px] tracking-wider text-faint" dir="ltr">
+                              {companies[r.t].name}{price ? ` · ${price}` : ''}{marketCap ? ` · ${marketCap}` : ''}
+                            </span>
+                          )}
+                        </Link>
+                      </td>
+                      <td className="px-6 py-4 font-mono-lab text-[11px] leading-5 text-dim">{r.s}</td>
+                      <td className="hidden px-6 py-4 font-mono-lab text-[11px] leading-5 text-dim md:table-cell">{r.g}</td>
+                      <td className={cn('px-6 py-4 text-end font-mono-lab text-[10px] tracking-[0.2em]', r.up ? 'text-signal' : 'text-danger')}>
+                        {r.sig}
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>
