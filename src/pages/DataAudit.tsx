@@ -108,13 +108,17 @@ export default function DataAudit() {
 
           {/* When the provider is on but silent, show exactly what it said —
               an empty table teaches nothing about why it is empty. */}
-          {configured && Object.keys(fundamentals).length === 0 && diagnostic?.note && (
+          {configured && Object.keys(fundamentals).length === 0 && diagnostic && diagnostic.attempts.length > 0 && (
             <div className="mt-6 border-s-2 border-warn bg-warn/5 px-4 py-3">
-              <div className="font-mono-lab text-[10px] tracking-[0.2em] text-warn">FUNDAMENTALS PROVIDER SAID</div>
-              <p className="mt-2 break-words font-mono-lab text-[11px] leading-5 text-dim">
-                {diagnostic.status != null && <span className="text-foreground">HTTP {diagnostic.status} · </span>}
-                {diagnostic.note}
-              </p>
+              <div className="font-mono-lab text-[10px] tracking-[0.2em] text-warn">EVERY ROUTE TRIED, AND WHAT IT SAID</div>
+              <div className="mt-2 flex flex-col gap-2">
+                {diagnostic.attempts.map((a) => (
+                  <p key={a.route} className="break-words font-mono-lab text-[11px] leading-5 text-dim">
+                    <span className="text-foreground">{a.route}</span>
+                    {a.status != null && <span className="text-faint"> · HTTP {a.status}</span>} — {a.note}
+                  </p>
+                ))}
+              </div>
               {diagnostic.keyLength != null && (
                 <p className="mt-2 font-mono-lab text-[10.5px] leading-4 text-faint">
                   Key received by the server: {diagnostic.keyLength} characters. An FMP key is normally 32 — a shorter

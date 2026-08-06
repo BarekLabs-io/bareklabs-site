@@ -92,9 +92,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const scrub = (t: string) => t.replace(new RegExp(key, 'g'), '***').slice(0, 240)
 
   let answered: string | null = null
-  let upstreamStatus: number | null = null
-  let upstreamNote: string | null = null
   let matched = 0
+  /* Every attempt is recorded, not just the last one. Keeping only the final
+   * failure hides the interesting one: when four routes are tried and the
+   * last is a dead legacy path, its error tells you nothing about the three
+   * that might have been one parameter away from working. */
+  const attempts: { route: string; status: number | null; note: string | null }[] = []
 
   for (const attempt of ATTEMPTS) {
     const controller = new AbortController()
@@ -105,22 +108,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         signal: controller.signal,
         headers: { Accept: 'application/json' },
       })
-      upstreamStatus = upstream.status
+      const status = upstream.status
       const text = await upstream.text()
       if (!upstream.ok) {
-        upstreamNote = scrub(text)
+        attempts.push({ route: attempt.name, status, note: scrub(text) })
         continue
       }
       let json: unknown
       try {
         json = JSON.parse(text)
       } catch {
-        upstreamNote = `unparseable body: ${scrub(text)}`
+        attempts.push({ route: attempt.name, status, note: `unparseable body: ${scrub(text)}` })
         continue
       }
       if (!Array.isArray(json)) {
         // FMP reports plan and key problems as a JSON object, not an array.
-        upstreamNote = scrub(typeof json === 'object' ? JSON.stringify(json) : String(json))
+        attempts.push({
+          route: attempt.name,
+          status,
+          note: scrub(typeof json === 'object' ? JSON.stringify(json) : String(json)),
+        })
         continue
       }
       for (const row of json as Record<string, unknown>[]) {
@@ -138,12 +145,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       if (matched > 0) {
         answered = attempt.name
-        upstreamNote = null
         break
       }
-      upstreamNote = `${attempt.name}: array of ${json.length} rows, none matching the requested symbols`
+      attempts.push({
+        route: attempt.name,
+        status,
+        note: `ok but empty: array of ${json.length} rows, none matching the requested symbols`,
+      })
     } catch (e) {
-      upstreamNote = `${attempt.name}: ${scrub(e instanceof Error ? e.message : String(e))}`
+      attempts.push({
+        route: attempt.name,
+        status: null,
+        note: scrub(e instanceof Error ? e.message : String(e)),
+      })
     } finally {
       clearTimeout(timer)
     }
@@ -156,8 +170,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Diagnostics, so a failure says which surface answered and what it said
     // rather than presenting as an empty table. Key-scrubbed.
     source: answered,
-    upstreamStatus,
-    note: upstreamNote,
+    attempts,
     /* Length only, never any part of the key. A key rejected at full expected
      * length is a wrong or inactive key; a short one was truncated on paste.
      * Those need opposite fixes, and nothing else distinguishes them. */
