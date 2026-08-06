@@ -67,38 +67,89 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     fundamentals[s] = null
   })
 
-  const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT_MS)
-  try {
-    const url =
-      `https://financialmodelingprep.com/api/v3/quote/${encodeURIComponent(symbols.join(','))}` +
-      `?apikey=${encodeURIComponent(key)}`
-    const upstream = await fetch(url, { signal: controller.signal, headers: { Accept: 'application/json' } })
-    if (upstream.ok) {
-      const json: unknown = await upstream.json()
-      // Anything that is not the array we expect is treated as no data at all,
-      // rather than half-parsed into plausible-looking nulls.
-      if (Array.isArray(json)) {
-        for (const row of json as Record<string, unknown>[]) {
-          const sym = typeof row?.symbol === 'string' ? row.symbol : null
-          if (!sym || !(sym in fundamentals)) continue
-          fundamentals[sym] = {
-            marketCap: finite(row.marketCap),
-            peTrailing: finite(row.pe),
-            eps: finite(row.eps),
-            shares: finite(row.sharesOutstanding),
-            price: finite(row.price),
-          }
+  /* FMP has two live API surfaces and the free tier does not expose the same
+   * routes on both, so both are tried in order and whichever answers wins.
+   * Guessing which one a given key is entitled to, and failing silently when
+   * wrong, is how an integration ends up "on" and returning nothing. */
+  const ATTEMPTS = [
+    {
+      name: 'stable',
+      url: `https://financialmodelingprep.com/stable/quote?symbol=${encodeURIComponent(symbols.join(','))}`,
+    },
+    {
+      name: 'v3',
+      url: `https://financialmodelingprep.com/api/v3/quote/${encodeURIComponent(symbols.join(','))}`,
+    },
+  ]
+
+  /** Never let the key reach a response body or a log line. */
+  const scrub = (t: string) => t.replace(new RegExp(key, 'g'), '***').slice(0, 240)
+
+  let answered: string | null = null
+  let upstreamStatus: number | null = null
+  let upstreamNote: string | null = null
+  let matched = 0
+
+  for (const attempt of ATTEMPTS) {
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT_MS)
+    try {
+      const upstream = await fetch(`${attempt.url}&apikey=${encodeURIComponent(key)}`, {
+        signal: controller.signal,
+        headers: { Accept: 'application/json' },
+      })
+      upstreamStatus = upstream.status
+      const text = await upstream.text()
+      if (!upstream.ok) {
+        upstreamNote = scrub(text)
+        continue
+      }
+      let json: unknown
+      try {
+        json = JSON.parse(text)
+      } catch {
+        upstreamNote = `unparseable body: ${scrub(text)}`
+        continue
+      }
+      if (!Array.isArray(json)) {
+        // FMP reports plan and key problems as a JSON object, not an array.
+        upstreamNote = scrub(typeof json === 'object' ? JSON.stringify(json) : String(json))
+        continue
+      }
+      for (const row of json as Record<string, unknown>[]) {
+        const sym = typeof row?.symbol === 'string' ? row.symbol : null
+        if (!sym || !(sym in fundamentals)) continue
+        matched++
+        fundamentals[sym] = {
+          marketCap: finite(row.marketCap),
+          peTrailing: finite(row.pe) ?? finite(row.peRatio),
+          eps: finite(row.eps),
+          shares: finite(row.sharesOutstanding),
+          price: finite(row.price),
         }
       }
+      if (matched > 0) {
+        answered = attempt.name
+        upstreamNote = null
+        break
+      }
+      upstreamNote = `${attempt.name}: array of ${json.length} rows, none matching the requested symbols`
+    } catch (e) {
+      upstreamNote = `${attempt.name}: ${scrub(e instanceof Error ? e.message : String(e))}`
+    } finally {
+      clearTimeout(timer)
     }
-  } catch {
-    // Network, timeout or shape — every one of them means "no fundamentals
-    // this round", and the caller falls back to the researched snapshot.
-  } finally {
-    clearTimeout(timer)
   }
 
   res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400')
-  res.status(200).json({ asOf: Date.now(), configured: true, fundamentals })
+  res.status(200).json({
+    asOf: Date.now(),
+    configured: true,
+    // Diagnostics, so a failure says which surface answered and what it said
+    // rather than presenting as an empty table. Key-scrubbed.
+    source: answered,
+    upstreamStatus,
+    note: upstreamNote,
+    fundamentals,
+  })
 }

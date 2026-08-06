@@ -32,6 +32,15 @@ const USD_PER: Record<string, number> = {
 
 const MULTIPLIER: Record<string, number> = { T: 1e12, B: 1e9, M: 1e6, K: 1e3 }
 
+/* Some entries fold two figures into one row — "Share price / Market cap"
+ * carrying "~€201 / ~€15.7bn". Reading that row for a cap picks up the price
+ * and silently produces a $217 company. When both are present, the cap is the
+ * part after the slash. */
+function capSide(raw: string): string {
+  const i = raw.indexOf('/')
+  return i > 0 ? raw.slice(i + 1) : raw
+}
+
 /** Averages "17-18", "22–28" style ranges; returns a single number otherwise. */
 function midpoint(a: string, b?: string): number {
   const x = parseFloat(a.replace(/,/g, ''))
@@ -41,7 +50,7 @@ function midpoint(a: string, b?: string): number {
 }
 
 /* A number, optionally a range, optionally followed by a T/B/M/K multiplier. */
-const NUM = String.raw`(\d[\d,]*(?:\.\d+)?)\s*(?:[-–—]\s*(\d[\d,]*(?:\.\d+)?))?\s*([TBMK])?`
+const NUM = String.raw`(\d[\d,]*(?:\.\d+)?)\s*(?:[-–—]\s*(\d[\d,]*(?:\.\d+)?))?\s*(bn|tn|mn|[TBMK])?`
 
 /* "$160B", "~$25-26B" — but NOT the "$" inside "NT$" (New Taiwan dollar). */
 const USD_RE = new RegExp(String.raw`(?<!NT)\$\s*` + NUM, 'i')
@@ -52,7 +61,9 @@ function toNumber(m: RegExpMatchArray | null): number | null {
   if (!m) return null
   const value = midpoint(m[1], m[2])
   if (!Number.isFinite(value)) return null
-  const mult = m[3] ? (MULTIPLIER[m[3].toUpperCase()] ?? 1) : 1
+  // "bn"/"tn"/"mn" are as common as "B"/"T"/"M" in researched prose.
+  const suffix = m[3] ? m[3].toUpperCase().replace(/N$/, '') : ''
+  const mult = suffix ? (MULTIPLIER[suffix] ?? 1) : 1
   return value * mult
 }
 
@@ -64,6 +75,7 @@ function toNumber(m: RegExpMatchArray | null): number | null {
  */
 export function parseMarketCapUsd(raw: string | undefined | null, currency = 'USD'): number | null {
   if (!raw) return null
+  raw = capSide(raw)
 
   // 1. An explicit USD figure anywhere in the string wins.
   const usd = toNumber(raw.match(USD_RE))

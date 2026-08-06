@@ -29,7 +29,7 @@ function researchedPrice(ticker: string): number | null {
 export default function DataAudit() {
   const tickers = useMemo(() => Object.keys(companies).sort(), [])
   const { quotes, asOf } = useLiveQuotes(tickers)
-  const { fundamentals, configured } = useFundamentals(tickers)
+  const { fundamentals, configured, diagnostic } = useFundamentals(tickers)
 
   const rows = useMemo(() => {
     return tickers
@@ -99,10 +99,24 @@ export default function DataAudit() {
                 {configured == null ? '…' : configured ? 'ON' : 'OFF'}
               </div>
               <div className="mt-1 font-mono-lab text-[10px] leading-4 text-faint">
-                {configured === false ? 'FMP_API_KEY not set on this deployment' : `${Object.keys(fundamentals).length} answered`}
+                {configured === false
+                  ? 'FMP_API_KEY not set on this deployment'
+                  : `${Object.keys(fundamentals).length} answered${diagnostic?.source ? ` · via ${diagnostic.source}` : ''}`}
               </div>
             </div>
           </div>
+
+          {/* When the provider is on but silent, show exactly what it said —
+              an empty table teaches nothing about why it is empty. */}
+          {configured && Object.keys(fundamentals).length === 0 && diagnostic?.note && (
+            <div className="mt-6 border-s-2 border-warn bg-warn/5 px-4 py-3">
+              <div className="font-mono-lab text-[10px] tracking-[0.2em] text-warn">FUNDAMENTALS PROVIDER SAID</div>
+              <p className="mt-2 break-words font-mono-lab text-[11px] leading-5 text-dim">
+                {diagnostic.status != null && <span className="text-foreground">HTTP {diagnostic.status} · </span>}
+                {diagnostic.note}
+              </p>
+            </div>
+          )}
 
           {checked.length === 0 && (
             <p className="mt-6 border border-dashed border-line px-5 py-8 text-center font-mono-lab text-[12px] leading-6 tracking-wide text-dim">

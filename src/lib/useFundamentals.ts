@@ -14,7 +14,14 @@ export type Fundamental = {
   price: number | null
 }
 
-type Response = { asOf: number; configured: boolean; fundamentals: Record<string, Fundamental | null> }
+type Response = {
+  asOf: number
+  configured: boolean
+  source?: string | null
+  upstreamStatus?: number | null
+  note?: string | null
+  fundamentals: Record<string, Fundamental | null>
+}
 
 /* Fundamentals move on earnings, so there is no reason to poll them the way
  * prices are polled. One fetch per mount, served from the edge cache. */
@@ -30,10 +37,13 @@ export function useFundamentals(tickers: string[]): {
   fundamentals: Record<string, Fundamental>
   configured: boolean | null
   asOf: number | null
+  /** Which upstream surface answered, and what it said when none did. */
+  diagnostic: { source: string | null; status: number | null; note: string | null } | null
 } {
   const [fundamentals, setFundamentals] = useState<Record<string, Fundamental>>({})
   const [configured, setConfigured] = useState<boolean | null>(null)
   const [asOf, setAsOf] = useState<number | null>(null)
+  const [diagnostic, setDiagnostic] = useState<{ source: string | null; status: number | null; note: string | null } | null>(null)
   const key = tickers.join(',')
   const keyRef = useRef(key)
   keyRef.current = key
@@ -65,6 +75,8 @@ export function useFundamentals(tickers: string[]): {
           }
         }
         setConfigured(anyConfigured)
+        const first = responses.find((r) => r)
+        if (first) setDiagnostic({ source: first.source ?? null, status: first.upstreamStatus ?? null, note: first.note ?? null })
         setAsOf(latest || null)
         if (Object.keys(next).length > 0) setFundamentals(next)
       } catch {
@@ -77,5 +89,5 @@ export function useFundamentals(tickers: string[]): {
     }
   }, [key])
 
-  return { fundamentals, configured, asOf }
+  return { fundamentals, configured, asOf, diagnostic }
 }
