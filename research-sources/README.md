@@ -10,3 +10,4 @@ was nothing to check against. Commit the original here first, then adapt.
 | File | Received | Notes |
 |---|---|---|
 | `crypto-2026-gemini-original.html` | 2026-08-06 | Gemini's crypto 2026 document. 539 words of report content wrapped in a copy of this site's homepage (nav, ticker tape, hero). Its price table and watchlist reproduce the site's old hardcoded tape figures — see the adapted version in `public/research/crypto-2026/`. |
+| `ai-value-chain-gemini-original.html` | 2026-08-06 | Gemini's AI value-chain dossier: 5 tabs (7-layer chain, grid/cooling bottleneck, DCF simulator, EPC duel, unseen heroes). Its DCF is superseded by src/lib/dcf.ts — see the audit note in that file. |
