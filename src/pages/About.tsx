@@ -4,13 +4,27 @@ import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 
+function contactHref(v: string): string {
+  if (v.includes('@')) return `mailto:${v}`
+  if (v.startsWith('github.com')) return `https://${v}`
+  return v
+}
+
 function ContactCard({ c, i }: { c: { k: string; v: string; note: string }; i: number }) {
   const ref = useSpotlight<HTMLDivElement>()
   return (
     <Reveal delay={i * 80}>
       <div ref={ref} className="spot-card border border-line p-7">
         <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.k}</div>
-        <div className="mt-4 break-all font-mono-lab text-sm tracking-wide text-foreground" dir="ltr">{c.v}</div>
+        <a
+          href={contactHref(c.v)}
+          target={c.v.startsWith('github.com') ? '_blank' : undefined}
+          rel={c.v.startsWith('github.com') ? 'noreferrer' : undefined}
+          className="mt-4 block break-all font-mono-lab text-sm tracking-wide text-foreground transition-colors hover:text-signal"
+          dir="ltr"
+        >
+          {c.v}
+        </a>
         <div className="mt-3 font-mono-lab text-[10px] tracking-wider text-dim">{c.note}</div>
       </div>
     </Reveal>
@@ -159,10 +173,8 @@ export default function About() {
                   <ContactCard key={c.k} c={c} i={i} />
                 ))}
               </div>
-              <Reveal className="mt-14 text-center">
-                <div className="select-none text-[18vw] font-semibold leading-none tracking-[-0.03em] text-foreground md:text-[10vw]" dir="ltr">
-                  BAREK/LABS
-                </div>
+              <Reveal className="mt-14 flex justify-center">
+                <img src="/logo.svg" alt="BAREK LABS" className="h-16 w-auto logo-adaptive md:h-24" />
               </Reveal>
             </section>
           </div>

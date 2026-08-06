@@ -16,7 +16,7 @@ export const en = {
       chain: { label: 'AI VALUE CHAIN', note: 'From electrons to tokens' },
       stocks: { label: 'STOCKS', note: 'Equity ledger, live' },
       crypto: { label: 'CRYPTO', note: 'Digital assets ledger' },
-      screener: { label: 'SCREENER', note: 'Value chain, filterable' },
+      screener: { label: 'SCREENER', note: 'Every covered ticker, one place' },
     },
   },
   tape: {
@@ -263,7 +263,7 @@ export const en = {
       code: '01.C / ANALYSIS — AI VALUE CHAIN',
       title: 'AI value',
       serif: 'chain',
-      desc: 'FROM ELECTRONS TO TOKENS: THE AI TRADE, DECOMPOSED INTO FIVE STAGES. WHO SUPPLIES WHOM, WHERE THE MARGIN POOLS SIT, AND WHICH NAMES ARE PICKS-AND-SHOVELS VERSUS PASSENGERS.',
+      desc: "AI COMPUTE DOESN'T APPEAR OUT OF NOWHERE — IT RUNS THROUGH A REAL, PHYSICAL CHAIN, FROM THE POWER PLANT TO THE MODEL YOU'RE ACTUALLY TALKING TO. WE BROKE THAT CHAIN INTO FIVE STAGES SO YOU CAN SEE WHO SUPPLIES WHOM AND WHERE THE PROFIT ACTUALLY POOLS. ONCE YOU CAN SEE THE WHOLE CHAIN, ANY SINGLE AI STOCK GETS A LOT EASIER TO PLACE — AND TO JUDGE.",
     },
     hint: 'CLICK A NODE — EXPLORE OR FLOW',
     modes: { explore: 'EXPLORE', flow: 'FLOW' },
@@ -411,8 +411,8 @@ export const en = {
       screener: {
         code: '03.C',
         name: 'SCREENER',
-        desc: 'Every covered ticker, mapped onto the AI-infrastructure value chain. Filter by segment, country, risk.',
-        stats: ['60 TICKERS', 'VALUE CHAIN', 'FILTERABLE'],
+        desc: 'Every ticker we cover, searchable and filterable, with a fast read on valuation and risk before you dig deeper.',
+        stats: ['60 TICKERS', 'SEARCHABLE', 'FILTERABLE'],
       },
     },
     rules: {
@@ -458,7 +458,7 @@ export const en = {
       code: '03.B / TRADE TRACKER — CRYPTO',
       title: 'Crypto',
       serif: 'ledger',
-      desc: 'DIGITAL ASSETS WITH TRADITIONAL DISCIPLINE: SPOT-LED, FUNDING-AWARE, REGIME-FILTERED. LEVERAGE IS A TOOL, NOT A PERSONALITY.',
+      desc: "OUR CRYPTO POSITIONS, TRACKED THE SAME WAY AS EVERYTHING ELSE HERE: SPOT-LED, SIZED BY CONVICTION, AND HONEST ABOUT FUNDING AND REGIME BEFORE ANY LEVERAGE GETS ADDED.",
     },
     head: 'Book & regime',
     headRight: 'PRICES SIMULATED LIVE',
@@ -495,18 +495,18 @@ export const en = {
     },
     founder: {
       head: 'The founder',
-      headRight: 'ONE OPERATOR, FULL STACK',
+      headRight: 'ONE OPERATOR, NO COMMITTEE',
       photoNote: 'PORTRAIT SLOT — DROP A FILE AT /public/founder.jpg',
-      role: 'FOUNDER / ANALYST-ENGINEER',
-      bio: "BAREK LABS is a one-person laboratory by design. Its founder works at the intersection of market analysis and software engineering: build the instruments first, then publish the research they make possible. The coverage, the tracked positions and the methods on this site are the founder's own work — the lab answers to its readers and to its ledger, not to any sponsor. The preference here is simple: let the record speak. Every claim traces to a source, every position to a log, every error to a correction.",
+      role: 'FOUNDER — CURIOUS BY TRADE, RIGOROUS BY HABIT',
+      bio: "BAREK LABS is a one-person laboratory by design — not a team of analysts, not a fintech startup, just someone with a genuine, borderline obsessive habit of reading about companies and markets. The coverage, the tracked positions and the methods on this site are the founder's own work — the lab answers to its readers and to its ledger, not to any sponsor. The preference here is simple: let the record speak. Every claim traces to a source, every position to a log, every error to a correction.",
     },
     story: {
       head: 'Why this lab exists',
       headRight: 'THE ORIGIN, SHORT VERSION',
       paragraphs: [
-        'We started BAREK LABS on a simple observation: most market commentary is storytelling dressed as analysis. We wanted a place where the data leads, the method is visible, and being wrong is documented as carefully as being right.',
-        'The lab runs three instruments — a research desk, a signal engine for regional markets, and a public trade ledger. Each exists to make the others honest. Research without execution is theory; execution without research is gambling.',
-        'Everything is built in the open: the notes, the models, the mistakes. If the record ever has to choose between looking good and being accurate, it chooses accurate — that is the whole point of keeping one.',
+        "I started BAREK LABS after a long, unplanned pause. During COVID, I moved back from Sweden to stay with my parents in France — work had slowed to a crawl, and for the first time in years I had real free time. I filled most of it reading: about companies, about markets, about finance in general. I'd always invested and always been curious about the space, but that period is where the curiosity turned into a habit.",
+        "That's also when I started talking to my parents about money, and my mother told me a story I hadn't heard before. Years earlier, a bank advisor had convinced her to move her savings into some investment product — and she lost most of it. She never trusted financial markets again. I don't think she's unusual; I think that's the default experience for a lot of people who were never given the tools to evaluate what they were being sold, and were left to just trust — or stop trusting — whoever was selling it.",
+        "That's the actual reason this lab exists. I want to help ordinary people learn to read a company or a market on their own terms, instead of just taking someone else's word for it — including mine. And because I have the time and the curiosity to dig into names most people would never come across on their own, a lot of the coverage here goes there: not just the obvious mega-caps, but the smaller, stranger companies that take real digging to understand.",
       ],
     },
     principles: {

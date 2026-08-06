@@ -34,7 +34,6 @@ type NavItem = {
 function useNav(): NavItem[] {
   const { t } = useLang()
   return [
-    { to: '/', label: t.nav.homepage },
     {
       to: '/analysis',
       label: t.nav.analysis,
@@ -439,20 +438,20 @@ export function PageHero({
   children?: React.ReactNode
 }) {
   return (
-    <section className="lab-grid relative border-b border-line pt-44 pb-16 md:pt-52 md:pb-20">
+    <section className="lab-grid relative border-b border-line pt-32 pb-12 md:pt-40 md:pb-14">
       <div className="scanline" />
       <div className="mx-auto max-w-[1440px] px-5 md:px-10">
         <Reveal>
           <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">{code}</div>
         </Reveal>
         <Reveal delay={80}>
-          <h1 className="mt-4 text-[13vw] font-medium leading-[0.92] tracking-tight md:text-[7.5vw]">
+          <h1 className="mt-3 text-4xl font-medium leading-[1.05] tracking-tight md:text-6xl">
             {title}
             {serif && <span className="font-serif-lab italic text-dim"> {serif}</span>}
           </h1>
         </Reveal>
         <Reveal delay={160}>
-          <p className="mt-6 max-w-xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{desc}</p>
+          <p className="mt-5 max-w-xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{desc}</p>
         </Reveal>
         {children}
       </div>

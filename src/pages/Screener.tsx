@@ -11,6 +11,7 @@ type RiskTier = 'high' | 'medium' | 'low'
 type Row = {
   ticker: string
   name: string
+  tagline: string
   segment: SegmentKey
   segmentOrder: number
   country: string
@@ -18,6 +19,7 @@ type Row = {
   currency: string
   price: number | null
   marketCap: string | null
+  forwardPE: string | null
   verdictTone: 'high' | 'fair' | 'low'
   riskTier: RiskTier
 }
@@ -38,16 +40,34 @@ const SEGMENT_SHORT: Record<SegmentKey, string> = {
   adjacent: 'ADJACENT',
 }
 
+/* Risk tier: grounded in the deep dive's own synthesis scoring, not a raw count of
+ * flagged risk items — a well-covered, profitable blue chip naturally accumulates more
+ * *documented* risk factors than a thinly-researched microcap, so counting flags alone
+ * makes mature, high-quality names look artificially risky. Prefer the synthesis
+ * criterion that's actually about risk (star rating, 5 = safest); where a company's
+ * scorecard doesn't have one under that name, fall back to its overall average score
+ * as a general quality/durability proxy. */
+function starsToTier(stars: number): RiskTier {
+  return stars >= 3.5 ? 'low' : stars >= 2.5 ? 'medium' : 'high'
+}
+
+function riskTierOf(c: (typeof companies)[string]): RiskTier {
+  const riskScore = c.synthesis.scores.find((s) => /risk/i.test(s.criterion))
+  if (riskScore) return starsToTier(riskScore.stars)
+  const avg = c.synthesis.scores.reduce((sum, s) => sum + s.stars, 0) / c.synthesis.scores.length
+  return starsToTier(avg)
+}
+
 const ROWS: Row[] = Object.values(companies)
   .map((c) => {
-    const highRisks = c.risks.filter((r) => r.severity === 'high').length
-    const riskTier: RiskTier = highRisks >= 2 ? 'high' : highRisks === 1 ? 'medium' : 'low'
     const priceMetric = c.valuation.metrics.find((m) => /^price|^share price/i.test(m.label))
     const capMetric = c.valuation.metrics.find((m) => /market cap/i.test(m.label))
+    const peMetric = c.valuation.metrics.find((m) => /forward p\/e/i.test(m.label))
     const segment = SEGMENT_OF[c.ticker] ?? 'adjacent'
     return {
       ticker: c.ticker,
       name: c.name,
+      tagline: c.tagline,
       segment,
       segmentOrder: SEGMENT_ORDER.get(segment) ?? 99,
       country: countryOf(c.ticker),
@@ -55,8 +75,9 @@ const ROWS: Row[] = Object.values(companies)
       currency: currencyOf(c.ticker),
       price: parseMetricValue(priceMetric?.values[0]),
       marketCap: capMetric?.values[0] ?? null,
+      forwardPE: peMetric?.values[0] ?? null,
       verdictTone: c.valuation.verdictTone,
-      riskTier,
+      riskTier: riskTierOf(c),
     }
   })
   .sort((a, b) => a.segmentOrder - b.segmentOrder || a.ticker.localeCompare(b.ticker))
@@ -66,7 +87,7 @@ const COUNTRIES = Array.from(new Set(ROWS.map((r) => r.country))).sort()
 const RISK_LABEL: Record<RiskTier, string> = { high: 'HIGH', medium: 'MEDIUM', low: 'LOW' }
 const VERDICT_LABEL: Record<Row['verdictTone'], string> = { high: 'RICH', fair: 'FAIR', low: 'CHEAP' }
 
-function Badge({ tone, children }: { tone: 'good' | 'warn' | 'bad'; children: React.ReactNode }) {
+function Badge({ tone, title, children }: { tone: 'good' | 'warn' | 'bad'; title: string; children: React.ReactNode }) {
   const cls =
     tone === 'good'
       ? 'border-signal/50 bg-signal/15 text-signal'
@@ -74,7 +95,7 @@ function Badge({ tone, children }: { tone: 'good' | 'warn' | 'bad'; children: Re
         ? 'border-warn/50 bg-warn/15 text-warn'
         : 'border-danger/50 bg-danger/15 text-danger'
   return (
-    <span className={cn('inline-block min-w-[64px] border px-2 py-1 text-center font-mono-lab text-[9.5px] font-medium tracking-[0.12em]', cls)}>
+    <span title={title} className={cn('inline-block min-w-[64px] border px-2 py-1 text-center font-mono-lab text-[9.5px] font-medium tracking-[0.12em]', cls)}>
       {children}
     </span>
   )
@@ -86,6 +107,17 @@ function verdictBadgeTone(tone: Row['verdictTone']): 'good' | 'warn' | 'bad' {
 
 function riskBadgeTone(tier: RiskTier): 'good' | 'warn' | 'bad' {
   return tier === 'high' ? 'bad' : tier === 'medium' ? 'warn' : 'good'
+}
+
+const VERDICT_EXPLAIN: Record<Row['verdictTone'], string> = {
+  high: 'RICH — trading above its peer set on the multiples in its deep dive.',
+  fair: 'FAIR — roughly in line with its peer set on the multiples in its deep dive.',
+  low: 'CHEAP — trading below its peer set on the multiples in its deep dive.',
+}
+const RISK_EXPLAIN: Record<RiskTier, string> = {
+  high: 'HIGH — the deep dive\'s own risk assessment (business durability, balance sheet, competitive position, valuation cushion) skews unfavorable.',
+  medium: 'MEDIUM — a mixed picture: real, identified risk factors, but not a red flag across the board.',
+  low: 'LOW — the deep dive\'s own risk assessment skews favorable on durability, balance sheet and competitive position.',
 }
 
 export default function Screener() {
@@ -114,12 +146,13 @@ export default function Screener() {
           <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">03.C — SCREENER</div>
         </Reveal>
         <Reveal delay={40}>
-          <h1 className="mt-2 text-2xl font-medium tracking-tight md:text-[28px]">Value chain screener</h1>
+          <h1 className="mt-2 text-2xl font-medium tracking-tight md:text-[28px]">Screener</h1>
         </Reveal>
         <Reveal delay={70}>
           <p className="mt-2 max-w-3xl font-mono-lab text-[12px] leading-5 tracking-wide text-prose">
-            Every covered ticker mapped onto the AI-infrastructure value chain, raw materials to space. Sorted by chain position by
-            default — filter by segment to isolate one. Thin or unconfirmed AI links sit in their own "Adjacent" bucket.
+            Every ticker we cover, in one list — search it, filter it, get a fast read before deciding where to dig deeper.
+            Rows default to sorting by AI value-chain position, since a lot of what's here sits somewhere on that chain — but
+            this is a screener, not a diagram of the chain itself. For that, see AI Value Chain under Analysis.
           </p>
         </Reveal>
 
@@ -170,29 +203,38 @@ export default function Screener() {
           <span className="ms-auto font-mono-lab text-[10px] tracking-[0.15em] text-faint" dir="ltr">{filtered.length} / {ROWS.length} TICKERS</span>
         </Reveal>
 
-        <div className="mt-4 overflow-x-auto border border-line">
-          <table className="w-full min-w-[960px]">
+        <Reveal delay={110} className="mt-3 flex flex-wrap gap-x-6 gap-y-1 font-mono-lab text-[9.5px] leading-4 tracking-wide text-faint">
+          <span><span className="text-dim">VS. PEERS</span> — richness of valuation vs. its own peer set. Hover a badge for detail.</span>
+          <span><span className="text-dim">RISK</span> — the deep dive's overall risk-quality read, not a count of flagged items. Hover a badge for detail.</span>
+        </Reveal>
+
+        <div className="mt-3 overflow-x-auto border border-line">
+          <table className="w-full min-w-[1040px]">
             <thead>
               <tr className="border-b border-line bg-ticker font-mono-lab text-[9px] tracking-[0.2em] text-faint">
                 <th className="px-3 py-3 text-start">TICKER</th>
-                <th className="px-3 py-3 text-start">NAME</th>
+                <th className="px-3 py-3 text-start">NAME / WHAT IT DOES</th>
                 <th className="px-3 py-3 text-start">SEGMENT</th>
                 <th className="px-3 py-3 text-start">EXCHANGE</th>
                 <th className="px-3 py-3 text-end">PRICE</th>
                 <th className="px-3 py-3 text-end">MKT CAP</th>
+                <th className="px-3 py-3 text-end">FWD P/E</th>
                 <th className="px-3 py-3 text-center">VS. PEERS</th>
                 <th className="px-3 py-3 text-center">RISK</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((r, i) => (
-                <tr key={r.ticker} className={cn('border-b border-line/50 transition-colors bg-row-hover', i % 2 === 1 && 'bg-stripe')}>
+                <tr key={r.ticker} className={cn('border-b border-line/50 transition-colors bg-row-hover align-top', i % 2 === 1 && 'bg-stripe')}>
                   <td className="px-3 py-3.5">
                     <Link to={`/companies/${r.ticker}`} className="font-mono-lab text-[13.5px] font-medium text-foreground hover:text-signal" dir="ltr">
                       {r.ticker}
                     </Link>
                   </td>
-                  <td className="px-3 py-3.5 font-mono-lab text-[11.5px] text-prose">{r.name}</td>
+                  <td className="max-w-[280px] px-3 py-3.5">
+                    <div className="font-mono-lab text-[11.5px] text-prose">{r.name}</div>
+                    <div className="mt-1 font-mono-lab text-[10px] leading-4 tracking-wide text-dim">{r.tagline}</div>
+                  </td>
                   <td className="px-3 py-3.5 font-mono-lab text-[9.5px] tracking-[0.1em] text-dim">{SEGMENT_SHORT[r.segment]}</td>
                   <td className="px-3 py-3.5 font-mono-lab text-[10px] tracking-[0.05em] text-dim">{r.exchange}</td>
                   <td className="px-3 py-3.5 text-end font-mono-lab text-[13px] tabular-nums text-prose" dir="ltr">
@@ -201,17 +243,20 @@ export default function Screener() {
                   <td className="px-3 py-3.5 text-end font-mono-lab text-[11px] tabular-nums text-dim" dir="ltr">
                     {r.marketCap ?? '—'}
                   </td>
-                  <td className="px-3 py-3.5 text-center">
-                    <Badge tone={verdictBadgeTone(r.verdictTone)}>{VERDICT_LABEL[r.verdictTone]}</Badge>
+                  <td className="px-3 py-3.5 text-end font-mono-lab text-[11px] tabular-nums text-dim" dir="ltr">
+                    {r.forwardPE ?? '—'}
                   </td>
                   <td className="px-3 py-3.5 text-center">
-                    <Badge tone={riskBadgeTone(r.riskTier)}>{RISK_LABEL[r.riskTier]}</Badge>
+                    <Badge tone={verdictBadgeTone(r.verdictTone)} title={VERDICT_EXPLAIN[r.verdictTone]}>{VERDICT_LABEL[r.verdictTone]}</Badge>
+                  </td>
+                  <td className="px-3 py-3.5 text-center">
+                    <Badge tone={riskBadgeTone(r.riskTier)} title={RISK_EXPLAIN[r.riskTier]}>{RISK_LABEL[r.riskTier]}</Badge>
                   </td>
                 </tr>
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-3 py-12 text-center font-mono-lab text-[11px] tracking-wide text-faint">
+                  <td colSpan={9} className="px-3 py-12 text-center font-mono-lab text-[11px] tracking-wide text-faint">
                     No tickers match these filters.
                   </td>
                 </tr>
@@ -223,9 +268,12 @@ export default function Screener() {
         <Reveal className="mt-6">
           <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">
             Default sort follows the physical/economic AI-hardware value chain, materials to space — "Adjacent / indirect exposure"
-            holds names with thin, unconfirmed, or thematic-only AI links. Prices and market caps are last-known figures from each
-            ticker's deep dive, not a live feed — see the individual company page for sourcing and date. Exchange venue is
-            best-effort reference data. This is a research framework, not investment advice.
+            holds names with thin, unconfirmed, or thematic-only AI links. RISK is drawn from each ticker's own deep-dive synthesis
+            score (business durability, balance sheet, competitive position, valuation cushion), not a raw count of listed risk
+            factors — a well-covered, high-quality name naturally accumulates more documented risks than a thinly-researched one,
+            so counting flags alone would misread quality names as dangerous. Prices, market caps and ratios are last-known figures
+            from each ticker's deep dive, not a live feed — see the individual company page for sourcing and date. Exchange venue
+            is best-effort reference data. This is a research framework, not investment advice.
           </p>
         </Reveal>
       </div>

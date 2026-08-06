@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
@@ -23,25 +23,70 @@ function PickCard({ p, i }: { p: { t: string; title: string; d: string }; i: num
   )
 }
 
+/* ---------- CONSTELLATION LAYOUT ---------- */
+const VB_W = 1400
+const VB_H = 460
+const MARGIN_X = 100
+const HUB_Y = 128
+const HUB_R = 30
+const SAT_DIST = 92
+const SAT_R = 8
+
+type Hub = { x: number; y: number }
+type Sat = { x: number; y: number; angle: number }
+
+function useConstellation(stages: ChainStage[]) {
+  return useMemo(() => {
+    const n = stages.length
+    const step = n > 1 ? (VB_W - MARGIN_X * 2) / (n - 1) : 0
+    const hubs: Hub[] = stages.map((_, i) => ({
+      x: MARGIN_X + i * step,
+      y: HUB_Y + Math.sin(i * 1.15) * 22,
+    }))
+    const sats: Sat[][] = stages.map((st, si) => {
+      const k = st.items.length
+      const spreadStep = 26 // degrees between adjacent satellites
+      return st.items.map((_, j) => {
+        const angleDeg = 90 + (j - (k - 1) / 2) * spreadStep
+        const angleRad = (angleDeg * Math.PI) / 180
+        return {
+          x: hubs[si].x + SAT_DIST * Math.cos(angleRad),
+          y: hubs[si].y + SAT_DIST * Math.sin(angleRad),
+          angle: angleDeg,
+        }
+      })
+    })
+    const connectors = hubs.slice(0, -1).map((h, i) => {
+      const next = hubs[i + 1]
+      const midX1 = h.x + (next.x - h.x) * 0.42
+      const midX2 = h.x + (next.x - h.x) * 0.58
+      return `M ${h.x} ${h.y} C ${midX1} ${h.y}, ${midX2} ${next.y}, ${next.x} ${next.y}`
+    })
+    return { hubs, sats, connectors }
+  }, [stages])
+}
+
 export default function AiValueChain() {
   const { t } = useLang()
   const c = t.chain
   const stages = c.stages as ChainStage[]
   const [mode, setMode] = useState<'explore' | 'flow'>('explore')
   const [sel, setSel] = useState<Sel>({ s: 3, i: 0 }) // NVDA by default
+  const [hover, setHover] = useState<Sel | null>(null)
 
   const selStage = stages[sel.s]
   const selItem = selStage.items[sel.i]
+  const { hubs, sats, connectors } = useConstellation(stages)
 
   return (
     <>
       <PageHero code={c.hero.code} title={c.hero.title} serif={c.hero.serif} desc={c.hero.desc} />
 
-      {/* ===== MATRIX ===== */}
+      {/* ===== CONSTELLATION ===== */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
           <SectionHead
-            index="MATRIX"
+            index="MAP"
             label={c.hint}
             right={
               <div className="flex gap-2">
@@ -62,82 +107,140 @@ export default function AiValueChain() {
           />
 
           <Reveal>
-            <div className={cn('overflow-x-auto pb-4', mode === 'flow' && 'chain-flow')} dir="ltr">
-              <div className="flex min-w-max items-stretch gap-0">
-                {stages.map((st, si) => {
-                  const isSel = sel.s === si
-                  const isUpstream = si < sel.s
+            <div className="overflow-x-auto border border-line bg-panel" dir="ltr">
+              <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className="min-w-[980px]" role="img" aria-label={c.hint}>
+                {/* stage-to-stage flow connectors */}
+                {connectors.map((d, i) => {
+                  const isActivePath = i < sel.s || i === sel.s
                   return (
-                    <div key={st.k} className="flex items-stretch">
-                      {/* connector */}
-                      {si > 0 && (
-                        <div className="flex w-8 shrink-0 items-center justify-center self-center">
-                          <span
-                            className={cn(
-                              'font-mono-lab text-lg transition-colors duration-500 rtl:rotate-180',
-                              isUpstream || isSel ? 'text-signal' : 'text-faint'
-                            )}
-                          >
-                            →
-                          </span>
-                        </div>
+                    <g key={i}>
+                      <path d={d} fill="none" stroke="var(--line)" strokeWidth={1.5} />
+                      <path
+                        d={d}
+                        fill="none"
+                        stroke="var(--signal)"
+                        strokeWidth={1.5}
+                        opacity={isActivePath ? 0.5 : 0.12}
+                      />
+                      {mode === 'flow' && (
+                        <circle r={3.5} fill="var(--signal)">
+                          <animateMotion dur={`${2.4 + i * 0.3}s`} repeatCount="indefinite" path={d} />
+                        </circle>
                       )}
-                      {/* stage column */}
-                      <div
-                        className={cn(
-                          'w-[248px] shrink-0 border transition-all duration-500',
-                          isSel ? 'border-signal bg-panel' : 'border-line bg-card2',
-                          mode === 'explore' && !isSel && si !== sel.s && 'hover:border-line-hover'
-                        )}
-                      >
-                        {/* header */}
-                        <div
-                          className={cn(
-                            'border-b border-line p-4',
-                            mode === 'flow' && 'flow-node'
-                          )}
-                          style={mode === 'flow' ? { animationDelay: `${si * 0.35}s` } : undefined}
-                        >
-                          <div className="flex items-baseline justify-between">
-                            <span className="font-mono-lab text-[9px] tracking-[0.3em] text-signal">{st.n}</span>
-                            <span className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">{st.items.length}</span>
-                          </div>
-                          <div className="mt-2 font-mono-lab text-[11px] tracking-[0.14em] text-foreground">{st.k}</div>
-                          <div className="mt-1 text-[13px] font-light tracking-tight text-foreground/85">{st.name}</div>
-                        </div>
-                        {/* tickers */}
-                        <div className="flex flex-col">
-                          {st.items.map((it, ii) => {
-                            const active = isSel && sel.i === ii
-                            return (
-                              <button
-                                key={it.t}
-                                onClick={() => { setSel({ s: si, i: ii }); setMode('explore') }}
-                                className={cn(
-                                  'group flex items-baseline justify-between gap-3 border-b border-line/50 px-4 py-3 text-start transition-colors last:border-0',
-                                  active ? 'bg-signal/[0.08]' : 'hover:bg-[var(--hover-bg)]'
-                                )}
-                              >
-                                <span>
-                                  <span className={cn('block font-mono-lab text-[11px] tracking-wider', active ? 'text-signal' : 'text-foreground/90 group-hover:text-signal')}>
-                                    {it.t}
-                                  </span>
-                                  <span className="mt-0.5 block text-[11px] font-light text-dim">{it.name}</span>
-                                </span>
-                                {it.priv && (
-                                  <span className="shrink-0 border border-line px-1.5 py-0.5 font-mono-lab text-[7.5px] tracking-[0.2em] text-warn">
-                                    {c.legend.private}
-                                  </span>
-                                )}
-                              </button>
-                            )
-                          })}
-                        </div>
-                      </div>
-                    </div>
+                    </g>
                   )
                 })}
-              </div>
+
+                {/* satellite connector lines */}
+                {stages.map((st, si) =>
+                  st.items.map((it, ii) => {
+                    const sat = sats[si][ii]
+                    const hub = hubs[si]
+                    const active = sel.s === si && sel.i === ii
+                    return (
+                      <line
+                        key={`${st.k}-${it.t}-line`}
+                        x1={hub.x}
+                        y1={hub.y}
+                        x2={sat.x}
+                        y2={sat.y}
+                        stroke={active ? 'var(--signal)' : 'var(--line)'}
+                        strokeWidth={active ? 1.5 : 1}
+                        opacity={active ? 0.8 : 0.5}
+                      />
+                    )
+                  })
+                )}
+
+                {/* satellite ticker nodes */}
+                {stages.map((st, si) =>
+                  st.items.map((it, ii) => {
+                    const sat = sats[si][ii]
+                    const active = sel.s === si && sel.i === ii
+                    const isHover = hover?.s === si && hover?.i === ii
+                    const labelBelow = sat.angle > 90
+                    return (
+                      <g
+                        key={`${st.k}-${it.t}`}
+                        onClick={() => { setSel({ s: si, i: ii }) }}
+                        onMouseEnter={() => setHover({ s: si, i: ii })}
+                        onMouseLeave={() => setHover(null)}
+                        className="cursor-pointer"
+                      >
+                        <circle
+                          cx={sat.x}
+                          cy={sat.y}
+                          r={active || isHover ? SAT_R + 2.5 : SAT_R}
+                          fill={active ? 'var(--signal)' : 'var(--card2)'}
+                          stroke={active ? 'var(--signal)' : isHover ? 'var(--signal)' : 'var(--line)'}
+                          strokeWidth={1.5}
+                          className="transition-all duration-200"
+                        />
+                        {it.priv && (
+                          <circle cx={sat.x + 9} cy={sat.y - 9} r={3} fill="var(--warn)" />
+                        )}
+                        <text
+                          x={sat.x}
+                          y={labelBelow ? sat.y + 24 : sat.y - 16}
+                          textAnchor="middle"
+                          className="font-mono-lab pointer-events-none select-none"
+                          style={{ fontSize: 11, letterSpacing: '0.05em', fill: active || isHover ? 'var(--signal)' : 'var(--dim)' }}
+                        >
+                          {it.t}
+                        </text>
+                        <title>{it.name} — {it.role}</title>
+                      </g>
+                    )
+                  })
+                )}
+
+                {/* stage hub nodes */}
+                {stages.map((st, si) => {
+                  const hub = hubs[si]
+                  const isSel = sel.s === si
+                  return (
+                    <g key={st.k} onClick={() => setSel({ s: si, i: 0 })} className="cursor-pointer">
+                      <circle
+                        cx={hub.x}
+                        cy={hub.y}
+                        r={HUB_R}
+                        fill={isSel ? 'var(--signal)' : 'var(--card2)'}
+                        fillOpacity={isSel ? 0.14 : 1}
+                        stroke={isSel ? 'var(--signal)' : 'var(--line-hover)'}
+                        strokeWidth={isSel ? 2 : 1.5}
+                        className="transition-all duration-300"
+                      />
+                      <text
+                        x={hub.x}
+                        y={hub.y - 3}
+                        textAnchor="middle"
+                        className="font-mono-lab pointer-events-none select-none"
+                        style={{ fontSize: 11, letterSpacing: '0.15em', fill: isSel ? 'var(--signal)' : 'var(--foreground)' }}
+                      >
+                        {st.n}
+                      </text>
+                      <text
+                        x={hub.x}
+                        y={hub.y + 12}
+                        textAnchor="middle"
+                        className="font-mono-lab pointer-events-none select-none"
+                        style={{ fontSize: 8, letterSpacing: '0.1em', fill: 'var(--faint)' }}
+                      >
+                        {st.k}
+                      </text>
+                      <text
+                        x={hub.x}
+                        y={hub.y - HUB_R - 12}
+                        textAnchor="middle"
+                        className="pointer-events-none select-none"
+                        style={{ fontSize: 13, fontWeight: 300, fill: 'var(--prose)' }}
+                      >
+                        {st.name}
+                      </text>
+                    </g>
+                  )
+                })}
+              </svg>
             </div>
           </Reveal>
 

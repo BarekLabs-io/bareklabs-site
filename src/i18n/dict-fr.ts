@@ -18,7 +18,7 @@ export const fr: Dict = {
       chain: { label: 'CHAÎNE DE VALEUR IA', note: 'Des électrons aux tokens' },
       stocks: { label: 'ACTIONS', note: 'Registre actions, en direct' },
       crypto: { label: 'CRYPTO', note: 'Registre actifs numériques' },
-      screener: { label: 'SCREENER', note: 'Chaîne de valeur, filtrable' },
+      screener: { label: 'SCREENER', note: 'Tous nos tickers, au même endroit' },
     },
   },
   tape: {
@@ -265,7 +265,7 @@ export const fr: Dict = {
       code: '01.C / ANALYSE — CHAÎNE DE VALEUR IA',
       title: 'Chaîne de valeur',
       serif: 'IA',
-      desc: 'DES ÉLECTRONS AUX TOKENS : LE TRADE IA, DÉCOMPOSÉ EN CINQ ÉTAGES. QUI FOURNIT QUI, OÙ S’ACCUMULENT LES MARGES, ET QUELS NOMS SONT LES VENDEURS DE PELLES PLUTÔT QUE LES PASSAGERS.',
+      desc: 'LE CALCUL IA NE SORT PAS DE NULLE PART — IL PASSE PAR UNE VRAIE CHAÎNE PHYSIQUE, DE LA CENTRALE ÉLECTRIQUE AU MODÈLE AVEC LEQUEL VOUS DISCUTEZ. NOUS AVONS DÉCOUPÉ CETTE CHAÎNE EN CINQ ÉTAPES POUR QUE VOUS PUISSIEZ VOIR QUI FOURNIT QUI, ET OÙ S’ACCUMULE VRAIMENT LA MARGE. UNE FOIS QUE VOUS VOYEZ TOUTE LA CHAÎNE, N’IMPORTE QUELLE ACTION IA DEVIENT BEAUCOUP PLUS FACILE À SITUER — ET À JUGER.',
     },
     hint: 'CLIQUER UN NŒUD — EXPLORER OU FLUX',
     modes: { explore: 'EXPLORER', flow: 'FLUX' },
@@ -413,8 +413,8 @@ export const fr: Dict = {
       screener: {
         code: '03.C',
         name: 'SCREENER',
-        desc: 'Chaque titre couvert, positionné sur la chaîne de valeur de l’infrastructure IA. Filtrable par segment, pays, risque.',
-        stats: ['60 TITRES', 'CHAÎNE DE VALEUR', 'FILTRABLE'],
+        desc: 'Chaque titre que nous couvrons, cherchable et filtrable, avec une lecture rapide de la valorisation et du risque avant d’aller plus loin.',
+        stats: ['60 TITRES', 'CHERCHABLE', 'FILTRABLE'],
       },
     },
     rules: {
@@ -460,7 +460,7 @@ export const fr: Dict = {
       code: '03.B / TRADE TRACKER — CRYPTO',
       title: 'Registre',
       serif: 'crypto',
-      desc: 'ACTIFS NUMÉRIQUES AVEC DISCIPLINE TRADITIONNELLE : SPOT D’ABORD, FINANCEMENT SURVEILLÉ, RÉGIME FILTRÉ. LE LEVIER EST UN OUTIL, PAS UNE PERSONNALITÉ.',
+      desc: 'NOS POSITIONS CRYPTO, SUIVIES DE LA MÊME FAÇON QUE TOUT LE RESTE ICI : SPOT D’ABORD, DIMENSIONNÉES PAR CONVICTION, ET HONNÊTES SUR LE FINANCEMENT ET LE RÉGIME AVANT D’AJOUTER LE MOINDRE LEVIER.',
     },
     head: 'Livre & régime',
     headRight: 'PRIX SIMULÉS EN DIRECT',
@@ -497,18 +497,18 @@ export const fr: Dict = {
     },
     founder: {
       head: 'Le fondateur',
-      headRight: 'UN OPÉRATEUR, FULL STACK',
+      headRight: 'UN SEUL OPÉRATEUR, AUCUN COMITÉ',
       photoNote: 'EMPLACEMENT PORTRAIT — DÉPOSEZ UN FICHIER DANS /public/founder.jpg',
-      role: 'FONDATEUR / ANALYSTE-INGÉNIEUR',
-      bio: 'BAREK LABS est un laboratoire d’une seule personne, par choix. Son fondateur travaille à l’intersection de l’analyse de marché et de l’ingénierie logicielle : construire d’abord les instruments, puis publier la recherche qu’ils rendent possible. La couverture, les positions suivies et les méthodes de ce site sont son propre travail — le labo répond à ses lecteurs et à son registre, pas à un sponsor. La préférence ici est simple : laisser parler le record. Chaque affirmation remonte à une source, chaque position à un journal, chaque erreur à une correction.',
+      role: 'FONDATEUR — CURIEUX DE NATURE, RIGOUREUX PAR HABITUDE',
+      bio: 'BAREK LABS est un laboratoire d’une seule personne, par choix — pas une équipe d’analystes, pas une start-up fintech, juste quelqu’un avec une habitude sincère, presque obsessionnelle, de lire sur les entreprises et les marchés. La couverture, les positions suivies et les méthodes de ce site sont son propre travail — le labo répond à ses lecteurs et à son registre, pas à un sponsor. La préférence ici est simple : laisser parler le registre. Chaque affirmation remonte à une source, chaque position à un journal, chaque erreur à une correction.',
     },
     story: {
       head: 'Pourquoi ce labo existe',
       headRight: 'L’ORIGINE, VERSION COURTE',
       paragraphs: [
-        'Nous avons lancé BAREK LABS sur un constat simple : la plupart des commentaires de marché sont du storytelling déguisé en analyse. Nous voulions un endroit où les données mènent, où la méthode est visible, et où se tromper est documenté aussi soigneusement qu’avoir raison.',
-        'Le labo fait tourner trois instruments — un desk de recherche, un moteur de signaux pour les marchés régionaux, et un registre de trades public. Chacun existe pour rendre les autres honnêtes. La recherche sans exécution est de la théorie ; l’exécution sans recherche est du jeu.',
-        'Tout est construit au grand jour : les notes, les modèles, les erreurs. Si le registre doit un jour choisir entre bien paraître et être exact, il choisira exact — c’est toute la raison d’en tenir un.',
+        'J’ai lancé BAREK LABS après une longue pause imprévue. Pendant le COVID, je suis rentré de Suède pour rester chez mes parents en France — le travail avait fortement ralenti, et pour la première fois depuis des années, j’avais vraiment du temps libre. J’ai passé une grande partie de ce temps à lire : sur les entreprises, sur les marchés, sur la finance en général. J’avais toujours investi et toujours été curieux du sujet, mais c’est à ce moment-là que la curiosité est devenue une habitude.',
+        'C’est aussi à ce moment que j’ai commencé à parler d’argent avec mes parents, et ma mère m’a raconté une histoire que je ne connaissais pas. Des années plus tôt, une conseillère bancaire l’avait convaincue de placer ses économies dans un produit d’investissement — et elle a perdu presque tout. Elle n’a plus jamais fait confiance aux marchés financiers depuis. Je ne pense pas qu’elle soit un cas isolé ; je pense que c’est l’expérience par défaut de beaucoup de gens qui n’ont jamais eu les outils pour évaluer ce qu’on leur vendait, et qui n’ont eu d’autre choix que de faire confiance — ou d’arrêter de faire confiance — à celui qui le leur vendait.',
+        'C’est la vraie raison pour laquelle ce labo existe. Je veux aider des gens ordinaires à apprendre à lire une entreprise ou un marché par eux-mêmes, plutôt que de prendre la parole de quelqu’un d’autre pour argent comptant — la mienne y compris. Et comme j’ai le temps et la curiosité pour creuser des noms que la plupart des gens ne croiseraient jamais par eux-mêmes, une bonne partie de la couverture de ce site va dans cette direction : pas seulement les méga-caps évidentes, mais les entreprises plus petites et plus étranges qui demandent un vrai travail de recherche pour être comprises.',
       ],
     },
     principles: {

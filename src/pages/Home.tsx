@@ -73,12 +73,12 @@ export default function Home() {
         <div className="scanline" />
         <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-end px-5 pb-14 pt-44 md:px-10 md:pt-48">
           <Reveal>
-            <div className="mb-6 flex items-center gap-3 font-mono-lab text-[10px] tracking-[0.3em] text-foreground/85">
+            <div className="mb-6 flex items-center gap-3 font-mono-lab text-sm font-medium tracking-[0.25em] text-foreground/85">
               <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
               {t.home.tag}
             </div>
           </Reveal>
-          <h1 className="pointer-events-auto select-none text-[10vw] font-semibold leading-[0.9] tracking-[-0.03em] md:text-[6.5vw]">
+          <h1 className="pointer-events-auto select-none text-5xl font-semibold leading-[0.95] tracking-[-0.02em] sm:text-6xl md:text-7xl lg:text-8xl">
             <Reveal delay={80}>
               <span className="block">{t.home.hero1}</span>
             </Reveal>
