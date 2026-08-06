@@ -29,9 +29,9 @@
     --radius: 0.25rem;
 
     /* ---- semantic tokens ---- */
-    --signal: #00e87a;
-    --danger: #ff4d4d;
-    --warn: #ffb84d;
+    --signal: 0 232 122;
+    --danger: 255 77 77;
+    --warn: 255 184 77;
     --ink: #0c0e12;
     --panel: #10131a;
     --card2: #0e1117;
@@ -77,9 +77,9 @@
     --border: 222 20% 24%;
     --input: 222 20% 26%;
 
-    --signal: #00e87a;
-    --danger: #ff4d4d;
-    --warn: #ffb84d;
+    --signal: 0 232 122;
+    --danger: 255 77 77;
+    --warn: 255 184 77;
     --ink: #0a0e1a;
     --panel: #0f1420;
     --card2: #10151f;
@@ -124,7 +124,7 @@
     transition: background-color 0.5s ease, color 0.5s ease;
   }
   ::selection {
-    background: var(--signal);
+    background: rgb(var(--signal));
     color: #0c0e12;
   }
   ::-webkit-scrollbar {
@@ -138,7 +138,7 @@
     border: 2px solid var(--ink);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--signal);
+    background: rgb(var(--signal));
   }
 }
 
@@ -159,12 +159,6 @@
   [dir='rtl'] .font-serif-lab {
     font-family: 'Noto Naskh Arabic', 'Instrument Serif', Georgia, serif;
     font-style: normal;
-  }
-  .text-signal {
-    color: var(--signal);
-  }
-  .bg-signal {
-    background-color: var(--signal);
   }
   .border-line {
     border-color: var(--line);
@@ -207,15 +201,6 @@
   }
   .bg-stripe {
     background-color: var(--row-stripe);
-  }
-  .text-danger {
-    color: var(--danger);
-  }
-  .bg-danger {
-    background-color: var(--danger);
-  }
-  .text-warn {
-    color: var(--warn);
   }
   .border-line-hover:hover {
     border-color: var(--line-hover);
@@ -303,7 +288,7 @@
     bottom: -3px;
     height: 1px;
     width: 100%;
-    background: var(--signal);
+    background: rgb(var(--signal));
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -393,7 +378,7 @@
     right: 0;
     height: 2px;
     z-index: 60;
-    background: var(--signal);
+    background: rgb(var(--signal));
     transform-origin: left;
     transform: scaleX(0);
     transition: transform 0.08s linear;
@@ -404,8 +389,11 @@
   }
 
   /* --- long-form reading prose --- */
+  /* No cap by default: fill whatever column it's placed in. Pages that pair
+     prose with a chart/animation to its right should constrain the wrapper
+     themselves, not this class. */
   .prose-lab {
-    max-width: 80ch;
+    max-width: 100%;
     font-size: 1.075rem;
     line-height: 1.95;
     letter-spacing: 0.005em;
@@ -439,7 +427,7 @@
   /* --- AI value chain flow mode --- */
   @keyframes chain-flow {
     0%, 100% { background-color: transparent; }
-    50% { background-color: color-mix(in srgb, var(--signal) 14%, transparent); }
+    50% { background-color: color-mix(in srgb, rgb(var(--signal)) 14%, transparent); }
   }
   .chain-flow .flow-node {
     animation: chain-flow 3.5s ease-in-out infinite;

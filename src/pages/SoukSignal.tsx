@@ -25,7 +25,7 @@ function Gauge({ value, label }: { value: number; label: string }) {
         <path
           d="M 10 100 A 90 90 0 0 1 190 100"
           fill="none"
-          stroke="var(--signal)"
+          stroke="rgb(var(--signal))"
           strokeWidth="10"
           strokeDasharray={`${(value / 100) * 283} 283`}
           className="transition-all duration-1000"
@@ -37,7 +37,7 @@ function Gauge({ value, label }: { value: number; label: string }) {
           stroke="var(--prose)" strokeWidth="2"
           className="transition-all duration-1000"
         />
-        <circle cx="100" cy="100" r="5" fill="var(--signal)" />
+        <circle cx="100" cy="100" r="5" fill="rgb(var(--signal))" />
       </svg>
       <div className="mt-2 text-3xl font-light tracking-tight" dir="ltr">
         {value}<span className="text-dim text-xl">/100</span>

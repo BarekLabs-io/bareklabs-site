@@ -4,6 +4,9 @@ import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
+import { companies } from '@/data/companies'
+import { countryOf } from '@/data/valueChain'
+import { CHAIN_EXTRA } from '@/data/chainExtra'
 
 type ChainItem = { t: string; name: string; role: string; priv?: boolean }
 type ChainStage = { n: string; k: string; name: string; desc: string; items: ChainItem[] }
@@ -23,14 +26,38 @@ function PickCard({ p, i }: { p: { t: string; title: string; d: string }; i: num
   )
 }
 
+/* Merges the hand-curated headline names (from the i18n dict) with the wider,
+ * real Screener roster (CHAIN_EXTRA -> companies.ts) so the constellation
+ * actually reflects the full covered universe, not just US mega-caps. */
+function useMergedStages(baseStages: ChainStage[]): ChainStage[] {
+  return useMemo(
+    () =>
+      baseStages.map((st) => {
+        const seen = new Set(st.items.map((it) => it.t))
+        const extra: ChainItem[] = (CHAIN_EXTRA[st.k] ?? [])
+          .filter((t) => !seen.has(t) && companies[t])
+          .map((t) => ({ t, name: companies[t].name, role: companies[t].tagline }))
+        return { ...st, items: [...st.items, ...extra] }
+      }),
+    [baseStages]
+  )
+}
+
+function keyMetric(ticker: string, pattern: RegExp): string | null {
+  const c = companies[ticker]
+  if (!c) return null
+  const m = c.valuation.metrics.find((mm) => pattern.test(mm.label))
+  return m?.values[0] ?? null
+}
+
 /* ---------- CONSTELLATION LAYOUT ---------- */
-const VB_W = 1400
-const VB_H = 460
-const MARGIN_X = 100
-const HUB_Y = 128
+const VB_W = 1440
+const VB_H = 520
+const MARGIN_X = 165
+const HUB_Y = 165
 const HUB_R = 30
-const SAT_DIST = 92
-const SAT_R = 8
+const SAT_DIST = 100
+const SAT_R = 7
 
 type Hub = { x: number; y: number }
 type Sat = { x: number; y: number; angle: number }
@@ -45,13 +72,15 @@ function useConstellation(stages: ChainStage[]) {
     }))
     const sats: Sat[][] = stages.map((st, si) => {
       const k = st.items.length
-      const spreadStep = 26 // degrees between adjacent satellites
+      const spreadStep = Math.min(28, 140 / Math.max(k - 1, 1)) // tighten spacing as satellite count grows
       return st.items.map((_, j) => {
         const angleDeg = 90 + (j - (k - 1) / 2) * spreadStep
         const angleRad = (angleDeg * Math.PI) / 180
+        // Alternate inner/outer ring so labels on adjacent tight angles don't collide.
+        const ring = k > 6 ? SAT_DIST + (j % 2) * 46 : SAT_DIST
         return {
-          x: hubs[si].x + SAT_DIST * Math.cos(angleRad),
-          y: hubs[si].y + SAT_DIST * Math.sin(angleRad),
+          x: hubs[si].x + ring * Math.cos(angleRad),
+          y: hubs[si].y + ring * Math.sin(angleRad),
           angle: angleDeg,
         }
       })
@@ -69,13 +98,16 @@ function useConstellation(stages: ChainStage[]) {
 export default function AiValueChain() {
   const { t } = useLang()
   const c = t.chain
-  const stages = c.stages as ChainStage[]
+  const stages = useMergedStages(c.stages as ChainStage[])
   const [mode, setMode] = useState<'explore' | 'flow'>('explore')
-  const [sel, setSel] = useState<Sel>({ s: 3, i: 0 }) // NVDA by default
+  const [sel, setSel] = useState<Sel>({ s: 3, i: 1 }) // AMD by default — has a deep dive on file, unlike NVDA
   const [hover, setHover] = useState<Sel | null>(null)
 
   const selStage = stages[sel.s]
   const selItem = selStage.items[sel.i]
+  const selCompany = companies[selItem.t]
+  const price = keyMetric(selItem.t, /^price|^share price/i)
+  const marketCap = keyMetric(selItem.t, /market cap/i)
   const { hubs, sats, connectors } = useConstellation(stages)
 
   return (
@@ -108,7 +140,7 @@ export default function AiValueChain() {
 
           <Reveal>
             <div className="overflow-x-auto border border-line bg-panel" dir="ltr">
-              <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className="min-w-[980px]" role="img" aria-label={c.hint}>
+              <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className="min-w-[1180px]" role="img" aria-label={c.hint}>
                 {/* stage-to-stage flow connectors */}
                 {connectors.map((d, i) => {
                   const isActivePath = i < sel.s || i === sel.s
@@ -118,12 +150,12 @@ export default function AiValueChain() {
                       <path
                         d={d}
                         fill="none"
-                        stroke="var(--signal)"
+                        stroke="rgb(var(--signal))"
                         strokeWidth={1.5}
                         opacity={isActivePath ? 0.5 : 0.12}
                       />
                       {mode === 'flow' && (
-                        <circle r={3.5} fill="var(--signal)">
+                        <circle r={3.5} fill="rgb(var(--signal))">
                           <animateMotion dur={`${2.4 + i * 0.3}s`} repeatCount="indefinite" path={d} />
                         </circle>
                       )}
@@ -144,9 +176,9 @@ export default function AiValueChain() {
                         y1={hub.y}
                         x2={sat.x}
                         y2={sat.y}
-                        stroke={active ? 'var(--signal)' : 'var(--line)'}
+                        stroke={active ? 'rgb(var(--signal))' : 'var(--line)'}
                         strokeWidth={active ? 1.5 : 1}
-                        opacity={active ? 0.8 : 0.5}
+                        opacity={active ? 0.8 : 0.45}
                       />
                     )
                   })
@@ -159,6 +191,7 @@ export default function AiValueChain() {
                     const active = sel.s === si && sel.i === ii
                     const isHover = hover?.s === si && hover?.i === ii
                     const labelBelow = sat.angle > 90
+                    const hasDive = !!companies[it.t]
                     return (
                       <g
                         key={`${st.k}-${it.t}`}
@@ -171,20 +204,21 @@ export default function AiValueChain() {
                           cx={sat.x}
                           cy={sat.y}
                           r={active || isHover ? SAT_R + 2.5 : SAT_R}
-                          fill={active ? 'var(--signal)' : 'var(--card2)'}
-                          stroke={active ? 'var(--signal)' : isHover ? 'var(--signal)' : 'var(--line)'}
+                          fill={active ? 'rgb(var(--signal))' : 'var(--card2)'}
+                          stroke={active ? 'rgb(var(--signal))' : isHover ? 'rgb(var(--signal))' : hasDive ? 'var(--line-hover)' : 'var(--line)'}
                           strokeWidth={1.5}
+                          strokeDasharray={hasDive ? undefined : '2 2'}
                           className="transition-all duration-200"
                         />
                         {it.priv && (
-                          <circle cx={sat.x + 9} cy={sat.y - 9} r={3} fill="var(--warn)" />
+                          <circle cx={sat.x + 9} cy={sat.y - 9} r={3} fill="rgb(var(--warn))" />
                         )}
                         <text
                           x={sat.x}
-                          y={labelBelow ? sat.y + 24 : sat.y - 16}
+                          y={labelBelow ? sat.y + 22 : sat.y - 14}
                           textAnchor="middle"
                           className="font-mono-lab pointer-events-none select-none"
-                          style={{ fontSize: 11, letterSpacing: '0.05em', fill: active || isHover ? 'var(--signal)' : 'var(--dim)' }}
+                          style={{ fontSize: 10.5, letterSpacing: '0.05em', fill: active || isHover ? 'rgb(var(--signal))' : 'var(--dim)' }}
                         >
                           {it.t}
                         </text>
@@ -204,9 +238,9 @@ export default function AiValueChain() {
                         cx={hub.x}
                         cy={hub.y}
                         r={HUB_R}
-                        fill={isSel ? 'var(--signal)' : 'var(--card2)'}
+                        fill={isSel ? 'rgb(var(--signal))' : 'var(--card2)'}
                         fillOpacity={isSel ? 0.14 : 1}
-                        stroke={isSel ? 'var(--signal)' : 'var(--line-hover)'}
+                        stroke={isSel ? 'rgb(var(--signal))' : 'var(--line-hover)'}
                         strokeWidth={isSel ? 2 : 1.5}
                         className="transition-all duration-300"
                       />
@@ -215,7 +249,7 @@ export default function AiValueChain() {
                         y={hub.y - 3}
                         textAnchor="middle"
                         className="font-mono-lab pointer-events-none select-none"
-                        style={{ fontSize: 11, letterSpacing: '0.15em', fill: isSel ? 'var(--signal)' : 'var(--foreground)' }}
+                        style={{ fontSize: 11, letterSpacing: '0.15em', fill: isSel ? 'rgb(var(--signal))' : 'var(--foreground)' }}
                       >
                         {st.n}
                       </text>
@@ -237,6 +271,15 @@ export default function AiValueChain() {
                       >
                         {st.name}
                       </text>
+                      <text
+                        x={hub.x}
+                        y={hub.y + HUB_R + 22}
+                        textAnchor="middle"
+                        className="font-mono-lab pointer-events-none select-none"
+                        style={{ fontSize: 9, letterSpacing: '0.1em', fill: 'var(--faint)' }}
+                      >
+                        {st.items.length} TICKERS
+                      </text>
                     </g>
                   )
                 })}
@@ -247,7 +290,7 @@ export default function AiValueChain() {
           {/* ===== DETAIL PANEL ===== */}
           <Reveal delay={120}>
             <div className="mt-8 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-12">
-              <div className="bg-panel p-7 md:col-span-4 md:p-9">
+              <div className="bg-panel p-7 md:col-span-3 md:p-9">
                 <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.detail.stage}</div>
                 <div className="mt-3 flex items-baseline gap-3">
                   <span className="font-mono-lab text-[10px] text-signal" dir="ltr">{selStage.n}</span>
@@ -255,18 +298,51 @@ export default function AiValueChain() {
                 </div>
                 <p className="mt-4 font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{selStage.desc}</p>
               </div>
-              <div className="bg-panel p-7 md:col-span-5 md:p-9">
+              <div className="bg-panel p-7 md:col-span-6 md:p-9">
                 <div className="flex items-baseline justify-between gap-4">
                   <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.detail.role}</div>
-                  <span className="border border-line px-2 py-0.5 font-mono-lab text-[8px] tracking-[0.2em] text-dim" dir="ltr">
-                    {selItem.priv ? c.legend.private : c.legend.listed}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="border border-line px-2 py-0.5 font-mono-lab text-[8px] tracking-[0.2em] text-dim" dir="ltr">
+                      {countryOf(selItem.t)}
+                    </span>
+                    <span className="border border-line px-2 py-0.5 font-mono-lab text-[8px] tracking-[0.2em] text-dim" dir="ltr">
+                      {selItem.priv ? c.legend.private : c.legend.listed}
+                    </span>
+                  </div>
                 </div>
                 <div className="mt-3 flex flex-wrap items-baseline gap-x-4">
                   <span className="font-mono-lab text-2xl tracking-tight text-signal" dir="ltr">{selItem.t}</span>
                   <span className="text-xl font-light tracking-tight">{selItem.name}</span>
                 </div>
                 <p className="mt-4 font-mono-lab text-[12px] leading-6 tracking-wide text-foreground/80">{selItem.role}</p>
+                {selCompany && (price || marketCap) && (
+                  <div className="mt-5 flex flex-wrap gap-6 border-t border-line pt-4">
+                    {price && (
+                      <div>
+                        <div className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">PRICE</div>
+                        <div className="mt-1 font-mono-lab text-sm tabular-nums text-foreground" dir="ltr">{price}</div>
+                      </div>
+                    )}
+                    {marketCap && (
+                      <div>
+                        <div className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">MARKET CAP</div>
+                        <div className="mt-1 font-mono-lab text-sm tabular-nums text-foreground" dir="ltr">{marketCap}</div>
+                      </div>
+                    )}
+                  </div>
+                )}
+                <div className="mt-5">
+                  {selCompany ? (
+                    <Link
+                      to={`/companies/${selItem.t}`}
+                      className="inline-flex items-center gap-2 border border-signal/50 px-4 py-2 font-mono-lab text-[10px] tracking-[0.2em] text-signal transition-all duration-300 hover:bg-signal hover:text-[#0c0e12]"
+                    >
+                      DEEP DIVE →
+                    </Link>
+                  ) : (
+                    <span className="font-mono-lab text-[10px] tracking-[0.2em] text-faint">NO DEEP DIVE ON FILE YET</span>
+                  )}
+                </div>
               </div>
               <div className="bg-panel p-7 md:col-span-3 md:p-9">
                 <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.detail.exposure}</div>

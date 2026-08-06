@@ -137,8 +137,8 @@ export default function PriceChart({
             <ComposedChart data={liveRows} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id={`fill-${ticker}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="var(--signal)" stopOpacity={0.22} />
-                  <stop offset="100%" stopColor="var(--signal)" stopOpacity={0} />
+                  <stop offset="0%" stopColor="rgb(var(--signal))" stopOpacity={0.22} />
+                  <stop offset="100%" stopColor="rgb(var(--signal))" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis
@@ -163,10 +163,10 @@ export default function PriceChart({
                 width={54}
                 tickFormatter={(v: number) => v.toFixed(0)}
               />
-              <Tooltip content={<CustomTooltip tf={tf} />} cursor={{ stroke: 'var(--signal)', strokeDasharray: '3 3', strokeOpacity: 0.4 }} />
+              <Tooltip content={<CustomTooltip tf={tf} />} cursor={{ stroke: 'rgb(var(--signal))', strokeDasharray: '3 3', strokeOpacity: 0.4 }} />
               <Area type="monotone" dataKey="price" stroke="var(--prose)" strokeWidth={1.5} fill={`url(#fill-${ticker})`} dot={false} isAnimationActive={false} />
               {tf !== '1D' && (
-                <Line type="monotone" dataKey="sma50" stroke="var(--warn)" strokeWidth={1.25} dot={false} isAnimationActive={false} connectNulls />
+                <Line type="monotone" dataKey="sma50" stroke="rgb(var(--warn))" strokeWidth={1.25} dot={false} isAnimationActive={false} connectNulls />
               )}
               {tf !== '1D' && (
                 <Line type="monotone" dataKey="sma200" stroke="var(--dim)" strokeWidth={1.25} strokeDasharray="4 3" dot={false} isAnimationActive={false} connectNulls />
