@@ -86,7 +86,7 @@ export function ValueChainDossier() {
       <div className="border-b border-line px-6 py-4">
         <div className="font-mono-lab text-[10.5px] tracking-[0.3em] text-signal">{d.label}</div>
         <h3 className="mt-1 text-lg font-medium tracking-tight md:text-xl">{d.title}</h3>
-        <p className="mt-2 max-w-3xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim">{d.intro}</p>
+        <p className="mt-2 max-w-5xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim">{d.intro}</p>
       </div>
 
       <div className="flex flex-wrap gap-px border-b border-line bg-line">
@@ -113,7 +113,7 @@ export function ValueChainDossier() {
                   <span className="font-mono-lab text-[11.5px] tracking-[0.2em] text-signal">{l.n}</span>
                   <span className="text-base font-medium tracking-tight">{l.title}</span>
                 </div>
-                {l.note && <p className="mt-2 max-w-3xl font-mono-lab text-[11.5px] leading-6 tracking-wide text-dim">{l.note}</p>}
+                {l.note && <p className="mt-2 max-w-5xl font-mono-lab text-[11.5px] leading-6 tracking-wide text-dim">{l.note}</p>}
                 <div className="mt-4 flex flex-col gap-4">
                   {l.segments.map((sg) => (
                     <div key={sg.name} className="border-t border-line pt-3">
@@ -121,7 +121,7 @@ export function ValueChainDossier() {
                         <span className="font-mono-lab text-[12.5px] tracking-wide text-foreground">{sg.name}</span>
                         <MaturityTag m={sg.maturity} />
                       </div>
-                      <p className="mt-1.5 max-w-2xl font-mono-lab text-[11.5px] leading-6 tracking-wide text-dim">{sg.role}</p>
+                      <p className="mt-1.5 max-w-4xl font-mono-lab text-[11.5px] leading-6 tracking-wide text-dim">{sg.role}</p>
                       <div className="mt-2.5 flex flex-wrap gap-1.5">
                         {sg.tickers.map((tk) => (
                           <Quote key={tk} ticker={tk} quote={quotes[tk]} />
@@ -185,7 +185,7 @@ export function ValueChainDossier() {
 
         {tab === 'epc' && (
           <div>
-            <p className="max-w-3xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim">{d.epcIntro}</p>
+            <p className="max-w-5xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim">{d.epcIntro}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {['STRL', 'FIX', 'EME', 'IESC', 'MTZ', 'PWR'].map((tk) => (
                 <Quote key={tk} ticker={tk} quote={quotes[tk]} />

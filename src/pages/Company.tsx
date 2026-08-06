@@ -56,7 +56,7 @@ export default function CompanyPage() {
         <div className="mx-auto max-w-[1440px] px-5 md:px-10">
           <div className="font-mono-lab text-[12px] tracking-[0.3em] text-signal">COMPANY DEEP DIVE</div>
           <h1 className="mt-4 text-4xl font-medium tracking-tight">No profile yet for "{ticker.toUpperCase()}"</h1>
-          <p className="mt-4 max-w-lg font-mono-lab text-[16px] leading-6 text-dim">
+          <p className="mt-4 max-w-3xl font-mono-lab text-[16px] leading-6 text-dim">
             This ticker doesn't have a company deep dive yet.
           </p>
           <Link to="/souk-signal" className="mt-8 inline-block border border-line px-4 py-2 font-mono-lab text-[15px] tracking-[0.2em] transition-colors hover:border-signal hover:text-signal">
@@ -75,6 +75,15 @@ export default function CompanyPage() {
   // dated research — the quotes endpoint doesn't carry them.
   const liveQuote = quotes[c.ticker]
   const currentPrice = liveQuote?.price ?? staticPrice
+  /* A researched price is a snapshot and will drift; that is expected and the
+   * date says so. A researched price that is a long way from the live one is
+   * something else — it means the figure was captured wrong, and every
+   * multiple derived from it in this deep dive inherits the error. MTZ sat at
+   * a researched $417 against a real $259 until this check existed. 20% is
+   * wide enough that ordinary drift does not trip it. */
+  const drift =
+    liveQuote && staticPrice > 0 ? (liveQuote.price - staticPrice) / staticPrice : null
+  const priceSuspect = drift != null && Math.abs(drift) > 0.2
   const marketCapMetric = c.valuation.metrics.find((m) => /^market cap|market cap$/i.test(m.label))
   const country = countryOf(c.ticker)
   const segment = segmentInfoOf(c.ticker)
@@ -98,7 +107,7 @@ export default function CompanyPage() {
             </h1>
           </Reveal>
           <Reveal delay={100}>
-            <p className="mt-3 max-w-2xl font-mono-lab text-[12px] leading-5 tracking-wide text-prose">{c.tagline}</p>
+            <p className="mt-3 max-w-4xl font-mono-lab text-[12px] leading-5 tracking-wide text-prose">{c.tagline}</p>
           </Reveal>
           <Reveal delay={120} className="mt-5 flex flex-wrap items-center gap-2">
             <span className="border border-line px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-dim">{country.toUpperCase()}</span>
@@ -108,6 +117,15 @@ export default function CompanyPage() {
             >
               {segment.label}
             </Link>
+            {priceSuspect && drift != null && (
+              <span
+                className="border border-warn/50 bg-warn/5 px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-warn"
+                dir="ltr"
+                title="The researched snapshot is a long way from the live quote. Every multiple below was derived from that snapshot, so treat them as suspect until the figure is refreshed."
+              >
+                SNAPSHOT {drift > 0 ? '−' : '+'}{Math.abs(drift * 100).toFixed(0)}% VS LIVE — NEEDS REFRESH
+              </span>
+            )}
             {marketCapMetric && (
               <span
                 className="border border-line px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-dim"
@@ -141,7 +159,7 @@ export default function CompanyPage() {
             <span className="font-mono-lab text-[12px] tracking-wide text-dim">{segment.note}</span>
           </Reveal>
           <Reveal>
-            <p className="max-w-2xl font-mono-lab text-[16px] leading-6 tracking-wide text-prose">{c.chain.intro}</p>
+            <p className="max-w-4xl font-mono-lab text-[16px] leading-6 tracking-wide text-prose">{c.chain.intro}</p>
           </Reveal>
           <Reveal delay={80}>
             <div className="mt-8 overflow-x-auto border border-line bg-panel p-1">
@@ -203,6 +221,17 @@ export default function CompanyPage() {
       <section className="border-t border-line bg-alt">
         <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
           <SectionHead index="02" label="Valuation vs. peers" right={c.valuation.peers.slice(1).join(' · ')} />
+          {/* Every multiple in this table is derived from the snapshot price.
+              If that price has drifted far from the live quote, the multiples
+              are wrong by the same factor — say so above the table rather
+              than letting a reader take a stale P/E at face value. */}
+          {priceSuspect && drift != null && (
+            <div className="mb-5 border-s-2 border-warn bg-warn/5 px-4 py-3 font-mono-lab text-[12px] leading-5 tracking-wide text-warn">
+              The snapshot price behind this table is {Math.abs(drift * 100).toFixed(0)}% {drift > 0 ? 'below' : 'above'} the
+              live quote. Every price-derived multiple here — P/E, P/S, P/B, EV/EBITDA — is off by roughly the same factor
+              until the snapshot is refreshed. Margins, backlog and revenue are unaffected.
+            </div>
+          )}
           <Reveal>
             <div className="overflow-x-auto border border-line bg-panel p-1">
               <table className="w-full min-w-[640px]">
@@ -383,7 +412,7 @@ export default function CompanyPage() {
           </Reveal>
           <Reveal delay={100} className="mt-8 border border-line bg-secondary p-8">
             <div className="font-mono-lab text-[12px] tracking-[0.25em] text-signal">{c.synthesis.readLabel}</div>
-            <p className="mt-4 max-w-3xl font-mono-lab text-[16px] leading-6 tracking-wide text-dim">{c.synthesis.summary}</p>
+            <p className="mt-4 max-w-5xl font-mono-lab text-[16px] leading-6 tracking-wide text-dim">{c.synthesis.summary}</p>
           </Reveal>
           <Reveal delay={160} className="mt-8">
             <p className="font-mono-lab text-[12px] leading-6 tracking-wider text-faint">{c.sourceNote}</p>

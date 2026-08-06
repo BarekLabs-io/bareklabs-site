@@ -6453,7 +6453,7 @@ MTZ: {
   name: 'MasTec',
   tagline: 'Five-segment infrastructure contractor whose Power Delivery unit is a real, disclosed beneficiary of AI-driven grid demand — but that is one segment of five, and the AI slice of the story is genuine yet diluted.',
   sector: 'ENERGY & SPACE',
-  asOf: '2026.08',
+  asOf: '2026.08.06',
   chain: {
     intro:
       'MasTec is an engineering-and-construction contractor operating across five segments: Communications, Clean Energy and Infrastructure, Power Delivery, Pipeline Infrastructure and Other. Only Power Delivery has a disclosed, explicit link to AI/data-center electricity demand — management has said AI and data centers could push data centers toward nearly 12% of total US electricity consumption by decade\'s end, and cites that as a Power Delivery tailwind. The other four segments (telecom networks, clean-energy construction, oil/gas pipelines, other) have no disclosed AI relevance.',
@@ -6477,16 +6477,16 @@ MTZ: {
   valuation: {
     peers: ['MTZ', 'STRL', 'EME', 'PWR'],
     metrics: [
-      { label: 'Price', values: ['$417.41 (early Aug 2026)', '$540.04 (Aug 4, 2026)', '$924.06 (early Aug 2026)', '$667.36 - $693.00 (variance across sources, early Aug 2026)'] },
-      { label: 'Market cap', values: ['$20.78B (Aug 2026)', '~$16-22B (varies by source/date)', '~$38-41B (varies by source/date)', '~$102.3B (Aug 2026)'] },
-      { label: 'Trailing P/E', values: ['63.31x', '46.8x - 54.7x (varies by source/date)', 'not captured', 'not captured'] },
-      { label: 'Forward P/E', values: ['40.12x', '26.5x - 28.2x (varies by source/date, see STRL entry)', '~29.0x', '~41.1x - 45.5x (varies by source/date)'] },
+      { label: 'Price', values: ['$258.63 (Aug 6, 2026 close)', '$540.04 (Aug 4, 2026)', '$924.06 (early Aug 2026)', '$667.36 - $693.00 (variance across sources, early Aug 2026)'] },
+      { label: 'Market cap', values: ['$21.82B (Aug 6, 2026)', '~$16-22B (varies by source/date)', '~$38-41B (varies by source/date)', '~$102.3B (Aug 2026)'] },
+      { label: 'Trailing P/E', values: ['43.27x', '46.8x - 54.7x (varies by source/date)', 'not captured', 'not captured'] },
+      { label: 'Forward P/E', values: ['29.67x', '26.5x - 28.2x (varies by source/date, see STRL entry)', '~29.0x', '~41.1x - 45.5x (varies by source/date)'] },
       { label: 'Gross margin (ttm)', values: ['~12.82%', 'not captured', 'not captured', 'not captured'] },
       { label: 'Net margin (ttm)', values: ['~3.14%', 'not captured', 'not captured', 'not captured'] },
     ],
     verdictTone: 'high',
     verdictPoints: [
-      'Trailing P/E of 63.3x and forward P/E of 40.1x are rich for a business with a ~3.1% ttm net margin — this multiple prices in sustained backlog conversion, not just current profitability',
+      'Trailing P/E of 43.3x and forward P/E of 29.7x are still full for a business running a ~3.1% ttm net margin — the multiple prices in sustained backlog conversion, not current profitability. EV/EBITDA of 18.9x on an EV of $24.7B is the cleaner read for a contractor carrying debt',
       'The record $20.3B 18-month backlog (+28% YoY) and raised FY2026 guidance ($17.5B revenue, $1.5B adjusted EBITDA) support the growth case, but only a fraction of that backlog is the AI-linked Power Delivery segment',
       'Compared to Sterling Infrastructure, where the AI-exposed segment is now the dominant growth driver, MasTec\'s AI linkage is real but proportionally much smaller relative to its total business — the valuation premium should be assessed on that basis, not on an assumed AI-infrastructure re-rating',
     ],
@@ -6504,7 +6504,7 @@ MTZ: {
     ],
     technical: [
       'All-time high $437.51 (May 5, 2026)',
-      'Current $417.41 (early Aug 2026) sits close to that ATH',
+      'Current $258.63 (Aug 6, 2026 close) is ~41% below that ATH — the de-rate, not the peak, is the story',
       'Stock fell ~8.5% on one recent print despite record backlog and raised guidance — a "priced for perfection" reaction per Yahoo Finance coverage',
     ],
     scenarios: [
@@ -6558,7 +6558,7 @@ ISRG: {
   name: 'Intuitive Surgical',
   tagline: 'The dominant surgical-robotics franchise behind the da Vinci system — an excellent medtech compounder with essentially no confirmed connection to the AI-infrastructure/datacenter buildout theme.',
   sector: 'TELECOM & TECH',
-  asOf: '2026.08',
+  asOf: '2026.08.06',
   chain: {
     intro:
       'Intuitive designs, manufactures and sells robotic-assisted surgical systems (da Vinci 5, da Vinci Xi, the Ion lung-biopsy platform) plus the recurring instruments, accessories and service revenue that come with each installed system. Its products increasingly market "AI" features — Case Insights, Iris and Force Feedback analytics on da Vinci 5 — but these are clinical decision-support and surgical-analytics software embedded in Intuitive\'s own devices, not exposure to the compute/power/datacenter buildout that anchors most of this dataset. This research found no disclosed relationship between Intuitive and AI-infrastructure or hyperscaler datacenter demand.',

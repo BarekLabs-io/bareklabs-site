@@ -47,7 +47,7 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
             <h3 className="text-xl font-medium tracking-tight md:text-2xl">{idea.title}</h3>
             <span className={cn('font-mono-lab text-lg text-faint transition-transform duration-300', open && 'rotate-45')}>+</span>
           </div>
-          <p className="mt-3 max-w-2xl font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{idea.thesis}</p>
+          <p className="mt-3 max-w-4xl font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{idea.thesis}</p>
         </button>
 
         <div className={cn('grid transition-all duration-500 ease-out', open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
@@ -103,7 +103,7 @@ function EmptyTheses() {
       <div className="border border-dashed border-line p-12 text-center md:p-20">
         <div className="mx-auto flex h-12 w-12 items-center justify-center border border-line font-mono-lab text-lg text-faint">—</div>
         <div className="mt-6 font-mono-lab text-[11px] tracking-[0.3em] text-signal">{t.ideas.empty.label}</div>
-        <p className="mx-auto mt-4 max-w-xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.ideas.empty.body}</p>
+        <p className="mx-auto mt-4 max-w-3xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.ideas.empty.body}</p>
       </div>
     </Reveal>
   )

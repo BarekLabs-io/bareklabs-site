@@ -140,10 +140,10 @@ export default function SoukSignal() {
             </h1>
           </Reveal>
           <Reveal delay={160}>
-            <p className="mt-5 max-w-4xl font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{t.souk.hero.desc}</p>
+            <p className="mt-5 max-w-5xl font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{t.souk.hero.desc}</p>
           </Reveal>
           <Reveal delay={200}>
-            <p className="mt-6 max-w-3xl text-xl font-light leading-snug tracking-tight text-foreground/90 md:text-2xl">
+            <p className="mt-6 max-w-5xl text-xl font-light leading-snug tracking-tight text-foreground/90 md:text-2xl">
               {t.souk.hero.welcome1}
               <span className="font-serif-lab italic font-semibold">{t.souk.hero.welcomeAccent}</span>
               {t.souk.hero.welcome2}

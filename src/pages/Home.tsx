@@ -116,7 +116,7 @@ export default function Home() {
           </h1>
           <Reveal delay={400}>
             <div className="pointer-events-auto mt-8 flex flex-col justify-between gap-6 border-t border-line pt-6 md:flex-row md:items-end">
-              <p className="max-w-2xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim md:text-[14px] md:leading-7">{t.home.heroDesc}</p>
+              <p className="max-w-4xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim md:text-[14px] md:leading-7">{t.home.heroDesc}</p>
               <div className="flex items-center gap-6">
                 <Link
                   to="/analysis"
@@ -165,7 +165,7 @@ export default function Home() {
                 </p>
               </Reveal>
               <Reveal delay={200}>
-                <p className="mt-8 max-w-lg font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{m.sub}</p>
+                <p className="mt-8 max-w-3xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{m.sub}</p>
               </Reveal>
             </div>
           </div>
