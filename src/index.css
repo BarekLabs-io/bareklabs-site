@@ -143,6 +143,13 @@
 }
 
 @layer utilities {
+  .carousel-track {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
   .font-mono-lab {
     font-family: 'IBM Plex Mono', 'IBM Plex Sans Arabic', ui-monospace, monospace;
   }

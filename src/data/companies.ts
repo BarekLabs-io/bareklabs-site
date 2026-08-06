@@ -6340,4 +6340,849 @@ NBIS: {
   },
   sourceNote: 'Very well-covered Dutch large-cap; figures compiled from BESI Q1/Q2 2026 earnings releases (globenewswire.com, quartr.com), June 2026 Investor Day disclosures, and financial press (Yahoo Finance, Techzine, Bits&Chips) as of late July/early August 2026. P/E figures showed meaningful variance across sources/dates given the stock\'s rapid appreciation — treat as directionally consistent (very rich) rather than to-the-decimal precise.',
 },
+STRL: {
+  ticker: 'STRL',
+  name: 'Sterling Infrastructure',
+  tagline: 'Heavy-civil contractor whose E-Infrastructure unit pours the foundations and runs the sitework for data centers and semiconductor campuses — real, disclosed AI-capex exposure, but construction exposure, not compute or power-hardware exposure.',
+  sector: 'ENERGY & SPACE',
+  asOf: '2026.08',
+  chain: {
+    intro:
+      'Sterling (formerly Sterling Construction) is a specialty construction contractor split across three segments: E-Infrastructure (site development, underground utilities and foundations for data centers, semiconductor campuses and warehouses), Transportation Solutions (highway/heavy-civil) and Building Solutions (residential/commercial concrete). It does not manufacture chips, servers or power equipment — it is the excavation and sitework contractor hyperscalers and developers hire before a data center can be built, and that E-Infrastructure segment is now the fastest-growing, highest-margin part of the business.',
+    rows: [
+      { level: 'Hyperscalers & data-center developers', players: 'Meta, Microsoft, Amazon, Google, merchant developers (not individually named by Sterling)', position: 'End-demand driver — Sterling does not disclose hyperscaler counterparties by name, but management explicitly attributes E-Infrastructure growth to "AI focused data centers and semiconductor facilities"', tone: 'indirect' },
+      { level: 'Site development & heavy-civil contractor (this company)', players: 'Sterling Infrastructure — E-Infrastructure segment', position: 'Core business — site development, underground utilities and foundations; E-Infrastructure revenue +174% YoY in Q1 2026 and consolidated revenue +90% YoY in Q2 2026', tone: 'core' },
+      { level: 'Semiconductor campus buildout', players: 'Undisclosed customer — first-phase semiconductor campus project embedded in backlog', position: 'A single named $500M contract disclosed inside combined backlog — a concrete, quantified data point rather than pure narrative', tone: 'growth' },
+      { level: 'Transportation & Building Solutions (legacy)', players: 'State DOTs, municipalities, residential/commercial developers', position: 'Lower-margin legacy highway and residential-concrete work — no AI relevance', tone: 'none' },
+      { level: 'Materials & subcontractors', players: 'Aggregate, ready-mix concrete and steel suppliers; regional subcontractors', position: 'Upstream input costs, not individually disclosed', tone: 'none' },
+    ],
+    segments: [
+      'E-Infrastructure: revenue +174% YoY in Q1 2026; >92% of signed E-Infrastructure backlog now tied to data centers, semiconductor campuses and large manufacturing projects (Q2 2026)',
+      'Transportation Solutions: legacy highway/heavy-civil work, lower margins, tied to state DOT budgets',
+      'Building Solutions: residential and commercial concrete foundations',
+      'Combined backlog $5.6B and signed backlog $4.3B (+116% YoY) as of Q2 2026; total opportunity pool near $6.5B including unsigned awards and future project phases',
+    ],
+    aiShift:
+      'This is one of the more directly verified AI-capex-linked stories among the non-tech names in this dataset: Sterling discloses that more than 92% of signed E-Infrastructure backlog is tied to data centers, semiconductor campuses and large manufacturing projects, and management explicitly cites "AI focused data centers and semiconductor facilities" as the driver behind raised 2026 guidance (revenue $3.70-3.80B, adjusted EPS $18.40-19.05). That said, this is civil-construction and sitework exposure, not compute or power-equipment exposure — Sterling pours foundations and lays underground utilities, it does not sell servers, chips, transformers or switchgear. The other two segments (Transportation, Building) have no AI relevance at all.',
+  },
+  valuation: {
+    peers: ['STRL', 'EME', 'PWR', 'DY'],
+    metrics: [
+      { label: 'Price', values: ['$540.04 (Aug 4, 2026)', '$924.06 (early Aug 2026)', '$667.36 - $693.00 (variance across sources, early Aug 2026)', '$437.76 (Jul 2, 2026, most recent found)'] },
+      { label: 'Market cap', values: ['~$16-22B (varies by source/date — $22.00B cited Jul 2026, implied ~$16.6B off the $540.04 Aug 4 price and ~30.65M shares; not independently reconciled)', '~$38-41B (varies by source/date, 2026)', '~$102.3B (Aug 2026)', '~$13.15B (2026)'] },
+      { label: 'Trailing P/E', values: ['46.8x - 54.7x (varies by source/date; industry median ~33.5x for context)', 'not captured in this pass', 'not captured in this pass', 'not captured in this pass'] },
+      { label: 'Forward P/E', values: ['26.5x - 28.2x per stockanalysis-style sources vs. 49.6x-69.2x per GuruFocus on earlier 2026 dates — wide, unreconciled variance', '~29.0x', '~41.1x - 45.5x (varies by source/date)', '~26.2x'] },
+      { label: 'P/S (ttm)', values: ['~6.7x', 'not captured', 'not captured', 'not captured'] },
+      { label: 'P/B (ttm)', values: ['~16.4x', 'not captured', 'not captured', 'not captured'] },
+      { label: 'ROE', values: ['~32% - 37% (varies by source)', 'not captured', 'not captured', 'not captured'] },
+      { label: 'Operating margin', values: ['~16%+ consolidated; E-Infrastructure segment ~23.5% adjusted', 'not captured', 'not captured', 'not captured'] },
+    ],
+    verdictTone: 'high',
+    verdictPoints: [
+      'Trailing P/E of 46.8x-54.7x sits well above the Construction & Engineering industry median (~33.5x), and forward-P/E readings vary enormously by source and date (26.5x to 69.2x) — treat the multiple as "rich" directionally rather than to-the-decimal precise',
+      'Stock is down roughly 9.5% month-to-date as of Aug 4, 2026 despite Q2 revenue +90% YoY and adjusted EPS +116% — a sign the market had already priced in much of the E-Infrastructure growth story',
+      'P/S ~6.7x and P/B ~16.4x are both elevated for a construction contractor, reflecting the market treating Sterling more like a growth/tech name than a traditional heavy-civil builder',
+    ],
+    justifiedIf: [
+      'E-Infrastructure keeps growing at triple-digit rates as guided (management has flagged >100% growth for 2026, aided by the CEC and StoneRidge acquisitions) and the >92% data-center/semiconductor backlog mix holds',
+      'The 2026 guidance raise (revenue $3.70-3.80B, adjusted EPS $18.40-19.05) is met or beaten without margin erosion',
+      'AI/hyperscaler capex plans do not pause or redirect sitework contracts to competing civil contractors',
+    ],
+  },
+  priceMap: {
+    zones: [
+      { tier: 'ideal', range: '$420 - $470', rationale: 'A pullback toward levels more consistent with a still-rich but less extended multiple, roughly 15-20% below the Aug 2026 price' },
+      { tier: 'acceptable', range: '$470 - $580', rationale: 'Brackets the Aug 2026 trading range ($507-$627 intramonth) — defensible if triple-digit E-Infrastructure growth continues, not a bargain' },
+      { tier: 'expensive', range: '> $630', rationale: 'Above the Aug 2026 intramonth high — would require flawless execution on an already-elevated growth expectation' },
+    ],
+    technical: [
+      'Aug 2026 range: high $626.69, low $507.15; current $540.04 (Aug 4, 2026)',
+      'Down ~9.5% month-to-date as of Aug 4, 2026',
+      'Q2 2026 results (revenue +90% YoY, adjusted EPS +116% YoY) triggered a share-price decline on the print, per Investing.com coverage — a "sell the news" reaction despite the beat',
+    ],
+    scenarios: [
+      { label: 'BASE', prob: 45, note: 'FY2026 guidance ($3.70-3.80B revenue, $18.40-19.05 adjusted EPS) is met, E-Infrastructure backlog conversion proceeds on schedule — shares consolidate in the $500-650 range over 12-18 months.' },
+      { label: 'BULL', prob: 25, note: 'Data-center/semiconductor bid activity accelerates further, additional named mega-projects (beyond the disclosed $500M semiconductor campus) are signed, multiple re-rates toward $700-800.' },
+      { label: 'BEAR', prob: 30, note: 'Hyperscaler capex pauses or a large named project slips, exposing the customer-concentration risk in a segment now driving the bulk of growth — shares retest $350-420.' },
+    ],
+    horizon: '12-18 months',
+    invalidation: 'Weekly close below $420 (structure break beneath the 2026 base) or disclosed cancellation/delay of the named semiconductor-campus project',
+  },
+  risks: [
+    { risk: 'Data-center capex concentration', severity: 'high', note: 'E-Infrastructure is now the primary growth engine and >92% of its signed backlog is tied to data centers/semiconductor campuses/manufacturing — a hyperscaler capex slowdown would hit Sterling harder than a diversified peer.' },
+    { risk: 'Valuation', severity: 'high', note: 'Trailing P/E of 46.8x-54.7x (vs. ~33.5x industry median) prices in continued triple-digit E-Infrastructure growth; a guidance miss could trigger an outsized reset.' },
+    { risk: 'Project/customer concentration', severity: 'medium', note: 'The largest disclosed contract is a single $500M first-phase semiconductor campus — win-loss lumpiness on a handful of large projects can swing results materially.' },
+    { risk: 'Legacy segment drag', severity: 'low', note: 'Transportation Solutions and Building Solutions remain lower-margin and tied to state DOT budgets and residential construction cycles, unrelated to the AI thesis.' },
+    { risk: 'Labor, input-cost and execution risk', severity: 'medium', note: 'Heavy-civil margins are sensitive to labor availability, steel/concrete cost inflation and weather delays — the kind of execution risk generic to construction, not specific to Sterling.' },
+    { risk: 'M&A integration risk', severity: 'medium', note: 'The CEC and StoneRidge acquisitions are contributing meaningfully to the >100% E-Infrastructure growth guide for 2026 — integration execution risk is real even where accretive on paper.' },
+  ],
+  backlog: {
+    visibility: [
+      'Combined backlog $5.6B and signed backlog $4.3B (+116% YoY) as of Q2 2026',
+      'Total opportunity pool near $6.5B including unsigned awards and future project phases',
+      'FY2026 guidance raised to revenue $3.70-3.80B and adjusted EPS $18.40-19.05',
+      'Management guides E-Infrastructure to grow more than 100% in 2026, aided by the CEC and StoneRidge acquisitions',
+    ],
+    wins: [
+      '>92% of signed E-Infrastructure backlog tied to data centers, semiconductor campuses and large manufacturing projects (Q2 2026)',
+      'A $500M first-phase semiconductor campus project embedded in the combined backlog',
+      'E-Infrastructure revenue +174% YoY in Q1 2026 on site-development demand, CEC contribution and mission-critical project momentum',
+      'Q2 2026 revenue +90% YoY to $1.17B, adjusted EPS +116% YoY to $5.80',
+    ],
+    clients: ['Undisclosed hyperscaler/data-center developers (not individually named)', 'Undisclosed semiconductor-campus customer (first phase valued at $500M)', 'State departments of transportation (Transportation Solutions)', 'Residential and commercial developers (Building Solutions)'],
+    suppliers: ['Regional aggregate, ready-mix concrete and steel suppliers (not individually disclosed)'],
+  },
+  synthesis: {
+    scores: [
+      { criterion: 'Business quality', stars: 4, note: 'Genuine, disclosed margin expansion as the mix has shifted toward higher-value E-Infrastructure work; strong execution and high ROE.' },
+      { criterion: 'AI growth exposure', stars: 4, note: 'Real and quantified (>92% of a segment now driving the bulk of growth), but it is civil/sitework exposure, not compute or power-hardware exposure, and only one of three segments.' },
+      { criterion: 'Valuation', stars: 2, note: 'Trailing P/E of 46.8x-54.7x against a 33.5x industry median leaves little room for a guidance miss.' },
+      { criterion: 'Risk', stars: 3, note: 'Customer/project concentration in the growth segment and capex cyclicality are real; legacy segments provide some diversification.' },
+      { criterion: 'Backlog visibility', stars: 5, note: 'Combined backlog $5.6B, signed backlog +116% YoY, and explicit management commentary on the data-center/semiconductor mix.' },
+      { criterion: 'Entry timing', stars: 3, note: 'Down ~9.5% month-to-date off elevated levels as of Aug 2026 — not obviously cheap.' },
+    ],
+    readLabel: 'VERIFIED DATA-CENTER SITEWORK EXPOSURE — CONSTRUCTION RISK, NOT COMPUTE RISK',
+    summary:
+      'Sterling is a legitimate, well-disclosed beneficiary of AI-driven data-center and semiconductor-campus construction — its own backlog data (>92% of signed E-Infrastructure backlog) backs the narrative up, which is more than can be said for several other "AI-adjacent" names. But investors should be precise about what they are buying: civil-construction and sitework exposure to the AI buildout, not compute, power-hardware or chip exposure, sitting inside a stock already priced at a rich premium to construction-sector peers.',
+  },
+  sourceNote:
+    'Compiled from Sterling Infrastructure Q1/Q2 2026 earnings releases (prnewswire.com), Seeking Alpha coverage of the raised 2026 outlook, Investing.com Q2 2026 earnings-call coverage, AAII, StockScan, GuruFocus and stockanalysis-style aggregators, all dated late Jul/early Aug 2026. P/E and market-cap figures showed material variance across sources and dates (trailing P/E 46.8x vs 54.7x; forward P/E 26.5x vs 69.2x) — treat these as directionally "rich" rather than precise. EME, PWR and DY peer prices were captured on slightly different dates within the same window; not all peer metrics (P/S, P/B, margins) were available for this pass.',
+},
+MTZ: {
+  ticker: 'MTZ',
+  name: 'MasTec',
+  tagline: 'Five-segment infrastructure contractor whose Power Delivery unit is a real, disclosed beneficiary of AI-driven grid demand — but that is one segment of five, and the AI slice of the story is genuine yet diluted.',
+  sector: 'ENERGY & SPACE',
+  asOf: '2026.08',
+  chain: {
+    intro:
+      'MasTec is an engineering-and-construction contractor operating across five segments: Communications, Clean Energy and Infrastructure, Power Delivery, Pipeline Infrastructure and Other. Only Power Delivery has a disclosed, explicit link to AI/data-center electricity demand — management has said AI and data centers could push data centers toward nearly 12% of total US electricity consumption by decade\'s end, and cites that as a Power Delivery tailwind. The other four segments (telecom networks, clean-energy construction, oil/gas pipelines, other) have no disclosed AI relevance.',
+    rows: [
+      { level: 'Regulated utilities & transmission operators', players: 'Investor-owned and municipal utilities (not individually named)', position: 'Primary Power Delivery customers commissioning transmission, system-hardening and reliability work — management links rising demand partly to AI/data-center electricity load growth', tone: 'client' },
+      { level: 'Power Delivery construction (this company, one of five segments)', players: 'MasTec — Power Delivery segment', position: 'Segment revenue +16% YoY to $1.05B, EBITDA +40% to $72M, book-to-bill 1.6x, record segment backlog $6.2B (most recent quarter)', tone: 'core' },
+      { level: 'AI / data-center electricity demand', players: 'Hyperscalers and data-center developers (indirect — not MasTec\'s direct customers)', position: 'A genuine but diluted driver: management cites data centers approaching ~12% of US electricity consumption by decade-end as a Power Delivery tailwind, but Power Delivery is only one of MasTec\'s five segments', tone: 'indirect' },
+      { level: 'Communications, Clean Energy, Pipeline & Other segments', players: 'Telecom carriers, renewable-energy developers, oil & gas midstream operators, municipalities', position: 'The majority of MasTec\'s ~$17.5B FY2026 guided revenue sits in these segments, none of which have a disclosed AI/data-center link', tone: 'none' },
+      { level: 'Materials & subcontractors', players: 'Cable, conductor, transformer and steel suppliers; regional subcontractors', position: 'Upstream input costs, not individually disclosed', tone: 'none' },
+    ],
+    segments: [
+      'Communications: telecom network construction/maintenance — no disclosed AI/data-center link',
+      'Clean Energy and Infrastructure: +43% YoY growth (recent quarter) — renewable/clean-energy construction, not AI-specific',
+      'Power Delivery: revenue +16% YoY to $1.05B, EBITDA +40% to $72M, record backlog $6.2B, 1.6x book-to-bill — the one segment with an explicit management-cited AI/data-center demand link',
+      'Pipeline Infrastructure & Other: oil/gas midstream and miscellaneous — no disclosed AI relevance',
+      '18-month backlog: record $20.3B, +28% YoY; FY2026 outlook raised to $17.5B revenue and $1.5B adjusted EBITDA',
+    ],
+    aiShift:
+      'MasTec has a real but partial and diluted AI-infrastructure connection. Management explicitly links rising Power Delivery demand to AI-driven electricity growth (citing data centers approaching ~12% of US electricity consumption by the end of the decade), and that segment\'s backlog and margins are both expanding. But Power Delivery is only one of five segments — roughly a quarter of quarterly revenue — and even within it, AI-specific demand sits alongside transmission modernization, system hardening and general reliability spending that predate the AI buildout. Communications, Clean Energy, Pipeline and Other have no disclosed AI link at all. This is a materially thinner and more diffuse AI story than Sterling Infrastructure\'s, where the AI-linked segment is now the company\'s primary growth driver.',
+  },
+  valuation: {
+    peers: ['MTZ', 'STRL', 'EME', 'PWR'],
+    metrics: [
+      { label: 'Price', values: ['$417.41 (early Aug 2026)', '$540.04 (Aug 4, 2026)', '$924.06 (early Aug 2026)', '$667.36 - $693.00 (variance across sources, early Aug 2026)'] },
+      { label: 'Market cap', values: ['$20.78B (Aug 2026)', '~$16-22B (varies by source/date)', '~$38-41B (varies by source/date)', '~$102.3B (Aug 2026)'] },
+      { label: 'Trailing P/E', values: ['63.31x', '46.8x - 54.7x (varies by source/date)', 'not captured', 'not captured'] },
+      { label: 'Forward P/E', values: ['40.12x', '26.5x - 28.2x (varies by source/date, see STRL entry)', '~29.0x', '~41.1x - 45.5x (varies by source/date)'] },
+      { label: 'Gross margin (ttm)', values: ['~12.82%', 'not captured', 'not captured', 'not captured'] },
+      { label: 'Net margin (ttm)', values: ['~3.14%', 'not captured', 'not captured', 'not captured'] },
+    ],
+    verdictTone: 'high',
+    verdictPoints: [
+      'Trailing P/E of 63.3x and forward P/E of 40.1x are rich for a business with a ~3.1% ttm net margin — this multiple prices in sustained backlog conversion, not just current profitability',
+      'The record $20.3B 18-month backlog (+28% YoY) and raised FY2026 guidance ($17.5B revenue, $1.5B adjusted EBITDA) support the growth case, but only a fraction of that backlog is the AI-linked Power Delivery segment',
+      'Compared to Sterling Infrastructure, where the AI-exposed segment is now the dominant growth driver, MasTec\'s AI linkage is real but proportionally much smaller relative to its total business — the valuation premium should be assessed on that basis, not on an assumed AI-infrastructure re-rating',
+    ],
+    justifiedIf: [
+      'Power Delivery backlog ($6.2B, record) continues converting at a 1.6x+ book-to-bill pace and AI/data-center electricity demand keeps compounding as management describes',
+      'Clean Energy and Infrastructure sustains its recent +43% YoY growth rate',
+      'Margins expand further from the current ~3.1% net margin as the segment mix shifts toward higher-margin Power Delivery and Clean Energy work',
+    ],
+  },
+  priceMap: {
+    zones: [
+      { tier: 'ideal', range: '$320 - $370', rationale: 'A pullback of roughly 15-20% from early Aug 2026 levels, more consistent with a thin-margin diversified contractor multiple' },
+      { tier: 'acceptable', range: '$370 - $440', rationale: 'Brackets the recent trading range — defensible if the record backlog keeps converting, not a discount' },
+      { tier: 'expensive', range: '> $440', rationale: 'Approaches the 2026 ATH ($437.51, May 5, 2026) — priced for flawless backlog conversion across all five segments' },
+    ],
+    technical: [
+      'All-time high $437.51 (May 5, 2026)',
+      'Current $417.41 (early Aug 2026) sits close to that ATH',
+      'Stock fell ~8.5% on one recent print despite record backlog and raised guidance — a "priced for perfection" reaction per Yahoo Finance coverage',
+    ],
+    scenarios: [
+      { label: 'BASE', prob: 45, note: 'Backlog conversion proceeds on schedule, Power Delivery keeps growing on AI/grid demand alongside steady Communications and Pipeline work — shares consolidate in the $380-460 range over 12-18 months.' },
+      { label: 'BULL', prob: 20, note: 'AI-driven electricity demand accelerates further, Power Delivery and Clean Energy both sustain 15-40%+ growth, margins expand toward peer levels — multiple re-rates toward $520-580.' },
+      { label: 'BEAR', prob: 35, note: 'A slowdown in any of the four non-Power-Delivery segments (which together are the majority of revenue) offsets Power Delivery strength, or thin ~3% net margins compress further on cost overruns — shares retest $280-330.' },
+    ],
+    horizon: '12-18 months',
+    invalidation: 'Weekly close below $300 (structure break) or a disclosed deceleration in Power Delivery book-to-bill below 1.0x',
+  },
+  risks: [
+    { risk: 'Diluted AI exposure', severity: 'medium', note: 'Only Power Delivery (roughly a quarter of revenue) has a disclosed AI/data-center demand link; the other four segments are unrelated, so MasTec captures a smaller, more diffuse slice of the AI-infrastructure theme than pure-play peers.' },
+    { risk: 'Valuation', severity: 'high', note: 'Trailing P/E 63.3x and forward P/E 40.1x are rich for a ~3.1% net-margin construction business — a backlog-conversion miss in any segment could trigger an outsized multiple reset.' },
+    { risk: 'Thin margins / execution risk', severity: 'medium', note: 'A ~12.8% gross margin and ~3.1% net margin leave little cushion against cost overruns, labor inflation or weather-driven delays typical of heavy-civil and utility construction.' },
+    { risk: 'Communications-segment customer concentration', severity: 'medium', note: 'The Communications segment has historically been reliant on a small number of large telecom carriers for network build-out and maintenance work.' },
+    { risk: 'Pipeline Infrastructure regulatory/commodity exposure', severity: 'medium', note: 'Oil & gas midstream construction work is exposed to permitting delays, commodity-price cycles and policy shifts unrelated to the AI thesis.' },
+    { risk: 'Leverage (needs independent verification)', severity: 'medium', note: 'Infrastructure roll-ups of this kind often carry meaningful acquisition-related debt; this was not independently verified in this research pass and should be checked against MasTec\'s balance sheet before relying on it.' },
+  ],
+  backlog: {
+    visibility: [
+      '18-month backlog: record $20.3B, +28% YoY',
+      'FY2026 outlook raised to revenue $17.5B and adjusted EBITDA $1.5B',
+      'Power Delivery segment backlog: record $6.2B, 1.6x book-to-bill',
+    ],
+    wins: [
+      'Power Delivery revenue +16% YoY to $1.05B with segment EBITDA +40% YoY to $72M',
+      'Clean Energy and Infrastructure segment +43% YoY growth (recent quarter)',
+      'Management explicitly links AI/data-center electricity demand (data centers approaching ~12% of US electricity consumption by decade-end) to Power Delivery transmission, system-hardening and reliability spending',
+    ],
+    clients: ['Regulated utilities and transmission operators (Power Delivery, not individually named)', 'Telecom carriers (Communications segment)', 'Oil & gas midstream operators (Pipeline Infrastructure)', 'Renewable-energy developers (Clean Energy and Infrastructure)'],
+    suppliers: ['Cable, conductor, transformer and steel suppliers — not individually disclosed'],
+  },
+  synthesis: {
+    scores: [
+      { criterion: 'Business quality', stars: 3, note: 'Diversified and disciplined, but structurally thin margins (~3.1% net) typical of construction/engineering contractors.' },
+      { criterion: 'AI growth exposure', stars: 2, note: 'Real but narrow: only Power Delivery, roughly a quarter of revenue, has a disclosed AI/data-center link — four of five segments are unrelated to the theme.' },
+      { criterion: 'Valuation', stars: 2, note: 'Trailing P/E 63.3x / forward 40.1x is rich for a low-single-digit net-margin business.' },
+      { criterion: 'Risk', stars: 3, note: 'Segment diversification cuts both ways — it dilutes AI upside but also reduces single-theme dependency; leverage needs independent verification.' },
+      { criterion: 'Backlog visibility', stars: 4, note: 'Record $20.3B 18-month backlog (+28% YoY) and a record $6.2B Power Delivery backlog give good near-term revenue visibility.' },
+      { criterion: 'Entry timing', stars: 2, note: 'Trading close to its all-time high as of early Aug 2026 — not a discount entry point.' },
+    ],
+    readLabel: 'DIVERSIFIED INFRASTRUCTURE ROLL-UP WITH A REAL BUT PARTIAL AI-GRID SLICE',
+    summary:
+      'MasTec\'s Power Delivery segment has a genuine, management-disclosed link to AI-driven electricity demand, and that segment\'s backlog and margins are both expanding. But framing MasTec as an "AI infrastructure stock" overstates the case — four of its five segments (Communications, Clean Energy, Pipeline, Other) have no disclosed AI relevance, and Power Delivery itself blends AI-driven load growth with ordinary transmission modernization and reliability spending that predates the AI buildout. This is a diversified infrastructure contractor with a real but diluted AI tailwind, priced at a premium multiple for a thin-margin business.',
+  },
+  sourceNote:
+    'Compiled from companiesmarketcap.com, WallStreetZen and Yahoo Finance stock-data snapshots, Insider Monkey/Yahoo Finance coverage of MasTec\'s AI-grid exposure, Sahm Capital and Seeking Alpha coverage of the raised 2026 guidance and record backlog, all dated Jul/Aug 2026. Gross and net margin figures came from a single TTM snapshot search result and should be independently reverified against MasTec\'s own 10-Q filings before relying on them precisely. Peer (STRL/EME/PWR) figures are shared with the STRL entry in this dataset and carry the same source-variance caveats noted there.',
+},
+ISRG: {
+  ticker: 'ISRG',
+  name: 'Intuitive Surgical',
+  tagline: 'The dominant surgical-robotics franchise behind the da Vinci system — an excellent medtech compounder with essentially no confirmed connection to the AI-infrastructure/datacenter buildout theme.',
+  sector: 'TELECOM & TECH',
+  asOf: '2026.08',
+  chain: {
+    intro:
+      'Intuitive designs, manufactures and sells robotic-assisted surgical systems (da Vinci 5, da Vinci Xi, the Ion lung-biopsy platform) plus the recurring instruments, accessories and service revenue that come with each installed system. Its products increasingly market "AI" features — Case Insights, Iris and Force Feedback analytics on da Vinci 5 — but these are clinical decision-support and surgical-analytics software embedded in Intuitive\'s own devices, not exposure to the compute/power/datacenter buildout that anchors most of this dataset. This research found no disclosed relationship between Intuitive and AI-infrastructure or hyperscaler datacenter demand.',
+    rows: [
+      { level: 'Hospitals & health systems (end customers)', players: 'Academic medical centers and hospital systems worldwide', position: 'Core customer base for da Vinci system placements, instruments/accessories and service contracts', tone: 'client' },
+      { level: 'Robotic-assisted surgery platform (this company)', players: 'Intuitive Surgical', position: 'Core business — da Vinci 5, da Vinci Xi and Ion systems, plus recurring instrument, accessory and service revenue; da Vinci 5 reached 53% of Q1 2026 system placements', tone: 'core' },
+      { level: 'Product-embedded "AI" branding', players: 'Case Insights, Iris and Force Feedback analytics (Intuitive\'s own software features)', position: 'Clinical-analytics and surgical-guidance software built into Intuitive\'s own devices — applied AI within a medical product, not exposure to the AI-infrastructure/compute buildout this dataset otherwise tracks', tone: 'none' },
+      { level: 'AI-infrastructure / datacenter buildout', players: 'Hyperscalers, GPU/chip suppliers, datacenter builders', position: 'No disclosed relationship found in this research — Intuitive is a medical-device maker, not a compute, power or datacenter supplier', tone: 'none' },
+      { level: 'Competing robotic-surgery platforms', players: 'Medtronic (Hugo), Johnson & Johnson (Ottava), Stryker', position: 'Direct competitors pursuing the same soft-tissue robotic-surgery market — a company-specific risk, unrelated to any AI-infrastructure thesis', tone: 'none' },
+    ],
+    segments: [
+      'da Vinci systems: ~431 systems placed in Q1 2026, 53% da Vinci 5 mix (up from 34% a year earlier)',
+      'da Vinci procedure volume growth guided at 13-15% for 2026 (vs. 18% in 2025)',
+      'Ion (robotic lung-biopsy platform): smaller, faster-growing adjacent platform',
+      'Recurring instruments, accessories and service revenue: the highest-margin, most durable part of the model',
+    ],
+    aiShift:
+      'Based on this research, Intuitive Surgical has no confirmed AI-infrastructure or datacenter relevance. Its "AI" references describe clinical decision-support and surgical-analytics software features (Case Insights, Iris, Force Feedback) built into its own da Vinci 5 platform — a completely different application of the term "AI" than the compute/power/datacenter buildout theme this dataset otherwise tracks. Readers evaluating ISRG for AI-infrastructure thematic exposure should understand that connection is not supported by any disclosed fact found in this research; ISRG belongs in this dataset as a high-quality medtech name, not as an AI-capex play.',
+  },
+  valuation: {
+    peers: ['ISRG', 'MDT', 'SYK', 'BSX'],
+    metrics: [
+      { label: 'Price', values: ['$375.26 (Aug 5, 2026)', '$86.20 (Aug 4, 2026)', '$316.44 (early Aug 2026, exact date not confirmed)', '$48.43 (Aug 3, 2026)'] },
+      { label: 'Market cap', values: ['$122.3B (Aug 2026)', '$101.51B (Jul 14, 2026)', 'not captured in this pass', '$74.27B (Aug 2026)'] },
+      { label: 'Trailing P/E', values: ['46.06x (Aug 2026)', 'not captured', 'not captured', 'not captured'] },
+      { label: 'Forward P/E', values: ['~38x - 42x (varies by source/date; 5-year historical average ~57x per one source)', 'not captured', 'not captured', '12.98x (Jul 23, 2026)'] },
+      { label: 'Non-GAAP gross margin', values: ['67-68% guided FY2026 (67.8% actual Q1 2026)', 'not captured', 'not captured', 'not captured'] },
+      { label: 'Revenue growth YoY', values: ['~19-23% (Q1-Q2 2026)', '~10% (Q1 2026, per one comparison)', '~3% (Q1 2026, per one comparison)', 'not captured'] },
+      { label: 'Cash position', values: ['$7.98B, +210% YoY (Q1 2026)', 'not captured', 'not captured', 'not captured'] },
+    ],
+    verdictTone: 'high',
+    verdictPoints: [
+      'Trailing P/E of 46.06x sits well above where BSX (forward 12.98x) and MDT typically trade, though ISRG is also growing revenue far faster (19-23% YoY vs. low-single-to-low-double-digit growth at MDT/SYK)',
+      'Forward multiple has compressed materially from a 5-year historical average near 57x toward roughly 38-42x as the stock sits about 38% below its Jan 2025 all-time high',
+      'Non-GAAP gross margin (67-68% guided) already embeds an explicit ~1.2-percentage-point tariff drag for 2026, showing management is not hiding known headwinds in the guide',
+    ],
+    justifiedIf: [
+      'The da Vinci 5 upgrade cycle sustains 13-15%+ procedure growth through 2026 as guided',
+      'Gross margin holds in the 67-68% guided range despite tariff and input-cost pressure',
+      'Ion and international expansion continue to scale as secondary growth drivers alongside the core da Vinci franchise',
+    ],
+  },
+  priceMap: {
+    zones: [
+      { tier: 'ideal', range: '$300 - $330', rationale: 'A further pullback toward levels consistent with a more conservative growth multiple, below the current trading range' },
+      { tier: 'acceptable', range: '$340 - $390', rationale: 'Brackets the current (Aug 2026) trading range around $368-375' },
+      { tier: 'expensive', range: '> $420', rationale: 'Would require the market pricing in flawless execution on the da Vinci 5 upgrade cycle and margin guide' },
+    ],
+    technical: [
+      'All-time high $610.45 (Jan 22, 2025) — current $375.26 (Aug 5, 2026) is roughly 38% below that peak',
+      'Stock described as down approximately 29% year-to-date as of mid-July 2026 by one source',
+      'Recent trading band roughly $368-375 (early Aug 2026)',
+    ],
+    scenarios: [
+      { label: 'BASE', prob: 50, note: 'Procedure growth holds in the 13-15% guided range and gross margin stabilizes near 67-68% — shares grind toward $420-460 over 12-18 months as the multiple stabilizes.' },
+      { label: 'BULL', prob: 20, note: 'da Vinci 5 upgrade cycle plus Ion and international expansion beat guidance, multiple re-rates back toward $520-560.' },
+      { label: 'BEAR', prob: 30, note: 'Procedure growth decelerates further or tariff/input-cost pressure pushes gross margin below the guided range, multiple resets toward $300-320.' },
+    ],
+    horizon: '12-18 months',
+    invalidation: 'Weekly close below approximately $330 (structure break beneath the 2026 trading range)',
+  },
+  risks: [
+    { risk: 'Valuation', severity: 'medium', note: 'Trailing P/E of 46x and a history of 50x+ forward multiples remain rich even after a roughly 38% drawdown from the all-time high — priced for sustained double-digit procedure growth.' },
+    { risk: 'Tariff / input-cost pressure', severity: 'medium', note: '2026 gross-margin guidance already embeds an estimated ~1.2% of revenue tariff impact; further escalation could push margins below the guided 67-68% range.' },
+    { risk: 'Single-platform concentration', severity: 'medium', note: 'The da Vinci franchise still dominates revenue; Ion and other platforms remain comparatively small.' },
+    { risk: 'Competitive robotic-surgery entrants', severity: 'medium', note: 'Medtronic (Hugo), Johnson & Johnson (Ottava) and Stryker are all investing in competing robotic-surgery platforms targeting the same soft-tissue surgery market.' },
+    { risk: 'Regulatory / reimbursement risk', severity: 'medium', note: 'Hospital capital budgets and payer reimbursement policy directly affect both system placements and procedure volume growth.' },
+    { risk: 'No AI-infrastructure thematic relevance', severity: 'low', note: 'A thesis-fit risk rather than a financial one: investors approaching ISRG expecting AI-datacenter-style exposure will not find it supported by disclosed facts — growth here is procedure-volume and platform-upgrade driven.' },
+  ],
+  backlog: {
+    visibility: [
+      'FY2026 procedure growth guided at 13-15% (down from 18% in FY2025)',
+      'FY2026 non-GAAP gross margin guided at 67-68%, including an estimated ~1.2% of revenue tariff impact',
+      'da Vinci 5 mix continuing to rise (53% of Q1 2026 placements, up from 34% a year earlier) as legacy Xi systems are upgraded',
+    ],
+    wins: [
+      'da Vinci 5 contribution margins reached parity with the legacy Xi platform',
+      'Q1 2026 non-GAAP net income of $901M vs. $662M a year earlier',
+      'Cash position of $7.98B, up 210% YoY, funding continued buybacks ($1.1B / 2.3M shares repurchased in Q1 2026 alone)',
+      'Q2 2026 revenue of $2.89B, up 19-20.5% YoY, beating consensus estimates',
+    ],
+    clients: ['Academic medical centers and hospital systems globally (not individually disclosed by name)'],
+    suppliers: ['Component and instrument manufacturing suppliers — not individually disclosed in materials reviewed'],
+  },
+  synthesis: {
+    scores: [
+      { criterion: 'Business quality', stars: 5, note: 'Dominant, high-margin, recurring-revenue medtech franchise with a genuine moat in robotic-assisted surgery.' },
+      { criterion: 'AI-infrastructure relevance', stars: 1, note: 'Essentially none — "AI" in Intuitive\'s materials refers to clinical/surgical-analytics software, not compute or datacenter exposure; included in this dataset for completeness, not as an AI-capex thesis.' },
+      { criterion: 'Valuation', stars: 2, note: 'Trailing 46x and a history of 50x+ forward multiples remain rich even after the roughly 38% drawdown from the all-time high.' },
+      { criterion: 'Risk', stars: 3, note: 'Tariff drag, competitive robotic-surgery entrants, and single-platform concentration are real, ordinary medtech risks.' },
+      { criterion: 'Growth durability', stars: 4, note: '13-15% guided procedure growth and a still-early da Vinci 5 upgrade cycle support multi-year durability.' },
+      { criterion: 'Entry timing', stars: 3, note: 'A meaningful drawdown from the all-time high, but not obviously cheap on a trailing-multiple basis.' },
+    ],
+    readLabel: 'EXCELLENT MEDTECH FRANCHISE, NOT AN AI-INFRASTRUCTURE STORY',
+    summary:
+      'Intuitive Surgical is a top-tier compounder in surgical robotics — dominant market position, structurally high margins, a credible multi-year upgrade cycle in da Vinci 5. But this research found no genuine link between Intuitive and the AI-infrastructure/datacenter capex theme that anchors most of this dataset; its "AI" language describes clinical software features embedded in its own devices, not compute or power infrastructure. Included here for completeness and because it is a name investors sometimes lump into "AI healthcare" narratives — anyone buying ISRG expecting AI-datacenter-style exposure is buying the wrong stock for that thesis, even though it may be an excellent medtech holding on its own terms.',
+  },
+  sourceNote:
+    'Compiled from stockanalysis.com-style aggregator snapshots, Yahoo Finance, Intuitive Surgical Q1/Q2 2026 earnings releases (isrg.intuitive.com, sec.gov 8-K), Seeking Alpha, TIKR, 24/7 Wall St and Insider Monkey coverage, all dated Jul/Aug 2026. Trailing/forward P/E figures showed meaningful variance across sources and dates (46.06x trailing per one source vs. ~38-42x forward per others measured on different dates) — treat as directionally consistent rather than precise. Stryker (SYK) market cap was not captured in this research pass.',
+},
+'KRKNF': {
+  ticker: 'KRKNF',
+  name: 'Kraken Robotics',
+  tagline: 'Newfoundland-based subsea sonar and robotics maker for maritime defense and critical-infrastructure protection — a real defense-tech growth story with no confirmed AI-infrastructure relevance; primary listing is TSXV:PNG, KRKNF is the US OTCQB quotation of the same shares.',
+  sector: 'TELECOM & TECH',
+  asOf: '2026.08',
+  chain: {
+    intro:
+      'Kraken designs and manufactures software-centric sonar sensors (synthetic aperture sonar), subsea batteries, thrusters and underwater robotic systems for defense (mine countermeasures via KATFISH, critical-infrastructure intruder detection via Sentinel IDS), offshore energy and ocean-science customers. Its primary listing is the TSX Venture Exchange (TSXV: PNG); KRKNF is the OTCQB quotation of the same underlying shares, more accessible to US investors. Kraken markets "AI-powered" sonar target classification as a product feature, but this research found no relationship between Kraken and the AI-infrastructure/datacenter buildout theme — it is an entirely different application of the term "AI."',
+    rows: [
+      { level: 'Defense / navy end-customers', players: 'NATO-aligned navies, government defense customers across North America, Europe, the Middle East and Asia-Pacific', position: 'Primary demand driver for KATFISH mine-countermeasures and Sentinel intruder-detection sonar systems', tone: 'client' },
+      { level: 'Sonar & subsea sensor/robotics manufacturer (this company)', players: 'Kraken Robotics Inc. (TSXV: PNG / OTCQB: KRKNF)', position: 'Core business — synthetic aperture sonar, subsea batteries, thrusters, KATFISH and Sentinel IDS; product revenue guided to exceed 75% of consolidated 2026 revenue', tone: 'core' },
+      { level: 'Critical-infrastructure protection (non-AI)', players: 'Power plants, LNG facilities, desalination plants, other waterside sites', position: 'Sentinel IDS deployed at hundreds of critical infrastructure sites globally — a real market, unrelated to AI/datacenter infrastructure', tone: 'client' },
+      { level: 'Covelya Group (acquired Jul 2, 2026)', players: 'Covelya Group Limited (UK)', position: 'C$615M acquisition roughly doubles Kraken\'s revenue base and adds ~C$165M of backlog, expanding global maritime/defense capabilities', tone: 'growth' },
+      { level: 'AI-infrastructure / datacenter buildout', players: 'Hyperscalers, chipmakers, datacenter developers', position: 'No disclosed relationship found in this research. Kraken markets "AI-powered" sonar target classification as a product feature — applied AI within maritime-defense sensing, not exposure to the compute/power/datacenter buildout this dataset otherwise tracks', tone: 'none' },
+    ],
+    segments: [
+      'Products (sonar, batteries, robotics): guided to exceed 75% of consolidated 2026 revenue',
+      'Defense/maritime: KATFISH mine-countermeasures, Sentinel IDS critical-infrastructure protection',
+      'Offshore energy & ocean science: smaller, more cyclical vertical',
+      'Post-Covelya combined FY2026 guidance: revenue CAD $290-320M, adjusted EBITDA CAD $65-75M (22-23% margin)',
+    ],
+    aiShift:
+      'Based on this research, Kraken Robotics has no confirmed AI-infrastructure or datacenter relevance. Its business is squarely maritime defense, critical-infrastructure protection and offshore-energy/ocean-science subsea technology. Kraken\'s own marketing uses "AI-powered" language to describe automated sonar target detection/classification (e.g., in Sentinel IDS) — a legitimate but entirely separate application of AI, unrelated to compute, power or datacenter infrastructure. Any framing of KRKNF as an AI-infrastructure play would not be supported by currently available facts.',
+  },
+  valuation: {
+    peers: ['KRKNF / TSXV:PNG — Kraken Robotics', 'No direct public pure-play peer identified'],
+    metrics: [
+      { label: 'Price', values: ['US$4.50 (OTCQB, Aug 5, 2026) / CAD $6.28 (TSXV:PNG, primary listing, Aug 5, 2026, +5.02%)'] },
+      { label: 'Market cap', values: ['~US$1.7B (KRKNF quote, Aug 5, 2026) vs. ~CAD $1.929B (PNG.V quote, Aug 5, 2026) — the two figures do not cleanly reconcile at prevailing USD/CAD rates in sources reviewed; treat as a data-confidence caveat'] },
+      { label: '52-week range (KRKNF)', values: ['US$2.36 - $8.13'] },
+      { label: '2026 revenue guidance (post-Covelya)', values: ['CAD $290-320M'] },
+      { label: '2026 adjusted EBITDA guidance', values: ['CAD $65-75M (22-23% margin, down from a pre-Covelya standalone guide of 26%+)'] },
+      { label: 'Combined order backlog', values: ['~CAD $262M (CAD $97M standalone Kraken + CAD $165M Covelya)'] },
+      { label: 'Analyst 12-month target (PNG.V)', values: ['CAD $10.17 (6 analysts)'] },
+    ],
+    verdictTone: 'fair',
+    verdictPoints: [
+      'A market cap of roughly US$1.7B against CAD $290-320M of guided 2026 revenue implies a mid-single-digit forward sales multiple (currency caveats noted above) — not extreme for a 22-23%-margin, fast-growing defense-tech name, but not a bargain either',
+      'The Covelya acquisition roughly doubles the revenue base but compresses the standalone adjusted-EBITDA-margin guide from 26%+ to 22-23%, so the deal is not purely margin-accretive',
+      'The CAD $10.17 analyst 12-month target implies meaningful upside from the CAD $6.28 primary-listing price, but coverage is thin (6 analysts) on a genuinely small, thinly traded microcap',
+    ],
+    justifiedIf: [
+      'Covelya integrates cleanly and the combined group holds the 22-23% adjusted EBITDA margin guide through 2026-2027',
+      'Order momentum continues (CAD $35M of new orders announced Jul 20, 2026 alone, cumulative 2026 product orders of CAD $327M) and converts to revenue on schedule',
+      'The planned move to the senior Toronto Stock Exchange (from TSX Venture) in late 2026/early 2027 improves liquidity and institutional access without further shareholder dilution',
+    ],
+  },
+  priceMap: {
+    zones: [
+      { tier: 'ideal', range: 'CAD $4.50 - $5.50', rationale: 'A pullback closer to pre-Covelya-rerate levels' },
+      { tier: 'acceptable', range: 'CAD $5.50 - $7.50', rationale: 'Brackets the current trading range around the Aug 2026 CAD $6.28 primary-listing price' },
+      { tier: 'expensive', range: '> CAD $9.00', rationale: 'Approaches the CAD $10.17 analyst consensus target — would require flawless Covelya integration and continued 20%+ order growth' },
+    ],
+    technical: [
+      '52-week range US$2.36 - $8.13 on the OTCQB (KRKNF) line',
+      'Shares reported down roughly 19% over the trailing 90 days per one source, even as longer-term gains remain strong',
+      'Thinly traded relative to large-cap peers; next earnings report scheduled Aug 20, 2026 — the first full quarter to include Covelya',
+    ],
+    scenarios: [
+      { label: 'BASE', prob: 50, note: 'Covelya integrates on schedule, combined FY2026 guidance (CAD $290-320M revenue, 22-23% EBITDA margin) is met — shares trade in a range below the CAD $10.17 analyst consensus target.' },
+      { label: 'BULL', prob: 20, note: 'Order momentum accelerates further (building on the CAD $327M of cumulative 2026 product orders), the planned senior-TSX listing improves liquidity — shares approach or exceed the CAD $10.17 analyst target.' },
+      { label: 'BEAR', prob: 30, note: 'Covelya integration proves costly or slower than guided, EBITDA margin slips below the 22% floor, or defense/offshore-energy order flow decelerates — shares retest the CAD $4.50-5.00 area.' },
+    ],
+    horizon: '12-18 months, tracked against Covelya integration milestones and the planned senior-TSX listing',
+    invalidation: 'A sustained break of the 52-week-low area (near US$2.36 on KRKNF) or a miss against the 22-23% adjusted EBITDA margin guide',
+  },
+  risks: [
+    { risk: 'Data reconciliation / thin coverage', severity: 'medium', note: 'Market-cap and share-count figures vary meaningfully between the OTC (KRKNF) and primary TSXV (PNG) quotations reviewed in this research; treat all figures here as directional, not precise.' },
+    { risk: 'M&A integration risk', severity: 'high', note: 'The CAD $615M Covelya acquisition roughly doubles the revenue base in one step — integration execution is now the single biggest swing factor for 2026-2027 results.' },
+    { risk: 'Small-cap / OTC illiquidity', severity: 'medium', note: 'KRKNF is a US OTCQB quotation of a TSX Venture-listed company; investors face wider spreads and lower liquidity than a senior-exchange listing would offer.' },
+    { risk: 'Customer concentration in defense/government contracts', severity: 'medium', note: 'Revenue depends on a relatively small number of navy/government and critical-infrastructure customers, with lumpy, contract-driven revenue recognition.' },
+    { risk: 'Margin dilution from acquisition', severity: 'medium', note: 'Combined adjusted EBITDA margin guidance (22-23%) is below the pre-Covelya standalone guide (26%+), and realizing cost synergies is not guaranteed.' },
+    { risk: 'No AI-infrastructure thematic relevance', severity: 'low', note: 'A thesis-fit risk rather than a financial one: investors approaching KRKNF expecting AI-datacenter exposure will not find a genuine connection; "AI-powered" language in Kraken\'s materials refers to sonar target classification, not compute or power infrastructure.' },
+  ],
+  backlog: {
+    visibility: [
+      'Combined order backlog of approximately CAD $262M (CAD $97M standalone Kraken + CAD $165M Covelya) as of the Covelya close',
+      'CAD $35M in new orders announced Jul 20, 2026, bringing cumulative 2026 product orders to CAD $327M',
+      'Next earnings report scheduled Aug 20, 2026, the first full quarter to include Covelya',
+    ],
+    wins: [
+      'CAD $615M Covelya Group acquisition closed Jul 2, 2026, roughly doubling the revenue base and expanding global maritime/defense capabilities',
+      'Q1 2026 revenue grew 35% YoY with 2026 standalone guidance reiterated ahead of the Covelya close',
+      'Sentinel IDS deployed at hundreds of critical waterside infrastructure sites globally (power plants, LNG facilities, desalination plants)',
+    ],
+    clients: ['NATO-aligned navies and government defense customers (not individually named)', 'Critical-infrastructure operators — power, LNG, desalination (not individually named)', 'Offshore energy and ocean-science customers'],
+    suppliers: ['Not individually disclosed in materials reviewed'],
+  },
+  synthesis: {
+    scores: [
+      { criterion: 'Business quality', stars: 4, note: 'Differentiated sonar/subsea-sensor technology with real, disclosed defense and critical-infrastructure demand.' },
+      { criterion: 'AI-infrastructure relevance', stars: 1, note: 'No genuine link to the AI-capex/datacenter theme; "AI-powered" sonar classification is a product feature, not infrastructure exposure — included for completeness only.' },
+      { criterion: 'Growth momentum', stars: 4, note: 'Covelya roughly doubles revenue and the order book is growing, but integration is unproven.' },
+      { criterion: 'Risk', stars: 2, note: 'Thin/inconsistent data coverage, OTC illiquidity, and a single large acquisition now dominate the story.' },
+      { criterion: 'Valuation', stars: 3, note: 'Not obviously cheap or expensive given the currency/data caveats noted above; the analyst target implies meaningful upside but coverage is thin.' },
+      { criterion: 'Data transparency', stars: 2, note: 'Market cap and share figures disagree meaningfully between the OTC and primary TSXV quotations reviewed in this research.' },
+    ],
+    readLabel: 'REAL DEFENSE/MARITIME-TECH GROWTH STORY, NO CONFIRMED AI-INFRASTRUCTURE RELEVANCE',
+    summary:
+      'Kraken Robotics is a genuine, fast-growing subsea-sensor and sonar-technology company with real defense and critical-infrastructure demand, now transformed by the roughly revenue-doubling Covelya acquisition. It should be evaluated on those merits — defense-tech and maritime-robotics growth — not as an AI-infrastructure play. This research found no disclosed connection between Kraken and the AI-compute/datacenter buildout theme; "AI-powered" language in its materials describes sonar target-classification software, an entirely different application of AI. Its primary listing is TSXV:PNG (Toronto Venture Exchange); KRKNF is the OTCQB quotation more accessible to US investors, and Kraken has stated intent to move to the senior Toronto Stock Exchange in late 2026 or early 2027.',
+  },
+  sourceNote:
+    'Sourced from Kraken Robotics press releases (krakenrobotics.com, GlobeNewswire, Jul 2026), stocktitan.net, BNN Bloomberg, The Defense Post and OTC/TSXV quote aggregators (stockanalysis.com, TradingView, Globe and Mail), as of Aug 5, 2026. This is a thinly covered microcap: the KRKNF (OTCQB, USD) market cap of approximately US$1.7B and the PNG.V (TSXV, CAD) market cap of approximately CAD $1.93B do not cleanly reconcile at prevailing USD/CAD exchange rates in the sources reviewed — likely a timing or share-count discrepancy between quote venues rather than two different companies, but this was not independently resolved. Primary listing is TSXV:PNG; Kraken has publicly stated intent to pursue a senior Toronto Stock Exchange listing around late 2026/early 2027. Ticker key here uses KRKNF per the requested dataset scope.',
+},
+LITE: {
+  ticker: 'LITE',
+  name: 'Lumentum Holdings',
+  tagline: 'Optical-component maker whose EML lasers and transceivers ride the industry-wide upgrade to higher datacenter transmission speeds — one of the most direct AI-datacenter beneficiaries in this dataset, at one of its richest valuations.',
+  sector: 'TELECOM & TECH',
+  asOf: '2026.08',
+  chain: {
+    intro:
+      'Lumentum designs and manufactures optical components — EML/DFB lasers, transceivers (800G, moving to 1.6T) and ROADMs — sold into hyperscaler datacenter interconnect and telecom networks, plus a smaller consumer 3D-sensing business. Demand for its Cloud & Networking products is explicitly tied to industry-wide upgrades in datacenter transmission speed to support AI-scale networking, making this one of the more direct AI-infrastructure plays in this dataset.',
+    rows: [
+      { level: 'Raw materials / laser-diode inputs', players: 'Indium phosphide wafers, compound-semiconductor foundries', position: 'Upstream inputs into Lumentum\'s own optical-component fabrication', tone: 'none' },
+      { level: 'Optical components & transceivers (this company)', players: 'Lumentum Holdings', position: 'Core business — EML/DFB lasers and 800G/1.6T transceivers, ROADMs for hyperscaler datacenter interconnect and telecom networks', tone: 'core' },
+      { level: 'Contract manufacturing / packaging partner', players: 'Fabrinet', position: 'Lumentum represented 15.4% of Fabrinet\'s FY2025 revenue — Fabrinet performs advanced optical packaging/manufacturing for Lumentum rather than competing with it', tone: 'client' },
+      { level: 'Hyperscalers / datacenter network buildout', players: 'Microsoft, Google, Amazon, Meta and other hyperscalers, via networking-equipment OEMs', position: 'Direct end-demand driver — record Q3 FY2026 revenue and raised Q4 guidance explicitly tied to industry-wide upgrades to higher datacenter transmission speeds (800G/1.6T)', tone: 'growth' },
+      { level: 'Consumer 3D sensing (legacy diversification)', players: 'Historically led by Apple as the largest disclosed 3D-sensing customer', position: 'Smaller, more cyclical consumer-electronics vertical, distinct from the AI-datacenter growth driver', tone: 'indirect' },
+    ],
+    segments: [
+      'Cloud & Networking (optical components/transceivers): record Q3 FY2026 revenue of $808.4M, Q4 FY2026 guided to $960M-$1.01B',
+      '3D sensing / consumer & industrial: smaller, more cyclical legacy segment',
+      'Long-term target: 50.5% non-GAAP gross margin and 40% operating margin at a $2B quarterly revenue run-rate',
+    ],
+    aiShift:
+      'This is a genuine, direct AI-infrastructure beneficiary: EML/transceiver demand is explicitly tied to datacenter transmission-speed upgrades (800G moving to 1.6T) driven by AI-scale networking requirements at hyperscalers, and management has guided Q4 FY2026 revenue sharply higher on that basis. The consumer 3D-sensing segment remains a separate, non-AI-linked business.',
+  },
+  valuation: {
+    peers: ['LITE', 'COHR', 'CIEN', 'FN*'],
+    metrics: [
+      { label: 'Price', values: ['$849.47 (Aug 4, 2026, +8.92% that day)', '$288.14 (Aug 3, 2026)', '$408.30 (Aug 4, 2026, ranged $405.01-$434.94 intraday)', 'not captured in this pass'] },
+      { label: 'Market cap', values: ['$54.94B (Aug 2026)', '$65.34B (Aug 2026)', '$75.84B (Aug 2026)', 'not captured'] },
+      { label: 'Forward P/E', values: ['~44.3x - 49.5x (varies by source/date)', '~44.6x', '~70.3x', 'not captured'] },
+      { label: 'P/S', values: ['~29.5x (ttm) vs. ~9.6x (1-yr forward, per one industry comparison) — not fully reconciled, likely ttm vs. NTM bases', '~5.5x (forward, per one source)', '~6.6x (forward, per one source)', 'not captured'] },
+      { label: 'Gross margin', values: ['~28% (GAAP, recent quarter) vs. 50.5% long-term non-GAAP target at a $2B quarterly run-rate', 'not captured', 'not captured', 'not captured'] },
+      { label: 'Net margin', values: ['13.89%', 'not captured', '17.84%', 'not captured'] },
+      { label: '52-week price change', values: ['+619.62%', 'not captured', 'not captured', 'not captured'] },
+    ],
+    verdictTone: 'high',
+    verdictPoints: [
+      'Forward P/E in the mid-40s to high-40s and a ttm P/S near 30x sit well above CIEN\'s ~6.6x and COHR\'s ~5.5x forward P/S estimates, though a separate 1-year-forward P/S of 9.6x (industry comparison) is closer to peer levels — the wide range across sources reflects real data variance, not a single clean number',
+      'A 52-week share-price gain of +619.62% has repriced the stock dramatically; it traded as high as $1,053.09 (May 11, 2026, all-time high) before pulling back',
+      'GAAP gross margin (~28%) remains far below the long-term 50.5% non-GAAP target, so today\'s multiple is being paid substantially on a margin-expansion story, not on current profitability',
+    ],
+    justifiedIf: [
+      '800G/1.6T transceiver upgrade cycles continue at hyperscalers and Q4 FY2026 guidance ($960M-$1.01B) is met or beaten',
+      'Non-GAAP gross margin continues converging toward the 50.5% long-term target as the $2B quarterly revenue run-rate is approached',
+      'EML/laser-diode supply stays tight enough that Lumentum retains pricing power against Coherent and Fabrinet-adjacent competition',
+    ],
+  },
+  priceMap: {
+    zones: [
+      { tier: 'ideal', range: '$650 - $720', rationale: 'Below the current trading range, reflecting normalization after the +619.62% 52-week run' },
+      { tier: 'acceptable', range: '$720 - $900', rationale: 'Brackets the current trading zone post-Aug-4 rally, below the $1,053 all-time high' },
+      { tier: 'expensive', range: '> $1,000', rationale: 'Approaching the May 2026 all-time high — priced for flawless upgrade-cycle execution' },
+    ],
+    technical: [
+      'All-time high $1,053.09 (May 11, 2026)',
+      '52-week price change +619.62%',
+      'Aug 4, 2026 single-day move of +8.92% ($779.89 to $849.47) on Q3 FY2026 results / Q4 guidance',
+    ],
+    scenarios: [
+      { label: 'BASE', prob: 50, note: '800G/1.6T datacenter transceiver demand continues at a strong but moderating pace, Q4 FY2026 guidance is met, shares consolidate in the $800-950 range.' },
+      { label: 'BULL', prob: 25, note: 'Hyperscaler optical-networking capex accelerates further into 1.6T and gross margin converges faster than guided toward the 50.5% long-term target, shares retest or exceed the $1,053 all-time high.' },
+      { label: 'BEAR', prob: 25, note: 'A datacenter capex digestion pause or EML/laser-diode oversupply compresses pricing and margin expansion stalls, shares retrace a meaningful portion of the 52-week +619.62% gain toward the $550-650 area.' },
+    ],
+    horizon: '12-18 months',
+    invalidation: 'Weekly close below roughly $600 (structure break beneath the post-rally consolidation range)',
+  },
+  risks: [
+    { risk: 'Extreme valuation after a parabolic 52-week run', severity: 'high', note: 'A +619.62% 52-week gain prices in a long, uninterrupted upgrade cycle; any digestion pause in hyperscaler optical-networking capex would hit the multiple hard.' },
+    { risk: 'Customer concentration among hyperscalers/networking OEMs', severity: 'medium', note: 'A small number of large buyers drive the majority of Cloud & Networking segment revenue.' },
+    { risk: 'GAAP-vs-non-GAAP margin gap', severity: 'medium', note: 'Current GAAP gross margin (~28%) is far below the long-term 50.5% non-GAAP target — the growth story depends on that gap closing on schedule.' },
+    { risk: 'Technology / competitive risk', severity: 'medium', note: 'Coherent, Fabrinet-adjacent manufacturers and Chinese optical-component makers are all investing in next-generation transceiver capacity.' },
+    { risk: 'Consumer 3D-sensing cyclicality', severity: 'low', note: 'The legacy consumer segment remains exposed to a concentrated, cyclical customer base, distinct from the AI-datacenter driver.' },
+    { risk: 'Supply-chain / component input risk', severity: 'medium', note: 'EML/laser-diode and indium-phosphide supply constraints can cut both ways — a tailwind for pricing power, a risk if Lumentum itself cannot secure enough capacity.' },
+  ],
+  backlog: {
+    visibility: [
+      'Q4 FY2026 revenue guided to $960M-$1.01B, up sharply from Q3\'s record $808.4M',
+      'Long-term target of 50.5% non-GAAP gross margin and 40% operating margin at a $2B quarterly revenue run-rate',
+    ],
+    wins: [
+      'Record Q3 FY2026 Cloud & Networking revenue of $808.4M on robust EML demand from industry-wide datacenter transmission-speed upgrades',
+      'Q3 FY2026 adjusted EPS of $2.37, ahead of the prior year',
+      '52-week share-price gain of +619.62% reflecting the market\'s re-rating of the optical-datacenter-interconnect thesis',
+    ],
+    clients: ['Hyperscaler datacenter operators via networking-equipment OEMs (not individually named in materials reviewed)', 'Historically Apple, for 3D-sensing components (legacy consumer segment)'],
+    suppliers: ['Fabrinet (advanced optical packaging/manufacturing — Lumentum was 15.4% of Fabrinet\'s FY2025 revenue)'],
+  },
+  synthesis: {
+    scores: [
+      { criterion: 'Business quality', stars: 4, note: 'Genuine technology leadership in EML/optical components for datacenter interconnect.' },
+      { criterion: 'AI growth exposure', stars: 5, note: 'Among the most direct AI-datacenter beneficiaries in this dataset — explicit 800G/1.6T transceiver upgrade-cycle exposure.' },
+      { criterion: 'Valuation', stars: 1, note: 'Forward multiple in the mid-40s-to-high-40s and a ttm P/S near 30x, after a +619.62% 52-week run, is priced for flawless execution.' },
+      { criterion: 'Risk', stars: 2, note: 'Extreme valuation plus customer concentration make this one of the higher-risk names in the dataset on a risk-adjusted basis.' },
+      { criterion: 'Margin trajectory', stars: 3, note: 'GAAP gross margin (~28%) is still far below the 50.5% long-term non-GAAP target — the bull case depends on that gap closing.' },
+      { criterion: 'Entry timing', stars: 2, note: 'Trading well above pre-rally levels after an extraordinary run, leaving little margin for a guidance miss.' },
+    ],
+    readLabel: 'GENUINE AI-DATACENTER OPTICAL PLAY — VALUATION LEAVES NO ROOM FOR ERROR',
+    summary:
+      'Lumentum is one of the most direct AI-datacenter beneficiaries in this dataset: its EML lasers and 800G/1.6T transceivers are explicitly tied to the industry-wide upgrade in datacenter transmission speed that AI-scale networking requires, and revenue/guidance have followed. The cost of admission is a valuation that has run far ahead of nearly every metric except the growth narrative itself — a +619.62% 52-week gain and a GAAP gross margin still well below the long-term target leave very little room for a demand pause or execution stumble.',
+  },
+  sourceNote:
+    'Compiled from stockanalysis.com, finviz, valueinvesting.io, macrotrends and gurufocus-style aggregator snapshots dated Aug 2026, plus company Q3 FY2026 earnings commentary. P/S and forward P/E figures showed material variance across sources and dates (P/S ~29.5x ttm vs. ~9.6x on a different 1-year-forward basis; forward P/E 44.3x vs. 49.5x) — treat as directionally consistent (richly valued) rather than precise. Fabrinet (FN) price/market-cap were not captured in this research pass; included as a supply-chain-linked reference point, not a strict product-market competitor.',
+},
+AMD: {
+  ticker: 'AMD',
+  name: 'Advanced Micro Devices',
+  tagline: 'Fabless designer of Instinct MI-series AI accelerators and EPYC server CPUs — a core, direct AI-infrastructure play and the clearest alternative to Nvidia, priced accordingly.',
+  sector: 'TELECOM & TECH',
+  asOf: '2026.08',
+  chain: {
+    intro:
+      'AMD is a fabless semiconductor designer competing directly in AI accelerators (Instinct MI300/MI350/MI400 series) against Nvidia, alongside its long-standing EPYC server-CPU and Ryzen client-CPU businesses. It depends on TSMC for leading-edge fabrication and on SK Hynix/Samsung/Micron for HBM memory, and is moving up-stack from individual chips toward full rack-scale AI systems (the Helios platform) to compete more directly with Nvidia\'s NVL rack offerings.',
+    rows: [
+      { level: 'Foundry (fabrication)', players: 'TSMC (5nm/4nm/3nm nodes), Samsung', position: 'AMD is fabless — it designs but does not manufacture; TSMC leading-edge capacity is a critical single-supplier dependency shared with Nvidia and Apple', tone: 'client' },
+      { level: 'Fabless GPU/CPU design (this company)', players: 'Advanced Micro Devices', position: 'Core business — Instinct MI300/MI350/MI400 AI accelerators, EPYC server CPUs, Ryzen client CPUs', tone: 'core' },
+      { level: 'HBM memory supply', players: 'SK Hynix, Samsung, Micron', position: 'Critical input — MI-series accelerators depend on HBM3e/HBM4 allocation from a concentrated set of memory makers', tone: 'client' },
+      { level: 'Hyperscaler / AI-datacenter customers', players: 'Meta, Microsoft, Oracle, Google', position: 'Direct, disclosed AI-infrastructure demand — Meta has committed to deploying up to 6GW of MI450 GPUs in Helios rack-scale servers', tone: 'core' },
+      { level: 'Rack-scale system integration', players: 'AMD Helios platform, ODM partners (e.g. Foxconn)', position: 'AMD is moving up-stack from individual chips to full rack-scale AI systems to compete with Nvidia\'s NVL rack platforms', tone: 'growth' },
+    ],
+    segments: [
+      'Data Center: Q1 2026 revenue $5.8B (+57% YoY), MI300-series accelerators ~73% of segment revenue; FY2025 data-center revenue $16.6B (+32% YoY)',
+      'Client & Gaming: Ryzen CPUs, semi-custom console silicon',
+      'Embedded: industrial/aerospace and ex-Xilinx FPGA business',
+      'Management has targeted roughly $20B in data-center GPU revenue within about two years per commentary reported by DigiTimes',
+    ],
+    aiShift:
+      'AMD is a core, direct AI-infrastructure play — one of a small number of credible alternative suppliers of AI-accelerator silicon alongside Nvidia. The MI300/MI350 series already generates billions in disclosed data-center revenue, and the MI400/MI450 roadmap plus the Helios rack-scale platform (anchored by a disclosed Meta commitment of up to 6GW of MI450 GPUs) represent the next leg of that story. This is about as unambiguous an AI-capex exposure as exists in public markets.',
+  },
+  valuation: {
+    peers: ['AMD', 'NVDA', 'AVGO', 'INTC'],
+    metrics: [
+      { label: 'Price', values: ['$518.58 (Aug 4, 2026)', '~$200.75 (Jul 31, 2026 snapshot — post-split-adjusted figures vary by source, not independently reconciled)', 'not captured in this pass', '$100.86 (Aug 4, 2026)'] },
+      { label: 'Market cap', values: ['$790.25B (Aug 3, 2026)', 'not captured', 'not captured', '~$459-512B (varies materially by source/date, Aug 2026)'] },
+      { label: 'Trailing P/E', values: ['172.93x', '~31.6x (one source)', 'not captured', 'not captured'] },
+      { label: 'Forward P/E', values: ['49.16x', '~20.7x (one source)', 'not captured', 'not captured'] },
+      { label: 'P/S', values: ['21.25x', 'not captured', '~12.5x (forward, one source)', 'not captured'] },
+      { label: 'P/B', values: ['~10.9x - 19.8x (varies materially by source/date)', 'not captured', 'not captured', 'not captured'] },
+      { label: 'Gross margin', values: ['52.8% (Q1 2026)', '74.9% (recent quarter)', '67.2% (Q1 2026)', 'not captured'] },
+      { label: 'Net margin', values: ['13.5% (Q1 2026)', 'not captured', '42.0% (Q1 2026)', 'not captured'] },
+    ],
+    verdictTone: 'high',
+    verdictPoints: [
+      'Trailing P/E of 172.93x is a function of still-modest trailing GAAP earnings relative to a $790B market cap; the forward P/E of 49.16x is a cleaner read but remains rich even by AI-semiconductor standards',
+      'AMD\'s gross margin (52.8%) and net margin (13.5%) both trail Broadcom\'s (67.2% / 42.0%) and Nvidia\'s (74.9% gross), reflecting AMD\'s position as the profitable-but-not-yet-dominant #2 AI-accelerator supplier',
+      'P/S of 21.25x and a wide P/B range (10.9x-19.8x depending on source/date) both sit at levels that price in continued Data Center segment growth well above the already-strong 57% YoY Q1 2026 pace',
+    ],
+    justifiedIf: [
+      'The MI400/MI450 roadmap ships on schedule and the disclosed Meta 6GW Helios commitment is followed by additional large hyperscaler design wins',
+      'AMD narrows the performance/software gap with Nvidia enough to sustain data-center GPU share gains toward the ~$20B revenue target',
+      'TSMC and HBM supply allocation remain sufficient to support AMD\'s ramp without bottlenecking shipments',
+    ],
+  },
+  priceMap: {
+    zones: [
+      { tier: 'ideal', range: '$400 - $450', rationale: 'A pullback of roughly 15-20% from the Aug 2026 price, more consistent with a normalized (still-rich) forward multiple' },
+      { tier: 'acceptable', range: '$450 - $560', rationale: 'Brackets the current trading range below the $580.91 all-time high' },
+      { tier: 'expensive', range: '> $580', rationale: 'At or above the all-time high — priced for flawless MI400/450 execution and continued hyperscaler design wins' },
+    ],
+    technical: [
+      'All-time high $580.91 (Jun 30, 2026)',
+      'Current $518.58 (Aug 4, 2026), roughly 11% below the all-time high',
+      'Price target of $529.46 cited by one aggregator as of early Aug 2026',
+    ],
+    scenarios: [
+      { label: 'BASE', prob: 45, note: 'MI350/MI400 ramp proceeds as guided, Data Center segment growth continues in the 40-60% YoY range, shares consolidate in the $480-600 range over 12-18 months.' },
+      { label: 'BULL', prob: 30, note: 'MI450/Helios rack-scale wins expand beyond Meta to additional hyperscalers, AMD closes more of the performance/software gap with Nvidia, shares push toward $700-800.' },
+      { label: 'BEAR', prob: 25, note: 'A roadmap slip, TSMC/HBM supply constraint, or a pause in hyperscaler AI capex exposes the rich multiple — shares retest $350-420.' },
+    ],
+    horizon: '12-18 months',
+    invalidation: 'Weekly close below $400 (structure break) or disclosed delay/cancellation of a major named hyperscaler MI400/MI450 commitment',
+  },
+  risks: [
+    { risk: 'Nvidia competitive dominance', severity: 'high', note: 'Nvidia retains the large majority of AI-accelerator share and a deeply entrenched CUDA software moat that AMD\'s ROCm ecosystem is still working to match.' },
+    { risk: 'TSMC single-foundry dependency', severity: 'high', note: 'AMD is fabless and depends on TSMC leading-edge capacity, shared with Nvidia, Apple and others — a capacity or geopolitical shock at TSMC hits AMD directly.' },
+    { risk: 'HBM/memory supply concentration', severity: 'medium', note: 'MI-series accelerators depend on HBM3e/HBM4 allocation from SK Hynix, Samsung and Micron — a concentrated, cyclical supplier base.' },
+    { risk: 'Valuation', severity: 'high', note: 'Trailing P/E of ~173x and forward P/E of ~49x both price in a great deal of future growth; a roadmap slip or demand pause could trigger an outsized reset.' },
+    { risk: 'Customer/hyperscaler concentration', severity: 'medium', note: 'The disclosed Meta 6GW Helios commitment is a major win but also a concentration risk if AI capex plans shift at any single large customer.' },
+    { risk: 'Execution risk on the MI400/MI450 ramp', severity: 'medium', note: 'AMD needs to execute the roadmap on schedule to hit the roughly $20B data-center GPU revenue target management has flagged.' },
+  ],
+  backlog: {
+    visibility: [
+      'Management has targeted roughly $20B in data-center GPU revenue within about two years',
+      'Meta\'s commitment to deploy up to 6GW of MI450 GPUs in Helios rack-scale servers provides a multi-year demand signal',
+      'FY2025 data-center revenue of $16.6B (+32% YoY) provides a growth base into 2026',
+    ],
+    wins: [
+      'Meta committing up to 6GW of MI450 GPUs in Helios rack-scale servers',
+      'MI300X design wins at Meta, Microsoft and Oracle',
+      'MI350 narrowing the performance gap with Nvidia Blackwell via an HBM3e memory-capacity advantage',
+      'Q1 2026 data-center revenue of $5.8B, +57% YoY',
+    ],
+    clients: ['Meta', 'Microsoft', 'Oracle', 'Google', 'OEM/ODM partners for EPYC and Ryzen'],
+    suppliers: ['TSMC (foundry)', 'SK Hynix, Samsung, Micron (HBM)', 'Foxconn and other ODM partners (rack-scale system assembly)'],
+  },
+  synthesis: {
+    scores: [
+      { criterion: 'Business quality', stars: 4, note: 'A genuine, credible #2 AI-accelerator supplier with a real, growing hyperscaler customer base, though still behind Nvidia on margin and share.' },
+      { criterion: 'AI growth exposure', stars: 5, note: 'Direct and core — among the two leading AI-accelerator suppliers globally, with disclosed multi-gigawatt hyperscaler commitments.' },
+      { criterion: 'Valuation', stars: 2, note: 'Trailing P/E ~173x and forward ~49x are both rich even by AI-semiconductor standards.' },
+      { criterion: 'Risk', stars: 3, note: 'Nvidia competition, TSMC/HBM supply dependency and a high multiple combine into real risk even for a high-quality business.' },
+      { criterion: 'Execution / roadmap', stars: 4, note: 'MI400/MI450 and the Helios rack-scale strategy are credible and already backed by a disclosed large hyperscaler commitment, though unproven at full scale.' },
+      { criterion: 'Entry timing', stars: 3, note: 'Roughly 11% off the all-time high as of Aug 2026 — not deeply discounted.' },
+    ],
+    readLabel: 'CORE, DIRECT AI-ACCELERATOR PLAY — SECOND TO NVIDIA, PRICED LIKE IT',
+    summary:
+      'AMD is one of the most direct, unambiguous AI-infrastructure plays available in public markets — a real alternative AI-accelerator supplier with disclosed multi-gigawatt hyperscaler commitments (Meta\'s 6GW MI450 Helios deal chief among them) and data-center revenue growing 57% YoY. The risk is not the thesis, it is the price: a forward P/E near 49x and a trailing P/E near 173x already assume AMD keeps closing the gap with Nvidia on both share and margin, with limited room for a roadmap slip or a hyperscaler capex pause.',
+  },
+  sourceNote:
+    'Compiled from intellectia.ai, tradingkey.com, stockanalysis.com-style aggregators, digitimes.com, startuphub.ai and datacenterdynamics.com, plus AMD\'s SEC 10-Q (Q1 FY2026), all dated Jul/Aug 2026. NVDA and INTC price/market-cap figures showed meaningful cross-source variance (INTC market cap cited between ~$459B and ~$512B; NVDA price snapshot may reflect a stale or differently-adjusted figure) and were not independently reconciled — treat peer figures as directional. AVGO price/market cap were not captured in this research pass; only margin/multiple data points were available.',
+},
+AMKR: {
+  ticker: 'AMKR',
+  name: 'Amkor Technology',
+  tagline: 'One of the world\'s two largest OSAT (outsourced assembly and test) providers, capturing advanced-packaging demand from AI-accelerator makers — real, disclosed AI exposure one processing step removed from the chip itself.',
+  sector: 'TELECOM & TECH',
+  asOf: '2026.08',
+  chain: {
+    intro:
+      'Amkor is an OSAT (outsourced semiconductor assembly, test and packaging) provider — it takes finished wafers from foundries like TSMC and performs the assembly, test and increasingly advanced 2.5D/3D packaging that turns them into finished chips. As AI accelerators and HBM stacks have made advanced packaging a structural bottleneck, Amkor has become a direct beneficiary, evidenced by a disclosed $1.5B advanced-packaging deal with Nvidia and a US (Arizona) advanced-packaging facility built near TSMC\'s own Arizona fabs.',
+    rows: [
+      { level: 'Foundries / chipmakers (upstream)', players: 'TSMC, Samsung, GlobalFoundries', position: 'Wafers arrive from foundries; Amkor performs assembly, test and advanced packaging downstream of fabrication', tone: 'client' },
+      { level: 'OSAT — assembly, test & advanced packaging (this company)', players: 'Amkor Technology', position: 'Core business — one of the two largest global OSAT providers alongside ASE; advanced packaging (2.5D/3D, fan-out) is increasingly central to AI-accelerator and HBM assembly', tone: 'core' },
+      { level: 'Fabless GPU/AI-chip designers', players: 'Nvidia, AMD and other AI-accelerator designers', position: 'Direct, disclosed relationship — a $1.5B advanced-packaging deal with Nvidia was announced, tied to US-based advanced-packaging capacity', tone: 'core' },
+      { level: 'US advanced-packaging capacity buildout', players: 'Amkor Arizona facility (near TSMC Arizona)', position: 'Structural growth driver — domestic advanced-packaging capacity co-located with TSMC\'s US fabs, positioned to capture AI-chip packaging demand as it onshores', tone: 'growth' },
+      { level: 'Competing OSAT providers', players: 'ASE Technology Holding (ASX), JCET, Powertech Technology', position: 'Direct competitors for OSAT/advanced-packaging capacity and pricing', tone: 'none' },
+    ],
+    segments: [
+      'Advanced packaging (2.5D/3D, fan-out, SiP): fastest-growing segment on AI-accelerator and HBM demand',
+      'Traditional wirebond/leadframe packaging: legacy, lower-margin base business',
+      'Q2 2026 revenue $1.90B, +26% YoY / +13% QoQ; gross margin 16.8% (Q3 2026 guided to 18.5-19.5%)',
+    ],
+    aiShift:
+      'Amkor has real, disclosed AI-infrastructure exposure — a $1.5B advanced-packaging agreement with Nvidia, management explicitly citing TSMC and Nvidia partnerships as drivers of Q2 2026\'s "AI computing surge" growth, and a US Arizona advanced-packaging facility built specifically to serve onshoring AI-chip customers. This exposure sits one processing step removed from the chip itself — Amkor packages and tests chips designed by others, it does not design AI silicon.',
+  },
+  valuation: {
+    peers: ['AMKR', 'ASX'],
+    metrics: [
+      { label: 'Price', values: ['$54.85 (Aug 5, 2026, ranged $54.31-$55.33)', '$38.70 (Aug 5, 2026)'] },
+      { label: 'Market cap', values: ['$14.98B (Aug 2026)', '$46.34B (Feb 2026 snapshot — may be stale relative to Aug 2026)'] },
+      { label: 'Trailing P/E', values: ['22.8x - 37.4x (wide, unreconciled variance across sources)', '28.5x - 63.3x (wide, unreconciled variance across sources)'] },
+      { label: 'Forward P/E', values: ['28.28x (one source)', 'not captured (peer-average figure of 87.4x cited in one source appears anomalous and was not used)'] },
+      { label: 'P/B', values: ['~1.80x (Oct 2025 datapoint, may be stale)', 'not captured'] },
+      { label: 'Gross margin', values: ['16.8% (Q2 2026), guided to 18.5-19.5% for Q3 2026', '20.1% (Q3 2026)'] },
+      { label: 'Net margin', values: ['~9.1% (Q2 2026, net income $173.75M on $1.90B revenue)', '8.2% (Q1 2026)'] },
+    ],
+    verdictTone: 'fair',
+    verdictPoints: [
+      'Trailing P/E figures for both AMKR and ASX varied enormously across sources reviewed (22.8x-37.4x for AMKR, 28.5x-63.3x for ASX) — treat any single number with caution; on the most-cited estimates AMKR trades at a premium to ASX on P/E but the two are broadly comparable on EV/EBITDA (~11.9x vs. ~12.5x per one source)',
+      'Gross margin is improving (16.8% to a guided 18.5-19.5% quarter-over-quarter) as advanced-packaging mix grows, though it remains below ASX\'s 20.1%',
+      'The disclosed $1.5B Nvidia deal is a concrete, quantified AI-exposure data point rather than pure narrative, which differentiates Amkor from more speculative "AI-adjacent" names in this dataset',
+    ],
+    justifiedIf: [
+      'The Arizona advanced-packaging facility ramps successfully and captures a meaningful share of onshoring AI-chip packaging demand',
+      'Gross margin continues its guided improvement (16.8% to 18.5-19.5%) as advanced packaging becomes a larger share of the mix',
+      'AI-accelerator design wins beyond the disclosed Nvidia deal are added over 2026-2027',
+    ],
+  },
+  priceMap: {
+    zones: [
+      { tier: 'ideal', range: '$40 - $46', rationale: 'A pullback of roughly 15-25% from the Aug 2026 price, more consistent with a mid-cycle OSAT multiple' },
+      { tier: 'acceptable', range: '$46 - $58', rationale: 'Brackets the current trading range, reported to be near a 52-week high' },
+      { tier: 'expensive', range: '> $60', rationale: 'Would require the market pricing in sustained 25%+ revenue growth and continued gross-margin expansion beyond the Q3 2026 guide' },
+    ],
+    technical: [
+      'Trading near a 52-week high as of early Aug 2026 per one source (exact 52-week range not confirmed in this research pass)',
+      'Current price $54.85 (Aug 5, 2026), ranged $54.31-$55.33 that day',
+    ],
+    scenarios: [
+      { label: 'BASE', prob: 45, note: 'Q3 2026 gross-margin guidance (18.5-19.5%) is met, advanced-packaging mix keeps growing on AI-accelerator demand, shares consolidate in the $48-62 range over 12-18 months.' },
+      { label: 'BULL', prob: 25, note: 'Additional AI-accelerator packaging deals beyond Nvidia are disclosed, Arizona facility ramps ahead of schedule, gross margin exceeds guidance — shares push toward $70-80.' },
+      { label: 'BEAR', prob: 30, note: 'Broader semiconductor-packaging cycle softens, or the Nvidia relationship fails to expand into follow-on volume, exposing OSAT cyclicality — shares retest $38-44.' },
+    ],
+    horizon: '12-18 months',
+    invalidation: 'Weekly close below $42 (structure break) or a disclosed gross-margin miss against the Q3 2026 guide',
+  },
+  risks: [
+    { risk: 'Customer/design-win concentration', severity: 'medium', note: 'A meaningful portion of the disclosed AI-related upside rides on a relatively small number of named deals (the $1.5B Nvidia agreement chief among them).' },
+    { risk: 'Cyclicality of semiconductor packaging demand', severity: 'medium', note: 'OSAT volumes are tied to the broader semiconductor cycle, not just AI-accelerator demand — a general chip-demand downturn would hit the legacy wirebond/leadframe business.' },
+    { risk: 'Competitive pressure from ASE and other OSAT peers', severity: 'medium', note: 'ASE Technology and other Asian OSAT providers compete directly for the same advanced-packaging capacity and customer relationships.' },
+    { risk: 'Geopolitical / supply-chain concentration', severity: 'medium', note: 'Amkor operates packaging and test facilities across Asia (Taiwan, Korea, and elsewhere), exposing it to regional trade-policy and geopolitical risk even as it builds out US capacity.' },
+    { risk: 'Data variance on valuation multiples', severity: 'low', note: 'Trailing P/E figures ranged from roughly 23x to 37x across sources reviewed for AMKR alone — independently reconfirm before relying on any single number.' },
+    { risk: 'Capital intensity', severity: 'medium', note: 'Advanced-packaging capacity buildout, including the Arizona facility, requires sustained capital investment with a multi-year payback horizon.' },
+  ],
+  backlog: {
+    visibility: [
+      'Q3 2026 gross-margin guidance of 18.5-19.5%, up from 16.8% in Q2 2026, reflecting improving advanced-packaging mix',
+      'Arizona advanced-packaging facility ramping to serve US-based AI-chip customers',
+    ],
+    wins: [
+      '$1.5B advanced-packaging deal announced with Nvidia',
+      'Q2 2026 revenue of $1.90B, +26% YoY / +13% QoQ, described by management as driven by the AI-computing surge',
+      'TSMC and Nvidia partnerships cited explicitly in Q2 2026 earnings commentary as growth drivers',
+    ],
+    clients: ['Nvidia (disclosed $1.5B advanced-packaging deal)', 'Other fabless AI-accelerator and logic customers (not individually named)'],
+    suppliers: ['TSMC, Samsung, GlobalFoundries (upstream wafer fabrication)'],
+  },
+  synthesis: {
+    scores: [
+      { criterion: 'Business quality', stars: 4, note: 'A top-two global OSAT provider with real scale advantages and improving margins as advanced packaging grows as a share of the mix.' },
+      { criterion: 'AI growth exposure', stars: 4, note: 'Real and disclosed (the $1.5B Nvidia deal), though packaging is one processing step removed from AI-chip design/compute itself.' },
+      { criterion: 'Valuation', stars: 3, note: 'Wide variance across sources, but generally mid-20s-to-high-30s trailing P/E, roughly in line with or somewhat rich to ASX on the most-cited figures.' },
+      { criterion: 'Risk', stars: 3, note: 'Packaging-cycle cyclicality, geopolitical/supply-chain concentration, and customer concentration in the disclosed AI upside are all real.' },
+      { criterion: 'Backlog / momentum', stars: 4, note: 'Improving gross-margin guide, the disclosed Nvidia deal, and the US Arizona capacity buildout all point in the same direction.' },
+      { criterion: 'Entry timing', stars: 2, note: 'Reported to be trading near a 52-week high as of early Aug 2026 — not a clear discount.' },
+    ],
+    readLabel: 'REAL, DISCLOSED AI-PACKAGING EXPOSURE — ONE STEP REMOVED FROM THE CHIP ITSELF',
+    summary:
+      'Amkor is a legitimate, disclosed beneficiary of AI-accelerator demand through advanced packaging — the $1.5B Nvidia deal and the purpose-built Arizona facility are concrete data points, not narrative. Its exposure sits one processing step removed from the AI chip itself (assembly, test and packaging rather than design or fabrication), which makes it lower-margin and more cyclical than the fabless designers it serves, but the underlying AI-driven demand for advanced packaging appears real and growing.',
+  },
+  sourceNote:
+    'Compiled from stocktitan.net, quartr.com, chartmill.com, biggo.com/finance and gurufocus/valueinvesting.io-style aggregator snapshots, plus Amkor\'s own 8-K/10-Q disclosures, all dated Jul/Aug 2026. Trailing P/E figures for both AMKR (22.8x-37.4x) and its peer ASX (28.5x-63.3x) showed unusually wide, unreconciled variance across sources — treat any single cited multiple with real caution and prefer margin/revenue-growth figures (which were more consistent across sources) when assessing this name. ASX market cap was captured from a Feb 2026 snapshot and may be stale relative to the Aug 2026 price point used.',
+},
+'ASM.AS': {
+  ticker: 'ASM.AS',
+  name: 'ASM International NV',
+  tagline: 'Dutch leader in atomic layer deposition (ALD) and epitaxy tools — a narrow but genuine technology monopoly on one rising-intensity WFE process step, direct into GAA, backside power and 1.4nm-node ramps.',
+  sector: 'TELECOM & TECH',
+  asOf: '2026.08',
+  chain: {
+    intro: 'ASM International doesn\'t make chips or GPUs — it makes the atomic layer deposition (ALD) and epitaxy tools that deposit the ultra-thin, precisely engineered films every advanced logic and memory chip needs. That places it squarely inside the front-end WFE chain alongside ASML (litho), AMAT/LRCX (etch + deposition) and KLAC (inspection) — narrower in scope than any of them, but a genuine technology leader in its own process step.',
+    rows: [
+      { level: 'Precursor chemicals & specialty gases', players: 'Air Products, Merck KGaA (EMD), Entegris and others', position: 'Upstream input supplier — not directly exposed', tone: 'none' },
+      { level: 'ALD & epitaxy equipment (WFE)', players: 'ASM International', position: 'Core business — estimated 50%+ share of the ALD steps it competes for at 5nm-2nm nodes (industry-tracker estimates, not company-disclosed)', tone: 'core' },
+      { level: 'Litho / etch / broader deposition (WFE)', players: 'ASML, AMAT, LRCX, KLAC, Tokyo Electron, Kokusai Electric', position: 'Complementary process steps in the same WFE chain — also partial competitors in epitaxy/ALD-adjacent tools', tone: 'client' },
+      { level: 'Foundry / IDM customers', players: 'TSMC, Samsung, Intel, SK Hynix, Micron', position: 'Direct customers for leading-edge logic and memory capacity', tone: 'client' },
+      { level: 'Advanced-node drivers (GAA, backside power, 1.4nm)', players: 'TSMC N2/A16, Samsung SF2, Intel 18A/14A programs', position: 'Growth driver — more ALD/epi steps per wafer as node complexity rises; 1.4nm pilot revenue starting to contribute in H2 2026', tone: 'growth' },
+      { level: 'AI / datacenter end demand', players: 'Hyperscalers, AI-accelerator programs', position: 'Indirect exposure via foundry/memory capex cycles', tone: 'indirect' },
+    ],
+    segments: [
+      'ALD (atomic layer deposition): estimated 50-60% share of the ALD steps ASM competes for at 5nm-2nm nodes (analyst/industry-tracker estimates, not independently confirmed against a company-disclosed figure)',
+      'Epitaxy: single-wafer epi tools for advanced logic and power/analog; 1.4nm-node pilot revenue beginning to contribute in H2 2026',
+      'PECVD and other deposition process modules — a smaller share of the portfolio',
+      'Q2 2026: record revenue of €1,003m (+24% YoY at constant currency, +15% QoQ), record ALD sales, gross margin 51.9%, adjusted operating margin 33.0%',
+    ],
+    aiShift: 'AI-driven advanced-node demand is pushing ALD and epitaxy intensity higher per wafer: gate-all-around (GAA) transistors at 2nm and beyond need more ALD steps for high-k dielectrics and metal gates, backside power delivery networks (BSPDN) add further deposition layers, and DRAM 1c/1d and HBM migrations are pulling logic-like ALD steps into memory. Management flagged accelerating demand across all three logic customers in Q1 2026, with 1.4nm-node pilot revenue starting to contribute in H2 2026 — a direct, quantified read on the GAA/AI-node ramp.',
+  },
+  valuation: {
+    peers: ['ASM.AS', 'ASML', 'LRCX', 'AMAT'],
+    metrics: [
+      { label: 'Price', values: ['€810.80 (Aug 5, 2026)', '$1,703.08 (Aug 4, 2026)', '$322.87 (Aug 5, 2026)', '$547.14 (Aug 2026)'] },
+      { label: 'Market cap', values: ['~€39.2-39.7B (Aug 5, 2026; some aggregators show €38.6-40.7B depending on source/date)', '~$654B (Aug 4, 2026)', '~$404B (Aug 5, 2026)', '$434.4B'] },
+      { label: 'Trailing P/E', values: ['~36.7-37.1x (varies by source/date)', '~58.8x (rescaled from 53.5x pre-refresh, not independently re-verified)', '~61.1x (rescaled, not independently re-verified)', '47.7x'] },
+      { label: 'Forward P/E', values: ['~37x (varies by source/date, 37.0-39.4x)', '~29.4x (rescaled, not independently re-verified)', '~39.5x (rescaled, not independently re-verified)', '33.5x'] },
+      { label: 'P/S (TTM)', values: ['~11.7x', '~18.6x (rescaled, not independently re-verified)', '~18.6x (rescaled, not independently re-verified)', '15.0x'] },
+      { label: 'EV/EBITDA', values: ['~24.2x', '~33.3x', '42.8x', '—'] },
+      { label: 'Gross margin', values: ['51.9% (Q2 2026; 53.3% Q1 2026; 51.8% record FY2025)', '—', '50.0%', '50.0% (non-GAAP)'] },
+      { label: 'Net margin', values: ['~16.2% GAAP TTM per aggregator data — sits oddly low against a 33.0% adjusted operating margin in Q2 2026; the gap is not independently reconciled here, likely one-off/tax items', '30.1%', '25.7%', '29.3%'] },
+      { label: 'ROE', values: ['~21.6% (ROIC ~29.1%)', '53.9%', '45.7%', '39.7%'] },
+      { label: 'Beta', values: ['~1.50', '1.39', '1.81', '1.65'] },
+      { label: 'Dividend yield', values: ['~0.4% (€3.25/share FY2025 dividend plus a new €150m buyback)', '0.57%', '0.36%', '0.42%'] },
+      { label: 'Revenue growth (latest quarter, YoY)', values: ['+24% (Q2 2026, constant currency)', '+32-37% FY2026E guide', '—', '+11% (Q2 FY2026, reported)'] },
+    ],
+    verdictTone: 'high',
+    verdictPoints: [
+      'Forward P/E of ~37x sits between AMAT (33.5x) and LRCX\'s rescaled ~39.5x — not the cheapest WFE name, but not the most stretched either',
+      'P/S of ~11.7x TTM and EV/EBITDA of ~24x price in continued double-digit growth, not cyclical mean reversion',
+      'The Jun 22, 2026 ATH (€1,092.6) to Aug 5, 2026 spot (€810.80) is a ~25.8% drawdown, including a single-session drop of over 8% on the Jul 28 Q2 print despite record revenue — the market is punishing anything short of a flawless guidance raise',
+      'GAAP net margin (~16% TTM per aggregator data) looks inconsistent with the 33% adjusted operating margin management reported for Q1/Q2 2026 — flagged, not reconciled, in this pass',
+    ],
+    justifiedIf: [
+      '2027 revenue exceeds the top of the raised €3.7-4.6bn target range (set at the Sept 2025 Investor Day) as management now guides, keeping the 2030 target of >€5.7bn (12%+ CAGR from 2024) on track',
+      'ALD/epitaxy intensity keeps rising per wafer as GAA, backside power delivery and 1.4nm-class nodes ramp, preserving ASM\'s estimated 50%+ share of the ALD steps it competes for',
+      'China order volatility (bookings swung from a record €943m in Q2 2025 to €676m in Q3 2025 on export-control impact) stays contained rather than becoming a structural drag',
+    ],
+  },
+  priceMap: {
+    zones: [
+      { tier: 'ideal', range: '€650 – €720', rationale: 'A further ~10-20% pullback from spot, closer to pre-2026-AI-rally levels' },
+      { tier: 'acceptable', range: '€720 – €880', rationale: 'Roughly the current post-correction trading range' },
+      { tier: 'expensive', range: '>€950', rationale: 'Approaching the €1,092.6 ATH — would require a flawless 2027 print with no China air pocket' },
+    ],
+    technical: [
+      'ATH €1,092.6 (Jun 22, 2026) — current €810.80 (Aug 5, 2026) is a ~25.8% correction from the top',
+      'Shares fell >8% in a single session on Jul 28, 2026 despite record Q2 revenue, after the raised 2027 outlook fell short of some buy-side expectations — a clear illustration of how little disappointment this name currently tolerates',
+      '52-week range and moving averages not independently re-verified in this pass — treat the spot price and ATH as the reliable anchor points',
+    ],
+    scenarios: [
+      { label: 'BASE', prob: 50, note: 'H2 2026 revenue growth confirms the guided >20% step-up over H1 2026 at constant currency, and 2027 revenue lands within or above the raised €3.7-4.6bn target range — grinds back toward €950-1,050 over 12-18 months.' },
+      { label: 'BULL', prob: 25, note: 'GAA/backside-power ALD intensity and 1.4nm-node pilot revenue ramp faster than guided, and China mature-logic orders stabilize — retests or exceeds the €1,092.6 ATH.' },
+      { label: 'BEAR', prob: 25, note: 'China order volatility resumes (a repeat of the 2025 bookings swing from €943m to €676m), or a 2027 guidance disappointment triggers another sharp single-day repricing like the Jul 28, 2026 reaction — retests €600-650.' },
+    ],
+    horizon: '12-18 months',
+    invalidation: 'Weekly close below €600 (~-45% from the ATH, giving back essentially the entire 2025-26 AI-driven re-rating)',
+  },
+  risks: [
+    { risk: 'China order volatility / export controls', severity: 'high', note: 'ASM estimates over 40% of its China sales are affected by tightened US export controls; China bookings swung from a record €943m (Q2 2025) to €676m (Q3 2025) on that impact, and China\'s share of total sales is reported inconsistently across periods (as low as 16% YTD by one measure, "low-to-high 20s%" by another FY2025 forecast) — a genuine, not fully resolved, swing factor.' },
+    { risk: 'Guidance sensitivity / priced for perfection', severity: 'high', note: 'Shares fell over 8% on Jul 28, 2026 despite record Q2 revenue and a raised 2027 outlook, simply because the raise fell short of some buy-side expectations — at current multiples, "very good" is not always enough.' },
+    { risk: 'Customer concentration', severity: 'medium', note: 'Revenue is concentrated across a handful of buyers — TSMC, Samsung and Intel in logic, SK Hynix and Micron in memory. A capex pause at any one of them is a real single-name shock.' },
+    { risk: 'Competitive pressure in deposition/epitaxy', severity: 'medium', note: 'Applied Materials, Tokyo Electron and Kokusai Electric all compete in ALD/epitaxy-adjacent steps. AMAT\'s much broader process-step footprint in particular is a structural, well-funded competitive threat to ASM\'s niche leadership.' },
+    { risk: 'Valuation / cyclicality', severity: 'medium', note: 'EV/EBITDA of ~24x and P/S of ~11.7x price in sustained double-digit growth. WFE spend is cyclical, and a broader capex digestion after the 2025-26 AI buildout would hit a single-process-step specialist hard.' },
+  ],
+  backlog: {
+    visibility: [
+      'Q3 2026 revenue guided to ~€1,100m ±5% at constant currency; H2 2026 revenue guided to grow over 20% versus H1 2026 at constant currency',
+      '2027 revenue target range of €3.7-4.6bn (set at the Sept 2025 Investor Day) is now expected to be exceeded at the top end, given strong H1 2026 order intake and customer visibility',
+      '2030 target: revenue exceeding €5.7bn, implying a 12%+ CAGR from 2024',
+      'ASM no longer discloses quarterly bookings figures — a disclosure change some analysts flagged as reducing near-term order-flow visibility even as the qualitative order commentary stayed positive',
+    ],
+    wins: [
+      'Record ALD sales in Q2 2026, with expanding share in GAA-related ALD steps at leading-edge logic nodes',
+      '1.4nm-node epitaxy/ALD pilot revenue beginning to contribute in H2 2026',
+      'FY2025 marked a ninth consecutive year of double-digit revenue growth, with a record 51.8% gross margin',
+      'Record free cash flow reported for Q2 2026 (figure reported as $355m in some English-language coverage of a EUR-reporting company — currency not independently reconciled here)',
+    ],
+    clients: ['TSMC', 'Samsung Foundry', 'Intel', 'SK Hynix', 'Micron'],
+    suppliers: ['Precursor-chemical and specialty-gas suppliers (e.g. Air Products, Merck KGaA/EMD, Entegris-type vendors) typical of ALD/epitaxy tool manufacturing — not individually disclosed in materials reviewed'],
+  },
+  synthesis: {
+    scores: [
+      { criterion: 'Business quality', stars: 4, note: 'A genuine, hard-to-replicate technology leader in ALD/epitaxy — narrower than AMAT/LRCX\'s breadth or ASML\'s outright monopoly, but a real niche moat.' },
+      { criterion: 'AI growth exposure', stars: 5, note: 'Direct, quantified beneficiary of GAA, backside power delivery, 1.4nm-node ramps and DRAM/HBM ALD intensity — a structural multi-year driver, not a thematic stretch.' },
+      { criterion: 'Valuation', stars: 2, note: 'Forward P/E ~37x, EV/EBITDA ~24x and P/S ~11.7x price in sustained double-digit growth with very little room for a guidance miss.' },
+      { criterion: 'Risk', stars: 2, note: 'China order volatility, customer concentration, and a market that has already shown it will punish an already-raised guide with an 8%+ single-day drop.' },
+      { criterion: 'Revenue visibility', stars: 4, note: 'An explicit Q3 guide, a raised 2027 target range and a 2030 target provide real multi-year visibility, tempered by ASM no longer disclosing quarterly bookings.' },
+      { criterion: 'Entry timing', stars: 3, note: 'A ~26% drawdown from the ATH is a real reset, not a floor call — the stock remains highly sensitive to guidance-cadence disappointments.' },
+    ],
+    readLabel: 'STRUCTURAL AI-NODE WINNER — PRICED FOR CONTINUED PERFECTION',
+    summary: 'ASM International is a genuine technology leader in a specific, rising-intensity WFE process step — ALD and epitaxy — with a direct, quantifiable link to GAA, backside power delivery and 1.4nm-node ramps across TSMC, Samsung and Intel\'s logic roadmaps. The ~26% drawdown from the June 2026 ATH looks less like a broken thesis and more like the market repricing its tolerance for anything short of a flawless guide: shares fell over 8% in a single session in late July despite record quarterly revenue and a raised 2027 target. At roughly 37x forward earnings and 24x EV/EBITDA, the growth case has to keep delivering with very little room for a China-order air pocket or a soft 2027 print.',
+  },
+  sourceNote: 'Compiled from ASM Q1 2026 results (Apr 21, 2026) and Q2 2026 results (Jul 28, 2026, globenewswire.com/asm.com investor materials), the Sept 23, 2025 Investor Day 2027/2030 target disclosures, and aggregator/financial-press data (stockanalysis.com, GuruFocus, Investing.com earnings-call coverage, Bits&Chips) captured late July-Aug 5, 2026. Note the honest, significant 2026 volatility this name has shown: an all-time high of €1,092.6 on Jun 22, 2026 has given way to a ~€795-820 trading range in early August 2026 (spot €810.80 on Aug 5) — a roughly 25-27% drawdown, including a single-session drop of over 8% on the Jul 28 earnings reaction despite record revenue. China revenue-share and net-margin/ROE figures showed real variance across sources/dates in this pass and are flagged rather than smoothed over; treat all multiples here as directionally accurate, not to-the-decimal precise.',
+},
 }

@@ -48,6 +48,7 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   '6622.T': 'wfe',
   'VACN.SW': 'wfe',
   'MYCR.ST': 'wfe',
+  'ASM.AS': 'wfe',
 
   // Substrates & advanced packaging materials
   '4004.T': 'substrates',
@@ -77,6 +78,7 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   '042700.KS': 'packaging',
   'BESI.AS': 'packaging',
   'SMHN.DE': 'packaging',
+  AMKR: 'packaging',
 
   // Memory (HBM/DRAM) & memory IP
   '000660.KS': 'memory',
@@ -90,6 +92,8 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   AAOI: 'silicon',
   FN: 'silicon',
   'SIVE.ST': 'silicon',
+  AMD: 'silicon',
+  LITE: 'silicon',
 
   // AI cloud & compute infrastructure
   IREN: 'cloud',
@@ -105,6 +109,7 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   BE: 'power',
   FCEL: 'power',
   HYLN: 'power',
+  STRL: 'power',
 
   // Space infrastructure
   RKLB: 'space',
@@ -118,6 +123,9 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   'SLX.AX': 'adjacent',
   'OBDU.ST': 'adjacent',
   'SHT.ST': 'adjacent',
+  ISRG: 'adjacent',
+  MTZ: 'adjacent',
+  KRKNF: 'adjacent',
 }
 
 const COUNTRY_OVERRIDE: Record<string, string> = { ATEYY: 'Japan' }
@@ -184,6 +192,7 @@ const US_EXCHANGE: Record<string, string> = {
   AMAT: 'NASDAQ', MRVL: 'NASDAQ', FN: 'NYSE', CAMT: 'NASDAQ', NVTS: 'NASDAQ', NBIS: 'NASDAQ',
   RKLB: 'NASDAQ', PENG: 'NASDAQ', CRWV: 'NASDAQ', AMPX: 'NYSE', HYLN: 'NYSE', FCEL: 'NASDAQ',
   BWEN: 'NASDAQ',
+  STRL: 'NASDAQ', ISRG: 'NASDAQ', MTZ: 'NYSE', KRKNF: 'OTC', LITE: 'NASDAQ', AMD: 'NASDAQ', AMKR: 'NASDAQ',
 }
 
 export function exchangeOf(ticker: string): string {

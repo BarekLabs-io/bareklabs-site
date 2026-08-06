@@ -129,6 +129,14 @@ export default function SoukSignal() {
               </tbody>
             </table>
           </div>
+          <div className="mt-4 flex flex-wrap gap-x-8 gap-y-2 font-mono-lab text-[9.5px] leading-4 tracking-wide text-faint">
+            {t.souk.watchlist.legend.map((l) => (
+              <span key={l.k}>
+                <span className={cn('tracking-[0.15em]', l.k === 'STRONG' || l.k === 'BUILDING' ? 'text-signal' : l.k === 'CAUTION' ? 'text-danger' : 'text-dim')}>{l.k}</span>
+                {' — '}{l.d}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
