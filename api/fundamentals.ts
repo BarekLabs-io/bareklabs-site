@@ -71,19 +71,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     fundamentals[s] = null
   })
 
-  /* FMP has two live API surfaces and the free tier does not expose the same
-   * routes on both, so both are tried in order and whichever answers wins.
-   * Guessing which one a given key is entitled to, and failing silently when
-   * wrong, is how an integration ends up "on" and returning nothing. */
+  /* Endpoint entitlement differs by plan, and FMP answers a route outside your
+   * plan with 401 "Invalid API KEY" — the same message as a genuinely bad key.
+   * That one misleading string cost a full debugging round here.
+   *
+   * /profile is "Profile and Reference Data", which the free Basic plan does
+   * include, and it carries mktCap and price — everything this route needs.
+   * /quote sits behind the paid tiers, so it is tried last and only helps if
+   * the account is later upgraded. Order matters: cheapest entitlement first.
+   */
+  const list = encodeURIComponent(symbols.join(','))
   const ATTEMPTS = [
-    {
-      name: 'stable',
-      url: `https://financialmodelingprep.com/stable/quote?symbol=${encodeURIComponent(symbols.join(','))}`,
-    },
-    {
-      name: 'v3',
-      url: `https://financialmodelingprep.com/api/v3/quote/${encodeURIComponent(symbols.join(','))}`,
-    },
+    { name: 'v3/profile', url: `https://financialmodelingprep.com/api/v3/profile/${list}` },
+    { name: 'stable/profile', url: `https://financialmodelingprep.com/stable/profile?symbol=${list}` },
+    { name: 'stable/quote', url: `https://financialmodelingprep.com/stable/quote?symbol=${list}` },
+    { name: 'v3/quote', url: `https://financialmodelingprep.com/api/v3/quote/${list}` },
   ]
 
   /** Never let the key reach a response body or a log line. */
@@ -98,7 +100,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT_MS)
     try {
-      const upstream = await fetch(`${attempt.url}&apikey=${encodeURIComponent(key)}`, {
+      const joiner = attempt.url.includes('?') ? '&' : '?'
+      const upstream = await fetch(`${attempt.url}${joiner}apikey=${encodeURIComponent(key)}`, {
         signal: controller.signal,
         headers: { Accept: 'application/json' },
       })
@@ -124,8 +127,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const sym = typeof row?.symbol === 'string' ? row.symbol : null
         if (!sym || !(sym in fundamentals)) continue
         matched++
+        // /profile calls it mktCap, /quote calls it marketCap. Same figure.
         fundamentals[sym] = {
-          marketCap: finite(row.marketCap),
+          marketCap: finite(row.marketCap) ?? finite(row.mktCap),
           peTrailing: finite(row.pe) ?? finite(row.peRatio),
           eps: finite(row.eps),
           shares: finite(row.sharesOutstanding),
