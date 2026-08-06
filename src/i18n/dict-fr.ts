@@ -68,7 +68,7 @@ export const fr: Dict = {
     },
     manifesto: {
       label: '§ MANIFESTE',
-      meta: 'CRÉÉ EN 2026\nPARIS / DUBAÏ / TUNIS\nINDÉPENDANT, AUTOFINANCÉ',
+      meta: 'CRÉÉ EN 2026\nPARIS / TUNIS / DUBAÏ\nSTOCKHOLM / SÉOUL / TOKYO\nINDÉPENDANT, AUTOFINANCÉ',
       big1: 'La plupart du bruit de marché est ',
       big1Accent: 'curable',
       big2: '. Nous construisons les instruments — recherche, signaux, journaux — qui séparent l’information de l’',

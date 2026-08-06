@@ -133,7 +133,7 @@ export default function Home() {
             <Reveal className="md:col-span-4">
               <div className="font-mono-lab text-[11px] tracking-[0.3em] text-signal">{m.label}</div>
               <div className="mt-4 whitespace-pre-line font-mono-lab text-[11px] leading-6 tracking-wider text-faint">{m.meta}</div>
-              <div className="relative mt-8 h-52 border border-line bg-card2/40 md:h-64">
+              <div className="relative mt-8 h-60 border border-line bg-card2/40 md:h-72">
                 <WorldMap className="absolute inset-0 h-full w-full" />
               </div>
             </Reveal>

@@ -66,7 +66,7 @@ export const en = {
     },
     manifesto: {
       label: '§ MANIFESTO',
-      meta: 'EST. 2026\nPARIS / DUBAI / TUNIS\nINDEPENDENT, SELF-FUNDED',
+      meta: 'EST. 2026\nPARIS / TUNIS / DUBAI\nSTOCKHOLM / SEOUL / TOKYO\nINDEPENDENT, SELF-FUNDED',
       big1: 'Most market noise is ',
       big1Accent: 'curable',
       big2: '. We build the instruments — research, signals, trackers — that separate information from ',
