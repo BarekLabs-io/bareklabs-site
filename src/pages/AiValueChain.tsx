@@ -5,8 +5,9 @@ import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 import { companies } from '@/data/companies'
-import { countryOf } from '@/data/valueChain'
+import { countryOf, currencyOf, formatMoney } from '@/data/valueChain'
 import { CHAIN_EXTRA } from '@/data/chainExtra'
+import { useLiveQuotes } from '@/lib/useLiveQuotes'
 
 type ChainItem = { t: string; name: string; role: string; priv?: boolean }
 type ChainStage = { n: string; k: string; name: string; desc: string; items: ChainItem[] }
@@ -109,6 +110,10 @@ export default function AiValueChain() {
   const price = keyMetric(selItem.t, /^price|^share price/i)
   const marketCap = keyMetric(selItem.t, /market cap/i)
   const { hubs, sats, connectors } = useConstellation(stages)
+  // Live price for the selected node only — market cap stays on the
+  // researched snapshot (the quotes endpoint doesn't carry it).
+  const { quotes } = useLiveQuotes(selCompany ? [selItem.t] : [])
+  const liveQuote = quotes[selItem.t]
 
   return (
     <>
@@ -317,16 +322,31 @@ export default function AiValueChain() {
                 <p className="mt-4 font-mono-lab text-[12px] leading-6 tracking-wide text-foreground/80">{selItem.role}</p>
                 {selCompany && (price || marketCap) && (
                   <div className="mt-5 flex flex-wrap gap-6 border-t border-line pt-4">
-                    {price && (
+                    {(price || liveQuote) && (
                       <div>
-                        <div className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">PRICE</div>
-                        <div className="mt-1 font-mono-lab text-sm tabular-nums text-foreground" dir="ltr">{price}</div>
+                        <div className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">
+                          PRICE {liveQuote && <span className="text-signal">· LIVE</span>}
+                        </div>
+                        <div className="mt-1 font-mono-lab text-sm tabular-nums text-foreground" dir="ltr">
+                          {liveQuote ? formatMoney(liveQuote.price, liveQuote.currency ?? currencyOf(selItem.t)) : price}
+                          {liveQuote?.changePercent != null && (
+                            <span className={cn('ms-1.5 text-[11px]', liveQuote.changePercent >= 0 ? 'text-signal' : 'text-danger')}>
+                              {liveQuote.changePercent >= 0 ? '+' : ''}{liveQuote.changePercent.toFixed(2)}%
+                            </span>
+                          )}
+                        </div>
                       </div>
                     )}
                     {marketCap && (
                       <div>
                         <div className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">MARKET CAP</div>
-                        <div className="mt-1 font-mono-lab text-sm tabular-nums text-foreground" dir="ltr">{marketCap}</div>
+                        <div
+                          className="mt-1 font-mono-lab text-sm tabular-nums text-foreground"
+                          dir="ltr"
+                          title={selCompany ? `Researched snapshot as of ${selCompany.asOf} — not live` : undefined}
+                        >
+                          {marketCap}
+                        </div>
                       </div>
                     )}
                   </div>

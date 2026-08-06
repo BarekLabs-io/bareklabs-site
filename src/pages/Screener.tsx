@@ -4,6 +4,7 @@ import { Reveal } from '@/components/lab'
 import { companies } from '@/data/companies'
 import { SEGMENTS, SEGMENT_OF, countryOf, exchangeOf, currencyOf, formatMoney, type SegmentKey } from '@/data/valueChain'
 import { parseMetricValue } from '@/lib/priceSeries'
+import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { cn } from '@/lib/utils'
 
 type RiskTier = 'high' | 'medium' | 'low'
@@ -145,6 +146,12 @@ export default function Screener() {
 
   const hasFilters = query !== '' || segment !== 'ALL' || country !== 'ALL' || risk !== 'ALL'
 
+  // Live prices only for what's actually on screen — keeps the upstream call
+  // small when filters are applied. Market cap and the multiples below stay
+  // on the researched snapshot; the quotes endpoint doesn't carry them.
+  const { quotes, asOf } = useLiveQuotes(filtered.map((r) => r.ticker))
+  const liveCount = filtered.reduce((n, r) => (quotes[r.ticker] ? n + 1 : n), 0)
+
   return (
     <section className="lab-grid-fine relative pt-24 pb-16 md:pt-28">
       <div className="mx-auto max-w-[1600px] px-4 md:px-6">
@@ -222,10 +229,12 @@ export default function Screener() {
                 <th className="px-3 py-3 text-start">NAME / WHAT IT DOES</th>
                 <th className="px-3 py-3 text-start">SEGMENT</th>
                 <th className="px-3 py-3 text-start">EXCHANGE</th>
-                <th className="px-3 py-3 text-end">PRICE</th>
-                <th className="px-3 py-3 text-end">MKT CAP</th>
-                <th className="px-3 py-3 text-end">FWD P/E</th>
-                <th className="px-3 py-3 text-end">EV/EBITDA</th>
+                <th className="px-3 py-3 text-end" title="Live where available, otherwise the researched snapshot">
+                  PRICE {liveCount > 0 && <span className="text-signal">· LIVE</span>}
+                </th>
+                <th className="px-3 py-3 text-end" title="Researched snapshot — not live">MKT CAP</th>
+                <th className="px-3 py-3 text-end" title="Researched snapshot — not live">FWD P/E</th>
+                <th className="px-3 py-3 text-end" title="Researched snapshot — not live">EV/EBITDA</th>
                 <th className="px-3 py-3 text-center">VS. PEERS</th>
                 <th className="px-3 py-3 text-center">RISK</th>
               </tr>
@@ -245,7 +254,24 @@ export default function Screener() {
                   <td className="px-3 py-3.5 font-mono-lab text-[9.5px] tracking-[0.1em] text-dim">{SEGMENT_SHORT[r.segment]}</td>
                   <td className="px-3 py-3.5 font-mono-lab text-[10px] tracking-[0.05em] text-dim">{r.exchange}</td>
                   <td className="px-3 py-3.5 text-end font-mono-lab text-[13px] tabular-nums text-prose" dir="ltr">
-                    {r.price != null ? formatMoney(r.price, r.currency) : '—'}
+                    {(() => {
+                      const q = quotes[r.ticker]
+                      const shown = q?.price ?? r.price
+                      if (shown == null) return '—'
+                      return (
+                        <span
+                          className={cn(q && 'text-foreground')}
+                          title={q ? 'Live price' : 'Researched snapshot — no live quote available for this ticker'}
+                        >
+                          {formatMoney(shown, q?.currency ?? r.currency)}
+                          {q?.changePercent != null && (
+                            <span className={cn('ms-1.5 text-[10px]', q.changePercent >= 0 ? 'text-signal' : 'text-danger')}>
+                              {q.changePercent >= 0 ? '+' : ''}{q.changePercent.toFixed(2)}%
+                            </span>
+                          )}
+                        </span>
+                      )
+                    })()}
                   </td>
                   <td className="px-3 py-3.5 text-end font-mono-lab text-[11px] tabular-nums text-dim" dir="ltr">
                     {r.marketCap ?? '—'}
@@ -283,9 +309,11 @@ export default function Screener() {
             holds names with thin, unconfirmed, or thematic-only AI links. RISK is drawn from each ticker's own deep-dive synthesis
             score (business durability, balance sheet, competitive position, valuation cushion), not a raw count of listed risk
             factors — a well-covered, high-quality name naturally accumulates more documented risks than a thinly-researched one,
-            so counting flags alone would misread quality names as dangerous. Prices, market caps and ratios are last-known figures
-            from each ticker's deep dive, not a live feed — see the individual company page for sourcing and date. Exchange venue
-            is best-effort reference data. This is a research framework, not investment advice.
+            so counting flags alone would misread quality names as dangerous. PRICE updates live where a quote is available
+            {asOf && ` (last refreshed ${new Date(asOf).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })})`}, and
+            falls back to the researched figure where it isn't. MKT CAP, FWD P/E and EV/EBITDA are last-known figures from each
+            ticker's deep dive, not live — so a ratio may lag a fast price move; see the individual company page for sourcing and
+            date. Exchange venue is best-effort reference data. This is a research framework, not investment advice.
           </p>
         </Reveal>
       </div>

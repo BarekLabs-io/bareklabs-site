@@ -45,10 +45,17 @@ export default function PriceChart({
   ticker,
   currentPrice,
   summary,
+  isLivePrice,
+  asOfMs,
 }: {
   ticker: string
   currentPrice: number
   summary?: string[]
+  /** True when currentPrice comes from the live Yahoo Finance proxy rather
+   * than the researched static snapshot — changes the header label only,
+   * the chart's own illustrative-series behavior is unaffected either way. */
+  isLivePrice?: boolean
+  asOfMs?: number | null
 }) {
   const [tf, setTf] = useState<Timeframe>('6M')
   const [live, setLive] = useState(currentPrice)
@@ -113,7 +120,16 @@ export default function PriceChart({
           <span className={cn('font-mono-lab text-[12px] tabular-nums', up ? 'text-signal' : 'text-danger')} dir="ltr">
             {up ? '▲' : '▼'} {Math.abs(changePct).toFixed(2)}% <span className="text-faint">({tf})</span>
           </span>
-          <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
+          <span className="flex items-center gap-1.5 font-mono-lab text-[9px] tracking-[0.15em] text-faint">
+            <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
+            {isLivePrice ? (
+              <span className="text-signal">
+                LIVE{asOfMs ? ` · ${new Date(asOfMs).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}` : ''}
+              </span>
+            ) : (
+              'ILLUSTRATIVE'
+            )}
+          </span>
         </div>
         <div className="flex gap-1">
           {TIMEFRAMES.map((f) => (

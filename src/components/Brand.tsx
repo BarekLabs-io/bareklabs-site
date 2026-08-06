@@ -1,9 +1,10 @@
-/* The wordmark, rendered as text (Barek bold, Labs regular) wherever the
- * actual logo image isn't used — must always match logo.svg's treatment. */
+/* The wordmark, rendered as text wherever the actual logo image isn't used.
+ * Must always match logo.svg's treatment exactly: BAREK bold + caps,
+ * space, slash, space, LABS regular weight + caps. */
 export function BrandMark({ className }: { className?: string }) {
   return (
     <span className={className}>
-      <span className="font-bold">Barek</span> <span className="font-normal">/ Labs</span>
+      <span className="font-bold">BAREK</span> <span className="font-normal">/ LABS</span>
     </span>
   )
 }

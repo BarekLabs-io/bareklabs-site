@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { companies, type Risk, type ChainRow } from '@/data/companies'
 import { parseMetricValue } from '@/lib/priceSeries'
 import { countryOf, segmentInfoOf, segmentOf } from '@/data/valueChain'
+import { useLiveQuotes } from '@/lib/useLiveQuotes'
 
 const PriceChart = lazy(() => import('@/components/PriceChart'))
 
@@ -47,6 +48,7 @@ function Stars({ n }: { n: number }) {
 export default function CompanyPage() {
   const { ticker = '' } = useParams()
   const company = companies[ticker.toUpperCase()]
+  const { quotes, asOf } = useLiveQuotes(company ? [company.ticker] : [])
 
   if (!company) {
     return (
@@ -67,7 +69,12 @@ export default function CompanyPage() {
 
   const c = company
   const priceMetric = c.valuation.metrics.find((m) => /^price|^share price/i.test(m.label))
-  const currentPrice = parseMetricValue(priceMetric?.values[0]) ?? 100
+  const staticPrice = parseMetricValue(priceMetric?.values[0]) ?? 100
+  // Live price when the proxy has it; otherwise the researched snapshot.
+  // Market cap and every valuation multiple below stay on the static,
+  // dated research — the quotes endpoint doesn't carry them.
+  const liveQuote = quotes[c.ticker]
+  const currentPrice = liveQuote?.price ?? staticPrice
   const marketCapMetric = c.valuation.metrics.find((m) => /^market cap|market cap$/i.test(m.label))
   const country = countryOf(c.ticker)
   const segment = segmentInfoOf(c.ticker)
@@ -102,14 +109,24 @@ export default function CompanyPage() {
               {segment.label}
             </Link>
             {marketCapMetric && (
-              <span className="border border-line px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-dim" dir="ltr">
-                MKT CAP {marketCapMetric.values[0]}
+              <span
+                className="border border-line px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-dim"
+                dir="ltr"
+                title={`Researched snapshot as of ${c.asOf} — only the share price above updates live`}
+              >
+                MKT CAP {marketCapMetric.values[0]} <span className="text-faint">· AS OF {c.asOf}</span>
               </span>
             )}
           </Reveal>
           <Reveal delay={140} className="mt-8">
             <Suspense fallback={<div className="h-[280px] animate-pulse border border-line bg-panel md:h-[320px]" />}>
-              <PriceChart ticker={c.ticker} currentPrice={currentPrice} summary={c.priceMap.technical} />
+              <PriceChart
+                ticker={c.ticker}
+                currentPrice={currentPrice}
+                summary={c.priceMap.technical}
+                isLivePrice={!!liveQuote}
+                asOfMs={liveQuote ? asOf : null}
+              />
             </Suspense>
           </Reveal>
         </div>
