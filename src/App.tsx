@@ -15,6 +15,7 @@ import TradeTracker from './pages/TradeTracker'
 import Stocks from './pages/Stocks'
 import Crypto from './pages/Crypto'
 import About from './pages/About'
+import DataAudit from './pages/DataAudit'
 
 // Company deep dives (and the screener, which reads the same dataset) carry
 // a growing per-ticker dataset — code-split so it only loads when one of
@@ -48,6 +49,8 @@ export default function App() {
           }
         />
         <Route path="/about" element={<About />} />
+        {/* Maintenance view — deliberately not in the nav. */}
+        <Route path="/data-audit" element={<DataAudit />} />
         <Route
           path="/companies/:ticker"
           element={
