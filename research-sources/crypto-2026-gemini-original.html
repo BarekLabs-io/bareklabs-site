@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAREK / LABS - Terminal de Recherche v0.4</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --panel-bg: #161b22;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-green: #2ea043;
+            --accent-green-bright: #3fb950;
+            --accent-red: #f85149;
+            --barek-green: #00ff88;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Terminal Grid Background */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+        }
+
+        /* Background Chart Canvas */
+        #bgChart {
+            position: fixed;
+            top: 15%; left: 0; width: 100vw; height: 80vh;
+            z-index: -1;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* Top Header */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            font-size: 24px;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+        .brand strong { font-weight: 800; }
+        .brand span.slash { color: var(--barek-green); margin: 0 5px; }
+        .brand span.light { font-weight: 300; color: var(--text-muted); }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .nav-menu div:hover { color: #fff; cursor: pointer; }
+
+        .system-status {
+            display: flex;
+            gap: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            align-items: center;
+        }
+        .status-indicator {
+            color: var(--barek-green);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .dot {
+            width: 6px; height: 6px;
+            background-color: var(--barek-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--barek-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* Ticker Bar */
+        .ticker-wrapper {
+            background: #06090f;
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .ticker-content {
+            display: inline-flex;
+            gap: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            animation: ticker 40s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(10%); }
+            100% { transform: translateX(-100%); }
+        }
+        .ticker-item span.up { color: var(--accent-green-bright); }
+        .ticker-item span.down { color: var(--accent-red); }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px;
+            gap: 40px;
+        }
+
+        .content-area {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        /* Hero Section */
+        .hero-tag {
+            color: var(--barek-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .hero-title {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #fff;
+            margin: 0 0 30px 0;
+            letter-spacing: -1px;
+        }
+        .hero-title span {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+        }
+        .hero-subtitle {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin-bottom: 50px;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        /* Sections */
+        .section-box {
+            background: rgba(22, 27, 34, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+        }
+        .section-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .section-header::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 20px;
+            background: var(--barek-green);
+        }
+        p { line-height: 1.7; margin-bottom: 15px; font-size: 15px; }
+        
+        /* Sidebar / Watchlist */
+        .sidebar {
+            width: 380px;
+            flex-shrink: 0;
+        }
+        .panel {
+            background: rgba(13, 17, 23, 0.9);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .panel-header {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        .watchlist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+        .watchlist-item:last-child { border-bottom: none; }
+        .wl-asset { color: #fff; font-weight: 600; width: 60px; }
+        .wl-price { color: var(--text-main); flex: 1; text-align: right; margin-right: 20px; }
+        .wl-change { font-weight: 600; text-align: right; width: 60px; }
+        .wl-change.up { color: var(--accent-green-bright); }
+        .wl-change.down { color: var(--accent-red); }
+
+        /* Data Tables inside sections */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+        .data-table th, .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .data-table th {
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .data-table td { color: #fff; }
+        .asset-tag {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--barek-green);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg"></div>
+    <canvas id="bgChart"></canvas>
+
+    <header>
+        <div class="brand">
+            <strong>BAREK</strong><span class="slash">/</span><span class="light">LABS</span>
+        </div>
+        <div class="nav-menu">
+            <div>Analyse ▼</div>
+            <div>Souk Signal</div>
+            <div>Trade Tracker ▼</div>
+            <div>À Propos</div>
+        </div>
+        <div class="system-status">
+            <div>CAS <span id="time-cas"></span></div>
+            <div>/</div>
+            <div>UTC <span id="time-utc"></span></div>
+            <div class="status-indicator">
+                <div class="dot"></div>
+                SYSTÈMES NOMINAUX
+            </div>
+            <div style="border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px;">🔍 RECHERCHER <span style="color:var(--text-muted); margin-left:10px;">CTRL K</span></div>
+        </div>
+    </header>
+
+    <div class="ticker-wrapper">
+        <div class="ticker-content">
+            <div class="ticker-item">DAX <span style="color:#fff">24,315.0</span> <span class="up">▲ +0.31%</span></div>
+            <div class="ticker-item" style="color:var(--text-muted)">|</div>
+            <div class="ticker-item">CAC 40 <span style="color:#fff">7,812.4</span> <span class="down">▼ -0.24%</span></div>
+            <div class="ticker-item" style="color:var(--text-muted)">|</div>
+            <div class="ticker-item">FTSE 100 <span style="color:#fff">9,088.2</span> <span class="up">▲ +0.14%</span></div>
+            <div class="ticker-item" style="color:var(--text-muted)">|</div>
+            <div class="ticker-item">NIKKEI 225 <span style="color:#fff">41,204.0</span> <span class="up">▲ +1.02%</span></div>
+            <div class="ticker-item" style="color:var(--text-muted)">|</div>
+            <div class="ticker-item">HANG SENG <span style="color:#fff">25,118.0</span> <span class="down">▼ -0.47%</span></div>
+            <div class="ticker-item" style="color:var(--text-muted)">|</div>
+            <div class="ticker-item">CSI 300 <span style="color:#fff">4,086.5</span> <span class="up">▲ +0.36%</span></div>
+            <div class="ticker-item" style="color:var(--text-muted)">|</div>
+            <div class="ticker-item">AAPL <span style="color:#fff">232.40</span> <span class="up">▲ +0.83%</span></div>
+            <div class="ticker-item" style="color:var(--text-muted)">|</div>
+            <div class="ticker-item">MSFT <span style="color:#fff">512.15</span> <span class="up">▲ +0.5%</span></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-area">
+            <div class="hero-tag">
+                <div class="dot"></div> Barek / Labs / TERMINAL DE RECHERCHE v0.4
+            </div>
+            <h1 class="hero-title">RECHERCHE &<br>MARKET SIGNAL,<br><span>DÉCODÉ.</span></h1>
+            <div class="hero-subtitle">
+                UN LABO FINANCE & TECH INDÉPENDANT. NOUS PUBLIONS DE LA RECHERCHE, CONSTRUISONS DES SIGNAUX, SUIVONS L'EXÉCUTION ET ACCOMPAGNONS LA TRANSFORMATION FINANCIÈRE & TECHNOLOGIQUE DES ENTREPRISES — EN TOUTE TRANSPARENCE, AVEC LES PREUVES.
+            </div>
+
+            <div class="section-box">
+                <div class="section-header">1. Macro-Environnement & Architecture de Marché</div>
+                <p>Le marché s'est définitivement émancipé du cycle mécanique dicté par le halving. En 2026, la dynamique est pilotée par l'adoption structurelle et la liquidité institutionnelle (DAT 2.0 - Digital Asset Treasuries).</p>
+                <p>L'affrontement infrastructurel se durcit : les grands consortiums bancaires déploient des réseaux de dépôts tokenisés, transformant l'espace de bloc (block space) en une matière première stratégique primordiale.</p>
+            </div>
+
+            <div class="section-box">
+                <div class="section-header">2. Horizon Technologique 2027-2030</div>
+                <p>L'infrastructure Web3 se prépare à l'intégration massive de l'Intelligence Artificielle et à la transition post-quantique :</p>
+                <ul>
+                    <li style="margin-bottom: 10px;"><strong>Paiements Agentiques (IA x Crypto) :</strong> La majorité des transactions on-chain d'ici 2030 sera générée par des agents IA autonomes (A2A - Agent-to-Agent), achetant de la puissance de calcul ou des données via des micro-transactions fluides.</li>
+                    <li style="margin-bottom: 10px;"><strong>App-chains :</strong> Le modèle monolithique cède la place à un "réseau de réseaux" souverains, isolant le risque et maximisant les performances pour des cas d'usage industriels.</li>
+                    <li><strong>ZKP & FHE :</strong> Les preuves à divulgation nulle et le chiffrement totalement homomorphe deviennent les standards institutionnels face aux menaces d'informatique quantique.</li>
+                </ul>
+            </div>
+
+            <div class="section-box" style="position: relative; overflow: hidden;">
+                <div class="section-header">3. Price Action, Momentum & Signaux Clés (Live)</div>
+                <p>Actualisation de l'état des marchés. Le Bitcoin pousse vers de nouveaux sommets historiques, tractant un écosystème altcoin hautement sélectif où la valorisation suit les fondamentaux d'infrastructure.</p>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Actif</th>
+                            <th>Prix Actuel</th>
+                            <th>Analyse Stratégique BAREK LABS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="asset-tag">BTC</span></td>
+                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);">97,507 $</td>
+                            <td>Approche de la barrière psychologique des 100k. L'absorption institutionnelle assèche l'offre OTC. Le marché de détail est désormais minoritaire dans la formation des prix.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="asset-tag">ETH</span></td>
+                            <td style="font-family: 'JetBrains Mono';">3,809 $</td>
+                            <td>Phase de consolidation technique. Subit la rotation des capitaux vers les L2 et Solana, mais conserve son statut de couche de règlement la plus sécurisée pour la TradFi.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="asset-tag">TAO</span></td>
+                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);">412.00 $</td>
+                            <td>Confirmation de la thèse IA décentralisée. Momentum structurel fort validant notre modélisation initiale. L'adoption par les clusters d'entreprise s'accélère.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="asset-tag">ICP</span></td>
+                            <td style="font-family: 'JetBrains Mono';">12.83 $</td>
+                            <td>Résilience inattendue et re-tarification à la hausse suite à l'intégration de capacités Cloud souveraines et AWS. Rejet décisif des zones basses précédentes.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="asset-tag">ZEC</span></td>
+                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);">58.39 $</td>
+                            <td>La rareté de l'actif combinée au nouveau narratif institutionnel "Privacy & ZKP" maintient une pression acheteuse continue sur cet actif historiquement volatil.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="text-align: right; margin-top: 50px;">
+                 <a href="#" style="border: 1px solid var(--border-color); padding: 15px 30px; color: #fff; text-decoration: none; font-family: 'JetBrains Mono'; font-size: 12px; display: inline-block;">ENTRER DANS LE LABO →</a>
+            </div>
+
+        </div>
+
+        <div class="sidebar">
+            <div class="panel">
+                <div class="panel-header">
+                    <span style="color:var(--barek-green)">● LISTE DE SUIVI</span>
+                    <span>PRINCIPAUX</span>
+                </div>
+                
+                <div class="watchlist-item">
+                    <span class="wl-asset">BTC</span>
+                    <span class="wl-price">97,507</span>
+                    <span class="wl-change up">+2.18%</span>
+                </div>
+                <div class="watchlist-item">
+                    <span class="wl-asset">ETH</span>
+                    <span class="wl-price">3,809</span>
+                    <span class="wl-change down">-1.04%</span>
+                </div>
+                <div class="watchlist-item">
+                    <span class="wl-asset">SOL</span>
+                    <span class="wl-price">214.76</span>
+                    <span class="wl-change up">+3.41%</span>
+                </div>
+                <div class="watchlist-item">
+                    <span class="wl-asset">TAO</span>
+                    <span class="wl-price">412.00</span>
+                    <span class="wl-change up">+5.02%</span>
+                </div>
+                <div class="watchlist-item">
+                    <span class="wl-asset">ICP</span>
+                    <span class="wl-price">12.83</span>
+                    <span class="wl-change down">-0.86%</span>
+                </div>
+                <div class="watchlist-item">
+                    <span class="wl-asset">ZEC</span>
+                    <span class="wl-price">58.39</span>
+                    <span class="wl-change up">+4.17%</span>
+                </div>
+                <div class="watchlist-item" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                    <span class="wl-asset">S&P 500</span>
+                    <span class="wl-price">6,412.78</span>
+                    <span class="wl-change up">+0.42%</span>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span>SOUK SIGNAL</span>
+                    <span>→</span>
+                </div>
+                <p style="font-family: 'JetBrains Mono'; font-size: 11px; margin: 0; color: var(--text-main);">La lecture composite du jour →</p>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">DEPUIS LE LABO</div>
+                <ul style="padding-left: 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+                    <li style="margin-bottom: 10px;">La nouvelle économie spatiale : SPCX, RKLB, ASTS — reprix en public</li>
+                    <li style="margin-bottom: 10px;">Souk Signal : la lecture composite du jour sur les marchés régionaux</li>
+                    <li>68 entreprises, un seul screener — valorisation et risque en un coup d'œil</li>
+                </ul>
+            </div>
+            
+            <!-- Mini Live Chart Simulation for Side Panel -->
+            <div class="panel" style="padding: 10px; height: 150px;">
+                <canvas id="miniChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update Time functionality
+        function updateTime() {
+            const now = new Date();
+            const casTime = now.toLocaleTimeString('fr-FR', { hour12: false });
+            const utcTime = now.toLocaleTimeString('en-GB', { timeZone: 'UTC', hour12: false });
+            document.getElementById('time-cas').innerText = casTime;
+            document.getElementById('time-utc').innerText = utcTime;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Background Immersive Chart
+        const ctxBg = document.getElementById('bgChart').getContext('2d');
+        const bgData = Array.from({length: 100}, () => Math.random() * 50 + 50);
+        new Chart(ctxBg, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 100}, (_, i) => i),
+                datasets: [{
+                    data: bgData,
+                    borderColor: '#00ff88',
+                    borderWidth: 1,
+                    tension: 0.4,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 0 },
+                scales: {
+                    x: { display: false },
+                    y: { display: false, min: 0, max: 150 }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Mini Sidebar Chart Simulation
+        const ctxMini = document.getElementById('miniChart').getContext('2d');
+        const miniData = [95000, 95500, 94800, 96000, 96500, 97000, 96800, 97200, 97507];
+        new Chart(ctxMini, {
+            type: 'line',
+            data: {
+                labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+                datasets: [{
+                    data: miniData,
+                    borderColor: '#00ff88',
+                    backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { display: false },
+                    y: { display: false }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
