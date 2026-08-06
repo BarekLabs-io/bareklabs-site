@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { MarketCanvas, Reveal, useLivePrice, useSpotlight } from '@/components/lab'
 import { SectionHead, TICKER_ITEMS } from '@/components/Layout'
+import { BrandMark } from '@/components/Brand'
 import { useLang } from '@/i18n/LanguageContext'
 
 function Ticker() {
@@ -75,7 +76,7 @@ export default function Home() {
           <Reveal>
             <div className="mb-6 flex items-center gap-3 font-mono-lab text-sm font-medium tracking-[0.25em] text-foreground/85">
               <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
-              {t.home.tag}
+              <BrandMark /> <span>/ {t.home.tagSuffix}</span>
             </div>
           </Reveal>
           <h1 className="pointer-events-auto select-none text-5xl font-semibold leading-[0.95] tracking-[-0.02em] sm:text-6xl md:text-7xl lg:text-8xl">

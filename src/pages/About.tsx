@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
+import { withBrandMark } from '@/components/Brand'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 
@@ -145,7 +146,7 @@ export default function About() {
               <Reveal>
                 <div className="prose-lab">
                   {a.story.paragraphs.map((p, i) => (
-                    <p key={i}>{p}</p>
+                    <p key={i}>{withBrandMark(p)}</p>
                   ))}
                 </div>
               </Reveal>

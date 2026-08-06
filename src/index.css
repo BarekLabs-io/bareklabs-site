@@ -405,7 +405,7 @@
 
   /* --- long-form reading prose --- */
   .prose-lab {
-    max-width: 65ch;
+    max-width: 80ch;
     font-size: 1.075rem;
     line-height: 1.95;
     letter-spacing: 0.005em;

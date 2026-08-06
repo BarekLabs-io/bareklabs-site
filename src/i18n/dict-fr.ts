@@ -51,7 +51,7 @@ export const fr: Dict = {
     open: 'OUVRIR',
   },
   home: {
-    tag: 'BAREK LABS / TERMINAL DE RECHERCHE v0.4',
+    tagSuffix: 'TERMINAL DE RECHERCHE v0.4',
     hero1: 'RECHERCHE &',
     hero2: 'MARKET SIGNAL',
     hero3: 'DÉCODÉ.',
@@ -502,7 +502,7 @@ export const fr: Dict = {
       head: 'Pourquoi ce labo existe',
       headRight: 'L’ORIGINE, VERSION COURTE',
       paragraphs: [
-        'J’ai lancé BAREK LABS après une longue pause imprévue. Pendant le COVID, je suis rentré de Suède pour rester chez mes parents en France — le travail avait fortement ralenti, et pour la première fois depuis des années, j’avais vraiment du temps libre. J’ai passé une grande partie de ce temps à lire : sur les entreprises, sur les marchés, sur la finance en général. J’avais toujours investi et toujours été curieux du sujet, mais c’est à ce moment-là que la curiosité est devenue une habitude.',
+        'J’ai lancé BAREK LABS presque par hasard. Pendant le COVID, mon employeur m’a autorisé à travailler à distance, alors je suis rentré de Suède pour rester chez mes parents en France — j’ai gardé le même poste tout du long, mais la charge de travail a fortement ralenti, et pour la première fois depuis des années, j’avais vraiment du temps libre. J’ai passé une grande partie de ce temps à lire : sur les entreprises, sur les marchés, sur la finance en général. J’avais toujours investi et toujours été curieux du sujet, mais c’est à ce moment-là que la curiosité est devenue une habitude.',
         'C’est aussi à ce moment que j’ai commencé à parler d’argent avec mes parents, et ma mère m’a raconté une histoire que je ne connaissais pas. Des années plus tôt, une conseillère bancaire l’avait convaincue de placer ses économies dans un produit d’investissement — et elle a perdu presque tout. Elle n’a plus jamais fait confiance aux marchés financiers depuis. Je ne pense pas qu’elle soit un cas isolé ; je pense que c’est l’expérience par défaut de beaucoup de gens qui n’ont jamais eu les outils pour évaluer ce qu’on leur vendait, et qui n’ont eu d’autre choix que de faire confiance — ou d’arrêter de faire confiance — à celui qui le leur vendait.',
         'C’est la vraie raison pour laquelle ce labo existe. Je veux aider des gens ordinaires à apprendre à lire une entreprise ou un marché par eux-mêmes, plutôt que de prendre la parole de quelqu’un d’autre pour argent comptant — la mienne y compris. Et comme j’ai le temps et la curiosité pour creuser des noms que la plupart des gens ne croiseraient jamais par eux-mêmes, une bonne partie de la couverture de ce site va dans cette direction : pas seulement les méga-caps évidentes, mais les entreprises plus petites et plus étranges qui demandent un vrai travail de recherche pour être comprises.',
       ],
