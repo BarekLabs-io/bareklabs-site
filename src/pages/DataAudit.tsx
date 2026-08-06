@@ -21,6 +21,15 @@ import { parseMetricValue } from '@/lib/priceSeries'
 
 const DRIFT_LIMIT = 0.2
 
+/* A multiple is always written with its 'x' — "43.27x", "~66.3x". Requiring
+ * it is what separates the figure from the prose around it: taking the first
+ * number instead read "N/A — FY2026 GAAP net loss" as a P/E of 2026.0x. */
+function researchedMultiple(raw: string | undefined): number | null {
+  if (!raw) return null
+  const m = raw.match(/(\d+(?:\.\d+)?)\s*x/i)
+  return m ? parseFloat(m[1]) : null
+}
+
 function researchedPrice(ticker: string): number | null {
   const m = companies[ticker]?.valuation.metrics.find((mm) => /^price|^share price/i.test(mm.label))
   return parseMetricValue(m?.values[0])
@@ -49,7 +58,7 @@ export default function DataAudit() {
          * of different vintages. Worth knowing before building a calculator. */
         const peFeed = fundamentals[t]?.peTrailing ?? null
         const peRaw = companies[t].valuation.metrics.find((mm) => /^trailing p\/e|^p\/e/i.test(mm.label))?.values[0]
-        const peOurs = parseMetricValue(peRaw)
+        const peOurs = researchedMultiple(peRaw)
         const capDrift = capOurs != null && capReal != null && capOurs > 0 ? (capReal - capOurs) / capOurs : null
         return { t, name: companies[t].name, asOf: companies[t].asOf, snap, live, drift, capOurs, capReal, capDrift, peOurs, peFeed }
       })

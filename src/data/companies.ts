@@ -407,7 +407,7 @@ export const companies: Record<string, Company> = {
     name: 'Advantest',
     tagline: 'The world’s dominant semiconductor test company — the "ASML of test," with software-like margins on industrial hardware. Also trades as 6857.T in Tokyo.',
     sector: 'TELECOM & TECH',
-    asOf: '2026.08',
+    asOf: '2026.08.06',
     chain: {
       intro:
         'Advantest is the global giant of chip testing — the ultimate quality-control layer of the value chain, but at a completely different scale from a niche player like AEHR.',
@@ -2116,7 +2116,7 @@ export const companies: Record<string, Company> = {
   name: 'Disco Corporation',
   tagline: 'The de facto monopoly on precision dicing, grinding and polishing — every wafer that becomes a chip passes through a Disco tool at least once, and advanced packaging/HBM stacking is raising the tool count per wafer.',
   sector: 'TELECOM & TECH',
-  asOf: '2026.08',
+  asOf: '2026.08.06',
   chain: {
     intro: 'Disco holds an estimated 70%+ global share in dicing saws and a dominant position in precision grinders and polishers — the tools that separate a finished wafer into individual dies and thin it for advanced packaging. As chiplet architectures and HBM stacking multiply the number of dicing/grinding/TAIKO-style thinning steps per finished package, Disco\'s dollar content per wafer rises structurally.',
     rows: [
@@ -2322,7 +2322,7 @@ export const companies: Record<string, Company> = {
   name: 'Resonac Holdings',
   tagline: 'Formerly Showa Denko — a top-tier global supplier of back-end semiconductor packaging materials (CMP slurry, bonding materials, interposers) riding the same AI-packaging boom as Ajinomoto\'s ABF.',
   sector: 'TELECOM & TECH',
-  asOf: '2026.08',
+  asOf: '2026.08.06',
   chain: {
     intro: 'Resonac\'s Semiconductor & Electronic Materials segment supplies CMP slurry, packaging/bonding materials, photosensitive dry films and advanced-interposer technology used across front-end and back-end semiconductor manufacturing — a direct materials play on both leading-edge logic and AI-driven advanced packaging.',
     rows: [
@@ -2529,7 +2529,7 @@ export const companies: Record<string, Company> = {
   name: 'Union Tool Co',
   tagline: 'A small-cap global leader (~12–15% share) in ultra-precision PCB micro-drills — a pure-play bet on the AI-server HDI PCB buildout, with a stock that has already re-rated hard.',
   sector: 'TELECOM & TECH',
-  asOf: '2026.08',
+  asOf: '2026.08.06',
   chain: {
     intro: 'Union Tool manufactures carbide micro-drills used to drill the ultra-fine holes in printed circuit boards, with roughly 12–15% global market share and reported reach into over 60% of high-density-interconnect (HDI) PCB manufacturers. It is one of the smallest and most thinly covered names in this peer set, but among the most direct pure-plays on AI-server PCB demand.',
     rows: [
@@ -2838,7 +2838,7 @@ export const companies: Record<string, Company> = {
   name: 'SK Hynix',
   tagline: 'The world\'s #2 memory maker and NVIDIA\'s dominant HBM supplier — Korea\'s most direct, highest-conviction bet on the AI memory supercycle.',
   sector: 'TELECOM & TECH',
-  asOf: '2026.08',
+  asOf: '2026.08.06',
   chain: {
     intro:
       'SK Hynix sits at the physical bottleneck of the AI buildout: every high-end GPU needs HBM stacked next to it, and SK Hynix ships more of it than anyone else.',
@@ -3170,7 +3170,7 @@ export const companies: Record<string, Company> = {
     name: 'Victory Giant Technology (Huizhou) Co., Ltd',
     tagline: 'China\'s top AI-server PCB maker by revenue share — a core HDI/HLC board supplier inside Nvidia\'s GB200/GB300 supply chain, now sampling for Rubin.',
     sector: 'TELECOM & TECH',
-    asOf: '2026.08',
+    asOf: '2026.08.06',
     chain: {
       intro:
         'Victory Giant doesn\'t design silicon — it fabricates the high-density-interconnect (HDI) and high-layer-count (HLC) printed circuit boards that carry GPU, switch and networking silicon inside AI servers. It ranked #1 globally in AI/HPC PCB revenue share (13.8%) in H1 2025 and holds an estimated 50-60% share of HDI/HLC boards on Nvidia\'s GB200 platform.',
@@ -3282,7 +3282,7 @@ export const companies: Record<string, Company> = {
     name: 'Guangdong Dtech Technology Co., Ltd',
     tagline: 'Global #1 in PCB drill bits (26.5% share) — the precision tooling every high-layer AI-server board is drilled with, priced at an extraordinary multiple.',
     sector: 'TELECOM & TECH',
-    asOf: '2026.08',
+    asOf: '2026.08.06',
     chain: {
       intro:
         'Dtech doesn\'t make PCBs — it makes the micro-drills, milling cutters, CNC tool grinders and abrasive/brush consumables that PCB fabricators use to drill vias and shape multilayer boards. As AI-server HDI boards add layers and via density, tool consumption per board rises independently of which fabricator wins the business.',
@@ -4268,7 +4268,7 @@ FN: {
   name: 'Fabrinet',
   tagline: 'The optical contract manufacturer hyperscalers and NVIDIA quietly depend on — precision assembly for transceivers and photonic modules that wire AI GPU clusters together, growing at 39% YoY with zero debt.',
   sector: 'TELECOM & TECH',
-  asOf: '2026.08',
+  asOf: '2026.08.06',
   chain: {
     intro:
       'Fabrinet is a Thailand-based precision optical and electro-mechanical contract manufacturer — it does not design its own branded products but builds transceivers, photonic modules and other high-precision assemblies for companies like NVIDIA, Cisco, Lumentum and AWS under long-term manufacturing agreements. Unlike Lumentum or Coherent, which design and sell branded optical components, Fabrinet\'s business model is manufacturing capacity and yield, not IP — but that capacity has become a genuine bottleneck as AI datacenter optical-transceiver demand has outrun industry-wide supply.',
@@ -4375,7 +4375,7 @@ CAMT: {
   name: 'Camtek',
   tagline: 'The Israeli inspection and 3D-metrology specialist that provides the "eyes" for HBM and CoWoS-style advanced packaging — a small, high-margin, second-order AI-infrastructure bet.',
   sector: 'TELECOM & TECH',
-  asOf: '2026.08',
+  asOf: '2026.08.06',
   chain: {
     intro:
       'Camtek makes automated optical inspection and 3D metrology systems used to verify yield and reliability in advanced semiconductor packaging — chiplets, high-bandwidth memory (HBM) stacks and hybrid bonding, most critically for the CoWoS-style packaging processes that put GPUs and HBM stacks together for AI accelerators. Its Eagle G5 platform serves broad wafer inspection while the newer Hawk platform targets advanced packaging specifically, capable of inspecting wafers with up to 500 million micro-bumps. Roughly half of Camtek\'s business runs through outsourced assembly and test (OSAT) providers, with the rest split between IDMs and foundries.',
@@ -4589,7 +4589,7 @@ NBIS: {
   name: 'Nebius Group',
   tagline: 'The former Yandex infrastructure assets reborn as a neocloud — GPU capacity sold on multi-billion-dollar contracts to Microsoft and Meta, growing off a small base at rates few public companies have ever posted.',
   sector: 'TELECOM & TECH',
-  asOf: '2026.08',
+  asOf: '2026.08.06',
   chain: {
     intro:
       'Nebius Group is an Amsterdam-headquartered AI infrastructure ("neocloud") company built on the technology and datacenter assets retained after Yandex\'s 2024 corporate split, now selling dedicated GPU cloud capacity to hyperscalers and AI labs at a scale and growth rate that puts it directly alongside CoreWeave as one of the two most prominent independent GPU-cloud operators outside the hyperscalers themselves.',
@@ -5306,7 +5306,7 @@ NBIS: {
   name: 'Broadwind',
   tagline: 'Small-cap precision gearing and industrial-fabrication manufacturer actively exiting wind towers in favor of gas-turbine and power-generation components',
   sector: 'ENERGY & SPACE',
-  asOf: '2026.08',
+  asOf: '2026.08.06',
   chain: {
     intro: 'Broadwind is in the middle of a deliberate strategic pivot: it is exiting its legacy wind-tower manufacturing business (selling its Abilene, TX facility for up to $19.5M and divesting Manitowoc, WI, moving wind into discontinued operations starting Q2 2026) while its Gearing and Industrial Solutions segments grow on demand from power generation, mining, and — most notably — natural gas turbine components. That gas-turbine-component growth gives Broadwind a genuine, if indirect and modest-scale, connection to the broader power-generation buildout accompanying AI-driven electricity demand, but the company remains heavily dependent on a single large customer (GE Vernova, 55-60% of 2025 revenue) and is a very small, thinly covered industrial name.',
     rows: [
@@ -5407,7 +5407,7 @@ NBIS: {
   name: 'Aluula Composites',
   tagline: 'TSX Venture-listed advanced-composite materials maker for outdoor/sailing gear — a genuine materials-science story with essentially no confirmed AI-infrastructure or datacenter relevance',
   sector: 'ENERGY & SPACE',
-  asOf: '2026.08',
+  asOf: '2026.08.06',
   chain: {
     intro: 'Aluula Composites makes a patented, glue-free ultra-high-molecular-weight-polyethylene (UHMWPE) composite laminate — up to eight times stronger than steel by weight, salt/UV/cold resistant to -100C — sold primarily as an ingredient material into premium outdoor gear (packs, tents, wind sports, sailing) with a small and only recently growing "Commercial Industrial" segment. This research found no evidence of any AI-infrastructure, datacenter, or even broader technology-sector application for Aluula\'s materials: its one disclosed "Commercial Industrial" growth driver in the most recent quarter was described as an order from "a key wind power customer," which most plausibly refers to wind energy or airborne/kite-based wind power hardware given the company\'s sailing/kite heritage, not to any AI, compute, or datacenter use case. Readers should treat any AI-infrastructure framing of this stock as unsupported by currently available evidence.',
     rows: [
