@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import { Reveal } from '@/components/lab'
-import { PageHero, SectionHead } from '@/components/Layout'
+import { MarketCanvas, Reveal, useLivePrice } from '@/components/lab'
+import { SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 import { companies } from '@/data/companies'
+import { parseMetricValue } from '@/lib/priceSeries'
 
 /* Composite = weighted blend of the six signal-component tones below.
    Breadth and foreign flow carry the most weight (the page's own "breadth &
@@ -59,6 +60,56 @@ function keyMetric(ticker: string, pattern: RegExp): string | null {
   return c.valuation.metrics.find((m) => pattern.test(m.label))?.values[0] ?? null
 }
 
+/* Same real watchlist row the board below lists in full — just ticking
+ * through the site's existing simulated-live mechanism (useLivePrice) for
+ * the terminal hero's "it's alive" read, price and setup all real. */
+function MiniWatchRow({ row }: { row: { t: string; s: string; sig: string; up: boolean } }) {
+  const raw = keyMetric(row.t, /^price|^share price/i)
+  const base = parseMetricValue(raw ?? undefined)
+  const { price } = useLivePrice(base ?? 0, 0.0015)
+  return (
+    <Link
+      to={tickerHref(row.t)}
+      className="group flex items-start justify-between gap-3 border-b border-line/60 py-2.5 font-mono-lab text-[11px] tracking-wide last:border-0"
+    >
+      <div className="min-w-0">
+        <div className="flex items-baseline gap-2" dir="ltr">
+          <span className="text-foreground transition-colors group-hover:text-signal">{row.t}</span>
+          {base != null && (
+            <span className="tabular-nums text-dim">
+              {price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </span>
+          )}
+        </div>
+        <div className="mt-0.5 truncate text-[9.5px] text-faint">{row.s}</div>
+      </div>
+      <span className={cn('mt-0.5 shrink-0 text-end text-[9px] tracking-[0.15em]', row.up ? 'text-signal' : 'text-danger')}>{row.sig}</span>
+    </Link>
+  )
+}
+
+/* Momentum strip — the same six real component scores that drive the
+ * composite, as an animated horizontal bar each instead of a table row. */
+function ComponentBar({ row, delay }: { row: { k: string; v: string; tone: string }; delay: number }) {
+  const score = { up: 90, mid: 55, down: 20 }[row.tone] ?? 50
+  return (
+    <Reveal delay={delay} className="min-w-[140px] flex-1">
+      <div className="flex items-baseline justify-between font-mono-lab text-[9px] tracking-[0.2em] text-faint">
+        <span>{row.k}</span>
+        <span className={cn(row.tone === 'up' ? 'text-signal' : row.tone === 'down' ? 'text-danger' : 'text-warn')} dir="ltr">
+          {row.v}
+        </span>
+      </div>
+      <div className="mt-1.5 h-1.5 w-full bg-track">
+        <div
+          className={cn('h-full transition-all duration-1000', row.tone === 'up' ? 'bg-signal' : row.tone === 'down' ? 'bg-danger' : 'bg-warn')}
+          style={{ width: `${score}%` }}
+        />
+      </div>
+    </Reveal>
+  )
+}
+
 export default function SoukSignal() {
   const [pulse, setPulse] = useState(0)
   const { t } = useLang()
@@ -68,56 +119,95 @@ export default function SoukSignal() {
     return () => clearInterval(id)
   }, [])
 
+  const miniWatch = t.souk.watchlist.rows.slice(0, 6)
+
   return (
     <>
-      <PageHero
-        code={t.souk.hero.code}
-        title={t.souk.hero.title}
-        serif={t.souk.hero.serif}
-        desc={t.souk.hero.desc}
-      >
-        <Reveal delay={200}>
-          <p className="mt-6 max-w-3xl text-xl font-light leading-snug tracking-tight text-foreground/90 md:text-2xl">
-            {t.souk.hero.welcome1}
-            <span className="font-serif-lab italic font-semibold">{t.souk.hero.welcomeAccent}</span>
-            {t.souk.hero.welcome2}
-          </p>
-        </Reveal>
-        <Reveal delay={280}>
-          <div className="mt-8 flex items-center gap-3 font-mono-lab text-[10px] tracking-[0.25em] text-signal">
-            <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
-            {t.souk.hero.nextUpdate}
-          </div>
-        </Reveal>
-      </PageHero>
-
-      <section className="lab-grid-fine">
-        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
-          <div className="grid items-center gap-12 md:grid-cols-12">
-            <Reveal className="md:col-span-5">
-              <div className="mb-3 inline-block border border-line px-2.5 py-1 font-mono-lab text-[9px] tracking-[0.2em] text-faint">
-                {t.souk.gaugeWhat}
-              </div>
-              <Gauge value={composite} label={t.souk.gaugeLabel} />
-              <p className="mx-auto mt-4 max-w-[280px] text-center font-mono-lab text-[9px] leading-4 tracking-wider text-faint">
-                {t.souk.methodNote}
-              </p>
-            </Reveal>
-            <div className="md:col-span-7">
-              <Reveal delay={100}>
-                <h2 className="text-2xl font-light leading-snug tracking-tight md:text-3xl">
-                  {t.souk.read.title1} <span className="font-serif-lab italic font-semibold">{t.souk.read.title2}</span>
-                </h2>
-              </Reveal>
-              <Reveal delay={180}>
-                <p className="mt-5 max-w-2xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.souk.read.body}</p>
-              </Reveal>
+      {/* ============ TERMINAL HERO ============ */}
+      <section className="relative overflow-hidden border-b border-line pt-32 pb-14 md:pt-40">
+        <MarketCanvas className="absolute inset-0 opacity-70" />
+        <div className="scanline" />
+        <div className="relative z-10 mx-auto max-w-[1440px] px-5 md:px-10">
+          <Reveal>
+            <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">{t.souk.hero.code}</div>
+          </Reveal>
+          <Reveal delay={80}>
+            <h1 className="mt-3 text-4xl font-medium leading-[1.05] tracking-tight md:text-6xl">
+              {t.souk.hero.title}
+              {t.souk.hero.serif && <span className="font-serif-lab italic text-dim"> {t.souk.hero.serif}</span>}
+            </h1>
+          </Reveal>
+          <Reveal delay={160}>
+            <p className="mt-5 max-w-xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.souk.hero.desc}</p>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="mt-6 max-w-3xl text-xl font-light leading-snug tracking-tight text-foreground/90 md:text-2xl">
+              {t.souk.hero.welcome1}
+              <span className="font-serif-lab italic font-semibold">{t.souk.hero.welcomeAccent}</span>
+              {t.souk.hero.welcome2}
+            </p>
+          </Reveal>
+          <Reveal delay={280}>
+            <div className="mt-8 flex items-center gap-3 font-mono-lab text-[10px] tracking-[0.25em] text-signal">
+              <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
+              {t.souk.hero.nextUpdate}
             </div>
-          </div>
+          </Reveal>
+
+          {/* live terminal panel */}
+          <Reveal delay={360}>
+            <div className="mt-10 border border-line bg-panel/90 backdrop-blur-sm">
+              <div className="grid gap-8 p-6 md:grid-cols-12 md:p-8">
+                <div className="flex flex-col items-center md:col-span-3 md:items-start">
+                  <div className="mb-3 inline-block border border-line px-2.5 py-1 font-mono-lab text-[9px] tracking-[0.2em] text-faint">
+                    {t.souk.gaugeWhat}
+                  </div>
+                  <Gauge value={composite} label={t.souk.gaugeLabel} />
+                  <p className="mx-auto mt-4 max-w-[280px] text-center font-mono-lab text-[9px] leading-4 tracking-wider text-faint md:mx-0 md:text-start">
+                    {t.souk.methodNote}
+                  </p>
+                </div>
+
+                <div className="md:col-span-5">
+                  <h2 className="text-xl font-light leading-snug tracking-tight md:text-2xl">
+                    {t.souk.read.title1} <span className="font-serif-lab italic font-semibold">{t.souk.read.title2}</span>
+                  </h2>
+                  <p className="mt-4 max-w-md font-mono-lab text-[11px] leading-6 tracking-wide text-dim">{t.souk.read.body}</p>
+                  <div className="mt-6 flex flex-wrap gap-x-8 gap-y-5 border-t border-line pt-5">
+                    {t.souk.components.rows.map((r, i) => (
+                      <ComponentBar key={r.k} row={r} delay={i * 60} />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="border-t border-line pt-6 md:col-span-4 md:border-t-0 md:border-s md:ps-8 md:pt-0">
+                  <div className="flex items-center justify-between font-mono-lab text-[9px] tracking-[0.25em] text-dim">
+                    <span className="flex items-center gap-2">
+                      <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
+                      {t.souk.watchlist.head}
+                    </span>
+                    <span className="text-faint">{t.souk.watchlist.refresh} {pulse}%</span>
+                  </div>
+                  <div className="mt-3">
+                    {miniWatch.map((r) => (
+                      <MiniWatchRow key={r.t} row={r} />
+                    ))}
+                  </div>
+                  <a
+                    href="#signals"
+                    className="group mt-5 flex items-center justify-between border border-foreground/30 px-4 py-2.5 font-mono-lab text-[10px] tracking-[0.2em] transition-all duration-300 hover:border-signal hover:bg-signal hover:text-[#0c0e12]"
+                  >
+                    {t.souk.watchlist.head} — {t.souk.viewSignals}
+                    <span className="transition-transform duration-300 group-hover:translate-y-0.5">↓</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      <section className="border-t border-line bg-alt">
+      <section id="signals" className="scroll-mt-24 border-t border-line bg-alt">
         <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
           <SectionHead index="WATCHLIST" label={t.souk.watchlist.head} right={`${t.souk.watchlist.refresh} ${pulse}%`} />
           <div className="overflow-hidden border border-line">
