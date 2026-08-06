@@ -44,8 +44,14 @@ export default function DataAudit() {
         // The provider quotes cap in the listing currency; ours is in USD.
         const capRealNative = fundamentals[t]?.marketCap ?? null
         const capReal = capRealNative != null ? toUsd(capRealNative, currencyOf(t)) : null
+        /* If the provider already carries a trailing P/E there is nothing to
+         * compute — a fetched multiple beats one we derive from two figures
+         * of different vintages. Worth knowing before building a calculator. */
+        const peFeed = fundamentals[t]?.peTrailing ?? null
+        const peRaw = companies[t].valuation.metrics.find((mm) => /^trailing p\/e|^p\/e/i.test(mm.label))?.values[0]
+        const peOurs = parseMetricValue(peRaw)
         const capDrift = capOurs != null && capReal != null && capOurs > 0 ? (capReal - capOurs) / capOurs : null
-        return { t, name: companies[t].name, asOf: companies[t].asOf, snap, live, drift, capOurs, capReal, capDrift }
+        return { t, name: companies[t].name, asOf: companies[t].asOf, snap, live, drift, capOurs, capReal, capDrift, peOurs, peFeed }
       })
       .sort((a, b) => {
         // Worst first — this page exists to surface the problems, not the roster.
@@ -148,7 +154,7 @@ export default function DataAudit() {
             right={asOf ? `FEED ${new Date(asOf).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}` : 'WAITING'}
           />
           <div className="overflow-x-auto border border-line">
-            <table className="w-full min-w-[960px]">
+            <table className="w-full min-w-[1120px]">
               <thead>
                 <tr className="border-b border-line bg-card2 font-mono-lab text-[10px] tracking-[0.2em] text-faint">
                   <th className="px-5 py-3 text-start">TICKER</th>
@@ -158,6 +164,8 @@ export default function DataAudit() {
                   <th className="px-5 py-3 text-end">DRIFT</th>
                   <th className="px-5 py-3 text-end">CAP (OURS)</th>
                   <th className="px-5 py-3 text-end">CAP (FEED)</th>
+                  <th className="px-5 py-3 text-end">P/E (OURS)</th>
+                  <th className="px-5 py-3 text-end">P/E (FEED)</th>
                   <th className="px-5 py-3 text-end">SNAPSHOT</th>
                 </tr>
               </thead>
@@ -204,6 +212,12 @@ export default function DataAudit() {
                             {r.capDrift >= 0 ? '+' : ''}{(r.capDrift * 100).toFixed(0)}%
                           </span>
                         )}
+                      </td>
+                      <td className="px-5 py-3 text-end font-mono-lab text-[12px] tabular-nums text-dim" dir="ltr">
+                        {r.peOurs != null ? `${r.peOurs.toFixed(1)}x` : '—'}
+                      </td>
+                      <td className="px-5 py-3 text-end font-mono-lab text-[12px] tabular-nums text-foreground" dir="ltr">
+                        {r.peFeed != null ? `${r.peFeed.toFixed(1)}x` : '—'}
                       </td>
                       <td className="px-5 py-3 text-end font-mono-lab text-[11px] text-faint" dir="ltr">{r.asOf}</td>
                     </tr>
