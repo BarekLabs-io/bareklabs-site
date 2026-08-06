@@ -451,7 +451,7 @@ export function PageHero({
           </h1>
         </Reveal>
         <Reveal delay={160}>
-          <p className="mt-5 max-w-xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{desc}</p>
+          <p className="mt-5 max-w-4xl font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{desc}</p>
         </Reveal>
         {children}
       </div>

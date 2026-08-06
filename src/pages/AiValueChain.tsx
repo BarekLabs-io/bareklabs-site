@@ -8,6 +8,7 @@ import { companies } from '@/data/companies'
 import { countryOf, currencyOf, formatMoney } from '@/data/valueChain'
 import { CHAIN_EXTRA } from '@/data/chainExtra'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
+import { parseMarketCapUsd, formatUsdCompact } from '@/lib/marketCap'
 
 type ChainItem = { t: string; name: string; role: string; priv?: boolean }
 type ChainStage = { n: string; k: string; name: string; desc: string; items: ChainItem[] }
@@ -53,15 +54,74 @@ function keyMetric(ticker: string, pattern: RegExp): string | null {
 
 /* ---------- CONSTELLATION LAYOUT ---------- */
 const VB_W = 1440
-const VB_H = 520
-const MARGIN_X = 165
+const VB_H = 620
+const MARGIN_X = 182
 const HUB_Y = 165
 const HUB_R = 30
 const SAT_DIST = 100
 const SAT_R = 7
+/* Bubble radius range when sized by a metric. Area (not radius) is made
+ * proportional to the value — radius-proportional sizing exaggerates large
+ * values by the square and is a classic way to mislead with a bubble chart. */
+const R_MIN = 4.5
+const R_MAX = 17
+
+type SizeMode = 'cap' | 'share' | 'flat'
 
 type Hub = { x: number; y: number }
-type Sat = { x: number; y: number; angle: number }
+type Sat = { x: number; y: number; angle: number; ring: number }
+
+/** Per-ticker sizing inputs, derived from the researched market caps.
+ *  `share` is the true fraction (shown as a %); `shareNorm` rescales it so the
+ *  leader of each layer fills the bubble — that's what makes "who dominates
+ *  this layer" legible layer by layer, which raw shares (rarely above ~0.4)
+ *  do not. Only ever used for sizing, never displayed as a number. */
+type CapInfo = { usd: number | null; share: number | null; shareNorm: number | null }
+
+function useCapData(stages: ChainStage[]) {
+  return useMemo(() => {
+    const byTicker = new Map<string, CapInfo>()
+    let maxUsd = 0
+
+    // 1. Resolve a USD market cap per ticker (null where we have no figure —
+    //    private companies like OpenAI, and tickers with no deep dive yet).
+    const perStage = stages.map((st) =>
+      st.items.map((it) => {
+        const co = companies[it.t]
+        const usd = co ? parseMarketCapUsd(keyMetric(it.t, /market cap/i), currencyOf(it.t)) : null
+        if (usd != null) maxUsd = Math.max(maxUsd, usd)
+        return { ticker: it.t, usd }
+      })
+    )
+
+    // 2. Share of each stage's *covered* market cap. This is share of the
+    //    names this site tracks in that layer — not true industry market
+    //    share, which we have no data for. Labelled as such in the UI.
+    perStage.forEach((row) => {
+      const total = row.reduce((sum, r) => sum + (r.usd ?? 0), 0)
+      const maxInStage = row.reduce((m, r) => Math.max(m, r.usd ?? 0), 0)
+      row.forEach((r) => {
+        const share = r.usd != null && total > 0 ? r.usd / total : null
+        byTicker.set(r.ticker, {
+          usd: r.usd,
+          share,
+          shareNorm: r.usd != null && maxInStage > 0 ? r.usd / maxInStage : null,
+        })
+      })
+    })
+
+    return { byTicker, maxUsd }
+  }, [stages])
+}
+
+/** Area-proportional radius; falls back to a small neutral dot when unsized. */
+function radiusFor(info: CapInfo | undefined, mode: SizeMode, maxUsd: number): number {
+  if (mode === 'flat') return SAT_R
+  const value = mode === 'cap' ? info?.usd : info?.shareNorm
+  const max = mode === 'cap' ? maxUsd : 1
+  if (value == null || !max) return R_MIN
+  return R_MIN + (R_MAX - R_MIN) * Math.sqrt(Math.min(value / max, 1))
+}
 
 function useConstellation(stages: ChainStage[]) {
   return useMemo(() => {
@@ -73,16 +133,19 @@ function useConstellation(stages: ChainStage[]) {
     }))
     const sats: Sat[][] = stages.map((st, si) => {
       const k = st.items.length
-      const spreadStep = Math.min(28, 140 / Math.max(k - 1, 1)) // tighten spacing as satellite count grows
+      const spreadStep = Math.min(30, 150 / Math.max(k - 1, 1)) // tighten spacing as satellite count grows
       return st.items.map((_, j) => {
         const angleDeg = 90 + (j - (k - 1) / 2) * spreadStep
         const angleRad = (angleDeg * Math.PI) / 180
-        // Alternate inner/outer ring so labels on adjacent tight angles don't collide.
-        const ring = k > 6 ? SAT_DIST + (j % 2) * 46 : SAT_DIST
+        // Alternate inner/outer ring so bubbles and labels on adjacent tight
+        // angles don't collide — the gap has to clear two max-radius bubbles.
+        const ringIdx = k > 6 ? j % 2 : 0
+        const dist = SAT_DIST + ringIdx * 52
         return {
-          x: hubs[si].x + ring * Math.cos(angleRad),
-          y: hubs[si].y + ring * Math.sin(angleRad),
+          x: hubs[si].x + dist * Math.cos(angleRad),
+          y: hubs[si].y + dist * Math.sin(angleRad),
           angle: angleDeg,
+          ring: ringIdx,
         }
       })
     })
@@ -110,6 +173,9 @@ export default function AiValueChain() {
   const price = keyMetric(selItem.t, /^price|^share price/i)
   const marketCap = keyMetric(selItem.t, /market cap/i)
   const { hubs, sats, connectors } = useConstellation(stages)
+  const [sizeMode, setSizeMode] = useState<SizeMode>('cap')
+  const { byTicker, maxUsd } = useCapData(stages)
+  const selCap = byTicker.get(selItem.t)
   // Live price for the selected node only — market cap stays on the
   // researched snapshot (the quotes endpoint doesn't carry it).
   const { quotes } = useLiveQuotes(selCompany ? [selItem.t] : [])
@@ -142,6 +208,44 @@ export default function AiValueChain() {
               </div>
             }
           />
+
+          {/* bubble-size encoding control */}
+          <Reveal>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-line border-b-0 bg-panel px-4 py-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-mono-lab text-[9px] tracking-[0.25em] text-faint">{c.sizing.label}</span>
+                {(['cap', 'share', 'flat'] as const).map((m) => (
+                  <button
+                    key={m}
+                    onClick={() => setSizeMode(m)}
+                    className={cn(
+                      'border px-3 py-1.5 font-mono-lab text-[9px] tracking-[0.18em] transition-all duration-300',
+                      sizeMode === m ? 'border-signal text-signal' : 'border-line text-dim hover:text-foreground'
+                    )}
+                  >
+                    {c.sizing.modes[m]}
+                  </button>
+                ))}
+              </div>
+              <div className="flex items-center gap-4 font-mono-lab text-[9px] tracking-wider text-faint">
+                {sizeMode !== 'flat' && (
+                  <span className="flex items-center gap-1.5">
+                    <svg width="34" height="16" aria-hidden="true">
+                      <circle cx="5" cy="8" r="3" fill="var(--card2)" stroke="var(--line-hover)" strokeWidth="1.2" />
+                      <circle cx="22" cy="8" r="7" fill="var(--card2)" stroke="var(--line-hover)" strokeWidth="1.2" />
+                    </svg>
+                    {c.sizing.legendArea}
+                  </span>
+                )}
+                <span className="flex items-center gap-1.5">
+                  <svg width="14" height="14" aria-hidden="true">
+                    <circle cx="7" cy="7" r="5" fill="none" stroke="var(--line)" strokeWidth="1.2" strokeDasharray="2 2" />
+                  </svg>
+                  {c.sizing.legendNoData}
+                </span>
+              </div>
+            </div>
+          </Reveal>
 
           <Reveal>
             <div className="overflow-x-auto border border-line bg-panel" dir="ltr">
@@ -195,8 +299,20 @@ export default function AiValueChain() {
                     const sat = sats[si][ii]
                     const active = sel.s === si && sel.i === ii
                     const isHover = hover?.s === si && hover?.i === ii
-                    const labelBelow = sat.angle > 90
+                    /* In crowded stages the nodes alternate between an inner and
+                     * an outer ring, so alternate the label side to match —
+                     * neighbours then never stack their labels. (Radially
+                     * placed labels were tried and are worse here: they run
+                     * straight into the next node along the fan.) */
+                    const labelBelow = st.items.length > 6 ? sat.ring === 1 : sat.angle > 90
                     const hasDive = !!companies[it.t]
+                    const cap = byTicker.get(it.t)
+                    const r = radiusFor(cap, sizeMode, maxUsd)
+                    const rDrawn = active || isHover ? r + 2.5 : r
+                    // Unsized nodes (private, or no cap figure) stay hollow so
+                    // a small bubble never reads as "small company" when it
+                    // actually means "no data".
+                    const unsized = sizeMode !== 'flat' && (sizeMode === 'cap' ? cap?.usd : cap?.shareNorm) == null
                     return (
                       <g
                         key={`${st.k}-${it.t}`}
@@ -208,26 +324,35 @@ export default function AiValueChain() {
                         <circle
                           cx={sat.x}
                           cy={sat.y}
-                          r={active || isHover ? SAT_R + 2.5 : SAT_R}
-                          fill={active ? 'rgb(var(--signal))' : 'var(--card2)'}
+                          r={rDrawn}
+                          fill={active ? 'rgb(var(--signal))' : unsized ? 'transparent' : 'var(--card2)'}
+                          fillOpacity={active ? 1 : unsized ? 0 : 0.9}
                           stroke={active ? 'rgb(var(--signal))' : isHover ? 'rgb(var(--signal))' : hasDive ? 'var(--line-hover)' : 'var(--line)'}
                           strokeWidth={1.5}
-                          strokeDasharray={hasDive ? undefined : '2 2'}
-                          className="transition-all duration-200"
+                          strokeDasharray={unsized || !hasDive ? '2 2' : undefined}
+                          className="transition-all duration-300"
                         />
+                        {/* inner dot keeps big hollow rings clickable and readable */}
+                        {!active && r > 12 && (
+                          <circle cx={sat.x} cy={sat.y} r={1.6} fill="var(--dim)" opacity={0.55} />
+                        )}
                         {it.priv && (
-                          <circle cx={sat.x + 9} cy={sat.y - 9} r={3} fill="rgb(var(--warn))" />
+                          <circle cx={sat.x + rDrawn * 0.72} cy={sat.y - rDrawn * 0.72} r={3} fill="rgb(var(--warn))" />
                         )}
                         <text
                           x={sat.x}
-                          y={labelBelow ? sat.y + 22 : sat.y - 14}
+                          y={labelBelow ? sat.y + rDrawn + 14 : sat.y - rDrawn - 7}
                           textAnchor="middle"
                           className="font-mono-lab pointer-events-none select-none"
                           style={{ fontSize: 10.5, letterSpacing: '0.05em', fill: active || isHover ? 'rgb(var(--signal))' : 'var(--dim)' }}
                         >
                           {it.t}
                         </text>
-                        <title>{it.name} — {it.role}</title>
+                        <title>
+                          {it.name} — {it.role}
+                          {cap?.usd != null ? `\nMarket cap ≈ ${formatUsdCompact(cap.usd)}` : '\nNo market-cap figure on file'}
+                          {cap?.share != null ? ` · ${(cap.share * 100).toFixed(1)}% of this layer's covered cap` : ''}
+                        </title>
                       </g>
                     )
                   })
@@ -349,6 +474,22 @@ export default function AiValueChain() {
                         </div>
                       </div>
                     )}
+                    {selCap?.share != null && (
+                      <div>
+                        <div className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">{c.sizing.shareLabel}</div>
+                        <div className="mt-1 flex items-baseline gap-2" dir="ltr">
+                          <span className="font-mono-lab text-sm tabular-nums text-signal">
+                            {(selCap.share * 100).toFixed(1)}%
+                          </span>
+                          <span className="h-1.5 w-16 bg-track">
+                            <span
+                              className="block h-full bg-signal transition-all duration-700"
+                              style={{ width: `${Math.min(selCap.share * 100, 100)}%` }}
+                            />
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
                 <div className="mt-5">
@@ -363,6 +504,11 @@ export default function AiValueChain() {
                     <span className="font-mono-lab text-[10px] tracking-[0.2em] text-faint">NO DEEP DIVE ON FILE YET</span>
                   )}
                 </div>
+                {selCap?.share != null && (
+                  <p className="mt-5 border-t border-line pt-4 font-mono-lab text-[9.5px] leading-4 tracking-wide text-faint">
+                    {c.sizing.shareNote}
+                  </p>
+                )}
               </div>
               <div className="bg-panel p-7 md:col-span-3 md:p-9">
                 <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.detail.exposure}</div>

@@ -108,9 +108,9 @@ export const en = {
       head: 'Latest from the lab',
       headRight: 'UPDATED DAILY',
       items: [
+        { d: '2026.08.06', tag: 'PAYMENTS', t: 'The invisible toll road: who really owns the money you spend', to: '/analysis/global-payments' },
         { d: '2026.08.04', tag: 'ENERGY & SPACE', t: 'The New Space Economy: SPCX, RKLB, ASTS — repriced in public', to: '/analysis/space-economy' },
         { d: 'LIVE', tag: 'SIGNAL', t: "Souk Signal: today's composite read on regional markets", to: '/souk-signal' },
-        { d: 'LIVE', tag: 'SCREENER', t: '68 companies, one screener — valuation and risk at a glance', to: '/trade-tracker/screener' },
       ],
     },
     cta: {
@@ -166,8 +166,9 @@ export const en = {
       serif: '',
       desc: 'SHORT, DENSE READS. EACH NOTE CARRIES A CONFIDENCE SCORE — A REMINDER THAT KNOWLEDGE IS A PROBABILITY, NOT A POSTURE.',
     },
-    filters: ['ALL', 'ENERGY & SPACE'],
+    filters: ['ALL', 'PAYMENTS', 'ENERGY & SPACE'],
     notes: [
+      { d: '2026.08.06', tag: 'PAYMENTS', t: 'The invisible toll road: who really owns the money you spend', read: '24', conf: 82, to: '/analysis/global-payments' },
       { d: '2026.08.04', tag: 'ENERGY & SPACE', t: 'The New Space Economy: SPCX, RKLB, ASTS — repriced in public', read: '18', conf: 80, to: '/analysis/space-economy' },
     ],
     head: 'Our latest research & insights',
@@ -216,6 +217,15 @@ export const en = {
     },
     hint: 'CLICK A NODE — EXPLORE OR FLOW',
     modes: { explore: 'EXPLORE', flow: 'FLOW' },
+    sizing: {
+      label: 'BUBBLE SIZE',
+      modes: { cap: 'MARKET CAP', share: 'WEIGHT IN LAYER', flat: 'UNIFORM' },
+      legendArea: 'AREA ∝ VALUE',
+      legendNoData: 'NO FIGURE ON FILE',
+      capLabel: 'MARKET CAP (APPROX. USD)',
+      shareLabel: 'SHARE OF THIS LAYER',
+      shareNote: 'Share of the combined market cap of the names we cover in this layer — a rough read on who dominates it, not true industry market share.',
+    },
     legend: { upstream: 'UPSTREAM', downstream: 'DOWNSTREAM', listed: 'LISTED', private: 'PRIVATE' },
     stages: [
       {

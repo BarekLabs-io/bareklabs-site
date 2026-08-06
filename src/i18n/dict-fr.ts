@@ -110,9 +110,9 @@ export const fr: Dict = {
       head: 'Dernières du labo',
       headRight: 'MIS À JOUR QUOTIDIENNEMENT',
       items: [
+        { d: '2026.08.06', tag: 'PAIEMENTS', t: 'Le péage invisible : à qui appartient vraiment l’argent que vous dépensez', to: '/analysis/global-payments' },
         { d: '2026.08.04', tag: 'ÉNERGIE & ESPACE', t: 'La nouvelle économie spatiale : SPCX, RKLB, ASTS — reprix en public', to: '/analysis/space-economy' },
         { d: 'EN DIRECT', tag: 'SIGNAL', t: 'Souk Signal : la lecture composite du jour sur les marchés régionaux', to: '/souk-signal' },
-        { d: 'EN DIRECT', tag: 'SCREENER', t: '68 entreprises, un seul screener — valorisation et risque en un coup d’œil', to: '/trade-tracker/screener' },
       ],
     },
     cta: {
@@ -168,8 +168,9 @@ export const fr: Dict = {
       serif: '',
       desc: 'DES LECTURES COURTES ET DENSES. CHAQUE NOTE PORTE UN SCORE DE CONFIANCE — RAPPEL QUE LA CONNAISSANCE EST UNE PROBABILITÉ, PAS UNE POSTURE.',
     },
-    filters: ['TOUT', 'ÉNERGIE & ESPACE'],
+    filters: ['TOUT', 'PAIEMENTS', 'ÉNERGIE & ESPACE'],
     notes: [
+      { d: '2026.08.06', tag: 'PAIEMENTS', t: 'Le péage invisible : à qui appartient vraiment l’argent que vous dépensez', read: '24', conf: 82, to: '/analysis/global-payments' },
       { d: '2026.08.04', tag: 'ÉNERGIE & ESPACE', t: 'La nouvelle économie spatiale : SPCX, RKLB, ASTS — reprix en public', read: '18', conf: 80, to: '/analysis/space-economy' },
     ],
     head: 'Nos dernières analyses et recherches',
@@ -207,6 +208,15 @@ export const fr: Dict = {
     },
     hint: 'CLIQUER UN NŒUD — EXPLORER OU FLUX',
     modes: { explore: 'EXPLORER', flow: 'FLUX' },
+    sizing: {
+      label: 'TAILLE DES BULLES',
+      modes: { cap: 'CAPITALISATION', share: 'POIDS DANS LA COUCHE', flat: 'UNIFORME' },
+      legendArea: 'SURFACE ∝ VALEUR',
+      legendNoData: 'AUCUN CHIFFRE AU DOSSIER',
+      capLabel: 'CAPITALISATION (USD APPROX.)',
+      shareLabel: 'POIDS DANS CETTE COUCHE',
+      shareNote: 'Part de la capitalisation cumulée des sociétés que nous couvrons dans cette couche — une indication de qui la domine, pas une vraie part de marché sectorielle.',
+    },
     legend: { upstream: 'AMONT', downstream: 'AVAL', listed: 'COTÉ', private: 'PRIVÉ' },
     stages: [
       {
