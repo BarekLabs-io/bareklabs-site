@@ -8561,4 +8561,153 @@ AMKR: {
     sourceNote:
       'Compiled Aug 2026 via live web research (WebSearch across mgrid.org, Utility Dive, Turbomachinery Magazine, Power Engineering, GE Vernova investor-relations press releases and SEC 8-K filings, windpowermonthly.com, Baird Maritime/reNEWS coverage of Wind-segment results, and financial aggregators; direct WebFetch to SEC.gov filing URLs and most financial-data sites returned HTTP 403 and could not be used). Business and backlog facts (Q1/Q2 2026 revenue, orders, backlog, guidance raises, gas-turbine GW figures, Wind-segment EBITDA losses, tariff guidance, dividend/buyback actions) were corroborated across 2+ independent sources each and are the most reliable content in this entry. Valuation multiples were not: trailing P/E readings for GEV ranged from ~28x to ~87x and EV/EBITDA from the high-40s (on a forward-guidance basis, computed here) to ~87x (trailing, per one aggregator) depending on source and snapshot date, plausibly reflecting real GAAP-earnings distortion from one-time gains this year rather than simple data staleness — both readings are presented rather than collapsed into a single false-precision number. Price ($1,006.76, Aug 4, 2026 close) and the ~$270B market cap were cross-checked against an independently sourced share count (~267M) and against a separately reported ~$273.6B market-cap figure for early Aug 2026, and are reasonably consistent. Cross-check current price and multiples before acting on anything here.',
   },
+  'ALHAF.PA': {
+    ticker: 'ALHAF.PA',
+    name: 'Haffner Energy S.A.',
+    tagline:
+      'A pre-revenue French green-hydrogen/biomass-gasification developer (Hynoca® thermolysis) — an energy-transition microcap, not an AI supply-chain name.',
+    sector: 'ENERGY & SPACE',
+    asOf: '2026.08',
+    chain: {
+      intro:
+        'Haffner Energy develops and licenses Hynoca®, a patented staged thermolysis (torrefaction + gasification) process that converts solid agricultural/forestry biomass residues into renewable hydrogen, syngas, biocarbon (biochar) and, longer-term, renewable methanol and sustainable aviation fuel. It is an early-stage technology/EPC company built around one operating reference plant, not yet a scaled industrial producer.',
+      rows: [
+        { level: 'Feedstock', players: 'Agricultural & forestry biomass residues', position: 'Sourced regionally per project; not vertically integrated', tone: 'indirect' },
+        { level: 'Thermolysis reactor / process technology', players: 'Haffner Energy (Hynoca®, H6 reactor generation)', position: 'Core business — patented process, licensed/sold as standardized C-iC modular units', tone: 'core' },
+        { level: 'Reference plant', players: 'Marolles-en-Brie, Marne, France', position: 'World-first biomass-to-hydrogen unit, commissioned Feb 2025; ~120 t/yr mobility-grade H2', tone: 'core' },
+        { level: 'Boilermaking / equipment subsidiary', players: 'Jacquier (acquired June 2023)', position: 'Consolidated subsidiary — most of FY2024-2025 revenue came from Jacquier equipment sales', tone: 'core' },
+        { level: 'Green hydrogen / biomass-to-energy peers', players: 'McPhy Energy (in judicial liquidation since June 2025), Nel ASA, HydrogenPro', position: 'Broader European hydrogen-tech field; McPhy\'s collapse is a live cautionary comp for this segment', tone: 'indirect' },
+        { level: 'End markets', players: 'Mobility (H2 refueling), industrial gas, renewable natural gas/SAF (Canada)', position: 'Early commercial stage — one small operating plant, plus a reservation pipeline (CORE100) and a Canadian JV (INCAD)', tone: 'growth' },
+        { level: 'AI / datacenter power', players: 'Not applicable', position: 'No disclosed AI-datacenter customer, contract, or product positioning found in this research', tone: 'none' },
+      ],
+      segments: [
+        'Hynoca® process licensing/EPC: patented thermolysis technology, now in its "H6" reactor generation — passed a first independent qualification milestone Aug 6, 2026, with a harder autumn-2026 milestone (mobility-grade hydrogen production) still pending',
+        'CORE100 program (launched Feb 2026): a reservation program targeting 100 standardized C-iC units, >€300M of potential sales and >€90M of potential gross margin over three years — a target/reservation pipeline, not signed backlog',
+        'Jacquier subsidiary: conventional boilermaking equipment and services — the main current revenue contributor',
+        'Canada expansion: a 2025-2026 partnership with Mundi Énergies to build ~20 "multi-energy hub" sites in Quebec for renewable gas, renewable diesel, SAF and syngas-based fuels; first hub (INCAD, Bécancour) targeted online Q2 2028',
+      ],
+      aiShift:
+        'Haffner Energy has no confirmed AI-datacenter revenue, customer, or product link. Unlike names such as BE, FCEL or HYLN on this screener that explicitly market products at datacenter backup/prime power, this research found no evidence Haffner has pursued or been approached for that use case. Its presence on this screener rests on energy-transition/green-hydrogen thematic exposure within the broader "power & energy" bucket this site tracks — not on any AI supply-chain relationship. Do not read an AI narrative into this name.',
+    },
+    valuation: {
+      peers: ['ALHAF.PA — Haffner Energy', 'NEL.OL — Nel ASA', 'PLUG — Plug Power'],
+      metrics: [
+        {
+          label: 'Price',
+          values: [
+            '€0.3645 (Aug 5, 2026; prior close €0.443) — quoted price varies noticeably by source/snapshot (roughly €0.11–€0.44 observed across sources checked), consistent with a thinly traded microcap rather than a data error',
+            'NOK 2.15–2.43 (varies by source, Aug 2026)',
+            '$2.10 (Aug 6, 2026)',
+          ],
+        },
+        {
+          label: 'Market cap',
+          values: [
+            '€15M–€58M depending on share-count basis (158,778,399 total shares as of 4/30/2026 vs. the ~25% free float created by the April 2025 raise) — sources disagree materially; treat as a wide band, not a precise figure',
+            '~NOK 3.86B (~$360M)',
+            '~$3.03B (Aug 6, 2026)',
+          ],
+        },
+        {
+          label: 'Revenue (most recent FY)',
+          values: [
+            '€378k (FY2024-2025, ended 3/31/2025) — pre-revenue in any meaningful commercial sense; mostly Jacquier boilermaking equipment plus services/studies',
+            'n/a',
+            'n/a',
+          ],
+        },
+        {
+          label: 'EBITDA',
+          values: [
+            'Estimated -€8.88M for FY2025-2026 (ended 3/31/2026), an 18.3% improvement YoY but a miss of the company\'s own EBITDA-breakeven target for that date',
+            'n/a',
+            'n/a',
+          ],
+        },
+        {
+          label: 'Trailing P/E',
+          values: ['n/a — loss-making', 'n/a — loss-making', '-1.62 (loss-making, Aug 6, 2026)'],
+        },
+        {
+          label: 'Cash position',
+          values: [
+            '€559k net cash (3/31/2025) ahead of a €7M capital raise closed early April 2025; €2.51M further raised via an OCEANE-BSA program as of 3/31/2026',
+            'n/a',
+            'n/a',
+          ],
+        },
+      ],
+      verdictTone: 'high',
+      verdictPoints: [
+        'A sub-€0.40 share price reads as "cheap," but against €378k of FY2024-2025 revenue the ~€15M-€58M market cap implies a price/sales multiple in the high double-to-triple digits — a classic microcap trap where the low unit price masks a rich fundamental multiple',
+        'The company already missed its own EBITDA-breakeven target for FY2025-2026 (came in around -€8.88M instead), and has now pushed the profitability goalpost to the following fiscal year via the CORE100 program',
+        'McPhy Energy — the closest French public green-hydrogen comp — entered judicial liquidation in June 2025 with shareholder value expected near zero, underscoring that a low share price does not equal a floor in this segment',
+      ],
+      justifiedIf: [
+        'The CORE100 reservation program (100 C-iC units, >€300M target sales) converts a meaningful share of its target into firm, binding orders on the disclosed Sept 2026–Sept 2029 delivery schedule',
+        'The H6 reactor passes its pending autumn-2026 mobility-grade hydrogen qualification milestone without further delay, following its first successful qualification on Aug 6, 2026',
+        'The Mundi Énergies Canada partnership (INCAD hub, ~20 planned multi-energy hubs) moves beyond the initial €650k equity placement into signed, binding construction/offtake agreements',
+        'Further financing (OCEANE-BSA drawdowns, the Mundi €2M facility) is completed without punitively dilutive terms given the already-thin, ~25% free float',
+      ],
+    },
+    priceMap: {
+      zones: [
+        { tier: 'ideal', range: '€0.10 – €0.20', rationale: 'Toward the low end of the wide price range observed across recent snapshots (~€0.11–€0.44) — would reflect renewed dilution or delay concerns resetting the stock toward its historical lows' },
+        { tier: 'acceptable', range: '€0.20 – €0.40', rationale: 'Brackets the most recently observed quote (~€0.36, Aug 5 2026) — roughly where the stock has traded through the CORE100 launch and the Aug 6, 2026 H6 milestone news' },
+        { tier: 'expensive', range: '> €0.45', rationale: 'Above the top of the recently observed range; would require CORE100 reservations and the Canada partnership to begin converting into signed, binding contracts to be fundamentally supported' },
+      ],
+      technical: [
+        'Extremely thin free float (~25%, per the April 2025 capital raise) on Euronext Growth Paris — a junior/SME market with materially less liquidity and disclosure than the main Euronext Paris board',
+        'Quoted price and market cap vary meaningfully by data source and snapshot time in this research (price observed roughly €0.11–€0.44; market cap roughly €15M–€58M) — treat any single point figure as approximate, not a precise mark',
+        'No independently verifiable moving-average or support/resistance history was found for a stock this thinly covered — precise technical levels are omitted rather than invented',
+        'Next scheduled earnings: Sep 2, 2026',
+      ],
+      scenarios: [
+        { label: 'BASE', prob: 45, note: 'CORE100 orders convert gradually, the H6 reactor clears its autumn-2026 mobility-grade H2 milestone, and the Canada partnership stays at the equity/JV-formation stage — the stock stays range-bound and dilution-sensitive.' },
+        { label: 'BULL', prob: 20, note: 'CORE100 firm orders exceed the 15-unit first-year (Sept 2026–Sept 2027) target and/or Mundi Énergies escalates its Canadian investment beyond the initial €650k tranche, re-rating the stock on real order-book visibility.' },
+        { label: 'BEAR', prob: 35, note: 'The H6/CORE100 timeline slips again — as the original March 2026 EBITDA-breakeven target already did — forcing another dilutive raise; McPhy Energy\'s 2025 liquidation is the live cautionary case for this segment.' },
+      ],
+      horizon: '12–24 months, tracked against CORE100 firm-order conversion and the autumn 2026 H6 mobility-grade hydrogen qualification',
+      invalidation: 'A further missed commercialization/profitability milestone forcing a distressed capital raise, or the loss of the Mundi Énergies Canada partnership, would invalidate the base case',
+    },
+    risks: [
+      { risk: 'Cash burn / going-concern history', severity: 'high', note: 'Net cash was only €559k at 3/31/2025 before a €7M raise; FY2025-2026 EBITDA is still estimated at roughly -€8.88M despite burn-rate reductions.' },
+      { risk: 'Dilution', severity: 'high', note: 'Repeated capital raises against a small float — €7M ABSA rights issue (Apr 2025), €2.51M via OCEANE-BSA (through 3/31/2026), and a €650k initial Mundi Énergies tranche (Jul 2026) — with free float already widened to only ~25%.' },
+      { risk: 'Sector precedent / competition', severity: 'high', note: 'McPhy Energy, a close French green-hydrogen public peer, entered judicial liquidation in June 2025 with shares expected to be worth near zero — direct evidence this segment can go to zero, not just underperform.' },
+      { risk: 'Execution risk on commercial-scale plants', severity: 'medium', note: 'Commercial deployment still rests on one small (~120 t/yr) reference plant at Marolles and an H6 reactor generation whose hardest qualification test (mobility-grade H2) was still pending as of Aug 2026.' },
+      { risk: 'Missed-guidance history', severity: 'medium', note: 'The company already missed its own, previously reiterated EBITDA-breakeven-by-March-2026 target — a track record worth weighting against new CORE100/H6 timelines.' },
+      { risk: 'Non-binding pipeline', severity: 'medium', note: 'CORE100 (>€300M target) and the broader commercial pipeline (€1.55Bn/€388M weighted, as of March 2025) are reservation/target figures, not signed backlog, until converted to firm orders.' },
+      { risk: 'Subsidy / policy dependence', severity: 'medium', note: 'Green hydrogen economics remain sensitive to EU/French subsidy policy and carbon pricing; the Flex 500 IG\'s sub-€3/kg-without-subsidy claim has not been verified against realized sales in this research.' },
+      { risk: 'Junior-market listing / liquidity', severity: 'low', note: 'ALHAF trades on Euronext Growth Paris, not the main regulated board — lower disclosure and liquidity standards than a primary listing.' },
+    ],
+    backlog: {
+      visibility: [
+        'CORE100 program: reservation of 100 standardized C-iC units targeting >€300M in sales and >€90M of potential gross margin over three years, contingent on the program being confirmed and reservations converting to firm orders',
+        'Disclosed production schedule if CORE100 converts: 15 units (Sept 2026–Sept 2027), 30 units (Sept 2027–Sept 2028), 55 units (Sept 2028–Sept 2029)',
+        'Total commercial pipeline disclosed at €1.55Bn (€388M weighted) as of March 2025 — an early-stage, high-level figure rather than signed backlog',
+      ],
+      wins: [
+        'Marolles-en-Brie (Marne, France): commissioned Feb 2025 as the world\'s first biomass-to-hydrogen production unit; ~120 t/yr of mobility-grade hydrogen (15 kg/hr), ~2,400 t/yr of CO2 avoided/captured',
+        'H6 reactor generation passed its first independent qualification milestone (Aug 6, 2026); a harder autumn-2026 milestone will test mobility-grade hydrogen production specifically',
+        'Hynoca® Flex 500 IG line unveiled April 2025: targets 12 t/day of green hydrogen at under €3/kg without subsidies',
+        'Mundi Énergies (Canada) partnership: announced Dec 2025 for a network of ~20 planned multi-energy hubs in Quebec; escalated to an equity stake in July 2026 (€650k initial drawdown of a €2M facility); first hub INCAD (Bécancour) targeted online Q2 2028',
+      ],
+      clients: ['Mundi Énergies (Canada — equity partner and hub developer, via the INCAD joint venture)', 'Undisclosed CORE100 reservation counterparties'],
+      suppliers: ['Not individually disclosed in current research — Haffner is primarily a process technology developer/EPC licensor (Hynoca®) rather than a component buyer with named suppliers; Jacquier is a consolidated boilermaking-equipment subsidiary, not an external supplier'],
+    },
+    synthesis: {
+      scores: [
+        { criterion: 'AI-infrastructure centrality', stars: 1, note: 'No confirmed AI/datacenter link of any kind — included purely for energy-transition/green-hydrogen thematic exposure.' },
+        { criterion: 'Business quality', stars: 2, note: 'A real, working reference plant and a patented process with an independently qualified new reactor generation, but still single-plant scale with a track record of missed commercialization targets.' },
+        { criterion: 'Pipeline / growth optionality', stars: 3, note: 'CORE100 and the Canada partnership are genuine, disclosed catalysts with real dollar targets, but both remain mostly non-binding (reservations, an equity stake, not signed offtake) as of this research.' },
+        { criterion: 'Valuation', stars: 2, note: 'The low absolute share price is misleading — on ~€378k of FY2024-2025 revenue, the market cap implies a very rich price/sales multiple for a company still years from proven commercial scale.' },
+        { criterion: 'Risk', stars: 1, note: 'Thin cash position history, heavy and recurring dilution, a junior-market listing, and a direct French sector peer (McPhy Energy) already in liquidation — genuinely high failure risk.' },
+      ],
+      readLabel: 'HIGH-RISK, PRE-REVENUE FRENCH GREEN-HYDROGEN MICROCAP — NOT AN AI PLAY',
+      summary:
+        'Haffner Energy is a legitimate, patented-technology green-hydrogen/biomass-gasification developer with one small operating reference plant, a newly qualified reactor generation (H6), and two real 2025-2026 catalysts — the CORE100 order-reservation program and the Mundi Énergies Canada partnership. But it remains pre-revenue in any meaningful sense (€378k in FY2024-2025), has already missed its own EBITDA-breakeven target, funds itself through recurring dilutive raises against an already-thin free float, and sits in a segment where the closest French public peer (McPhy Energy) was liquidated in 2025. It belongs on this screener only as energy-transition/hydrogen thematic exposure — there is no AI supply-chain link to this name — and, given the risk profile, only as a small, high-conviction speculative position, not a core holding.',
+    },
+    sourceNote:
+      'Financials sourced from Haffner Energy IR press releases (haffner-energy.com) and GlobeNewswire: FY2024-2025 annual results (Jun 30, 2025; revenue €378k, cash burn and cash-position detail), H1 FY2024-2025 results (Dec 17, 2024), the estimated FY2025-2026 annual results and CORE100 update (Jun 25, 2026; EBITDA ~-€8.88M, OCEANE-BSA financing), the CORE100 program launch (Feb 18, 2026), the Marolles-en-Brie commissioning release (Feb 26-27, 2025), the Hynoca Flex 500 IG launch (Apr 24, 2025), the Mundi Énergies Canada partnership releases (Dec 18, 2025 and Jul 27, 2026), and the H6 qualification milestone release (Aug 6, 2026). Share count (158,778,399 as of 4/30/2026), price (€0.3645, Aug 5 2026) and market-cap figures were cross-checked against Investing.com, Yahoo Finance, MarketScreener and general search-aggregated quotes, which disagreed materially on market cap (€14.77M-€33.51M cited across sources) and on price at other snapshots (as low as ~€0.109-€0.245) — this is presented here as a wide uncertainty band reflecting genuine thin-liquidity/junior-market volatility, not resolved to a single false-precision figure. Peer data: Nel ASA and Plug Power prices/market caps from general search-aggregated quotes (Aug 2026); McPhy Energy\'s judicial liquidation (opened Jun 4, 2025, Belfort Commercial Court) sourced from Euronext company-news releases and Energynews.pro. This is a research framework, not a live feed, and this name in particular carries elevated data-quality uncertainty even by this site\'s standards — cross-check current price, share count and pipeline-conversion status before acting on anything here.',
+  },
 }

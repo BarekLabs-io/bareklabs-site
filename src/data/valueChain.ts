@@ -115,6 +115,7 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   RKLB: 'space',
 
   // Adjacent / indirect exposure — thin or unconfirmed AI link, kept out of the core chain
+  'ALHAF.PA': 'adjacent',
   'AUUA.V': 'adjacent',
   AMPX: 'adjacent',
   '000150.KS': 'adjacent',
@@ -144,6 +145,7 @@ const SUFFIX_COUNTRY: Record<string, string> = {
   MI: 'Italy',
   VI: 'Austria',
   V: 'Canada',
+  PA: 'France',
 }
 
 export function countryOf(ticker: string): string {
@@ -166,6 +168,7 @@ const SUFFIX_EXCHANGE: Record<string, string> = {
   MI: 'Borsa Italiana',
   VI: 'Wiener Börse',
   V: 'TSX Venture',
+  PA: 'Euronext Growth Paris',
 }
 
 const SUFFIX_CURRENCY: Record<string, string> = {
@@ -182,6 +185,7 @@ const SUFFIX_CURRENCY: Record<string, string> = {
   MI: 'EUR',
   VI: 'EUR',
   V: 'CAD',
+  PA: 'EUR',
 }
 
 // US-listed tickers only — primary listing venue, verified individually (not a suffix default).
