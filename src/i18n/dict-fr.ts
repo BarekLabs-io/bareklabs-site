@@ -9,7 +9,7 @@ export const fr: Dict = {
     homepage: 'ACCUEIL',
     analysis: 'ANALYSE',
     soukSignal: 'SOUK SIGNAL',
-    tradeTracker: 'JOURNAL DES TRADES',
+    tradeTracker: 'TRADE TRACKER',
     about: 'À PROPOS',
     subSections: 'SOUS-SECTIONS',
     sub: {
@@ -53,7 +53,7 @@ export const fr: Dict = {
   home: {
     tag: 'BAREK LABS / TERMINAL DE RECHERCHE v0.4',
     hero1: 'RECHERCHE &',
-    hero2: 'SIGNAL DU MARCHÉ',
+    hero2: 'MARKET SIGNAL',
     hero3: 'DÉCODÉ.',
     heroDesc:
       'UN LABO FINANCE & TECH INDÉPENDANT. NOUS PUBLIONS DE LA RECHERCHE, CONSTRUISONS DES SIGNAUX ET SUIVONS L’EXÉCUTION — EN TOUTE TRANSPARENCE, AVEC LES PREUVES.',
@@ -87,7 +87,7 @@ export const fr: Dict = {
         },
         {
           code: '03',
-          name: 'JOURNAL DES TRADES',
+          name: 'TRADE TRACKER',
           desc: 'Registre transparent des positions suivies en actions et crypto. Entrées, sorties, tailles — visibles, horodatées.',
           meta: ['ACTIONS', 'CRYPTO'],
         },
@@ -196,7 +196,7 @@ export const fr: Dict = {
     scenarioLabels: { BASE: 'Central', BULL: 'Haussier', BEAR: 'Baissier', HIT: 'Atteint' } as Record<string, string>,
     head: 'Thèses ouvertes',
     headRight: 'CLIQUER POUR DÉPLIER',
-    disclaimer: 'LES IDÉES SONT DES ARTEFACTS DE RECHERCHE, PAS DES RECOMMANDATIONS. LE DIMENSIONNEMENT ET L’EXÉCUTION VIVENT DANS LE JOURNAL DES TRADES.',
+    disclaimer: 'LES IDÉES SONT DES ARTEFACTS DE RECHERCHE, PAS DES RECOMMANDATIONS. LE DIMENSIONNEMENT ET L’EXÉCUTION VIVENT DANS LE TRADE TRACKER.',
     items: [
       {
         id: 'IDEA-0142',
@@ -253,7 +253,7 @@ export const fr: Dict = {
         sector: 'PHARMA',
         title: 'Rotation défensive pharma',
         thesis: 'Détérioration de la largeur dans les cycliques pendant que les défensives accumulent discrètement. Rotation bouclée à +4,1 % R en 5 semaines.',
-        entry: 'Exécuté — voir le journal des trades',
+        entry: 'Exécuté — voir le Trade Tracker',
         invalidation: '—',
         horizon: 'CLÔTURÉ +4,1 % R',
         scenarios: [{ label: 'HIT', prob: 100, tone: 'up' as const }],
@@ -384,9 +384,9 @@ export const fr: Dict = {
   },
   tracker: {
     hero: {
-      code: '03 / JOURNAL DES TRADES',
-      title: 'Journal',
-      serif: 'des trades',
+      code: '03 / TRADE TRACKER',
+      title: 'Trade',
+      serif: 'tracker',
       desc: 'TRANSPARENCE RADICALE : CHAQUE POSITION SUIVIE — ENTRÉE, TAILLE, SORTIE, JUSTIFICATION — JOURNALISÉE ET HORODATÉE. GAINS ET PERTES, SANS RETOUCHE.',
     },
     stats: [
@@ -430,7 +430,7 @@ export const fr: Dict = {
   },
   stocks: {
     hero: {
-      code: '03.A / JOURNAL DES TRADES — ACTIONS',
+      code: '03.A / TRADE TRACKER — ACTIONS',
       title: 'Registre',
       serif: 'actions',
       desc: 'POSITIONS ACTIONS, EN DIRECT. LES PRIX BOUGENT, LE P&L BOUGE, LE REGISTRE NE BOUGE PAS. CHAQUE ENTRÉE RELIÉE À UNE THÈSE PUBLIÉE.',
@@ -457,7 +457,7 @@ export const fr: Dict = {
   },
   crypto: {
     hero: {
-      code: '03.B / JOURNAL DES TRADES — CRYPTO',
+      code: '03.B / TRADE TRACKER — CRYPTO',
       title: 'Registre',
       serif: 'crypto',
       desc: 'ACTIFS NUMÉRIQUES AVEC DISCIPLINE TRADITIONNELLE : SPOT D’ABORD, FINANCEMENT SURVEILLÉ, RÉGIME FILTRÉ. LE LEVIER EST UN OUTIL, PAS UNE PERSONNALITÉ.',

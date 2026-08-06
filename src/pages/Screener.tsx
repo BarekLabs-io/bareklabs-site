@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { Reveal } from '@/components/lab'
 import { companies } from '@/data/companies'
@@ -12,6 +12,7 @@ type Row = {
   ticker: string
   name: string
   segment: SegmentKey
+  segmentOrder: number
   country: string
   exchange: string
   currency: string
@@ -21,36 +22,70 @@ type Row = {
   riskTier: RiskTier
 }
 
-const ROWS: Row[] = Object.values(companies).map((c) => {
-  const highRisks = c.risks.filter((r) => r.severity === 'high').length
-  const riskTier: RiskTier = highRisks >= 2 ? 'high' : highRisks === 1 ? 'medium' : 'low'
-  const priceMetric = c.valuation.metrics.find((m) => /^price|^share price/i.test(m.label))
-  const capMetric = c.valuation.metrics.find((m) => /market cap/i.test(m.label))
-  return {
-    ticker: c.ticker,
-    name: c.name,
-    segment: SEGMENT_OF[c.ticker] ?? 'adjacent',
-    country: countryOf(c.ticker),
-    exchange: exchangeOf(c.ticker),
-    currency: currencyOf(c.ticker),
-    price: parseMetricValue(priceMetric?.values[0]),
-    marketCap: capMetric?.values[0] ?? null,
-    verdictTone: c.valuation.verdictTone,
-    riskTier,
-  }
-}).sort((a, b) => a.ticker.localeCompare(b.ticker))
+const SEGMENT_ORDER = new Map(SEGMENTS.map((s, i) => [s.key, i]))
+const SEGMENT_SHORT: Record<SegmentKey, string> = {
+  materials: 'MATERIALS',
+  wfe: 'WFE',
+  substrates: 'SUBSTRATES',
+  pcb: 'PCB',
+  test: 'TEST',
+  packaging: 'PACKAGING',
+  memory: 'MEMORY',
+  silicon: 'SILICON',
+  cloud: 'CLOUD',
+  power: 'POWER',
+  space: 'SPACE',
+  adjacent: 'ADJACENT',
+}
+
+const ROWS: Row[] = Object.values(companies)
+  .map((c) => {
+    const highRisks = c.risks.filter((r) => r.severity === 'high').length
+    const riskTier: RiskTier = highRisks >= 2 ? 'high' : highRisks === 1 ? 'medium' : 'low'
+    const priceMetric = c.valuation.metrics.find((m) => /^price|^share price/i.test(m.label))
+    const capMetric = c.valuation.metrics.find((m) => /market cap/i.test(m.label))
+    const segment = SEGMENT_OF[c.ticker] ?? 'adjacent'
+    return {
+      ticker: c.ticker,
+      name: c.name,
+      segment,
+      segmentOrder: SEGMENT_ORDER.get(segment) ?? 99,
+      country: countryOf(c.ticker),
+      exchange: exchangeOf(c.ticker),
+      currency: currencyOf(c.ticker),
+      price: parseMetricValue(priceMetric?.values[0]),
+      marketCap: capMetric?.values[0] ?? null,
+      verdictTone: c.valuation.verdictTone,
+      riskTier,
+    }
+  })
+  .sort((a, b) => a.segmentOrder - b.segmentOrder || a.ticker.localeCompare(b.ticker))
 
 const COUNTRIES = Array.from(new Set(ROWS.map((r) => r.country))).sort()
 
 const RISK_LABEL: Record<RiskTier, string> = { high: 'HIGH', medium: 'MEDIUM', low: 'LOW' }
 const VERDICT_LABEL: Record<Row['verdictTone'], string> = { high: 'RICH', fair: 'FAIR', low: 'CHEAP' }
 
-function toneClass(tone: Row['verdictTone']) {
-  return tone === 'high' ? 'text-danger' : tone === 'low' ? 'text-signal' : 'text-warn'
+function Badge({ tone, children }: { tone: 'good' | 'warn' | 'bad'; children: React.ReactNode }) {
+  const cls =
+    tone === 'good'
+      ? 'border-signal/50 bg-signal/15 text-signal'
+      : tone === 'warn'
+        ? 'border-warn/50 bg-warn/15 text-warn'
+        : 'border-danger/50 bg-danger/15 text-danger'
+  return (
+    <span className={cn('inline-block min-w-[64px] border px-2 py-1 text-center font-mono-lab text-[9.5px] font-medium tracking-[0.12em]', cls)}>
+      {children}
+    </span>
+  )
 }
 
-function riskClass(tier: RiskTier) {
-  return tier === 'high' ? 'text-danger' : tier === 'medium' ? 'text-warn' : 'text-dim'
+function verdictBadgeTone(tone: Row['verdictTone']): 'good' | 'warn' | 'bad' {
+  return tone === 'high' ? 'bad' : tone === 'low' ? 'good' : 'warn'
+}
+
+function riskBadgeTone(tier: RiskTier): 'good' | 'warn' | 'bad' {
+  return tier === 'high' ? 'bad' : tier === 'medium' ? 'warn' : 'good'
 }
 
 export default function Screener() {
@@ -70,13 +105,6 @@ export default function Screener() {
     })
   }, [query, segment, country, risk])
 
-  const bySegment = useMemo(() => {
-    const map = new Map<SegmentKey, Row[]>()
-    for (const s of SEGMENTS) map.set(s.key, [])
-    for (const r of filtered) map.get(r.segment)?.push(r)
-    return map
-  }, [filtered])
-
   const hasFilters = query !== '' || segment !== 'ALL' || country !== 'ALL' || risk !== 'ALL'
 
   return (
@@ -90,7 +118,8 @@ export default function Screener() {
         </Reveal>
         <Reveal delay={70}>
           <p className="mt-2 max-w-3xl font-mono-lab text-[12px] leading-5 tracking-wide text-prose">
-            Every covered ticker mapped onto the AI-infrastructure value chain, raw materials to space. Thin or unconfirmed AI links sit in their own bucket at the end, not scattered through the core chain.
+            Every covered ticker mapped onto the AI-infrastructure value chain, raw materials to space. Sorted by chain position by
+            default — filter by segment to isolate one. Thin or unconfirmed AI links sit in their own "Adjacent" bucket.
           </p>
         </Reveal>
 
@@ -142,59 +171,47 @@ export default function Screener() {
         </Reveal>
 
         <div className="mt-4 overflow-x-auto border border-line">
-          <table className="w-full min-w-[880px]">
+          <table className="w-full min-w-[960px]">
             <thead>
               <tr className="border-b border-line bg-ticker font-mono-lab text-[9px] tracking-[0.2em] text-faint">
-                <th className="px-3 py-2.5 text-start">TICKER</th>
-                <th className="px-3 py-2.5 text-start">NAME</th>
-                <th className="px-3 py-2.5 text-start">EXCHANGE</th>
-                <th className="px-3 py-2.5 text-end">PRICE</th>
-                <th className="px-3 py-2.5 text-end">MKT CAP</th>
-                <th className="px-3 py-2.5 text-end">VS. PEERS</th>
-                <th className="px-3 py-2.5 text-end">RISK</th>
+                <th className="px-3 py-3 text-start">TICKER</th>
+                <th className="px-3 py-3 text-start">NAME</th>
+                <th className="px-3 py-3 text-start">SEGMENT</th>
+                <th className="px-3 py-3 text-start">EXCHANGE</th>
+                <th className="px-3 py-3 text-end">PRICE</th>
+                <th className="px-3 py-3 text-end">MKT CAP</th>
+                <th className="px-3 py-3 text-center">VS. PEERS</th>
+                <th className="px-3 py-3 text-center">RISK</th>
               </tr>
             </thead>
             <tbody>
-              {SEGMENTS.map((s) => {
-                const rows = bySegment.get(s.key) ?? []
-                if (rows.length === 0) return null
-                return (
-                  <Fragment key={s.key}>
-                    <tr className="border-b border-line bg-alt">
-                      <td colSpan={7} className="px-3 py-2">
-                        <span className="font-mono-lab text-[10px] tracking-[0.2em] text-signal">{s.label}</span>
-                        <span className="ms-3 font-mono-lab text-[9px] tracking-[0.1em] text-dim">{s.note}</span>
-                      </td>
-                    </tr>
-                    {rows.map((r, i) => (
-                      <tr key={r.ticker} className={cn('border-b border-line/50 transition-colors bg-row-hover', i % 2 === 1 && 'bg-stripe')}>
-                        <td className="px-3 py-3">
-                          <Link to={`/companies/${r.ticker}`} className="font-mono-lab text-[13px] font-medium text-foreground hover:text-signal" dir="ltr">
-                            {r.ticker}
-                          </Link>
-                        </td>
-                        <td className="px-3 py-3 font-mono-lab text-[11px] text-prose">{r.name}</td>
-                        <td className="px-3 py-3 font-mono-lab text-[10px] tracking-[0.05em] text-dim">{r.exchange}</td>
-                        <td className="px-3 py-3 text-end font-mono-lab text-[12.5px] tabular-nums text-prose" dir="ltr">
-                          {r.price != null ? formatMoney(r.price, r.currency) : '—'}
-                        </td>
-                        <td className="px-3 py-3 text-end font-mono-lab text-[11px] tabular-nums text-dim" dir="ltr">
-                          {r.marketCap ?? '—'}
-                        </td>
-                        <td className={cn('px-3 py-3 text-end font-mono-lab text-[10px] tracking-[0.15em]', toneClass(r.verdictTone))}>
-                          {VERDICT_LABEL[r.verdictTone]}
-                        </td>
-                        <td className={cn('px-3 py-3 text-end font-mono-lab text-[10px] tracking-[0.15em]', riskClass(r.riskTier))}>
-                          {RISK_LABEL[r.riskTier]}
-                        </td>
-                      </tr>
-                    ))}
-                  </Fragment>
-                )
-              })}
+              {filtered.map((r, i) => (
+                <tr key={r.ticker} className={cn('border-b border-line/50 transition-colors bg-row-hover', i % 2 === 1 && 'bg-stripe')}>
+                  <td className="px-3 py-3.5">
+                    <Link to={`/companies/${r.ticker}`} className="font-mono-lab text-[13.5px] font-medium text-foreground hover:text-signal" dir="ltr">
+                      {r.ticker}
+                    </Link>
+                  </td>
+                  <td className="px-3 py-3.5 font-mono-lab text-[11.5px] text-prose">{r.name}</td>
+                  <td className="px-3 py-3.5 font-mono-lab text-[9.5px] tracking-[0.1em] text-dim">{SEGMENT_SHORT[r.segment]}</td>
+                  <td className="px-3 py-3.5 font-mono-lab text-[10px] tracking-[0.05em] text-dim">{r.exchange}</td>
+                  <td className="px-3 py-3.5 text-end font-mono-lab text-[13px] tabular-nums text-prose" dir="ltr">
+                    {r.price != null ? formatMoney(r.price, r.currency) : '—'}
+                  </td>
+                  <td className="px-3 py-3.5 text-end font-mono-lab text-[11px] tabular-nums text-dim" dir="ltr">
+                    {r.marketCap ?? '—'}
+                  </td>
+                  <td className="px-3 py-3.5 text-center">
+                    <Badge tone={verdictBadgeTone(r.verdictTone)}>{VERDICT_LABEL[r.verdictTone]}</Badge>
+                  </td>
+                  <td className="px-3 py-3.5 text-center">
+                    <Badge tone={riskBadgeTone(r.riskTier)}>{RISK_LABEL[r.riskTier]}</Badge>
+                  </td>
+                </tr>
+              ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-3 py-12 text-center font-mono-lab text-[11px] tracking-wide text-faint">
+                  <td colSpan={8} className="px-3 py-12 text-center font-mono-lab text-[11px] tracking-wide text-faint">
                     No tickers match these filters.
                   </td>
                 </tr>
@@ -205,10 +222,10 @@ export default function Screener() {
 
         <Reveal className="mt-6">
           <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">
-            Segment order follows the physical/economic AI-hardware value chain. "Adjacent / indirect exposure" holds names with
-            thin, unconfirmed, or thematic-only AI links, kept out of the core chain rather than interleaved into it. Prices and
-            market caps are last-known figures from each ticker's deep dive, not a live feed — see the individual company page for
-            sourcing and date. Exchange venue is best-effort reference data. This is a research framework, not investment advice.
+            Default sort follows the physical/economic AI-hardware value chain, materials to space — "Adjacent / indirect exposure"
+            holds names with thin, unconfirmed, or thematic-only AI links. Prices and market caps are last-known figures from each
+            ticker's deep dive, not a live feed — see the individual company page for sourcing and date. Exchange venue is
+            best-effort reference data. This is a research framework, not investment advice.
           </p>
         </Reveal>
       </div>
