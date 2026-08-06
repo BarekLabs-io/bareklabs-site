@@ -112,6 +112,7 @@ export const en = {
       title2: 'skip the noise.',
       primary: "READ TODAY'S SIGNAL",
       secondary: 'ABOUT THE LAB',
+      advisory: 'ALSO AVAILABLE: PAID RESEARCH & ADVISORY ENGAGEMENTS — SEE THE ABOUT PAGE',
     },
   },
   analysis: {
@@ -472,8 +473,10 @@ export const en = {
     contact: {
       head: 'Reach the lab',
       headRight: 'RESPONSE < 48H',
+      advisoryNote: 'Most of what runs on this site is free and public. The lab also takes on paid work — sector deep-dives, one-off company analysis, custom screens, advisory conversations — for people who want that depth applied to their own questions. Use the ADVISORY channel below.',
       cards: [
         { k: 'GENERAL', v: 'desk@bareklabs.io', note: 'Research queries, feedback, corrections' },
+        { k: 'ADVISORY', v: 'desk@bareklabs.io', note: 'Paid research & advisory engagements — deep dives, sector mapping, custom analysis' },
         { k: 'COLLABORATION', v: 'labs@bareklabs.io', note: 'Data partnerships, joint research, tooling' },
         { k: 'CODE / OPEN SOURCE', v: 'github.com/Bareklabs-io', note: 'Signal tooling, trackers, public models' },
       ],

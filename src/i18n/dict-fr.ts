@@ -114,6 +114,7 @@ export const fr: Dict = {
       title2: 'ignorez le bruit.',
       primary: 'LIRE LE SIGNAL DU JOUR',
       secondary: 'À PROPOS DU LABO',
+      advisory: 'ÉGALEMENT DISPONIBLE : MANDATS DE RECHERCHE ET DE CONSEIL PAYANTS — VOIR LA PAGE À PROPOS',
     },
   },
   analysis: {
@@ -463,8 +464,10 @@ export const fr: Dict = {
     contact: {
       head: 'Joindre le labo',
       headRight: 'RÉPONSE < 48 H',
+      advisoryNote: 'La majeure partie de ce qui tourne sur ce site est gratuite et publique. Le labo prend aussi des mandats payants — deep dives sectoriels, analyse ponctuelle d’une entreprise, screens sur mesure, échanges de conseil — pour qui veut appliquer cette profondeur à ses propres questions. Utilisez le canal ADVISORY ci-dessous.',
       cards: [
         { k: 'GÉNÉRAL', v: 'desk@bareklabs.io', note: 'Questions de recherche, retours, corrections' },
+        { k: 'ADVISORY', v: 'desk@bareklabs.io', note: 'Mandats de recherche et de conseil payants — deep dives, cartographie sectorielle, analyse sur mesure' },
         { k: 'COLLABORATION', v: 'labs@bareklabs.io', note: 'Partenariats data, recherche conjointe, outillage' },
         { k: 'CODE / OPEN SOURCE', v: 'github.com/Bareklabs-io', note: 'Outillage signal, trackers, modèles publics' },
       ],

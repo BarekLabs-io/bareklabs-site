@@ -216,6 +216,14 @@ export default function Home() {
               </Link>
             </div>
           </Reveal>
+          <Reveal delay={260}>
+            <Link
+              to="/about#contact"
+              className="mt-8 inline-block font-mono-lab text-[10px] tracking-[0.2em] text-faint transition-colors duration-300 hover:text-signal"
+            >
+              {t.home.cta.advisory}
+            </Link>
+          </Reveal>
         </div>
       </section>
     </>

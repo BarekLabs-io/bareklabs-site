@@ -169,7 +169,10 @@ export default function About() {
             {/* ===== CONTACT ===== */}
             <section id="contact" className="scroll-mt-40 py-20">
               <SectionHead index="04.D" label={a.contact.head} right={a.contact.headRight} />
-              <div className="grid gap-4 md:grid-cols-3">
+              <Reveal>
+                <p className="prose-lab mb-8 max-w-none">{a.contact.advisoryNote}</p>
+              </Reveal>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {a.contact.cards.map((c, i) => (
                   <ContactCard key={c.k} c={c} i={i} />
                 ))}
