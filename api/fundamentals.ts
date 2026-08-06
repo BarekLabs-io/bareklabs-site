@@ -71,99 +71,79 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     fundamentals[s] = null
   })
 
-  /* Endpoint entitlement differs by plan, and FMP answers a route outside your
-   * plan with 401 "Invalid API KEY" — the same message as a genuinely bad key.
-   * That one misleading string cost a full debugging round here.
+  /* What the free plan actually allows, established by trying every route and
+   * reading each answer rather than guessing:
    *
-   * /profile is "Profile and Reference Data", which the free Basic plan does
-   * include, and it carries mktCap and price — everything this route needs.
-   * /quote sits behind the paid tiers, so it is tried last and only helps if
-   * the account is later upgraded. Order matters: cheapest entitlement first.
+   *   v3/*            403 — legacy, closed to accounts without a pre-Aug-2025 sub
+   *   stable/quote    402 — a comma-separated `symbol` is a premium "special endpoint"
+   *   stable/profile  200 — works, but the same batch restriction applies, so a
+   *                         multi-symbol call comes back as an empty array
+   *
+   * So: stable/profile, one symbol per request. An empty 200 was the only
+   * thing separating a working call from a broken one, which is exactly the
+   * failure a silent catch would have hidden forever.
+   *
+   * Concurrency is capped: a 25-symbol batch means 25 upstream requests inside
+   * one invocation, the function has a wall-clock limit, and firing them all
+   * at once also reads as abuse to a rate limiter.
    */
-  const list = encodeURIComponent(symbols.join(','))
-  const ATTEMPTS = [
-    { name: 'v3/profile', url: `https://financialmodelingprep.com/api/v3/profile/${list}` },
-    { name: 'stable/profile', url: `https://financialmodelingprep.com/stable/profile?symbol=${list}` },
-    { name: 'stable/quote', url: `https://financialmodelingprep.com/stable/quote?symbol=${list}` },
-    { name: 'v3/quote', url: `https://financialmodelingprep.com/api/v3/quote/${list}` },
-  ]
+  const CONCURRENCY = 6
 
   /** Never let the key reach a response body or a log line. */
   const scrub = (t: string) => t.replace(new RegExp(key, 'g'), '***').slice(0, 240)
 
-  let answered: string | null = null
-  let matched = 0
-  /* Every attempt is recorded, not just the last one. Keeping only the final
-   * failure hides the interesting one: when four routes are tried and the
-   * last is a dead legacy path, its error tells you nothing about the three
-   * that might have been one parameter away from working. */
   const attempts: { route: string; status: number | null; note: string | null }[] = []
+  let matched = 0
 
-  for (const attempt of ATTEMPTS) {
+  const note = (route: string, status: number | null, text: string) => {
+    // A handful of examples is diagnostic; eighty is noise.
+    if (attempts.length < 3) attempts.push({ route, status, note: scrub(text) })
+  }
+
+  async function fetchOne(symbol: string): Promise<void> {
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT_MS)
     try {
-      const joiner = attempt.url.includes('?') ? '&' : '?'
-      const upstream = await fetch(`${attempt.url}${joiner}apikey=${encodeURIComponent(key)}`, {
-        signal: controller.signal,
-        headers: { Accept: 'application/json' },
-      })
-      const status = upstream.status
+      const url =
+        `https://financialmodelingprep.com/stable/profile?symbol=${encodeURIComponent(symbol)}` +
+        `&apikey=${encodeURIComponent(key)}`
+      const upstream = await fetch(url, { signal: controller.signal, headers: { Accept: 'application/json' } })
       const text = await upstream.text()
       if (!upstream.ok) {
-        attempts.push({ route: attempt.name, status, note: scrub(text) })
-        continue
+        note(symbol, upstream.status, text)
+        return
       }
-      let json: unknown
-      try {
-        json = JSON.parse(text)
-      } catch {
-        attempts.push({ route: attempt.name, status, note: `unparseable body: ${scrub(text)}` })
-        continue
+      const json: unknown = JSON.parse(text)
+      const row = Array.isArray(json) ? (json[0] as Record<string, unknown> | undefined) : undefined
+      if (!row) {
+        note(symbol, upstream.status, 'empty array — symbol not covered by this provider')
+        return
       }
-      if (!Array.isArray(json)) {
-        // FMP reports plan and key problems as a JSON object, not an array.
-        attempts.push({
-          route: attempt.name,
-          status,
-          note: scrub(typeof json === 'object' ? JSON.stringify(json) : String(json)),
-        })
-        continue
+      matched++
+      fundamentals[symbol] = {
+        marketCap: finite(row.marketCap) ?? finite(row.mktCap),
+        peTrailing: finite(row.pe) ?? finite(row.peRatio),
+        eps: finite(row.eps),
+        shares: finite(row.sharesOutstanding),
+        price: finite(row.price),
       }
-      for (const row of json as Record<string, unknown>[]) {
-        const sym = typeof row?.symbol === 'string' ? row.symbol : null
-        if (!sym || !(sym in fundamentals)) continue
-        matched++
-        // /profile calls it mktCap, /quote calls it marketCap. Same figure.
-        fundamentals[sym] = {
-          marketCap: finite(row.marketCap) ?? finite(row.mktCap),
-          peTrailing: finite(row.pe) ?? finite(row.peRatio),
-          eps: finite(row.eps),
-          shares: finite(row.sharesOutstanding),
-          price: finite(row.price),
-        }
-      }
-      if (matched > 0) {
-        answered = attempt.name
-        break
-      }
-      attempts.push({
-        route: attempt.name,
-        status,
-        note: `ok but empty: array of ${json.length} rows, none matching the requested symbols`,
-      })
     } catch (e) {
-      attempts.push({
-        route: attempt.name,
-        status: null,
-        note: scrub(e instanceof Error ? e.message : String(e)),
-      })
+      note(symbol, null, e instanceof Error ? e.message : String(e))
     } finally {
       clearTimeout(timer)
     }
   }
 
-  res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400')
+  const queue = [...symbols]
+  await Promise.all(
+    Array.from({ length: Math.min(CONCURRENCY, queue.length) }, async () => {
+      for (let next = queue.shift(); next; next = queue.shift()) await fetchOne(next)
+    })
+  )
+
+  const answered = matched > 0 ? 'stable/profile' : null
+
+  res.setHeader('Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=604800')
   res.status(200).json({
     asOf: Date.now(),
     configured: true,
