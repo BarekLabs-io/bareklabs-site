@@ -6,14 +6,8 @@ import { useLang } from '@/i18n/LanguageContext'
 import { useTheme } from '@/theme/ThemeContext'
 import { LANG_META, type Lang } from '@/i18n/translations'
 import SearchPalette from '@/components/SearchPalette'
-import { useLiveQuotes } from '@/lib/useLiveQuotes'
-import {
-  TAPE_INSTRUMENTS,
-  TAPE_SYMBOLS,
-  NO_VALUE,
-  formatLevel,
-  formatChange,
-} from '@/data/marketTape'
+import { MarketQuotesProvider, useMarketQuotes } from '@/lib/marketQuotes'
+import { TAPE_INSTRUMENTS, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
 
 /* ---------- READING PROGRESS BAR ---------- */
 function ReadingProgress() {
@@ -75,7 +69,7 @@ const GROUP_TONE: Record<string, string> = {
 
 function TapeBar() {
   const { t } = useLang()
-  const { quotes } = useLiveQuotes(TAPE_SYMBOLS)
+  const { quotes } = useMarketQuotes()
   // Duplicated so the marquee loops seamlessly — same instruments, twice.
   const items = [...TAPE_INSTRUMENTS, ...TAPE_INSTRUMENTS]
   return (
@@ -267,6 +261,7 @@ export default function Layout() {
   }, [loc.pathname])
 
   return (
+    <MarketQuotesProvider>
     <div className="min-h-screen bg-background text-foreground">
       <ReadingProgress />
       <SearchPalette />
@@ -406,6 +401,7 @@ export default function Layout() {
         </div>
       </footer>
     </div>
+    </MarketQuotesProvider>
   )
 }
 

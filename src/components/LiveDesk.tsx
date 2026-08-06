@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
-import { useLiveQuotes } from '@/lib/useLiveQuotes'
+import { useMarketQuotes } from '@/lib/marketQuotes'
 import { TAPE_INSTRUMENTS, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
 
 /* A compact desk panel over the hero. Prices and changes come from the live
@@ -32,7 +32,7 @@ export function LiveDesk({ className }: { className?: string }) {
   const rows = WATCH.map((label) => TAPE_INSTRUMENTS.find((i) => i.s === label)).filter(
     (i): i is TapeRow => !!i
   )
-  const { quotes, asOf } = useLiveQuotes(rows.map((r) => r.symbol))
+  const { quotes, asOf } = useMarketQuotes()
   const hasData = rows.some((r) => quotes[r.symbol])
 
   return (

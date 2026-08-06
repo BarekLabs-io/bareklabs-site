@@ -3,13 +3,13 @@ import { MarketCanvas, Reveal, useSpotlight } from '@/components/lab'
 import { WorldMap } from '@/components/WorldMap'
 import { LiveDesk } from '@/components/LiveDesk'
 import { SectionHead } from '@/components/Layout'
-import { useLiveQuotes } from '@/lib/useLiveQuotes'
-import { TAPE_INSTRUMENTS, TAPE_SYMBOLS, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
+import { useMarketQuotes } from '@/lib/marketQuotes'
+import { TAPE_INSTRUMENTS, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
 import { BrandMark } from '@/components/Brand'
 import { useLang } from '@/i18n/LanguageContext'
 
 function Ticker() {
-  const { quotes } = useLiveQuotes(TAPE_SYMBOLS)
+  const { quotes } = useMarketQuotes()
   const items = [...TAPE_INSTRUMENTS, ...TAPE_INSTRUMENTS]
   return (
     <div className="overflow-hidden border-y border-line bg-ticker">
@@ -68,7 +68,7 @@ function ModuleCard({ mod, to, i }: { mod: { code: string; name: string; desc: s
 const HERO_INSTRUMENT = TAPE_INSTRUMENTS.find((i) => i.s === 'NASDAQ')!
 
 function HeroQuote() {
-  const { quotes } = useLiveQuotes([HERO_INSTRUMENT.symbol])
+  const { quotes } = useMarketQuotes()
   const q = quotes[HERO_INSTRUMENT.symbol]
   const up = q?.changePercent != null ? q.changePercent >= 0 : null
   return (
