@@ -20,6 +20,7 @@ type Response = {
   source?: string | null
   upstreamStatus?: number | null
   note?: string | null
+  keyLength?: number | null
   fundamentals: Record<string, Fundamental | null>
 }
 
@@ -38,12 +39,12 @@ export function useFundamentals(tickers: string[]): {
   configured: boolean | null
   asOf: number | null
   /** Which upstream surface answered, and what it said when none did. */
-  diagnostic: { source: string | null; status: number | null; note: string | null } | null
+  diagnostic: { source: string | null; status: number | null; note: string | null; keyLength: number | null } | null
 } {
   const [fundamentals, setFundamentals] = useState<Record<string, Fundamental>>({})
   const [configured, setConfigured] = useState<boolean | null>(null)
   const [asOf, setAsOf] = useState<number | null>(null)
-  const [diagnostic, setDiagnostic] = useState<{ source: string | null; status: number | null; note: string | null } | null>(null)
+  const [diagnostic, setDiagnostic] = useState<{ source: string | null; status: number | null; note: string | null; keyLength: number | null } | null>(null)
   const key = tickers.join(',')
   const keyRef = useRef(key)
   keyRef.current = key
@@ -76,7 +77,7 @@ export function useFundamentals(tickers: string[]): {
         }
         setConfigured(anyConfigured)
         const first = responses.find((r) => r)
-        if (first) setDiagnostic({ source: first.source ?? null, status: first.upstreamStatus ?? null, note: first.note ?? null })
+        if (first) setDiagnostic({ source: first.source ?? null, status: first.upstreamStatus ?? null, note: first.note ?? null, keyLength: first.keyLength ?? null })
         setAsOf(latest || null)
         if (Object.keys(next).length > 0) setFundamentals(next)
       } catch {

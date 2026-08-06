@@ -54,7 +54,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return
   }
 
-  const key = process.env.FMP_API_KEY
+  /* Trimmed: pasting a key into a dashboard field very often carries a
+   * trailing newline or space, which survives into the environment variable
+   * and gets percent-encoded into the request — the provider then rejects a
+   * key that looks correct everywhere a human would inspect it. */
+  const key = process.env.FMP_API_KEY?.trim()
   if (!key) {
     // Not an error state — the site is designed to work without this.
     res.setHeader('Cache-Control', 'public, s-maxage=60')
@@ -150,6 +154,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     source: answered,
     upstreamStatus,
     note: upstreamNote,
+    /* Length only, never any part of the key. A key rejected at full expected
+     * length is a wrong or inactive key; a short one was truncated on paste.
+     * Those need opposite fixes, and nothing else distinguishes them. */
+    keyLength: key.length,
     fundamentals,
   })
 }

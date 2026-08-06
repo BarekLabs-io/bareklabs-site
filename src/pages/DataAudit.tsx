@@ -115,6 +115,13 @@ export default function DataAudit() {
                 {diagnostic.status != null && <span className="text-foreground">HTTP {diagnostic.status} · </span>}
                 {diagnostic.note}
               </p>
+              {diagnostic.keyLength != null && (
+                <p className="mt-2 font-mono-lab text-[10.5px] leading-4 text-faint">
+                  Key received by the server: {diagnostic.keyLength} characters. An FMP key is normally 32 — a shorter
+                  one was truncated when pasted, a full-length one that is still rejected is the wrong key or an
+                  account that has not been activated yet.
+                </p>
+              )}
             </div>
           )}
 
