@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BAREK / LABS — The Enrichment Cliff · Uranium &amp; the Nuclear Fuel Cycle · Report n°02</title>
+<meta name="description" content="Institution-grade research on the uranium sector and the nuclear fuel cycle. Data cut 6 August 2026. 19 tickers, 16 charts, interactive sensitivity model, 60+ sources.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070B12; --surf:#0D131D; --surf2:#121A26; --line:#1E293B; --line2:#2A3648;
+  --em:#00E58A; --blue:#38BDF8; --vio:#A78BFA; --red:#F0616D; --coral:#FF8A5B;
+  --txt:#E2E8F0; --mut:#8B9AAE; --dim:#5C6B80;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --disp:'Archivo',system-ui,sans-serif;
+  --body:'Inter',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--body);font-weight:300;
+  font-size:16px;line-height:1.72;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+.narrow{max-width:820px;margin:0 auto}
+
+/* ---------- LOGO ---------- */
+.logo{font-family:var(--disp);font-size:15px;letter-spacing:.02em;white-space:nowrap;line-height:1}
+.logo b{font-weight:800;letter-spacing:.20em}
+.logo i{font-style:normal;color:var(--dim);font-weight:300;margin:0 .45em}
+.logo s{text-decoration:none;font-weight:400;letter-spacing:.34em}
+
+/* ---------- NAV ---------- */
+nav{position:sticky;top:0;z-index:60;background:rgba(7,11,18,.90);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)}
+nav .inner{max-width:1120px;margin:0 auto;padding:13px 28px;display:flex;align-items:center;gap:26px}
+nav .links{display:flex;gap:20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+nav .links::-webkit-scrollbar{display:none}
+nav a{color:var(--mut);text-decoration:none;white-space:nowrap;transition:color .18s;padding-bottom:2px}
+nav a:hover,nav a.on{color:var(--em)}
+
+/* ---------- COVER ---------- */
+.cover{padding:110px 0 78px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.cover::after{content:'';position:absolute;top:-220px;right:-180px;width:640px;height:640px;
+  background:radial-gradient(circle,rgba(0,229,138,.09),transparent 66%);pointer-events:none}
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.30em;text-transform:uppercase;
+  color:var(--em);margin-bottom:30px}
+h1{font-family:var(--disp);font-weight:800;font-size:clamp(44px,8.4vw,104px);line-height:.90;
+  letter-spacing:-.032em;margin:0 0 30px}
+h1 .out{display:block;color:transparent;-webkit-text-stroke:1.4px var(--txt);text-stroke:1.4px var(--txt)}
+.sub{font-size:20px;font-weight:300;color:var(--mut);max-width:660px;line-height:1.62}
+.sub strong{color:var(--txt);font-weight:500}
+.meta{margin-top:44px;display:flex;flex-wrap:wrap;gap:34px;font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.10em;text-transform:uppercase;color:var(--dim)}
+.meta b{display:block;color:var(--txt);font-weight:500;font-size:14px;letter-spacing:0;
+  text-transform:none;margin-top:5px}
+
+/* ---------- SECTIONS ---------- */
+section{padding:82px 0;border-bottom:1px solid var(--line)}
+.snum{font-family:var(--mono);font-size:10.5px;letter-spacing:.30em;color:var(--em);
+  text-transform:uppercase;margin-bottom:16px}
+h2{font-family:var(--disp);font-weight:800;font-size:clamp(29px,4.4vw,46px);line-height:1.04;
+  letter-spacing:-.024em;margin:0 0 22px}
+h3{font-family:var(--disp);font-weight:700;font-size:22px;letter-spacing:-.012em;
+  margin:52px 0 15px;line-height:1.25}
+h4{font-family:var(--disp);font-weight:700;font-size:16px;margin:30px 0 10px;letter-spacing:-.005em}
+p{margin:0 0 19px;max-width:76ch}
+.lede{font-size:19px;color:var(--mut);line-height:1.66;max-width:70ch;font-weight:300}
+.lede strong{color:var(--txt);font-weight:500}
+strong{font-weight:600;color:#fff}
+em{font-style:normal;color:var(--em);font-weight:500}
+a.src{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(56,189,248,.28)}
+a.src:hover{border-bottom-color:var(--blue)}
+.num{font-family:var(--mono);font-weight:500;font-variant-numeric:tabular-nums}
+.pos{color:var(--em)} .neg{color:var(--red)} .neu{color:var(--mut)}
+
+/* ---------- CARDS / BOXES ---------- */
+.card{background:var(--surf);border:1px solid var(--line);border-radius:11px;padding:26px 28px;margin:26px 0}
+.angle{background:linear-gradient(135deg,rgba(0,229,138,.055),rgba(13,19,29,.85));
+  border:1px solid rgba(0,229,138,.26);border-radius:11px;padding:26px 28px;margin:34px 0}
+.angle .tag{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--em);margin-bottom:12px;display:block}
+.angle h4{margin:0 0 12px;font-size:19px;color:#fff}
+.angle p:last-child{margin-bottom:0}
+.read{background:var(--surf2);border-left:2px solid var(--blue);border-radius:0 7px 7px 0;
+  padding:15px 20px;margin:15px 0 0;font-size:14px;color:var(--mut);line-height:1.62}
+.read b{color:var(--blue);font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;
+  text-transform:uppercase;display:block;margin-bottom:6px;font-weight:500}
+.warn{background:rgba(240,97,109,.055);border:1px solid rgba(240,97,109,.26);border-radius:11px;
+  padding:22px 26px;margin:28px 0}
+.warn .tag{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--red);margin-bottom:10px;display:block}
+.warn p:last-child{margin-bottom:0}
+
+/* ---------- STAT GRID ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:11px;overflow:hidden;margin:30px 0}
+.stat{background:var(--surf);padding:21px 20px}
+.stat .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:9px;line-height:1.4}
+.stat .v{font-family:var(--mono);font-size:26px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.stat .d{font-size:11.5px;color:var(--mut);margin-top:8px;line-height:1.45}
+
+/* ---------- CHART ---------- */
+.chart{margin:38px 0}
+.chart .head{display:flex;justify-content:space-between;align-items:baseline;gap:18px;
+  margin-bottom:6px;flex-wrap:wrap}
+.chart .ttl{font-family:var(--disp);font-weight:700;font-size:16.5px;letter-spacing:-.005em}
+.chart .unit{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.chart .box{background:var(--surf);border:1px solid var(--line);border-radius:11px;padding:22px 20px 16px}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.leg{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--mut)}
+.leg span{display:flex;align-items:center;gap:7px}
+.leg i{width:11px;height:3px;border-radius:2px;display:block}
+.note{font-size:12px;color:var(--dim);margin-top:11px;line-height:1.55;font-style:italic}
+
+/* ---------- TABLE ---------- */
+.tw{overflow-x:auto;margin:28px 0;border:1px solid var(--line);border-radius:11px;background:var(--surf)}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px;min-width:660px}
+th{background:var(--surf2);text-align:left;padding:13px 14px;font-weight:500;font-size:9.5px;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--mut);border-bottom:1px solid var(--line2);
+  white-space:nowrap;position:sticky;top:0}
+th.s{cursor:pointer;user-select:none;transition:color .16s}
+th.s:hover{color:var(--em)}
+th.s::after{content:'⇅';margin-left:6px;opacity:.32;font-size:9px}
+th.s.asc::after{content:'↑';opacity:1;color:var(--em)}
+th.s.desc::after{content:'↓';opacity:1;color:var(--em)}
+td{padding:11px 14px;border-bottom:1px solid rgba(30,41,59,.55);white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(56,189,248,.045)}
+td.tk{font-weight:700;color:var(--blue)}
+td.l{white-space:normal;min-width:140px;font-family:var(--body);font-size:12.5px;color:var(--mut)}
+.tag2{display:inline-block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  padding:2.5px 7px;border-radius:4px;font-weight:500}
+.t-prod{background:rgba(0,229,138,.14);color:var(--em)}
+.t-dev{background:rgba(167,139,250,.14);color:var(--vio)}
+.t-fuel{background:rgba(56,189,248,.14);color:var(--blue)}
+.t-util{background:rgba(255,138,91,.14);color:var(--coral)}
+.t-smr{background:rgba(240,97,109,.14);color:var(--red)}
+.t-min{background:rgba(139,154,174,.14);color:var(--mut)}
+
+/* ---------- TICKER CARD ---------- */
+.tick{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:0;margin:24px 0;overflow:hidden}
+.tick .top{padding:22px 26px;border-bottom:1px solid var(--line);display:flex;
+  justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;background:var(--surf2)}
+.tick .nm{font-family:var(--disp);font-weight:800;font-size:21px;letter-spacing:-.015em}
+.tick .nm small{display:block;font-family:var(--body);font-weight:300;font-size:12.5px;
+  color:var(--mut);letter-spacing:0;margin-top:4px}
+.tick .px{text-align:right;font-family:var(--mono)}
+.tick .px .p{font-size:23px;font-weight:700;letter-spacing:-.02em}
+.tick .px .r{font-size:10px;color:var(--dim);margin-top:5px;letter-spacing:.05em}
+.tick .body{padding:24px 26px}
+.tick .body p{font-size:14.5px;margin-bottom:15px}
+.tick .body p:last-child{margin-bottom:0}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;
+  background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kv div{background:var(--surf);padding:15px 18px}
+.kv .k{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:6px;line-height:1.4}
+.kv .v{font-family:var(--mono);font-size:15px;font-weight:700;line-height:1.25}
+.kv .v small{font-family:var(--body);font-weight:300;font-size:11px;color:var(--mut);
+  display:block;margin-top:3px;line-height:1.4}
+
+/* ---------- MODEL ---------- */
+.model{background:linear-gradient(160deg,#0E1723,#0B111B);border:1px solid var(--line2);
+  border-radius:13px;padding:30px;margin:34px 0}
+.model .mh{display:flex;justify-content:space-between;align-items:center;gap:16px;
+  margin-bottom:26px;flex-wrap:wrap}
+.model .mh h4{margin:0;font-size:18px}
+.reset{background:transparent;border:1px solid var(--line2);color:var(--mut);
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  padding:8px 15px;border-radius:7px;cursor:pointer;transition:all .18s}
+.reset:hover{border-color:var(--em);color:var(--em)}
+.sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px;margin-bottom:30px}
+.sl label{display:flex;justify-content:space-between;align-items:baseline;
+  font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--mut);margin-bottom:11px}
+.sl label b{font-size:17px;color:var(--em);font-weight:700;letter-spacing:-.01em}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:3px;
+  background:var(--line2);border-radius:2px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;
+  border-radius:50%;background:var(--em);cursor:pointer;border:3px solid var(--bg);
+  box-shadow:0 0 0 1px var(--em)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--em);
+  cursor:pointer;border:3px solid var(--bg);box-shadow:0 0 0 1px var(--em)}
+.sl .hint{font-size:11px;color:var(--dim);margin-top:8px;line-height:1.5}
+
+/* ---------- MISC ---------- */
+ul{margin:0 0 20px;padding-left:20px;max-width:76ch}
+li{margin-bottom:9px;line-height:1.68}
+li::marker{color:var(--em)}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:11px;overflow:hidden;margin:28px 0}
+.gloss div{background:var(--surf);padding:19px 21px}
+.gloss dt{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--em);margin-bottom:7px}
+.gloss dd{margin:0;font-size:13.5px;color:var(--mut);line-height:1.6}
+.srcs{columns:2;column-gap:34px;font-size:12px;line-height:1.62;color:var(--mut)}
+.srcs p{break-inside:avoid;margin-bottom:11px;max-width:none}
+pre{background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:20px;
+  overflow-x:auto;font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--txt);margin:20px 0}
+pre .c{color:var(--dim)} pre .s{color:var(--em)} pre .k{color:var(--vio)}
+footer{padding:56px 0 72px;text-align:center}
+footer .logo{font-size:14px;margin-bottom:18px}
+footer p{font-size:11.5px;color:var(--dim);max-width:640px;margin:0 auto 11px;line-height:1.7}
+hr{border:none;border-top:1px solid var(--line);margin:52px 0}
+@media(max-width:760px){
+  .wrap{padding:0 20px} section{padding:58px 0} .cover{padding:70px 0 54px}
+  .srcs{columns:1} .model{padding:22px} .tick .top{padding:18px 20px} .tick .body{padding:20px}
+  nav .inner{padding:11px 20px;gap:16px} .sub{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <div class="logo"><b>BAREK</b><i>/</i><s>LABS</s></div>
+    <div class="links">
+      <a href="#thesis">Thesis</a>
+      <a href="#price">Price</a>
+      <a href="#supply">Supply</a>
+      <a href="#demand">Demand</a>
+      <a href="#cliff">The Cliff</a>
+      <a href="#book">Ticker book</a>
+      <a href="#model">Model</a>
+      <a href="#momentum">Momentum</a>
+      <a href="#minerals">Minerals</a>
+      <a href="#outlook">Outlook</a>
+      <a href="#risk">Risk</a>
+      <a href="#sources">Sources</a>
+    </div>
+  </div>
+</nav>
+
+<header class="cover">
+  <div class="wrap">
+    <div class="kicker">Barek / Labs · Report n°02 · Data cut 6 August 2026</div>
+    <h1>The Enrichment<span class="out">Cliff</span></h1>
+    <p class="sub">Everyone is trading a uranium <strong>mining</strong> shortage. The disclosed data says the binding constraint is <strong>enrichment and conversion</strong>, and the binding date is <strong>1 January 2028</strong> — a statutory deadline with no waiver, no discretion and no Western capacity arriving before it.</p>
+    <div class="meta">
+      <div>Coverage<b>19 listed names</b></div>
+      <div>Charts<b>16 · all interactive</b></div>
+      <div>Spot U₃O₈<b>$86.38/lb</b></div>
+      <div>Term U₃O₈<b>$95.50/lb</b></div>
+      <div>Sources<b>60+ primary</b></div>
+    </div>
+  </div>
+</header>
+
+<section id="thesis">
+  <div class="wrap">
+    <div class="snum">§ 00 — Executive summary</div>
+    <h2>Six things the tape is pricing wrong</h2>
+    <p class="lede">This is a sector where the headline price is not the price producers receive, where the largest buyer of physical uranium has switched itself off, and where the entire artificial-intelligence demand narrative generates almost no incremental uranium consumption this decade. Each of those statements is verifiable from filings. None of them is in the consensus write-up.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="k">Spot U₃O₈ · 31 Jul 26</div><div class="v">$86.38</div><div class="d">−8.4% from the January print of $94.28</div></div>
+      <div class="stat"><div class="k">Term U₃O₈ · 31 Jul 26</div><div class="v pos">$95.50</div><div class="d">TradeTech's $97.00 is an 18-year high</div></div>
+      <div class="stat"><div class="k">Term premium to spot</div><div class="v pos">+10.6%</div><div class="d">Term rose every month while spot fell</div></div>
+      <div class="stat"><div class="k">Cameco H1 realised</div><div class="v neg">$66.96</div><div class="d">23% below the average spot price</div></div>
+      <div class="stat"><div class="k">SPUT discount to NAV</div><div class="v neg">−10.30%</div><div class="d">15-month wide · the marginal bid is off</div></div>
+      <div class="stat"><div class="k">H1 2026 term contracting</div><div class="v">33 Mlb</div><div class="d">vs a ~150 Mlb/yr replacement rate</div></div>
+    </div>
+
+    <h3>The six</h3>
+    <ul>
+      <li><strong>The term price has crossed above spot and stayed there.</strong> That is the defining structure of 2026. Utilities are paying a premium for <em>delivery certainty</em>, not for pounds. Spot is a residual market; term is where the sector's revenue is actually set.</li>
+      <li><strong>No producer receives the spot price.</strong> Kazatomprom realised <span class="num">$67.88/lb</span> in H1 2026 against a month-end spot average of <span class="num">$86.83</span>. Cameco realised <span class="num">US$66.96/lb</span>. Legacy contract books cap the upside for years. Every "uranium is at $86 so the miners are printing money" take is wrong by roughly a quarter.</li>
+      <li><strong>Costs are inflating faster than the price.</strong> Kazatomprom's own 2026 C1 guidance is <span class="num">US$23.50–25.00/lb</span> against an FY2025 actual of <span class="num">US$18.06</span> — up 30–38% at the lowest-cost operation on earth. Denison's Phoenix capital cost rose 20% <em>in real terms</em> against its own 2023 study.</li>
+      <li><strong>The AI-nuclear deal wave creates almost no uranium demand before 2030.</strong> A power purchase agreement on an already-operating reactor is a margin and duration event for the utility and <em>zero</em> incremental fuel demand. Only three US restarts (~2,250&nbsp;MW) sit inside the five-year window — and not one has delivered a single megawatt-hour.</li>
+      <li><strong>The real bottleneck is downstream.</strong> Rosatom held <span class="num">44.1%</span> of world enrichment capacity on the last published count. US law terminates every Russian import waiver on <strong>1 January 2028</strong>. Essentially no new Western separative work arrives before 2028, and the bulk lands 2030–2036.</li>
+      <li><strong>The equities have de-rated harder than the commodity.</strong> Through 30 June, spot was <span class="num pos">+4.28%</span> year-to-date while uranium mining equities were <span class="num neg">−3.91%</span> and juniors <span class="num neg">−7.43%</span>. Centrus is 58% below its 52-week high with 26% of its float short. This is not a melt-up. It is a de-rating inside a firming physical market.</li>
+    </ul>
+
+    <div class="angle">
+      <span class="tag">Non-obvious angle n°1</span>
+      <h4>The enrichment shortage is itself a uranium demand accelerant</h4>
+      <p>Enrichment and uranium are substitutes at the margin. An enricher can run "underfed" — using more separative work and less natural uranium — or "overfed", burning more uranium to save SWU. The choice is pure arithmetic on relative prices.</p>
+      <p>Separative work last printed at roughly <span class="num">US$200/SWU</span> (Urenco, end-2025) against uranium at <span class="num">US$86/lb</span>. At that ratio the economics point hard toward <strong>overfeeding</strong>. That does two things simultaneously: it removes the secondary supply that underfeeding used to release into the market, and it <em>raises</em> the natural uranium required per fuel assembly. The enrichment squeeze is not a separate story from the uranium story. It is a uranium demand multiplier, and no public model we could find quantifies it. The last published estimate of the effect dates from 2015.</p>
+    </div>
+
+    <div class="warn">
+      <span class="tag">What this report will not do</span>
+      <p>It will not print a 2028 EBITDA estimate for a company that has not guided one, will not compute a cash cost for a producer that does not disclose one, and will not quote a price target as though it were a forecast. Where a number does not exist publicly, this report says so. There are more "not disclosed" statements in the pages below than in any sell-side note on this sector — that is the point. Roughly a third of the figures circulating in retail uranium research cannot be traced to a filing.</p>
+    </div>
+  </div>
+</section>
+
+<section id="price">
+  <div class="wrap">
+    <div class="snum">§ 01 — Price structure</div>
+    <h2>Two uranium prices, moving in opposite directions</h2>
+    <p class="lede">Uranium does not trade on an open market. Cameco says so on its own price page, verbatim. There is no exchange-cleared benchmark with meaningful depth; there are two subscription price reporters, UxC and TradeTech, and a handful of derived indicators. Everything downstream of that — every valuation, every screen, every headline — inherits that opacity.</p>
+
+    <p>The most useful free series is Cameco's, which publishes the month-end average of the two reporters for both spot and long-term. Over 2026 those two lines have gone in opposite directions, and that divergence is the single most informative thing in the sector.</p>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">Spot vs long-term U₃O₈, month-end</div><div class="unit">US$ / lb · Jan 2024 – Jul 2026</div></div>
+      <div class="box"><div id="c-price"></div>
+        <div class="leg"><span><i style="background:#38BDF8"></i>Spot</span><span><i style="background:#00E58A"></i>Long-term</span></div>
+      </div>
+      <div class="read"><b>How to read this chart</b>
+        Spot is what a pound trades for today, in a thin market where a single 500,000&nbsp;lb purchase can move the print. Long-term is the indicative price for a multi-year delivery contract signed today — this is what utilities actually pay for the bulk of their fuel. In January 2026 spot briefly touched $100 on a daily basis after one fund raised $214m and bought 500,000&nbsp;lb. It then fell all year. The long-term line rose in almost every month and has not fallen once since 2025. When those two lines cross and stay crossed, the market is telling you that <em>security of delivery</em> is worth more than the metal.</div>
+      <div class="note">Source: Cameco, month-end average of UxC and TradeTech, retrieved 6 August 2026. The spot line is a complete monthly series. The long-term line is published monthly from January 2026; the two earlier points (August and November 2025) are individually sourced observations and each dot marks a real data point — the segment between them is a connection, not a series. The $100.25 and $101.41 January prints reported elsewhere are single-index daily peaks, not month-end levels, and are not comparable to this series.</div>
+    </div>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">The term premium: long-term minus spot</div><div class="unit">US$ / lb spread</div></div>
+      <div class="box"><div id="c-spread"></div></div>
+      <div class="read"><b>How to read this chart</b>
+        Bars above the line mean utilities are paying more for a multi-year contract than for a pound on the spot market. The spread turns decisively positive through 2025, goes <em>negative</em> in January 2026 when the fund-driven spot spike briefly pushed spot above term, and then re-widens to <span class="num">+$10.50/lb</span> in June and <span class="num">+$9.12</span> in July. That January inversion is instructive: it is the signature of a speculative spot bid, not a demand signal, and it lasted exactly one month. Producers with open, market-related contract books benefit from the green bars. Producers locked into legacy fixed-price books do not.</div>
+      <div class="note">Only months where both a spot and a long-term print are sourced are shown. The long-term series is published monthly by Cameco from 2026; the August and November 2025 points are individually sourced observations. Nine months are plotted, not a continuous series.</div>
+    </div>
+
+    <div class="angle">
+      <span class="tag">Non-obvious angle n°2</span>
+      <h4>No producer receives the headline price. Not one.</h4>
+      <p>This is the most consequential misreading in retail uranium research, and it is trivially checkable in any quarterly report. Kazatomprom's group average realised price in H1 2026 was <span class="num">US$67.88/lb</span> against a month-end spot average of <span class="num">US$86.83</span> — a 22% discount. Cameco's H1 realised price was <span class="num">US$66.96/lb</span>. Ur-Energy realised <span class="num">$70.98</span>. enCore realised <span class="num">$67.78</span> against a cost of sales of <span class="num">$68.02</span> — a negative gross margin on delivered pounds, in a $86 market.</p>
+      <p>The gap is contract structure. Books signed in 2019–2022 at $30–50/lb with escalators are still delivering. Base-escalated contracts fix the price at signature; market-related contracts float but carry ceilings. Cameco does not disclose the split between the two — a material omission, given that the split determines the entire earnings sensitivity of the company. <strong>The correct mental model is that a producer's realised price is a slow-moving average of the last five years of the term price, not today's spot.</strong> That is also why the term line above matters far more than the spot line.</p>
+    </div>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">Realised price vs market price, latest reported period</div><div class="unit">US$ / lb</div></div>
+      <div class="box"><div id="c-realised"></div>
+        <div class="leg"><span><i style="background:#00E58A"></i>Realised by the producer</span><span><i style="background:#2A3648"></i>Market spot in the same period</span></div>
+      </div>
+      <div class="read"><b>How to read this chart</b>
+        Each pair compares what a company actually banked per pound against the market price over the same window. The gap is the cost of a legacy contract book. Energy Fuels and Denison sit closest to — or above — market because they sold recent spot and newly-struck contracts; Denison's Q1 sale of 550,000&nbsp;lb at <span class="num">US$99.07</span> is the highest realised print in the sector and reflects an unencumbered book. Kazatomprom and Cameco sit furthest below because they have the largest legacy commitments.</div>
+      <div class="note">Periods differ by company and are labelled on the chart. Comparing across companies requires care: these are not all the same quarter, and market spot is the relevant period's average, not a single date.</div>
+    </div>
+
+    <h3>What the rest of the fuel cycle costs</h3>
+    <p>Uranium concentrate is only the first of four prices in a fuel assembly. The other three have moved far more violently, and only one of them is publicly quoted with any regularity.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="k">Conversion spot · NA &amp; EU</div><div class="v">$64.50</div><div class="d">per kgU · Q2 2026 average · roughly 11× the 2017 trough</div></div>
+      <div class="stat"><div class="k">Conversion long-term · NA</div><div class="v">$55.50</div><div class="d">per kgU · the one place where term sits below spot</div></div>
+      <div class="stat"><div class="k">Enrichment spot</div><div class="v">$200</div><div class="d">per SWU · end-2025, Urenco audited results · no verifiable 2026 print</div></div>
+      <div class="stat"><div class="k">US utility SWU, contracted</div><div class="v">$108.70</div><div class="d">weighted average across 13m SWU, CY2025 · EIA</div></div>
+    </div>
+    <p class="note" style="font-style:normal;color:var(--mut);font-size:13.5px;max-width:76ch">Note the gap between the last two figures. The $200 spot SWU price and the $108.70 realised contract price are not contradictory — they are the same phenomenon as the uranium realised-price gap, one layer downstream. US utilities are carrying enrichment contracts struck years ago. When those roll, the repricing is roughly 80%. That repricing is a 2027–2030 event, and it lands on utility fuel costs, not on the enrichers' current P&amp;L.</p>
+  </div>
+</section>
+
+<section id="supply">
+  <div class="wrap">
+    <div class="snum">§ 02 — Supply</div>
+    <h2>Ninety per cent, and inflating</h2>
+    <p class="lede">In 2024, the last year with a verified global total, the world's mines produced <strong>60,213 tU</strong> against reactor requirements of roughly <strong>68,920 tU</strong>. Mine supply covered 90% of consumption — up from 78% in 2022, which is the direction bulls point to. The problem is what it cost to get there.</p>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">Where the pounds come from</div><div class="unit">2024 production · tU · share of world total</div></div>
+      <div class="box"><div id="c-prod"></div></div>
+      <div class="read"><b>How to read this chart</b>
+        Two countries produce nearly two-thirds of the world's uranium, and one company produces a fifth of it. Kazakhstan's 39% share is the central geopolitical fact of this market — larger than OPEC's largest member's share of oil. It is also why Kazatomprom's production decisions, not the spot price, set the sector's supply balance. There is no 2025 global total published as of this data cut; the World Nuclear Association's page still carries 2024 as the latest year.</div>
+    </div>
+
+    <div class="angle">
+      <span class="tag">Non-obvious angle n°3</span>
+      <h4>The lowest-cost producer on earth is inflating at 30% a year</h4>
+      <p>Kazatomprom mines uranium by in-situ recovery — pumping acid into a sandstone orebody and pumping uranium back out. It is structurally the cheapest way to produce a pound, and Kazatomprom's FY2025 C1 cash cost was <span class="num">US$18.06/lb</span>. Its own 2026 guidance is <span class="num">US$23.50–25.00/lb</span>. All-in sustaining cost guidance is <span class="num">US$35.00–36.50/lb</span> against an FY2025 actual of <span class="num">US$29.53</span>.</p>
+      <p>Three drivers, all disclosed. Sulphuric acid — the core reagent — rose <strong>42.6%</strong> in 2025 to KZT 70,092 per tonne. The mineral extraction tax went from 6% to 9% on 1 January 2025 and became a <em>differentiated</em> rate on 1 January 2026, with the company's own sensitivity table showing effective rates of <strong>11.2% to 14.3%</strong>. And in August 2025 the company cut 2026 nominal capacity from 32,777 tU to 29,697 tU following amendments to its subsoil use agreements — roughly 8 million pounds, described by the company as "about 5% of the world's primary supply".</p>
+      <p>The read-through is uncomfortable for the bull case: if the marginal cost of the cheapest pounds on the planet is rising 20–38% a year, the incentive price for the <em>expensive</em> pounds that would actually close a structural deficit is rising faster still. That is not a bearish observation. It is an argument that the price needs to go higher than most decks assume — and that the operating leverage everyone models is smaller than they think.</p>
+    </div>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">Kazatomprom cost inflation: FY2025 actual vs 2026 guidance</div><div class="unit">US$ / lb, attributable</div></div>
+      <div class="box"><div id="c-kazcost"></div>
+        <div class="leg"><span><i style="background:#2A3648"></i>FY2025 actual</span><span><i style="background:#FF8A5B"></i>2026 guidance range</span></div>
+      </div>
+      <div class="read"><b>How to read this chart</b>
+        The dark bar is what it actually cost last year. The orange band is what the company says it will cost this year. C1 is the direct cash cost of getting a pound out of the ground. AISC adds sustaining capital — wellfield development, plant maintenance — and is the honest number for whether a mine is self-funding. Both are rising fast. Kazatomprom does not publish these in tenge, only in dollars, so currency effects are embedded and not separable.</div>
+    </div>
+
+    <div class="warn">
+      <span class="tag">Non-obvious angle n°4 · a warning about every cost curve you have seen</span>
+      <p><strong>The uranium cost curve is a category error.</strong> Every deck in this sector plots a bar chart of "cost per pound" across companies. Almost all of them are comparing metrics that are not the same metric.</p>
+      <p>Kazatomprom publishes C1 and AISC. Paladin publishes <em>only</em> C1 and explicitly does not disclose AISC. Boss Energy publishes C1 and AISC in Australian dollars. Ur-Energy publishes cash cost, non-cash cost and total cost per pound sold. Uranium Energy Corp publishes cash cost and total cost. Cameco guides an "average unit cost of sales including depreciation and amortisation" — a fundamentally different animal that includes purchased material. NexGen publishes a life-of-mine <em>operating</em> cost and no AISC at all. Energy Fuels quotes a mining-plus-milling figure for one mine.</p>
+      <p>Putting those on one axis produces a chart where Cameco looks three times more expensive than Kazatomprom, which is an artefact of accounting, not geology. The chart below plots them anyway — because you need the shape — but colour-codes by <em>what the number actually is</em>. Read the colours, not the ranking.</p>
+    </div>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">Disclosed unit costs — colour-coded by metric definition</div><div class="unit">US$ / lb U₃O₈ · latest disclosed</div></div>
+      <div class="box"><div id="c-cost"></div>
+        <div class="leg">
+          <span><i style="background:#00E58A"></i>C1 / cash cost</span>
+          <span><i style="background:#FF8A5B"></i>AISC</span>
+          <span><i style="background:#38BDF8"></i>Total cost per lb sold</span>
+          <span><i style="background:#A78BFA"></i>Unit cost of sales incl. D&amp;A</span>
+          <span><i style="background:#F0616D"></i>LOM study operating cost</span>
+        </div>
+      </div>
+      <div class="read"><b>How to read this chart</b>
+        Compare only bars of the same colour. Green against green tells you Kazatomprom is genuinely cheaper than Paladin on a like-for-like cash basis. Green against purple tells you nothing. The dashed line is the current spot price — but remember from §01 that no producer receives it. The more useful mental line is each company's own realised price, which is 15–25% lower.</div>
+      <div class="note">A$ figures converted at the rate disclosed in the relevant filing where available; Boss Energy's A$39/lb C1 and A$61/lb AISC are shown in Australian dollars and flagged. Cameco's figure is 2026 guidance in Canadian dollars and includes purchased material — it is not a mine cost.</div>
+    </div>
+
+    <h3>The developers, and what they actually assume</h3>
+    <p>Two Canadian projects reached construction in 2026 — the first large-scale uranium mine approvals in Canada in over two decades. Both published economics. Their price decks tell you more than their net present values do.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Project</th><th>Operator</th><th>Price deck</th><th>Initial capex</th><th>Post-tax NPV₈</th><th>IRR</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="tk">Rook I / Arrow</td><td class="l">NexGen</td><td>US$95.00/lb flat</td><td>C$2.2bn</td><td>C$6.3bn</td><td>45.2%</td><td class="l">Construction licence 5 Mar 2026; licensed construction began 8 Jun 2026</td></tr>
+          <tr><td class="tk">Wheeler River / Phoenix</td><td class="l">Denison</td><td>US$68.89–78.36/lb</td><td>C$600m</td><td>C$1.57bn</td><td>73%</td><td class="l">Licence 19 Feb 2026; FID 24 Feb 2026; full construction from 28 Jul 2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Denison's base case sits <strong>below</strong> the current term price. NexGen's sits roughly at it. Neither is aggressive, which is the useful signal — these are not projects that need a melt-up to work. What both understate is capital inflation: Denison's own C$600m estimate replaced a 2023 study figure of C$419.4m in 2022 dollars, which inflates to C$500.5m in 2026 dollars. That is a <strong>20% real cost increase</strong> on a low-cost in-situ project in a tier-one jurisdiction with a finished feasibility study. NexGen's C$2.2bn number dates to August 2024 and has not been re-estimated since construction began.</p>
+  </div>
+</section>
+
+<section id="demand">
+  <div class="wrap">
+    <div class="snum">§ 03 — Demand</div>
+    <h2>The AI story and the fuel cycle are two different stories</h2>
+    <p class="lede">441 reactors operating, 404 GWe of capacity, 79 under construction and 123 planned. That is the real demand base, and it is growing — China alone has approved roughly ten units a year for three consecutive years. What it is not is the story being sold to equity investors, which is that hyperscaler data centres are about to consume uranium. They are not, and the arithmetic is not close.</p>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">World reactor fleet and pipeline</div><div class="unit">reactor count · WNA, 5 August 2026</div></div>
+      <div class="box"><div id="c-reactors"></div></div>
+      <div class="read"><b>How to read this chart</b>
+        "Operable" burns uranium today. "Under construction" will burn it on a known schedule — a reactor needs its first core roughly 18 months before it starts. "Planned" has financing and a site. "Proposed" is an intention. The demand that matters for the next five years is entirely in the first two bars. Note the honest caveat on the whole sector: since 2004, 111 reactors have retired against 101 started. The fleet has been shrinking in unit terms while growing in capacity terms.</div>
+    </div>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">Uranium requirements: today and the 2040 scenarios</div><div class="unit">tU per year · World Nuclear Fuel Report 2025</div></div>
+      <div class="box"><div id="c-supdem"></div></div>
+      <div class="read"><b>How to read this chart</b>
+        The leftmost bar is 2024 mine production. The second is 2025 reactor requirements — the gap between them is the deficit currently filled by inventory and secondary supply. The three right-hand bars are the World Nuclear Association's 2040 scenarios, published September 2025. Even the <em>lower</em> scenario requires world production to rise roughly 78% from 2024 levels. The reference case requires it to more than double. The Association's own language is that "existing mines face a depletion of resources in the middle of the next decade" — meaning that doubling has to happen while the current base is declining.</div>
+      <div class="note">The 2030 and 2035 figures are behind the report's £1,500 paywall and are not published free. Any "2030 WNA demand" number encountered without a report citation is interpolated. This report does not use one.</div>
+    </div>
+
+    <div class="angle">
+      <span class="tag">Non-obvious angle n°5</span>
+      <h4>Thirteen gigawatts of announcements, roughly two of incremental fuel demand</h4>
+      <p>The Carnegie Endowment published the only rigorous public accounting of hyperscaler nuclear commitments in June 2026. Its conclusion: <strong>up to 13 GW announced</strong>, of which about <strong>6.9 GW sits in power purchase agreements</strong> landing by the early 2030s, and about <strong>6.1 GW sits in direct partnerships that are "contingent on technologies that have not yet been commercialized."</strong> If every project materialised, the total would generate around 102 TWh a year — covering, in Carnegie's words, "less than 20 percent of projected demand through 2035."</p>
+      <p>Now apply the fuel-cycle filter, which nobody does. A twenty-year PPA between Meta and Vistra for 2,176 MW from Perry and Davis-Besse is a genuinely excellent deal for Vistra. Those reactors are already running. They already buy uranium. <strong>The PPA creates precisely zero incremental pounds of demand.</strong> The same is true of Meta–Constellation at Clinton, Amazon–Talen at Susquehanna, Amazon–Vistra at Comanche Peak and Constellation's 920 MW of undisclosed new contracts.</p>
+      <p>What <em>does</em> create incremental demand is new fuel loaded into reactors that were not previously running. In the next five years, that is three US restarts: Palisades (800 MW), Crane (835 MW) and Duane Arnold (615 MW). About <strong>2,250 MW</strong>. And as of this data cut, <strong>not one of them has produced a single megawatt-hour.</strong> Palisades — fuel on site since October 2025 — is roughly six months past its own deadline, with 1,400 cracked steam generator tubes sleeved and over 5,000 individual work activities still open. Crane's operating licence decision is expected May 2027. Duane Arnold targets Q1 2029.</p>
+      <p>Uprates, the other lever, add 433 MW under the Meta–Vistra deal — arriving <em>2031 through 2034</em>, outside the window. For scale: cumulative US uprates from 1977 to 2021 totalled 8,030 MW, an average of 0.18 GW a year over 44 years.</p>
+    </div>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">Announced vs contracted vs fuel-relevant, hyperscaler nuclear</div><div class="unit">GW</div></div>
+      <div class="box"><div id="c-ai"></div></div>
+      <div class="read"><b>How to read this chart</b>
+        Each bar narrows the claim. The first is what was announced. The second is what sits under an actual power purchase agreement rather than a partnership or an option. The third strips out contracts on reactors that are already operating — which is most of them. The fourth is what will actually load fresh fuel before 2031. The story shrinks by roughly 85% from left to right, and the residual has not started yet.</div>
+    </div>
+
+    <h3>Contracting: the number that actually predicts the price</h3>
+    <p>Utilities do not buy uranium continuously. They contract in waves, and the volume of long-term contracting is the single best leading indicator in this sector — better than spot, better than inventory. The theoretical replacement rate, the volume needed simply to cover annual consumption, is roughly <strong>150 million pounds a year</strong>. Utilities have contracted below that for <strong>thirteen consecutive years</strong>.</p>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">Long-term contracting vs replacement rate</div><div class="unit">million lb U₃O₈ equivalent</div></div>
+      <div class="box"><div id="c-contract"></div></div>
+      <div class="read"><b>How to read this chart</b>
+        The dashed line is the volume utilities would need to contract each year just to stand still. Every bar below it is a year of deferred buying that has to happen eventually. The 2020–2024 bar is the five-year annual average: utilities contracted 589 million pounds while consuming 815 million — a 226 million pound shortfall accumulated over five years. H1 2026's 33 million pounds annualises to well under half the replacement rate. Bulls read this as stored demand. Bears read it as evidence that utilities are comfortable and in no hurry. Both readings are defensible from the same chart, which is why it is the most argued-over number in the sector.</div>
+      <div class="note">2026 figure is H1 only (six months), reported by Cameco citing UxC. It is not annualised in the chart. 2025's 116 Mlb includes roughly 72 Mlb contracted in Q4 alone — the year was extremely back-loaded.</div>
+    </div>
+  </div>
+</section>
+
+<section id="cliff">
+  <div class="wrap">
+    <div class="snum">§ 04 — The bottleneck</div>
+    <h2>1 January 2028</h2>
+    <p class="lede">Public Law 118-62, the Prohibiting Russian Uranium Imports Act, was signed on 13 May 2024. The import ban took effect on 11 August 2024, subject to waivers issued by the Secretary of Energy under a shrinking annual quota. The statute contains one sentence that matters more than any price forecast in this report: <em>"Any waiver issued under subparagraph (A) shall terminate not later than January 1, 2028."</em></p>
+
+    <p>There is no discretion in that sentence. From 1 January 2028 there is no legal route for Russian low-enriched uranium into the United States, regardless of whether an alternative source exists, until the prohibition itself sunsets in 2040. The quotas step down to the cliff: 476,536 kg in 2024, 470,376 kg in 2025, 464,183 kg in 2026, 459,083 kg in 2027, and then nothing.</p>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">World enrichment capacity by operator</div><div class="unit">thousand SWU / year · data year 2022</div></div>
+      <div class="box"><div id="c-enrich"></div></div>
+      <div class="read"><b>How to read this chart</b>
+        Separative work units are the measure of enrichment effort. Four organisations control effectively all of it — the US Geological Survey puts the concentration at "more than 99 percent". Rosatom alone held 44.1% on the last count the World Nuclear Association published. That figure carries an important caveat: the underlying data year is <strong>2022</strong>, before the Western expansions now under way. Treat "44%" as a 2022 number, not a 2026 one. What has not changed is the structure — this is the most concentrated critical link in the entire energy system, more concentrated than oil refining, semiconductor lithography or rare earth separation.</div>
+    </div>
+
+    <div class="angle">
+      <span class="tag">Non-obvious angle n°6</span>
+      <h4>Every gram of new Western enrichment arrives after the deadline</h4>
+      <p>The Western response to the 2028 cliff has been substantial in dollars and almost entirely absent in timing. Every announced project lands after the waiver terminates, and most of it lands after 2030.</p>
+      <p>Urenco USA is completing <strong>+700,000 SWU</strong> in early 2027 — the only meaningful capacity that arrives before the cliff — and then announced a further <strong>+2.1 million SWU</strong> in June 2026 with initial cascades producing in <strong>2032</strong> and the balance through <strong>2036</strong>. Orano's Georges Besse II extension, a €1.7bn programme adding roughly 30%, comes online progressively <strong>from 2028</strong> with full commissioning <strong>by 2030</strong>. Orano's US "Project Ike", up to 7.5 million SWU, ramps <strong>from 2031</strong>. Centrus began commercial enrichment activities at Piketon in December 2025 with first new capacity guided to <strong>2029</strong>. Urenco's UK high-assay facility starts <em>construction</em> in <strong>2028</strong> with first product in the <strong>early 2030s</strong>.</p>
+      <p>The 2028–2031 window is therefore structurally short of Western separative work by construction, not by accident. Whether that produces a price spike, a scramble for non-Russian tails, or a quiet extension of the deadline by another means is the single most important open question in this sector — and it is a legal and political question, not a geological one.</p>
+    </div>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">Announced Western enrichment capacity, by first-production year</div><div class="unit">thousand SWU / year added</div></div>
+      <div class="box"><div id="c-swu"></div></div>
+      <div class="read"><b>How to read this chart</b>
+        Each bar is placed in the year the operator says the capacity first produces. The red line marks 1 January 2028, the waiver cliff. Almost everything sits to the right of it. Bars are shown only where the operator disclosed a SWU figure — Centrus has never published a separative-work number for its Piketon expansion, only a high-assay tonnage target, so it does not appear here despite being the largest US programme by political weight.</div>
+    </div>
+
+    <h3>The high-assay problem is worse</h3>
+    <p>Almost every advanced reactor design — Oklo's Aurora, X-energy's Xe-100, TerraPower's Natrium, Kairos's Hermes — requires high-assay low-enriched uranium, enriched to just under 20% rather than the 3–5% a conventional reactor uses. There is one commercial Western producer. It has produced, cumulatively, since the programme began, a little under two tonnes.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="k">Cumulative Western HALEU produced</div><div class="v">&gt;1,900 kg</div><div class="d">Centrus, Piketon, over the entire demonstration contract</div></div>
+      <div class="stat"><div class="k">Centrus target capacity</div><div class="v">12 t/yr</div><div class="d">first new capacity guided online 2029</div></div>
+      <div class="stat"><div class="k">DOE projected US demand</div><div class="v neg">~50 t/yr</div><div class="d">by 2035</div></div>
+      <div class="stat"><div class="k">Demonstration cascade</div><div class="v">16</div><div class="d">centrifuges, total, as disclosed in the 10-Q</div></div>
+    </div>
+
+    <p>Sixteen centrifuges. That is the entire operating Western high-assay enrichment capability as disclosed in a Securities and Exchange Commission filing. Every small modular reactor valuation in the market rests on a fuel supply chain that produces, today, less than two tonnes cumulatively against a projected 2035 requirement of fifty tonnes a year. Urenco's UK facility and Orano's Project Ike both target the early 2030s. General Matter has announced a Paducah facility with no disclosed capacity.</p>
+
+    <div class="warn">
+      <span class="tag">The counter-argument, stated fairly</span>
+      <p>Enrichment is not the same as uranium, and a Western SWU shortage does not automatically mean a uranium shortage. If separative work is scarce and expensive, enrichers overfeed — using more natural uranium per unit of product — which is bullish uranium. But utilities can also simply buy Russian-origin enriched product delivered through third countries where legal, draw down the very large existing inventories (US civil stockpiles alone were 42,000 tU at end-2024), or accept higher fuel costs, which are a small fraction of a nuclear plant's operating economics. The cliff is real and the date is fixed. The mechanism by which it transmits to the uranium price is genuinely uncertain, and anyone who tells you otherwise is guessing.</p>
+    </div>
+  </div>
+</section>
+
+<section id="book">
+  <div class="wrap">
+    <div class="snum">§ 05 — The ticker book</div>
+    <h2>Nineteen names, five roles</h2>
+    <p class="lede">The sector is routinely traded as one thing. It is five. A pound of uranium travels from a mine, to a converter, to an enricher, to a fuel fabricator, to a reactor operator — and the economics, the cyclicality and the correct valuation method are different at every step. A company that mines has operating leverage to the commodity. A company that enriches has a monopoly-adjacent tolling margin. A company that operates reactors is a utility whose fuel cost is a rounding error. Owning all three is not diversification.</p>
+
+    <div class="model">
+      <div class="mh"><h4>Comparison matrix — click any column header to sort</h4>
+      <button class="reset" onclick="sortMatrix('ytd',true)">↺ Reset to YTD</button></div>
+      <div class="tw" style="margin:0;border:none">
+        <table id="matrix">
+          <thead><tr>
+            <th class="s" data-k="tk">Ticker</th>
+            <th>Role</th>
+            <th class="s" data-k="px" data-n="1">Price</th>
+            <th class="s" data-k="mc" data-n="1">Mkt cap</th>
+            <th class="s" data-k="ytd" data-n="1">YTD 26</th>
+            <th class="s" data-k="dh" data-n="1">vs 52w hi</th>
+            <th class="s" data-k="rev" data-n="1">Revenue</th>
+            <th class="s" data-k="ni" data-n="1">Net income</th>
+            <th class="s" data-k="cash" data-n="1">Cash</th>
+            <th class="s" data-k="debt" data-n="1">Debt</th>
+            <th>Period</th>
+          </tr></thead>
+          <tbody id="matrix-body"></tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-top:16px">All figures as disclosed. Revenue and net income are the latest reported quarter unless the period column says otherwise; currencies are as reported and marked. Market caps and prices are 5–6 August 2026. A blank cell means the company does not disclose the item, not that it is zero. Sorting is on the underlying number, not the displayed string.</p>
+    </div>
+
+    <h3>Tier 1 — The major producers</h3>
+
+    <div class="tick">
+      <div class="top">
+        <div class="nm">Cameco <small>CCJ · NYSE / CCO · TSX — the sector's benchmark, and its most crowded position</small></div>
+        <div class="px"><div class="p">$95.51</div><div class="r">+4.85% YTD · 52w $68.96–135.24</div></div>
+      </div>
+      <div class="kv">
+        <div><div class="k">Q2 26 revenue</div><div class="v">C$814m<small>−7% year on year</small></div></div>
+        <div><div class="k">Q2 26 net earnings</div><div class="v neg">C$25m<small>from C$321m</small></div></div>
+        <div><div class="k">Q2 26 adj. EBITDA</div><div class="v">C$391m<small>from C$673m</small></div></div>
+        <div><div class="k">2026 realised guide</div><div class="v pos">C$91–96<small>raised from C$85–89</small></div></div>
+        <div><div class="k">Trailing P/E</div><div class="v neg">167×<small>forward 68.7×</small></div></div>
+        <div><div class="k">Liquidity</div><div class="v">C$3.1bn<small>cash 1.1 · debt 1.0</small></div></div>
+      </div>
+      <div class="body">
+        <p><strong>What actually happened in Q2.</strong> Net earnings fell 92%. Almost all of it is one item: the prior-year quarter contained Westinghouse's Dukovany contract, worth roughly US$170m to Cameco's 49% share. Strip that and the underlying uranium business is fine — H1 uranium gross profit of C$417m against C$420m, with a realised price up from US$59.66 to US$66.96. The company <em>raised</em> its full-year realised price guidance to C$91–96/lb and its uranium revenue guidance to C$2,700–2,910m. Production guidance of 19.5–21.5 Mlb was held despite spring flooding at McArthur River and a two-week Cigar Lake suspension in July caused by problems at Orano's McClean Lake sulphuric acid plant.</p>
+        <p><strong>The Westinghouse accounting trap.</strong> This is where most write-ups go wrong in one direction or the other. Cameco equity-accounts its 49% stake rather than consolidating it. The 2023 acquisition allocated a very large amount to intangibles, so Cameco's <em>share</em> of Westinghouse depreciation and amortisation is guided at US$275–290m for 2026, plus US$120–135m of finance costs. Against guided adjusted EBITDA of US$370–430m, that mechanically produces a guided <strong>net loss of US$10–75m</strong> — on a business that is cash-generative and, per guidance, running at roughly 20% historic margins. Quote the EBITDA and you overstate it. Quote the net loss and you understate it. Both numbers are in the same table of the same document.</p>
+        <p><strong>The government partnership.</strong> Announced 28 October 2025 with Brookfield and the US government: "at least $80 billion of new reactors" built on Westinghouse technology. The government takes 20% of Westinghouse cash distributions above US$17.5bn, and if it invests by January 2029 and an IPO occurs at a US$30bn-or-higher valuation, it may require the IPO and convert into a warrant for roughly 20% of public value. In June 2026 the Department of Energy added a conditional commitment of up to US$17.5bn for long-lead components on up to ten AP1000s. Cameco's own filing does not disclose Westinghouse's enterprise value, the carrying value of its 49% stake, or the capital contributions involved, and flags in its risk language "the inability of Westinghouse and the US Government to enter into definitive agreements."</p>
+        <p><strong>The position, honestly.</strong> Cameco is 22.41% of the Global X Uranium ETF, 19.65% of Sprott Uranium Miners and 7.83% of VanEck Uranium &amp; Nuclear. It is the sector's index. It also trades at 167 times trailing earnings on a quarter with C$25m of net income and a Westinghouse equity loss. The bull case is genuinely strong — tier-one assets, a contract book averaging over 28 Mlb of annual deliveries for five years, C$3.1bn of liquidity, and the only Western reactor technology franchise of scale. The bear case is not about the business. It is that the entire passive complex owns it at the same multiple at the same time.</p>
+      </div>
+    </div>
+
+    <div class="tick">
+      <div class="top">
+        <div class="nm">Kazatomprom <small>KAP · LSE GDR — 21% of world production, and the sector's swing decision</small></div>
+        <div class="px"><div class="p">$69.00</div><div class="r">52w $41.00–93.00 · mkt cap $17.9bn</div></div>
+      </div>
+      <div class="kv">
+        <div><div class="k">H1 26 production, 100%</div><div class="v">13,291 tU<small>34.55 Mlb</small></div></div>
+        <div><div class="k">H1 26 realised, group</div><div class="v neg">$67.88<small>vs $86.83 spot</small></div></div>
+        <div><div class="k">FY25 C1 actual</div><div class="v">$18.06<small>AISC $29.53</small></div></div>
+        <div><div class="k">2026 C1 guidance</div><div class="v neg">$23.50–25.00<small>AISC $35.00–36.50</small></div></div>
+        <div><div class="k">FY25 adj. EBITDA</div><div class="v">KZT 1,133bn<small>+3% year on year</small></div></div>
+        <div><div class="k">Dividend policy</div><div class="v pos">75% of FCF<small>KZT 1,292.27/sh for FY25</small></div></div>
+      </div>
+      <div class="body">
+        <p><strong>The most important company nobody models properly.</strong> Kazatomprom produced 21% of the world's uranium in 2024; Kazakhstan produced 39%. Its production decisions matter more to the price than anything Cameco does. In August 2025 it cut 2026 nominal capacity from 32,777 tU to 29,697 tU — roughly 8 million pounds, which it described as "about 5% of the world's primary supply" — stating that it "does not view the current market developments to be sufficient to return to the Company's initial 100% levels."</p>
+        <p><strong>The symmetric risk.</strong> That discipline is the load-bearing assumption in every bull deck. It is also entirely reversible, and the incentive to reverse it is growing: the company is realising <span class="num">$67.88/lb</span> against a term price approaching <span class="num">$96</span>. As legacy contracts roll off, restoring subsoil-agreement volumes becomes worth roughly 8 million pounds of annual revenue at near-term prices — into a market that contracted just 33 million pounds in the first half of 2026. Nobody prices this optionality because nobody can. Kazatomprom is majority-owned by the Kazakh sovereign fund and its decisions are not purely commercial.</p>
+        <p><strong>Two things to watch on 21 August 2026.</strong> H1 financials are due, and the company has explicitly reserved the right to update revenue, C1, AISC and capex guidance at that point. It has also historically issued next-year production plans alongside H1 results — so the first read on 2027 volumes lands then. Separately, December 2025 amendments to the Kazakh Subsoil Use Code now require Kazatomprom to hold above 75% for new agreement transfers and 90% for extensions and production increases, unless foreign partners transfer enrichment technology. That is a direct structural threat to CGN's, Orano's and Rosatom's Kazakh joint ventures at renewal — and a quiet nationalisation ratchet that almost no Western coverage has picked up.</p>
+      </div>
+    </div>
+
+    <div class="tick">
+      <div class="top">
+        <div class="nm">Paladin Energy <small>PDN · ASX / TSX — the restart that worked, and the one that did not</small></div>
+        <div class="px"><div class="p">A$9.99</div><div class="r">52w A$6.26–15.10 · mkt cap A$4.49bn</div></div>
+      </div>
+      <div class="kv">
+        <div><div class="k">FY26 production</div><div class="v pos">4.82 Mlb<small>top of 4.5–4.8 guide</small></div></div>
+        <div><div class="k">FY26 realised</div><div class="v">$70.0/lb<small>4.35 Mlb sold</small></div></div>
+        <div><div class="k">FY26 C1</div><div class="v pos">$43.3/lb<small>below the $44–48 guide</small></div></div>
+        <div><div class="k">Q4 FY26 C1</div><div class="v neg">$51.6/lb<small>a material sequential spike</small></div></div>
+        <div><div class="k">FY27 guidance</div><div class="v">5.1–5.6 Mlb<small>C1 $44–48/lb</small></div></div>
+        <div><div class="k">Cash</div><div class="v">$265m<small>term loan $32m</small></div></div>
+      </div>
+      <div class="body">
+        <p>Langer Heinrich in Namibia delivered: production at the top of guidance, cost below it, and FY27 guided higher on both volume and capital. The detail worth interrogating is the Q4 C1 of <span class="num">US$51.6/lb</span> against a full-year <span class="num">US$43.3</span> — a sharp deterioration in the final quarter that management attributes to grade and maintenance sequencing, with production weighted to H2 in FY27 for the same reason. Paladin discloses C1 only; there is <strong>no AISC figure</strong>, which makes true self-funding economics unverifiable from public information.</p>
+        <p>The larger asset is Patterson Lake South, acquired via Fission Uranium in December 2024: a 93.7 Mlb probable reserve at <strong>1.41% U₃O₈</strong>, planned at roughly 9 Mlb a year. Saskatchewan approved the environmental impact statement in February 2026 and the federal regulator has confirmed the construction licence application achieved sufficiency, with hearings targeted for completion by end-2027 and a final investment decision at the same time. <strong>Neither the transaction consideration nor the project capital cost is disclosed on Paladin's own project page.</strong> For a company whose equity value increasingly rests on this asset, that is a notable gap.</p>
+      </div>
+    </div>
+
+    <div class="tick">
+      <div class="top">
+        <div class="nm">Boss Energy <small>BOE · ASX — the cautionary tale the sector needed</small></div>
+        <div class="px"><div class="p">A$1.345</div><div class="r">52w A$0.995–2.200 · mkt cap A$558m</div></div>
+      </div>
+      <div class="body">
+        <p>On 28 July 2025, on page three of a four-page quarterly report that otherwise beat guidance, Boss Energy disclosed reduced continuity of mineralisation versus its feasibility model and lower-than-anticipated leachability in certain zones — and that nameplate capacity at Honeymoon may not be achievable. <strong>The stock fell somewhere between 36% and 44% that day</strong> depending on which outlet you read. In December 2025 it withdrew the enhanced feasibility study entirely and fell another 22%. In April 2026 it cut FY26 guidance from 1.6 Mlb to 1.40–1.45 Mlb after rain restricted site access.</p>
+        <p>FY26 landed at <span class="num">1.41 Mlb</span> at C1 <span class="num">A$39/lb</span> and AISC <span class="num">A$61/lb</span> — inside the revised range, and the June quarter at 362,000 lb was up 79% sequentially. The balance sheet is genuinely strong: A$207m cash, 1.58 Mlb of inventory worth roughly A$192m, no debt, positive operating cash flow. An updated feasibility study, life-of-mine plan and resource is due at the end of August 2026 and is the single binary event in this name.</p>
+        <p><strong>Why it belongs in an institutional note.</strong> In-situ recovery is presented across this sector as the low-cost, low-risk, environmentally superior extraction method. Boss is the live demonstration that ISR recovery assumptions are model outputs, not measurements, until a wellfield has actually been leached. Every ISR developer's economics — Denison's Phoenix included — carries that same epistemic risk. Boss is the only company that has been forced to disclose it.</p>
+      </div>
+    </div>
+
+    <h3>Tier 2 — US in-situ producers</h3>
+
+    <div class="tick">
+      <div class="top">
+        <div class="nm">Energy Fuels <small>UUUU · NYSE American — no longer a uranium company, and no longer debt-free</small></div>
+        <div class="px"><div class="p">$12.62</div><div class="r">−13.41% YTD · 52w $8.16–27.90</div></div>
+      </div>
+      <div class="kv">
+        <div><div class="k">Q2 26 revenue</div><div class="v">$25.1m<small>uranium $25.0m of it</small></div></div>
+        <div><div class="k">Q2 26 gross profit</div><div class="v pos">$14.4m<small>57% margin</small></div></div>
+        <div><div class="k">Q2 26 net loss</div><div class="v neg">$(33.4)m<small>$(0.13) per share</small></div></div>
+        <div><div class="k">Q2 realised</div><div class="v">$80.48<small>310,000 lb sold</small></div></div>
+        <div><div class="k">Cash + securities</div><div class="v">$961.7m<small>working capital $996m</small></div></div>
+        <div><div class="k">Convertible debt</div><div class="v neg">$700m<small>0.75%, due Nov 2031</small></div></div>
+      </div>
+      <div class="body">
+        <p><strong>Start with what the revenue line says.</strong> Q2 2026 total revenue was <span class="num">$25.108m</span>. Uranium concentrates were <span class="num">$25.0m</span> of it. Rare earths, vanadium and heavy mineral sands together contributed roughly <span class="num">$0.1m</span> — effectively nothing. The rare earth business that dominates the equity narrative and the entire acquisition strategy is, as of the most recent filing, <strong>not yet a revenue business</strong>. That is not a criticism; it is a stage. It is a criticism of every write-up that describes Energy Fuels as having "dual revenue streams" today.</p>
+        <p><strong>The debt-free claim is obsolete.</strong> Energy Fuels was famously unlevered. On 3 October 2025 it closed <span class="num">US$700m</span> of 0.75% convertible senior notes due November 2031, with an initial conversion price of roughly $20.34 and a capped call lifting the effective price to $30.70. That is now on the balance sheet at $677.7m net. Any source still describing this company as debt-free is working from pre-October 2025 information.</p>
+        <p><strong>The transformation, at full scale.</strong> Three things are happening simultaneously. Australian Strategic Materials is being acquired for <span class="num">US$299m</span>, expected to close at the end of August 2026. Vacuumschmelze is being acquired for <span class="num">US$718m cash plus 65.853m new shares</span> — an implied equity value of $1.9bn and roughly <strong>26% dilution</strong> on the current 249.9m share count — expected to close in early 2027, with a protective feature: if Energy Fuels trades below $20.93 at closing, the seller receives preferred shares worth up to $135m and would end up owning 19.9% of the company. And the US Department of War's Office of Strategic Capital has issued a conditional commitment for <span class="num">$725m</span> of 20-year senior secured debt, contingent on the ASM deal completing.</p>
+        <p><strong>The uranium asset is real and improving, with a caveat.</strong> White Mesa is the only fully licensed operating conventional uranium mill in the United States. Q2 finished production was 865,000 lb against just 315,000 lb mined — the mill was drawing down stockpiled ore, completed its conventional run, and is now on planned maintenance until Q4 2026 or early 2027. Pinyon Plain produced roughly 250,000 contained lb at <span class="num">0.71%</span> in Q2, down from <span class="num">1.12%</span> in Q1, at a total mining-plus-milling cost of about <span class="num">$23/lb</span>. <strong>The grade is declining sequentially as mining advances into lower-grade sections</strong> — the company says so directly. Guidance is unchanged at 2.0–2.5 Mlb mined and 1.5–2.0 Mlb sold.</p>
+        <p><strong>The heavy rare earth story is the one with genuine scarcity value.</strong> First 99.9% dysprosium oxide in August 2025, first US primary terbium in March 2026, magnet qualification in December 2025, and commercial-plant construction started 29 July 2026 with terbium and dysprosium circuits targeted for end-2027. The Phase 2 feasibility study — capex $410m, after-tax NPV₈ of $1.9bn standalone or $3.7bn combined with the Madagascar feedstock, IRR 33% — is not yet approved. There are exactly two US price-floor arrangements in existence for rare earths, and Energy Fuels has neither; it has capital support instead.</p>
+        <p><strong>The honest framing for a shareholder.</strong> This is no longer a leveraged bet on the uranium price. It is a leveraged bet on the US government successfully building a domestic magnet supply chain, financed by convertible debt and substantial equity dilution, with a modestly profitable uranium mill attached. Those are very different risk profiles. Note also that the sell side is split: Goldman Sachs cut its target from $29 to $21 on 12 June 2026 and Roth initiated at $16 on 25 June — both <em>after</em> the government financing was announced. Short interest is 19.74% of float.</p>
+      </div>
+    </div>
+
+    <div class="tick">
+      <div class="top">
+        <div class="nm">Uranium Energy Corp &amp; Ur-Energy &amp; enCore <small>UEC · URG · EU — the ISR cohort, and what a zero-revenue quarter looks like</small></div>
+        <div class="px"><div class="p">$10.72 · $1.30 · $1.08</div><div class="r">−6.3% · −5.8% · at 52-week low</div></div>
+      </div>
+      <div class="body">
+        <p><strong>Uranium Energy Corp</strong> reported <span class="num">zero revenue</span> in its April quarter and a net loss of <span class="num">$(52.3)m</span>, or $(0.11) per share against a consensus of $(0.03). That is not distress — UEC sells opportunistically and no deliveries fell in the window — but it illustrates a structural feature of these names: quarterly results are close to meaningless because delivery timing dominates. Production was 32,195 lb at a cash cost of <span class="num">$46.69/lb</span> and a total cost of <span class="num">$54.61/lb</span>, both well above the cumulative average, and Burke Hollow started production on 8 April 2026. The balance sheet is the asset: <span class="num">$488m</span> cash, <span class="num">$794m</span> of liquid assets, 1.456 Mlb of inventory worth $127m at market, and no debt. The market values that at $5.31bn.</p>
+        <p><strong>Ur-Energy</strong> is the most transparent cost discloser in the sector and the numbers are sobering: Q1 2026 cash cost <span class="num">$37.51/lb</span>, non-cash <span class="num">$11.34</span>, total <span class="num">$48.85/lb</span> against a realised <span class="num">$70.98</span> — a 31.2% product margin on 55,000 lb sold. Shirley Basin began operations in April 2026 and received the final authorisation to move loaded resin to Lost Creek on 29 June. The company has <strong>not disclosed 2026 production or sales guidance</strong>, only that a majority of deliveries fall in the back half.</p>
+        <p><strong>enCore Energy</strong> is the cohort's warning. Q1 2026 delivered 270,000 lb at a realised <span class="num">$67.78/lb</span> against a cost of uranium sold of <span class="num">$68.02/lb</span>. <strong>That is a negative gross margin on delivered pounds, in an $86 market.</strong> Net income was positive on other items. Extraction cost was $46.43/lb on 90,000 lb. The stock trades at $1.08 against a 52-week high of $4.185 — at the absolute bottom of its range, the worst performance in this report. It carries $115m of 5.50% converts due 2030.</p>
+      </div>
+    </div>
+
+    <h3>Tier 3 — Development</h3>
+
+    <div class="tick">
+      <div class="top">
+        <div class="nm">NexGen Energy <small>NXE · NYSE / TSX — the best undeveloped orebody in the world, now under construction</small></div>
+        <div class="px"><div class="p">$10.04</div><div class="r">+9.13% YTD · 52w $6.26–13.96 · $6.73bn</div></div>
+      </div>
+      <div class="kv">
+        <div><div class="k">Initial capex (Aug 2024)</div><div class="v">C$2.2bn<small>not re-estimated since</small></div></div>
+        <div><div class="k">Post-tax NPV₈</div><div class="v">C$6.3bn<small>at a flat US$95/lb deck</small></div></div>
+        <div><div class="k">Peak production</div><div class="v">30 Mlb/yr<small>LOM opex C$13.86/lb</small></div></div>
+        <div><div class="k">Adj. working capital</div><div class="v">$1.27bn<small>incl. 2.7 Mlb uranium</small></div></div>
+        <div><div class="k">Convertibles</div><div class="v neg">$360m<small>$110m 2028 · $250m 2029</small></div></div>
+        <div><div class="k">Offtake contracted</div><div class="v">~10 Mlb<small>US utilities</small></div></div>
+      </div>
+      <div class="body">
+        <p>The regulatory risk that defined this story for eight years is gone. The Canadian Nuclear Safety Commission issued a licence to prepare site and construct on <strong>5 March 2026</strong>, valid to 31 March 2036, following hearings in November 2025 and February 2026. Licensed construction began <strong>8 June 2026</strong>. That licence does <em>not</em> authorise operation — a separate hearing and decision are still required — but the hard part is behind it.</p>
+        <p><strong>Two things a buyer needs to hold in mind.</strong> First, <strong>NexGen has not disclosed a first-production date.</strong> It is not in the Q2 2026 filing. Any 2028 or 2029 figure circulating is someone's estimate, not company guidance, and the C$2.2bn capital estimate dates to August 2024 — before the licence, before construction, and before two more years of the capital cost inflation that added 20% in real terms to Denison's much smaller project. Second, the Q2 net income of <span class="num">$74.5m</span> is not operating income. It is driven by a <span class="num">$96.5m</span> non-cash mark-to-market gain on the convertible debentures. The H1 result is a <span class="num">$(81.5)m</span> loss. Development-stage mark-to-market swings on convertibles will dominate this income statement until first production and should be ignored entirely.</p>
+        <p>The price deck is the study's most useful disclosure: a flat <strong>US$95.00/lb</strong>, described as the UxC average long-term price for 2029–2040 as published in June 2024. That is roughly today's term price. The economics are not built on a squeeze.</p>
+      </div>
+    </div>
+
+    <div class="tick">
+      <div class="top">
+        <div class="nm">Denison Mines <small>DNN · NYSE American / TSX — the first Canadian ISR mine, and the sector's best-executed 2026</small></div>
+        <div class="px"><div class="p">$3.09</div><div class="r">+18.42% YTD — the best in this report</div></div>
+      </div>
+      <div class="kv">
+        <div><div class="k">Initial capex (Jan 2026)</div><div class="v">C$600m<small>+20% real vs the 2023 study</small></div></div>
+        <div><div class="k">Post-tax NPV₈</div><div class="v">C$1.57bn<small>IRR 73% · payback ~12 months</small></div></div>
+        <div><div class="k">Price deck</div><div class="v pos">$68.89–78.36<small>below the current term price</small></div></div>
+        <div><div class="k">Cash</div><div class="v">C$418.5m<small>plus 1.7 Mlb physical uranium</small></div></div>
+        <div><div class="k">Q1 26 realised</div><div class="v pos">$99.07<small>the highest print in the sector</small></div></div>
+        <div><div class="k">Convertibles</div><div class="v neg">$345m<small>4.25% due Sep 2031</small></div></div>
+      </div>
+      <div class="body">
+        <p>Denison did in seven months what most developers fail to do in seven years. Provincial environmental approval July 2025. Commission hearings October and December 2025. <strong>Licence granted 19 February 2026</strong> — Canada's first in-situ recovery uranium mine approval and the first large-scale Canadian uranium mine approved for construction in over two decades. Final investment decision <strong>five days later</strong>. Construction from March, grid power connected in January, full-scale construction from 28 July 2026, and on 2 July the Peter Ballantyne Cree Nation withdrew its judicial review and confirmed support — removing the last legal overhang. First production is targeted <strong>mid-2028</strong> on a roughly 24-month build.</p>
+        <p><strong>What makes the equity interesting is the funding structure, not the mine.</strong> Denison holds 1.7 million pounds of physical uranium carried at C$198.6m against a cost of US$29.73/lb, and it is explicitly selling into that position to fund construction: a Q1 sale of 550,000 lb at <span class="num">US$99.07/lb</span>, with 1.35 Mlb committed for 2026–27 delivery including 950,000 lb fixed for US$87.5m gross. The contract book is roughly 8 Mlb firm with a further 8 Mlb in advanced negotiation. A developer that can self-fund from an appreciating inventory it bought at $30 is structurally different from one that has to issue equity.</p>
+        <p><strong>The same warning as NexGen applies to the income statement.</strong> The Q1 net loss of <span class="num">C$(114.9)m</span> is driven by a C$108.4m non-cash fair-value loss on embedded derivatives in the convertible notes. It is noise. And the same warning as Boss Energy applies to the orebody: Phoenix is an ISR project, and ISR recovery assumptions are unproven until a wellfield is leached.</p>
+      </div>
+    </div>
+
+    <h3>Tier 4 — The fuel cycle</h3>
+
+    <div class="tick">
+      <div class="top">
+        <div class="nm">Centrus Energy <small>LEU · NYSE — the only Western enricher you can buy, at 26% of float short</small></div>
+        <div class="px"><div class="p">$193.55</div><div class="r">−23.65% YTD · 58% below its 52-week high</div></div>
+      </div>
+      <div class="kv">
+        <div><div class="k">Q2 26 revenue</div><div class="v">$176.1m<small>from $154.5m</small></div></div>
+        <div><div class="k">Q2 26 net income</div><div class="v neg">$16.8m<small>from $28.9m</small></div></div>
+        <div><div class="k">Backlog</div><div class="v pos">$4.5bn<small>to 2040 · was $3.8bn</small></div></div>
+        <div><div class="k">Cash</div><div class="v">$1.87bn<small>debt $1.21bn gross</small></div></div>
+        <div><div class="k">Trailing P/E</div><div class="v neg">89×<small>EV/EBITDA 176×</small></div></div>
+        <div><div class="k">Short interest</div><div class="v neg">26.4%<small>of float · 5.3 days to cover</small></div></div>
+      </div>
+      <div class="body">
+        <p><strong>Read the revenue mix before anything else.</strong> Q2 revenue rose $21.6m year on year. Separative work revenue <em>fell</em> from $125.7m to $100.0m, on volume down 23% at a price up only 3%. The entire increase, and more, came from a <span class="num">$53.4m</span> uranium revenue line that was <strong>zero</strong> in the prior-year quarter. Centrus sold uranium, not enrichment. That is a legitimate business — it holds inventory — but it is not the recurring tolling margin the equity story rests on, and it will not repeat automatically.</p>
+        <p><strong>The disclosure that matters most is buried in the backlog note.</strong> Of the $4.5bn backlog, roughly $0.8bn is the Technical Solutions segment, essentially all of it the HALEU Operation Contract. Centrus discloses that <strong>the proposed Department of Energy FY2027 budget includes no further funding for HALEU cascade operation and that DOE "does not currently intend to exercise additional options."</strong> The Technical Solutions segment already swung to a gross <em>loss</em> of $(1.7)m this quarter, from a $3.2m profit, on a $5.9m decline in HALEU contract revenue. The government demonstration phase is ending.</p>
+        <p><strong>What replaces it is real but slow.</strong> On 30 June 2026 Centrus signed a new DOE contract: <span class="num">$900m</span> firm-fixed-price base, roughly <span class="num">$1.07bn</span> with options, milestone-based, to deliver <strong>1 metric tonne of HALEU by March 2032</strong>. Target capacity is 12 tonnes a year with first new capacity online in <strong>2029</strong>. Fluor is the engineering contractor; a $560m-plus Oak Ridge manufacturing expansion supports it. Cumulative HALEU produced to date across the entire demonstration programme: <strong>over 1,900 kg</strong>, from a 16-centrifuge cascade.</p>
+        <p><strong>The Russian dependency nobody will quantify.</strong> Centrus has a transitional supply contract with TENEX dated 2011 running through 2028. It has never disclosed what share of its enriched product supply comes from Russia. The only public quantification is a November 2024 secondary source saying "more than half". DOE waivers cover committed deliveries through 2027; the statutory cliff is 1 January 2028; new domestic capacity arrives 2029. <strong>Centrus's own 2026 guidance explicitly assumes "no significant change" in its ability to receive and sell Russian material.</strong> There is a one-year gap in that plan and the company has not publicly explained how it bridges it.</p>
+        <p><strong>The 2011 analogue is uncomfortably exact.</strong> USEC — this company's direct predecessor — fell 79% in 2011 with short interest peaking at 26% of shares outstanding in July of that year. Centrus today is 58% below its 52-week high with 26.42% of float short and 5.3 days to cover. That is genuine squeeze fuel in one direction and a crowded, correct-so-far bear thesis in the other. The asymmetry is real; the direction is not obvious.</p>
+      </div>
+    </div>
+
+    <h3>Tier 5 — Demand side and advanced nuclear</h3>
+
+    <div class="tick">
+      <div class="top">
+        <div class="nm">The AI-power complex <small>CEG · VST · TLN · BWXT — where the money actually is, and where it went</small></div>
+        <div class="px"><div class="p">−24.7% · −11.3% · −10.2% · −1.7%</div><div class="r">2026 year to date</div></div>
+      </div>
+      <div class="body">
+        <p><strong>Constellation Energy</strong> raised full-year guidance to $11.50–12.50 of adjusted operating earnings per share, delivered $2.55 in Q2 against $1.91, closed the $26.6bn Calpine acquisition in January to reach 55 GW of generation, signed 920 MW of new fifteen-to-twenty-year contracts in the quarter, and pulled the Crane restart forward from 2028 to <strong>2027</strong>. The stock is down 24.7% year to date and 35.8% below its high. It trades at 22.7× forward earnings and 14.1× EV/EBITDA. The business is executing; the multiple is compressing. That is a de-rating, not a deterioration.</p>
+        <p><strong>Talen Energy</strong> is the cheapest disclosed cash flow in this report at <strong>11.0× forward earnings</strong>, having raised 2026 guidance to $2,025–2,225m of adjusted EBITDA and $1,200–1,350m of adjusted free cash flow, with management pointing to roughly $34 per share of 2027 free cash flow and $40 in 2028 against a $342 share price. It carries $9.2bn of net debt against $16.4bn of market cap, and its Amazon agreement was restructured from behind-the-meter to front-of-the-meter after transmission reconfigurations — a change that materially alters the economics and which Talen has not fully quantified.</p>
+        <p><strong>Vistra</strong> reports Q2 on 7 August 2026 — after this data cut. On Q1 it reaffirmed $6,800–7,600m of 2026 adjusted EBITDA and pointed to a $7.4–7.8bn 2027 range that <em>excludes</em> both the Cogentrix acquisition and the Meta agreement. Its Meta deal covers 2,176 MW of operating nuclear plus 433 MW of uprates over twenty years. It trades at 16.1× forward, roughly 1.5% off its 52-week low.</p>
+        <p><strong>BWX Technologies</strong> is the anomaly: the only name in this report with a raised guide, real revenue, positive free cash flow and a flat year. Q2 revenue $901.6m, adjusted EBITDA $155.5m, commercial operations up 72%, full-year guidance raised to roughly $3.8bn of revenue and $4.70–4.80 of adjusted EPS. It is down 1.7% year to date while every developer around it halved. Naval propulsion and government work is a duller business than a small modular reactor, and it is the one that is earning money.</p>
+      </div>
+    </div>
+
+    <div class="tick">
+      <div class="top">
+        <div class="nm">Oklo, NuScale, X-energy <small>OKLO · SMR · XE — $18.6bn of market value on $128m of combined revenue</small></div>
+        <div class="px"><div class="p">−39.8% · −33.0% · −17% vs IPO</div><div class="r">2026 year to date</div></div>
+      </div>
+      <div class="body">
+        <p>These are venture positions with public tickers, and they should be sized as such. The disclosed facts, without editorial:</p>
+        <ul>
+          <li><strong>Oklo</strong> carries a <span class="num">$7.45bn</span> market capitalisation on <strong>zero revenue</strong>. Q1 net loss $33.1m; cash and securities $2.54bn after raising $1.18bn net through an at-the-market programme in that single quarter. Its original combined licence application was denied without prejudice in January 2022; the first Aurora unit now proceeds under Department of Energy authorisation rather than Nuclear Regulatory Commission licensing, with commercial NRC licensing to follow. Meta agreement for up to 1.2 GW in Ohio, Phase 1 "as early as 2030". Short interest is 20.2% of float. Insiders sold <span class="num">$285m</span> over the trailing twelve months, with the chief executive selling 200,000 shares in each of April, May, June and July 2026.</li>
+          <li><strong>NuScale</strong> reported <span class="num">$75 thousand</span> of revenue in Q2 2026 — not a typo — against a $3.43bn market capitalisation and $1.89bn of liquidity. Its 77 MWe design received Nuclear Regulatory Commission standard design approval in May 2025, ahead of schedule. It has <strong>no signed power purchase agreement with the Tennessee Valley Authority</strong> — discussions are "toward a definitive" agreement — and the Romanian project's conditions remain unsatisfied. The stock is 83.7% below its 52-week high with 20.8% of float short and a beta of 2.31.</li>
+          <li><strong>X-energy</strong> listed on 23 April 2026 at $23.00, raising $1.018bn, opened 27% higher, and now trades at $19.05 — 17% below issue. $7.74bn of market value on $117m of trailing revenue and a $546m trailing net loss.</li>
+        </ul>
+        <p>Across these three plus NANO Nuclear's $400m placement, roughly <strong>$2.6bn of new nuclear-developer equity supply</strong> hit the market in nine months against a falling tape. That is the mechanical explanation for a large part of the de-rating, and it is more useful than any narrative about sentiment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="model">
+  <div class="wrap">
+    <div class="snum">§ 06 — The model</div>
+    <h2>Build the sensitivity yourself</h2>
+    <p class="lede">Most uranium sensitivity tables model the wrong variable. They move the spot price and flow it straight to earnings, which assumes producers receive spot — they do not, as §01 showed. This model does the honest version: it moves the <strong>market price</strong>, applies a <strong>realisation discount</strong> you control, and shows the resulting cash margin per pound against each company's <em>own disclosed cost metric</em>. Nothing is estimated. Every cost input is a number the company published, and the metric is labelled on every row.</p>
+
+    <div class="model">
+      <div class="mh">
+        <h4>Realised-price and cash-margin model</h4>
+        <button class="reset" onclick="resetModel()">↺ Reset to current market</button>
+      </div>
+      <div class="sliders">
+        <div class="sl">
+          <label>Market uranium price <b id="v-px">$95.50</b></label>
+          <input type="range" id="s-px" min="50" max="180" step="0.5" value="95.5" oninput="runModel()">
+          <div class="hint">Default is the long-term price at 31 July 2026. Spot was $86.38. The 2007 all-time high was around $136; the 2016 trough was under $18.</div>
+        </div>
+        <div class="sl">
+          <label>Realisation discount <b id="v-disc">22%</b></label>
+          <input type="range" id="s-disc" min="0" max="35" step="1" value="22" oninput="runModel()">
+          <div class="hint">Default 22% is the observed H1 2026 gap between Kazatomprom's group realised price and average spot. Cameco's gap was similar. Set to 0% to model a fully unencumbered book like Denison's.</div>
+        </div>
+      </div>
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--em);margin-bottom:14px">
+        Modelled realised price: <span id="v-real" style="font-size:19px;letter-spacing:-.01em">$74.49</span> / lb
+      </div>
+      <div id="c-model"></div>
+      <div class="tw" style="margin-top:22px;border:none">
+        <table>
+          <thead><tr><th>Company</th><th>Cost metric used — as disclosed</th><th>Cost</th><th>Margin / lb</th><th>Margin %</th><th>Guided sales</th><th>Revenue at modelled price</th></tr></thead>
+          <tbody id="model-body"></tbody>
+        </table>
+      </div>
+      <div class="read" style="margin-top:18px"><b>How to read this model</b>
+        Move the top slider to change the uranium price. Move the second to change how much of that price a producer actually captures — the whole point of §01. The bars and table update together. Compare only companies whose cost metric label matches: C1 against C1 tells you something, C1 against "unit cost of sales including depreciation" tells you nothing. Revenue is computed on each company's own guided sales volume where one exists; where it does not, the cell is blank rather than estimated. Currency conversions are flagged in the metric column and use the rate implied by the company's own reporting where available.</div>
+      <div class="note">This model deliberately stops at cash margin. It does not compute EBITDA, net income or a price target, because doing so would require assumptions about corporate overhead, tax, sustaining capital and depreciation that most of these companies do not disclose at a level that would make the output meaningful. A margin-per-pound figure you can trace to a filing is worth more than an earnings estimate you cannot.</div>
+    </div>
+  </div>
+</section>
+
+<section id="momentum">
+  <div class="wrap">
+    <div class="snum">§ 07 — Momentum and positioning</div>
+    <h2>The commodity is winning. The equities are not.</h2>
+    <p class="lede">Through 30 June 2026, on Sprott's own measurement: spot uranium <strong>+4.28%</strong>, uranium mining equities <strong>−3.91%</strong>, junior uranium miners <strong>−7.43%</strong>, the S&amp;P 500 <strong>+10.21%</strong>. The commodity beat the equities and both lost to the index. That is not what a bull market in a resource sector normally looks like, and understanding why is more useful than any target price.</p>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">2026 year to date, by role in the fuel cycle</div><div class="unit">% · as of 5–6 August 2026</div></div>
+      <div class="box"><div id="c-ytd"></div></div>
+      <div class="read"><b>How to read this chart</b>
+        The split is unusually clean and it is not random. Names with <em>physical uranium exposure and no execution risk in the next 24 months</em> are up: Denison +18.4%, NexGen +9.1%, Cameco +4.9%. Names whose value depends on something happening in the 2030s are down hard: Oklo −39.8%, NuScale −33.0%, Centrus −23.7%. The AI-power utilities sit in between, de-rating on multiple compression while raising guidance. The market spent 2026 repricing <em>time</em>, not repricing nuclear.</div>
+    </div>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">Distance below the 52-week high</div><div class="unit">%</div></div>
+      <div class="box"><div id="c-draw"></div></div>
+      <div class="read"><b>How to read this chart</b>
+        A useful sanity check against the previous chart. Nothing in this sector is near its high. Even the year-to-date winners are 28–30% below where they traded within the past twelve months. NuScale is 83.7% below; Oklo 77.9%; Centrus 58.3%. When a whole sector sits this far below recent highs while the underlying commodity's term price makes an eighteen-year high, one of the two markets is wrong. This report does not claim to know which.</div>
+    </div>
+
+    <div class="angle">
+      <span class="tag">Non-obvious angle n°7</span>
+      <h4>The largest discretionary buyer of physical uranium has switched itself off</h4>
+      <p>The Sprott Physical Uranium Trust holds <span class="num">81,697,348 lb</span> of U₃O₈ — a net asset value of <span class="num">US$7.1bn</span> — and it is the single most important price-setting entity in the spot market. Its mechanism is simple: when the units trade at a premium to net asset value, it issues units through an at-the-market programme and uses the proceeds to buy physical uranium. That is what produced the January 2026 spike, when a US$214m raise funded a 500,000&nbsp;lb purchase and spot broke $100 on a daily basis.</p>
+      <p>As of 5 August 2026 the trust trades at a <strong>−10.30% discount to net asset value</strong>, described elsewhere as a 15-month wide and having gone from −9.0% to −12.3% in a single month. <strong>A trust at a discount cannot issue units accretively.</strong> The at-the-market programme is therefore effectively closed, and the marginal discretionary bid in the spot market is gone. Yellow Cake plc, the smaller listed vehicle holding 23.2 million pounds, sits at a −13.4% discount and added nothing in July.</p>
+      <p>This single mechanism explains a large share of why spot has drifted down all year while term rose. It also means that the flow story is now entirely a utility-contracting story. Watch the discount, not the holdings.</p>
+    </div>
+
+    <div class="chart">
+      <div class="head"><div class="ttl">Short interest as a percentage of float</div><div class="unit">%</div></div>
+      <div class="box"><div id="c-short"></div></div>
+      <div class="read"><b>How to read this chart</b>
+        Four names carry 19–26% of their free float short. Days-to-cover matters as much as the percentage: Centrus at 5.3 days and Energy Fuels at 5.4 days would take over a week of average volume to unwind, which is genuine squeeze fuel. Oklo and NuScale at 2.3–2.9 days would not — the shorts can leave without moving the tape much. High short interest is not a signal on its own. High short interest plus high days-to-cover plus a catalyst is.</div>
+    </div>
+
+    <h3>Where the passive money sits</h3>
+    <p>Sector exposure is far more concentrated than most investors realise, and the composition of the largest fund has quietly changed character.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Fund</th><th>AUM</th><th>Holdings</th><th>Fee</th><th>YTD 2026</th><th>Top position</th><th>Character</th></tr></thead>
+        <tbody>
+          <tr><td class="tk">URA</td><td>$5.98bn</td><td>58</td><td>0.69%</td><td class="neg">−0.56%</td><td>Cameco 22.41%</td><td class="l">Now ~13% nuclear-technology equity: Oklo 6.36%, X-energy 3.23%, NuScale 3.20%</td></tr>
+          <tr><td class="tk">URNM</td><td>$1.91bn</td><td>25</td><td>0.75%</td><td class="neg">−11.50%</td><td>Cameco 19.65%</td><td class="l">13.71% in the physical trust — which is why the SPUT discount hurt it</td></tr>
+          <tr><td class="tk">URNJ</td><td>$343m</td><td>40</td><td>0.80%</td><td class="neg">−13.74%</td><td>Denison 12.50%</td><td class="l">Pure junior miner exposure, no physical, no technology</td></tr>
+          <tr><td class="tk">NLR</td><td>$4.03bn</td><td>28</td><td>0.60%</td><td class="neg">−8.03%</td><td>Constellation 8.82%</td><td class="l">Utility-weighted — the only one where a nuclear operator, not a miner, is the top holding</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The divergence between URA at −0.56% and URNM at −11.50% is not a tracking error. URA holds a larger Cameco weight and a physical-trust position that cushioned it, while carrying the small modular reactor drag. URNM's 13.71% allocation to the physical trust was a headwind precisely because that trust de-rated. <strong>Two funds marketed as "uranium miners" produced an eleven-point performance gap in seven months.</strong> Anyone using URA as a proxy for uranium mining exposure is now getting roughly one-eighth technology venture capital.</p>
+  </div>
+</section>
+
+<section id="minerals">
+  <div class="wrap">
+    <div class="snum">§ 08 — The critical-minerals adjacency</div>
+    <h2>The strategic-minerals basket is mostly a narrative</h2>
+    <p class="lede">Uranium and rare earths are routinely traded and written about as one "energy security" theme. We tested that claim the only way that produces evidence rather than opinion: by reading the actual constituent files of every relevant exchange-traded fund. The result does not support the narrative.</p>
+
+    <div class="angle">
+      <span class="tag">Non-obvious angle n°8</span>
+      <h4>The three major uranium funds hold zero pure rare-earth equities. Zero.</h4>
+      <p>Not MP Materials. Not Lynas. Not USA Rare Earth. Not United States Antimony. Across URA, URNM and NLR — $11.9bn of combined assets — the <em>only</em> bridge between the two sectors is <strong>Energy Fuels</strong>, held at 3.19–4.22% and classified in every case as a uranium miner. It happens to produce neodymium-praseodymium at White Mesa, which is why it is the sole genuine two-sided exposure in the listed universe.</p>
+      <p>The overlap is not reciprocal either. <strong>REMX, the main rare-earth fund, holds zero uranium names.</strong> Exactly one product deliberately bundles both: Sprott's Critical Materials fund, at 25.19% uranium and 11.40% rare earths — a real index-construction argument, but with 158 holdings and a small fraction of URA's assets, its flow influence is marginal.</p>
+      <p>The fundamentals argue against a single factor too. Year to date in 2026: MP Materials <span class="num neg">−5.0%</span>, USA Rare Earth <span class="num pos">+44.2%</span>, Lynas <span class="num pos">+33.7%</span>, United States Antimony <span class="num pos">+27.6%</span>. Their input prices diverged as sharply — dysprosium and terbium roughly doubled while antimony fell. <strong>That dispersion is not what a co-moving basket looks like.</strong> We found no analyst note, correlation coefficient or beta study quantifying uranium versus rare-earth equity co-movement. Treat the claim as unsourced until someone produces one.</p>
+    </div>
+
+    <p>That said, the sector is genuinely relevant to a uranium investor for one reason: it is the live experiment in whether Western governments will underwrite critical-minerals economics directly. And here the honest count is small.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Mechanism</th><th>Counterparty</th><th>Structure</th><th>Status Aug 2026</th></tr></thead>
+        <tbody>
+          <tr><td class="tk">MP Materials</td><td class="l">US Dept of War</td><td class="l">$110/kg NdPr floor, 10 years, quarterly shortfall payment, 30% upside share; $400m preferred at $30.03, 7% paid in kind; warrant on 11.2m shares; full 10X offtake with a ≥$140m/yr EBITDA guarantee escalating 2%</td><td class="pos">Live — $42.3m recognised in Q1 2026</td></tr>
+          <tr><td class="tk">Lynas</td><td class="l">US Dept of War</td><td class="l">US$96m, four-year delivery, light and heavy oxides, US$110/kg NdPr floor</td><td class="neu">Binding letter of intent only</td></tr>
+          <tr><td class="tk">USA Rare Earth</td><td class="l">US Dept of Commerce</td><td class="l">$277m direct funding + $1.3bn federal loan guarantee, 15 years at Treasury +150bp; government took 16.1m shares plus a warrant on 17.6m at $17.17</td><td class="neu">Executed 3 Jun 2026 — <strong>no price floor, no offtake</strong></td></tr>
+          <tr><td class="tk">Energy Fuels</td><td class="l">US Dept of War, OSC</td><td class="l">$725m conditional commitment, 20-year senior secured debt</td><td class="neu">Conditional on the ASM acquisition closing</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>There are exactly two US price floors in existence for rare earths, both at US$110/kg for neodymium-praseodymium, and one of them is still a letter of intent.</strong> Everything else — including the entire Energy Fuels package — is capital support and loan guarantees. In January 2026 the US retreated from a broader price-floor programme, citing a lack of congressional funding and the complexity of setting market pricing; an allied initiative is in negotiation with no published mechanics, minerals list or dollar levels. A Defense Production Act determination covering recoverable critical minerals was signed on 30 July 2026 with no funding amount specified.</p>
+
+    <p><strong>The read-across to uranium is the useful part.</strong> There is no US price floor for uranium and none has been proposed. What uranium has instead is a statutory import ban, a Department of Energy loan book (a $1.52bn facility for Palisades, $1bn for Crane, $26.5bn across Southern Company's programmes, up to $17.5bn conditionally for AP1000 long-lead items) and a $900m enrichment procurement contract. <strong>The policy support is real, it is very large, and it is aimed at reactors and enrichment — not at the price of a pound of uranium.</strong> An investor expecting a rare-earth-style price floor to arrive for uranium is waiting for something that has not been proposed by anyone.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Ticker</th><th>Latest quarter revenue</th><th>Net income</th><th>Cash</th><th>YTD 2026</th><th>The one thing</th></tr></thead>
+        <tbody>
+          <tr><td class="tk">MP</td><td>$90.6m + $42.3m floor income</td><td class="neg">$(8.0)m</td><td>$886m + $852m securities</td><td class="neg">−5.0%</td><td class="l">The $42.3m price-floor payment is a <em>separate line below revenue</em>. Strip it and the quarter is loss-making at the EBITDA line.</td></tr>
+          <tr><td class="tk">LYSCF</td><td>A$288.9m (record)</td><td>A$80.2m (H1 FY26)</td><td>A$1.21bn</td><td class="pos">+33.7%</td><td class="l">Record revenue and record A$98/kg pricing — and the stock fell 22% in July on a volume miss and a capex increase to A$294m.</td></tr>
+          <tr><td class="tk">USAR</td><td>$5.7m</td><td class="neg">$(67.0)m</td><td>$1.75bn</td><td class="pos">+44.2%</td><td class="l">$106k of gross profit on $5.7m of revenue. Trades at 572× sales. Has not commenced commercial magnet production and declines to forecast when it will.</td></tr>
+          <tr><td class="tk">UAMY</td><td>$6.8m (−3%)</td><td class="neg">$(11.3)m</td><td>$3.2m + $20.5m securities</td><td class="pos">+27.6%</td><td class="l">Volumes −23% while realised price +22% to $19.92/lb. Feedstock-constrained, not demand-constrained. 23.7% of float short.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="outlook">
+  <div class="wrap">
+    <div class="snum">§ 09 — Outlook</div>
+    <h2>What is actually knowable</h2>
+    <p class="lede">Forecasting a commodity price is not a differentiated activity. Identifying which dates are fixed, which are contingent and which are aspirational is. Below, the calendar sorted by how much it can slip.</p>
+
+    <h3>Fixed by statute or by a signed licence</h3>
+    <ul>
+      <li><strong>1 January 2028 — every Russian uranium import waiver terminates.</strong> Written into Public Law 118-62. Not subject to Department of Energy discretion. The prohibition itself runs to 31 December 2040.</li>
+      <li><strong>31 March 2036 — NexGen's construction licence expires.</strong> Rook I must be built inside that window.</li>
+      <li><strong>Annual waiver quotas step down</strong> to 459,083 kg in 2027, then zero.</li>
+    </ul>
+
+    <h3>The next twelve months — dated and checkable</h3>
+    <ul>
+      <li><strong>7 August 2026</strong> — Vistra Q2. <strong>21 August</strong> — Kazatomprom H1 financials, with the company having explicitly reserved the right to revise revenue, C1, AISC and capex guidance, and historically the first read on next-year production plans. <strong>End August</strong> — Boss Energy's updated Honeymoon feasibility study, life-of-mine plan and resource; and the expected close of Energy Fuels' ASM acquisition.</li>
+      <li><strong>September 2026</strong> — final environmental determination for the Crane restart. <strong>30 September</strong> — Centrus's HALEU transition period ends.</li>
+      <li><strong>Q3–Q4 2026</strong> — Bannerman's CNNC investment completion and Etango final investment decision; Deep Yellow's Tumas decision, deferred once already; the expiry of China's one-year suspension of its October 2025 rare-earth export controls, around November.</li>
+      <li><strong>Through 2027</strong> — Crane operating licence decision expected May; Palisades restart, whenever it comes; Urenco USA's +700,000 SWU completing early in the year; Paladin's PLS hearings and final investment decision targeted at year end.</li>
+    </ul>
+
+    <h3>Two to three years — 2028 to 2029</h3>
+    <p>This is the window the entire report points at. Four things converge. The Russian waiver cliff hits on 1 January 2028 with essentially no new Western separative work in place. Orano's Georges Besse II extension begins coming online through 2030, and Centrus's first new capacity is guided to 2029 — both <em>after</em> the cliff. Denison's Phoenix targets first production mid-2028, the first genuinely new Western supply of scale in a decade. And Cameco's own disclosure notes that its contract commitments are <strong>above average in 2026–2028 and below average in 2029–2030</strong> — meaning the sector's largest producer has a re-contracting event at exactly the moment the term price is at an eighteen-year high.</p>
+    <p>The plausible shape: fuel-cycle bottleneck pricing dominates, enrichment and conversion re-rate ahead of uranium, and the producers with unencumbered or market-related contract books capture the term price while legacy books continue to drag. The observable that would confirm it is not the spot price. It is annual long-term contracting volume crossing back above 150 million pounds. It has not done so in thirteen years.</p>
+
+    <h3>Five to ten years — 2031 to 2036</h3>
+    <p>Beyond about three years, the honest position is that specific forecasts are storytelling. What can be said is which structural facts are already locked in:</p>
+    <ul>
+      <li><strong>The 2040 arithmetic is not close.</strong> The World Nuclear Association's reference scenario requires roughly 150,000 tU a year by 2040 against 2024 production of 60,213 tU. Even the <em>lower</em> scenario needs 107,000 tU. The Association's own language is that "existing mines face a depletion of resources in the middle of the next decade" — the base has to be replaced before it can be grown.</li>
+      <li><strong>Project timelines have lengthened, not shortened.</strong> The industry's own estimate, given at the 2025 report launch: from "8 to 15 years" historically to "between 10 to 20 years" now. A mine started today does not help before 2036.</li>
+      <li><strong>Small modular reactors consume almost nothing until the 2030s and then need a fuel that barely exists.</strong> Cumulative Western high-assay production is under two tonnes against a projected US requirement of roughly fifty tonnes a year by 2035. Every advanced-reactor valuation embeds a solution to that which has not been built.</li>
+      <li><strong>China is the swing consumer and is resource-poor.</strong> Roughly ten reactor approvals a year for three straight years — eleven in 2024, ten in 2025, eight in July 2026 — against a target of 200 GWe by 2035. China's own uranium production is small. That demand has to be sourced externally, and the December 2025 Kazakh subsoil amendments make its access to Kazakh ounces structurally harder.</li>
+      <li><strong>The secondary supply cushion is disappearing on schedule.</strong> The Megatons to Megawatts programme ended in 2013. Total secondary supply was around 9,000 tU in 2021 and is expected below 5,000 tU by 2030. That is a known, dated decline that nothing can reverse.</li>
+    </ul>
+    <p>What we will not do is put a price on that. The bracket the sourced evidence supports for a greenfield incentive price is roughly <strong>$95–115/lb</strong> for tier-one projects with completed studies — NexGen's own $95 base case at the low end, Cameco's disclosed market-related contract midpoints of $100–115 at the high end. Beyond that bracket, the marginal projects required to close a 200-million-pound structural gap need materially more, and nobody has published a defensible number for how much.</p>
+  </div>
+</section>
+
+<section id="risk">
+  <div class="wrap">
+    <div class="snum">§ 10 — What would break this</div>
+    <h2>The bear case, argued properly</h2>
+    <p class="lede">A research note that cannot state its own falsification conditions is marketing. Here are the five things that would invalidate most of what is above, with the evidence for each.</p>
+
+    <h4>1. Kazatomprom restores volume</h4>
+    <p>The 2026 capacity cut removed roughly 8 million pounds — about 5% of world primary supply — and it is discretionary and reversible. Kazatomprom is currently realising $67.88/lb against a term price near $96. As legacy contracts roll off, the incentive to restore subsoil-agreement volumes grows. Into a market that contracted 33 million pounds in the first half of 2026, 8 million pounds of returning supply is not marginal. <strong>Watch the 21 August guidance update.</strong></p>
+
+    <h4>2. Utilities simply do not come back</h4>
+    <p>Thirteen consecutive years below replacement-rate contracting can be read two ways. Bulls call it stored demand. The bearish reading is that utilities have adequate inventory, are comfortable, and have demonstrated for over a decade that they can run without contracting at replacement rate. US civil stockpiles alone were 42,000 tU at end-2024, with 40,000 tU in the EU and 65,000 tU in East Asia. That is several years of consumption sitting in warehouses. Sprott's July 2026 note states 2026 term volumes remain "well below the replacement rate."</p>
+
+    <h4>3. The restart and small-modular narrative keeps slipping</h4>
+    <p>Palisades has now missed December 2025, "early 2026" and end-February 2026, with 1,400 cracked steam generator tubes and over 5,000 open work activities as of July. Crane's licence decision is expected May 2027. Duane Arnold targets 2029. NuScale has an approved design and no signed offtake. Oklo's first unit proceeds under Department of Energy authorisation because its Nuclear Regulatory Commission application was denied in 2022. Every one of those slipping another year pushes incremental fuel demand out of the modellable window — and the equity market has already started repricing exactly that, which is what §07 shows.</p>
+
+    <h4>4. The historical precedent is brutal and long</h4>
+    <p>Uranium peaked at roughly <span class="num">$136/lb</span> in June 2007 having started that year at $72. It was below $50 by early 2009 and below <span class="num">$18</span> by 2016 — an <strong>87% decline over nine years</strong>. After Fukushima, URA fell <strong>more than 58% in 2011 alone</strong>, and USEC — the direct predecessor of today's Centrus — fell <strong>79%</strong> that year with short interest peaking at 26% of shares outstanding in July. URA's since-inception annualised return, fifteen years on, is still <span class="num neg">−2.51%</span>. This sector has destroyed more capital than it has created, over the full cycle, for investors who bought conviction at the top.</p>
+
+    <h4>5. Valuation is stretched in the places nobody checks</h4>
+    <p>The most extreme absolute multiples in this sector are not in the small modular reactor names — those have no earnings to divide by. They are in the fuel cycle. <strong>Cameco trades at 167× trailing earnings</strong>, on a quarter with C$25m of net income and a Westinghouse equity loss, while being the largest position in every major fund. Centrus trades at 89× trailing and 176× EV/EBITDA. If either of those multiples normalises toward the sector's own history, no supply-deficit narrative saves the equity.</p>
+
+    <div class="warn">
+      <span class="tag">The reflexive risk in the fuel-cycle thesis itself</span>
+      <p>The enrichment argument in §04 has a genuine counter that deserves stating. A Western separative-work shortage does not mechanically become a uranium shortage. Utilities can buy enriched product of Russian origin through third countries where that remains legal, they can draw the very large existing inventories, and — critically — fuel is a small share of a nuclear plant's operating cost, so higher fuel prices are absorbable rather than demand-destroying. The 1 January 2028 date is fixed. The transmission mechanism from that date to the uranium price is not, and this report does not claim it is.</p>
+    </div>
+  </div>
+</section>
+
+<section id="feed">
+  <div class="wrap">
+    <div class="snum">§ 11 — Appendix</div>
+    <h2>Making the numbers live</h2>
+    <p class="lede">The market data in this report is a snapshot as of 5–6 August 2026. If you want the price column to update itself, this is the smallest correct implementation for a Next.js project on Vercel — a single batched serverless route with edge caching, which is one function invocation regardless of how many readers open the page.</p>
+
+    <pre><span class="c">// app/api/uranium-prices/route.ts</span>
+<span class="k">import</span> { NextResponse } <span class="k">from</span> <span class="s">'next/server'</span>
+<span class="k">import</span> yahooFinance <span class="k">from</span> <span class="s">'yahoo-finance2'</span>
+
+<span class="k">const</span> TICKERS = [
+  <span class="s">'CCJ'</span>,<span class="s">'KAP.L'</span>,<span class="s">'PDN.AX'</span>,<span class="s">'BOE.AX'</span>,<span class="s">'UUUU'</span>,<span class="s">'UEC'</span>,<span class="s">'URG'</span>,<span class="s">'EU'</span>,
+  <span class="s">'NXE'</span>,<span class="s">'DNN'</span>,<span class="s">'LEU'</span>,<span class="s">'CEG'</span>,<span class="s">'VST'</span>,<span class="s">'TLN'</span>,<span class="s">'BWXT'</span>,<span class="s">'OKLO'</span>,
+  <span class="s">'SMR'</span>,<span class="s">'XE'</span>,<span class="s">'MP'</span>,<span class="s">'USAR'</span>,<span class="s">'LYSCF'</span>,<span class="s">'UAMY'</span>,<span class="s">'URA'</span>,<span class="s">'URNM'</span>,
+]
+
+<span class="k">export async function</span> GET() {
+  <span class="k">try</span> {
+    <span class="c">// one batched call — not one call per ticker</span>
+    <span class="k">const</span> quotes = <span class="k">await</span> yahooFinance.quote(TICKERS)
+    <span class="k">const</span> out: Record&lt;string, unknown&gt; = {}
+    <span class="k">for</span> (<span class="k">const</span> q <span class="k">of</span> quotes) {
+      out[q.symbol] = {
+        price:    q.regularMarketPrice,
+        change:   q.regularMarketChange,
+        changePct:q.regularMarketChangePercent,
+        currency: q.currency,          <span class="c">// KAP.L is GBp, PDN.AX is AUD</span>
+        asOf:     q.regularMarketTime,
+      }
+    }
+    <span class="k">return</span> NextResponse.json(out, {
+      headers: {
+        <span class="c">// serve from the CDN edge; one origin hit per minute, not per reader</span>
+        <span class="s">'Cache-Control'</span>: <span class="s">'public, s-maxage=60, stale-while-revalidate=300'</span>,
+      },
+    })
+  } <span class="k">catch</span> (e) {
+    <span class="k">return</span> NextResponse.json({ error: <span class="s">'upstream unavailable'</span> }, { status: <span class="s">502</span> })
+  }
+}</pre>
+
+    <div class="warn">
+      <span class="tag">Three things to get right before this goes near a published page</span>
+      <p><strong>Currency.</strong> <code>KAP.L</code> returns pence, not pounds and not dollars. <code>PDN.AX</code> and <code>BOE.AX</code> return Australian dollars. Rendering all of them with a dollar sign is the most common error in retail dashboards and it is off by a factor of roughly 100 on the London line. Always read <code>q.currency</code> and label accordingly.</p>
+      <p><strong>Licensing.</strong> Yahoo's data is not licensed for commercial redistribution. For a public research site that carries advertising or a subscription, use a licensed vendor. For a personal site, at minimum attribute the source and state the delay.</p>
+      <p><strong>Never let a live price update a fundamental.</strong> The temptation is to compute a "gap to target" or a live price-to-earnings ratio. Do not. Everything in this report other than the price column is a filed figure with a stated period. Mixing a real-time quote into a table of quarterly disclosures produces numbers that look precise and are not. Keep the live column clearly separated and clearly labelled with its own timestamp.</p>
+    </div>
+  </div>
+</section>
+
+<section id="gloss">
+  <div class="wrap">
+    <div class="snum">§ 12 — Glossary</div>
+    <h2>Plain definitions</h2>
+    <div class="gloss">
+      <div><dt>U₃O₈ / yellowcake</dt><dd>Uranium oxide concentrate — what a mine actually ships. Priced in US dollars per pound. It is not fuel; it is three processing steps away from being fuel.</dd></div>
+      <div><dt>Conversion</dt><dd>Turning U₃O₈ into uranium hexafluoride gas so it can be enriched. Priced per kilogram of uranium. Five plants in the world do it at scale.</dd></div>
+      <div><dt>SWU — separative work unit</dt><dd>The measure of effort required to enrich uranium. Not a quantity of material, a quantity of <em>work</em>. Priced per SWU.</dd></div>
+      <div><dt>Enrichment</dt><dd>Raising the concentration of the fissile isotope U-235 from 0.7% in nature to 3–5% for a conventional reactor. Four organisations control over 99% of world capacity.</dd></div>
+      <div><dt>HALEU</dt><dd>High-assay low-enriched uranium — enriched to just under 20%, required by almost every advanced reactor design. One Western commercial producer exists.</dd></div>
+      <div><dt>Underfeeding / overfeeding</dt><dd>An enricher's choice to use more separative work and less uranium, or the reverse. Purely a function of relative prices. Overfeeding removes secondary supply and increases uranium demand.</dd></div>
+      <div><dt>Spot vs term price</dt><dd>Spot is a pound today in a thin market. Term is the indicative price for a multi-year delivery contract signed today. Utilities buy the vast majority of their fuel on term.</dd></div>
+      <div><dt>Realised price</dt><dd>What a producer actually banked per pound, after its existing contract book. Typically 15–25% below the market price. This is the number that drives earnings.</dd></div>
+      <div><dt>C1 cash cost</dt><dd>The direct cash cost of producing a pound. Excludes sustaining capital, corporate overhead, royalties in some definitions, and depreciation always.</dd></div>
+      <div><dt>AISC</dt><dd>All-in sustaining cost — C1 plus the capital needed to keep production flat. The honest measure of whether a mine funds itself. Several producers in this report do not disclose it.</dd></div>
+      <div><dt>ISR — in-situ recovery</dt><dd>Dissolving uranium underground with acid or alkaline solution and pumping it up, rather than mining rock. Cheaper and lower impact — but recovery rates are modelled, not measured, until a wellfield is leached.</dd></div>
+      <div><dt>NPV₈ / IRR</dt><dd>Net present value at an 8% discount rate, and internal rate of return. Both are entirely dependent on the uranium price assumed — always check the price deck before comparing two projects.</dd></div>
+      <div><dt>Price deck</dt><dd>The uranium price a feasibility study assumes. Denison assumes $68.89–78.36. NexGen assumes a flat $95. Two projects are not comparable unless you know both decks.</dd></div>
+      <div><dt>Backlog</dt><dd>Contracted future revenue. Note that Centrus's $4.5bn "backlog" and the much smaller ASC 606 "remaining performance obligations" in the same filing are different measures. Do not conflate them.</dd></div>
+      <div><dt>Equity accounting</dt><dd>Reporting a minority stake as a single share-of-profit line rather than consolidating it. Cameco's 49% of Westinghouse is equity-accounted, which is why its EBITDA share and its net earnings share tell opposite stories.</dd></div>
+      <div><dt>Discount to NAV</dt><dd>A closed-end fund trading below the value of what it owns. For the Sprott physical trust this is functionally an on/off switch for the fund's uranium buying.</dd></div>
+    </div>
+  </div>
+</section>
+
+<section id="sources">
+  <div class="wrap">
+    <div class="snum">§ 13 — Method and sources</div>
+    <h2>Where every number came from</h2>
+    <p class="lede">Every figure in this report is traceable to a filing, a regulator, a statute or a named industry body. Where a number does not exist publicly, the report says "not disclosed" rather than estimating it. No absolute dollar figure has been back-computed from a percentage, and no decimal precision has been added beyond what the source carries.</p>
+
+    <div class="card">
+      <h4 style="margin-top:0">What this report deliberately does not contain</h4>
+      <p style="margin-bottom:12px;font-size:14.5px">Forward EBITDA for any company that has not guided it. All-in sustaining costs for Paladin or NexGen, neither of which discloses one. A first-production date for NexGen, which has not published one. Centrus's Russian supply share, its Piketon separative-work capacity, or its at-the-market programme size — none of which are in any filing. Energy Fuels' rare-earth revenue split, which is not disaggregated. Kazatomprom's H1 2026 financials, which publish on 21 August. Vistra's Q2, which publishes on 7 August. A 2030 World Nuclear Association demand figure, which sits behind a £1,500 paywall. Any price target.</p>
+      <p style="margin-bottom:0;font-size:14.5px">Several widely-circulated figures were checked and could not be substantiated: a 2025 global uranium production total (the World Nuclear Association's page still carries 2024 as the latest year), a current spot separative-work price (subscriber-only; the most recent primary print is Urenco's end-2025 figure), current underfeeding volumes (the last published quantification dates to 2015), and 2007–2008 uranium equity index drawdowns (no index existed — URA launched in November 2010).</p>
+    </div>
+
+    <h4>Primary sources</h4>
+    <div class="srcs">
+      <p><strong>Prices and market structure</strong> — Cameco uranium price page (month-end average of UxC and TradeTech, full history); Cameco Q2 2026 MD&amp;A (conversion spot and long-term, North America and Europe); TradeTech press releases; Urenco FY2025 audited results, 12 March 2026 (SWU spot); US Energy Information Administration Uranium Marketing Annual Report, published 29 July 2026 (US utility contracted SWU and delivery origins).</p>
+      <p><strong>Supply</strong> — World Nuclear Association, World Uranium Mining Production (updated 20 January 2026) and Supply of Uranium (9 December 2025); Kazatomprom FY2025 Operating &amp; Financial Review, 1Q26 and 2Q26 operations and trading updates, FY2025 results, dividend announcement, and the 29 December 2025 Subsoil Use Code amendment announcement; Cameco Q2 2026 news release, MD&amp;A and financial statements; Paladin Q4 FY26 quarterly report and FY2027 Langer Heinrich guidance, both 22 July 2026; Boss Energy quarterly reports, the 30 April 2026 guidance revision, FY26 earnings call and Diggers &amp; Dealers presentation; Orano 2025 annual results, 20 February 2026; USGS Fact Sheet 2025-3057, 23 April 2026.</p>
+      <p><strong>Demand</strong> — World Nuclear Association, Nuclear Power in the World Today and Plans for New Reactors Worldwide (both updated 5 August 2026); World Nuclear Fuel Report 2025, 22nd edition, published 5 September 2025, and its press statement; Cameco supply and demand page citing UxC; IAEA PRIS (redirects to a client-side application; figures not machine-extractable); JAIF Japan reactor status table, 9 March 2026; POWER Magazine on China's 31 July 2026 approval of eight units.</p>
+      <p><strong>Trade and enrichment</strong> — Public Law 118-62 statute text via govinfo (quotas, waiver test, termination date); US Nuclear Regulatory Commission uranium import ban backgrounder; Department of Energy Russian uranium ban waiver guidance; Russian Government Decrees 313 and 1516; World Nuclear Association enrichment and conversion capacity pages (data years 2022 and 2024 respectively — note these two pages are internally inconsistent on US conversion capacity); Urenco USA expansion announcement, 2 June 2026; Orano Georges Besse II update, 3 December 2025; Centrus DOE contract announcement, 1 July 2026.</p>
+      <p><strong>Company filings</strong> — SEC EDGAR: Centrus 10-Q and 8-K for the quarter ended 30 June 2026 (filed 5–6 August 2026); Energy Fuels 10-Q, accession 0001385849-26-000029, filed 5 August 2026, and Q2 2026 press release; MP Materials Q1 2026 8-K and 10-Q, and the 10 July 2025 8-K containing the Department of War transaction terms; USA Rare Earth Q1 2026 10-Q and the 3 June 2026 8-K on the Department of Commerce agreement; United States Antimony Q1 2026 8-K. SEDAR and company IR: NexGen Q2 2026 6-K and the 1 August 2024 updated Rook I economics; Denison Q1 2026 and the 2 January 2026 Phoenix capital cost update; Uranium Energy Corp fiscal Q3 2026; Ur-Energy Q1 2026; enCore Q1 2026. Canadian Nuclear Safety Commission licence decisions of 19 February 2026 (Denison) and 5 March 2026 (NexGen).</p>
+      <p><strong>Demand side and advanced nuclear</strong> — Constellation Q2 2026 results, 5 August 2026, and NRC Crane Clean Energy Center docket; Vistra Q1 2026 and the 9 January 2026 Meta announcement; Talen Q2 2026 results and the 11 June 2025 Amazon agreement; BWX Technologies Q2 2026; Oklo Q1 2026 10-Q and NRC filings; NuScale Q2 2026 and the NRC standard design approval release 25-033; X-energy IPO pricing release, 23 April 2026; Carnegie Endowment, "Beyond the Hype: Assessing Hyperscaler Nuclear Commitments Against US Energy Realities," Pendleton &amp; Schuessler, 2 June 2026; American Nuclear Society reporting on Palisades, 8 July 2026.</p>
+      <p><strong>Flows and positioning</strong> — Sprott Physical Uranium Trust holdings and NAV page, 5 August 2026, and the 26 January 2026 at-the-market programme announcement; Yellow Cake plc annual results for the year ended 31 March 2026; Global X URA fund page, 4 August 2026; Sprott URNM and URNJ fund pages, 5 August 2026; VanEck NLR and REMX holdings, 4 August 2026; Sprott Critical Materials holdings, 5 August 2026; Sprott insights notes of 15 December 2025, 3 February 2026 and 14 July 2026; Forbes, 12 December 2011, on the 2011 URA and USEC drawdowns; Investing News Network uranium price history.</p>
+      <p><strong>Policy</strong> — White House Presidential Determination under Section 101 of the Defense Production Act, 30 July 2026; Federal Register 2025-19826, 7 November 2025; USGS Mineral Commodity Summaries 2026 for antimony and rare earths; Department of Energy nuclear programme summary, 21 May 2026.</p>
+      <p><strong>Market data</strong> — share prices, market capitalisations, 52-week ranges, year-to-date returns, short interest and consensus targets are from stockanalysis.com, Benzinga and MarketBeat as of 5–6 August 2026, with the as-of timestamp noted where providers disagreed. Where two providers gave materially different figures — Energy Fuels' analyst count, MP Materials' forward multiple, several 52-week lows — the discrepancy is flagged rather than resolved.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo"><b>BAREK</b><i>/</i><s>LABS</s></div>
+    <p><strong>Report n°02 · The Enrichment Cliff · data arrested 6 August 2026.</strong> Research published for information. Nothing here is investment advice, a recommendation, or a solicitation. Commodity equities are volatile and this sector has a documented history of 80%-plus drawdowns lasting years. Do your own work, and read the filings — every one of them is linked above.</p>
+    <p>Figures are as disclosed by the issuers and named public bodies. Forward-looking company guidance is the issuer's, not ours. Any error is ours and worth telling us about.</p>
+  </div>
+</footer>
+
+<script>
+/* ============ BAREK / LABS chart engine — hand-rolled SVG, no dependencies ============ */
+const C={em:'#00E58A',blue:'#38BDF8',vio:'#A78BFA',red:'#F0616D',coral:'#FF8A5B',
+         g1:'#2A3648',g2:'#1E293B',mut:'#8B9AAE',dim:'#5C6B80',txt:'#E2E8F0'};
+const $=i=>document.getElementById(i);
+const set=(i,h)=>{const e=$(i);if(e)e.innerHTML=h;};
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fmt=(v,d=0)=>v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const nice=m=>{const p=Math.pow(10,Math.floor(Math.log10(m)));const n=m/p;
+  return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*p;};
+
+/* ---- horizontal bars ---- */
+function hbar(id,o){
+  const it=o.items,W=900,LW=o.labelW||205,RW=76,BW=W-LW-RW,RH=o.rowH||30,H=it.length*RH+34;
+  const mx=o.max||nice(Math.max(...it.map(d=>Math.abs(d.value)))*1.1);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  for(let g=0;g<=4;g++){const x=LW+BW*g/4;
+    s+=`<line x1="${x}" y1="0" x2="${x}" y2="${H-30}" stroke="${C.g2}" stroke-width="1"/>`;
+    s+=`<text x="${x}" y="${H-12}" fill="${C.dim}" font-size="11" font-family="JetBrains Mono" text-anchor="middle">${o.fmt?o.fmt(mx*g/4):fmt(mx*g/4)}</text>`;}
+  it.forEach((d,i)=>{const y=i*RH+6,bw=Math.max(2,BW*Math.abs(d.value)/mx),col=d.color||C.em;
+    s+=`<text x="${LW-11}" y="${y+14}" fill="${d.dimmed?C.dim:C.mut}" font-size="11.5" font-family="Inter" text-anchor="end">${esc(d.label)}</text>`;
+    s+=`<rect x="${LW}" y="${y+2}" width="${bw}" height="${RH-12}" rx="2.5" fill="${col}" opacity="${d.dimmed?.42:.88}"/>`;
+    s+=`<text x="${LW+bw+9}" y="${y+14}" fill="${col}" font-size="11.5" font-weight="500" font-family="JetBrains Mono">${d.disp||(o.fmt?o.fmt(d.value):fmt(d.value))}</text>`;});
+  if(o.ref!=null){const x=LW+BW*o.ref/mx;
+    s+=`<line x1="${x}" y1="0" x2="${x}" y2="${H-30}" stroke="${o.refColor||C.red}" stroke-width="1.4" stroke-dasharray="5,4"/>`;
+    s+=`<text x="${x+7}" y="12" fill="${o.refColor||C.red}" font-size="10" font-family="JetBrains Mono">${esc(o.refLabel||'')}</text>`;}
+  return s+'</svg>';
+}
+/* ---- vertical bars ---- */
+function vbar(id,o){
+  const it=o.items,W=900,H=o.h||300,L=62,B=o.labelLines?58:42,T=18,PW=W-L-24,PH=H-B-T;
+  const vals=it.map(d=>d.value),mn=Math.min(0,...vals),mxv=Math.max(0,...vals);
+  const mx=o.max||nice(mxv*1.12)||1,mnv=mn<0?-nice(Math.abs(mn)*1.15):0;
+  const y=v=>T+PH*(mx-v)/(mx-mnv);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  for(let g=0;g<=4;g++){const v=mnv+(mx-mnv)*g/4,yy=y(v);
+    s+=`<line x1="${L}" y1="${yy}" x2="${W-24}" y2="${yy}" stroke="${C.g2}" stroke-width="1"/>`;
+    s+=`<text x="${L-10}" y="${yy+4}" fill="${C.dim}" font-size="11" font-family="JetBrains Mono" text-anchor="end">${o.fmt?o.fmt(v):fmt(v)}</text>`;}
+  const step=PW/it.length,bw=Math.min(o.bw||58,step*0.66);
+  it.forEach((d,i)=>{const cx=L+step*(i+.5),v=d.value,y0=y(0),y1=y(v),col=d.color||C.em;
+    s+=`<rect x="${cx-bw/2}" y="${Math.min(y0,y1)}" width="${bw}" height="${Math.max(2,Math.abs(y1-y0))}" rx="3" fill="${col}" opacity=".88"/>`;
+    s+=`<text x="${cx}" y="${v>=0?y1-8:y1+16}" fill="${col}" font-size="11.5" font-weight="500" font-family="JetBrains Mono" text-anchor="middle">${d.disp||(o.fmt?o.fmt(v):fmt(v))}</text>`;
+    const lines=String(d.label).split('|');
+    lines.forEach((ln,k)=>{s+=`<text x="${cx}" y="${H-B+18+k*13}" fill="${C.mut}" font-size="10.5" font-family="Inter" text-anchor="middle">${esc(ln)}</text>`;});});
+  if(o.ref!=null){const yy=y(o.ref);
+    s+=`<line x1="${L}" y1="${yy}" x2="${W-24}" y2="${yy}" stroke="${C.red}" stroke-width="1.4" stroke-dasharray="5,4"/>`;
+    s+=`<text x="${W-26}" y="${yy-7}" fill="${C.red}" font-size="10" font-family="JetBrains Mono" text-anchor="end">${esc(o.refLabel||'')}</text>`;}
+  return s+'</svg>';
+}
+/* ---- multi-line ---- */
+function lineC(o){
+  const W=900,H=o.h||330,L=58,B=44,T=18,PW=W-L-24,PH=H-B-T,n=o.labels.length;
+  const all=o.series.flatMap(s=>s.data.filter(v=>v!=null));
+  const mx=o.ymax||nice(Math.max(...all)*1.06),mn=o.ymin!=null?o.ymin:Math.floor(Math.min(...all)*0.9/10)*10;
+  const X=i=>L+PW*i/(n-1),Y=v=>T+PH*(mx-v)/(mx-mn);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  for(let g=0;g<=5;g++){const v=mn+(mx-mn)*g/5,yy=Y(v);
+    s+=`<line x1="${L}" y1="${yy}" x2="${W-24}" y2="${yy}" stroke="${C.g2}" stroke-width="1"/>`;
+    s+=`<text x="${L-10}" y="${yy+4}" fill="${C.dim}" font-size="11" font-family="JetBrains Mono" text-anchor="end">${o.fmt?o.fmt(v):fmt(v)}</text>`;}
+  o.labels.forEach((lb,i)=>{if(i%(o.every||3))return;
+    s+=`<text x="${X(i)}" y="${H-B+20}" fill="${C.dim}" font-size="10" font-family="JetBrains Mono" text-anchor="middle">${esc(lb)}</text>`;});
+  (o.marks||[]).forEach(m=>{const x=X(m.i);
+    s+=`<line x1="${x}" y1="${T}" x2="${x}" y2="${T+PH}" stroke="${C.g1}" stroke-width="1" stroke-dasharray="3,4"/>`;
+    s+=`<text x="${x+6}" y="${T+13}" fill="${C.dim}" font-size="10" font-family="JetBrains Mono">${esc(m.t)}</text>`;});
+  o.series.forEach(se=>{let d='',started=false;
+    se.data.forEach((v,i)=>{if(v==null){if(!se.connect)started=false;return;}
+      d+=(started?' L':' M')+X(i)+' '+Y(v);started=true;});
+    s+=`<path d="${d}" fill="none" stroke="${se.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"${se.dash?' stroke-dasharray="6,5"':''}/>`;
+    if(se.dots)se.data.forEach((v,i)=>{if(v!=null)s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="3" fill="${se.color}" opacity=".85"/>`;});
+    const li=se.data.map((v,i)=>v==null?-1:i).filter(i=>i>=0).pop();
+    if(li>=0){s+=`<circle cx="${X(li)}" cy="${Y(se.data[li])}" r="4" fill="${se.color}"/>`;
+      s+=`<text x="${X(li)-10}" y="${Y(se.data[li])-11}" fill="${se.color}" font-size="12" font-weight="700" font-family="JetBrains Mono" text-anchor="end">${o.fmt?o.fmt(se.data[li]):se.data[li]}</text>`;}});
+  return s+'</svg>';
+}
+/* ---- grouped bars ---- */
+function gbar(o){
+  const g=o.groups,W=900,H=o.h||300,L=58,B=54,T=18,PW=W-L-24,PH=H-B-T;
+  const mx=o.max||nice(Math.max(...g.flatMap(x=>x.bars.map(b=>b.v)))*1.1);
+  const Y=v=>T+PH*(mx-v)/mx;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  for(let k=0;k<=4;k++){const v=mx*k/4,yy=Y(v);
+    s+=`<line x1="${L}" y1="${yy}" x2="${W-24}" y2="${yy}" stroke="${C.g2}" stroke-width="1"/>`;
+    s+=`<text x="${L-10}" y="${yy+4}" fill="${C.dim}" font-size="11" font-family="JetBrains Mono" text-anchor="end">${o.fmt?o.fmt(v):fmt(v)}</text>`;}
+  const step=PW/g.length;
+  g.forEach((gr,i)=>{const cx=L+step*(i+.5),nb=gr.bars.length,bw=Math.min(30,step/(nb+1.1));
+    gr.bars.forEach((b,j)=>{const x=cx-(nb*bw)/2+j*bw,yy=Y(b.v);
+      s+=`<rect x="${x+1.5}" y="${yy}" width="${bw-3}" height="${T+PH-yy}" rx="2.5" fill="${b.c}" opacity=".9"/>`;
+      s+=`<text x="${x+bw/2}" y="${yy-7}" fill="${b.c}" font-size="10.5" font-weight="500" font-family="JetBrains Mono" text-anchor="middle">${b.d||(o.fmt?o.fmt(b.v):fmt(b.v))}</text>`;});
+    String(gr.label).split('|').forEach((ln,k)=>{
+      s+=`<text x="${cx}" y="${H-B+20+k*13}" fill="${C.mut}" font-size="10.5" font-family="Inter" text-anchor="middle">${esc(ln)}</text>`;});});
+  return s+'</svg>';
+}
+
+/* ================= DATA ================= */
+const MO=['Jan 24','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',
+          'Jan 25','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',
+          'Jan 26','Feb','Mar','Apr','May','Jun','Jul'];
+const SPOT=[100.25,95.00,87.75,89.00,90.38,84.25,84.25,78.50,82.00,80.50,77.13,72.63,
+            69.28,65.03,64.23,67.73,71.55,78.50,71.10,75.13,82.63,80.00,75.80,81.55,
+            94.28,86.95,84.25,86.35,84.18,85.00,86.38];
+const TERM=[null,null,null,null,null,null,null,null,null,null,null,null,
+            null,null,null,null,null,null,null,80.00,null,null,86.00,null,
+            89.00,90.00,91.50,91.50,94.00,95.50,95.50];
+
+/* ---- 01 spot vs term ---- */
+set('c-price',lineC({labels:MO,every:3,ymin:60,ymax:105,fmt:v=>'$'+v.toFixed(0),
+  marks:[{i:24,t:'Jan 26 · $100 touched intraday'}],
+  series:[{color:C.blue,data:SPOT},{color:C.em,data:TERM,connect:true,dots:true}]}));
+
+/* ---- 02 spread ---- */
+const SPI=[19,22,24,25,26,27,28,29,30];
+set('c-spread',vbar('',{h:280,bw:52,max:12,
+  fmt:v=>(v>0?'+$':v<0?'\u2212$':'$')+Math.abs(v).toFixed(0),
+  items:SPI.map(i=>{const v=+(TERM[i]-SPOT[i]).toFixed(2);
+    const lb=MO[i].includes(' ')?MO[i]:MO[i]+(i<24?' 25':' 26');
+    return{label:lb,value:v,disp:(v>0?'+$':'\u2212$')+Math.abs(v).toFixed(2),
+      color:v>=0?C.em:C.red};})}));
+
+/* ---- 03 realised vs market ---- */
+set('c-realised',gbar({h:310,fmt:v=>'$'+v.toFixed(0),max:110,groups:[
+  {label:'Cameco|Q2 2026',bars:[{v:67.79,c:C.em,d:'$67.79'},{v:85.00,c:C.mut,d:'$85.00'}]},
+  {label:'Kazatomprom|Q2 2026',bars:[{v:70.79,c:C.em,d:'$70.79'},{v:85.18,c:C.mut,d:'$85.18'}]},
+  {label:'Energy Fuels|Q2 2026',bars:[{v:80.48,c:C.em,d:'$80.48'},{v:85.00,c:C.mut,d:'$85.00'}]},
+  {label:'Ur-Energy|Q1 2026',bars:[{v:70.98,c:C.em,d:'$70.98'},{v:88.49,c:C.mut,d:'$88.49'}]},
+  {label:'enCore|Q1 2026',bars:[{v:67.78,c:C.em,d:'$67.78'},{v:88.49,c:C.mut,d:'$88.49'}]},
+  {label:'Denison|Q1 2026',bars:[{v:99.07,c:C.em,d:'$99.07'},{v:88.49,c:C.mut,d:'$88.49'}]}]}));
+
+/* ---- 04 production ---- */
+set('c-prod',hbar('',{labelW:230,fmt:v=>fmt(v),max:14000,items:[
+  {label:'Kazatomprom · 21%',value:12463,color:C.em},
+  {label:'Cameco · 17%',value:10193,color:C.em},
+  {label:'Orano · 11%',value:6815,color:C.blue},
+  {label:'Uranium One (Rosatom) · 10%',value:5829,color:C.red},
+  {label:'CGN · 10%',value:5761,color:C.vio},
+  {label:'Navoi (Uzbekistan) · 7%',value:4000,color:C.coral},
+  {label:'CNNC · 6%',value:3286,color:C.vio},
+  {label:'All others · 20%',value:11866,color:C.g1,dimmed:true}]}));
+
+/* ---- 05 Kazatomprom cost inflation ---- */
+set('c-kazcost',gbar({h:290,fmt:v=>'$'+v.toFixed(0),max:48,groups:[
+  {label:'C1 cash cost|per lb, attributable',bars:[
+    {v:18.06,c:C.mut,d:'$18.06'},{v:23.50,c:C.coral,d:'$23.50'},{v:25.00,c:C.coral,d:'$25.00'}]},
+  {label:'AISC|per lb, attributable',bars:[
+    {v:29.53,c:C.mut,d:'$29.53'},{v:35.00,c:C.coral,d:'$35.00'},{v:36.50,c:C.coral,d:'$36.50'}]}]}));
+
+/* ---- 06 cost curve ---- */
+set('c-cost',hbar('',{labelW:270,rowH:29,fmt:v=>'$'+v.toFixed(0),max:95,
+  ref:86.38,refLabel:'spot $86.38',items:[
+  {label:'NexGen · LOM study operating cost',value:9.98,color:C.red},
+  {label:'Energy Fuels · Pinyon Plain, mine + mill',value:23.00,color:C.em},
+  {label:'Kazatomprom · C1, 2026 guide mid',value:24.25,color:C.em},
+  {label:'Boss Energy · C1, FY26 (A$39 @ 0.65)',value:25.35,color:C.em},
+  {label:'Kazatomprom · AISC, 2026 guide mid',value:35.75,color:C.coral},
+  {label:'Ur-Energy · cash cost, Q1 26',value:37.51,color:C.em},
+  {label:'Boss Energy · AISC, FY26 (A$61 @ 0.65)',value:39.65,color:C.coral},
+  {label:'Paladin · C1, FY26 actual',value:43.30,color:C.em},
+  {label:'enCore · extraction cost, Q1 26',value:46.43,color:C.em},
+  {label:'Paladin · C1, FY27 guide mid',value:46.00,color:C.em},
+  {label:'Uranium Energy · cash cost, FQ3 26',value:46.69,color:C.em},
+  {label:'Cameco · unit cost of sales incl. D&A (C$65.25)',value:47.42,color:C.vio},
+  {label:'Ur-Energy · total cost per lb sold, Q1 26',value:48.85,color:C.blue},
+  {label:'Uranium Energy · total cost, FQ3 26',value:54.61,color:C.blue},
+  {label:'enCore · cost of uranium sold, Q1 26',value:68.02,color:C.blue}]}));
+
+/* ---- 07 reactor fleet ---- */
+set('c-reactors',vbar('',{h:290,bw:76,labelLines:1,fmt:v=>fmt(v),items:[
+  {label:'Operable|404 GWe · burning fuel today',value:441,color:C.em},
+  {label:'Under construction|86 GWe · fuel on a known schedule',value:79,color:C.blue},
+  {label:'Planned|112 GWe · financed and sited',value:123,color:C.vio},
+  {label:'Proposed|302 GWe · an intention',value:326,color:C.g1}]}));
+
+/* ---- 08 supply vs demand ---- */
+set('c-supdem',vbar('',{h:310,bw:66,labelLines:1,fmt:v=>fmt(v/1000)+'k',items:[
+  {label:'2024|world mine production',value:60213,color:C.blue,disp:'60,213'},
+  {label:'2025|reactor requirements',value:68920,color:C.coral,disp:'68,920'},
+  {label:'2040 lower|WNA scenario',value:107000,color:C.g1,disp:'107,000'},
+  {label:'2040 reference|WNA scenario',value:150000,color:C.em,disp:'150,000'},
+  {label:'2040 upper|WNA scenario',value:204000,color:C.vio,disp:'204,000'},
+  {label:'1,200 GWe|"tripling" goal',value:250000,color:C.red,disp:'250,000'}]}));
+
+/* ---- 09 AI funnel ---- */
+set('c-ai',vbar('',{h:290,bw:80,labelLines:1,fmt:v=>v.toFixed(1)+' GW',max:14,items:[
+  {label:'Announced|the headline number',value:13.0,color:C.g1,disp:'13.0 GW'},
+  {label:'Under an actual PPA|rest is partnerships and options',value:6.9,color:C.blue,disp:'6.9 GW'},
+  {label:'On reactors not already running|i.e. new fuel demand',value:2.25,color:C.coral,disp:'2.25 GW'},
+  {label:'Delivering power today|Palisades · Crane · Duane Arnold',value:0.0,color:C.red,disp:'0.0 GW'}]}));
+
+/* ---- 10 contracting ---- */
+set('c-contract',vbar('',{h:290,bw:88,labelLines:1,fmt:v=>fmt(v),max:170,
+  ref:150,refLabel:'~150 Mlb replacement rate',items:[
+  {label:'2020–24|annual average',value:117.8,color:C.g1,disp:'117.8'},
+  {label:'2025|full year',value:116,color:C.coral,disp:'116'},
+  {label:'H1 2026|six months only',value:33,color:C.red,disp:'33'}]}));
+
+/* ---- 11 enrichment ---- */
+set('c-enrich',hbar('',{labelW:230,fmt:v=>fmt(v),max:30000,items:[
+  {label:'Rosatom · 44.1%',value:27100,color:C.red},
+  {label:'Urenco · 29.1%',value:17900,color:C.em},
+  {label:'CNNC · 14.5%',value:8900,color:C.vio},
+  {label:'Orano · 12.2%',value:7500,color:C.blue},
+  {label:'INB + JNFL · 0.2%',value:100,color:C.g1,dimmed:true}]}));
+
+/* ---- 12 SWU additions ---- */
+set('c-swu',vbar('',{h:300,bw:70,labelLines:1,fmt:v=>fmt(v),items:[
+  {label:'2027|Urenco USA, in progress',value:700,color:C.em,disp:'+700'},
+  {label:'2028–30|Orano Georges Besse II (+30%)',value:2250,color:C.coral,disp:'+2,250'},
+  {label:'2031|Orano "Project Ike", USA',value:7500,color:C.vio,disp:'+7,500'},
+  {label:'2032–36|Urenco USA expansion',value:2100,color:C.blue,disp:'+2,100'}]}));
+
+/* ---- 13 YTD ---- */
+set('c-ytd',hbar('',{labelW:250,rowH:27,fmt:v=>v.toFixed(0)+'%',max:45,items:[
+  {label:'Denison · developer',value:18.42,color:C.em,disp:'+18.4%'},
+  {label:'NexGen · developer',value:9.13,color:C.em,disp:'+9.1%'},
+  {label:'Cameco · producer',value:4.85,color:C.em,disp:'+4.9%'},
+  {label:'BWX Technologies · components',value:-1.74,color:C.coral,disp:'−1.7%'},
+  {label:'Ur-Energy · producer',value:-5.76,color:C.coral,disp:'−5.8%'},
+  {label:'Uranium Energy · producer',value:-6.34,color:C.coral,disp:'−6.3%'},
+  {label:'Talen · nuclear IPP',value:-10.23,color:C.coral,disp:'−10.2%'},
+  {label:'Vistra · nuclear IPP',value:-11.25,color:C.coral,disp:'−11.3%'},
+  {label:'Energy Fuels · producer + REE',value:-13.41,color:C.red,disp:'−13.4%'},
+  {label:'Centrus · enrichment',value:-23.65,color:C.red,disp:'−23.7%'},
+  {label:'Constellation · nuclear IPP',value:-24.70,color:C.red,disp:'−24.7%'},
+  {label:'NuScale · SMR',value:-33.03,color:C.red,disp:'−33.0%'},
+  {label:'Oklo · advanced reactor',value:-39.84,color:C.red,disp:'−39.8%'}]}));
+
+/* ---- 14 drawdown ---- */
+set('c-draw',hbar('',{labelW:230,rowH:27,fmt:v=>'−'+v.toFixed(0)+'%',max:90,items:[
+  {label:'Talen',value:24.1,color:C.coral,disp:'−24.1%'},
+  {label:'NexGen',value:28.1,color:C.coral,disp:'−28.1%'},
+  {label:'Cameco',value:29.4,color:C.coral,disp:'−29.4%'},
+  {label:'Denison',value:30.2,color:C.coral,disp:'−30.2%'},
+  {label:'BWX Technologies',value:30.4,color:C.coral,disp:'−30.4%'},
+  {label:'Constellation',value:35.8,color:C.coral,disp:'−35.8%'},
+  {label:'Vistra',value:36.1,color:C.coral,disp:'−36.1%'},
+  {label:'Ur-Energy',value:44.7,color:C.red,disp:'−44.7%'},
+  {label:'Uranium Energy',value:47.3,color:C.red,disp:'−47.3%'},
+  {label:'X-energy',value:48.7,color:C.red,disp:'−48.7%'},
+  {label:'Energy Fuels',value:54.8,color:C.red,disp:'−54.8%'},
+  {label:'Centrus',value:58.3,color:C.red,disp:'−58.3%'},
+  {label:'Oklo',value:77.9,color:C.red,disp:'−77.9%'},
+  {label:'NuScale',value:83.7,color:C.red,disp:'−83.7%'}]}));
+
+/* ---- 15 short interest ---- */
+set('c-short',hbar('',{labelW:280,rowH:31,fmt:v=>v.toFixed(0)+'%',max:30,items:[
+  {label:'Centrus · 5.3 days to cover',value:26.42,color:C.red,disp:'26.4%'},
+  {label:'NuScale · 2.3 days to cover',value:20.77,color:C.coral,disp:'20.8%'},
+  {label:'Oklo · 2.9 days to cover',value:20.20,color:C.coral,disp:'20.2%'},
+  {label:'Energy Fuels · 5.4 days to cover',value:19.74,color:C.red,disp:'19.7%'},
+  {label:'Constellation · reference point',value:3.19,color:C.g1,disp:'3.2%',dimmed:true}]}));
+
+/* ================= COMPARISON MATRIX ================= */
+const R={p:'<span class="tag2 t-prod">Producer</span>',d:'<span class="tag2 t-dev">Developer</span>',
+  f:'<span class="tag2 t-fuel">Fuel cycle</span>',u:'<span class="tag2 t-util">Utility / IPP</span>',
+  s:'<span class="tag2 t-smr">Advanced</span>',m:'<span class="tag2 t-min">Minerals</span>'};
+const MX=[
+ {tk:'CCJ',r:R.p,px:95.51,pxs:'$95.51',mc:41070,ytd:4.85,dh:-29.4,rev:814,revs:'C$814m',ni:25,nis:'C$25m',cash:1100,cashs:'C$1.1bn',debt:1000,debts:'C$1.0bn',per:'Q2 2026'},
+ {tk:'KAP.L',r:R.p,px:69.00,pxs:'$69.00',mc:17900,ytd:null,dh:-25.8,rev:null,revs:'—',ni:null,nis:'—',cash:null,cashs:'—',debt:null,debts:'—',per:'H1 due 21 Aug'},
+ {tk:'PDN.AX',r:R.p,px:9.99,pxs:'A$9.99',mc:3170,ytd:null,dh:-33.8,rev:null,revs:'—',ni:null,nis:'—',cash:265,cashs:'$265m',debt:32,debts:'$32m',per:'FY26 quarterly'},
+ {tk:'BOE.AX',r:R.p,px:1.345,pxs:'A$1.345',mc:363,ytd:null,dh:-38.9,rev:null,revs:'—',ni:null,nis:'—',cash:135,cashs:'A$207m',debt:0,debts:'nil',per:'FY26 quarterly'},
+ {tk:'UUUU',r:R.p,px:12.62,pxs:'$12.62',mc:3110,ytd:-13.41,dh:-54.8,rev:25.1,revs:'$25.1m',ni:-33.4,nis:'$(33.4)m',cash:961.7,cashs:'$961.7m',debt:700,debts:'$700m',per:'Q2 2026'},
+ {tk:'UEC',r:R.p,px:10.72,pxs:'$10.72',mc:5310,ytd:-6.34,dh:-47.3,rev:0,revs:'$0',ni:-52.3,nis:'$(52.3)m',cash:488.1,cashs:'$488m',debt:0,debts:'nil',per:'FQ3 to 30 Apr'},
+ {tk:'URG',r:R.p,px:1.30,pxs:'$1.30',mc:510,ytd:-5.76,dh:-44.7,rev:3.9,revs:'$3.9m',ni:null,nis:'—',cash:122.8,cashs:'$122.8m',debt:0,debts:'nil',per:'Q1 2026'},
+ {tk:'EU',r:R.p,px:1.08,pxs:'$1.08',mc:210,ytd:null,dh:-74.2,rev:18.3,revs:'$18.3m',ni:5.4,nis:'$5.4m',cash:41.6,cashs:'$41.6m',debt:115,debts:'$115m',per:'Q1 2026'},
+ {tk:'NXE',r:R.d,px:10.04,pxs:'$10.04',mc:6730,ytd:9.13,dh:-28.1,rev:0,revs:'nil',ni:74.5,nis:'$74.5m*',cash:756.2,cashs:'$756m',debt:360,debts:'$360m',per:'Q2 2026'},
+ {tk:'DNN',r:R.d,px:3.09,pxs:'$3.09',mc:2790,ytd:18.42,dh:-30.2,rev:1.1,revs:'C$1.1m',ni:-114.9,nis:'C$(114.9)m*',cash:418.5,cashs:'C$418m',debt:345,debts:'$345m',per:'Q1 2026'},
+ {tk:'LEU',r:R.f,px:193.55,pxs:'$193.55',mc:3810,ytd:-23.65,dh:-58.3,rev:176.1,revs:'$176.1m',ni:16.8,nis:'$16.8m',cash:1868.5,cashs:'$1.87bn',debt:1207.5,debts:'$1.21bn',per:'Q2 2026'},
+ {tk:'CEG',r:R.u,px:265.12,pxs:'$265.12',mc:94670,ytd:-24.70,dh:-35.8,rev:7504,revs:'$7,504m',ni:513,nis:'$513m',cash:null,cashs:'—',debt:null,debts:'—',per:'Q2 2026'},
+ {tk:'VST',r:R.u,px:140.58,pxs:'$140.58',mc:47400,ytd:-11.25,dh:-36.1,rev:null,revs:'—',ni:1029,nis:'$1,029m',cash:null,cashs:'—',debt:null,debts:'—',per:'Q1 2026'},
+ {tk:'TLN',r:R.u,px:342.31,pxs:'$342.31',mc:16400,ytd:-10.23,dh:-24.1,rev:null,revs:'—',ni:-92,nis:'$(92)m',cash:525,cashs:'$525m',debt:9200,debts:'$9.2bn net',per:'Q2 2026'},
+ {tk:'BWXT',r:R.u,px:168.28,pxs:'$168.28',mc:15420,ytd:-1.74,dh:-30.4,rev:901.6,revs:'$901.6m',ni:null,nis:'$0.97/sh',cash:null,cashs:'—',debt:null,debts:'—',per:'Q2 2026'},
+ {tk:'OKLO',r:R.s,px:42.83,pxs:'$42.83',mc:7450,ytd:-39.84,dh:-77.9,rev:0,revs:'nil',ni:-33.1,nis:'$(33.1)m',cash:2536.9,cashs:'$2.54bn',debt:0,debts:'nil',per:'Q1 2026'},
+ {tk:'SMR',r:R.s,px:9.38,pxs:'$9.38',mc:3430,ytd:-33.03,dh:-83.7,rev:0.075,revs:'$75k',ni:-50.1,nis:'$(50.1)m',cash:1893,cashs:'$1.89bn',debt:null,debts:'—',per:'Q2 2026'},
+ {tk:'XE',r:R.s,px:19.05,pxs:'$19.05',mc:7740,ytd:null,dh:-48.7,rev:null,revs:'$117m TTM',ni:null,nis:'$(546)m TTM',cash:null,cashs:'—',debt:null,debts:'—',per:'IPO 24 Apr 26'},
+ {tk:'MP',r:R.m,px:48.87,pxs:'$48.87',mc:8700,ytd:-5.0,dh:-51.2,rev:90.6,revs:'$90.6m',ni:-8.0,nis:'$(8.0)m',cash:886.3,cashs:'$886m',debt:1000.4,debts:'$1.00bn',per:'Q1 2026'},
+ {tk:'LYSCF',r:R.m,px:11.03,pxs:'$11.03',mc:9789,ytd:33.7,dh:-31.9,rev:288.9,revs:'A$288.9m',ni:null,nis:'—',cash:1209,cashs:'A$1.21bn',debt:212.8,debts:'A$213m',per:'Q4 FY26'},
+ {tk:'USAR',r:R.m,px:17.16,pxs:'$17.16',mc:4200,ytd:44.2,dh:-61.0,rev:5.7,revs:'$5.7m',ni:-67.0,nis:'$(67.0)m',cash:1749.6,cashs:'$1.75bn',debt:1.3,debts:'$1.3m',per:'Q1 2026'},
+ {tk:'UAMY',r:R.m,px:6.41,pxs:'$6.41',mc:942,ytd:27.6,dh:-67.5,rev:6.8,revs:'$6.8m',ni:-11.3,nis:'$(11.3)m',cash:23.7,cashs:'$23.7m',debt:0.2,debts:'$0.2m',per:'Q1 2026'}];
+
+function mcs(v){return v>=1000?'$'+(v/1000).toFixed(v>=10000?0:1)+'bn':'$'+fmt(v)+'m';}
+let SK='ytd',SD=true;
+function drawMatrix(){
+  const rows=MX.slice().sort((a,b)=>{
+    const x=a[SK],y=b[SK];
+    if(x==null&&y==null)return 0; if(x==null)return 1; if(y==null)return -1;
+    if(typeof x==='string')return SD?String(y).localeCompare(x):String(x).localeCompare(y);
+    return SD?y-x:x-y;});
+  set('matrix-body',rows.map(d=>{
+    const cls=v=>v==null?'':(v>=0?'pos':'neg');
+    return `<tr><td class="tk">${d.tk}</td><td>${d.r}</td><td>${d.pxs}</td><td>${mcs(d.mc)}</td>
+      <td class="${cls(d.ytd)}">${d.ytd==null?'—':(d.ytd>0?'+':'')+d.ytd.toFixed(1)+'%'}</td>
+      <td class="neg">${d.dh.toFixed(1)}%</td><td>${d.revs}</td>
+      <td class="${d.ni==null?'':(d.ni>=0?'pos':'neg')}">${d.nis}</td>
+      <td>${d.cashs}</td><td>${d.debts}</td><td class="l">${d.per}</td></tr>`;}).join(''));
+}
+function sortMatrix(k,desc){SK=k;SD=desc;drawMatrix();
+  document.querySelectorAll('#matrix th.s').forEach(t=>{
+    t.classList.remove('asc','desc');
+    if(t.dataset.k===k)t.classList.add(desc?'desc':'asc');});}
+document.querySelectorAll('#matrix th.s').forEach(t=>{
+  t.addEventListener('click',()=>{const k=t.dataset.k;sortMatrix(k,SK===k?!SD:true);});});
+sortMatrix('ytd',true);
+
+/* ================= SENSITIVITY MODEL ================= */
+const CAD=0.727, AUD=0.65;
+const MODEL=[
+ {n:'Kazatomprom',s:'C1',m:'C1 cash cost — 2026 guidance midpoint',c:24.25,v:35.36,vs:'35.4 Mlb'},
+ {n:'Kazatomprom',s:'AISC',m:'AISC — 2026 guidance midpoint',c:35.75,v:35.36,vs:'35.4 Mlb'},
+ {n:'Energy Fuels',s:'Pinyon Plain mine + mill',m:'Pinyon Plain mining + milling, as disclosed',c:23.00,v:1.75,vs:'1.75 Mlb'},
+ {n:'Boss Energy',s:'AISC (A$ converted)',m:'AISC FY26 — A$61 converted at A$1 = US$0.65',c:61*AUD,v:null,vs:'—'},
+ {n:'Ur-Energy',s:'cash cost',m:'Cash cost per lb sold — Q1 2026',c:37.51,v:null,vs:'—'},
+ {n:'Ur-Energy',s:'total cost',m:'Total cost per lb sold — Q1 2026',c:48.85,v:null,vs:'—'},
+ {n:'Paladin',s:'C1',m:'C1 — FY27 guidance midpoint',c:46.00,v:5.05,vs:'5.05 Mlb'},
+ {n:'Uranium Energy',s:'total cost',m:'Total cost per lb — fiscal Q3 2026',c:54.61,v:null,vs:'—'},
+ {n:'Cameco',s:'cost of sales incl. D&A',m:'Unit cost of sales incl. D&A — C$65.25 at C$1 = US$0.727',c:65.25*CAD,v:30.5,vs:'30.5 Mlb'},
+ {n:'enCore',s:'cost of uranium sold',m:'Cost of uranium sold — Q1 2026',c:68.02,v:null,vs:'—'},
+ {n:'NexGen',s:'LOM study opex',m:'Life-of-mine operating cost — study, not producing',c:9.98,v:null,vs:'—'}];
+
+function runModel(){
+  const px=+$('s-px').value, disc=+$('s-disc').value, real=px*(1-disc/100);
+  $('v-px').textContent='$'+px.toFixed(2);
+  $('v-disc').textContent=disc+'%';
+  $('v-real').textContent='$'+real.toFixed(2);
+  const rows=MODEL.map(d=>({...d,mg:real-d.c,pc:real>0?(real-d.c)/real*100:0}))
+                  .sort((a,b)=>b.mg-a.mg);
+  set('c-model',hbar('',{labelW:270,rowH:28,fmt:v=>'$'+v.toFixed(0),
+    max:Math.max(40,nice(Math.max(...rows.map(r=>Math.abs(r.mg)))*1.15)),
+    items:rows.map(r=>({label:r.n+' · '+r.s,value:Math.abs(r.mg),
+      disp:(r.mg>=0?'+$':'−$')+Math.abs(r.mg).toFixed(2),
+      color:r.mg<0?C.red:r.mg<15?C.coral:C.em}))}));
+  set('model-body',rows.map(r=>`<tr>
+    <td class="tk">${r.n}</td><td class="l">${r.m}</td>
+    <td>$${r.c.toFixed(2)}</td>
+    <td class="${r.mg>=0?'pos':'neg'}">${r.mg>=0?'+':'−'}$${Math.abs(r.mg).toFixed(2)}</td>
+    <td class="${r.pc>=0?'pos':'neg'}">${r.pc.toFixed(1)}%</td>
+    <td>${r.vs}</td>
+    <td>${r.v?'$'+fmt(real*r.v,0)+'m':'—'}</td></tr>`).join(''));
+}
+function resetModel(){$('s-px').value=95.5;$('s-disc').value=22;runModel();}
+resetModel();
+
+/* ================= NAV ================= */
+const secs=[...document.querySelectorAll('section[id],header')];
+const navL=[...document.querySelectorAll('nav a')];
+addEventListener('scroll',()=>{
+  const y=scrollY+140;let cur='';
+  secs.forEach(s=>{if(s.offsetTop<=y)cur=s.id;});
+  navL.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
+},{passive:true});
+</script>
+</body>
+</html>

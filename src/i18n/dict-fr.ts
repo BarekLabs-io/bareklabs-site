@@ -3,6 +3,7 @@
  */
 
 import type { Dict } from './translations'
+import { ideasFr } from './ideas-fr'
 
 export const fr: Dict = {
   nav: {
@@ -110,8 +111,8 @@ export const fr: Dict = {
       head: 'Dernières du labo',
       headRight: 'MIS À JOUR QUOTIDIENNEMENT',
       items: [
+        { d: '2026.08.06', tag: 'ÉNERGIE & ESPACE', t: 'La falaise de l’enrichissement : le vrai goulot de l’uranium n’est pas la mine', to: '/analysis/uranium' },
         { d: '2026.08.06', tag: 'PAIEMENTS', t: 'Le péage invisible : à qui appartient vraiment l’argent que vous dépensez', to: '/analysis/global-payments' },
-        { d: '2026.08.04', tag: 'ÉNERGIE & ESPACE', t: 'La nouvelle économie spatiale : SPCX, RKLB, ASTS — reprix en public', to: '/analysis/space-economy' },
         { d: 'EN DIRECT', tag: 'SIGNAL', t: 'Souk Signal : la lecture composite du jour sur les marchés régionaux', to: '/souk-signal' },
       ],
     },
@@ -140,13 +141,13 @@ export const fr: Dict = {
           code: '01.A',
           name: 'ANALYSES',
           desc: 'Lectures courtes et denses sur la structure de marché, les bascules macro et les anomalies observées dans les flux.',
-          count: '72 NOTES',
+          count: '5 NOTES',
         },
         {
           code: '01.B',
           name: 'IDÉES D’INVESTISSEMENT',
           desc: 'Configurations guidées par thèse avec logique d’entrée, niveaux d’invalidation et cartes de scénarios. Documentées avant, pas après.',
-          count: '56 THÈSES',
+          count: '8 THÈSES',
         },
       ],
     },
@@ -170,10 +171,11 @@ export const fr: Dict = {
     },
     filters: ['TOUT', 'CRYPTO', 'CLOUD & IA', 'PAIEMENTS', 'ÉNERGIE & ESPACE'],
     notes: [
-      { d: '2026.08.06', tag: 'CRYPTO', t: 'La crypto en 2026 : à quoi ressemble le cycle à partir d’ici', read: '14', conf: 75, to: '/analysis/crypto-2026' },
-      { d: '2026.08.06', tag: 'CLOUD & IA', t: 'Oracle : le titre que je regarde de plus près en ce moment', read: '16', conf: 78, to: '/analysis/oracle' },
-      { d: '2026.08.06', tag: 'PAIEMENTS', t: 'Le péage invisible : à qui appartient vraiment l’argent que vous dépensez', read: '24', conf: 82, to: '/analysis/global-payments' },
-      { d: '2026.08.04', tag: 'ÉNERGIE & ESPACE', t: 'La nouvelle économie spatiale : SPCX, RKLB, ASTS — reprix en public', read: '18', conf: 80, to: '/analysis/space-economy' },
+        { d: '2026.08.06', tag: 'ÉNERGIE & ESPACE', t: 'La falaise de l’enrichissement : le vrai goulot de l’uranium n’est pas la mine', read: '63', conf: 84, to: '/analysis/uranium' },
+      { d: '2026.08.06', tag: 'CRYPTO', t: 'La crypto en 2026 : à quoi ressemble le cycle à partir d’ici', read: '3', conf: 75, to: '/analysis/crypto-2026' },
+      { d: '2026.08.06', tag: 'CLOUD & IA', t: 'Oracle : le titre que je regarde de plus près en ce moment', read: '14', conf: 78, to: '/analysis/oracle' },
+      { d: '2026.08.06', tag: 'PAIEMENTS', t: 'Le péage invisible : à qui appartient vraiment l’argent que vous dépensez', read: '64', conf: 82, to: '/analysis/global-payments' },
+      { d: '2026.08.04', tag: 'ÉNERGIE & ESPACE', t: 'La nouvelle économie spatiale : SPCX, RKLB, ASTS — reprix en public', read: '10', conf: 80, to: '/analysis/space-economy' },
     ],
     head: 'Nos dernières analyses et recherches',
     notesUnit: 'NOTES',
@@ -188,9 +190,9 @@ export const fr: Dict = {
       serif: 'd’investissement',
       desc: 'DES THÈSES AVEC PREUVES : LOGIQUE D’ENTRÉE, NIVEAUX D’INVALIDATION ET CARTES DE PROBABILITÉS — ÉCRITES AVANT LE TRADE, AUDITÉES APRÈS.',
     },
-    filters: ['TOUT', 'BANQUES', 'TÉLÉCOMS', 'CRYPTO', 'PHARMA'],
+    filters: ['TOUT', 'AI INFRA', 'MEDTECH', 'BIOTECH', 'SPACE', 'ENERGY', 'MATERIALS'],
     status: { ACTIVE: 'ACTIF', WATCHING: 'SURVEILLÉ', CLOSED: 'CLÔTURÉ' } as Record<string, string>,
-    labels: { entry: 'LOGIQUE D’ENTRÉE', invalidation: 'INVALIDATION', horizon: 'HORIZON', scenarios: 'CARTE DES SCÉNARIOS' },
+    labels: { entry: 'LOGIQUE D’ENTRÉE', invalidation: 'INVALIDATION', horizon: 'HORIZON', scenarios: 'CARTE DES SCÉNARIOS', readReport: 'LIRE LE RAPPORT COMPLET' },
     scenarioLabels: { BASE: 'Central', BULL: 'Haussier', BEAR: 'Baissier', HIT: 'Atteint' } as Record<string, string>,
     head: 'Thèses ouvertes',
     headRight: 'CLIQUER POUR DÉPLIER',
@@ -199,7 +201,7 @@ export const fr: Dict = {
       label: 'AUCUNE THÈSE EN COURS',
       body: 'Cette page publie des thèses avec preuves à l’appui — logique d’entrée, niveaux d’invalidation, cartes de scénarios — pas des exemples de remplissage. Rien n’atteint encore ce niveau, donc rien n’est publié. Dès qu’une vraie thèse documentée est prête, elle arrive ici en premier.',
     },
-    items: [],
+    items: ideasFr,
   },
   chain: {
     hero: {

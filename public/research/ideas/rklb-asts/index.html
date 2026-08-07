@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BAREK / LABS — RKLB &amp; ASTS Deep Dive</title>
+<style>
+:root{
+  --bg:#0a0c10; --bg2:#11141b; --bg3:#171b24; --line:#242a36;
+  --tx:#e6e9ef; --tx2:#9aa4b8; --tx3:#606a80;
+  --acc:#f4c542; --acc2:#4da3ff; --up:#31c48d; --dn:#f0616d; --neu:#8b93a7;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+a{color:var(--acc2);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---------- top bar ---------- */
+header{position:sticky;top:0;z-index:50;background:rgba(10,12,16,.93);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.hb{display:flex;align-items:center;gap:18px;height:58px}
+.logo{font-weight:800;letter-spacing:.14em;font-size:13px}
+.logo b{color:var(--acc)}
+.logo span{color:var(--tx3);font-weight:400}
+nav{display:flex;gap:16px;margin-left:auto;flex-wrap:wrap}
+nav a{color:var(--tx2);font-size:12.5px;letter-spacing:.02em}
+nav a:hover{color:var(--tx);text-decoration:none}
+.langbtn{border:1px solid var(--line);background:var(--bg3);color:var(--tx2);
+  border-radius:6px;padding:5px 11px;font-size:12px;cursor:pointer;font-weight:600;letter-spacing:.05em}
+.langbtn:hover{border-color:var(--acc);color:var(--acc)}
+
+/* ---------- hero ---------- */
+.hero{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+.kicker{color:var(--acc);font-size:11.5px;letter-spacing:.2em;font-weight:700;text-transform:uppercase}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.12;margin:14px 0 12px;letter-spacing:-.02em;font-weight:750}
+.sub{color:var(--tx2);font-size:17px;max-width:800px}
+.meta{margin-top:20px;color:var(--tx3);font-size:12.5px;font-family:var(--mono)}
+
+/* ---------- generic ---------- */
+section{padding:46px 0;border-bottom:1px solid var(--line)}
+h2{font-size:25px;margin:0 0 6px;letter-spacing:-.015em;font-weight:700}
+h2 .num{color:var(--acc);font-family:var(--mono);font-size:15px;margin-right:10px;font-weight:600}
+h3{font-size:17px;margin:30px 0 10px;color:var(--tx);font-weight:650}
+h4{font-size:14px;margin:20px 0 8px;color:var(--acc);letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+p{margin:11px 0}
+.lead{color:var(--tx2);font-size:15.5px;margin-bottom:20px;max-width:900px}
+ul{padding-left:20px;margin:11px 0}
+li{margin:6px 0}
+small,.small{font-size:12.5px;color:var(--tx3);line-height:1.55}
+.mono{font-family:var(--mono)}
+.up{color:var(--up)} .dn{color:var(--dn)} .neu{color:var(--neu)} .acc{color:var(--acc)}
+
+/* ---------- cards ---------- */
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:860px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:18px}
+.card.hl{border-color:#3a3020;background:linear-gradient(180deg,#1a1509,#11141b)}
+.stat{font-family:var(--mono);font-size:27px;font-weight:600;letter-spacing:-.02em;margin:3px 0}
+.lab{font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:.12em;font-weight:600}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:9px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--bg3);text-align:left;padding:9px 11px;font-size:11px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--tx2);font-weight:700;white-space:nowrap;
+  border-bottom:1px solid var(--line)}
+td{padding:8px 11px;border-bottom:1px solid #1b202a;vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#141822}
+td.n,th.n{text-align:right;font-family:var(--mono);white-space:nowrap}
+tr.tot td{background:#151a24;font-weight:700}
+.tag{display:inline-block;padding:1px 7px;border-radius:4px;font-size:10.5px;
+  font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.t-ok{background:#0e2f22;color:#4ede9f} .t-no{background:#331419;color:#ff8a92}
+.t-w{background:#332a0d;color:#f4c542} .t-i{background:#0f2438;color:#6bb8ff}
+
+/* ---------- callouts ---------- */
+.note{border-left:3px solid var(--acc);background:#15130b;padding:13px 16px;
+  border-radius:0 8px 8px 0;margin:18px 0;font-size:13.5px}
+.warn{border-left:3px solid var(--dn);background:#1a0e10;padding:13px 16px;
+  border-radius:0 8px 8px 0;margin:18px 0;font-size:13.5px}
+.info{border-left:3px solid var(--acc2);background:#0b1520;padding:13px 16px;
+  border-radius:0 8px 8px 0;margin:18px 0;font-size:13.5px}
+
+/* ---------- scenario boxes ---------- */
+.scen{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+@media(max-width:860px){.scen{grid-template-columns:1fr}}
+.sc{border:1px solid var(--line);border-radius:10px;padding:17px;background:var(--bg2)}
+.sc.bear{border-top:3px solid var(--dn)} .sc.base{border-top:3px solid var(--acc)}
+.sc.bull{border-top:3px solid var(--up)}
+.sc .nm{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--tx2)}
+.sc .px{font-family:var(--mono);font-size:31px;font-weight:600;margin:6px 0 2px}
+.sc .dl{font-family:var(--mono);font-size:13px;margin-bottom:9px}
+.sc p{font-size:12.8px;color:var(--tx2);margin:8px 0 0;line-height:1.55}
+
+/* ---------- controls ---------- */
+.ctl{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:18px;margin:18px 0}
+.ctlgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:16px}
+.sl label{display:flex;justify-content:space-between;font-size:12px;color:var(--tx2);
+  margin-bottom:5px;font-weight:600}
+.sl label b{font-family:var(--mono);color:var(--acc);font-weight:600}
+input[type=range]{width:100%;-webkit-appearance:none;height:4px;border-radius:3px;
+  background:#2a3140;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;
+  border-radius:50%;background:var(--acc);cursor:pointer;border:2px solid var(--bg)}
+input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;
+  background:var(--acc);cursor:pointer;border:2px solid var(--bg)}
+.segbtns{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}
+.segbtns button{background:var(--bg3);border:1px solid var(--line);color:var(--tx2);
+  padding:6px 14px;border-radius:6px;font-size:12.5px;cursor:pointer;font-weight:600}
+.segbtns button.on{background:var(--acc);color:#0a0c10;border-color:var(--acc)}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:18px;
+  padding-top:16px;border-top:1px solid var(--line)}
+.out div{text-align:center}
+.out .v{font-family:var(--mono);font-size:24px;font-weight:600}
+
+/* ---------- charts ---------- */
+.chart{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px;margin:16px 0}
+.chart .ct{font-size:13px;font-weight:650;margin-bottom:2px}
+.chart .cs{font-size:11.5px;color:var(--tx3);margin-bottom:12px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.lg{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:11.5px;color:var(--tx2)}
+.lg i{width:11px;height:11px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:-1px}
+
+/* heat */
+.heat td{font-family:var(--mono);text-align:center;font-size:12px;padding:7px 4px}
+.heat th{text-align:center}
+
+footer{padding:36px 0 60px;color:var(--tx3);font-size:12.5px}
+.fr,.en{display:none}
+body.lang-fr .fr{display:revert}
+body.lang-en .en{display:revert}
+</style>
+</head>
+<body class="lang-fr">
+
+<header>
+ <div class="wrap hb">
+   <div class="logo"><b>BAREK</b> <span>/</span> LABS</div>
+   <nav>
+     <a href="#tldr"><span class="fr">Synthèse</span><span class="en">Summary</span></a>
+     <a href="#rklb">RKLB</a>
+     <a href="#asts">ASTS</a>
+     <a href="#dcf">DCF</a>
+     <a href="#reverse"><span class="fr">DCF inverse</span><span class="en">Reverse DCF</span></a>
+     <a href="#peers"><span class="fr">Comparables</span><span class="en">Peers</span></a>
+     <a href="#risk"><span class="fr">Risques</span><span class="en">Risks</span></a>
+   </nav>
+   <button class="langbtn" id="lang">EN</button>
+ </div>
+</header>
+
+<div class="wrap">
+ <div class="hero">
+  <div class="kicker">Investment Ideas — Deep Dive</div>
+  <h1>Rocket Lab &amp; AST SpaceMobile<br><span class="acc">
+    <span class="fr">deux paris spatiaux, une même question</span>
+    <span class="en">two space bets, one shared question</span></span></h1>
+  <p class="sub">
+   <span class="fr">Analyse fondamentale complète : segmentation du chiffre d'affaires, carnet de commandes,
+   contrats publics et privés, DCF à 10 ans en trois scénarios, somme des parties, DCF inverse
+   et table de comparables vérifiée. Toutes les données sont sourcées et datées.</span>
+   <span class="en">Full fundamental analysis: revenue segmentation, backlog, public and private contracts,
+   10-year DCF across three scenarios, sum-of-the-parts, reverse DCF and a verified comparables table.
+   Every figure is sourced and dated.</span>
+  </p>
+  <div class="meta">
+    <span class="fr">Arrêté au 6 août 2026 · cours de clôture du 5 août / intraday du 6 août ·
+      publications T2 2026 attendues le 10 août 2026 pour les deux sociétés</span>
+    <span class="en">As of 6 August 2026 · 5 Aug close / 6 Aug intraday prices ·
+      Q2 2026 results due 10 August 2026 for both companies</span>
+  </div>
+ </div>
+</div>
+
+<!-- =================== TLDR =================== -->
+<section id="tldr"><div class="wrap">
+ <h2><span class="num">01</span><span class="fr">La thèse en une page</span><span class="en">The thesis in one page</span></h2>
+
+ <div class="grid g4" style="margin:20px 0">
+  <div class="card"><div class="lab">RKLB</div><div class="stat">78,42 $</div>
+    <div class="small">46,9 Md$ <span class="fr">de capitalisation</span><span class="en">market cap</span> ·
+    <span class="dn">−48 %</span> <span class="fr">sous le plus haut 52 s.</span><span class="en">below 52w high</span></div></div>
+  <div class="card"><div class="lab">RKLB — VE / CA TTM</div><div class="stat">65,5×</div>
+    <div class="small"><span class="fr">CA TTM 679,6 M$ · carnet 2,2 Md$</span>
+    <span class="en">TTM revenue $679.6M · $2.2B backlog</span></div></div>
+  <div class="card"><div class="lab">ASTS</div><div class="stat">68,38 $</div>
+    <div class="small">26,5 Md$ <span class="fr">de capitalisation</span><span class="en">market cap</span> ·
+    <span class="dn">−49 %</span> <span class="fr">sous le plus haut 52 s.</span><span class="en">below 52w high</span></div></div>
+  <div class="card"><div class="lab">ASTS — VE / CA TTM</div><div class="stat">320,8×</div>
+    <div class="small"><span class="fr">CA TTM 84,9 M$ · 12 satellites en orbite</span>
+    <span class="en">TTM revenue $84.9M · 12 satellites in orbit</span></div></div>
+ </div>
+
+ <div class="fr">
+  <p class="lead"><b>Ce sont deux dossiers de nature radicalement différente que le marché valorise
+  aujourd'hui sur la même base : la croyance.</b> Rocket Lab est une société industrielle réelle, avec
+  92 lancements Electron réussis, 2,2 Md$ de carnet de commandes et une acquisition de 8 Md$ en cours.
+  AST SpaceMobile est une option d'achat sur un marché — la téléphonie directe par satellite — qui
+  n'existe commercialement pour personne aujourd'hui.</p>
+
+  <p>Notre travail de valorisation aboutit à une conclusion inconfortable mais robuste : <b>aucun scénario
+  opérationnel raisonnable, actualisé à un coût du capital cohérent avec le bêta observé de ces titres,
+  ne permet de justifier les cours actuels.</b> Le DCF du cas de base ressort à 8,04 $ pour RKLB (−90 %)
+  et 4,64 $ pour ASTS (−93 %). Notre scénario haussier — Neutron qui vole fin 2026, 25 lancements par an
+  en 2032, 11,6 Md$ de chiffre d'affaires en 2035 pour RKLB ; constellation complète et 9,8 Md$ de CA en
+  2035 pour ASTS — ne remonte qu'à 22,47 $ et 35,40 $.</p>
+
+  <p>Plutôt que de conclure « surévalué de 90 % » et de s'arrêter là, nous avons retourné le modèle.
+  <b>Que faut-il croire pour justifier le cours du jour ?</b> Réponse : un taux d'actualisation de 4,37 %
+  pour RKLB — <i>inférieur au rendement du 10 ans américain</i> (4,65 %), c'est-à-dire une prime de risque
+  négative sur l'un des titres les plus volatils du Nasdaq (bêta 2,63). Ou bien, à coût du capital
+  inchangé, 88 Md$ de chiffre d'affaires en 2035, soit 64,6 % de croissance annuelle pendant dix ans et
+  plus que Lockheed Martin aujourd'hui. Pour ASTS : 42 Md$ de CA en 2035, contre un marché mondial du
+  direct-to-device estimé à 15,5 Md$ en 2035 par GM Insights. <b>ASTS devrait faire 2,7 fois la taille de
+  son marché entier.</b></p>
+
+  <p><b>Notre lecture.</b> Ces titres ne sont pas évalués comme des flux de trésorerie mais comme des
+  options — sur Neutron et le budget Golden Dome pour RKLB, sur la valeur du spectre et un
+  quasi-monopole D2D pour ASTS. C'est une position défendable ; ce n'est simplement pas une position
+  d'investissement fondamentale. Le prix d'entrée détermine tout : à 78 $ et 68 $, l'asymétrie est
+  défavorable dans les deux cas. Entre les deux, <b>RKLB est le dossier de meilleure qualité</b> —
+  revenus réels, carnet de commandes réel, diversification défense — mais c'est <b>ASTS qui offre la
+  convexité la plus forte</b>, avec un plancher d'actif tangible (spectre) et 22,3 % du flottant vendu à
+  découvert.</p>
+ </div>
+
+ <div class="en">
+  <p class="lead"><b>These are two fundamentally different businesses that the market currently values on
+  the same basis: belief.</b> Rocket Lab is a real industrial company — 92 successful Electron launches,
+  a $2.2B backlog, an $8B acquisition in flight. AST SpaceMobile is a call option on a market —
+  direct-to-smartphone satellite service — that does not yet exist commercially for anyone.</p>
+
+  <p>Our valuation work reaches an uncomfortable but robust conclusion: <b>no reasonable operating
+  scenario, discounted at a cost of capital consistent with these stocks' observed betas, justifies
+  current prices.</b> Base-case DCF lands at $8.04 for RKLB (−90%) and $4.64 for ASTS (−93%). Our bull
+  case — Neutron flying in late 2026, 25 launches a year by 2032, $11.6B of 2035 revenue for RKLB; a
+  complete constellation and $9.8B of 2035 revenue for ASTS — only reaches $22.47 and $35.40.</p>
+
+  <p>Rather than stop at "90% overvalued," we inverted the model. <b>What must you believe to justify
+  today's price?</b> Answer: a 4.37% discount rate for RKLB — <i>below the US 10-year yield</i> (4.65%),
+  i.e. a negative risk premium on one of the Nasdaq's most volatile names (beta 2.63). Or, holding cost
+  of capital constant, $88B of 2035 revenue — 64.6% annual growth for a decade, and more than Lockheed
+  Martin earns today. For ASTS: $42B of 2035 revenue, against a global direct-to-device market GM
+  Insights sizes at $15.5B in 2035. <b>ASTS would need to be 2.7× the size of its entire market.</b></p>
+
+  <p><b>Our read.</b> These are not cash-flow securities; they are options — on Neutron and Golden Dome
+  budget for RKLB, on spectrum value and a D2D near-monopoly for ASTS. That is a defensible position;
+  it is simply not a fundamental investment position. Entry price determines everything: at $78 and $68,
+  the asymmetry is unfavourable in both cases. Between the two, <b>RKLB is the higher-quality
+  business</b> — real revenue, real backlog, defence diversification — but <b>ASTS carries the greater
+  convexity</b>, with a tangible asset floor (spectrum) and 22.3% of float sold short.</p>
+ </div>
+
+ <div class="warn">
+  <b class="fr">Avertissement de calendrier.</b><b class="en">Timing warning.</b>
+  <span class="fr">Rocket Lab et AST SpaceMobile publient toutes deux leurs résultats du deuxième
+  trimestre 2026 le <b>10 août 2026</b>, soit quatre jours après la date d'arrêté de cette note. Le dernier
+  trimestre publié est donc le T1 2026 pour les deux. Toute donnée présentée ici comme « T2 2026 » serait
+  fausse ; nous n'en présentons aucune.</span>
+  <span class="en">Rocket Lab and AST SpaceMobile both report Q2 2026 results on <b>10 August 2026</b>,
+  four days after this note's cut-off. The last reported quarter is therefore Q1 2026 for both. Any figure
+  presented here as "Q2 2026" would be wrong; we present none.</span>
+ </div>
+
+ <h3><span class="fr">Récapitulatif des valorisations</span><span class="en">Valuation summary</span></h3>
+ <div class="tw"><table>
+  <thead><tr>
+    <th><span class="fr">Méthode</span><span class="en">Method</span></th>
+    <th class="n">RKLB</th><th class="n"><span class="fr">vs cours</span><span class="en">vs price</span></th>
+    <th class="n">ASTS</th><th class="n"><span class="fr">vs cours</span><span class="en">vs price</span></th>
+    <th><span class="fr">Commentaire</span><span class="en">Comment</span></th>
+  </tr></thead>
+  <tbody>
+   <tr><td><span class="fr">Cours au 6/08/2026</span><span class="en">Price 6 Aug 2026</span></td>
+     <td class="n">78,42 $</td><td class="n neu">—</td><td class="n">68,38 $</td><td class="n neu">—</td>
+     <td class="small">stockanalysis.com</td></tr>
+   <tr><td>DCF — <span class="fr">baissier</span><span class="en">bear</span></td>
+     <td class="n dn">1,93 $</td><td class="n dn">−98 %</td>
+     <td class="n dn">4,60–12,40 $*</td><td class="n dn">−93 à −82 %</td>
+     <td class="small"><span class="fr">*ASTS : DCF négatif, remplacé par la valeur d'actif (spectre + constellation)</span>
+       <span class="en">*ASTS: DCF negative, replaced by asset value (spectrum + constellation)</span></td></tr>
+   <tr class="tot"><td>DCF — <span class="fr">central</span><span class="en">base</span></td>
+     <td class="n">8,04 $</td><td class="n dn">−90 %</td>
+     <td class="n">4,64 $</td><td class="n dn">−93 %</td>
+     <td class="small">WACC 13,5 % / 14,0 %, g 3,0 %</td></tr>
+   <tr><td>DCF — <span class="fr">haussier</span><span class="en">bull</span></td>
+     <td class="n up">22,47 $</td><td class="n dn">−71 %</td>
+     <td class="n up">35,40 $</td><td class="n dn">−48 %</td>
+     <td class="small">WACC 12,0 % / 12,5 %</td></tr>
+   <tr><td><span class="fr">Somme des parties (multiples)</span><span class="en">Sum-of-the-parts</span></td>
+     <td class="n">17,9–29,2 $</td><td class="n dn">−77 à −63 %</td>
+     <td class="n">16,0–30,9 $</td><td class="n dn">−77 à −55 %</td>
+     <td class="small"><span class="fr">multiples de comparables cotés du secteur</span>
+       <span class="en">listed sector peer multiples</span></td></tr>
+   <tr><td><span class="fr">Consensus analystes</span><span class="en">Analyst consensus</span></td>
+     <td class="n">110–115 $</td><td class="n up">+40 à +48 %</td>
+     <td class="n">80,48 $</td><td class="n up">+18 %</td>
+     <td class="small">18–22 <span class="fr">analystes</span><span class="en">analysts</span> / 13 —
+       stockanalysis, marketbeat</td></tr>
+  </tbody></table></div>
+ <p class="small"><span class="fr">L'écart entre notre DCF et le consensus n'est pas une erreur de calcul :
+  la quasi-totalité des notes de recherche sur ces deux valeurs s'appuient sur des multiples de chiffre
+  d'affaires à horizon 2027-2030, pas sur une actualisation de flux. Les deux approches répondent à des
+  questions différentes. La nôtre répond à : « quels flux faut-il pour rémunérer le capital investi ? »</span>
+  <span class="en">The gap between our DCF and consensus is not an arithmetic error: nearly all sell-side
+  work on these names rests on 2027-2030 revenue multiples, not on discounted cash flow. The two approaches
+  answer different questions. Ours answers: "what cash flows are required to compensate invested capital?"</span></p>
+</div></section>
+
+<!-- =================== RKLB =================== -->
+<section id="rklb"><div class="wrap">
+ <h2><span class="num">02</span>Rocket Lab (RKLB)</h2>
+ <p class="lead">
+  <span class="fr">Le seul opérateur occidental de petits lanceurs à cadence industrielle, en pleine mutation
+  vers un modèle de prime contractor défense — et engagé dans l'acquisition la plus structurante de son histoire.</span>
+  <span class="en">The only Western small-launch operator flying at industrial cadence, transforming into a
+  defence prime contractor — and engaged in the most consequential acquisition of its history.</span></p>
+
+ <div class="grid g4">
+  <div class="card"><div class="lab"><span class="fr">CA T1 2026</span><span class="en">Q1 2026 revenue</span></div>
+    <div class="stat">200,3 M$</div><div class="small up">+63,5 % <span class="fr">sur un an</span><span class="en">YoY</span></div></div>
+  <div class="card"><div class="lab"><span class="fr">Carnet de commandes</span><span class="en">Backlog</span></div>
+    <div class="stat">2,2 Md$</div><div class="small up">+108 % <span class="fr">sur un an</span><span class="en">YoY</span></div></div>
+  <div class="card"><div class="lab"><span class="fr">Lancements Electron 2026</span><span class="en">2026 Electron launches</span></div>
+    <div class="stat">13</div><div class="small"><span class="fr">au 6 août · 100 % de succès</span><span class="en">as of 6 Aug · 100% success</span></div></div>
+  <div class="card"><div class="lab"><span class="fr">Trésorerie nette</span><span class="en">Net cash</span></div>
+    <div class="stat">1,44 Md$</div><div class="small"><span class="fr">au 31/03/2026</span><span class="en">at 31 Mar 2026</span></div></div>
+ </div>
+
+ <h3><span class="fr">Ce que fait vraiment Rocket Lab</span><span class="en">What Rocket Lab actually does</span></h3>
+ <p><span class="fr">Contre-intuitivement, <b>Rocket Lab n'est plus principalement une société de lancement</b>.
+  Au T1 2026, Space Systems — satellites complets, composants, cellules solaires, roues de réaction,
+  terminaux laser — représente <b>136,7 M$, soit 68 % du chiffre d'affaires</b>, contre 63,7 M$ (32 %) pour
+  les services de lancement. Cette bascule est le fruit d'une stratégie d'acquisitions méthodique :
+  Sinclair Interplanetary (2020), Planetary Systems (2021), SolAero (2022), Geost (275 M$, clos août 2025),
+  Mynaric (~155 M$, clos avril 2026) et Motiv Space Systems (mai 2026).</span>
+  <span class="en">Counter-intuitively, <b>Rocket Lab is no longer primarily a launch company</b>. In Q1 2026,
+  Space Systems — complete satellites, components, solar cells, reaction wheels, laser terminals — generated
+  <b>$136.7M, or 68% of revenue</b>, versus $63.7M (32%) for launch services. That shift is the product of a
+  methodical acquisition strategy: Sinclair Interplanetary (2020), Planetary Systems (2021), SolAero (2022),
+  Geost ($275M, closed Aug 2025), Mynaric (~$155M, closed Apr 2026) and Motiv Space Systems (May 2026).</span></p>
+
+ <div class="chart">
+  <div class="ct"><span class="fr">Chiffre d'affaires historique et projeté par segment</span>
+    <span class="en">Historical and projected revenue by segment</span></div>
+  <div class="cs"><span class="fr">M$ · 2021-2025 réalisé (sources : rapports annuels, stockanalysis) ·
+    2026-2035 modélisé, scénario sélectionné</span>
+    <span class="en">$M · 2021-2025 actual (source: annual reports, stockanalysis) ·
+    2026-2035 modelled, selected scenario</span></div>
+  <div class="segbtns" id="rkSegBtns">
+    <button data-s="bear"><span class="fr">Baissier</span><span class="en">Bear</span></button>
+    <button data-s="base" class="on"><span class="fr">Central</span><span class="en">Base</span></button>
+    <button data-s="bull"><span class="fr">Haussier</span><span class="en">Bull</span></button>
+  </div>
+  <div id="rkRevChart"></div>
+  <div class="lg"><span><i style="background:#4da3ff"></i><span class="fr">Services de lancement</span><span class="en">Launch Services</span></span>
+   <span><i style="background:#f4c542"></i>Space Systems</span>
+   <span><i style="background:#3d4757"></i><span class="fr">Historique (non segmenté)</span><span class="en">History (unsegmented)</span></span></div>
+ </div>
+
+ <h4>Neutron</h4>
+ <p><span class="fr">Neutron est le pivot de toute la thèse haussière — et n'a <b>toujours pas volé</b> au
+  6 août 2026. Cible actuelle : quatrième trimestre 2026, après un calendrier initial de « pas avant
+  juillet 2025 ». Un défaut de fabrication sur le réservoir du premier étage, détecté lors d'un essai
+  hydrostatique le 21 janvier 2026, a coûté plusieurs mois ; le réservoir de remplacement est en production.
+  Le pas de tir LC-3 à Wallops est prêt, les moteurs Archimedes tournent 20 heures par jour au Stennis Space
+  Center, mais la barge de récupération « Return On Investment » ne sera opérationnelle qu'au deuxième vol.</span>
+  <span class="en">Neutron is the fulcrum of the entire bull case — and had <b>still not flown</b> as of
+  6 August 2026. Current target: Q4 2026, against an original schedule of "no earlier than July 2025."
+  A first-stage tank manufacturing defect, found during a hydrostatic test on 21 January 2026, cost several
+  months; the replacement tank is in production. Wallops LC-3 is ready and the Archimedes engines run 20
+  hours a day at Stennis Space Center, but the "Return On Investment" recovery barge will only be
+  operational for the second flight.</span></p>
+
+ <div class="note"><span class="fr"><b>Le verrou NSSL.</b> Neutron a été admis au programme NSSL Phase 3
+  Lane 1 le 27 mars 2025 — jusqu'à 5,6 Md$ et au moins 30 lancements d'ici 2029. Mais <b>Rocket Lab ne peut
+  remporter aucun ordre de mission tant que Neutron n'a pas réalisé un premier vol réussi</b>. Pendant ce
+  temps, SpaceX et ULA se partagent les attributions. C'est l'unique variable qui sépare notre scénario
+  central de notre scénario haussier.</span>
+  <span class="en"><b>The NSSL gate.</b> Neutron was on-ramped to NSSL Phase 3 Lane 1 on 27 March 2025 —
+  up to $5.6B and at least 30 launches through 2029. But <b>Rocket Lab cannot win a single task order until
+  Neutron completes a successful first flight</b>. Meanwhile SpaceX and ULA split the awards. This is the
+  single variable separating our base case from our bull case.</span></div>
+
+ <h4><span class="fr">Carnet de commandes et contrats confirmés</span><span class="en">Backlog and confirmed contracts</span></h4>
+ <div class="tw"><table>
+  <thead><tr><th><span class="fr">Contrat / client</span><span class="en">Contract / customer</span></th>
+   <th class="n"><span class="fr">Montant</span><span class="en">Value</span></th>
+   <th><span class="fr">Statut</span><span class="en">Status</span></th>
+   <th><span class="fr">Détail</span><span class="en">Detail</span></th></tr></thead>
+  <tbody>
+   <tr><td>SDA — Tranche 2 Transport Layer Beta</td><td class="n">515 M$</td>
+     <td><span class="tag t-ok"><span class="fr">confirmé</span><span class="en">confirmed</span></span></td>
+     <td class="small"><span class="fr">18 satellites, premier rôle de prime défense (janv. 2024)</span>
+       <span class="en">18 satellites, first defence prime role (Jan 2024)</span></td></tr>
+   <tr><td>SDA — <span class="fr">total cumulé attribué</span><span class="en">cumulative awarded</span></td>
+     <td class="n">&gt; 1,3 Md$</td>
+     <td><span class="tag t-ok"><span class="fr">confirmé</span><span class="en">confirmed</span></span></td>
+     <td class="small"><span class="fr">chiffre confirmé par Rocket Lab</span><span class="en">confirmed by Rocket Lab</span></td></tr>
+   <tr><td><span class="fr">Constellation défense antimissile — prime</span><span class="en">Missile-defence constellation — prime</span></td>
+     <td class="n">816 M$</td>
+     <td><span class="tag t-ok"><span class="fr">confirmé</span><span class="en">confirmed</span></span></td>
+     <td class="small"><span class="fr">dépôt SEC 2025</span><span class="en">2025 SEC filing</span></td></tr>
+   <tr><td>US Space Force — SB-AMTI</td><td class="n">397 M$</td>
+     <td><span class="tag t-ok"><span class="fr">confirmé</span><span class="en">confirmed</span></span></td>
+     <td class="small"><span class="fr">satellites Flatellite, <b>Neutron désigné comme lanceur</b> — 4-5 août 2026</span>
+       <span class="en">Flatellite satellites, <b>Neutron named as launch vehicle</b> — 4-5 Aug 2026</span></td></tr>
+   <tr><td>US Space Force — HASTE Kodiak</td><td class="n">266 M$</td>
+     <td><span class="tag t-ok"><span class="fr">confirmé</span><span class="en">confirmed</span></span></td>
+     <td class="small"><span class="fr">≥12 vols suborbitaux, dont 112 M$ déjà engagés, jusqu'au 31/12/2028</span>
+       <span class="en">≥12 suborbital flights, $112M already obligated, through 31 Dec 2028</span></td></tr>
+   <tr><td>DoD via Kratos — MACH-TB / HASTE</td><td class="n">190 M$</td>
+     <td><span class="tag t-ok"><span class="fr">confirmé</span><span class="en">confirmed</span></span></td>
+     <td class="small">20 <span class="fr">lancements hypersoniques (mars 2026)</span><span class="en">hypersonic launches (Mar 2026)</span></td></tr>
+   <tr><td><span class="fr">Client confidentiel — 5 Neutron + 3 Electron</span><span class="en">Confidential customer — 5 Neutron + 3 Electron</span></td>
+     <td class="n">&gt; 190 M$</td>
+     <td><span class="tag t-w"><span class="fr">signé, non exécuté</span><span class="en">signed, unexecuted</span></span></td>
+     <td class="small">2026-2029 — <span class="fr">plus gros contrat de lancement de son histoire</span>
+       <span class="en">largest launch deal in company history</span></td></tr>
+   <tr><td>NSSL Phase 3 Lane 1</td><td class="n">≤ 5,6 Md$</td>
+     <td><span class="tag t-no"><span class="fr">bloqué</span><span class="en">gated</span></span></td>
+     <td class="small"><span class="fr">aucun ordre de mission possible avant le premier vol Neutron</span>
+       <span class="en">no task order possible before Neutron's first flight</span></td></tr>
+   <tr><td>AFRL — Rocket Cargo</td><td class="n"><span class="fr">non divulgué</span><span class="en">undisclosed</span></td>
+     <td><span class="tag t-i"><span class="fr">démonstration</span><span class="en">demonstration</span></span></td>
+     <td class="small"><span class="fr">transport point-à-point sur Neutron (mai 2025)</span>
+       <span class="en">point-to-point cargo on Neutron (May 2025)</span></td></tr>
+   <tr><td>iQPS, Synspective, BlackSky, Kinéis, NASA, Anduril, OroraTech, Open Cosmos</td>
+     <td class="n"><span class="fr">divers</span><span class="en">various</span></td>
+     <td><span class="tag t-ok"><span class="fr">multi-lancement</span><span class="en">multi-launch</span></span></td>
+     <td class="small"><span class="fr">&gt; 70 lancements sous contrat au total ; HASTE ≈ 1/3 du carnet Launch</span>
+       <span class="en">&gt;70 launches under contract; HASTE ≈ 1/3 of Launch backlog</span></td></tr>
+  </tbody></table></div>
+ <p class="small"><span class="fr"><b>Limite de donnée à connaître :</b> Rocket Lab ne ventile jamais son carnet
+  entre commandes fermes et options, ni sa marge brute par segment. Le seul repère fourni est que ~36 % du
+  carnet de 2,2 Md$ doit se convertir en chiffre d'affaires sur douze mois. Les 5 premiers clients
+  représentent 77 % du carnet et 49 % du chiffre d'affaires 2025 — concentration élevée.</span>
+  <span class="en"><b>Data limitation to know:</b> Rocket Lab never splits backlog between firm orders and
+  options, nor discloses gross margin by segment. The only guide given is that ~36% of the $2.2B backlog
+  should convert to revenue within twelve months. The top 5 customers account for 77% of backlog and 49% of
+  2025 revenue — high concentration.</span></p>
+
+ <h4><span class="fr">Aides publiques et financement</span><span class="en">Public funding and support</span></h4>
+ <ul>
+  <li><span class="fr"><b>CHIPS Act — jusqu'à 23,9 M$</b> (termes préliminaires signés le 11 juin 2024) pour
+    étendre la production de semi-conducteurs composés de SolAero à Albuquerque.</span>
+    <span class="en"><b>CHIPS Act — up to $23.9M</b> (preliminary terms signed 11 June 2024) to expand
+    SolAero's compound-semiconductor production in Albuquerque.</span></li>
+  <li><span class="fr"><b>Subvention de l'État de Virginie — 69 M$</b> (source secondaire NZ Herald, date exacte
+    non vérifiée — à confirmer avant citation formelle).</span>
+    <span class="en"><b>Virginia state grant — $69M</b> (secondary source NZ Herald, exact date unverified —
+    to confirm before formal citation).</span></li>
+  <li><span class="fr"><b>Financement de marché :</b> programme ATM de 750 M$ exécuté à des prix moyens de
+    26,19 $, 47,85 $ et 70,47 $ ; 463,3 M$ levés au seul T1 2026. Collar à terme plancher 63,61 $ /
+    plafond 86,11 $. Obligations convertibles 2029 : 355 M$ à 4,25 %, prix de conversion 5,13 $ —
+    massivement converties au T1 2026 (valeur comptable passée de 152,4 M$ à ~38,6 M$).</span>
+    <span class="en"><b>Market funding:</b> $750M ATM programme executed at average prices of $26.19, $47.85
+    and $70.47; $463.3M raised in Q1 2026 alone. Forward collar floor $63.61 / cap $86.11. 2029 convertible
+    notes: $355M at 4.25%, $5.13 conversion price — massively converted in Q1 2026 (carrying value fell from
+    $152.4M to ~$38.6M).</span></li>
+ </ul>
+
+ <h3><span class="fr">Le dossier Iridium : 8 Md$ qui changent tout</span><span class="en">The Iridium deal: $8B that changes everything</span></h3>
+ <p><span class="fr">Le 29 juin 2026, Rocket Lab a annoncé l'acquisition d'Iridium pour <b>8 Md$ de valeur
+  d'entreprise</b> — 54 $ par action, dont 27 $ en numéraire et le solde en titres avec un collar entre
+  67,50 $ et 112,50 $, financé par un crédit relais de 3,6 Md$ (Deutsche Bank, Wells Fargo). Clôture attendue
+  mi-2027. Iridium apporte 871,7 M$ de chiffre d'affaires 2025, 495 M$ d'OEBITDA (marge 57 %), 288 M$ de
+  flux de trésorerie disponible et 2,55 millions d'abonnés payants.</span>
+  <span class="en">On 29 June 2026, Rocket Lab announced the acquisition of Iridium at an <b>$8B enterprise
+  value</b> — $54 per share, $27 in cash and the balance in stock with a collar between $67.50 and $112.50,
+  financed by a $3.6B bridge facility (Deutsche Bank, Wells Fargo). Expected close mid-2027. Iridium brings
+  $871.7M of 2025 revenue, $495M of OEBITDA (57% margin), $288M of free cash flow and 2.55 million paying
+  subscribers.</span></p>
+
+ <div class="grid g2">
+  <div class="card">
+   <h4 style="margin-top:0"><span class="fr">Ce que ça règle</span><span class="en">What it fixes</span></h4>
+   <ul class="small" style="color:var(--tx2)">
+    <li><span class="fr">Rocket Lab brûle ~316 M$ de FCF sur 12 mois glissants. Iridium en génère +288 M$.
+      <b>Le groupe pro forma devient à peu près neutre en trésorerie</b> — un changement de nature du dossier.</span>
+      <span class="en">Rocket Lab burns ~$316M of TTM FCF. Iridium generates +$288M.
+      <b>The pro-forma group becomes roughly cash-neutral</b> — a change in the nature of the story.</span></li>
+    <li><span class="fr">2,55 millions d'abonnés récurrents remplacent une partie du chiffre d'affaires par projet.</span>
+      <span class="en">2.55 million recurring subscribers replace part of a project-based revenue mix.</span></li>
+    <li><span class="fr">Intégration verticale : le remplacement de la constellation Iridium, sinon confié à SpaceX,
+      devient une charge interne.</span>
+      <span class="en">Vertical integration: replacing Iridium's constellation — otherwise a SpaceX contract —
+      becomes an internal cost.</span></li>
+   </ul>
+  </div>
+  <div class="card">
+   <h4 style="margin-top:0"><span class="fr">Ce que ça coûte</span><span class="en">What it costs</span></h4>
+   <ul class="small" style="color:var(--tx2)">
+    <li><span class="fr">Prix payé : <b>9,2× le CA 2025 et 16,2× l'OEBITDA</b>, contre une valeur d'entreprise
+      de marché de 6,72 Md$ (13,6× l'OEBITDA) — soit <b>+19 % de prime</b>.</span>
+      <span class="en">Price paid: <b>9.2× 2025 revenue and 16.2× OEBITDA</b>, against a $6.72B market
+      enterprise value (13.6× OEBITDA) — a <b>+19% premium</b>.</span></li>
+    <li><span class="fr">Rendement de trésorerie à l'achat : <b>3,60 %</b> contre un coût du capital Rocket Lab
+      de 13,5 %. À croissance perpétuelle de 2 %, il faudrait <b>920 M$ de FCF annuel</b> pour justifier
+      8 Md$ — contre 288 M$ aujourd'hui.</span>
+      <span class="en">Purchase cash yield: <b>3.60%</b> against a 13.5% Rocket Lab cost of capital. At 2%
+      perpetual growth, justifying $8B requires <b>$920M of annual FCF</b> — versus $288M today.</span></li>
+    <li><span class="fr">Bilan : +2,86 Md$ de dette relais et ~1,6 Md$ de dette Iridium reprise, contre
+      1,48 Md$ de trésorerie. <b>Rocket Lab passe d'une trésorerie nette positive à une dette nette
+      significative.</b> Dilution actions : ~+6,1 %.</span>
+      <span class="en">Balance sheet: +$2.86B bridge debt and ~$1.6B assumed Iridium debt against $1.48B of
+      cash. <b>Rocket Lab moves from net cash to material net debt.</b> Share dilution: ~+6.1%.</span></li>
+   </ul>
+  </div>
+ </div>
+ <div class="warn"><span class="fr"><b>Notre test.</b> Pour que le prix de 8 Md$ crée de la valeur au coût
+  du capital de Rocket Lab, il faut dégager <b>632 M$ de synergies annuelles perpétuelles, soit 72 % du
+  chiffre d'affaires d'Iridium</b>. L'économie de lancement la plus souvent citée — internaliser le
+  remplacement de la constellation, dont Iridium NEXT avait coûté ~492 M$ de lancements sur 2017-2019 —
+  représente au mieux <b>~50 M$ par an</b> lissés sur dix ans. Le communiqué de Rocket Lab ne chiffre
+  <i>aucune</i> synergie. Notre conclusion : l'opération est fortement <b>relutive en trésorerie et
+  transformante stratégiquement</b>, mais <b>difficilement justifiable sur un critère de rendement du
+  capital investi</b>. Elle a du sens si l'on croit que Rocket Lab a besoin d'un socle de trésorerie
+  récurrent pour financer Neutron sans diluer davantage — ce qui est un argument de structure de capital,
+  pas de création de valeur.</span>
+  <span class="en"><b>Our test.</b> For the $8B price to create value at Rocket Lab's cost of capital,
+  the deal must produce <b>$632M of perpetual annual synergies, i.e. 72% of Iridium's revenue</b>. The
+  most-cited saving — internalising constellation replacement, where Iridium NEXT's launches cost ~$492M
+  across 2017-2019 — is worth at most <b>~$50M a year</b> smoothed over a decade. Rocket Lab's press release
+  quantifies <i>no</i> synergies. Our conclusion: the deal is strongly <b>cash-accretive and strategically
+  transformative</b>, but <b>hard to justify on a return-on-invested-capital test</b>. It makes sense if you
+  believe Rocket Lab needs a recurring cash base to fund Neutron without further dilution — which is a
+  capital-structure argument, not a value-creation one.</span></div>
+</div></section>
+
+<!-- =================== ASTS =================== -->
+<section id="asts"><div class="wrap">
+ <h2><span class="num">03</span>AST SpaceMobile (ASTS)</h2>
+ <p class="lead">
+  <span class="fr">Une constellation de très grandes antennes en orbite basse, conçue pour parler directement
+  aux smartphones ordinaires — sans application, sans terminal, sans abonnement supplémentaire.
+  La physique fonctionne. Le calendrier, lui, glisse.</span>
+  <span class="en">A constellation of very large low-Earth-orbit phased arrays designed to talk directly to
+  ordinary smartphones — no app, no terminal, no extra subscription. The physics works. The schedule does not.</span></p>
+
+ <div class="grid g4">
+  <div class="card"><div class="lab"><span class="fr">Satellites en orbite</span><span class="en">Satellites in orbit</span></div>
+    <div class="stat">12</div><div class="small"><span class="fr">BlueBirds 1-6 et 8-13 · le n°7 est perdu</span>
+      <span class="en">BlueBirds 1-6 and 8-13 · #7 lost</span></div></div>
+  <div class="card"><div class="lab"><span class="fr">CA T1 2026</span><span class="en">Q1 2026 revenue</span></div>
+    <div class="stat">14,7 M$</div><div class="small dn"><span class="fr">perte nette −191,0 M$</span><span class="en">net loss −$191.0M</span></div></div>
+  <div class="card"><div class="lab"><span class="fr">Trésorerie</span><span class="en">Cash</span></div>
+    <div class="stat">3,5 Md$</div><div class="small"><span class="fr">dette 2,99 Md$ · net +0,51 Md$</span>
+      <span class="en">debt $2.99B · net +$0.51B</span></div></div>
+  <div class="card"><div class="lab"><span class="fr">Flottant vendu à découvert</span><span class="en">Short interest / float</span></div>
+    <div class="stat">22,3 %</div><div class="small">59,4 M <span class="fr">actions · 3,1 j de couverture</span>
+      <span class="en">shares · 3.1 days to cover</span></div></div>
+ </div>
+
+ <h3><span class="fr">L'état réel de la constellation</span><span class="en">The real state of the constellation</span></h3>
+ <div class="tw"><table>
+  <thead><tr><th><span class="fr">Mission</span><span class="en">Mission</span></th>
+   <th><span class="fr">Date</span><span class="en">Date</span></th>
+   <th><span class="fr">Lanceur</span><span class="en">Vehicle</span></th>
+   <th><span class="fr">Statut</span><span class="en">Status</span></th></tr></thead>
+  <tbody>
+   <tr><td>BlueWalker 3 <span class="small">(<span class="fr">prototype</span><span class="en">prototype</span>)</span></td>
+     <td>09/2022</td><td>Falcon 9</td>
+     <td><span class="tag t-i"><span class="fr">démonstrateur</span><span class="en">demonstrator</span></span></td></tr>
+   <tr><td>BlueBirds 1-5 <span class="small">(Block 1)</span></td><td>12/09/2024</td><td>Falcon 9</td>
+     <td><span class="tag t-ok"><span class="fr">opérationnels</span><span class="en">operational</span></span></td></tr>
+   <tr><td>BlueBird 6 <span class="small">(Block 2)</span></td><td>23/12/2025</td><td>ISRO LVM3</td>
+     <td><span class="tag t-ok"><span class="fr">opérationnel</span><span class="en">operational</span></span></td></tr>
+   <tr><td>BlueBird 7 <span class="small">(Block 2)</span></td><td>19/04/2026</td><td>New Glenn</td>
+     <td><span class="tag t-no"><span class="fr">PERDU — mauvaise orbite</span><span class="en">LOST — wrong orbit</span></span></td></tr>
+   <tr><td>BlueBirds 8-10 <span class="small">(Block 2)</span></td><td>17/06/2026</td><td>Falcon 9</td>
+     <td><span class="tag t-ok"><span class="fr">en orbite</span><span class="en">in orbit</span></span></td></tr>
+   <tr><td>BlueBirds 11-13 <span class="small">(Block 2)</span></td><td>05/08/2026</td><td>Falcon 9</td>
+     <td><span class="tag t-w"><span class="fr">déploiement en cours</span><span class="en">deploying</span></span></td></tr>
+  </tbody></table></div>
+
+ <div class="warn"><span class="fr"><b>L'écart entre l'objectif et le réel.</b> AST visait 45 à 60 satellites
+  en orbite fin 2026 pour offrir une couverture continue aux États-Unis. Au 6 août, il y en a <b>12</b>.
+  Tenir l'objectif supposerait un lancement tous les 45 jours d'ici décembre — une cadence que la société
+  n'a jamais atteinte. L'analyste Tim Farrar (TMF Associates) estime un scénario réaliste à <b>~30 satellites
+  fin 2026</b>. La société a elle-même repoussé le service commercial de fin 2026 à <b>2027</b> le
+  16 juillet 2026, invoquant la perte de BlueBird 7 et l'immobilisation de New Glenn après son explosion au
+  sol du 28 mai 2026.</span>
+  <span class="en"><b>The gap between target and reality.</b> AST targeted 45-60 satellites in orbit by
+  end-2026 to provide continuous US coverage. As of 6 August there are <b>12</b>. Hitting the target would
+  require a launch every 45 days through December — a cadence the company has never achieved. Analyst Tim
+  Farrar (TMF Associates) puts a realistic scenario at <b>~30 satellites by end-2026</b>. The company itself
+  pushed commercial service from end-2026 to <b>2027</b> on 16 July 2026, citing the loss of BlueBird 7 and
+  New Glenn's grounding after its 28 May 2026 ground explosion.</span></div>
+
+ <h4><span class="fr">Ce qui est solide dans le dossier</span><span class="en">What is solid in the case</span></h4>
+ <div class="grid g3">
+  <div class="card"><div class="lab"><span class="fr">Réglementaire</span><span class="en">Regulatory</span></div>
+   <p class="small" style="color:var(--tx2)"><span class="fr">Autorisation commerciale FCC obtenue le
+   <b>21 avril 2026</b> pour un service SCS en bandes 700 et 800 MHz avec AT&amp;T, Verizon et FirstNet.
+   Plafond de <b>248 satellites</b>, avec jalons contraignants : 124 satellites d'ici le 2 août 2030, 248 d'ici
+   le 2 août 2033. Deuxième opérateur autorisé après Starlink/T-Mobile.</span>
+   <span class="en">FCC commercial authorisation granted <b>21 April 2026</b> for SCS service in 700 and 800
+   MHz with AT&amp;T, Verizon and FirstNet. Cap of <b>248 satellites</b>, with binding milestones: 124
+   satellites by 2 Aug 2030, 248 by 2 Aug 2033. Second operator authorised after Starlink/T-Mobile.</span></p></div>
+  <div class="card"><div class="lab"><span class="fr">Spectre</span><span class="en">Spectrum</span></div>
+   <p class="small" style="color:var(--tx2)"><span class="fr">Accord Ligado : jusqu'à <b>45 MHz de bande L</b>
+   en Amérique du Nord, 550 M$ à l'avance puis 16 M$ par trimestre indexés à 3 % par an <b>jusqu'en 2107</b>
+   (82 ans). Ligado est en Chapter 11 ; l'accord AST est la pierre angulaire de son plan de sortie et a été
+   validé par le tribunal des faillites. 60 MHz de bande S acquis pour 64,5 M$ (valeur contestée).</span>
+   <span class="en">Ligado agreement: up to <b>45 MHz of L-band</b> across North America, $550M upfront then
+   $16M quarterly escalating 3% a year <b>through 2107</b> (82 years). Ligado is in Chapter 11; the AST deal
+   is the cornerstone of its exit plan and was approved by the bankruptcy court. 60 MHz of S-band acquired
+   for $64.5M (contested value).</span></p></div>
+  <div class="card"><div class="lab"><span class="fr">Défense</span><span class="en">Defence</span></div>
+   <p class="small" style="color:var(--tx2)"><span class="fr">Position de <b>prime contractor sur le programme
+   SHIELD</b> de la Missile Defense Agency, dans le cadre de Golden Dome (16 janvier 2026, montant non
+   divulgué) — le titre a gagné 49 % dans le mois suivant. Contrat SDA HALO Europa de ~30 M$ (22 février
+   2026), premier contrat prime de sa filiale défense.</span>
+   <span class="en"><b>Prime contractor position on the Missile Defense Agency's SHIELD programme</b> under
+   Golden Dome (16 January 2026, amount undisclosed) — the stock gained 49% over the following month. ~$30M
+   SDA HALO Europa contract (22 February 2026), the defence subsidiary's first prime award.</span></p></div>
+ </div>
+
+ <h4><span class="fr">Le réseau de partenaires opérateurs</span><span class="en">The mobile-operator partner network</span></h4>
+ <p><span class="fr">AST revendique près de <b>60 opérateurs partenaires couvrant plus de 3 milliards
+  d'abonnés</b> — AT&amp;T, Verizon, Vodafone, Rakuten, Bell, TELUS, stc, Orange, Telefónica, CK Hutchison,
+  Taiwan Mobile, Sunrise. Les accords AT&amp;T (mai 2024) et Vodafone (décembre 2024, jusqu'en 2034) sont
+  explicitement <b>définitifs</b>. Pour la majorité des autres, la société ne précise pas le statut
+  contractuel — le chiffre de 3 milliards d'abonnés est une communication d'entreprise, non un audit.
+  Engagements de revenus contractés : plus de <b>1,2 Md$</b>, dont un prépaiement de 175 M$ de stc sur
+  dix ans.</span>
+  <span class="en">AST claims nearly <b>60 partner operators covering more than 3 billion subscribers</b> —
+  AT&amp;T, Verizon, Vodafone, Rakuten, Bell, TELUS, stc, Orange, Telefónica, CK Hutchison, Taiwan Mobile,
+  Sunrise. The AT&amp;T (May 2024) and Vodafone (December 2024, through 2034) agreements are explicitly
+  <b>definitive</b>. For most of the rest, the company does not disclose contractual status — the 3 billion
+  subscriber figure is corporate communication, not an audited number. Contracted revenue commitments exceed
+  <b>$1.2B</b>, including a $175M ten-year prepayment from stc.</span></p>
+ <p class="small"><span class="fr"><b>Non vérifié :</b> le modèle de partage de revenus « 50/50 » avec les
+  opérateurs, universellement cité dans la presse financière, n'apparaît dans aucune source primaire que
+  nous ayons pu consulter. C'est pourtant la variable la plus déterminante de tout modèle de valorisation
+  d'ASTS. Nous l'avons traitée comme une hypothèse, pas comme un fait.</span>
+  <span class="en"><b>Unverified:</b> the "50/50" revenue-share model with operators, universally cited in
+  financial media, appears in no primary source we could locate. It is nonetheless the single most
+  determinative variable in any ASTS valuation model. We treated it as an assumption, not a fact.</span></p>
+
+ <h4><span class="fr">La question qui décide de tout : Starlink</span><span class="en">The question that decides everything: Starlink</span></h4>
+ <p><span class="fr">Le paysage concurrentiel du direct-to-device s'est violemment reconfiguré en douze mois,
+  et pas en faveur d'ASTS.</span>
+  <span class="en">The direct-to-device competitive landscape has violently reconfigured in twelve months,
+  and not in ASTS's favour.</span></p>
+ <div class="tw"><table>
+  <thead><tr><th><span class="fr">Événement</span><span class="en">Event</span></th><th class="n"><span class="fr">Montant</span><span class="en">Value</span></th>
+   <th><span class="fr">Date</span><span class="en">Date</span></th><th><span class="fr">Conséquence</span><span class="en">Implication</span></th></tr></thead>
+  <tbody>
+   <tr><td><span class="fr">SpaceX rachète le spectre EchoStar (AWS-4, H-block)</span>
+     <span class="en">SpaceX buys EchoStar spectrum (AWS-4, H-block)</span></td>
+     <td class="n">17 000 M$</td><td>08/09/2025</td>
+     <td class="small"><span class="fr">Starlink acquiert une position spectrale terrestre nationale — le
+       principal handicap de son offre D2D disparaît</span>
+       <span class="en">Starlink acquires a nationwide terrestrial spectrum position — the main handicap of
+       its D2D offering disappears</span></td></tr>
+   <tr><td><span class="fr">Amazon rachète Globalstar</span><span class="en">Amazon buys Globalstar</span></td>
+     <td class="n">11 570 M$</td><td>14/04/2026</td>
+     <td class="small"><span class="fr">Amazon Leo reprend les fonctions satellite de l'iPhone et la
+       participation de 20 % d'Apple — un troisième géant entre dans le D2D</span>
+       <span class="en">Amazon Leo takes over iPhone satellite features and Apple's 20% stake — a third
+       giant enters D2D</span></td></tr>
+   <tr><td><span class="fr">SpaceX entre en Bourse (SPCX)</span><span class="en">SpaceX IPO (SPCX)</span></td>
+     <td class="n">~75 000 M$ <span class="fr">levés</span><span class="en">raised</span></td><td>11/06/2026</td>
+     <td class="small"><span class="fr">plus grosse IPO de l'histoire ; capitalisation de 1 510 Md$ au 6/08 ·
+       CA TTM 23,0 Md$ (+121,9 %) — accès quasi illimité au capital</span>
+       <span class="en">largest IPO in history; $1,510B market cap at 6 Aug · TTM revenue $23.0B (+121.9%) —
+       near-unlimited access to capital</span></td></tr>
+   <tr><td><span class="fr">Fusion Lynk Global / Omnispace</span><span class="en">Lynk Global / Omnispace merger</span></td>
+     <td class="n"><span class="fr">n.d.</span><span class="en">n.d.</span></td><td>22/10/2025</td>
+     <td class="small"><span class="fr">constellation cible de 640 satellites, service visé en 2027 ;
+       fusion encore soumise à approbation</span>
+       <span class="en">640-satellite target constellation, service targeted 2027; merger still pending
+       approval</span></td></tr>
+  </tbody></table></div>
+ <p><span class="fr">Le différenciateur technique d'ASTS reste réel : ses antennes de <b>2 400 pieds carrés</b>
+  (contre 693 pour le Block 1) et son ASIC propriétaire AST5000 lui permettent d'atteindre des débits
+  — 98,9 Mbit/s démontrés en pic sur Block 1, environ le double visé sur Block 2 — sans commune mesure avec
+  la messagerie satellite des concurrents. La question n'est pas de savoir si ASTS a la meilleure technologie
+  de large bande D2D : c'est probablement le cas. La question est de savoir si un marché où SpaceX, Amazon et
+  Apple sont désormais présents laisse à ASTS la marge nécessaire pour rémunérer 27 Md$ de valeur d'entreprise.</span>
+  <span class="en">ASTS's technical differentiator remains real: its <b>2,400 sq ft</b> arrays (versus 693 for
+  Block 1) and proprietary AST5000 ASIC deliver throughput — 98.9 Mbps demonstrated peak on Block 1, roughly
+  double targeted on Block 2 — in a different league from competitors' satellite messaging. The question is not
+  whether ASTS has the best D2D broadband technology: it probably does. The question is whether a market now
+  containing SpaceX, Amazon and Apple leaves ASTS the room to earn a return on $27B of enterprise value.</span></p>
+</div></section>
+
+<!-- =================== DCF =================== -->
+<section id="dcf"><div class="wrap">
+ <h2><span class="num">04</span><span class="fr">Modèle DCF — trois scénarios</span><span class="en">DCF model — three scenarios</span></h2>
+ <p class="lead"><span class="fr">Actualisation des flux de trésorerie disponibles pour l'entreprise (FCFF)
+  sur dix ans explicites, plus une valeur terminale de Gordon. Convention de milieu de période. La charge de
+  rémunération en actions est traitée comme un coût réel — elle est incluse dans le résultat opérationnel
+  GAAP, pas retraitée. Les impôts sont modélisés en trésorerie, avec report des déficits.</span>
+  <span class="en">Discounted free cash flow to the firm (FCFF) over ten explicit years plus a Gordon terminal
+  value. Mid-year convention. Stock-based compensation is treated as a real cost — included in GAAP operating
+  income, not added back. Taxes are modelled on a cash basis with loss carry-forwards.</span></p>
+
+ <div class="grid g2" style="margin-bottom:8px">
+  <div class="card">
+   <h4 style="margin-top:0"><span class="fr">Coût du capital — RKLB</span><span class="en">Cost of capital — RKLB</span></h4>
+   <table style="font-size:12.5px"><tbody>
+    <tr><td><span class="fr">Taux sans risque (10 ans US, 5-6 août 2026)</span><span class="en">Risk-free (US 10Y, 5-6 Aug 2026)</span></td><td class="n">4,65 %</td></tr>
+    <tr><td><span class="fr">Prime de risque actions</span><span class="en">Equity risk premium</span></td><td class="n">4,75 %</td></tr>
+    <tr><td><span class="fr">Bêta brut observé</span><span class="en">Raw observed beta</span></td><td class="n">2,63</td></tr>
+    <tr><td><span class="fr">Bêta retenu (convergence sur 10 ans)</span><span class="en">Beta used (10-yr fade)</span></td><td class="n">1,90</td></tr>
+    <tr class="tot"><td><span class="fr">WACC central</span><span class="en">Base WACC</span></td><td class="n">13,5 %</td></tr>
+   </tbody></table>
+  </div>
+  <div class="card">
+   <h4 style="margin-top:0"><span class="fr">Coût du capital — ASTS</span><span class="en">Cost of capital — ASTS</span></h4>
+   <table style="font-size:12.5px"><tbody>
+    <tr><td><span class="fr">Taux sans risque</span><span class="en">Risk-free</span></td><td class="n">4,65 %</td></tr>
+    <tr><td><span class="fr">Prime de risque actions</span><span class="en">Equity risk premium</span></td><td class="n">4,75 %</td></tr>
+    <tr><td><span class="fr">Bêta brut observé</span><span class="en">Raw observed beta</span></td><td class="n">2,74</td></tr>
+    <tr><td><span class="fr">Bêta retenu</span><span class="en">Beta used</span></td><td class="n">2,10</td></tr>
+    <tr class="tot"><td><span class="fr">WACC central</span><span class="en">Base WACC</span></td><td class="n">14,0 %</td></tr>
+   </tbody></table>
+  </div>
+ </div>
+ <p class="small"><span class="fr">Nous retenons volontairement un bêta inférieur au bêta observé : sur un
+  horizon de dix ans, le bêta d'une société qui atteint la maturité converge vers 1. Utiliser 2,63 tel quel
+  donnerait un WACC de 17,1 % pour RKLB et un DCF encore plus bas. Notre choix est donc <b>favorable aux
+  deux dossiers</b>, pas défavorable.</span>
+  <span class="en">We deliberately use a beta below the observed figure: over a ten-year horizon, the beta of a
+  company reaching maturity converges toward 1. Using 2.63 as-is would give a 17.1% WACC for RKLB and an even
+  lower DCF. Our choice is therefore <b>favourable to both cases</b>, not punitive.</span></p>
+
+ <h3>Rocket Lab</h3>
+ <div class="scen">
+  <div class="sc bear"><div class="nm"><span class="fr">Baissier</span><span class="en">Bear</span></div>
+   <div class="px dn">1,93 $</div><div class="dl dn">−98 %</div>
+   <p><span class="fr">Neutron glisse en 2028 ou au-delà, aucun ordre de mission NSSL, Space Systems reste
+   le seul moteur. CA 2035 : 2,7 Md$. WACC 15 %, marge terminale 11 %.</span>
+   <span class="en">Neutron slips to 2028 or beyond, no NSSL task orders, Space Systems remains the only
+   engine. 2035 revenue $2.7B. WACC 15%, terminal margin 11%.</span></p></div>
+  <div class="sc base"><div class="nm"><span class="fr">Central</span><span class="en">Base</span></div>
+   <div class="px">8,04 $</div><div class="dl dn">−90 %</div>
+   <p><span class="fr">Premier vol Neutron mi-2027, 12 à 15 vols par an en 2031, contrats SDA et Golden Dome
+   récurrents. CA 2035 : 6,6 Md$ (TCAM 27 %). WACC 13,5 %, marge terminale 21,5 %.</span>
+   <span class="en">First Neutron flight mid-2027, 12-15 flights a year by 2031, recurring SDA and Golden Dome
+   contracts. 2035 revenue $6.6B (27% CAGR). WACC 13.5%, terminal margin 21.5%.</span></p></div>
+  <div class="sc bull"><div class="nm"><span class="fr">Haussier</span><span class="en">Bull</span></div>
+   <div class="px up">22,47 $</div><div class="dl dn">−71 %</div>
+   <p><span class="fr">Neutron vole au T4 2026, 25 vols par an en 2032, part significative des 5,6 Md$ NSSL.
+   CA 2035 : 11,6 Md$ (TCAM 34 %). WACC 12 %, marge terminale 27,5 %.</span>
+   <span class="en">Neutron flies in Q4 2026, 25 flights a year by 2032, meaningful share of the $5.6B NSSL
+   pool. 2035 revenue $11.6B (34% CAGR). WACC 12%, terminal margin 27.5%.</span></p></div>
+ </div>
+
+ <h3>AST SpaceMobile</h3>
+ <div class="scen">
+  <div class="sc bear"><div class="nm"><span class="fr">Baissier</span><span class="en">Bear</span></div>
+   <div class="px dn">4,60–12,40 $</div><div class="dl dn">−93 à −82 %</div>
+   <p><span class="fr">La constellation plafonne vers 40 satellites, Starlink/T-Mobile verrouille les
+   États-Unis, dilution lourde. Le DCF ressort <b>négatif</b> ; nous lui substituons la valeur d'actif
+   (spectre + satellites déployés + trésorerie nette).</span>
+   <span class="en">Constellation plateaus near 40 satellites, Starlink/T-Mobile locks up the US, heavy
+   dilution. The DCF is <b>negative</b>; we substitute asset value (spectrum + deployed satellites + net cash).</span></p></div>
+  <div class="sc base"><div class="nm"><span class="fr">Central</span><span class="en">Base</span></div>
+   <div class="px">4,64 $</div><div class="dl dn">−93 %</div>
+   <p><span class="fr">Bêta commercial en 2027, service US en 2028, 60 satellites mi-2028, ~90 en 2030.
+   CA 2035 : 4,9 Md$ (TCAM 53 %). WACC 14 %, marge terminale 33 %. Dilution à 450 M d'actions.</span>
+   <span class="en">Beta service 2027, US commercial 2028, 60 satellites mid-2028, ~90 by 2030. 2035 revenue
+   $4.9B (53% CAGR). WACC 14%, terminal margin 33%. Dilution to 450M shares.</span></p></div>
+  <div class="sc bull"><div class="nm"><span class="fr">Haussier</span><span class="en">Bull</span></div>
+   <div class="px up">35,40 $</div><div class="dl dn">−48 %</div>
+   <p><span class="fr">45 à 60 satellites fin 2027, commercial 2028, SHIELD monétisé, adoption rapide.
+   CA 2035 : 9,8 Md$ (TCAM 64 %). WACC 12,5 %, marge terminale 46 %.</span>
+   <span class="en">45-60 satellites by end-2027, commercial 2028, SHIELD monetised, fast adoption. 2035
+   revenue $9.8B (64% CAGR). WACC 12.5%, terminal margin 46%.</span></p></div>
+ </div>
+
+ <div class="chart">
+  <div class="ct"><span class="fr">Flux de trésorerie disponibles projetés (FCFF)</span>
+    <span class="en">Projected free cash flow to the firm (FCFF)</span></div>
+  <div class="cs"><span class="fr">M$ · les deux sociétés brûlent de la trésorerie jusqu'en 2028-2029 dans
+    tous les scénarios</span>
+    <span class="en">$M · both companies burn cash through 2028-2029 in every scenario</span></div>
+  <div class="segbtns" id="fcfBtns">
+   <button data-t="rklb" class="on">RKLB</button><button data-t="asts">ASTS</button>
+  </div>
+  <div id="fcfChart"></div>
+  <div class="lg"><span><i style="background:#f0616d"></i><span class="fr">Baissier</span><span class="en">Bear</span></span>
+   <span><i style="background:#f4c542"></i><span class="fr">Central</span><span class="en">Base</span></span>
+   <span><i style="background:#31c48d"></i><span class="fr">Haussier</span><span class="en">Bull</span></span></div>
+ </div>
+
+ <h3><span class="fr">Modèle interactif</span><span class="en">Interactive model</span></h3>
+ <p class="small"><span class="fr">Déplacez les curseurs pour construire votre propre scénario. La valeur par
+  action est recalculée en direct sur le même moteur DCF que ci-dessus.</span>
+  <span class="en">Move the sliders to build your own scenario. Per-share value recalculates live on the same
+  DCF engine used above.</span></p>
+ <div class="ctl">
+  <div class="segbtns" id="calcBtns">
+   <button data-t="rklb" class="on">RKLB</button><button data-t="asts">ASTS</button>
+  </div>
+  <div class="ctlgrid">
+   <div class="sl"><label><span><span class="fr">CA 2035</span><span class="en">2035 revenue</span></span><b id="lRev"></b></label>
+     <input type="range" id="sRev" min="1000" max="30000" step="100"></div>
+   <div class="sl"><label><span><span class="fr">Marge EBIT terminale</span><span class="en">Terminal EBIT margin</span></span><b id="lMar"></b></label>
+     <input type="range" id="sMar" min="5" max="55" step="0.5"></div>
+   <div class="sl"><label><span>WACC</span><b id="lWac"></b></label>
+     <input type="range" id="sWac" min="7" max="20" step="0.25"></div>
+   <div class="sl"><label><span><span class="fr">Croissance perpétuelle</span><span class="en">Perpetual growth</span></span><b id="lG"></b></label>
+     <input type="range" id="sG" min="0" max="5" step="0.1"></div>
+   <div class="sl"><label><span><span class="fr">Actions diluées 2035 (M)</span><span class="en">2035 diluted shares (M)</span></span><b id="lSh"></b></label>
+     <input type="range" id="sSh" min="400" max="1200" step="5"></div>
+   <div class="sl"><label><span><span class="fr">Capex terminal (% du CA)</span><span class="en">Terminal capex (% of revenue)</span></span><b id="lCx"></b></label>
+     <input type="range" id="sCx" min="3" max="30" step="0.5"></div>
+  </div>
+  <div class="out">
+   <div><div class="lab"><span class="fr">Valeur / action</span><span class="en">Value / share</span></div><div class="v acc" id="oPs">—</div></div>
+   <div><div class="lab"><span class="fr">vs cours</span><span class="en">vs price</span></div><div class="v" id="oUp">—</div></div>
+   <div><div class="lab"><span class="fr">Valeur d'entreprise</span><span class="en">Enterprise value</span></div><div class="v" id="oEv">—</div></div>
+   <div><div class="lab"><span class="fr">Part de la val. terminale</span><span class="en">Terminal value share</span></div><div class="v" id="oTv">—</div></div>
+   <div><div class="lab"><span class="fr">VE / CA 2030e</span><span class="en">EV / 2030e revenue</span></div><div class="v" id="oMx">—</div></div>
+  </div>
+ </div>
+
+ <h3><span class="fr">Sensibilité — cas central</span><span class="en">Sensitivity — base case</span></h3>
+ <div class="grid g2">
+  <div class="card"><h4 style="margin-top:0">RKLB — $/<span class="fr">action</span><span class="en">share</span></h4>
+   <div class="tw" style="margin:0"><table class="heat" id="hRk"></table></div></div>
+  <div class="card"><h4 style="margin-top:0">ASTS — $/<span class="fr">action</span><span class="en">share</span></h4>
+   <div class="tw" style="margin:0"><table class="heat" id="hAs"></table></div></div>
+ </div>
+ <p class="small"><span class="fr">Lignes : coût moyen pondéré du capital. Colonnes : croissance perpétuelle.
+  <b>Aucune combinaison de paramètres raisonnables ne s'approche du cours actuel</b> — il faudrait descendre
+  le WACC sous 5 % pour y parvenir.</span>
+  <span class="en">Rows: weighted average cost of capital. Columns: perpetual growth. <b>No combination of
+  reasonable parameters comes close to the current price</b> — reaching it requires pushing WACC below 5%.</span></p>
+
+ <h3><span class="fr">Somme des parties</span><span class="en">Sum-of-the-parts</span></h3>
+ <div class="tw"><table>
+  <thead><tr><th><span class="fr">Métier</span><span class="en">Business</span></th>
+   <th class="n"><span class="fr">CA de référence</span><span class="en">Reference revenue</span></th>
+   <th class="n"><span class="fr">Multiple</span><span class="en">Multiple</span></th>
+   <th class="n"><span class="fr">Valeur</span><span class="en">Value</span></th>
+   <th><span class="fr">Ancrage</span><span class="en">Anchor</span></th></tr></thead>
+  <tbody>
+   <tr><td><b>RKLB</b> — <span class="fr">Services de lancement</span><span class="en">Launch Services</span></td>
+     <td class="n">800 M$ <span class="small">(2028e)</span></td><td class="n">8–14×</td><td class="n">6 400–11 200 M$</td>
+     <td class="small"><span class="fr">aucun lanceur coté rentable ; SPCX cote 65× le CA TTM</span>
+       <span class="en">no profitable listed launcher; SPCX trades at 65× TTM revenue</span></td></tr>
+   <tr><td><b>RKLB</b> — Space Systems</td>
+     <td class="n">1 080 M$ <span class="small">(2028e)</span></td><td class="n">4,5–7,5×</td><td class="n">4 860–8 100 M$</td>
+     <td class="small">KTOS 6,3× · RDW 5,8× · LUNR 10,3× · VOYG 13,7×</td></tr>
+   <tr><td><span class="fr">Trésorerie nette</span><span class="en">Net cash</span></td><td class="n">—</td><td class="n">—</td>
+     <td class="n">1 438 M$</td><td class="small">31/03/2026</td></tr>
+   <tr class="tot"><td><span class="fr">RKLB — total par action (710 M dilué)</span><span class="en">RKLB — total per share (710M diluted)</span></td>
+     <td class="n">—</td><td class="n">—</td><td class="n">17,9–29,2 $</td>
+     <td class="small dn"><span class="fr">−77 % à −63 % vs 78,42 $</span><span class="en">−77% to −63% vs $78.42</span></td></tr>
+   <tr><td><b>ASTS</b> — <span class="fr">Réseau commercial D2D</span><span class="en">Commercial D2D network</span></td>
+     <td class="n">1 770 M$ <span class="small">(2030e)</span></td><td class="n">6–12×</td><td class="n">10 620–21 240 M$</td>
+     <td class="small">GSAT 38,2× · IRDM 7,6×</td></tr>
+   <tr><td><b>ASTS</b> — <span class="fr">Gouvernement / défense</span><span class="en">Government / defence</span></td>
+     <td class="n">330 M$ <span class="small">(2030e)</span></td><td class="n">4–8×</td><td class="n">1 320–2 640 M$</td>
+     <td class="small">KTOS 6,3× · LHX 2,8×</td></tr>
+   <tr><td><span class="fr">Actualisation 4,4 ans à 14 % + trésorerie nette</span><span class="en">4.4-year discount at 14% + net cash</span></td>
+     <td class="n">—</td><td class="n">×0,562</td><td class="n">7 217–13 926 M$</td><td class="small">—</td></tr>
+   <tr class="tot"><td><span class="fr">ASTS — total par action (450 M dilué)</span><span class="en">ASTS — total per share (450M diluted)</span></td>
+     <td class="n">—</td><td class="n">—</td><td class="n">16,0–30,9 $</td>
+     <td class="small dn"><span class="fr">−77 % à −55 % vs 68,38 $</span><span class="en">−77% to −55% vs $68.38</span></td></tr>
+  </tbody></table></div>
+
+ <div class="info"><span class="fr"><b>Plancher d'actif ASTS.</b> Si le plan commercial échoue, que reste-t-il ?
+  Le bail Ligado représente un coût économique d'environ 1,46 Md$ en valeur actuelle (550 M$ à l'avance +
+  64 M$ par an croissant à 3 %, actualisés à 10 %). Le marché a récemment payé <b>17 Md$</b> (SpaceX/EchoStar)
+  et <b>11,6 Md$</b> (Amazon/Globalstar) pour des positions spectrales utilisables en D2D. Douze BlueBirds
+  déployés valent ~264 M$ en coût de remplacement, et 1,6 Md$ d'immobilisations étaient capitalisées à fin
+  2025. Notre fourchette de valeur d'actif : <b>1,8 à 4,8 Md$, soit 4,60 à 12,40 $ par action</b>. C'est le
+  plancher — et il est très en dessous du cours.</span>
+  <span class="en"><b>ASTS asset floor.</b> If the commercial plan fails, what remains? The Ligado lease
+  represents roughly $1.46B of economic cost in present value ($550M upfront + $64M a year growing 3%,
+  discounted at 10%). The market recently paid <b>$17B</b> (SpaceX/EchoStar) and <b>$11.6B</b>
+  (Amazon/Globalstar) for D2D-capable spectrum positions. Twelve deployed BlueBirds are worth ~$264M at
+  replacement cost, and $1.6B of fixed assets were capitalised at end-2025. Our asset value range:
+  <b>$1.8-4.8B, i.e. $4.60-12.40 per share</b>. That is the floor — and it sits far below the price.</span></div>
+</div></section>
+
+<!-- =================== REVERSE DCF =================== -->
+<section id="reverse"><div class="wrap">
+ <h2><span class="num">05</span><span class="fr">DCF inverse — que faut-il croire ?</span><span class="en">Reverse DCF — what must you believe?</span></h2>
+ <p class="lead"><span class="fr">C'est l'exercice le plus utile de toute la note. Plutôt que d'affirmer
+  qu'un titre est surévalué, on part du cours et on remonte aux hypothèses qu'il contient. Le lecteur juge
+  alors lui-même si ces hypothèses sont plausibles.</span>
+  <span class="en">This is the most useful exercise in the note. Rather than asserting a stock is overvalued,
+  we start from the price and back out the assumptions it embeds. The reader then judges for themselves
+  whether those assumptions are plausible.</span></p>
+
+ <div class="grid g2">
+  <div class="card hl">
+   <h4 style="margin-top:0">RKLB — 78,42 $</h4>
+   <table style="font-size:13px"><tbody>
+    <tr><td><span class="fr">Taux d'actualisation implicite</span><span class="en">Implied discount rate</span></td>
+      <td class="n" style="font-size:19px"><b class="dn">4,37 %</b></td></tr>
+    <tr><td class="small" colspan="2"><span class="fr">…contre un rendement du 10 ans américain de
+      <b>4,65 %</b>. Le marché applique donc à Rocket Lab une <b>prime de risque de −0,28 point</b> :
+      le titre est actuellement valorisé comme s'il était <i>moins risqué qu'une obligation d'État
+      américaine</i>, avec un bêta observé de 2,63.</span>
+      <span class="en">…against a US 10-year yield of <b>4.65%</b>. The market therefore applies a
+      <b>−0.28pt risk premium</b> to Rocket Lab: the stock is currently priced as if it were <i>less risky
+      than a US Treasury bond</i>, with an observed beta of 2.63.</span></td></tr>
+    <tr><td style="padding-top:16px"><span class="fr">CA 2035 requis à WACC 13,5 %</span><span class="en">Required 2035 revenue at 13.5% WACC</span></td>
+      <td class="n" style="font-size:19px;padding-top:16px"><b class="dn">88,1 Md$</b></td></tr>
+    <tr><td class="small" colspan="2"><span class="fr">…soit <b>13,3 fois notre cas central</b> et une
+      croissance annuelle de <b>64,6 % pendant dix ans</b>. Pour situer : Lockheed Martin a réalisé
+      77,0 Md$ de chiffre d'affaires sur les douze derniers mois, Northrop Grumman 42,9 Md$. Rocket Lab
+      devrait dépasser Lockheed Martin en 2035.</span>
+      <span class="en">…i.e. <b>13.3× our base case</b> and <b>64.6% annual growth for a decade</b>. For
+      scale: Lockheed Martin generated $77.0B of TTM revenue, Northrop Grumman $42.9B. Rocket Lab would need
+      to exceed Lockheed Martin by 2035.</span></td></tr>
+   </tbody></table>
+  </div>
+  <div class="card hl">
+   <h4 style="margin-top:0">ASTS — 68,38 $</h4>
+   <table style="font-size:13px"><tbody>
+    <tr><td><span class="fr">Taux d'actualisation implicite</span><span class="en">Implied discount rate</span></td>
+      <td class="n" style="font-size:19px"><b class="dn">5,28 %</b></td></tr>
+    <tr><td class="small" colspan="2"><span class="fr">…soit une prime de risque de <b>0,63 point</b> sur le
+      10 ans américain, pour une société pré-revenus commerciaux, dont 22,3 % du flottant est vendu à
+      découvert et dont le bêta observé est de 2,74. Une prime de risque de 0,63 point correspond
+      approximativement à celle d'une obligation d'entreprise notée A.</span>
+      <span class="en">…a <b>0.63pt</b> risk premium over the US 10-year, for a pre-commercial-revenue
+      company with 22.3% of float sold short and an observed beta of 2.74. A 0.63pt risk premium is roughly
+      what an A-rated corporate bond carries.</span></td></tr>
+    <tr><td style="padding-top:16px"><span class="fr">CA 2035 requis à WACC 14 %</span><span class="en">Required 2035 revenue at 14% WACC</span></td>
+      <td class="n" style="font-size:19px;padding-top:16px"><b class="dn">42,3 Md$</b></td></tr>
+    <tr><td class="small" colspan="2"><span class="fr">…soit une croissance annuelle de <b>89,5 % pendant
+      dix ans</b>. Et surtout : GM Insights estime le marché <b>mondial</b> du direct-to-device à
+      <b>15,5 Md$ en 2035</b>. ASTS devrait donc représenter <b>2,7 fois la taille de son marché total</b> —
+      face à SpaceX, Amazon et Lynk/Omnispace.</span>
+      <span class="en">…i.e. <b>89.5% annual growth for a decade</b>. And critically: GM Insights sizes the
+      <b>global</b> direct-to-device market at <b>$15.5B in 2035</b>. ASTS would need to be <b>2.7× the size
+      of its entire market</b> — while competing with SpaceX, Amazon and Lynk/Omnispace.</span></td></tr>
+   </tbody></table>
+  </div>
+ </div>
+
+ <div class="chart">
+  <div class="ct"><span class="fr">Chiffre d'affaires 2035 : nos scénarios contre l'implicite du marché</span>
+   <span class="en">2035 revenue: our scenarios versus market-implied</span></div>
+  <div class="cs"><span class="fr">Md$ · échelle logarithmique</span><span class="en">$B · log scale</span></div>
+  <div id="impChart"></div>
+ </div>
+
+ <div class="note"><span class="fr"><b>Comment lire ce résultat honnêtement.</b> Un DCF inverse qui produit
+  des chiffres aussi extrêmes ne prouve pas que le marché a tort. Il prouve que <b>le marché ne valorise pas
+  ces titres avec un DCF</b> — et c'est probablement le cas. Trois lectures alternatives sont défendables :
+  <br><br>
+  <b>(1) La valeur d'option.</b> RKLB et ASTS sont des options sur des issues binaires (Neutron vole ou non ;
+  le D2D large bande devient un standard ou non). La valeur d'une option n'est pas la valeur actuelle nette
+  du scénario médian — elle inclut la valeur temps et la volatilité. Un DCF sous-évalue structurellement une
+  option très hors de la monnaie.<br><br>
+  <b>(2) Le marché price un TAM différent.</b> Si l'on croit que le budget Golden Dome (185 Md$ de coût
+  total programme, 23 Md$ déjà votés) et l'architecture spatiale de défense américaine créent un marché
+  d'un ordre de grandeur supérieur aux estimations sectorielles actuelles, les chiffres implicites deviennent
+  moins absurdes.<br><br>
+  <b>(3) La rareté.</b> Il existe très peu de véhicules cotés purs sur le spatial. Cette rareté crée une
+  prime structurelle que le DCF ne capture pas — et que l'IPO de SpaceX en juin 2026 pourrait précisément
+  commencer à éroder (SPCX cote 15 % sous son prix d'introduction).</span>
+  <span class="en"><b>How to read this honestly.</b> A reverse DCF producing figures this extreme does not
+  prove the market is wrong. It proves that <b>the market is not valuing these stocks with a DCF</b> — and
+  that is probably true. Three alternative readings are defensible:
+  <br><br>
+  <b>(1) Option value.</b> RKLB and ASTS are options on binary outcomes (Neutron flies or doesn't; D2D
+  broadband becomes a standard or doesn't). An option's value is not the NPV of the median scenario — it
+  includes time value and volatility. A DCF structurally undervalues a deep out-of-the-money option.<br><br>
+  <b>(2) The market prices a different TAM.</b> If you believe Golden Dome ($185B total programme cost, $23B
+  already appropriated) and US defence space architecture create a market an order of magnitude larger than
+  current sector estimates, the implied numbers become less absurd.<br><br>
+  <b>(3) Scarcity.</b> There are very few pure listed space vehicles. That scarcity creates a structural
+  premium a DCF does not capture — and one that SpaceX's June 2026 IPO may be starting to erode (SPCX trades
+  15% below its offer price).</span></div>
+</div></section>
+
+<!-- =================== PEERS =================== -->
+<section id="peers"><div class="wrap">
+ <h2><span class="num">06</span><span class="fr">Table de comparables vérifiée</span><span class="en">Verified comparables table</span></h2>
+ <p class="lead"><span class="fr">Multiples arrêtés au 5-6 août 2026, source stockanalysis.com. « n.m. » =
+  non significatif (société déficitaire). Les dates « as of » de chaque page sont respectées.</span>
+  <span class="en">Multiples as of 5-6 August 2026, source stockanalysis.com. "n.m." = not meaningful
+  (loss-making). Each page's "as of" date is respected.</span></p>
+
+ <h4><span class="fr">Lanceurs et infrastructure spatiale</span><span class="en">Launchers and space infrastructure</span></h4>
+ <div class="tw"><table>
+  <thead><tr><th>Ticker</th><th class="n"><span class="fr">Cap.</span><span class="en">Mkt cap</span></th>
+   <th class="n">VE / EV</th><th class="n"><span class="fr">CA TTM</span><span class="en">TTM rev</span></th>
+   <th class="n"><span class="fr">Croiss.</span><span class="en">Growth</span></th>
+   <th class="n"><span class="fr">M. brute</span><span class="en">Gross m.</span></th>
+   <th class="n"><span class="fr">M. op.</span><span class="en">Op. m.</span></th>
+   <th class="n">VE/CA</th><th class="n">FCF TTM</th></tr></thead>
+  <tbody>
+   <tr style="background:#171208"><td><b>RKLB</b> Rocket Lab</td><td class="n">46,91 Md$</td><td class="n">44,48 Md$</td>
+     <td class="n">679,6 M$</td><td class="n up">+45,8 %</td><td class="n">36,6 %</td><td class="n dn">−33,2 %</td>
+     <td class="n"><b>65,5×</b></td><td class="n dn">−316,3 M$</td></tr>
+   <tr><td><b>SPCX</b> SpaceX</td><td class="n">1 510 Md$</td><td class="n"><span class="fr">n.d.</span><span class="en">n.d.</span></td>
+     <td class="n">23,04 Md$</td><td class="n up">+121,9 %</td><td class="n">51,9 %</td><td class="n dn">−16,2 %</td>
+     <td class="n">~65×</td><td class="n"><span class="fr">n.d.</span><span class="en">n.d.</span></td></tr>
+   <tr><td><b>FLY</b> Firefly Aerospace</td><td class="n">3,95 Md$</td><td class="n">3,46 Md$</td>
+     <td class="n">184,9 M$</td><td class="n up">+70,7 %</td><td class="n">24,8 %</td><td class="n dn">−161,1 %</td>
+     <td class="n">18,7×</td><td class="n dn">−257,5 M$</td></tr>
+   <tr><td><b>PL</b> Planet Labs</td><td class="n">8,10 Md$</td><td class="n">7,85 Md$</td>
+     <td class="n">335,6 M$</td><td class="n up">+34,2 %</td><td class="n">55,5 %</td><td class="n dn">−31,9 %</td>
+     <td class="n">23,4×</td><td class="n up">+46,6 M$</td></tr>
+   <tr><td><b>VOYG</b> Voyager Technologies</td><td class="n">2,34 Md$</td><td class="n">2,39 Md$</td>
+     <td class="n">174,2 M$</td><td class="n up">+10,6 %</td><td class="n dn">1,7 %</td><td class="n dn">−88,5 %</td>
+     <td class="n">13,7×</td><td class="n dn">−287,5 M$</td></tr>
+   <tr><td><b>LUNR</b> Intuitive Machines</td><td class="n">3,24 Md$</td><td class="n">3,43 Md$</td>
+     <td class="n">334,3 M$</td><td class="n up">+53,8 %</td><td class="n">9,7 %</td><td class="n dn">−34,8 %</td>
+     <td class="n">10,3×</td><td class="n dn">−133,9 M$</td></tr>
+   <tr><td><b>BKSY</b> BlackSky</td><td class="n">1,14 Md$</td><td class="n">1,11 Md$</td>
+     <td class="n">108,9 M$</td><td class="n">+4,1 %</td><td class="n">79,7 %</td><td class="n dn">−43,4 %</td>
+     <td class="n">10,2×</td><td class="n dn">−113,0 M$</td></tr>
+   <tr><td><b>KTOS</b> Kratos Defense</td><td class="n">10,78 Md$</td><td class="n">9,53 Md$</td>
+     <td class="n">1,52 Md$</td><td class="n up">+25,5 %</td><td class="n">23,0 %</td><td class="n up">+1,2 %</td>
+     <td class="n">6,3×</td><td class="n dn">−128,9 M$</td></tr>
+   <tr><td><b>RDW</b> Redwire</td><td class="n">2,94 Md$</td><td class="n">2,46 Md$</td>
+     <td class="n">426,3 M$</td><td class="n up">+63,1 %</td><td class="n">20,1 %</td><td class="n dn">−50,5 %</td>
+     <td class="n">5,8×</td><td class="n dn">−98,2 M$</td></tr>
+  </tbody></table></div>
+
+ <h4><span class="fr">Satellite et connectivité</span><span class="en">Satellite and connectivity</span></h4>
+ <div class="tw"><table>
+  <thead><tr><th>Ticker</th><th class="n"><span class="fr">Cap.</span><span class="en">Mkt cap</span></th>
+   <th class="n">VE / EV</th><th class="n"><span class="fr">CA TTM</span><span class="en">TTM rev</span></th>
+   <th class="n"><span class="fr">M. op.</span><span class="en">Op. m.</span></th>
+   <th class="n">VE/CA</th><th class="n">VE/EBITDA</th><th class="n">FCF TTM</th></tr></thead>
+  <tbody>
+   <tr style="background:#171208"><td><b>ASTS</b> AST SpaceMobile</td><td class="n">26,54 Md$</td><td class="n">27,25 Md$</td>
+     <td class="n">70,9 M$</td><td class="n dn">−392,2 %</td><td class="n"><b>320,8×</b></td><td class="n">n.m.</td>
+     <td class="n dn">−1,30 Md$</td></tr>
+   <tr><td><b>GSAT</b> Globalstar <span class="small">(<span class="fr">rachat Amazon</span><span class="en">Amazon bid</span>)</span></td>
+     <td class="n">10,72 Md$</td><td class="n">10,71 Md$</td><td class="n">280,6 M$</td><td class="n up">+4,7 %</td>
+     <td class="n">38,2×</td><td class="n">118,4×</td><td class="n up">+89,7 M$</td></tr>
+   <tr><td><b>IRDM</b> Iridium <span class="small">(<span class="fr">rachat RKLB</span><span class="en">RKLB bid</span>)</span></td>
+     <td class="n">5,12 Md$</td><td class="n">6,72 Md$</td><td class="n">884,2 M$</td><td class="n up">+23,8 %</td>
+     <td class="n">7,6×</td><td class="n">15,9×</td><td class="n up">+288,3 M$</td></tr>
+   <tr><td><b>VSAT</b> Viasat</td><td class="n">11,29 Md$</td><td class="n">16,97 Md$</td><td class="n">4,63 Md$</td>
+     <td class="n up">+2,4 %</td><td class="n">3,7×</td><td class="n">156,1×</td><td class="n up">+597,1 M$</td></tr>
+   <tr><td><b>SATS</b> EchoStar</td><td class="n">25,28 Md$</td><td class="n">42,27 Md$</td><td class="n">14,65 Md$</td>
+     <td class="n dn">−116,5 %</td><td class="n">2,9×</td><td class="n">n.m.</td><td class="n dn">−725,2 M$</td></tr>
+   <tr><td><b>GILT</b> Gilat Satellite</td><td class="n">854 M$</td><td class="n">718 M$</td><td class="n">470,1 M$</td>
+     <td class="n up">+6,1 %</td><td class="n">1,5×</td><td class="n">13,4×</td><td class="n up">+2,6 M$</td></tr>
+  </tbody></table></div>
+
+ <h4><span class="fr">Ancrage — primes de défense</span><span class="en">Anchor — defence primes</span></h4>
+ <div class="tw"><table>
+  <thead><tr><th>Ticker</th><th class="n"><span class="fr">CA TTM</span><span class="en">TTM rev</span></th>
+   <th class="n">VE/CA</th><th class="n">VE/EBITDA</th><th class="n">P/E</th>
+   <th class="n">P/E fwd</th></tr></thead>
+  <tbody>
+   <tr><td><b>LMT</b> Lockheed Martin</td><td class="n">77,01 Md$</td><td class="n">1,96×</td><td class="n">13,9×</td><td class="n">21,3×</td><td class="n">18,7×</td></tr>
+   <tr><td><b>NOC</b> Northrop Grumman</td><td class="n">42,89 Md$</td><td class="n">2,21×</td><td class="n">15,5×</td><td class="n">17,7×</td><td class="n">19,1×</td></tr>
+   <tr><td><b>LHX</b> L3Harris</td><td class="n">22,93 Md$</td><td class="n">2,77×</td><td class="n">17,7×</td><td class="n">28,9×</td><td class="n">23,1×</td></tr>
+  </tbody></table></div>
+
+ <div class="chart">
+  <div class="ct"><span class="fr">VE / chiffre d'affaires TTM — le secteur spatial coté</span>
+   <span class="en">EV / TTM revenue — the listed space sector</span></div>
+  <div class="cs"><span class="fr">échelle logarithmique · au 5-6 août 2026</span>
+   <span class="en">log scale · as of 5-6 August 2026</span></div>
+  <div id="peerChart"></div>
+ </div>
+
+ <h4><span class="fr">Contexte de marché</span><span class="en">Market context</span></h4>
+ <div class="tw"><table>
+  <thead><tr><th><span class="fr">Indicateur</span><span class="en">Metric</span></th><th class="n"><span class="fr">Valeur</span><span class="en">Value</span></th>
+   <th><span class="fr">Source</span><span class="en">Source</span></th></tr></thead>
+  <tbody>
+   <tr><td><span class="fr">Marché mondial des services de lancement (2026e)</span><span class="en">Global launch services market (2026e)</span></td>
+     <td class="n">~25,3 Md$</td><td class="small">Grand View Research — 41,3 Md$ <span class="fr">en</span><span class="en">by</span> 2030, TCAM 15,6 %</td></tr>
+   <tr><td><span class="fr">Marché mondial direct-to-device (2026)</span><span class="en">Global direct-to-device market (2026)</span></td>
+     <td class="n">965 M$</td><td class="small">GM Insights — 4,3 Md$ <span class="fr">en</span><span class="en">by</span> 2031 · <b>15,5 Md$ <span class="fr">en</span><span class="en">by</span> 2035</b>, TCAM 36,1 %</td></tr>
+   <tr><td><span class="fr">Budget US Space Force FY2026</span><span class="en">US Space Force FY2026 budget</span></td>
+     <td class="n">40,1 Md$</td><td class="small">SpacePolicyOnline — 26,3 Md$ <span class="fr">de base</span><span class="en">base</span> + 13,8 Md$ <span class="fr">de réconciliation</span><span class="en">reconciliation</span></td></tr>
+   <tr><td><span class="fr">Golden Dome — coût total programme</span><span class="en">Golden Dome — total programme cost</span></td>
+     <td class="n">185 Md$</td><td class="small">Aerospace Corp / CSPS — <b>23 Md$ <span class="fr">de financement obligatoire déjà voté</span><span class="en">mandatory funding already appropriated</span></b></td></tr>
+   <tr><td>ETF UFO — <span class="fr">perf. 1 an</span><span class="en">1-yr performance</span></td>
+     <td class="n up">+55,6 %</td><td class="small">stockanalysis, 06/08/2026 · ARKX +23,4 %</td></tr>
+  </tbody></table></div>
+</div></section>
+
+<!-- =================== RISK =================== -->
+<section id="risk"><div class="wrap">
+ <h2><span class="num">07</span><span class="fr">Matrice de risques</span><span class="en">Risk matrix</span></h2>
+ <div class="tw"><table>
+  <thead><tr><th><span class="fr">Risque</span><span class="en">Risk</span></th>
+   <th><span class="fr">Titre</span><span class="en">Name</span></th>
+   <th><span class="fr">Probabilité</span><span class="en">Likelihood</span></th>
+   <th><span class="fr">Impact</span><span class="en">Impact</span></th>
+   <th><span class="fr">Ce qu'il faut surveiller</span><span class="en">What to watch</span></th></tr></thead>
+  <tbody>
+   <tr><td><span class="fr">Nouveau report ou échec du premier vol Neutron</span><span class="en">Further Neutron delay or first-flight failure</span></td>
+     <td>RKLB</td><td><span class="tag t-w"><span class="fr">élevée</span><span class="en">high</span></span></td>
+     <td><span class="tag t-no"><span class="fr">majeur</span><span class="en">severe</span></span></td>
+     <td class="small"><span class="fr">calendrier confirmé le 10 août ; arrivée du véhicule à Wallops ;
+       essais statiques du premier étage</span>
+       <span class="en">schedule confirmation on 10 Aug; vehicle arrival at Wallops; first-stage static fires</span></td></tr>
+   <tr><td><span class="fr">Iridium : refus des actionnaires ou des régulateurs</span><span class="en">Iridium: shareholder or regulatory block</span></td>
+     <td>RKLB</td><td><span class="tag t-i"><span class="fr">modérée</span><span class="en">moderate</span></span></td>
+     <td><span class="tag t-w"><span class="fr">significatif</span><span class="en">material</span></span></td>
+     <td class="small"><span class="fr">vote des actionnaires Iridium ; conditions du crédit relais de 3,6 Md$ ;
+       collar RKLB 67,50-112,50 $ — un cours RKLB sous 67,50 $ augmente le nombre d'actions émises</span>
+       <span class="en">Iridium shareholder vote; $3.6B bridge terms; RKLB collar $67.50-112.50 — an RKLB price
+       below $67.50 increases shares issued</span></td></tr>
+   <tr><td><span class="fr">Concentration client extrême</span><span class="en">Extreme customer concentration</span></td>
+     <td>RKLB</td><td><span class="tag t-ok"><span class="fr">avérée</span><span class="en">confirmed</span></span></td>
+     <td><span class="tag t-w"><span class="fr">significatif</span><span class="en">material</span></span></td>
+     <td class="small"><span class="fr">5 clients = 77 % du carnet et 49 % du CA 2025 ; 47 % du CA vient du
+       gouvernement américain, souvent en prix fixe ferme</span>
+       <span class="en">5 customers = 77% of backlog and 49% of 2025 revenue; 47% of revenue from the US
+       government, often firm-fixed-price</span></td></tr>
+   <tr><td><span class="fr">Constellation ASTS très en retard sur l'objectif</span><span class="en">ASTS constellation far behind target</span></td>
+     <td>ASTS</td><td><span class="tag t-no"><span class="fr">avérée</span><span class="en">confirmed</span></span></td>
+     <td><span class="tag t-no"><span class="fr">majeur</span><span class="en">severe</span></span></td>
+     <td class="small"><span class="fr">12 satellites contre 45-60 visés ; service commercial repoussé à 2027 ;
+       cadence de lancement requise jamais atteinte</span>
+       <span class="en">12 satellites versus 45-60 targeted; commercial service pushed to 2027; required launch
+       cadence never achieved</span></td></tr>
+   <tr><td><span class="fr">Dilution actionnariale continue</span><span class="en">Continuous shareholder dilution</span></td>
+     <td>ASTS</td><td><span class="tag t-no"><span class="fr">très élevée</span><span class="en">very high</span></span></td>
+     <td><span class="tag t-no"><span class="fr">majeur</span><span class="en">severe</span></span></td>
+     <td class="small"><span class="fr">actions passées de 52 M (2021) à 388 M (août 2026) ; besoin de
+       financement additionnel estimé à ~3,0 Md$ d'ici 2029 dans notre cas central</span>
+       <span class="en">shares grew from 52M (2021) to 388M (Aug 2026); additional funding need estimated at
+       ~$3.0B through 2029 in our base case</span></td></tr>
+   <tr><td><span class="fr">Dépendance à Ligado, en Chapter 11</span><span class="en">Dependence on Ligado, in Chapter 11</span></td>
+     <td>ASTS</td><td><span class="tag t-i"><span class="fr">modérée</span><span class="en">moderate</span></span></td>
+     <td><span class="tag t-no"><span class="fr">majeur</span><span class="en">severe</span></span></td>
+     <td class="small"><span class="fr">restructuration de 8,6 Md$ de dette ; sursis obtenu par Inmarsat contre
+       une décision du tribunal des faillites — issue non tranchée</span>
+       <span class="en">$8.6B debt restructuring; stay obtained by Inmarsat against a bankruptcy court ruling —
+       outcome unresolved</span></td></tr>
+   <tr><td><span class="fr">Concurrence SpaceX / Amazon sur le D2D</span><span class="en">SpaceX / Amazon D2D competition</span></td>
+     <td>ASTS</td><td><span class="tag t-no"><span class="fr">très élevée</span><span class="en">very high</span></span></td>
+     <td><span class="tag t-no"><span class="fr">majeur</span><span class="en">severe</span></span></td>
+     <td class="small"><span class="fr">17 Md$ de spectre acquis par SpaceX ; Amazon rachète Globalstar et la
+       participation Apple ; SPCX capitalise 1 510 Md$</span>
+       <span class="en">$17B of spectrum acquired by SpaceX; Amazon buys Globalstar and Apple's stake; SPCX
+       capitalised at $1,510B</span></td></tr>
+   <tr><td><span class="fr">Actions collectives d'investisseurs</span><span class="en">Investor class actions</span></td>
+     <td><span class="fr">les deux</span><span class="en">both</span></td>
+     <td><span class="tag t-ok"><span class="fr">avérée</span><span class="en">confirmed</span></span></td>
+     <td><span class="tag t-i"><span class="fr">limité</span><span class="en">limited</span></span></td>
+     <td class="small"><span class="fr">RKLB : plaintes sur les retards de Neutron (2025). ASTS : enquêtes
+       annoncées, dont Pomerantz le 28 juillet 2026 — griefs précis non publiés</span>
+       <span class="en">RKLB: claims over Neutron delays (2025). ASTS: investigations announced, incl.
+       Pomerantz on 28 July 2026 — specific allegations not published</span></td></tr>
+   <tr><td><span class="fr">Compression de la prime de rareté du secteur</span><span class="en">Sector scarcity-premium compression</span></td>
+     <td><span class="fr">les deux</span><span class="en">both</span></td>
+     <td><span class="tag t-w"><span class="fr">élevée</span><span class="en">high</span></span></td>
+     <td><span class="tag t-w"><span class="fr">significatif</span><span class="en">material</span></span></td>
+     <td class="small"><span class="fr">SPCX cote 15 % sous son prix d'IPO, FLY 47 % sous le sien ; expiration
+       du lock-up SpaceX le 6 août 2026 quadruple le flottant</span>
+       <span class="en">SPCX trades 15% below its IPO price, FLY 47% below; SpaceX lock-up expiry on 6 Aug 2026
+       quadruples the float</span></td></tr>
+   <tr><td><span class="fr">Compression short / effet de squeeze (risque pour un vendeur à découvert)</span>
+     <span class="en">Short squeeze (risk to a short seller)</span></td>
+     <td>ASTS</td><td><span class="tag t-w"><span class="fr">élevée</span><span class="en">high</span></span></td>
+     <td><span class="tag t-w"><span class="fr">significatif</span><span class="en">material</span></span></td>
+     <td class="small"><span class="fr">22,3 % du flottant vendu à découvert, 3,1 jours de couverture ; le titre
+       avait gagné 49 % en un mois après l'annonce SHIELD</span>
+       <span class="en">22.3% of float short, 3.1 days to cover; the stock gained 49% in a month after the
+       SHIELD announcement</span></td></tr>
+  </tbody></table></div>
+</div></section>
+
+<!-- =================== SOURCES =================== -->
+<section id="src"><div class="wrap">
+ <h2><span class="num">08</span><span class="fr">Sources, limites et données non trouvées</span><span class="en">Sources, limitations and data not found</span></h2>
+
+ <h4><span class="fr">Ce que nous n'avons pas pu vérifier</span><span class="en">What we could not verify</span></h4>
+ <div class="tw"><table>
+  <thead><tr><th><span class="fr">Donnée</span><span class="en">Item</span></th>
+   <th><span class="fr">Pourquoi c'est important</span><span class="en">Why it matters</span></th></tr></thead>
+  <tbody>
+   <tr><td><span class="fr">Modèle de partage de revenus « 50/50 » ASTS / opérateurs</span>
+     <span class="en">ASTS "50/50" operator revenue-share model</span></td>
+     <td class="small"><span class="fr">universellement cité, introuvable dans une source primaire. C'est la
+       variable la plus déterminante du modèle ASTS — traitée en hypothèse.</span>
+       <span class="en">universally cited, absent from any primary source. It is the single most determinative
+       variable in the ASTS model — treated as an assumption.</span></td></tr>
+   <tr><td><span class="fr">Marge brute par segment de Rocket Lab</span><span class="en">Rocket Lab segment gross margin</span></td>
+     <td class="small"><span class="fr">jamais publiée. Impossible de savoir si Launch ou Space Systems est le
+       segment rentable — notre SOTP repose donc sur des multiples de CA, pas de résultat.</span>
+       <span class="en">never disclosed. Impossible to know whether Launch or Space Systems is the profitable
+       segment — our SOTP therefore uses revenue multiples, not earnings multiples.</span></td></tr>
+   <tr><td><span class="fr">Ventilation carnet ferme / options (RKLB)</span><span class="en">Firm vs optional backlog split (RKLB)</span></td>
+     <td class="small"><span class="fr">non publiée. Le carnet de 2,2 Md$ ne peut pas être qualifié
+       intégralement de « confirmé ».</span>
+       <span class="en">not disclosed. The $2.2B backlog cannot be described as fully "confirmed".</span></td></tr>
+   <tr><td><span class="fr">Montant du contrat MDA SHIELD (ASTS)</span><span class="en">MDA SHIELD contract value (ASTS)</span></td>
+     <td class="small"><span class="fr">non divulgué. Le chiffre de 151 Md$ qui circule concerne le programme
+       Golden Dome global, pas le contrat ASTS.</span>
+       <span class="en">undisclosed. The $151B figure in circulation refers to the overall Golden Dome
+       programme, not the ASTS contract.</span></td></tr>
+   <tr><td><span class="fr">Solde du programme ATM d'ASTS en 2026</span><span class="en">ASTS ATM programme balance in 2026</span></td>
+     <td class="small"><span class="fr">dernière donnée : 20 octobre 2025 (277,4 M$ utilisés sur 800 M$).
+       L'écart entre 291 M actions au 31/03/2026 et 388 M au 05/08/2026 n'a pas pu être recoupé sur un 10-Q.</span>
+       <span class="en">last data point: 20 October 2025 ($277.4M used of $800M). The gap between 291M shares at
+       31 Mar 2026 and 388M at 5 Aug 2026 could not be reconciled to a 10-Q.</span></td></tr>
+   <tr><td><span class="fr">Synergies chiffrées de l'opération Iridium</span><span class="en">Quantified Iridium deal synergies</span></td>
+     <td class="small"><span class="fr">le communiqué de Rocket Lab n'en chiffre aucune. Notre test de création
+       de valeur est donc construit à partir du prix payé, pas d'un plan annoncé.</span>
+       <span class="en">Rocket Lab's release quantifies none. Our value-creation test is therefore built from
+       the price paid, not from an announced plan.</span></td></tr>
+   <tr><td><span class="fr">Subvention de 69 M$ de l'État de Virginie (RKLB)</span><span class="en">$69M Virginia state grant (RKLB)</span></td>
+     <td class="small"><span class="fr">source secondaire unique (NZ Herald), date non précisée. À confirmer
+       avant toute citation formelle.</span>
+       <span class="en">single secondary source (NZ Herald), date unspecified. To confirm before any formal
+       citation.</span></td></tr>
+   <tr><td><span class="fr">Prix catalogue actuel de Neutron</span><span class="en">Current Neutron list price</span></td>
+     <td class="small"><span class="fr">le chiffre de ~50 M$ date de mars 2023 et n'a jamais été réactualisé
+       malgré trois ans de développement et d'inflation.</span>
+       <span class="en">the ~$50M figure dates from March 2023 and has never been refreshed despite three years
+       of development and inflation.</span></td></tr>
+  </tbody></table></div>
+
+ <h4><span class="fr">Sources principales</span><span class="en">Principal sources</span></h4>
+ <p class="small">
+  <b>SEC / <span class="fr">communiqués officiels</span><span class="en">official releases</span> :</b>
+  <a href="https://investors.rocketlabcorp.com/news-releases/news-release-details/rocket-lab-announces-first-quarter-2026-financial-results">Rocket Lab Q1 2026</a> ·
+  <a href="https://investors.rocketlabcorp.com/news-releases/news-release-details/rocket-lab-acquire-iridium-historic-deal-creating-fully">Rocket Lab / Iridium</a> ·
+  <a href="https://www.prnewswire.com/news-releases/rocket-lab-to-acquire-iridium-in-historic-deal-creating-a-fully-vertically-integrated-space-powerhouse-primed-for-growth-302813075.html">PR Newswire — Iridium</a> ·
+  <a href="https://www.morningstar.com/news/business-wire/20260116850416/ast-spacemobile-awarded-prime-contract-position-on-us-missile-defense-agency-shield-program">AST SpaceMobile — MDA SHIELD</a> ·
+  <a href="https://www.ast-science.com/partners/">AST SpaceMobile — partenaires</a><br><br>
+  <b><span class="fr">Données de marché</span><span class="en">Market data</span> :</b>
+  <a href="https://stockanalysis.com/stocks/rklb/">stockanalysis — RKLB</a> ·
+  <a href="https://stockanalysis.com/stocks/asts/">stockanalysis — ASTS</a> ·
+  <a href="https://stockanalysis.com/stocks/spcx/">stockanalysis — SPCX</a> ·
+  <a href="https://ycharts.com/indicators/10_year_treasury_rate">ycharts — 10Y Treasury</a> ·
+  <a href="https://tradingeconomics.com/united-states/government-bond-yield">TradingEconomics — 10Y</a><br><br>
+  <b><span class="fr">Presse sectorielle</span><span class="en">Sector press</span> :</b>
+  <a href="https://spacenews.com/rocket-lab-to-acquire-iridium/">SpaceNews — Rocket Lab / Iridium</a> ·
+  <a href="https://www.cnbc.com/2026/06/29/rocket-lab-buys-iridium.html">CNBC — Rocket Lab / Iridium</a> ·
+  <a href="https://www.cnbc.com/2026/06/12/spacex-ipo-spcx-live-updates.html">CNBC — SpaceX IPO</a> ·
+  <a href="https://techcrunch.com/2026/08/04/spacex-doubles-revenues-on-anthropic-and-google-compute-deals-starlink-growth/">TechCrunch — SpaceX T2 2026</a> ·
+  <a href="https://www.cnbc.com/2026/04/14/amazon-globalstar-satellite-leo-internet.html">CNBC — Amazon / Globalstar</a> ·
+  <a href="https://www.forbes.com/sites/aliciapark/2026/04/14/amazon-buys-satellite-firm-for-116-billion-as-it-catches-up-with-spacexs-starlink/">Forbes — Amazon / Globalstar</a> ·
+  <a href="https://www.cnbc.com/2026/04/20/ast-spacemobile-blue-origin-new-glenn-satellite-wrong-orbit.html">CNBC — BlueBird 7</a> ·
+  <a href="https://www.nasaspaceflight.com/2026/07/rocket-lab-update-072026/">NASASpaceflight — Neutron</a> ·
+  <a href="https://www.rcrwireless.com/20250908/spectrum/spacex-echostar-spectrum">RCR Wireless — SpaceX / EchoStar</a><br><br>
+  <b><span class="fr">Marchés et budgets</span><span class="en">Markets and budgets</span> :</b>
+  <a href="https://www.gminsights.com/industry-analysis/direct-to-device-d2d-satellite-connectivity-market">GM Insights — D2D</a> ·
+  <a href="https://www.grandviewresearch.com/industry-analysis/space-launch-services-market-report">Grand View — Launch Services</a> ·
+  <a href="https://spacepolicyonline.com/news/adding-reconciliation-space-force-budget-tops-40-billion-in-fy2026/">SpacePolicyOnline — Space Force FY2026</a>
+ </p>
+
+ <div class="warn"><span class="fr"><b>Avertissement.</b> Ce document est une analyse financière produite à
+  des fins d'information et de pédagogie. Il ne constitue ni un conseil en investissement, ni une
+  recommandation d'achat ou de vente, ni une sollicitation. BAREK / LABS n'est pas un conseiller financier
+  réglementé. Les modèles présentés reposent sur des hypothèses explicites qui peuvent se révéler fausses ;
+  les valorisations par actualisation de flux sont extrêmement sensibles au coût du capital retenu.
+  Les performances passées ne préjugent pas des performances futures. Les investissements en actions
+  comportent un risque de perte en capital, particulièrement élevé sur des sociétés déficitaires et
+  volatiles comme celles étudiées ici. Faites vos propres recherches.</span>
+  <span class="en"><b>Disclaimer.</b> This document is financial analysis produced for information and
+  educational purposes. It is not investment advice, a recommendation to buy or sell, or a solicitation.
+  BAREK / LABS is not a regulated financial adviser. The models presented rest on explicit assumptions that
+  may prove wrong; discounted cash flow valuations are extremely sensitive to the cost of capital used. Past
+  performance does not predict future performance. Equity investments carry a risk of capital loss,
+  particularly high for loss-making, volatile companies such as those studied here. Do your own research.</span></div>
+</div></section>
+
+<footer><div class="wrap">
+ <b>BAREK / LABS</b> — <span class="fr">Deep dive RKLB &amp; ASTS · arrêté au 6 août 2026 · toutes les
+ données sont sourcées et datées ; les données non trouvées sont signalées comme telles.</span>
+ <span class="en">RKLB &amp; ASTS deep dive · as of 6 August 2026 · all data sourced and dated; items not
+ found are flagged as such.</span>
+</div></footer>
+
+<script>
+/* ============================ i18n ============================ */
+/* Les nombres des tableaux statiques sont saisis au format francais.
+   On genere une variante anglaise une fois pour toutes et on bascule. */
+function enNum(s){
+  // 1) chaque nombre francais -> nombre anglais (annees et petits entiers preserves)
+  s = s.replace(/\d[\d\u00a0\u202f ]*(?:,\d+)?/g, t=>{
+    const hadSep=/[\u00a0\u202f ]/.test(t), hadDec=t.indexOf(',')>=0;
+    const clean=t.replace(/[\u00a0\u202f ]/g,'');
+    if(!hadSep && !hadDec && clean.length<=4) return clean;   // 2028, 13, 248...
+    const p=clean.split(','), i=p[0], d=p[1];
+    const ii=i.replace(/\B(?=(\d{3})+(?!\d))/g,',');
+    return d?ii+'.'+d:ii;
+  });
+  // 2) unites monetaires : suffixe francais -> prefixe anglais
+  s = s.replace(/([\d,.]+)\s*Md\$/g,'$$$1B')
+       .replace(/([\d,.]+)\s*M\$/g,'$$$1M')
+       .replace(/([\d,.]+)\s*\$/g,'$$$1')
+       .replace(/\s+%/g,'%');
+  return s;
+}
+function buildLocales(){
+  document.querySelectorAll('td.n, th.n, .stat, .sc .px, td.small').forEach(e=>{
+    if(e.querySelector('span.fr,span.en')) return;      // deja bilingue
+    const fr=e.innerHTML, en=enNum(e.textContent).trim();
+    if(en===e.textContent.trim()) return;
+    e.innerHTML=`<span class="fr">${fr}</span><span class="en">${en}</span>`;
+  });
+}
+const lb=document.getElementById('lang');
+lb.onclick=()=>{const fr=document.body.classList.contains('lang-fr');
+  document.body.classList.toggle('lang-fr',!fr);document.body.classList.toggle('lang-en',fr);
+  document.documentElement.lang=fr?'en':'fr';lb.textContent=fr?'FR':'EN';draw();};
+
+/* ============================ data ============================ */
+const YR=[2026,2027,2028,2029,2030,2031,2032,2033,2034,2035];
+const D={
+ rklb:{px:78.42,netcash:1438.3,hist:{2021:62.2,2022:211.0,2023:244.6,2024:436.2,2025:601.8},
+  scen:{
+   bear:{launch:[290,360,520,780,1000,1150,1250,1320,1370,1400],
+         space:[610,700,800,900,1000,1080,1150,1200,1250,1290],
+         fcff:[-301,-222,-161,-80,3,74,124,154,195,203],ps:1.93},
+   base:{launch:[300,510,800,1200,1620,2000,2350,2650,2870,3050],
+         space:[640,830,1080,1400,1780,2180,2580,2950,3280,3550],
+         fcff:[-279,-192,-61,113,311,491,641,783,950,1028],ps:8.04},
+   bull:{launch:[310,660,1250,2050,2950,3800,4550,5200,5700,6100],
+         space:[660,930,1330,1830,2450,3100,3800,4450,5000,5450],
+         fcff:[-269,-164,18,339,746,1150,1470,1797,2155,2343],ps:22.47}},
+  sens:{w:[10.5,11.5,12.5,13.5,14.5,15.5],g:[2.0,2.5,3.0,3.5,4.0],
+   grid:[[11.0,11.5,12.0,12.6,13.2],[9.6,10.0,10.3,10.8,11.2],[8.5,8.8,9.1,9.4,9.7],
+         [7.6,7.8,8.0,8.3,8.5],[6.9,7.1,7.2,7.4,7.6],[6.3,6.4,6.5,6.7,6.8]]},
+  imp:88.1,cal:{rev:6600,mar:21.5,wac:13.5,g:3.0,sh:710,cx:6.5}},
+ asts:{px:68.38,netcash:509.0,hist:{2023:0,2024:4.4,2025:70.9},
+  scen:{
+   bear:{launch:[120,190,300,520,760,980,1150,1280,1360,1420],
+         space:[55,80,110,140,170,195,215,230,245,255],
+         fcff:[-1248,-963,-663,-461,-237,-53,57,123,159,184],ps:-2.91},
+   base:{launch:[120,240,570,1120,1770,2450,3050,3560,3980,4300],
+         space:[55,105,175,250,330,400,460,510,550,580],
+         fcff:[-1248,-1130,-840,-278,71,401,655,838,977,1108],ps:4.64},
+   bull:{launch:[130,330,980,2050,3400,4800,6000,7000,7800,8400],
+         space:[60,150,300,480,680,880,1050,1200,1320,1420],
+         fcff:[-1317,-1334,-936,-138,712,1510,2065,2530,2903,3239],ps:35.40}},
+  sens:{w:[11.0,12.0,13.0,14.0,15.0,16.0],g:[2.0,2.5,3.0,3.5,4.0],
+   grid:[[8.8,9.5,10.3,11.1,12.1],[6.9,7.4,7.9,8.5,9.2],[5.3,5.7,6.1,6.5,7.1],
+         [4.0,4.3,4.6,5.0,5.4],[3.0,3.2,3.5,3.7,4.0],[2.1,2.3,2.5,2.7,3.0]]},
+  imp:42.3,cal:{rev:4880,mar:33,wac:14.0,g:3.0,sh:450,cx:16}}
+};
+const PEERS=[["ASTS",320.8,1],["RKLB",65.5,1],["SPCX",65.0,0],["GSAT",38.2,0],["PL",23.4,0],
+ ["FLY",18.7,0],["VOYG",13.7,0],["LUNR",10.3,0],["BKSY",10.2,0],["IRDM",7.6,0],["KTOS",6.3,0],
+ ["RDW",5.8,0],["VSAT",3.7,0],["SATS",2.9,0],["LHX",2.8,0],["NOC",2.2,0],["LMT",2.0,0],["GILT",1.5,0]];
+
+const isFR=()=>document.body.classList.contains('lang-fr');
+const cur=(n,d=1)=>isFR()?fmt(n,d)+' $':'$'+fmt(n,d);
+const fmt=(n,d=0)=>{const s=n.toLocaleString(isFR()?'fr-FR':'en-US',{minimumFractionDigits:d,maximumFractionDigits:d});return s;};
+const NS='http://www.w3.org/2000/svg';
+function el(t,a={}){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+function txt(x,y,s,o={}){const t=el('text',Object.assign({x,y,fill:'#9aa4b8','font-size':'10.5',
+  'font-family':'ui-monospace,monospace'},o));t.textContent=s;return t;}
+
+/* ================= chart 1 : RKLB revenue stack ================= */
+let rkScen='base';
+function drawRev(){
+ const W=980,H=330,ML=54,MR=14,MT=14,MB=34;
+ const hist=[[2021,62.2],[2022,211],[2023,244.6],[2024,436.2],[2025,601.8]];
+ const s=D.rklb.scen[rkScen];
+ const cats=hist.map(h=>h[0]).concat(YR);
+ const vals=hist.map(h=>h[1]).concat(YR.map((_,i)=>s.launch[i]+s.space[i]));
+ const max=Math.max(...vals)*1.08;
+ const iw=W-ML-MR,ih=H-MT-MB,bw=iw/cats.length*0.68,gap=iw/cats.length;
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`});
+ for(let i=0;i<=5;i++){const y=MT+ih-ih*i/5;
+   svg.appendChild(el('line',{x1:ML,x2:W-MR,y1:y,y2:y,stroke:'#1e2430','stroke-width':1}));
+   svg.appendChild(txt(ML-8,y+3.5,fmt(max*i/5/1000,1),{'text-anchor':'end'}));}
+ svg.appendChild(txt(ML-8,MT-3,isFR()?'Md$':'$B',{'text-anchor':'end',fill:'#606a80','font-size':'9.5'}));
+ cats.forEach((c,i)=>{
+  const x=ML+gap*i+(gap-bw)/2;
+  if(i<5){const h=ih*hist[i][1]/max;
+    svg.appendChild(el('rect',{x,y:MT+ih-h,width:bw,height:h,fill:'#3d4757',rx:2}));}
+  else{const j=i-5,l=s.launch[j],sp=s.space[j],hl=ih*l/max,hs=ih*sp/max;
+    svg.appendChild(el('rect',{x,y:MT+ih-hl,width:bw,height:hl,fill:'#4da3ff',rx:1}));
+    svg.appendChild(el('rect',{x,y:MT+ih-hl-hs,width:bw,height:hs,fill:'#f4c542',rx:1}));}
+  if(i%2===0||i===cats.length-1)
+    svg.appendChild(txt(x+bw/2,H-12,String(c).slice(2),{'text-anchor':'middle','font-size':'10'}));
+ });
+ // 2025/2026 divider
+ const dx=ML+gap*5;
+ svg.appendChild(el('line',{x1:dx,x2:dx,y1:MT,y2:MT+ih,stroke:'#f4c542','stroke-width':1,'stroke-dasharray':'3 3',opacity:.45}));
+ svg.appendChild(txt(dx+5,MT+11,isFR()?'projeté':'projected',{fill:'#f4c542','font-size':'9.5'}));
+ const c=document.getElementById('rkRevChart');c.innerHTML='';c.appendChild(svg);
+}
+
+/* ================= chart 2 : FCFF lines ================= */
+let fcfT='rklb';
+function drawFcf(){
+ const W=980,H=300,ML=58,MR=14,MT=14,MB=32;
+ const d=D[fcfT].scen;
+ const all=[...d.bear.fcff,...d.base.fcff,...d.bull.fcff];
+ const mx=Math.max(...all),mn=Math.min(...all);
+ const pad=(mx-mn)*.1,hi=mx+pad,lo=mn-pad;
+ const iw=W-ML-MR,ih=H-MT-MB;
+ const X=i=>ML+iw*i/9, Y=v=>MT+ih-ih*(v-lo)/(hi-lo);
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`});
+ for(let i=0;i<=5;i++){const v=lo+(hi-lo)*i/5,y=Y(v);
+  svg.appendChild(el('line',{x1:ML,x2:W-MR,y1:y,y2:y,stroke:'#1e2430'}));
+  svg.appendChild(txt(ML-8,y+3.5,fmt(v/1000,1),{'text-anchor':'end'}));}
+ svg.appendChild(el('line',{x1:ML,x2:W-MR,y1:Y(0),y2:Y(0),stroke:'#4a5468','stroke-width':1.4}));
+ svg.appendChild(txt(ML-8,MT-3,isFR()?'Md$':'$B',{'text-anchor':'end',fill:'#606a80','font-size':'9.5'}));
+ [['bear','#f0616d'],['base','#f4c542'],['bull','#31c48d']].forEach(([k,col])=>{
+  const p=d[k].fcff.map((v,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
+  svg.appendChild(el('path',{d:p,fill:'none',stroke:col,'stroke-width':2.2,'stroke-linejoin':'round'}));
+  d[k].fcff.forEach((v,i)=>svg.appendChild(el('circle',{cx:X(i),cy:Y(v),r:2.6,fill:col})));
+ });
+ YR.forEach((y,i)=>{if(i%2===0||i===9)
+   svg.appendChild(txt(X(i),H-11,String(y).slice(2),{'text-anchor':'middle','font-size':'10'}));});
+ const c=document.getElementById('fcfChart');c.innerHTML='';c.appendChild(svg);
+}
+
+/* ================= chart 3 : implied revenue ================= */
+function drawImp(){
+ const W=980,H=290,ML=140,MR=90,MT=16,MB=26;
+ const rows=[
+  ['RKLB '+(isFR()?'baissier':'bear'),2.69,'#f0616d'],
+  ['RKLB '+(isFR()?'central':'base'),6.6,'#f4c542'],
+  ['RKLB '+(isFR()?'haussier':'bull'),11.55,'#31c48d'],
+  ['RKLB '+(isFR()?'implicite marché':'market-implied'),88.1,'#4da3ff'],
+  [isFR()?'— Lockheed Martin (TTM)':'— Lockheed Martin (TTM)',77.0,'#5a6478'],
+  ['ASTS '+(isFR()?'baissier':'bear'),1.675,'#f0616d'],
+  ['ASTS '+(isFR()?'central':'base'),4.88,'#f4c542'],
+  ['ASTS '+(isFR()?'haussier':'bull'),9.82,'#31c48d'],
+  ['ASTS '+(isFR()?'implicite marché':'market-implied'),42.3,'#4da3ff'],
+  [isFR()?'— marché D2D mondial 2035':'— global D2D market 2035',15.5,'#5a6478']];
+ const iw=W-ML-MR,ih=H-MT-MB,bh=ih/rows.length*0.7,gap=ih/rows.length;
+ const lo=Math.log10(1),hi=Math.log10(120);
+ const X=v=>ML+iw*(Math.log10(Math.max(v,1))-lo)/(hi-lo);
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`});
+ [1,3,10,30,100].forEach(t=>{const x=X(t);
+  svg.appendChild(el('line',{x1:x,x2:x,y1:MT,y2:MT+ih,stroke:'#1e2430'}));
+  svg.appendChild(txt(x,H-9,fmt(t)+' '+(isFR()?'Md$':'$B'),{'text-anchor':'middle','font-size':'9.5'}));});
+ rows.forEach((r,i)=>{
+  const y=MT+gap*i+(gap-bh)/2,w=X(r[1])-ML;
+  svg.appendChild(el('rect',{x:ML,y,width:Math.max(w,1.5),height:bh,fill:r[2],rx:2,
+    opacity:r[0].startsWith('—')?0.4:1}));
+  svg.appendChild(txt(ML-9,y+bh/2+3.5,r[0],{'text-anchor':'end','font-size':'10.5',
+    fill:r[0].startsWith('—')?'#606a80':'#c8cfdc'}));
+  svg.appendChild(txt(X(r[1])+7,y+bh/2+3.5,fmt(r[1],1),{'font-size':'10.5',fill:r[2]}));
+ });
+ const c=document.getElementById('impChart');c.innerHTML='';c.appendChild(svg);
+}
+
+/* ================= chart 4 : peers ================= */
+function drawPeers(){
+ const W=980,H=300,ML=54,MR=14,MT=16,MB=34;
+ const iw=W-ML-MR,ih=H-MT-MB,gap=iw/PEERS.length,bw=gap*0.62;
+ const lo=Math.log10(1),hi=Math.log10(400);
+ const Y=v=>MT+ih-ih*(Math.log10(Math.max(v,1))-lo)/(hi-lo);
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`});
+ [1,3,10,30,100,300].forEach(t=>{const y=Y(t);
+  svg.appendChild(el('line',{x1:ML,x2:W-MR,y1:y,y2:y,stroke:'#1e2430'}));
+  svg.appendChild(txt(ML-8,y+3.5,t+'×',{'text-anchor':'end'}));});
+ PEERS.forEach((p,i)=>{
+  const x=ML+gap*i+(gap-bw)/2,y=Y(p[1]),h=MT+ih-y;
+  svg.appendChild(el('rect',{x,y,width:bw,height:h,rx:2,fill:p[2]?'#f4c542':'#38445a'}));
+  svg.appendChild(txt(x+bw/2,y-5,fmt(p[1],1),{'text-anchor':'middle','font-size':'9',
+    fill:p[2]?'#f4c542':'#7d879b'}));
+  const t=txt(x+bw/2,MT+ih+13,p[0],{'text-anchor':'middle','font-size':'9.5',
+    fill:p[2]?'#f4c542':'#8b93a7'});
+  t.setAttribute('transform',`rotate(-42 ${x+bw/2} ${MT+ih+13})`);svg.appendChild(t);});
+ const c=document.getElementById('peerChart');c.innerHTML='';c.appendChild(svg);
+}
+
+/* ================= heatmaps ================= */
+function heat(id,d){
+ const t=document.getElementById(id);const {w,g,grid}=d.sens;
+ const flat=grid.flat(),mn=Math.min(...flat),mx=Math.max(...flat);
+ let h='<thead><tr><th>WACC \\ g</th>'+g.map(x=>`<th>${fmt(x,1)} %</th>`).join('')+'</tr></thead><tbody>';
+ grid.forEach((row,i)=>{h+=`<tr><th>${fmt(w[i],1)} %</th>`+row.map(v=>{
+   const p=(v-mn)/(mx-mn||1);
+   return `<td style="background:rgba(244,197,66,${(0.06+p*0.34).toFixed(2)})">${cur(v,1)}</td>`;}).join('')+'</tr>';});
+ t.innerHTML=h+'</tbody>';
+}
+
+/* ================= interactive DCF ================= */
+let calcT='rklb';
+const S={rev:'sRev',mar:'sMar',wac:'sWac',g:'sG',sh:'sSh',cx:'sCx'};
+function loadCal(){const c=D[calcT].cal;
+ for(const k in S)document.getElementById(S[k]).value=c[k];calc();}
+/* Moteur identique au modele Python : meme trajectoire de base, meme convention
+   mid-year, memes calendriers d'impot / D&A / capex. Les curseurs deforment la
+   trajectoire de reference plutot que d'en creer une nouvelle. */
+const ENG={
+ rklb:{prev:601.8,nwc:0.06,
+  mar:[-0.14,-0.045,0.035,0.10,0.145,0.175,0.195,0.205,0.215,0.215],
+  da:[.055,.055,.055,.055,.055,.055,.055,.055,.055,.055],
+  cx:[0.19,0.135,0.105,0.09,0.08,0.075,0.07,0.07,0.065,0.065],
+  tax:[0,0,0,0.05,0.10,0.15,0.21,0.21,0.21,0.21]},
+ asts:{prev:70.9,nwc:0.05,
+  mar:[-4.20,-1.80,-0.55,0.05,0.18,0.26,0.30,0.32,0.33,0.33],
+  da:[0.60,0.45,0.30,0.22,0.18,0.16,0.15,0.14,0.13,0.13],
+  cx:[3.50,1.90,0.85,0.45,0.30,0.24,0.20,0.18,0.17,0.16],
+  tax:[0,0,0,0,0.05,0.10,0.18,0.21,0.21,0.21]}
+};
+function calc(){
+ const v=k=>parseFloat(document.getElementById(S[k]).value);
+ const rev35=v('rev'),mar=v('mar')/100,w=v('wac')/100,g=v('g')/100,sh=v('sh'),cx=v('cx')/100;
+ const E=ENG[calcT], nc=D[calcT].netcash, px=D[calcT].px;
+ const b=D[calcT].scen.base, base=YR.map((_,i)=>b.launch[i]+b.space[i]);
+ const mult=rev35/base[9];                       // deformation progressive du CA
+ const rev=base.map((r,i)=>r*(1+(mult-1)*i/9));
+ const dM=mar-E.mar[9];                          // ecart de marge terminale, rampe lineaire
+ const dC=cx-E.cx[9];                            // ecart de capex terminal, rampe lineaire
+ let pv=0,last=0;
+ for(let i=0;i<10;i++){
+   const ebit=rev[i]*(E.mar[i]+dM*i/9);
+   const nopat=ebit>0?ebit*(1-E.tax[i]):ebit;
+   const da=rev[i]*E.da[i];
+   const capex=rev[i]*Math.max(0.01,E.cx[i]+dC*i/9);
+   const dnwc=(rev[i]-(i?rev[i-1]:E.prev))*E.nwc;
+   const f=nopat+da-capex-dnwc;
+   pv+=f/Math.pow(1+w,i+0.5); last=f;
+ }
+ const tv=w>g?last*(1+g)/(w-g):0;
+ const pvtv=tv/Math.pow(1+w,9.5);
+ const ev=pv+pvtv, eq=ev+nc, ps=eq/sh;
+ document.getElementById('lRev').textContent=fmt(rev35/1000,1)+(isFR()?' Md$':'B');
+ document.getElementById('lMar').textContent=fmt(mar*100,1)+' %';
+ document.getElementById('lWac').textContent=fmt(w*100,2)+' %';
+ document.getElementById('lG').textContent=fmt(g*100,1)+' %';
+ document.getElementById('lSh').textContent=fmt(sh)+' M';
+ document.getElementById('lCx').textContent=fmt(cx*100,1)+' %';
+ document.getElementById('oPs').textContent=cur(ps,2);
+ const up=(ps/px-1)*100,e=document.getElementById('oUp');
+ e.textContent=(up>=0?'+':'')+fmt(up,0)+' %';e.className='v '+(up>=0?'up':'dn');
+ document.getElementById('oEv').textContent=fmt(ev/1000,1)+(isFR()?' Md$':'B');
+ const oTv=document.getElementById('oTv');
+ if(ev<=0||pv<0){oTv.textContent='> 100 %';oTv.className='v dn';
+   oTv.title=isFR()?'Les flux explicites 2026-2035 sont négatifs : toute la valeur repose sur la valeur terminale.'
+                   :'Explicit 2026-2035 cash flows are negative: all value rests on the terminal value.';}
+ else{oTv.textContent=fmt(pvtv/ev*100,0)+' %';oTv.className='v';oTv.title='';}
+ const mkev=calcT==='rklb'?45472:26031;
+ document.getElementById('oMx').textContent=fmt(mkev/rev[4],1)+'×';
+}
+Object.values(S).forEach(id=>document.getElementById(id).addEventListener('input',calc));
+
+/* ================= wiring ================= */
+document.querySelectorAll('#rkSegBtns button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('#rkSegBtns button').forEach(x=>x.classList.remove('on'));
+ b.classList.add('on');rkScen=b.dataset.s;drawRev();});
+document.querySelectorAll('#fcfBtns button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('#fcfBtns button').forEach(x=>x.classList.remove('on'));
+ b.classList.add('on');fcfT=b.dataset.t;drawFcf();});
+document.querySelectorAll('#calcBtns button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('#calcBtns button').forEach(x=>x.classList.remove('on'));
+ b.classList.add('on');calcT=b.dataset.t;loadCal();});
+
+function draw(){drawRev();drawFcf();drawImp();drawPeers();heat('hRk',D.rklb);heat('hAs',D.asts);calc();}
+buildLocales();loadCal();draw();
+window.addEventListener('resize',()=>{});
+</script>
+</body>
+</html>

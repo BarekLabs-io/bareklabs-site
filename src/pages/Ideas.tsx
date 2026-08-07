@@ -1,21 +1,20 @@
 import { useState } from 'react'
+import { Link } from 'react-router'
 import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import Carousel from '@/components/Carousel'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 
-type Idea = {
-  id: string
-  date: string
-  status: 'ACTIVE' | 'WATCHING' | 'CLOSED'
-  sector: string
-  title: string
-  thesis: string
-  entry: string
-  invalidation: string
-  horizon: string
-  scenarios: { label: string; prob: number; tone: 'up' | 'mid' | 'down' }[]
+import type { IdeaItem as Idea } from '@/data/ideaReports'
+
+/* A three-way scenario map is the point of these cards, so the middle case
+ * needs its own colour: painting BASE the same green as BULL turns a 46%
+ * central case into what reads as 68% of good news. */
+const TONE: Record<'up' | 'mid' | 'down', { bar: string; text: string }> = {
+  up: { bar: 'bg-signal/80', text: 'text-signal' },
+  mid: { bar: 'bg-warn/70', text: 'text-warn' },
+  down: { bar: 'bg-danger/70', text: 'text-danger' },
 }
 
 const STATUS_TONE: Record<Idea['status'], string> = {
@@ -41,6 +40,11 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
               {t.ideas.status[idea.status]}
             </span>
             <span className="border border-line px-2.5 py-1 font-mono-lab text-[9px] tracking-[0.2em] text-dim">{idea.sector}</span>
+            {idea.tickers?.map((tk) => (
+              <span key={tk} className="border border-signal/30 bg-signal/5 px-2.5 py-1 font-mono-lab text-[9px] tracking-[0.2em] text-signal" dir="ltr">
+                {tk}
+              </span>
+            ))}
             <span className="ms-auto font-mono-lab text-[10px] tracking-wider text-faint" dir="ltr">{idea.date}</span>
           </div>
           <div className="mt-5 flex items-center justify-between gap-6">
@@ -66,13 +70,14 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
                 <p className="mt-3 font-mono-lab text-[11px] leading-5 text-foreground/90">{idea.horizon}</p>
               </div>
             </div>
+            {idea.scenarios && (
             <div className="border-t border-line bg-ticker p-6">
               <div className="font-mono-lab text-[9px] tracking-[0.25em] text-faint">{t.ideas.labels.scenarios}</div>
               <div className="mt-4 flex h-2 w-full overflow-hidden bg-track">
                 {idea.scenarios.map((s) => (
                   <div
                     key={s.label}
-                    className={cn('h-full transition-all duration-700', s.tone === 'down' ? 'bg-danger/70' : 'bg-signal/80')}
+                    className={cn('h-full transition-all duration-700', TONE[s.tone].bar)}
                     style={{ width: `${s.prob}%` }}
                   />
                 ))}
@@ -81,13 +86,25 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
                 {idea.scenarios.map((s) => (
                   <span key={s.label} className="font-mono-lab text-[10px] tracking-wider text-dim">
                     {scenarioLabel(s.label)}{' '}
-                    <span className={s.tone === 'down' ? 'text-danger' : 'text-signal'} dir="ltr">
+                    <span className={TONE[s.tone].text} dir="ltr">
                       {s.prob}%
                     </span>
                   </span>
                 ))}
               </div>
             </div>
+            )}
+            {idea.report && (
+              <Link
+                to={`/analysis/ideas/${idea.report}`}
+                className="group/link flex items-center justify-between border-t border-line bg-ticker px-6 py-5 font-mono-lab text-[10px] tracking-[0.25em] text-signal transition-colors hover:bg-card2"
+              >
+                <span>{t.ideas.labels.readReport}</span>
+                <span className="transition-transform duration-300 group-hover/link:translate-x-1" dir="ltr">
+                  →
+                </span>
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -112,8 +129,11 @@ function EmptyTheses() {
 export default function Ideas() {
   const { t } = useLang()
   const FILTERS = t.ideas.filters
-  const [sector, setSector] = useState(FILTERS[0])
-  const items = sector === FILTERS[0] ? t.ideas.items : t.ideas.items.filter((i) => i.sector === sector)
+  /* By index, not by label. The labels are translated — "ALL" becomes "TOUT"
+   * — so a selection held as a string stops matching the moment the reader
+   * switches language, and every card silently disappears. */
+  const [sectorIndex, setSectorIndex] = useState(0)
+  const items = sectorIndex === 0 ? t.ideas.items : t.ideas.items.filter((i) => i.sector === FILTERS[sectorIndex])
 
   return (
     <>
@@ -128,13 +148,13 @@ export default function Ideas() {
           <SectionHead index="LEDGER" label={t.ideas.head} right={t.ideas.headRight} />
           {t.ideas.items.length > 0 && (
             <div className="mb-10 flex flex-wrap gap-2">
-              {FILTERS.map((f) => (
+              {FILTERS.map((f, fi) => (
                 <button
                   key={f}
-                  onClick={() => setSector(f)}
+                  onClick={() => setSectorIndex(fi)}
                   className={cn(
                     'border px-4 py-2 font-mono-lab text-[10px] tracking-[0.2em] transition-all duration-300',
-                    sector === f
+                    sectorIndex === fi
                       ? 'border-signal bg-signal text-[#0c0e12]'
                       : 'border-line text-dim hover:border-line-hover hover:text-foreground'
                   )}

@@ -2,6 +2,8 @@
  * Split out of translations.ts for git-transport size; consumed via translations.ts.
  */
 
+import { ideasEn } from './ideas-en'
+
 export const en = {
   nav: {
     homepage: 'INDEX',
@@ -108,8 +110,8 @@ export const en = {
       head: 'Latest from the lab',
       headRight: 'UPDATED DAILY',
       items: [
+        { d: '2026.08.06', tag: 'ENERGY & SPACE', t: 'The enrichment cliff: uranium’s real bottleneck is not the mine', to: '/analysis/uranium' },
         { d: '2026.08.06', tag: 'PAYMENTS', t: 'The invisible toll road: who really owns the money you spend', to: '/analysis/global-payments' },
-        { d: '2026.08.04', tag: 'ENERGY & SPACE', t: 'The New Space Economy: SPCX, RKLB, ASTS — repriced in public', to: '/analysis/space-economy' },
         { d: 'LIVE', tag: 'SIGNAL', t: "Souk Signal: today's composite read on regional markets", to: '/souk-signal' },
       ],
     },
@@ -138,13 +140,13 @@ export const en = {
           code: '01.A',
           name: 'INSIGHTS',
           desc: 'Short, dense reads on market structure, macro shifts and anomalies we observe across the feeds.',
-          count: '72 NOTES',
+          count: '5 NOTES',
         },
         {
           code: '01.B',
           name: 'INVESTMENT IDEAS',
           desc: 'Thesis-driven setups with entry logic, invalidation levels and scenario maps. Documented before, not after.',
-          count: '56 THESES',
+          count: '8 THESES',
         },
       ],
     },
@@ -168,10 +170,11 @@ export const en = {
     },
     filters: ['ALL', 'CRYPTO', 'CLOUD & AI', 'PAYMENTS', 'ENERGY & SPACE'],
     notes: [
-      { d: '2026.08.06', tag: 'CRYPTO', t: 'Crypto in 2026: what the cycle looks like from here', read: '14', conf: 75, to: '/analysis/crypto-2026' },
-      { d: '2026.08.06', tag: 'CLOUD & AI', t: "Oracle: the stock I'm watching closest right now", read: '16', conf: 78, to: '/analysis/oracle' },
-      { d: '2026.08.06', tag: 'PAYMENTS', t: 'The invisible toll road: who really owns the money you spend', read: '24', conf: 82, to: '/analysis/global-payments' },
-      { d: '2026.08.04', tag: 'ENERGY & SPACE', t: 'The New Space Economy: SPCX, RKLB, ASTS — repriced in public', read: '18', conf: 80, to: '/analysis/space-economy' },
+        { d: '2026.08.06', tag: 'ENERGY & SPACE', t: 'The enrichment cliff: uranium’s real bottleneck is not the mine', read: '63', conf: 84, to: '/analysis/uranium' },
+      { d: '2026.08.06', tag: 'CRYPTO', t: 'Crypto in 2026: what the cycle looks like from here', read: '3', conf: 75, to: '/analysis/crypto-2026' },
+      { d: '2026.08.06', tag: 'CLOUD & AI', t: "Oracle: the stock I'm watching closest right now", read: '14', conf: 78, to: '/analysis/oracle' },
+      { d: '2026.08.06', tag: 'PAYMENTS', t: 'The invisible toll road: who really owns the money you spend', read: '64', conf: 82, to: '/analysis/global-payments' },
+      { d: '2026.08.04', tag: 'ENERGY & SPACE', t: 'The New Space Economy: SPCX, RKLB, ASTS — repriced in public', read: '10', conf: 80, to: '/analysis/space-economy' },
     ],
     head: 'Our latest research & insights',
     notesUnit: 'NOTES',
@@ -186,9 +189,9 @@ export const en = {
       serif: 'ideas',
       desc: 'THESES WITH RECEIPTS: ENTRY LOGIC, INVALIDATION LEVELS AND PROBABILITY MAPS — WRITTEN BEFORE THE TRADE, AUDITED AFTER.',
     },
-    filters: ['ALL', 'BANKS', 'TELECOM', 'CRYPTO', 'PHARMA'],
+    filters: ['ALL', 'AI INFRA', 'MEDTECH', 'BIOTECH', 'SPACE', 'ENERGY', 'MATERIALS'],
     status: { ACTIVE: 'ACTIVE', WATCHING: 'WATCHING', CLOSED: 'CLOSED' } as Record<string, string>,
-    labels: { entry: 'ENTRY LOGIC', invalidation: 'INVALIDATION', horizon: 'HORIZON', scenarios: 'SCENARIO MAP' },
+    labels: { entry: 'ENTRY LOGIC', invalidation: 'INVALIDATION', horizon: 'HORIZON', scenarios: 'SCENARIO MAP', readReport: 'READ THE FULL REPORT' },
     scenarioLabels: { BASE: 'Base', BULL: 'Bull', BEAR: 'Bear', HIT: 'Hit' } as Record<string, string>,
     head: 'Open theses',
     headRight: 'CLICK TO EXPAND',
@@ -197,18 +200,7 @@ export const en = {
       label: 'NO LIVE THESES YET',
       body: "This page ships theses with receipts — entry logic, invalidation levels, scenario maps — not placeholders. Nothing meets that bar yet, so nothing is posted. Once a real, documented thesis is ready, it lands here first.",
     },
-    items: [] as {
-      id: string
-      date: string
-      status: 'ACTIVE' | 'WATCHING' | 'CLOSED'
-      sector: string
-      title: string
-      thesis: string
-      entry: string
-      invalidation: string
-      horizon: string
-      scenarios: { label: string; prob: number; tone: 'up' | 'mid' | 'down' }[]
-    }[],
+    items: ideasEn,
   },
   chain: {
     hero: {

@@ -48,8 +48,10 @@ function NoteCard({ n }: { n: Note }) {
 export default function Insights() {
   const { t } = useLang()
   const FILTERS = t.insights.filters
-  const [filter, setFilter] = useState(FILTERS[0])
-  const notes = filter === FILTERS[0] ? t.insights.notes : t.insights.notes.filter((n) => n.tag === filter)
+  /* Index, not label — the filter labels and the note tags are both translated,
+   * so a selection held as a string empties the list on a language switch. */
+  const [filterIndex, setFilterIndex] = useState(0)
+  const notes = filterIndex === 0 ? t.insights.notes : t.insights.notes.filter((n) => n.tag === FILTERS[filterIndex])
 
   return (
     <>
@@ -64,13 +66,13 @@ export default function Insights() {
         <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
           <SectionHead index="FILTER" label={t.insights.head} right={`${notes.length} ${t.insights.notesUnit}`} />
           <div className="mb-10 flex flex-wrap gap-2">
-            {FILTERS.map((f) => (
+            {FILTERS.map((f, fi) => (
               <button
                 key={f}
-                onClick={() => setFilter(f)}
+                onClick={() => setFilterIndex(fi)}
                 className={cn(
                   'border px-4 py-2 font-mono-lab text-[10px] tracking-[0.2em] transition-all duration-300',
-                  filter === f
+                  filterIndex === fi
                     ? 'border-signal bg-signal text-[#0c0e12]'
                     : 'border-line text-dim hover:border-line-hover hover:text-foreground'
                 )}
