@@ -57,15 +57,28 @@ const NON_AI: Record<string, DomainKey> = {
   UUUU: 'energy-nuclear',
   CCJ: 'energy-nuclear',
   'SLX.AX': 'energy-nuclear',
+  BWXT: 'energy-nuclear',
   'ALHAF.PA': 'energy-nuclear',
   'VH2.DE': 'energy-nuclear',
 
   // Space & defence
   RKLB: 'space-defence',
+  SIF: 'space-defence',
   ASTS: 'space-defence',
 
   // Robotics & autonomy
   KRKNF: 'robotics',
+  '090360.KQ': 'robotics',
+  '454910.KS': 'robotics',
+  '108490.KQ': 'robotics',
+  '056080.KQ': 'robotics',
+  '348340.KQ': 'robotics',
+  '277810.KQ': 'robotics',
+  /* An automaker by revenue; covered here from the robotics watch — the group
+   * holds a controlling stake in Boston Dynamics and fields its own robotics
+   * unit. The domain follows the coverage intent, the tagline states the
+   * business. */
+  '005380.KS': 'robotics',
 
   // Medtech & life sciences
   ISRG: 'medtech-bio',
@@ -92,6 +105,7 @@ const NON_AI: Record<string, DomainKey> = {
   AMPX: 'industrial-materials',
   BWEN: 'industrial-materials',
   MTZ: 'industrial-materials',
+  TPC: 'industrial-materials',
   '000150.KS': 'industrial-materials',
   NRGV: 'industrial-materials',
 

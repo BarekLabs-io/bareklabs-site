@@ -152,6 +152,20 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   // Advanced packaging & test
   ASX: 'packaging',
 
+  // HBF / memory push (Aug 2026 batch)
+  '005930.KS': 'memory',
+  '2408.TW': 'memory',
+  '2344.TW': 'memory',
+  '2337.TW': 'memory',
+  '603986.SS': 'memory',
+  '8299.TWO': 'memory',
+  '6770.TW': 'memory',
+  WDC: 'memory',
+  SIMO: 'memory',
+  INTC: 'silicon',
+  'IFX.DE': 'silicon',
+  '2454.TW': 'silicon',
+
 }
 
 const COUNTRY_OVERRIDE: Record<string, string> = { ATEYY: 'Japan' }
@@ -159,6 +173,8 @@ const COUNTRY_OVERRIDE: Record<string, string> = { ATEYY: 'Japan' }
 const SUFFIX_COUNTRY: Record<string, string> = {
   T: 'Japan',
   KS: 'South Korea',
+  KQ: 'South Korea',
+  TWO: 'Taiwan',
   TW: 'Taiwan',
   SS: 'China',
   SZ: 'China',
@@ -182,6 +198,8 @@ export function countryOf(ticker: string): string {
 const SUFFIX_EXCHANGE: Record<string, string> = {
   T: 'Tokyo SE',
   KS: 'Korea Exchange',
+  KQ: 'KOSDAQ',
+  TWO: 'Taipei Exchange',
   TW: 'Taiwan SE',
   SS: 'Shanghai SE',
   SZ: 'Shenzhen SE',
@@ -199,6 +217,8 @@ const SUFFIX_EXCHANGE: Record<string, string> = {
 const SUFFIX_CURRENCY: Record<string, string> = {
   T: 'JPY',
   KS: 'KRW',
+  KQ: 'KRW',
+  TWO: 'TWD',
   TW: 'TWD',
   SS: 'CNY',
   SZ: 'CNY',
