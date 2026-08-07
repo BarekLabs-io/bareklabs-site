@@ -7,7 +7,10 @@ import { parseMetricValue } from '@/lib/priceSeries'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { cn } from '@/lib/utils'
 
-type RiskTier = 'high' | 'medium' | 'low'
+/* 'unrated' is a real state, not a missing one: a ticker on the watchlist
+ * whose deep dive has not been written yet. Without it the screener would
+ * fall back on FAIR / MEDIUM, which are judgements nobody made. */
+type RiskTier = 'high' | 'medium' | 'low' | 'unrated'
 
 type Row = {
   ticker: string
@@ -22,7 +25,7 @@ type Row = {
   marketCap: string | null
   forwardPE: string | null
   evEbitda: string | null
-  verdictTone: 'high' | 'fair' | 'low'
+  verdictTone: 'high' | 'fair' | 'low' | 'unrated'
   riskTier: RiskTier
   riskNote: string
 }
@@ -57,6 +60,9 @@ function starsToTier(stars: number): RiskTier {
 function riskOf(c: (typeof companies)[string]): { tier: RiskTier; note: string } {
   const riskScore = c.synthesis.scores.find((s) => /risk/i.test(s.criterion))
   if (riskScore) return { tier: starsToTier(riskScore.stars), note: riskScore.note }
+  // No scores at all divides by zero and hands starsToTier a NaN, which lands
+  // in whichever branch compares false — a scored-looking badge out of nothing.
+  if (c.synthesis.scores.length === 0) return { tier: 'unrated', note: c.synthesis.summary }
   const avg = c.synthesis.scores.reduce((sum, s) => sum + s.stars, 0) / c.synthesis.scores.length
   return { tier: starsToTier(avg), note: c.synthesis.summary }
 }
@@ -91,16 +97,18 @@ const ROWS: Row[] = Object.values(companies)
 
 const COUNTRIES = Array.from(new Set(ROWS.map((r) => r.country))).sort()
 
-const RISK_LABEL: Record<RiskTier, string> = { high: 'HIGH', medium: 'MEDIUM', low: 'LOW' }
-const VERDICT_LABEL: Record<Row['verdictTone'], string> = { high: 'RICH', fair: 'FAIR', low: 'CHEAP' }
+const RISK_LABEL: Record<RiskTier, string> = { high: 'HIGH', medium: 'MEDIUM', low: 'LOW', unrated: 'UNRATED' }
+const VERDICT_LABEL: Record<Row['verdictTone'], string> = { high: 'RICH', fair: 'FAIR', low: 'CHEAP', unrated: 'UNRATED' }
 
-function Badge({ tone, title, children }: { tone: 'good' | 'warn' | 'bad'; title: string; children: React.ReactNode }) {
+function Badge({ tone, title, children }: { tone: 'good' | 'warn' | 'bad' | 'neutral'; title: string; children: React.ReactNode }) {
   const cls =
     tone === 'good'
       ? 'border-signal/50 bg-signal/15 text-signal'
       : tone === 'warn'
         ? 'border-warn/50 bg-warn/15 text-warn'
-        : 'border-danger/50 bg-danger/15 text-danger'
+        : tone === 'neutral'
+          ? 'border-line bg-card2 text-faint'
+          : 'border-danger/50 bg-danger/15 text-danger'
   return (
     <span title={title} className={cn('inline-block min-w-[64px] border px-2 py-1 text-center font-mono-lab text-[9.5px] font-medium tracking-[0.12em]', cls)}>
       {children}
@@ -108,11 +116,13 @@ function Badge({ tone, title, children }: { tone: 'good' | 'warn' | 'bad'; title
   )
 }
 
-function verdictBadgeTone(tone: Row['verdictTone']): 'good' | 'warn' | 'bad' {
+function verdictBadgeTone(tone: Row['verdictTone']): 'good' | 'warn' | 'bad' | 'neutral' {
+  if (tone === 'unrated') return 'neutral'
   return tone === 'high' ? 'bad' : tone === 'low' ? 'good' : 'warn'
 }
 
-function riskBadgeTone(tier: RiskTier): 'good' | 'warn' | 'bad' {
+function riskBadgeTone(tier: RiskTier): 'good' | 'warn' | 'bad' | 'neutral' {
+  if (tier === 'unrated') return 'neutral'
   return tier === 'high' ? 'bad' : tier === 'medium' ? 'warn' : 'good'
 }
 
@@ -120,11 +130,13 @@ const VERDICT_EXPLAIN: Record<Row['verdictTone'], string> = {
   high: 'RICH — trading above its peer set on the multiples in its deep dive.',
   fair: 'FAIR — roughly in line with its peer set on the multiples in its deep dive.',
   low: 'CHEAP — trading below its peer set on the multiples in its deep dive.',
+  unrated: 'UNRATED — on the watchlist, market data loaded, but no deep dive written yet. No peer comparison has been made.',
 }
 const RISK_EXPLAIN: Record<RiskTier, string> = {
   high: 'HIGH — the deep dive\'s own risk assessment (business durability, balance sheet, competitive position, valuation cushion) skews unfavorable.',
   medium: 'MEDIUM — a mixed picture: real, identified risk factors, but not a red flag across the board.',
   low: 'LOW — the deep dive\'s own risk assessment skews favorable on durability, balance sheet and competitive position.',
+  unrated: 'UNRATED — no deep dive has been written for this name yet, so no risk assessment exists. The market data below is live; the judgement is not there.',
 }
 
 export default function Screener() {

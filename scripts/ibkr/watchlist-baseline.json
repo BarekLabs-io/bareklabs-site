@@ -1,6 +1,6 @@
 {
   "asOf": "2026-08-07",
-  "note": "Snapshot of IBKR watchlist contents. The watchlist->screener sync routine diffs live watchlists against this file and only acts on tickers added after this date. Non-equity rows (indices, FX, ETFs) are ignored by design.",
+  "note": "Snapshot of IBKR watchlist contents. The watchlist->screener sync routine diffs live watchlists against this file and against src/data/companies.ts, and acts only on tickers not already covered. Non-equity rows (indices, FX, ETFs) are ignored by design. As of this date the US-listed backlog has been cleared; only the three Taiwan-listed lines remain uncovered, because the provider profile endpoint does not resolve TPEX symbols.",
   "watchlists": {
     "105 Semi & AI infrastructure": [
       "WYFI",
@@ -64,24 +64,6 @@
     ]
   },
   "knownNotCovered": [
-    "AMAT",
-    "FN",
-    "ASX",
-    "AAPL",
-    "AMZN",
-    "IBKR",
-    "DGXX",
-    "AMPX",
-    "MELI",
-    "JMIA",
-    "PAGS",
-    "STNE",
-    "GKOS",
-    "PLTR",
-    "BABA",
-    "CRM",
-    "UUUU",
-    "CCJ",
     "7828@TPEX",
     "6315",
     "4772@TPEX"
