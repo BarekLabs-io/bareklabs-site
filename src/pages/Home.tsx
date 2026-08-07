@@ -129,18 +129,28 @@ export default function Home() {
           </Reveal>
         </div>
         {/* corner metadata */}
-        <div className="pointer-events-none absolute end-5 top-24 z-10 hidden font-mono-lab text-[10px] leading-5 tracking-wider text-dim md:end-10 md:block xl:hidden">
+        <div className="pointer-events-none absolute end-5 top-24 z-10 hidden font-mono-lab text-[10px] leading-5 tracking-wider text-dim md:end-10 md:block lg:hidden">
           <div className="flicker" dir="ltr"><HeroQuote /></div>
           <div className="text-faint">{t.home.cornerFeed}</div>
         </div>
 
-        {/* live desk — hidden below xl so it never crowds the hero text */}
-        <Reveal delay={500} className="pointer-events-none absolute end-5 top-32 z-10 hidden w-[300px] xl:block xl:end-10">
+        {/* The floating desk needs room beside the hero headline, so it only
+            floats from lg up. Below that it is not dropped — it moves into the
+            flow underneath the hero, because a market panel nobody on a laptop
+            or a phone ever sees is not a feature. */}
+        <Reveal delay={500} className="pointer-events-none absolute end-5 top-32 z-10 hidden w-[300px] lg:block lg:end-10">
           <div className="mb-3 font-mono-lab text-[10px] leading-5 tracking-wider text-dim" dir="ltr">
             <span className="flicker"><HeroQuote /></span>
           </div>
           <LiveDesk />
         </Reveal>
+      </section>
+
+      {/* Same panel, in the flow, for phones and laptops. */}
+      <section className="border-b border-line lg:hidden">
+        <div className="mx-auto max-w-[1440px] px-5 py-10 md:px-10">
+          <LiveDesk />
+        </div>
       </section>
 
       <Ticker />

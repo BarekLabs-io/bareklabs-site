@@ -386,6 +386,7 @@ export const fr: Dict = {
         { k: 'SCAN D’ANOMALIES', what: 'Transactions ou pics de volume s’écartant de plus de 3 écarts-types du schéma habituel d’une valeur — signalés pour revue manuelle, pas forcément un problème.', v: '2 ALERTES', tone: 'down', note: 'Volumes aberrants sous revue' },
       ],
     },
+      feed: { live: 'FLUX EN DIRECT', partial: 'FLUX PARTIEL', dark: 'FLUX MUET — AUCUN PRIX AFFICHÉ' },
     watchlist: {
       head: 'Au radar',
       refresh: 'ACTUALISÉ',

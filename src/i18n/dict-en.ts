@@ -385,6 +385,7 @@ export const en = {
         { k: 'ANOMALY SCAN', what: 'Trades or volume spikes more than 3 standard deviations from a stock\'s own recent pattern — flagged for manual review, not necessarily a problem.', v: '2 FLAGS', tone: 'down', note: 'Volume outliers under review' },
       ],
     },
+      feed: { live: 'FEED LIVE', partial: 'FEED PARTIAL', dark: 'FEED SILENT — SHOWING NO PRICES' },
     watchlist: {
       head: 'On the radar',
       refresh: 'REFRESH',

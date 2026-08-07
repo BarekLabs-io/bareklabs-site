@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import { MarketCanvas, Reveal } from '@/components/lab'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { SectionHead } from '@/components/Layout'
+import { FeedStatus } from '@/components/FeedStatus'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 import { companies } from '@/data/companies'
@@ -64,27 +64,55 @@ function keyMetric(ticker: string, pattern: RegExp): string | null {
 /* Price is the live quote where the feed has one, otherwise the researched
  * snapshot from the deep dive — which is dated, so it is shown dimmed and
  * without a live marker. It is never nudged on a timer to look alive. */
-function MiniWatchRow({ row, quote }: { row: { t: string; s: string; sig: string; up: boolean }; quote?: { price: number } }) {
+function MiniWatchRow({ row, quote }: { row: { t: string; s: string; sig: string; up: boolean }; quote?: { price: number; changePercent: number | null } }) {
   const raw = keyMetric(row.t, /^price|^share price/i)
   const base = parseMetricValue(raw ?? undefined)
   const price = quote?.price ?? base
+  const chg = quote?.changePercent ?? null
+  /* Bar width is |change| against a 5% full scale, clamped. It exists to make
+   * a row scannable, so it is drawn only from a real change — a missing quote
+   * leaves the track empty rather than flat-at-zero, which would read as
+   * "unchanged" when the truth is "unknown". */
+  const width = chg == null ? 0 : Math.min(Math.abs(chg) / 5, 1) * 100
+
   return (
     <Link
       to={tickerHref(row.t)}
-      className="group flex items-start justify-between gap-3 border-b border-line/60 py-2.5 font-mono-lab text-[11px] tracking-wide last:border-0"
+      className="group block border-b border-line/60 py-2.5 font-mono-lab text-[11px] tracking-wide last:border-0"
     >
-      <div className="min-w-0">
-        <div className="flex items-baseline gap-2" dir="ltr">
+      <div className="flex items-baseline justify-between gap-3">
+        <div className="flex min-w-0 items-baseline gap-2" dir="ltr">
           <span className="text-foreground transition-colors group-hover:text-signal">{row.t}</span>
           {price != null && (
-            <span className={cn('tabular-nums', quote ? 'text-dim' : 'text-faint')} title={quote ? undefined : 'Researched snapshot — not live'}>
+            <span
+              className={cn('tabular-nums', quote ? 'text-dim' : 'text-faint')}
+              title={quote ? undefined : 'Researched snapshot — not live'}
+            >
               {price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
           )}
+          {!quote && <span className="text-[8px] tracking-[0.2em] text-faint">SNAP</span>}
         </div>
-        <div className="mt-0.5 truncate text-[9.5px] text-faint">{row.s}</div>
+        <span
+          className={cn(
+            'shrink-0 tabular-nums text-end text-[10px]',
+            chg == null ? 'text-faint' : chg >= 0 ? 'text-signal' : 'text-danger'
+          )}
+          dir="ltr"
+        >
+          {chg == null ? '—' : `${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%`}
+        </span>
       </div>
-      <span className={cn('mt-0.5 shrink-0 text-end text-[9px] tracking-[0.15em]', row.up ? 'text-signal' : 'text-danger')}>{row.sig}</span>
+      <div className="mt-1.5 h-[2px] w-full bg-track">
+        <div
+          className={cn('h-full transition-all duration-700', chg == null ? '' : chg >= 0 ? 'bg-signal/70' : 'bg-danger/70')}
+          style={{ width: `${width}%` }}
+        />
+      </div>
+      <div className="mt-1.5 flex items-baseline justify-between gap-3">
+        <span className="truncate text-[9.5px] text-faint">{row.s}</span>
+        <span className={cn('shrink-0 text-[9px] tracking-[0.15em]', row.up ? 'text-signal' : 'text-danger')}>{row.sig}</span>
+      </div>
     </Link>
   )
 }
@@ -112,16 +140,15 @@ function ComponentBar({ row, delay }: { row: { k: string; v: string; tone: strin
 }
 
 export default function SoukSignal() {
-  const [pulse, setPulse] = useState(0)
   const { t } = useLang()
   const composite = compositeSignal(t.souk.components.rows)
-  useEffect(() => {
-    const id = setInterval(() => setPulse((p) => (p + 1) % 100), 3000)
-    return () => clearInterval(id)
-  }, [])
 
-  const miniWatch = t.souk.watchlist.rows.slice(0, 6)
-  const { quotes } = useLiveQuotes(miniWatch.map((r) => r.t))
+  /* The hero terminal watches the full radar list, not the six shown: the
+   * feed status should describe the feed, not the slice on screen. */
+  const allWatch = t.souk.watchlist.rows
+  const miniWatch = allWatch.slice(0, 6)
+  const { quotes, asOf } = useLiveQuotes(allWatch.map((r) => r.t))
+  const answered = allWatch.reduce((n, r) => (quotes[r.t] ? n + 1 : n), 0)
 
   return (
     <>
@@ -188,7 +215,7 @@ export default function SoukSignal() {
                       <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
                       {t.souk.watchlist.head}
                     </span>
-                    <span className="text-faint">{t.souk.watchlist.refresh} {pulse}%</span>
+                    <FeedStatus answered={answered} total={allWatch.length} asOf={asOf} labels={t.souk.feed} />
                   </div>
                   <div className="mt-3">
                     {miniWatch.map((r) => (
@@ -211,7 +238,7 @@ export default function SoukSignal() {
 
       <section id="signals" className="scroll-mt-24 border-t border-line bg-alt">
         <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
-          <SectionHead index="WATCHLIST" label={t.souk.watchlist.head} right={`${t.souk.watchlist.refresh} ${pulse}%`} />
+          <SectionHead index="WATCHLIST" label={t.souk.watchlist.head} right={t.souk.watchlist.refresh} />
           <div className="overflow-hidden border border-line">
             <table className="w-full">
               <thead>
