@@ -98,19 +98,52 @@ function TapeBar() {
 }
 
 /* ---------- CLOCK ---------- */
+/* The four venues the coverage actually spans, in the order a session moves
+ * through them: Tokyo opens, then Dubai, then Paris, then New York. A market
+ * clock that reads left to right in session order tells you where the tape is
+ * right now; an alphabetical one does not. Hours are the local exchange day,
+ * so an open venue is marked rather than merely listed. */
+const CLOCK_VENUES: { code: string; tz: string; open: number; close: number }[] = [
+  { code: 'TYO', tz: 'Asia/Tokyo', open: 9, close: 15 },
+  { code: 'DXB', tz: 'Asia/Dubai', open: 10, close: 15 },
+  { code: 'PAR', tz: 'Europe/Paris', open: 9, close: 17 },
+  { code: 'NYC', tz: 'America/New_York', open: 9, close: 16 },
+]
+
 function Clock() {
   const [now, setNow] = useState(new Date())
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000)
     return () => clearInterval(id)
   }, [])
-  const fmt = (tz: string) =>
-    now.toLocaleTimeString('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit' })
+
+  const parts = (tz: string) => {
+    const [h, m] = now
+      .toLocaleTimeString('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false })
+      .split(':')
+    return { label: `${h}:${m}`, hour: Number(h), weekday: now.toLocaleDateString('en-US', { timeZone: tz, weekday: 'short' }) }
+  }
+
   return (
-    <div className="hidden items-center gap-4 font-mono-lab text-[10px] tracking-wider text-dim xl:flex" dir="ltr">
-      <span>CAS {fmt('Africa/Casablanca')}</span>
-      <span className="text-faint">/</span>
-      <span>UTC {fmt('UTC')}</span>
+    <div className="hidden items-center gap-3 font-mono-lab text-[10px] tracking-wider text-dim lg:flex" dir="ltr">
+      {CLOCK_VENUES.map((v, i) => {
+        const { label, hour, weekday } = parts(v.tz)
+        // Weekend is closed everywhere here; the Gulf week runs Mon–Fri too.
+        const weekend = weekday === 'Sat' || weekday === 'Sun'
+        const open = !weekend && hour >= v.open && hour < v.close
+        return (
+          <span key={v.code} className="flex items-center gap-1.5">
+            {i > 0 && <span className="me-1.5 text-faint">/</span>}
+            <span
+              className={cn('inline-block h-1 w-1 rounded-full', open ? 'bg-signal' : 'bg-faint/50')}
+              title={open ? `${v.code} open` : `${v.code} closed`}
+            />
+            <span className={open ? 'text-foreground' : ''}>
+              {v.code} {label}
+            </span>
+          </span>
+        )
+      })}
     </div>
   )
 }

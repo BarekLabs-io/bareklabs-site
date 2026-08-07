@@ -1,38 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Reveal, useSpotlight } from '@/components/lab'
+import { Reveal } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
+import { ContactConsole } from '@/components/ContactConsole'
 import { withBrandMark } from '@/components/Brand'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 
-function contactHref(v: string): string {
-  if (v.includes('@')) return `mailto:${v}`
-  if (v.startsWith('github.com')) return `https://${v}`
-  return v
-}
-
-function ContactCard({ c, i }: { c: { k: string; v: string; note: string }; i: number }) {
-  const ref = useSpotlight<HTMLDivElement>()
-  return (
-    <Reveal delay={i * 80}>
-      <div ref={ref} className="spot-card border border-line p-7">
-        <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.k}</div>
-        <a
-          href={contactHref(c.v)}
-          target={c.v.startsWith('github.com') ? '_blank' : undefined}
-          rel={c.v.startsWith('github.com') ? 'noreferrer' : undefined}
-          className="mt-4 block break-all font-mono-lab text-sm tracking-wide text-foreground transition-colors hover:text-signal"
-          dir="ltr"
-        >
-          {c.v}
-        </a>
-        <div className="mt-3 font-mono-lab text-[10px] tracking-wider text-dim">{c.note}</div>
-      </div>
-    </Reveal>
-  )
-}
-
-/* Sticky table of contents with active-section tracking */
 function useToc(ids: string[]) {
   const [active, setActive] = useState(ids[0])
   useEffect(() => {
@@ -177,13 +150,34 @@ export default function About() {
             <section id="contact" className="scroll-mt-40 py-20">
               <SectionHead index="04.D" label={a.contact.head} right={a.contact.headRight} />
               <Reveal>
-                <p className="prose-lab mb-8 max-w-none">{a.contact.advisoryNote}</p>
+                <p className="prose-lab mb-10 max-w-none">{a.contact.advisoryNote}</p>
               </Reveal>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {a.contact.cards.map((c, i) => (
-                  <ContactCard key={c.k} c={c} i={i} />
-                ))}
-              </div>
+
+              {/* What the lab sells, before how to reach it. */}
+              <Reveal delay={60}>
+                <div className="mb-10 grid gap-px border border-line bg-line md:grid-cols-2">
+                  {a.contact.services.map((sv) => (
+                    <div key={sv.k} className="bg-card2 p-6 md:p-7">
+                      <div className="font-mono-lab text-[9px] tracking-[0.3em] text-signal">{sv.k}</div>
+                      <h4 className="mt-3 text-lg font-medium tracking-tight">{sv.t}</h4>
+                      <p className="mt-2 font-mono-lab text-[11px] leading-6 tracking-wide text-dim">{sv.d}</p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {sv.tags.map((tag) => (
+                          <span key={tag} className="border border-line px-2 py-1 font-mono-lab text-[8.5px] tracking-[0.2em] text-faint">{tag}</span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+
+              <Reveal delay={120}>
+                <ContactConsole />
+              </Reveal>
+
+              <Reveal delay={160} className="mt-6">
+                <p className="font-mono-lab text-[10px] leading-5 tracking-wide text-faint">{a.contact.privacy}</p>
+              </Reveal>
               <Reveal className="mt-14 flex justify-center">
                 <img src="/logo.svg" alt="BAREK LABS" className="h-16 w-auto logo-adaptive md:h-24" />
               </Reveal>

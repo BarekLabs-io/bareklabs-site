@@ -2,7 +2,9 @@ import { Link } from 'react-router'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 import { useMarketQuotes } from '@/lib/marketQuotes'
-import { TAPE_INSTRUMENTS, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
+import { TAPE_INSTRUMENTS, MOVERS_UNIVERSE, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
+import { FeedStatus } from '@/components/FeedStatus'
+import { Link as RouterLink } from 'react-router'
 
 /* A compact desk panel over the hero. Prices and changes come from the live
  * quotes feed and nothing else — where a quote is missing the row shows a
@@ -27,33 +29,86 @@ function WatchRow({ label, symbol, quote }: { label: string; symbol: string; quo
   )
 }
 
+
+/* Today's extremes, ranked from the live feed and nothing else.
+ *
+ * Only symbols that actually returned a change are eligible: a missing quote
+ * is unknown, not flat, and letting it default to 0% would park dead tickers
+ * in the middle of the ranking and — on a quiet day — at the top of it. When
+ * fewer than two names have data the block says so instead of ranking noise. */
+function Movers({ quotes, labels }: {
+  quotes: Record<string, { price: number; changePercent: number | null }>
+  labels: { head: string; gainers: string; losers: string; thin: string }
+}) {
+  const ranked = MOVERS_UNIVERSE
+    .map((m) => ({ ...m, chg: quotes[m.symbol]?.changePercent ?? null }))
+    .filter((m): m is typeof m & { chg: number } => m.chg != null)
+    .sort((a, b) => b.chg - a.chg)
+
+  if (ranked.length < 2) {
+    return (
+      <div className="border-t border-line px-4 py-3">
+        <div className="font-mono-lab text-[9px] tracking-[0.25em] text-dim">{labels.head}</div>
+        <p className="mt-2 font-mono-lab text-[10px] leading-4 text-faint">{labels.thin}</p>
+      </div>
+    )
+  }
+
+  const up = ranked.slice(0, 2)
+  const down = ranked.slice(-2).reverse()
+
+  const Row = ({ m }: { m: { s: string; symbol: string; chg: number } }) => (
+    <RouterLink
+      to={`/companies/${m.s}`}
+      className="flex items-center justify-between py-1 font-mono-lab text-[11px] tracking-wide transition-colors hover:text-foreground"
+      dir="ltr"
+    >
+      <span className="text-dim">{m.s}</span>
+      <span className={cn('tabular-nums', m.chg >= 0 ? 'text-signal' : 'text-danger')}>{formatChange(m.chg)}</span>
+    </RouterLink>
+  )
+
+  return (
+    <div className="border-t border-line px-4 py-3">
+      <div className="flex items-baseline justify-between">
+        <span className="font-mono-lab text-[9px] tracking-[0.25em] text-dim">{labels.head}</span>
+        <span className="font-mono-lab text-[8px] tracking-[0.2em] text-faint" dir="ltr">{ranked.length}</span>
+      </div>
+      <div className="mt-2 grid grid-cols-2 gap-x-4">
+        <div>
+          <div className="font-mono-lab text-[8px] tracking-[0.2em] text-signal/70">{labels.gainers}</div>
+          {up.map((m) => <Row key={m.symbol} m={m} />)}
+        </div>
+        <div>
+          <div className="font-mono-lab text-[8px] tracking-[0.2em] text-danger/70">{labels.losers}</div>
+          {down.map((m) => <Row key={m.symbol} m={m} />)}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function LiveDesk({ className }: { className?: string }) {
   const { t } = useLang()
   const rows = WATCH.map((label) => TAPE_INSTRUMENTS.find((i) => i.s === label)).filter(
     (i): i is TapeRow => !!i
   )
   const { quotes, asOf } = useMarketQuotes()
-  const hasData = rows.some((r) => quotes[r.symbol])
+  const answered = rows.reduce((n, r) => (quotes[r.symbol] ? n + 1 : n), 0)
 
   return (
     <div className={cn('pointer-events-auto border border-line bg-panel/85 backdrop-blur-sm', className)}>
       <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
-        <div className="flex items-center gap-2 font-mono-lab text-[9px] tracking-[0.25em] text-dim">
-          {/* The live dot only pulses when something actually arrived. */}
-          <span className={cn('inline-block h-1.5 w-1.5 rounded-full', hasData ? 'dot-live bg-signal' : 'bg-faint')} />
-          {t.home.liveDesk.watchlist}
-        </div>
-        <span className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">
-          {hasData && asOf
-            ? new Date(asOf).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
-            : t.home.liveDesk.majors}
-        </span>
+        <span className="font-mono-lab text-[9px] tracking-[0.25em] text-dim">{t.home.liveDesk.watchlist}</span>
+        <FeedStatus answered={answered} total={rows.length} asOf={asOf} labels={t.souk.feed} />
       </div>
       <div className="px-4 py-1">
         {rows.map((r) => (
           <WatchRow key={r.symbol} label={r.s} symbol={r.symbol} quote={quotes[r.symbol]} />
         ))}
       </div>
+
+      <Movers quotes={quotes} labels={t.home.liveDesk.movers} />
 
       <Link
         to="/souk-signal"

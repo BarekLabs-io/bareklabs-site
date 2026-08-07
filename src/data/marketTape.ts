@@ -43,6 +43,45 @@ export const TAPE_INSTRUMENTS: TapeInstrument[] = [
   { s: 'ZEC', symbol: 'ZEC-USD', g: 'CR' },
 ]
 
+/* The movers pool: liquid names drawn from our own covered universe, so the
+ * biggest gainer of the day is always something the site can explain rather
+ * than a random symbol. Kept off the scrolling tape (which stays indices,
+ * mega-caps and crypto) — these exist so the desk has an equity population to
+ * rank. A pool of six crypto pairs would produce a "top movers" list that is
+ * only ever crypto. */
+export const MOVERS_UNIVERSE: { s: string; symbol: string }[] = [
+  { s: 'NVDA', symbol: 'NVDA' },
+  { s: 'AMD', symbol: 'AMD' },
+  { s: 'AVGO', symbol: 'AVGO' },
+  { s: 'MU', symbol: 'MU' },
+  { s: 'INTC', symbol: 'INTC' },
+  { s: 'MRVL', symbol: 'MRVL' },
+  { s: 'WDC', symbol: 'WDC' },
+  { s: 'LRCX', symbol: 'LRCX' },
+  { s: 'AMAT', symbol: 'AMAT' },
+  { s: 'KLAC', symbol: 'KLAC' },
+  { s: 'ASML', symbol: 'ASML' },
+  { s: 'TSM', symbol: 'TSM' },
+  { s: 'ANET', symbol: 'ANET' },
+  { s: 'SMCI', symbol: 'SMCI' },
+  { s: 'CRDO', symbol: 'CRDO' },
+  { s: 'NBIS', symbol: 'NBIS' },
+  { s: 'IREN', symbol: 'IREN' },
+  { s: 'CEG', symbol: 'CEG' },
+  { s: 'VST', symbol: 'VST' },
+  { s: 'GEV', symbol: 'GEV' },
+  { s: 'CCJ', symbol: 'CCJ' },
+  { s: 'UUUU', symbol: 'UUUU' },
+  { s: 'RKLB', symbol: 'RKLB' },
+  { s: 'ASTS', symbol: 'ASTS' },
+  { s: 'ISRG', symbol: 'ISRG' },
+  { s: 'TMDX', symbol: 'TMDX' },
+  { s: 'PLTR', symbol: 'PLTR' },
+  { s: 'BWXT', symbol: 'BWXT' },
+]
+
+export const MOVERS_SYMBOLS = MOVERS_UNIVERSE.map((i) => i.symbol)
+
 export const TAPE_SYMBOLS = TAPE_INSTRUMENTS.map((i) => i.symbol)
 
 /** Shown wherever a quote has not arrived — never a stand-in number. */
