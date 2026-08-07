@@ -1,0 +1,89 @@
+{
+  "asOf": "2026-08-07",
+  "note": "Snapshot of IBKR watchlist contents. The watchlist->screener sync routine diffs live watchlists against this file and only acts on tickers added after this date. Non-equity rows (indices, FX, ETFs) are ignored by design.",
+  "watchlists": {
+    "105 Semi & AI infrastructure": [
+      "WYFI",
+      "IREN",
+      "ATEYY",
+      "AMAT",
+      "AEHR",
+      "KLAC",
+      "CIEN",
+      "FORM",
+      "FN"
+    ],
+    "107 Semi & AI infrastructure in ASIA": [
+      "7828@TPEX",
+      "6315:14016494",
+      "4772@TPEX",
+      "ATEYY",
+      "ASX"
+    ],
+    "10 Favorites": [
+      "AAPL",
+      "AMZN",
+      "GOOGL",
+      "IBKR",
+      "MSFT",
+      "NVDA",
+      "VOO",
+      "DGXX",
+      "CAC40:IND",
+      "EUR.USD:FX",
+      "GBP.USD:FX",
+      "USD.JPY:FX"
+    ],
+    "106 Defense & other tech": [
+      "KRKNF"
+    ],
+    "104 Energy and battery": [
+      "AMPX"
+    ],
+    "102 Tech Emerging markets": [
+      "MELI",
+      "NVDA",
+      "JMIA",
+      "PAGS",
+      "STNE"
+    ],
+    "103 Med & Pharma": [
+      "GKOS"
+    ],
+    "101 US Tech": [
+      "NVDA",
+      "AMZN",
+      "AAPL",
+      "PLTR",
+      "BABA",
+      "CRM"
+    ],
+    "100 Uranium & Rare earth": [
+      "UUUU",
+      "CCJ"
+    ]
+  },
+  "knownNotCovered": [
+    "AMAT",
+    "FN",
+    "ASX",
+    "AAPL",
+    "AMZN",
+    "IBKR",
+    "DGXX",
+    "AMPX",
+    "MELI",
+    "JMIA",
+    "PAGS",
+    "STNE",
+    "GKOS",
+    "PLTR",
+    "BABA",
+    "CRM",
+    "UUUU",
+    "CCJ",
+    "7828@TPEX",
+    "6315",
+    "4772@TPEX"
+  ]
+}

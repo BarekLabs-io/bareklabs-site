@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router'
 import { Reveal } from '@/components/lab'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { NO_VALUE, formatLevel } from '@/data/marketTape'
@@ -13,6 +14,22 @@ function LiveCell({ quote }: { quote?: { price: number } }) {
   return (
     <span className={cn('font-mono-lab text-sm tabular-nums', quote ? 'text-foreground' : 'text-faint')}>
       {quote ? formatLevel(quote.price) : NO_VALUE}
+    </span>
+  )
+}
+
+/* P&L is derived, never stored: broker entry × broker quantity against the
+ * live feed. When the feed has nothing, the cell shows a dash — same contract
+ * as LiveCell. A stored P&L string goes stale the moment it is written. */
+function PnlCell({ entry, qty, quote }: { entry: number; qty?: number; quote?: { price: number } }) {
+  if (!qty || !quote) return <span className="font-mono-lab text-sm text-faint">{NO_VALUE}</span>
+  const value = (quote.price - entry) * qty
+  const pct = (quote.price / entry - 1) * 100
+  const up = value >= 0
+  return (
+    <span className={cn('font-mono-lab text-sm tabular-nums', up ? 'text-signal' : 'text-danger')} dir="ltr">
+      {up ? '+' : '−'}${Math.abs(value).toFixed(2)}{' '}
+      <span className="text-[10px] opacity-80">({up ? '+' : '−'}{Math.abs(pct).toFixed(1)}%)</span>
     </span>
   )
 }
@@ -94,7 +111,9 @@ export default function Stocks() {
                       <td className="px-6 py-4 text-end font-mono-lab text-sm tabular-nums text-dim" dir="ltr">{p.entry.toFixed(2)}</td>
                       <td className="px-6 py-4 text-end" dir="ltr"><LiveCell quote={quotes[p.symbol ?? p.t]} /></td>
                       <td className="px-6 py-4 text-end font-mono-lab text-[11px] text-dim" dir="ltr">{p.size}</td>
-                      <td className="px-6 py-4 text-end font-mono-lab text-sm text-signal" dir="ltr">{p.pnl}</td>
+                      <td className="px-6 py-4 text-end">
+                        <PnlCell entry={p.entry} qty={p.qty} quote={quotes[p.symbol ?? p.t]} />
+                      </td>
                       <td className="px-6 py-4 text-end font-mono-lab text-[10px] text-faint" dir="ltr">{p.open}</td>
                     </tr>
                   ))}
@@ -118,8 +137,34 @@ export default function Stocks() {
             </div>
           )}
 
+          {/* Desk notes: the reasoning attached to a position, linked to the
+            * research it leans on. Rendered only for positions that carry one. */}
+          {tab === 'OPEN' &&
+            OPEN.filter((p) => p.analysis).map((p) => (
+              <Reveal key={`note-${p.t}`} className="mt-8">
+                <div className="border border-line bg-card2 p-6 md:p-8">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="font-mono-lab text-sm font-medium" dir="ltr">{p.t}</span>
+                    <span className="h-px w-8 bg-line" />
+                    <span className="font-mono-lab text-[9px] tracking-[0.25em] text-faint">{t.stocks.deskNote}</span>
+                  </div>
+                  <p className="mt-4 max-w-4xl font-mono-lab text-[11px] leading-6 tracking-wide text-dim">{p.analysis}</p>
+                  {p.report && (
+                    <Link
+                      to={p.report}
+                      className="group/dn mt-4 inline-flex items-center gap-2 font-mono-lab text-[10px] tracking-[0.25em] text-signal"
+                    >
+                      {t.stocks.deskNoteLink}
+                      <span className="transition-transform duration-300 group-hover/dn:translate-x-1" dir="ltr">→</span>
+                    </Link>
+                  )}
+                </div>
+              </Reveal>
+            ))}
+
           <Reveal className="mt-8">
-            <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{t.stocks.disclaimer}</p>
+            <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{t.stocks.sourceNote}</p>
+            <p className="mt-2 font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{t.stocks.disclaimer}</p>
           </Reveal>
         </div>
       </section>

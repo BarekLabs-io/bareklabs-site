@@ -462,9 +462,30 @@ export const en = {
     headRight: 'LIVE FEED · 15-20 MIN DELAY',
     tabs: { open: 'OPEN', closed: 'CLOSED' },
     cols: { ticker: 'TICKER', side: 'SIDE', entry: 'ENTRY', last: 'LAST', size: 'SIZE', pnl: 'P&L', opened: 'OPENED' },
-    open: [] as { t: string; name: string; side: 'LONG' | 'SHORT'; symbol?: string; entry: number; size: string; pnl: string; open: string }[],
+    /* Real broker positions, imported from IBKR and dated. `entry` and `qty`
+     * are the broker's numbers; P&L is recomputed live by the page from the
+     * quote feed, never stored. `open` is a dash when the broker does not
+     * expose the entry date — unknown is unknown. */
+    open: [
+      {
+        t: 'UUUU',
+        name: 'Energy Fuels Inc — NYSE American',
+        side: 'LONG',
+        entry: 18.51,
+        qty: 5,
+        size: '5 SH',
+        pnl: '—',
+        open: '—',
+        analysis:
+          "Imported from the broker on 7 Aug 2026 at an average cost of $18.51; the entry predates this ledger, so the open date is not shown rather than guessed. The sector is covered in The Enrichment Cliff: the report's realized-price work shows Energy Fuels among the few producers selling at or close to the market price on recent pounds, against a sector where legacy contract books cap what the headline spot price is worth. The thesis clock for the whole complex is the 1 January 2028 statutory end of Russian enrichment waivers, not the spot tape.",
+        report: '/analysis/uranium',
+      },
+    ] as { t: string; name: string; side: 'LONG' | 'SHORT'; symbol?: string; entry: number; qty?: number; size: string; pnl: string; open: string; analysis?: string; report?: string }[],
     closed: [] as { t: string; side: 'LONG' | 'SHORT'; pnl: string; r: string; note: string }[],
     disclaimer: 'PRICES ON THIS PAGE COME FROM THE LIVE QUOTE FEED (15–20 MIN DELAYED) AND SHOW A DASH WHEN THE FEED HAS NOTHING. NOTHING HERE IS ADVICE.',
+    deskNote: 'DESK NOTE',
+    deskNoteLink: 'READ THE SECTOR REPORT',
+    sourceNote: 'OPEN POSITIONS ARE IMPORTED FROM THE LAB’S BROKER ACCOUNT (IBKR) AND DATED. ENTRY AND SIZE ARE THE BROKER’S NUMBERS; LAST PRICE AND P&L ARE RECOMPUTED LIVE FROM THE QUOTE FEED.',
     openEmpty: 'No open positions on the book.',
     closedEmpty: 'No closed trades logged yet.',
     ledgerNote: 'This ledger lists only trades actually taken. It is empty because none have been logged, not because none loaded — a tracker that invents a track record is worth less than an empty one.',
