@@ -27,6 +27,12 @@ export type IdeaItem = {
    * bear/base/bull without probabilities, and a made-up weight would be the
    * most quotable number on the card. Absent means the panel is not drawn. */
   scenarios?: { label: string; prob: number; tone: 'up' | 'mid' | 'down' }[]
+  /* The discount rate the target came from. Shown because it is the single
+   * assumption these numbers are most sensitive to, and it differs by report
+   * — 9.5% on one name, 15.5% on another. Without it a reader can only argue
+   * with the conclusion; with it they can argue with the input that produced
+   * it, which is the more useful disagreement. */
+  discountRate?: string
   tickers?: string[]
   /** Key in IDEA_REPORTS below. */
   report?: string

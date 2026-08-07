@@ -192,10 +192,14 @@ export const fr: Dict = {
     },
     filters: ['TOUT', 'AI INFRA', 'MEDTECH', 'BIOTECH', 'SPACE', 'ENERGY', 'MATERIALS'],
     status: { ACTIVE: 'ACTIF', WATCHING: 'SURVEILLÉ', CLOSED: 'CLÔTURÉ' } as Record<string, string>,
-    labels: { entry: 'LOGIQUE D’ENTRÉE', invalidation: 'INVALIDATION', horizon: 'HORIZON', scenarios: 'CARTE DES SCÉNARIOS', readReport: 'LIRE LE RAPPORT COMPLET' },
+    labels: { entry: 'LOGIQUE D’ENTRÉE', invalidation: 'INVALIDATION', horizon: 'HORIZON', rate: 'TAUX D’ACTUALISATION', scenarios: 'CARTE DES SCÉNARIOS', readReport: 'LIRE LE RAPPORT COMPLET' },
     scenarioLabels: { BASE: 'Central', BULL: 'Haussier', BEAR: 'Baissier', HIT: 'Atteint' } as Record<string, string>,
     head: 'Thèses ouvertes',
     headRight: 'CLIQUER POUR DÉPLIER',
+    method: {
+      label: 'COMMENT LIRE CES CIBLES',
+      body: 'Chaque cible de cette page est le résultat d’un DCF, et chaque rapport affiche le taux qu’il a retenu. Trois choses à savoir avant de les peser. D’abord, le biais baissier ne vient pas du taux d’actualisation : testé à 8 % — en supposant ces sociétés pas plus risquées que le marché actions dans son ensemble — le cas le plus extrême ressort encore 75 % sous le cours. Ensuite, plusieurs cas haussiers sont trop étroits. Quand aucune pondération de probabilités n’atteint le cours, et que mettre tout le poids sur le cas haussier laisse encore un écart large, ce n’est pas un cas haussier : c’est une troisième version de la même thèse, et c’est un défaut du travail. Enfin, ces sujets sont pris dans les coins les plus chauds d’un marché haussier, et huit rapports partageant un auteur, une méthode et une convention de valeur terminale ont une corrélation d’erreurs proche de 1. Huit réponses baissières ne sont pas huit confirmations : c’est un seul pari, formulé huit fois. Lisez chaque cible comme la question qui la sous-tend — ce qu’il faudrait croire pour justifier le cours — et non comme un verdict.',
+    },
     disclaimer: 'LES IDÉES SONT DES ARTEFACTS DE RECHERCHE, PAS DES RECOMMANDATIONS. LE DIMENSIONNEMENT ET L’EXÉCUTION VIVENT DANS LE TRADE TRACKER.',
     empty: {
       label: 'AUCUNE THÈSE EN COURS',

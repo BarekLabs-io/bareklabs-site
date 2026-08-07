@@ -20,6 +20,7 @@ export const ideasFr: IdeaItem[] = [
     invalidation:
       'Une conversion qui bloque sur les permis plutôt que sur la demande. Le 6 août, une audience d\'urbanisme contestée à Vineland, dans le New Jersey, a fait perdre 11 % au titre : ce site sert le contrat Microsoft de 17,4 Md$, et une réunion municipale a effacé six milliards de dollars de capitalisation. Le second signal est le financement : la dette garantie de 775 M$ de juillet couvre plus de 100 % du capex qu\'elle finance, et sa réplication sur les contrats Meta décide de la dilution que subit l\'actionnaire actuel.',
     horizon: 'Résultats du T2 le 12 août 2026. La trajectoire de conversion court jusqu\'en 2028.',
+    discountRate: 'WACC 11,5 %, scénario central (10,5–13,5 % sur les trois)',
     scenarios: [
       { label: 'BEAR', prob: 32, tone: 'down' },
       { label: 'BASE', prob: 46, tone: 'mid' },
@@ -41,6 +42,7 @@ export const ideasFr: IdeaItem[] = [
     invalidation:
       'Le bouclage de SOSA et Stoney Creek à des conditions d\'infrastructure normales casserait le scénario baissier à lui seul. Les renonciations de covenants du 26 juin rendent cela plus difficile, pas plus facile. C\'est le point à surveiller avant tous les autres.',
     horizon: 'Résultats du T2 le 11 août 2026. Les financements de projet décident de 2027.',
+    discountRate: 'WACC 14,0 %, scénario central (12,5–16,5 % sur les trois)',
     scenarios: [
       { label: 'BEAR', prob: 35, tone: 'down' },
       { label: 'BASE', prob: 45, tone: 'mid' },
@@ -62,6 +64,7 @@ export const ideasFr: IdeaItem[] = [
     invalidation:
       'Une phase 1 qui glisse au-delà du premier trimestre 2027, ou une phase 2 jamais financée. Une réserve sur tous les multiples : notre nombre d\'actions de 91,09 millions provient de la couverture du 10-Q au 15 mai, et la trésorerie est passée de 57,8 M$ au 31 mars à environ 155 M$ au 3 juillet sans opération de dette — ce qui indique des émissions au fil de l\'eau au titre du programme porté à 175 M$ le 8 mai. La capitalisation et la valeur d\'entreprise sont donc probablement sous-estimées jusqu\'à la publication du 14 août.',
     horizon: 'Jusqu\'au 15 décembre 2026, puis la construction 2027-2028.',
+    discountRate: 'WACC 15,5 %, scénario central (14,0–18,5 %). À 9 %, taux d\'une dette de projet sans recours, les mêmes flux valent 2,18 $',
     scenarios: [
       { label: 'BEAR', prob: 40, tone: 'down' },
       { label: 'BASE', prob: 42, tone: 'mid' },
@@ -83,6 +86,7 @@ export const ideasFr: IdeaItem[] = [
     invalidation:
       'Un REC-4881 qui ne tient pas la profondeur de la semaine 25, ou une levée valorisée près du scénario baissier — dans ce cas, il faut créer plus de deux fois le nombre d\'actions existantes. Le chiffre d\'affaires du T2 2026, à 7,7 M$, était en baisse de 60 % sur un an et 36,9 % sous le consensus, pour une perte nette de 131,0 M$.',
     horizon: 'Jusqu\'aux résultats cliniques. Le runway est guidé « into early 2028 ».',
+    discountRate: '13 % sur le DCF, 12 % sur le pipeline probabilisé',
     scenarios: [
       { label: 'BEAR', prob: 40, tone: 'down' },
       { label: 'BASE', prob: 40, tone: 'mid' },
@@ -104,6 +108,7 @@ export const ideasFr: IdeaItem[] = [
     invalidation:
       'Une croissance des procédures américaines qui repasse durablement au-dessus de 15 % réinitialiserait le scénario baissier à elle seule. Dans l\'autre sens, un OTTAVA qui convertit des placements et pas seulement une autorisation FDA transformerait un événement réglementaire en événement commercial.',
     horizon: 'Pluriannuel. Sur ce dossier, la duration est la thèse.',
+    discountRate: 'WACC 9,5 %, sur un bêta supposé de 1,05–1,10 contre 1,46 observé. Passer le taux à 8,50 % ajoute plus de 100 $ par action',
     scenarios: [
       { label: 'BEAR', prob: 25, tone: 'down' },
       { label: 'BASE', prob: 50, tone: 'mid' },
@@ -125,6 +130,7 @@ export const ideasFr: IdeaItem[] = [
     invalidation:
       'Une montée en charge du cœur ou du poumon élargirait la thèse au lieu d\'y mettre fin : la concentration sur le foie est le risque, pas le plafond. Le risque vif est judiciaire — la partie du litige qui attaque le cœur du modèle commercial a survécu à sa motion to dismiss et passe en phase de discovery.',
     horizon: '2026-2027, sur la bascule du mix et sur la discovery.',
+    discountRate: 'WACC 10,5 %, croissance perpétuelle 3 %. Justifier le cours actuel demande 9,5 % ou moins avec au moins 3,5 % de croissance',
     scenarios: [
       { label: 'BEAR', prob: 30, tone: 'down' },
       { label: 'BASE', prob: 45, tone: 'mid' },
@@ -142,10 +148,11 @@ export const ideasFr: IdeaItem[] = [
     thesis:
       'Deux dossiers de nature radicalement différente que le marché valorise aujourd\'hui sur la même base : la croyance. Rocket Lab est une société industrielle réelle — 92 lancements Electron réussis, 2,2 Md$ de carnet de commandes, 679,6 M$ de chiffre d\'affaires sur douze mois. AST SpaceMobile est une option d\'achat sur la téléphonie directe par satellite, un marché qui n\'existe commercialement pour personne aujourd\'hui, avec 84,9 M$ de chiffre d\'affaires et douze satellites en orbite.',
     entry:
-      'Plutôt que de conclure « surévalué » et de s\'arrêter là, nous avons retourné le modèle pour demander ce que le cours exige. Justifier 78,42 $ pour RKLB suppose un taux d\'actualisation de 4,37 % — inférieur au rendement du 10 ans américain à 4,65 %, c\'est-à-dire une prime de risque négative sur l\'un des titres les plus volatils du Nasdaq, de bêta 2,63. À coût du capital inchangé, il faut à la place 88 Md$ de chiffre d\'affaires en 2035, davantage que Lockheed Martin aujourd\'hui. Pour ASTS, le même exercice demande 42 Md$ en 2035, contre un marché mondial du direct-to-device estimé à 15,5 Md$ par GM Insights — 2,7 fois son marché entier.',
+      'Plutôt que de conclure « surévalué » et de s\'arrêter là, nous avons retourné le modèle pour demander ce que le cours exige. Justifier 78,42 $ pour RKLB suppose un taux d\'actualisation de 4,37 % — inférieur au rendement du 10 ans américain à 4,65 %, c\'est-à-dire une prime de risque négative sur l\'un des titres les plus volatils du Nasdaq, de bêta 2,63. À coût du capital inchangé, il faut à la place 88 Md$ de chiffre d\'affaires en 2035, davantage que Lockheed Martin aujourd\'hui. Pour ASTS, le même exercice demande 42 Md$ en 2035, contre un marché mondial du direct-to-device estimé à 15,5 Md$ par GM Insights — 2,7 fois son marché entier. La conclusion du rapport n\'est pas que ces titres valent le dixième de leur cours : c\'est qu\'ils sont valorisés comme des options — sur Neutron et le budget Golden Dome pour Rocket Lab, sur la valeur du spectre et un quasi-monopole du direct-to-device pour ASTS — et non comme des flux de trésorerie. C\'est une position défendable. Elle n\'est simplement pas exprimable par un DCF, et des deux, Rocket Lab est le dossier de meilleure qualité : revenus réels, carnet de commandes réel, diversification défense.',
     invalidation:
       'Un Neutron qui vole à l\'heure fin 2026 et un budget Golden Dome qui se convertit reconstruiraient le dossier Rocket Lab sur des fondamentaux plutôt que sur la croyance. Pour ASTS, le plancher tangible est la valeur du spectre, et 22,3 % du flottant est vendu à découvert : la convexité est réelle là même où le dossier de flux ne l\'est pas.',
     horizon: 'Résultats du T2 le 10 août 2026 pour les deux. Les questions du DCF inversé se tranchent entre 2027 et 2030.',
+    discountRate: '13,5 % pour RKLB, 14,0 % pour ASTS — délibérément sous les 17,1 % qu\'impliquerait le bêta observé de 2,63, au motif que le bêta converge vers 1 sur dix ans',
   },
   {
     id: 'IDEA-08',
@@ -162,5 +169,6 @@ export const ideasFr: IdeaItem[] = [
     invalidation:
       'Des frais de structure de Vancouver qui arrivent avant le chiffre d\'affaires de Vancouver : chaque dollar de coût ajouté relève le point mort de plus de deux dollars. Noter aussi la structure de marché — environ 12 000 titres par jour, soit 45 000 $ canadiens de volume, aucune couverture d\'analyste et aucune guidance de la société. Le chiffre d\'affaires défense publié est, et a toujours été, nul.',
     horizon: 'L\'exercice 2027 est le premier où l\'extension peut contribuer.',
+    discountRate: 'Pas de DCF. Les trois cas sont des hypothèses de marge brute — 40 %, 43 % et 45 % — pas des flux actualisés',
   },
 ]

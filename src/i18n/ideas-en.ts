@@ -26,6 +26,7 @@ export const ideasEn: IdeaItem[] = [
     invalidation:
       'Conversion stalling on permits rather than on demand. On 6 August a contested planning hearing in Vineland, New Jersey took 11% off the stock, because that site serves the $17.4bn Microsoft contract — a town meeting erased six billion dollars of market cap. The second tell is financing: July\'s $775m secured facility covers more than 100% of the capex it funds, and whether that structure replicates on the Meta contracts decides how much dilution the current shareholder absorbs.',
     horizon: 'Q2 print on 12 August 2026. The conversion trajectory runs to 2028.',
+    discountRate: '11.5% WACC, central case (10.5–13.5% across the three)',
     scenarios: [
       { label: 'BEAR', prob: 32, tone: 'down' },
       { label: 'BASE', prob: 46, tone: 'mid' },
@@ -47,6 +48,7 @@ export const ideasEn: IdeaItem[] = [
     invalidation:
       'SOSA and Stoney Creek closing at ordinary infrastructure terms would break the bear case outright. The covenant waivers of 26 June make that harder, not easier. Watch the direction of that one item before anything else.',
     horizon: 'Q2 print on 11 August 2026. The project financings decide 2027.',
+    discountRate: '14.0% WACC, central case (12.5–16.5% across the three)',
     scenarios: [
       { label: 'BEAR', prob: 35, tone: 'down' },
       { label: 'BASE', prob: 45, tone: 'mid' },
@@ -68,6 +70,7 @@ export const ideasEn: IdeaItem[] = [
     invalidation:
       'Phase one slipping past Q1 2027, or phase two never being financed. One caveat on every multiple here: our share count of 91.09m comes from the 15 May 10-Q cover, and cash went from $57.8m at 31 March to about $155m at 3 July with no debt raised — which points to at-the-market issuance under the programme lifted to $175m on 8 May. Market cap and enterprise value are therefore probably understated until the 14 August print settles it.',
     horizon: 'To 15 December 2026, then the 2027–2028 build-out.',
+    discountRate: '15.5% WACC, central case (14.0–18.5%). At 9%, the rate a non-recourse project loan would carry, the same cash flows are worth $2.18',
     scenarios: [
       { label: 'BEAR', prob: 40, tone: 'down' },
       { label: 'BASE', prob: 42, tone: 'mid' },
@@ -89,6 +92,7 @@ export const ideasEn: IdeaItem[] = [
     invalidation:
       'REC-4881 failing to hold its week-25 depth, or a financing priced near the bear case — in that case more than twice the existing share count has to be created. Q2 2026 revenue of $7.7m was down 60% year on year and 36.9% below consensus, with a $131.0m net loss.',
     horizon: 'To the readouts. Runway is guided into early 2028.',
+    discountRate: '13% on the DCF, 12% on the risk-adjusted pipeline',
     scenarios: [
       { label: 'BEAR', prob: 40, tone: 'down' },
       { label: 'BASE', prob: 40, tone: 'mid' },
@@ -110,6 +114,7 @@ export const ideasEn: IdeaItem[] = [
     invalidation:
       'US procedure growth reaccelerating back above the mid-teens would reset the bear case on its own. In the other direction, OTTAVA converting placements rather than merely clearing the FDA is what would turn a regulatory event into a commercial one.',
     horizon: 'Multi-year. On this name the duration is the thesis.',
+    discountRate: '9.5% WACC, on an assumed beta of 1.05–1.10 against an observed 1.46. Moving the rate to 8.50% adds more than $100 a share',
     scenarios: [
       { label: 'BEAR', prob: 25, tone: 'down' },
       { label: 'BASE', prob: 50, tone: 'mid' },
@@ -131,6 +136,7 @@ export const ideasEn: IdeaItem[] = [
     invalidation:
       'Heart or lung scaling would widen the thesis rather than end it — liver concentration is the risk, not the ceiling. The live risk is legal: the part of the securities litigation that attacks the core commercial model survived its motion to dismiss and is now in discovery.',
     horizon: '2026–2027, on the mix shift and on discovery.',
+    discountRate: '10.5% WACC, 3% perpetual growth. Justifying the current price needs 9.5% or lower with at least 3.5% growth',
     scenarios: [
       { label: 'BEAR', prob: 30, tone: 'down' },
       { label: 'BASE', prob: 45, tone: 'mid' },
@@ -148,10 +154,11 @@ export const ideasEn: IdeaItem[] = [
     thesis:
       'Two fundamentally different businesses that the market currently values on the same basis — belief. Rocket Lab is a real industrial company: 92 successful Electron launches, a $2.2bn backlog, $679.6m of trailing revenue. AST SpaceMobile is a call option on direct-to-device satellite telephony, a market that exists commercially for nobody today, on $84.9m of trailing revenue and twelve satellites in orbit.',
     entry:
-      'Rather than conclude "overvalued" and stop, we inverted the model and asked what the current price requires. Justifying $78.42 for RKLB needs a 4.37% discount rate — below the US 10-year at 4.65%, meaning a negative risk premium on one of the Nasdaq\'s most volatile names at a beta of 2.63. At an unchanged cost of capital it instead needs $88bn of 2035 revenue, more than Lockheed Martin does today. For ASTS the same exercise asks for $42bn in 2035, against a global direct-to-device market GM Insights sizes at $15.5bn — 2.7 times its entire market.',
+      'Rather than conclude "overvalued" and stop, we inverted the model and asked what the current price requires. Justifying $78.42 for RKLB needs a 4.37% discount rate — below the US 10-year at 4.65%, meaning a negative risk premium on one of the Nasdaq\'s most volatile names at a beta of 2.63. At an unchanged cost of capital it instead needs $88bn of 2035 revenue, more than Lockheed Martin does today. For ASTS the same exercise asks for $42bn in 2035, against a global direct-to-device market GM Insights sizes at $15.5bn — 2.7 times its entire market. The report\'s own conclusion is not that these are worth a tenth of the price: it is that they are priced as options — on Neutron and the Golden Dome budget for Rocket Lab, on spectrum value and a near-monopoly in direct-to-device for ASTS — rather than as cash flows. That is a defensible position. It is simply not a position a discounted cash flow can express, and of the two, Rocket Lab is the higher-quality file: real revenue, a real backlog, defence diversification.',
     invalidation:
       'Neutron flying on schedule at the end of 2026 and Golden Dome budget converting would rebuild the Rocket Lab case on fundamentals rather than belief. For ASTS the tangible floor is spectrum value, and 22.3% of the float is sold short — the convexity is real even where the cash-flow case is not.',
     horizon: 'Q2 prints for both on 10 August 2026. The reverse-DCF questions resolve over 2027–2030.',
+    discountRate: '13.5% for RKLB, 14.0% for ASTS — deliberately below the 17.1% the observed beta of 2.63 would imply, on the view that beta converges toward 1 over ten years',
   },
   {
     id: 'IDEA-08',
@@ -168,5 +175,6 @@ export const ideasEn: IdeaItem[] = [
     invalidation:
       'Vancouver overhead arriving before Vancouver revenue: every dollar of added operating cost raises the breakeven revenue by more than two. Note the market structure too — about 12,000 shares a day, roughly C$45,000 of turnover, no analyst coverage, and no company guidance of any kind. Disclosed defence revenue is, and has always been, zero.',
     horizon: 'FY2027 is the first year the expansion can contribute.',
+    discountRate: 'No DCF. The three cases are gross-margin assumptions — 40%, 43% and 45% — not discounted flows',
   },
 ]

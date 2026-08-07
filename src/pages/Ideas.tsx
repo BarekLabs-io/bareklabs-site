@@ -69,6 +69,12 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
                 <div className="font-mono-lab text-[9px] tracking-[0.25em] text-faint">{t.ideas.labels.horizon}</div>
                 <p className="mt-3 font-mono-lab text-[11px] leading-5 text-foreground/90">{idea.horizon}</p>
               </div>
+              {idea.discountRate && (
+                <div className="bg-ticker p-6">
+                  <div className="font-mono-lab text-[9px] tracking-[0.25em] text-faint">{t.ideas.labels.rate}</div>
+                  <p className="mt-3 font-mono-lab text-[11px] leading-5 text-warn/90">{idea.discountRate}</p>
+                </div>
+              )}
             </div>
             {idea.scenarios && (
             <div className="border-t border-line bg-ticker p-6">
@@ -173,7 +179,18 @@ export default function Ideas() {
           ) : (
             <EmptyTheses />
           )}
+          {/* Every target on this page is a discounted-cash-flow output, and a
+            * DCF reads a long-duration growth asset as expensive almost by
+            * construction. Saying so where the targets are read is the only
+            * thing that lets a reader argue with the assumption instead of
+            * just the conclusion. */}
           <Reveal className="mt-10">
+            <div className="border-s-2 border-warn/40 ps-5">
+              <div className="font-mono-lab text-[9px] tracking-[0.25em] text-warn">{t.ideas.method.label}</div>
+              <p className="mt-3 max-w-4xl font-mono-lab text-[11px] leading-6 tracking-wide text-dim">{t.ideas.method.body}</p>
+            </div>
+          </Reveal>
+          <Reveal className="mt-8">
             <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{t.ideas.disclaimer}</p>
           </Reveal>
         </div>

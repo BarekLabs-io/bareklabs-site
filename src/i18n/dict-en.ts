@@ -191,10 +191,14 @@ export const en = {
     },
     filters: ['ALL', 'AI INFRA', 'MEDTECH', 'BIOTECH', 'SPACE', 'ENERGY', 'MATERIALS'],
     status: { ACTIVE: 'ACTIVE', WATCHING: 'WATCHING', CLOSED: 'CLOSED' } as Record<string, string>,
-    labels: { entry: 'ENTRY LOGIC', invalidation: 'INVALIDATION', horizon: 'HORIZON', scenarios: 'SCENARIO MAP', readReport: 'READ THE FULL REPORT' },
+    labels: { entry: 'ENTRY LOGIC', invalidation: 'INVALIDATION', horizon: 'HORIZON', rate: 'DISCOUNT RATE', scenarios: 'SCENARIO MAP', readReport: 'READ THE FULL REPORT' },
     scenarioLabels: { BASE: 'Base', BULL: 'Bull', BEAR: 'Bear', HIT: 'Hit' } as Record<string, string>,
     head: 'Open theses',
     headRight: 'CLICK TO EXPAND',
+    method: {
+      label: 'ON READING THESE TARGETS',
+      body: 'Every target on this page is the output of a discounted cash flow, and each report shows the rate it used. Three things a reader should know before weighing them. First, the bearish skew is not the discount rate: tested at 8% — assuming these companies are no riskier than the equity market as a whole — the most extreme case still lands 75% below the market price. Second, several of the bull cases are too narrow. Where no probability weighting reaches the current price, and even putting the entire weight on the bull case leaves a wide gap, that is not a bull case; it is a third version of the same thesis, and it is a defect in the work. Third, these subjects are drawn from the hottest corners of a rising market, and eight reports sharing one author, one method and one terminal-value convention have error correlation close to one. Eight bearish answers are not eight confirmations. They are one bet, stated eight times. Read each target as the question behind it — what you would have to believe to justify the price — rather than as a verdict.',
+    },
     disclaimer: 'IDEAS ARE RESEARCH ARTEFACTS, NOT RECOMMENDATIONS. SIZING AND EXECUTION LIVE IN THE TRADE TRACKER.',
     empty: {
       label: 'NO LIVE THESES YET',
