@@ -507,7 +507,7 @@ export const fr: Dict = {
     founder: {
       head: 'Le fondateur',
       headRight: 'UN SEUL OPÉRATEUR, AUCUN COMITÉ',
-      photoNote: 'EMPLACEMENT PORTRAIT — DÉPOSEZ UN FICHIER DANS /public/founder.jpg',
+      photoNote: 'PORTRAIT INDISPONIBLE',
       role: 'FONDATEUR — CURIEUX DE NATURE, RIGOUREUX PAR HABITUDE',
       bio: 'BAREK LABS est un laboratoire d’une seule personne, par choix — pas une équipe d’analystes, pas une start-up fintech, juste quelqu’un avec une habitude sincère, presque obsessionnelle, de lire sur les entreprises et les marchés. La couverture, les positions suivies et les méthodes de ce site sont son propre travail — le labo répond à ses lecteurs et à son registre, pas à un sponsor. La préférence ici est simple : laisser parler le registre. Chaque affirmation remonte à une source, chaque position à un journal, chaque erreur à une correction.',
     },

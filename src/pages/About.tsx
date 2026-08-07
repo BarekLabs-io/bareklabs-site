@@ -107,9 +107,12 @@ export default function About() {
               <SectionHead index="04.A" label={a.founder.head} right={a.founder.headRight} />
               <div className="grid gap-10 md:grid-cols-12">
                 <Reveal className="md:col-span-5">
-                  {/* PHOTO SLOT — replace /public/founder.jpg with the real portrait */}
+                  {/* Portrait lives at /public/founder.jpg — pre-cropped to 3:4 so
+                    * object-cover has nothing left to guess, and served as a real
+                    * JPEG because `X-Content-Type-Options: nosniff` (vercel.json)
+                    * makes a wrong extension a blank frame rather than a warning. */}
                   <div className="group relative aspect-[3/4] overflow-hidden border border-line bg-card2">
-                    {/* placeholder behind the photo */}
+                    {/* placeholder — only ever visible if the file fails to load */}
                     <div className="lab-grid-fine absolute inset-0 flex flex-col items-center justify-center gap-4">
                       <span className="px-4 text-center font-mono-lab text-[10px] tracking-[0.3em] text-faint">{a.founder.photoNote}</span>
                       <span className="h-px w-10 bg-line" />
@@ -118,7 +121,11 @@ export default function About() {
                     <img
                       src="/founder.jpg"
                       alt={a.founder.head}
-                      className="relative z-10 h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
+                      width={1200}
+                      height={1600}
+                      /* The source is already black and white, so a grayscale
+                       * hover-off would have been a no-op dressed as an effect. */
+                      className="relative z-10 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = 'none'
                       }}

@@ -516,7 +516,7 @@ export const en = {
     founder: {
       head: 'The founder',
       headRight: 'ONE OPERATOR, NO COMMITTEE',
-      photoNote: 'PORTRAIT SLOT — DROP A FILE AT /public/founder.jpg',
+      photoNote: 'PORTRAIT UNAVAILABLE',
       role: 'FOUNDER — CURIOUS BY TRADE, RIGOROUS BY HABIT',
       bio: "BAREK LABS is a one-person laboratory by design — not a team of analysts, not a fintech startup, just someone with a genuine, borderline obsessive habit of reading about companies and markets. The coverage, the tracked positions and the methods on this site are the founder's own work — the lab answers to its readers and to its ledger, not to any sponsor. The preference here is simple: let the record speak. Every claim traces to a source, every position to a log, every error to a correction.",
     },

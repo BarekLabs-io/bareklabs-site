@@ -12,7 +12,13 @@ import { useEffect, useRef, useState } from 'react'
  * rather than "scroll the document, then scroll the page".
  *
  * The header height is measured rather than assumed: it carries the nav *and*
- * the market tape, and it changes with the mobile menu and on resize. */
+ * the market tape, and it changes with the mobile menu and on resize.
+ *
+ * If every report ever goes blank at once, look at vercel.json before looking
+ * here. These are same-origin frames, so the framing headers must stay at
+ * `X-Frame-Options: SAMEORIGIN` / `frame-ancestors 'self'` — the commonly
+ * recommended `DENY` refuses framing from our own origin too, which reads as a
+ * hardening win right up until all four reports are empty boxes. */
 export function ReportFrame({ src, title, reloadKey }: { src: string; title: string; reloadKey?: string }) {
   const [headerH, setHeaderH] = useState<number | null>(null)
   const frameRef = useRef<HTMLIFrameElement>(null)
