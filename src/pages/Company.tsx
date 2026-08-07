@@ -69,7 +69,11 @@ export default function CompanyPage() {
 
   const c = company
   const priceMetric = c.valuation.metrics.find((m) => /^price|^share price/i.test(m.label))
-  const staticPrice = parseMetricValue(priceMetric?.values[0]) ?? 100
+  /* No `?? 100` fallback. A watchlist entry with no researched price and no
+   * live quote used to anchor the chart on a literal 100 and draw a walk
+   * around it — a shape and a percentage move belonging to no company. When
+   * there is no price to stand behind, the chart does not render at all. */
+  const staticPrice = parseMetricValue(priceMetric?.values[0])
   // Live price when the proxy has it; otherwise the researched snapshot.
   // Market cap and every valuation multiple below stay on the static,
   // dated research — the quotes endpoint doesn't carry them.
@@ -82,7 +86,7 @@ export default function CompanyPage() {
    * a researched $417 against a real $259 until this check existed. 20% is
    * wide enough that ordinary drift does not trip it. */
   const drift =
-    liveQuote && staticPrice > 0 ? (liveQuote.price - staticPrice) / staticPrice : null
+    liveQuote && staticPrice != null && staticPrice > 0 ? (liveQuote.price - staticPrice) / staticPrice : null
   const priceSuspect = drift != null && Math.abs(drift) > 0.2
   const marketCapMetric = c.valuation.metrics.find((m) => /^market cap|market cap$/i.test(m.label))
   const country = countryOf(c.ticker)
@@ -137,15 +141,30 @@ export default function CompanyPage() {
             )}
           </Reveal>
           <Reveal delay={140} className="mt-8">
-            <Suspense fallback={<div className="h-[280px] animate-pulse border border-line bg-panel md:h-[320px]" />}>
-              <PriceChart
-                ticker={c.ticker}
-                currentPrice={currentPrice}
-                summary={c.priceMap.technical}
-                isLivePrice={!!liveQuote}
-                asOfMs={liveQuote ? asOf : null}
-              />
-            </Suspense>
+            {currentPrice != null ? (
+              <Suspense fallback={<div className="h-[280px] animate-pulse border border-line bg-panel md:h-[320px]" />}>
+                <PriceChart
+                  ticker={c.ticker}
+                  currentPrice={currentPrice}
+                  summary={c.priceMap.technical}
+                  isLivePrice={!!liveQuote}
+                  asOfMs={liveQuote ? asOf : null}
+                />
+              </Suspense>
+            ) : (
+              <div className="border border-dashed border-line px-6 py-12 md:px-10">
+                <div className="font-mono-lab text-[10px] tracking-[0.3em] text-faint">NO PRICE SERIES</div>
+                <p className="mt-3 max-w-3xl font-mono-lab text-[11px] leading-6 text-dim">
+                  The quote feed has nothing for {c.ticker} right now and no researched price is on file, so no chart is
+                  drawn. The reference levels below come from the data provider and are dated.
+                </p>
+                <div className="mt-6 grid gap-3 md:grid-cols-2">
+                  {c.priceMap.technical.map((t) => (
+                    <p key={t} className="font-mono-lab text-[11px] leading-6 text-foreground/85">{t}</p>
+                  ))}
+                </div>
+              </div>
+            )}
           </Reveal>
         </div>
       </section>
