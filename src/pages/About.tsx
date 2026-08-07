@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
+import { withBrandMark } from '@/components/Brand'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
+
+function contactHref(v: string): string {
+  if (v.includes('@')) return `mailto:${v}`
+  if (v.startsWith('github.com')) return `https://${v}`
+  return v
+}
 
 function ContactCard({ c, i }: { c: { k: string; v: string; note: string }; i: number }) {
   const ref = useSpotlight<HTMLDivElement>()
@@ -10,7 +17,15 @@ function ContactCard({ c, i }: { c: { k: string; v: string; note: string }; i: n
     <Reveal delay={i * 80}>
       <div ref={ref} className="spot-card border border-line p-7">
         <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.k}</div>
-        <div className="mt-4 break-all font-mono-lab text-sm tracking-wide text-foreground" dir="ltr">{c.v}</div>
+        <a
+          href={contactHref(c.v)}
+          target={c.v.startsWith('github.com') ? '_blank' : undefined}
+          rel={c.v.startsWith('github.com') ? 'noreferrer' : undefined}
+          className="mt-4 block break-all font-mono-lab text-sm tracking-wide text-foreground transition-colors hover:text-signal"
+          dir="ltr"
+        >
+          {c.v}
+        </a>
         <div className="mt-3 font-mono-lab text-[10px] tracking-wider text-dim">{c.note}</div>
       </div>
     </Reveal>
@@ -92,9 +107,12 @@ export default function About() {
               <SectionHead index="04.A" label={a.founder.head} right={a.founder.headRight} />
               <div className="grid gap-10 md:grid-cols-12">
                 <Reveal className="md:col-span-5">
-                  {/* PHOTO SLOT — replace /public/founder.jpg with the real portrait */}
+                  {/* Portrait lives at /public/founder.jpg — pre-cropped to 3:4 so
+                    * object-cover has nothing left to guess, and served as a real
+                    * JPEG because `X-Content-Type-Options: nosniff` (vercel.json)
+                    * makes a wrong extension a blank frame rather than a warning. */}
                   <div className="group relative aspect-[3/4] overflow-hidden border border-line bg-card2">
-                    {/* placeholder behind the photo */}
+                    {/* placeholder — only ever visible if the file fails to load */}
                     <div className="lab-grid-fine absolute inset-0 flex flex-col items-center justify-center gap-4">
                       <span className="px-4 text-center font-mono-lab text-[10px] tracking-[0.3em] text-faint">{a.founder.photoNote}</span>
                       <span className="h-px w-10 bg-line" />
@@ -103,7 +121,11 @@ export default function About() {
                     <img
                       src="/founder.jpg"
                       alt={a.founder.head}
-                      className="relative z-10 h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
+                      width={1200}
+                      height={1600}
+                      /* The source is already black and white, so a grayscale
+                       * hover-off would have been a no-op dressed as an effect. */
+                      className="relative z-10 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = 'none'
                       }}
@@ -131,7 +153,7 @@ export default function About() {
               <Reveal>
                 <div className="prose-lab">
                   {a.story.paragraphs.map((p, i) => (
-                    <p key={i}>{p}</p>
+                    <p key={i}>{withBrandMark(p)}</p>
                   ))}
                 </div>
               </Reveal>
@@ -145,7 +167,7 @@ export default function About() {
                   <Reveal key={p.n} delay={i * 60} className="index-row group flex flex-col gap-3 border-b border-line py-8 md:flex-row md:items-baseline md:gap-10">
                     <span className="w-12 shrink-0 font-mono-lab text-[10px] text-signal" dir="ltr">{p.n}</span>
                     <h3 className="w-72 shrink-0 text-xl font-medium tracking-tight transition-colors group-hover:text-signal md:text-2xl">{p.t}</h3>
-                    <p className="max-w-xl font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{p.d}</p>
+                    <p className="max-w-3xl font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{p.d}</p>
                   </Reveal>
                 ))}
               </div>
@@ -154,15 +176,16 @@ export default function About() {
             {/* ===== CONTACT ===== */}
             <section id="contact" className="scroll-mt-40 py-20">
               <SectionHead index="04.D" label={a.contact.head} right={a.contact.headRight} />
-              <div className="grid gap-4 md:grid-cols-3">
+              <Reveal>
+                <p className="prose-lab mb-8 max-w-none">{a.contact.advisoryNote}</p>
+              </Reveal>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {a.contact.cards.map((c, i) => (
                   <ContactCard key={c.k} c={c} i={i} />
                 ))}
               </div>
-              <Reveal className="mt-14 text-center">
-                <div className="select-none text-[18vw] font-semibold leading-none tracking-[-0.03em] text-foreground md:text-[10vw]" dir="ltr">
-                  BAREK/LABS
-                </div>
+              <Reveal className="mt-14 flex justify-center">
+                <img src="/logo.svg" alt="BAREK LABS" className="h-16 w-auto logo-adaptive md:h-24" />
               </Reveal>
             </section>
           </div>

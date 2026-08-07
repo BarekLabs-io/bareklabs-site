@@ -6,6 +6,8 @@ import { useLang } from '@/i18n/LanguageContext'
 import { useTheme } from '@/theme/ThemeContext'
 import { LANG_META, type Lang } from '@/i18n/translations'
 import SearchPalette from '@/components/SearchPalette'
+import { MarketQuotesProvider, useMarketQuotes } from '@/lib/marketQuotes'
+import { TAPE_INSTRUMENTS, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
 
 /* ---------- READING PROGRESS BAR ---------- */
 function ReadingProgress() {
@@ -34,7 +36,6 @@ type NavItem = {
 function useNav(): NavItem[] {
   const { t } = useLang()
   return [
-    { to: '/', label: t.nav.homepage },
     {
       to: '/analysis',
       label: t.nav.analysis,
@@ -51,41 +52,12 @@ function useNav(): NavItem[] {
       children: [
         { to: '/trade-tracker/stocks', label: t.nav.sub.stocks.label, note: t.nav.sub.stocks.note },
         { to: '/trade-tracker/crypto', label: t.nav.sub.crypto.label, note: t.nav.sub.crypto.note },
+        { to: '/trade-tracker/screener', label: t.nav.sub.screener.label, note: t.nav.sub.screener.note },
       ],
     },
     { to: '/about', label: t.nav.about },
   ]
 }
-
-/* ---------- GLOBAL MARKET TAPE ---------- */
-const TAPE: { s: string; v: string; d: string; up: boolean; g: 'US' | 'EU' | 'AS' | 'M7' | 'CR' }[] = [
-  { s: 'S&P 500', v: '6,412.30', d: '+0.42%', up: true, g: 'US' },
-  { s: 'NASDAQ', v: '21,208.7', d: '+0.68%', up: true, g: 'US' },
-  { s: 'DOW', v: '44,912.0', d: '-0.11%', up: false, g: 'US' },
-  { s: 'STOXX 600', v: '552.84', d: '+0.19%', up: true, g: 'EU' },
-  { s: 'DAX', v: '24,315.0', d: '+0.31%', up: true, g: 'EU' },
-  { s: 'CAC 40', v: '7,812.4', d: '-0.24%', up: false, g: 'EU' },
-  { s: 'FTSE 100', v: '9,088.2', d: '+0.14%', up: true, g: 'EU' },
-  { s: 'NIKKEI 225', v: '41,204.0', d: '+1.02%', up: true, g: 'AS' },
-  { s: 'HANG SENG', v: '25,118.0', d: '-0.47%', up: false, g: 'AS' },
-  { s: 'CSI 300', v: '4,086.5', d: '+0.36%', up: true, g: 'AS' },
-  { s: 'AAPL', v: '232.40', d: '+0.83%', up: true, g: 'M7' },
-  { s: 'MSFT', v: '512.15', d: '+0.57%', up: true, g: 'M7' },
-  { s: 'NVDA', v: '182.66', d: '+1.94%', up: true, g: 'M7' },
-  { s: 'GOOGL', v: '196.28', d: '-0.32%', up: false, g: 'M7' },
-  { s: 'AMZN', v: '224.10', d: '+0.44%', up: true, g: 'M7' },
-  { s: 'META', v: '712.90', d: '+1.12%', up: true, g: 'M7' },
-  { s: 'TSLA', v: '308.72', d: '-1.28%', up: false, g: 'M7' },
-  { s: 'BTC', v: '97,431', d: '+2.18%', up: true, g: 'CR' },
-  { s: 'ETH', v: '3,812', d: '-1.04%', up: false, g: 'CR' },
-  { s: 'SOL', v: '214.60', d: '+3.41%', up: true, g: 'CR' },
-  { s: 'TAO', v: '412.30', d: '+5.02%', up: true, g: 'CR' },
-  { s: 'ICP', v: '12.84', d: '-0.86%', up: false, g: 'CR' },
-  { s: 'ZEC', v: '58.42', d: '+4.17%', up: true, g: 'CR' },
-]
-
-const TICKER_ITEMS = TAPE.map((t) => ({ s: t.s, v: t.v, d: t.d, up: t.up }))
-export { TICKER_ITEMS }
 
 const GROUP_TONE: Record<string, string> = {
   US: 'text-[#7db4ff]',
@@ -97,21 +69,29 @@ const GROUP_TONE: Record<string, string> = {
 
 function TapeBar() {
   const { t } = useLang()
-  const items = [...TAPE, ...TAPE]
+  const { quotes } = useMarketQuotes()
+  // Duplicated so the marquee loops seamlessly — same instruments, twice.
+  const items = [...TAPE_INSTRUMENTS, ...TAPE_INSTRUMENTS]
   return (
     <div className="overflow-hidden border-b border-line bg-tape">
       <div className="ticker-track flex w-max items-center py-2">
-        {items.map((it, i) => (
-          <div key={i} className="flex items-center gap-2.5 px-5 font-mono-lab text-[10.5px] tracking-wider" dir="ltr">
-            <span className={cn('text-[8px] tracking-[0.2em]', GROUP_TONE[it.g])}>{t.tape.groups[it.g]}</span>
-            <span className="font-medium text-foreground/90">{it.s}</span>
-            <span className="tabular-nums text-dim">{it.v}</span>
-            <span className={cn('tabular-nums', it.up ? 'text-signal' : 'text-danger')}>
-              {it.up ? '▲' : '▼'} {it.d}
-            </span>
-            <span className="ms-2 h-3 w-px bg-line" />
-          </div>
-        ))}
+        {items.map((it, i) => {
+          const q = quotes[it.symbol]
+          const up = q?.changePercent != null ? q.changePercent >= 0 : null
+          return (
+            <div key={i} className="flex items-center gap-2.5 px-5 font-mono-lab text-[10.5px] tracking-wider" dir="ltr">
+              <span className={cn('text-[8px] tracking-[0.2em]', GROUP_TONE[it.g])}>{t.tape.groups[it.g]}</span>
+              <span className="font-medium text-foreground/90">{it.s}</span>
+              <span className="tabular-nums text-dim">{q ? formatLevel(q.price) : NO_VALUE}</span>
+              {/* No quote yet (or the feed is down) reads as a dash, not as a
+                  flat 0% — an absent number must not look like a real one. */}
+              <span className={cn('tabular-nums', up == null ? 'text-faint' : up ? 'text-signal' : 'text-danger')}>
+                {q?.changePercent != null ? `${up ? '▲' : '▼'} ${formatChange(q.changePercent)}` : NO_VALUE}
+              </span>
+              <span className="ms-2 h-3 w-px bg-line" />
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -281,6 +261,7 @@ export default function Layout() {
   }, [loc.pathname])
 
   return (
+    <MarketQuotesProvider>
     <div className="min-h-screen bg-background text-foreground">
       <ReadingProgress />
       <SearchPalette />
@@ -405,6 +386,7 @@ export default function Layout() {
                 <li><Link to="/analysis/ideas" className="font-mono-lab text-[11px] tracking-wider text-dim transition-colors hover:text-signal">{t.footer.subLinks.ideas}</Link></li>
                 <li><Link to="/trade-tracker/stocks" className="font-mono-lab text-[11px] tracking-wider text-dim transition-colors hover:text-signal">{t.footer.subLinks.stocks}</Link></li>
                 <li><Link to="/trade-tracker/crypto" className="font-mono-lab text-[11px] tracking-wider text-dim transition-colors hover:text-signal">{t.footer.subLinks.crypto}</Link></li>
+                <li><Link to="/trade-tracker/screener" className="font-mono-lab text-[11px] tracking-wider text-dim transition-colors hover:text-signal">{t.footer.subLinks.screener}</Link></li>
               </ul>
             </div>
             <div className="md:col-span-3">
@@ -419,6 +401,7 @@ export default function Layout() {
         </div>
       </footer>
     </div>
+    </MarketQuotesProvider>
   )
 }
 
@@ -437,20 +420,20 @@ export function PageHero({
   children?: React.ReactNode
 }) {
   return (
-    <section className="lab-grid relative border-b border-line pt-44 pb-16 md:pt-52 md:pb-20">
+    <section className="lab-grid relative border-b border-line pt-32 pb-12 md:pt-40 md:pb-14">
       <div className="scanline" />
       <div className="mx-auto max-w-[1440px] px-5 md:px-10">
         <Reveal>
           <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">{code}</div>
         </Reveal>
         <Reveal delay={80}>
-          <h1 className="mt-4 text-[13vw] font-medium leading-[0.92] tracking-tight md:text-[7.5vw]">
+          <h1 className="mt-3 text-4xl font-medium leading-[1.05] tracking-tight md:text-6xl">
             {title}
             {serif && <span className="font-serif-lab italic text-dim"> {serif}</span>}
           </h1>
         </Reveal>
         <Reveal delay={160}>
-          <p className="mt-6 max-w-xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{desc}</p>
+          <p className="mt-5 max-w-5xl font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{desc}</p>
         </Reveal>
         {children}
       </div>

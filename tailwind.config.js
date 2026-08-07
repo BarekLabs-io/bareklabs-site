@@ -5,6 +5,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        signal: "rgb(var(--signal) / <alpha-value>)",
+        danger: "rgb(var(--danger) / <alpha-value>)",
+        warn: "rgb(var(--warn) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

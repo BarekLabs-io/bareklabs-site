@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
+import Carousel from '@/components/Carousel'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 
@@ -30,8 +31,9 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
   const scenarioLabel = (l: string) => (t.ideas.scenarioLabels as Record<string, string>)[l] ?? l
 
   return (
-    <Reveal delay={i * 70}>
-      <div ref={ref} className="spot-card border border-line">
+    <div data-carousel-item className="w-[380px] shrink-0 md:w-[440px]" style={{ scrollSnapAlign: 'start' }}>
+      <Reveal delay={i * 70}>
+      <div ref={ref} className="spot-card h-full border border-line">
         <button onClick={() => setOpen(!open)} className="w-full p-6 text-start md:p-8">
           <div className="flex flex-wrap items-center gap-4">
             <span className="font-mono-lab text-[10px] tracking-wider text-faint" dir="ltr">{idea.id}</span>
@@ -45,12 +47,12 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
             <h3 className="text-xl font-medium tracking-tight md:text-2xl">{idea.title}</h3>
             <span className={cn('font-mono-lab text-lg text-faint transition-transform duration-300', open && 'rotate-45')}>+</span>
           </div>
-          <p className="mt-3 max-w-2xl font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{idea.thesis}</p>
+          <p className="mt-3 max-w-4xl font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{idea.thesis}</p>
         </button>
 
         <div className={cn('grid transition-all duration-500 ease-out', open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
           <div className="overflow-hidden">
-            <div className="grid gap-px border-t border-line bg-line md:grid-cols-3">
+            <div className="grid gap-px border-t border-line bg-line">
               <div className="bg-ticker p-6">
                 <div className="font-mono-lab text-[9px] tracking-[0.25em] text-faint">{t.ideas.labels.entry}</div>
                 <p className="mt-3 font-mono-lab text-[11px] leading-5 text-foreground/90">{idea.entry}</p>
@@ -89,6 +91,20 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
           </div>
         </div>
       </div>
+      </Reveal>
+    </div>
+  )
+}
+
+function EmptyTheses() {
+  const { t } = useLang()
+  return (
+    <Reveal>
+      <div className="border border-dashed border-line p-12 text-center md:p-20">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center border border-line font-mono-lab text-lg text-faint">—</div>
+        <div className="mt-6 font-mono-lab text-[11px] tracking-[0.3em] text-signal">{t.ideas.empty.label}</div>
+        <p className="mx-auto mt-4 max-w-3xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.ideas.empty.body}</p>
+      </div>
     </Reveal>
   )
 }
@@ -110,27 +126,33 @@ export default function Ideas() {
       <section>
         <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
           <SectionHead index="LEDGER" label={t.ideas.head} right={t.ideas.headRight} />
-          <div className="mb-10 flex flex-wrap gap-2">
-            {FILTERS.map((f) => (
-              <button
-                key={f}
-                onClick={() => setSector(f)}
-                className={cn(
-                  'border px-4 py-2 font-mono-lab text-[10px] tracking-[0.2em] transition-all duration-300',
-                  sector === f
-                    ? 'border-signal bg-signal text-[#0c0e12]'
-                    : 'border-line text-dim hover:border-line-hover hover:text-foreground'
-                )}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
-          <div className="space-y-4">
-            {items.map((idea, i) => (
-              <IdeaCard key={idea.id} idea={idea} i={i} />
-            ))}
-          </div>
+          {t.ideas.items.length > 0 && (
+            <div className="mb-10 flex flex-wrap gap-2">
+              {FILTERS.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setSector(f)}
+                  className={cn(
+                    'border px-4 py-2 font-mono-lab text-[10px] tracking-[0.2em] transition-all duration-300',
+                    sector === f
+                      ? 'border-signal bg-signal text-[#0c0e12]'
+                      : 'border-line text-dim hover:border-line-hover hover:text-foreground'
+                  )}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          )}
+          {items.length > 0 ? (
+            <Carousel>
+              {items.map((idea, i) => (
+                <IdeaCard key={idea.id} idea={idea} i={i} />
+              ))}
+            </Carousel>
+          ) : (
+            <EmptyTheses />
+          )}
           <Reveal className="mt-10">
             <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{t.ideas.disclaimer}</p>
           </Reveal>

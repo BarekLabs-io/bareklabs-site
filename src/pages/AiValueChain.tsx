@@ -1,9 +1,18 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
+import { companies } from '@/data/companies'
+import { countryOf, currencyOf, formatMoney } from '@/data/valueChain'
+import { CHAIN_EXTRA } from '@/data/chainExtra'
+import { useLiveQuotes } from '@/lib/useLiveQuotes'
+import { DcfSimulator } from '@/components/DcfSimulator'
+import { ValueChainDossier } from '@/components/ValueChainDossier'
+import { dossierNodes } from '@/data/valueChainDossier'
+import { ChainFlow } from '@/components/ChainFlow'
+import { parseMarketCapUsd } from '@/lib/marketCap'
 
 type ChainItem = { t: string; name: string; role: string; priv?: boolean }
 type ChainStage = { n: string; k: string; name: string; desc: string; items: ChainItem[] }
@@ -15,33 +24,143 @@ function PickCard({ p, i }: { p: { t: string; title: string; d: string }; i: num
   return (
     <Reveal delay={i * 90}>
       <div ref={ref} className="spot-card border border-line p-7 md:p-9">
-        <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal" dir="ltr">{p.t}</div>
+        <div className="font-mono-lab text-[11.5px] tracking-[0.3em] text-signal" dir="ltr">{p.t}</div>
         <h3 className="mt-6 text-xl font-medium tracking-tight md:text-2xl">{p.title}</h3>
-        <p className="mt-4 font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{p.d}</p>
+        <p className="mt-4 font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{p.d}</p>
       </div>
     </Reveal>
   )
 }
 
+/* Three sources feed the constellation, in descending order of depth:
+ *   1. the hand-curated headline names in the i18n dict,
+ *   2. the Screener roster (CHAIN_EXTRA -> companies.ts), which have deep dives,
+ *   3. the dossier, which covers the rest of the chain.
+ * A node from (3) has no deep dive, and the detail panel says so — but it
+ * still carries a live price and a role, and plotting it is the difference
+ * between a map of the chain and a map of the names we happen to have
+ * written up. */
+function useMergedStages(baseStages: ChainStage[]): ChainStage[] {
+  return useMemo(() => {
+    /* One ticker, one column. The set is global rather than per stage: some
+     * names genuinely belong to two layers — Broadcom sells interconnect and
+     * custom accelerators — and plotting them twice makes the map look like
+     * it has more coverage than it does. First placement wins, and the
+     * sources are walked most-curated first. */
+    const placed = new Set<string>()
+    baseStages.forEach((st) => st.items.forEach((it) => placed.add(it.t)))
+
+    const withExtra = baseStages.map((st) => {
+      const items: ChainItem[] = [...st.items]
+      for (const t of CHAIN_EXTRA[st.k] ?? []) {
+        if (placed.has(t) || !companies[t]) continue
+        placed.add(t)
+        items.push({ t, name: companies[t].name, role: companies[t].tagline })
+      }
+      return { ...st, items }
+    })
+
+    const fromDossier = dossierNodes()
+    return withExtra.map((st) => {
+      const items = [...st.items]
+      for (const n of fromDossier) {
+        if (n.stage !== st.k || placed.has(n.t)) continue
+        placed.add(n.t)
+        // Prefer the deep dive's own words where we have one.
+        const c = companies[n.t]
+        items.push({ t: n.t, name: c?.name ?? n.name, role: c?.tagline ?? n.role })
+      }
+      return { ...st, items }
+    })
+  }, [baseStages])
+}
+
+function keyMetric(ticker: string, pattern: RegExp): string | null {
+  const c = companies[ticker]
+  if (!c) return null
+  const m = c.valuation.metrics.find((mm) => pattern.test(mm.label))
+  return m?.values[0] ?? null
+}
+
+
+type SizeMode = 'cap' | 'share' | 'flat'
+
+
+/** Per-ticker sizing inputs, derived from the researched market caps.
+ *  `share` is the true fraction (shown as a %); `shareNorm` rescales it so the
+ *  leader of each layer fills the bubble — that's what makes "who dominates
+ *  this layer" legible layer by layer, which raw shares (rarely above ~0.4)
+ *  do not. Only ever used for sizing, never displayed as a number. */
+type CapInfo = { usd: number | null; share: number | null; shareNorm: number | null }
+
+function useCapData(stages: ChainStage[]) {
+  return useMemo(() => {
+    const byTicker = new Map<string, CapInfo>()
+    let maxUsd = 0
+
+    // 1. Resolve a USD market cap per ticker (null where we have no figure —
+    //    private companies like OpenAI, and tickers with no deep dive yet).
+    const perStage = stages.map((st) =>
+      st.items.map((it) => {
+        const co = companies[it.t]
+        const usd = co ? parseMarketCapUsd(keyMetric(it.t, /market cap/i), currencyOf(it.t)) : null
+        if (usd != null) maxUsd = Math.max(maxUsd, usd)
+        return { ticker: it.t, usd }
+      })
+    )
+
+    // 2. Share of each stage's *covered* market cap. This is share of the
+    //    names this site tracks in that layer — not true industry market
+    //    share, which we have no data for. Labelled as such in the UI.
+    perStage.forEach((row) => {
+      const total = row.reduce((sum, r) => sum + (r.usd ?? 0), 0)
+      const maxInStage = row.reduce((m, r) => Math.max(m, r.usd ?? 0), 0)
+      row.forEach((r) => {
+        const share = r.usd != null && total > 0 ? r.usd / total : null
+        byTicker.set(r.ticker, {
+          usd: r.usd,
+          share,
+          shareNorm: r.usd != null && maxInStage > 0 ? r.usd / maxInStage : null,
+        })
+      })
+    })
+
+    return { byTicker, maxUsd }
+  }, [stages])
+}
+
 export default function AiValueChain() {
   const { t } = useLang()
   const c = t.chain
-  const stages = c.stages as ChainStage[]
+  const stages = useMergedStages(c.stages as ChainStage[])
   const [mode, setMode] = useState<'explore' | 'flow'>('explore')
-  const [sel, setSel] = useState<Sel>({ s: 3, i: 0 }) // NVDA by default
+  const [sel, setSel] = useState<Sel>({ s: 3, i: 1 }) // AMD by default — has a deep dive on file, unlike NVDA
+  const [hover, setHover] = useState<Sel | null>(null)
 
   const selStage = stages[sel.s]
   const selItem = selStage.items[sel.i]
+  const selCompany = companies[selItem.t]
+  const price = keyMetric(selItem.t, /^price|^share price/i)
+  const marketCap = keyMetric(selItem.t, /market cap/i)
+  const [sizeMode, setSizeMode] = useState<SizeMode>('cap')
+  const { byTicker, maxUsd } = useCapData(stages)
+  const selCap = byTicker.get(selItem.t)
+  /* Every node on the map, so each one can carry today's move as a ring —
+   * not just the selected one. Market cap stays on the researched snapshot;
+   * the quotes endpoint carries price only. */
+  const allTickers = useMemo(() => [...new Set(stages.flatMap((st) => st.items.map((i) => i.t)))], [stages])
+  const { quotes } = useLiveQuotes(allTickers)
+  const liveQuote = quotes[selItem.t]
 
   return (
     <>
       <PageHero code={c.hero.code} title={c.hero.title} serif={c.hero.serif} desc={c.hero.desc} />
 
-      {/* ===== MATRIX ===== */}
+      {/* ===== CONSTELLATION ===== */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
           <SectionHead
-            index="MATRIX"
+            index="MAP"
             label={c.hint}
             right={
               <div className="flex gap-2">
@@ -50,7 +169,7 @@ export default function AiValueChain() {
                     key={m}
                     onClick={() => setMode(m)}
                     className={cn(
-                      'border px-4 py-1.5 font-mono-lab text-[9px] tracking-[0.25em] transition-all duration-300',
+                      'border px-4 py-1.5 font-mono-lab text-[10.5px] tracking-[0.25em] transition-all duration-300',
                       mode === m ? 'border-signal bg-signal text-[#0c0e12]' : 'border-line text-dim hover:text-foreground'
                     )}
                   >
@@ -61,121 +180,167 @@ export default function AiValueChain() {
             }
           />
 
+          {/* bubble-size encoding control */}
           <Reveal>
-            <div className={cn('overflow-x-auto pb-4', mode === 'flow' && 'chain-flow')} dir="ltr">
-              <div className="flex min-w-max items-stretch gap-0">
-                {stages.map((st, si) => {
-                  const isSel = sel.s === si
-                  const isUpstream = si < sel.s
-                  return (
-                    <div key={st.k} className="flex items-stretch">
-                      {/* connector */}
-                      {si > 0 && (
-                        <div className="flex w-8 shrink-0 items-center justify-center self-center">
-                          <span
-                            className={cn(
-                              'font-mono-lab text-lg transition-colors duration-500 rtl:rotate-180',
-                              isUpstream || isSel ? 'text-signal' : 'text-faint'
-                            )}
-                          >
-                            →
-                          </span>
-                        </div>
-                      )}
-                      {/* stage column */}
-                      <div
-                        className={cn(
-                          'w-[248px] shrink-0 border transition-all duration-500',
-                          isSel ? 'border-signal bg-panel' : 'border-line bg-card2',
-                          mode === 'explore' && !isSel && si !== sel.s && 'hover:border-line-hover'
-                        )}
-                      >
-                        {/* header */}
-                        <div
-                          className={cn(
-                            'border-b border-line p-4',
-                            mode === 'flow' && 'flow-node'
-                          )}
-                          style={mode === 'flow' ? { animationDelay: `${si * 0.35}s` } : undefined}
-                        >
-                          <div className="flex items-baseline justify-between">
-                            <span className="font-mono-lab text-[9px] tracking-[0.3em] text-signal">{st.n}</span>
-                            <span className="font-mono-lab text-[8px] tracking-[0.2em] text-faint">{st.items.length}</span>
-                          </div>
-                          <div className="mt-2 font-mono-lab text-[11px] tracking-[0.14em] text-foreground">{st.k}</div>
-                          <div className="mt-1 text-[13px] font-light tracking-tight text-foreground/85">{st.name}</div>
-                        </div>
-                        {/* tickers */}
-                        <div className="flex flex-col">
-                          {st.items.map((it, ii) => {
-                            const active = isSel && sel.i === ii
-                            return (
-                              <button
-                                key={it.t}
-                                onClick={() => { setSel({ s: si, i: ii }); setMode('explore') }}
-                                className={cn(
-                                  'group flex items-baseline justify-between gap-3 border-b border-line/50 px-4 py-3 text-start transition-colors last:border-0',
-                                  active ? 'bg-signal/[0.08]' : 'hover:bg-[var(--hover-bg)]'
-                                )}
-                              >
-                                <span>
-                                  <span className={cn('block font-mono-lab text-[11px] tracking-wider', active ? 'text-signal' : 'text-foreground/90 group-hover:text-signal')}>
-                                    {it.t}
-                                  </span>
-                                  <span className="mt-0.5 block text-[11px] font-light text-dim">{it.name}</span>
-                                </span>
-                                {it.priv && (
-                                  <span className="shrink-0 border border-line px-1.5 py-0.5 font-mono-lab text-[7.5px] tracking-[0.2em] text-warn">
-                                    {c.legend.private}
-                                  </span>
-                                )}
-                              </button>
-                            )
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })}
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-line border-b-0 bg-panel px-4 py-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-mono-lab text-[10.5px] tracking-[0.25em] text-faint">{c.sizing.label}</span>
+                {(['cap', 'share', 'flat'] as const).map((m) => (
+                  <button
+                    key={m}
+                    onClick={() => setSizeMode(m)}
+                    className={cn(
+                      'border px-3 py-1.5 font-mono-lab text-[10.5px] tracking-[0.18em] transition-all duration-300',
+                      sizeMode === m ? 'border-signal text-signal' : 'border-line text-dim hover:text-foreground'
+                    )}
+                  >
+                    {c.sizing.modes[m]}
+                  </button>
+                ))}
               </div>
+              <div className="flex items-center gap-4 font-mono-lab text-[10.5px] tracking-wider text-faint">
+                {sizeMode !== 'flat' && (
+                  <span className="flex items-center gap-1.5">
+                    <svg width="34" height="16" aria-hidden="true">
+                      <circle cx="5" cy="8" r="3" fill="var(--card2)" stroke="var(--line-hover)" strokeWidth="1.2" />
+                      <circle cx="22" cy="8" r="7" fill="var(--card2)" stroke="var(--line-hover)" strokeWidth="1.2" />
+                    </svg>
+                    {c.sizing.legendArea}
+                  </span>
+                )}
+                <span className="flex items-center gap-1.5">
+                  <svg width="14" height="14" aria-hidden="true">
+                    <circle cx="7" cy="7" r="5" fill="none" stroke="var(--line)" strokeWidth="1.2" strokeDasharray="2 2" />
+                  </svg>
+                  {c.sizing.legendNoData}
+                </span>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="overflow-x-auto border border-line bg-panel" dir="ltr">
+              <ChainFlow
+                stages={stages}
+                sel={sel}
+                setSel={setSel}
+                hover={hover}
+                setHover={setHover}
+                sizeMode={sizeMode}
+                byTicker={byTicker}
+                maxUsd={maxUsd}
+                quotes={quotes}
+                flowing={mode === 'flow'}
+                hasDive={(t) => !!companies[t]}
+                label={c.hint}
+              />
             </div>
           </Reveal>
 
           {/* ===== DETAIL PANEL ===== */}
           <Reveal delay={120}>
             <div className="mt-8 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-12">
-              <div className="bg-panel p-7 md:col-span-4 md:p-9">
-                <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.detail.stage}</div>
+              <div className="bg-panel p-7 md:col-span-3 md:p-9">
+                <div className="font-mono-lab text-[10.5px] tracking-[0.3em] text-faint">{c.detail.stage}</div>
                 <div className="mt-3 flex items-baseline gap-3">
-                  <span className="font-mono-lab text-[10px] text-signal" dir="ltr">{selStage.n}</span>
+                  <span className="font-mono-lab text-[11.5px] text-signal" dir="ltr">{selStage.n}</span>
                   <span className="text-lg font-light tracking-tight">{selStage.name}</span>
                 </div>
-                <p className="mt-4 font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{selStage.desc}</p>
+                <p className="mt-4 font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{selStage.desc}</p>
               </div>
-              <div className="bg-panel p-7 md:col-span-5 md:p-9">
+              <div className="bg-panel p-7 md:col-span-6 md:p-9">
                 <div className="flex items-baseline justify-between gap-4">
-                  <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.detail.role}</div>
-                  <span className="border border-line px-2 py-0.5 font-mono-lab text-[8px] tracking-[0.2em] text-dim" dir="ltr">
-                    {selItem.priv ? c.legend.private : c.legend.listed}
-                  </span>
+                  <div className="font-mono-lab text-[10.5px] tracking-[0.3em] text-faint">{c.detail.role}</div>
+                  <div className="flex items-center gap-2">
+                    <span className="border border-line px-2 py-0.5 font-mono-lab text-[9.5px] tracking-[0.2em] text-dim" dir="ltr">
+                      {countryOf(selItem.t)}
+                    </span>
+                    <span className="border border-line px-2 py-0.5 font-mono-lab text-[9.5px] tracking-[0.2em] text-dim" dir="ltr">
+                      {selItem.priv ? c.legend.private : c.legend.listed}
+                    </span>
+                  </div>
                 </div>
                 <div className="mt-3 flex flex-wrap items-baseline gap-x-4">
                   <span className="font-mono-lab text-2xl tracking-tight text-signal" dir="ltr">{selItem.t}</span>
                   <span className="text-xl font-light tracking-tight">{selItem.name}</span>
                 </div>
-                <p className="mt-4 font-mono-lab text-[12px] leading-6 tracking-wide text-foreground/80">{selItem.role}</p>
+                <p className="mt-4 font-mono-lab text-[13px] leading-6 tracking-wide text-foreground/80">{selItem.role}</p>
+                {selCompany && (price || marketCap) && (
+                  <div className="mt-5 flex flex-wrap gap-6 border-t border-line pt-4">
+                    {(price || liveQuote) && (
+                      <div>
+                        <div className="font-mono-lab text-[9.5px] tracking-[0.2em] text-faint">
+                          PRICE {liveQuote && <span className="text-signal">· LIVE</span>}
+                        </div>
+                        <div className="mt-1 font-mono-lab text-sm tabular-nums text-foreground" dir="ltr">
+                          {liveQuote ? formatMoney(liveQuote.price, liveQuote.currency ?? currencyOf(selItem.t)) : price}
+                          {liveQuote?.changePercent != null && (
+                            <span className={cn('ms-1.5 text-[12.5px]', liveQuote.changePercent >= 0 ? 'text-signal' : 'text-danger')}>
+                              {liveQuote.changePercent >= 0 ? '+' : ''}{liveQuote.changePercent.toFixed(2)}%
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {marketCap && (
+                      <div>
+                        <div className="font-mono-lab text-[9.5px] tracking-[0.2em] text-faint">MARKET CAP</div>
+                        <div
+                          className="mt-1 font-mono-lab text-sm tabular-nums text-foreground"
+                          dir="ltr"
+                          title={selCompany ? `Researched snapshot as of ${selCompany.asOf} — not live` : undefined}
+                        >
+                          {marketCap}
+                        </div>
+                      </div>
+                    )}
+                    {selCap?.share != null && (
+                      <div>
+                        <div className="font-mono-lab text-[9.5px] tracking-[0.2em] text-faint">{c.sizing.shareLabel}</div>
+                        <div className="mt-1 flex items-baseline gap-2" dir="ltr">
+                          <span className="font-mono-lab text-sm tabular-nums text-signal">
+                            {(selCap.share * 100).toFixed(1)}%
+                          </span>
+                          <span className="h-1.5 w-16 bg-track">
+                            <span
+                              className="block h-full bg-signal transition-all duration-700"
+                              style={{ width: `${Math.min(selCap.share * 100, 100)}%` }}
+                            />
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+                <div className="mt-5">
+                  {selCompany ? (
+                    <Link
+                      to={`/companies/${selItem.t}`}
+                      className="inline-flex items-center gap-2 border border-signal/50 px-4 py-2 font-mono-lab text-[11.5px] tracking-[0.2em] text-signal transition-all duration-300 hover:bg-signal hover:text-[#0c0e12]"
+                    >
+                      DEEP DIVE →
+                    </Link>
+                  ) : (
+                    <span className="font-mono-lab text-[11.5px] tracking-[0.2em] text-faint">NO DEEP DIVE ON FILE YET</span>
+                  )}
+                </div>
+                {selCap?.share != null && (
+                  <p className="mt-5 border-t border-line pt-4 font-mono-lab text-[12.5px] leading-6 tracking-wide text-faint">
+                    {c.sizing.shareNote}
+                  </p>
+                )}
               </div>
               <div className="bg-panel p-7 md:col-span-3 md:p-9">
-                <div className="font-mono-lab text-[9px] tracking-[0.3em] text-faint">{c.detail.exposure}</div>
+                <div className="font-mono-lab text-[10.5px] tracking-[0.3em] text-faint">{c.detail.exposure}</div>
                 <div className="mt-4 flex flex-col gap-2">
-                  <div className="flex items-center justify-between font-mono-lab text-[10px] tracking-wider">
+                  <div className="flex items-center justify-between font-mono-lab text-[11.5px] tracking-wider">
                     <span className="text-dim">{c.legend.upstream}</span>
                     <span className="text-signal" dir="ltr">{sel.s === 0 ? '—' : `${sel.s} ${sel.s === 1 ? 'STAGE' : 'STAGES'}`}</span>
                   </div>
                   <div className="h-1 w-full bg-track">
                     <div className="h-full bg-signal/70 transition-all duration-500" style={{ width: `${(sel.s / (stages.length - 1)) * 100}%` }} />
                   </div>
-                  <div className="flex items-center justify-between font-mono-lab text-[10px] tracking-wider">
+                  <div className="flex items-center justify-between font-mono-lab text-[11.5px] tracking-wider">
                     <span className="text-dim">{c.legend.downstream}</span>
                     <span className="text-signal" dir="ltr">
                       {stages.length - 1 - sel.s === 0 ? '—' : `${stages.length - 1 - sel.s} ${stages.length - 1 - sel.s === 1 ? 'STAGE' : 'STAGES'}`}
@@ -186,6 +351,20 @@ export default function AiValueChain() {
                   </div>
                 </div>
               </div>
+            </div>
+          </Reveal>
+
+          {/* ===== DCF SIMULATOR — follows the constellation selection ===== */}
+          <Reveal delay={160}>
+            <div className="mt-4">
+              <DcfSimulator ticker={selItem.t} livePrice={liveQuote?.price ?? null} />
+            </div>
+          </Reveal>
+
+          {/* ===== DOSSIER — the four analytical modules ===== */}
+          <Reveal delay={200}>
+            <div className="mt-4">
+              <ValueChainDossier />
             </div>
           </Reveal>
         </div>
@@ -201,10 +380,10 @@ export default function AiValueChain() {
             ))}
           </div>
           <Reveal className="mt-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-            <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{c.picks.note}</p>
+            <p className="font-mono-lab text-[11.5px] leading-6 tracking-wider text-faint">{c.picks.note}</p>
             <Link
               to="/analysis/ideas"
-              className="border border-foreground/30 px-6 py-2.5 font-mono-lab text-[10px] tracking-[0.25em] transition-all duration-300 hover:border-signal hover:bg-signal hover:text-[#0c0e12]"
+              className="border border-foreground/30 px-6 py-2.5 font-mono-lab text-[11.5px] tracking-[0.25em] transition-all duration-300 hover:border-signal hover:bg-signal hover:text-[#0c0e12]"
             >
               {t.nav.sub.ideas.label} →
             </Link>

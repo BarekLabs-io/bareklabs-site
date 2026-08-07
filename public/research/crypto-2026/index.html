@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAREK / LABS - Terminal de Recherche v0.4</title>
+    <!-- BAREK LABS: Chart.js vendored locally (chart.js 4.5.1, MIT) instead of a
+         CDN so the report renders with no third-party runtime dependency. -->
+    <script src="vendor/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --panel-bg: #161b22;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-green: #2ea043;
+            --accent-green-bright: #3fb950;
+            --accent-red: #f85149;
+            --barek-green: #00ff88;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Terminal Grid Background */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+        }
+
+        /* Background Chart Canvas */
+        #bgChart {
+            position: fixed;
+            top: 15%; left: 0; width: 100vw; height: 80vh;
+            z-index: -1;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* Top Header */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            font-size: 24px;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+        .brand strong { font-weight: 800; }
+        .brand span.slash { color: var(--barek-green); margin: 0 5px; }
+        .brand span.light { font-weight: 300; color: var(--text-muted); }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .nav-menu div:hover { color: #fff; cursor: pointer; }
+
+        .system-status {
+            display: flex;
+            gap: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            align-items: center;
+        }
+        .status-indicator {
+            color: var(--barek-green);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .dot {
+            width: 6px; height: 6px;
+            background-color: var(--barek-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--barek-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* Ticker Bar */
+        .ticker-wrapper {
+            background: #06090f;
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .ticker-content {
+            display: inline-flex;
+            gap: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            animation: ticker 40s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(10%); }
+            100% { transform: translateX(-100%); }
+        }
+        .ticker-item span.up { color: var(--accent-green-bright); }
+        .ticker-item span.down { color: var(--accent-red); }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px;
+            gap: 40px;
+        }
+
+        .content-area {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        /* Hero Section */
+        .hero-tag {
+            color: var(--barek-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .hero-title {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #fff;
+            margin: 0 0 30px 0;
+            letter-spacing: -1px;
+        }
+        .hero-title span {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+        }
+        .hero-subtitle {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin-bottom: 50px;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        /* Sections */
+        .section-box {
+            background: rgba(22, 27, 34, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+        }
+        .section-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .section-header::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 20px;
+            background: var(--barek-green);
+        }
+        p { line-height: 1.7; margin-bottom: 15px; font-size: 15px; }
+        
+        /* Sidebar / Watchlist */
+        .sidebar {
+            width: 380px;
+            flex-shrink: 0;
+        }
+        .panel {
+            background: rgba(13, 17, 23, 0.9);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .panel-header {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        .watchlist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+        .watchlist-item:last-child { border-bottom: none; }
+        .wl-asset { color: #fff; font-weight: 600; width: 60px; }
+        .wl-price { color: var(--text-main); flex: 1; text-align: right; margin-right: 20px; }
+        .wl-change { font-weight: 600; text-align: right; width: 60px; }
+        .wl-change.up { color: var(--accent-green-bright); }
+        .wl-change.down { color: var(--accent-red); }
+
+        /* Data Tables inside sections */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+        .data-table th, .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .data-table th {
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .data-table td { color: #fff; }
+
+        .px-provenance {
+            font-size: 11px; line-height: 1.6; color: #8892a4;
+            border-left: 2px solid var(--border-color); padding-left: 12px; margin: 14px 0 18px;
+        }
+        .live-px[data-empty="1"], .live-chg[data-empty="1"] { color: #6b7488; }
+        .live-chg.up { color: var(--barek-green); }
+        .live-chg.down { color: #ff5c5c; }
+        .px-asof { font-size: 10px; color: #6b7488; font-family: 'JetBrains Mono', monospace; }
+
+        .editor-note {
+            font-size: 11.5px; line-height: 1.7; color: #9aa4b8;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color); border-left: 2px solid var(--barek-green);
+            padding: 14px 16px; margin-bottom: 22px;
+        }
+        .editor-note strong { color: #fff; }
+        .asset-tag {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--barek-green);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg"></div>
+    <canvas id="bgChart"></canvas>
+
+
+
+    <div class="container">
+        <div class="content-area">
+            <div class="hero-tag">
+                <div class="dot"></div> DEEP DIVE &middot; CRYPTO &middot; 2026
+            </div>
+            <h1 class="hero-title">LA CRYPTO<br><span>EN 2026.</span></h1>
+            <div class="hero-subtitle">
+                O&Ugrave; EN EST LE CYCLE, CE QUI A CHANG&Eacute; DEPUIS LE HALVING, ET CE QUE L'ADOPTION
+                INSTITUTIONNELLE FAIT R&Eacute;ELLEMENT AUX PRIX &mdash; MACRO, INFRASTRUCTURE ET HORIZON 2027-2030.
+            </div>
+
+            <div class="section-box">
+                <div class="editor-note"><strong>Méthode —</strong> les prix de ce document sont tirés en direct du flux de cotation (différé de 15 à 20 minutes) et ne sont pas figés dans la page. Les commentaires stratégiques en regard datent du 6&nbsp;août&nbsp;2026 et ne se mettent pas à jour avec le prix : ils décrivent les niveaux de cette date. Les chiffres sectoriels cités sont ceux qui circulent sur le marché au moment de la rédaction.</div>
+                <div class="section-header">1. Macro-Environnement & Architecture de Marché</div>
+                <p>Le cycle mécanique dicté par le halving explique de moins en moins le comportement du marché. C'est une lecture, pas un fait acquis, et elle reste discutée. En 2026, la dynamique nous paraît davantage portée par l'adoption structurelle et la liquidité institutionnelle — ce que certains acteurs regroupent sous le terme de Digital Asset Treasuries (DAT).</p>
+                <p>L'affrontement infrastructurel se durcit : les grands consortiums bancaires déploient des réseaux de dépôts tokenisés, transformant l'espace de bloc (block space) en une matière première stratégique primordiale.</p>
+            </div>
+
+            <div class="section-box">
+                <div class="section-header">2. Horizon Technologique 2027-2030</div>
+                <p>L'infrastructure Web3 se prépare à l'intégration massive de l'Intelligence Artificielle et à la transition post-quantique :</p>
+                <ul>
+                    <li style="margin-bottom: 10px;"><strong>Paiements Agentiques (IA x Crypto) :</strong> Hypothèse de travail, et non prévision chiffrée : une part croissante des transactions on-chain pourrait, d'ici 2030, être générée par des agents IA autonomes (A2A — Agent-to-Agent) achetant puissance de calcul ou données via des micro-transactions. Aucune source publique ne permet aujourd'hui d'en fixer la proportion.</li>
+                    <li style="margin-bottom: 10px;"><strong>App-chains :</strong> Le modèle monolithique cède la place à un "réseau de réseaux" souverains, isolant le risque et maximisant les performances pour des cas d'usage industriels.</li>
+                    <li><strong>ZKP & FHE :</strong> Les preuves à divulgation nulle s'imposent sur la confidentialité et le passage à l'échelle ; le chiffrement totalement homomorphe, fondé sur les réseaux euclidiens, figure parmi les candidats post-quantiques. Les deux ne traitent pas le même problème : la plupart des ZKP à couplages reposent sur les courbes elliptiques, que l'algorithme de Shor casserait — ils ne constituent pas en soi une réponse à la menace quantique.</li>
+                </ul>
+            </div>
+
+            <div class="section-box" style="position: relative; overflow: hidden;">
+                <div class="section-header">3. Price Action, Momentum & Signaux Clés (Live)</div>
+                <p>Actualisation de l'état des marchés. Le Bitcoin pousse vers de nouveaux sommets historiques, tractant un écosystème altcoin hautement sélectif où la valorisation suit les fondamentaux d'infrastructure.</p>
+                <p class="px-provenance">Les prix ci-dessous sont tirés en direct du flux de cotation du site (délai de 15&nbsp;à&nbsp;20&nbsp;minutes) et affichent un tiret tant qu'aucune cotation n'est revenue&nbsp;; ils ne sont pas figés dans le document. L'analyse en regard, elle, a été rédigée le 6&nbsp;août&nbsp;2026 : elle commente les niveaux de cette date et ne se met pas à jour avec le prix.</p>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Actif</th>
+                            <th>Prix Actuel</th>
+                            <th>Analyse Stratégique <strong>BAREK</strong> / LABS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="asset-tag">BTC</span></td>
+                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);"><span class="live-px" data-symbol="BTC-USD">—</span></td>
+                            <td>Approche de la barrière psychologique des 100k. L'absorption institutionnelle assèche l'offre OTC. Le marché de détail est désormais minoritaire dans la formation des prix.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="asset-tag">ETH</span></td>
+                            <td style="font-family: 'JetBrains Mono';"><span class="live-px" data-symbol="ETH-USD">—</span></td>
+                            <td>Phase de consolidation technique. Subit la rotation des capitaux vers les L2 et Solana, mais conserve son statut de couche de règlement la plus sécurisée pour la TradFi.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="asset-tag">TAO</span></td>
+                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);"><span class="live-px" data-symbol="TAO22974-USD">—</span></td>
+                            <td>Thèse de l'IA décentralisée : le réseau reste la référence de ce segment, porté par l'adoption de clusters d'entreprise. Momentum structurel, que nous suivons sans le modéliser à ce stade.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="asset-tag">ICP</span></td>
+                            <td style="font-family: 'JetBrains Mono';"><span class="live-px" data-symbol="ICP-USD">—</span></td>
+                            <td>Résilience et re-tarification à la hausse, avec un rejet net des zones basses précédentes. Le marché attribue le mouvement au positionnement cloud souverain du protocole ; nous retenons la dynamique de prix, pas encore la causalité.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="asset-tag">ZEC</span></td>
+                            <td style="font-family: 'JetBrains Mono'; color: var(--barek-green);"><span class="live-px" data-symbol="ZEC-USD">—</span></td>
+                            <td>La rareté de l'actif combinée au nouveau narratif institutionnel "Privacy & ZKP" maintient une pression acheteuse continue sur cet actif historiquement volatil.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="text-align: right; margin-top: 50px;">
+                 <a href="#" style="border: 1px solid var(--border-color); padding: 15px 30px; color: #fff; text-decoration: none; font-family: 'JetBrains Mono'; font-size: 12px; display: inline-block;">ENTRER DANS LE LABO →</a>
+            </div>
+
+        </div>
+
+        <div class="sidebar">
+            <div class="panel">
+                <div class="panel-header">
+                    <span style="color:var(--barek-green)">● LISTE DE SUIVI</span>
+                    <span>PRINCIPAUX</span>
+                </div>
+                
+                <div class="watchlist-item">
+                    <span class="wl-asset">BTC</span>
+                    <span class="wl-price live-px" data-symbol="BTC-USD">—</span><span class="wl-change live-chg" data-symbol="BTC-USD">—</span>
+                </div>
+                <div class="watchlist-item">
+                    <span class="wl-asset">ETH</span>
+                    <span class="wl-price live-px" data-symbol="ETH-USD">—</span><span class="wl-change live-chg" data-symbol="ETH-USD">—</span>
+                </div>
+                <div class="watchlist-item">
+                    <span class="wl-asset">SOL</span>
+                    <span class="wl-price live-px" data-symbol="SOL-USD">—</span><span class="wl-change live-chg" data-symbol="SOL-USD">—</span>
+                </div>
+                <div class="watchlist-item">
+                    <span class="wl-asset">TAO</span>
+                    <span class="wl-price live-px" data-symbol="TAO22974-USD">—</span><span class="wl-change live-chg" data-symbol="TAO22974-USD">—</span>
+                </div>
+                <div class="watchlist-item">
+                    <span class="wl-asset">ICP</span>
+                    <span class="wl-price live-px" data-symbol="ICP-USD">—</span><span class="wl-change live-chg" data-symbol="ICP-USD">—</span>
+                </div>
+                <div class="watchlist-item">
+                    <span class="wl-asset">ZEC</span>
+                    <span class="wl-price live-px" data-symbol="ZEC-USD">—</span><span class="wl-change live-chg" data-symbol="ZEC-USD">—</span>
+                </div>
+                <div class="watchlist-item" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                    <span class="wl-asset">S&P 500</span>
+                    <span class="wl-price live-px" data-symbol="^GSPC">—</span><span class="wl-change live-chg" data-symbol="^GSPC">—</span>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span>SOUK SIGNAL</span>
+                    <span>→</span>
+                </div>
+                <p style="font-family: 'JetBrains Mono'; font-size: 11px; margin: 0; color: var(--text-main);">La lecture composite du jour →</p>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">DEPUIS LE LABO</div>
+                <ul style="padding-left: 15px; font-family: 'JetBrains Mono'; font-size: 11px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+                    <li style="margin-bottom: 10px;">La nouvelle économie spatiale : SPCX, RKLB, ASTS — reprix en public</li>
+                    <li style="margin-bottom: 10px;">Souk Signal : la lecture composite du jour sur les marchés régionaux</li>
+                    <li>68 entreprises, un seul screener — valorisation et risque en un coup d'œil</li>
+                </ul>
+            </div>
+            
+            <!-- Mini Live Chart Simulation for Side Panel -->
+            <div class="panel" style="padding: 10px; height: 150px;">
+                <canvas id="miniChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* BAREK LABS: the clock drove a header that this report no longer
+           carries (the site's own header sits above it), so it only runs if
+           those elements are actually present. */
+        function updateTime() {
+            const cas = document.getElementById('time-cas');
+            const utc = document.getElementById('time-utc');
+            if (!cas || !utc) return;
+            const now = new Date();
+            cas.innerText = now.toLocaleTimeString('fr-FR', { hour12: false });
+            utc.innerText = now.toLocaleTimeString('en-GB', { timeZone: 'UTC', hour12: false });
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Background Immersive Chart
+        const ctxBg = document.getElementById('bgChart').getContext('2d');
+        const bgData = Array.from({length: 100}, () => Math.random() * 50 + 50);
+        new Chart(ctxBg, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 100}, (_, i) => i),
+                datasets: [{
+                    data: bgData,
+                    borderColor: '#00ff88',
+                    borderWidth: 1,
+                    tension: 0.4,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 0 },
+                scales: {
+                    x: { display: false },
+                    y: { display: false, min: 0, max: 150 }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Mini Sidebar Chart Simulation
+        const ctxMini = document.getElementById('miniChart').getContext('2d');
+        const miniData = [95000, 95500, 94800, 96000, 96500, 97000, 96800, 97200, 97507];
+        new Chart(ctxMini, {
+            type: 'line',
+            data: {
+                labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+                datasets: [{
+                    data: miniData,
+                    borderColor: '#00ff88',
+                    backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { display: false },
+                    y: { display: false }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            }
+        });
+    </script>
+
+<script>
+/* The document ships with no prices in it. Every figure is fetched from the
+   site's own quote proxy at read time, so the report cannot go stale in the
+   way a number typed into the HTML does. A symbol the feed has nothing for
+   stays a dash — it is never back-filled with the last thing we saw. */
+(function () {
+  var nodes = document.querySelectorAll('.live-px, .live-chg');
+  if (!nodes.length) return;
+  var symbols = Array.from(new Set(Array.from(nodes).map(function (n) { return n.dataset.symbol; })));
+
+  function level(v) {
+    var d = Math.abs(v) >= 10000 ? 0 : 2;
+    return v.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+  }
+
+  function paint(quotes) {
+    nodes.forEach(function (n) {
+      var q = quotes[n.dataset.symbol];
+      var isChange = n.classList.contains('live-chg');
+      if (!q || (isChange && q.changePercent == null)) {
+        n.textContent = '—';
+        n.dataset.empty = '1';
+        n.classList.remove('up', 'down');
+        return;
+      }
+      delete n.dataset.empty;
+      if (isChange) {
+        var p = q.changePercent;
+        n.textContent = (p >= 0 ? '+' : '') + p.toFixed(2) + '%';
+        n.classList.toggle('up', p >= 0);
+        n.classList.toggle('down', p < 0);
+      } else {
+        // the table cells carry a currency suffix, the sidebar ones do not
+        n.textContent = level(q.price) + (n.classList.contains('wl-price') ? '' : ' $');
+      }
+    });
+  }
+
+  function load() {
+    fetch('/api/quotes?symbols=' + encodeURIComponent(symbols.join(',')))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d && d.quotes) paint(d.quotes); })
+      .catch(function () { /* leave the dashes in place */ });
+  }
+  load();
+  setInterval(load, 90000);
+})();
+</script>
+</body>
+</html>

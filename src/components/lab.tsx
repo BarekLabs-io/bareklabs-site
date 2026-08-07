@@ -248,18 +248,3 @@ export function useSpotlight<T extends HTMLElement>() {
 }
 
 /* Live-updating mock price (ticks every ~1.4s) */
-export function useLivePrice(base: number, vol = 0.004) {
-  const [price, setPrice] = useState(base)
-  const [dir, setDir] = useState<1 | -1>(1)
-  useEffect(() => {
-    const id = setInterval(() => {
-      setPrice((p) => {
-        const d = (Math.random() - 0.48) * base * vol
-        setDir(d >= 0 ? 1 : -1)
-        return +(p + d).toFixed(2)
-      })
-    }, 1400)
-    return () => clearInterval(id)
-  }, [base, vol])
-  return { price, dir }
-}

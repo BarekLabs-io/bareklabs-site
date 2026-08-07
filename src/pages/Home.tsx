@@ -1,21 +1,33 @@
 import { Link } from 'react-router'
-import { MarketCanvas, Reveal, useLivePrice, useSpotlight } from '@/components/lab'
-import { SectionHead, TICKER_ITEMS } from '@/components/Layout'
+import { MarketCanvas, Reveal, useSpotlight } from '@/components/lab'
+import { WorldMap } from '@/components/WorldMap'
+import { LiveDesk } from '@/components/LiveDesk'
+import { SectionHead } from '@/components/Layout'
+import { useMarketQuotes } from '@/lib/marketQuotes'
+import { TAPE_INSTRUMENTS, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
+import { BrandMark } from '@/components/Brand'
 import { useLang } from '@/i18n/LanguageContext'
 
 function Ticker() {
-  const items = [...TICKER_ITEMS, ...TICKER_ITEMS]
+  const { quotes } = useMarketQuotes()
+  const items = [...TAPE_INSTRUMENTS, ...TAPE_INSTRUMENTS]
   return (
     <div className="overflow-hidden border-y border-line bg-ticker">
       <div className="ticker-track flex w-max items-center py-2.5">
-        {items.map((it, i) => (
-          <div key={i} className="flex items-center gap-3 px-6 font-mono-lab text-[11px] tracking-wider" dir="ltr">
-            <span className="text-dim">{it.s}</span>
-            <span className="text-foreground">{it.v}</span>
-            <span className={it.up ? 'text-signal' : 'text-danger'}>{it.d}</span>
-            <span className="ms-3 text-faint">·</span>
-          </div>
-        ))}
+        {items.map((it, i) => {
+          const q = quotes[it.symbol]
+          const up = q?.changePercent != null ? q.changePercent >= 0 : null
+          return (
+            <div key={i} className="flex items-center gap-3 px-6 font-mono-lab text-[11px] tracking-wider" dir="ltr">
+              <span className="text-dim">{it.s}</span>
+              <span className="text-foreground">{q ? formatLevel(q.price) : NO_VALUE}</span>
+              <span className={up == null ? 'text-faint' : up ? 'text-signal' : 'text-danger'}>
+                {q?.changePercent != null ? formatChange(q.changePercent) : NO_VALUE}
+              </span>
+              <span className="ms-3 text-faint">·</span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -50,12 +62,22 @@ function ModuleCard({ mod, to, i }: { mod: { code: string; name: string; desc: s
   )
 }
 
-function LiveQuote() {
-  const { price, dir } = useLivePrice(4213.86, 0.002)
+/* Was a "BVX COMP" index at a hardcoded 4,213.86 with a random walk on top.
+ * No such index exists — we publish no composite — so it is replaced by a
+ * real quoted instrument, and shows a dash until the feed answers. */
+const HERO_INSTRUMENT = TAPE_INSTRUMENTS.find((i) => i.s === 'NASDAQ')!
+
+function HeroQuote() {
+  const { quotes } = useMarketQuotes()
+  const q = quotes[HERO_INSTRUMENT.symbol]
+  const up = q?.changePercent != null ? q.changePercent >= 0 : null
   return (
-    <span className={dir > 0 ? 'text-signal' : 'text-danger'}>
-      {price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-    </span>
+    <>
+      {HERO_INSTRUMENT.s}{' '}
+      <span className={up == null ? 'text-faint' : up ? 'text-signal' : 'text-danger'}>
+        {q ? formatLevel(q.price) : NO_VALUE}
+      </span>
+    </>
   )
 }
 
@@ -73,12 +95,12 @@ export default function Home() {
         <div className="scanline" />
         <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-end px-5 pb-14 pt-44 md:px-10 md:pt-48">
           <Reveal>
-            <div className="mb-6 flex items-center gap-3 font-mono-lab text-[10px] tracking-[0.3em] text-foreground/85">
+            <div className="mb-6 flex items-center gap-3 font-mono-lab text-sm font-medium tracking-[0.25em] text-foreground/85">
               <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
-              {t.home.tag}
+              <BrandMark /> <span>/ {t.home.tagSuffix}</span>
             </div>
           </Reveal>
-          <h1 className="pointer-events-auto select-none text-[10vw] font-semibold leading-[0.9] tracking-[-0.03em] md:text-[6.5vw]">
+          <h1 className="pointer-events-auto select-none text-4xl font-semibold leading-[0.95] tracking-[-0.02em] sm:text-5xl md:text-6xl lg:text-7xl">
             <Reveal delay={80}>
               <span className="block">{t.home.hero1}</span>
             </Reveal>
@@ -94,7 +116,7 @@ export default function Home() {
           </h1>
           <Reveal delay={400}>
             <div className="pointer-events-auto mt-8 flex flex-col justify-between gap-6 border-t border-line pt-6 md:flex-row md:items-end">
-              <p className="max-w-md font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{t.home.heroDesc}</p>
+              <p className="max-w-4xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim md:text-[14px] md:leading-7">{t.home.heroDesc}</p>
               <div className="flex items-center gap-6">
                 <Link
                   to="/analysis"
@@ -107,10 +129,18 @@ export default function Home() {
           </Reveal>
         </div>
         {/* corner metadata */}
-        <div className="pointer-events-none absolute end-5 top-24 z-10 hidden font-mono-lab text-[10px] leading-5 tracking-wider text-dim md:end-10 md:block">
-          <div className="flicker" dir="ltr">BVX COMP <LiveQuote /></div>
+        <div className="pointer-events-none absolute end-5 top-24 z-10 hidden font-mono-lab text-[10px] leading-5 tracking-wider text-dim md:end-10 md:block xl:hidden">
+          <div className="flicker" dir="ltr"><HeroQuote /></div>
           <div className="text-faint">{t.home.cornerFeed}</div>
         </div>
+
+        {/* live desk — hidden below xl so it never crowds the hero text */}
+        <Reveal delay={500} className="pointer-events-none absolute end-5 top-32 z-10 hidden w-[300px] xl:block xl:end-10">
+          <div className="mb-3 font-mono-lab text-[10px] leading-5 tracking-wider text-dim" dir="ltr">
+            <span className="flicker"><HeroQuote /></span>
+          </div>
+          <LiveDesk />
+        </Reveal>
       </section>
 
       <Ticker />
@@ -120,8 +150,11 @@ export default function Home() {
         <div className="mx-auto max-w-[1440px] px-5 py-24 md:px-10 md:py-36">
           <div className="grid gap-12 md:grid-cols-12">
             <Reveal className="md:col-span-4">
-              <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">{m.label}</div>
-              <div className="mt-4 whitespace-pre-line font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{m.meta}</div>
+              <div className="font-mono-lab text-[11px] tracking-[0.3em] text-signal">{m.label}</div>
+              <div className="mt-4 whitespace-pre-line font-mono-lab text-[11px] leading-6 tracking-wider text-faint">{m.meta}</div>
+              <div className="relative mt-8 h-60 border border-line bg-card2/40 md:h-72">
+                <WorldMap className="absolute inset-0 h-full w-full" />
+              </div>
             </Reveal>
             <div className="md:col-span-8">
               <Reveal delay={100}>
@@ -132,7 +165,7 @@ export default function Home() {
                 </p>
               </Reveal>
               <Reveal delay={200}>
-                <p className="mt-8 max-w-lg font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{m.sub}</p>
+                <p className="mt-8 max-w-3xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{m.sub}</p>
               </Reveal>
             </div>
           </div>
@@ -214,6 +247,14 @@ export default function Home() {
                 {t.home.cta.secondary}
               </Link>
             </div>
+          </Reveal>
+          <Reveal delay={260}>
+            <Link
+              to="/about#contact"
+              className="mt-8 inline-block font-mono-lab text-[10px] tracking-[0.2em] text-faint transition-colors duration-300 hover:text-signal"
+            >
+              {t.home.cta.advisory}
+            </Link>
           </Reveal>
         </div>
       </section>
