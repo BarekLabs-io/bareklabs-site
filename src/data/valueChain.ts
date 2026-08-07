@@ -31,7 +31,7 @@ export const SEGMENTS: { key: SegmentKey; label: string; note: string }[] = [
   { key: 'cloud', label: 'AI CLOUD & COMPUTE INFRASTRUCTURE', note: 'Neoclouds, GPU rental, integrators' },
   { key: 'power', label: 'POWER & ENERGY FOR AI DATACENTERS', note: 'The other bottleneck' },
   { key: 'space', label: 'SPACE INFRASTRUCTURE', note: 'Launch & satellite systems' },
-  { key: 'adjacent', label: 'ADJACENT / INDIRECT EXPOSURE', note: 'Thin, unconfirmed or pre-transformation AI links — not part of the core chain' },
+  { key: 'adjacent', label: 'OFF THE AI CHAIN', note: 'Covered for its own business, not for an AI link. See the domain label for what it actually does.' },
 ]
 
 export const SEGMENT_OF: Record<string, SegmentKey> = {
@@ -127,6 +127,31 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   ISRG: 'adjacent',
   MTZ: 'adjacent',
   KRKNF: 'adjacent',
+  // Silicon, memory and networking — these were absent from the map and fell
+  // through to the catch-all, which described NVIDIA as having "thin,
+  // unconfirmed AI links". A missing key is not a position.
+  NVDA: 'silicon',
+  TSM: 'silicon',
+  AVGO: 'silicon',
+  ANET: 'silicon',
+  MU: 'memory',
+
+  // Cloud & compute
+  MSFT: 'cloud',
+  GOOGL: 'cloud',
+  META: 'cloud',
+  SMCI: 'cloud',
+  AMZN: 'cloud',
+  DGXX: 'cloud',
+
+  // Power for AI datacenters
+  CEG: 'power',
+  VST: 'power',
+  GEV: 'power',
+
+  // Advanced packaging & test
+  ASX: 'packaging',
+
 }
 
 const COUNTRY_OVERRIDE: Record<string, string> = { ATEYY: 'Japan' }
@@ -232,6 +257,14 @@ export function formatMoney(value: number, currency: string): string {
 export function withCurrency(formatted: string, currency: string): string {
   const symbol = CURRENCY_SYMBOL[currency]
   return symbol ? `${symbol}${formatted}` : `${formatted} ${currency}`
+}
+
+/* Null means the company is not on the AI hardware chain — a statement about
+ * the business, not a gap in the data. Callers should reach for domainOf()
+ * to say what the company is, and use this only to place it on the chain. */
+export function chainSegmentOf(ticker: string): SegmentKey | null {
+  const key = SEGMENT_OF[ticker]
+  return key && key !== 'adjacent' ? key : null
 }
 
 export function segmentOf(ticker: string): SegmentKey {

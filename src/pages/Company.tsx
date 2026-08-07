@@ -5,7 +5,8 @@ import { SectionHead } from '@/components/Layout'
 import { cn } from '@/lib/utils'
 import { companies, type Risk, type ChainRow } from '@/data/companies'
 import { parseMetricValue } from '@/lib/priceSeries'
-import { countryOf, segmentInfoOf, segmentOf } from '@/data/valueChain'
+import { countryOf, chainSegmentOf, segmentInfoOf, segmentOf } from '@/data/valueChain'
+import { domainInfoOf, domainOf } from '@/data/domains'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
 
 const PriceChart = lazy(() => import('@/components/PriceChart'))
@@ -91,8 +92,16 @@ export default function CompanyPage() {
   const marketCapMetric = c.valuation.metrics.find((m) => /^market cap|market cap$/i.test(m.label))
   const country = countryOf(c.ticker)
   const segment = segmentInfoOf(c.ticker)
+  /* Two labels, two jobs: the domain says what the business is, the chain
+   * position says where it sits on the AI hardware chain when it sits there
+   * at all. A name off the chain gets described, not diminished. */
+  const domain = domainInfoOf(c.ticker)
+  const onChain = chainSegmentOf(c.ticker) != null
   const segmentPeers = Object.values(companies)
-    .filter((p) => p.ticker !== c.ticker && segmentOf(p.ticker) === segmentOf(c.ticker))
+    .filter((p) =>
+      p.ticker !== c.ticker &&
+      (onChain ? segmentOf(p.ticker) === segmentOf(c.ticker) : domainOf(p.ticker) === domainOf(c.ticker))
+    )
     .map((p) => p.ticker)
 
   return (
@@ -101,7 +110,7 @@ export default function CompanyPage() {
         <div className="mx-auto max-w-[1440px] px-5 md:px-10">
           <Reveal>
             <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">
-              COMPANY DEEP DIVE — {c.ticker} · {segment.label} · AS OF {c.asOf}
+              COMPANY DEEP DIVE — {c.ticker} · {domain.label} · AS OF {c.asOf}
             </div>
           </Reveal>
           <Reveal delay={60}>
@@ -118,9 +127,19 @@ export default function CompanyPage() {
             <Link
               to="/trade-tracker/screener"
               className="border border-line px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-dim transition-colors hover:border-signal hover:text-signal"
+              title={domain.note}
             >
-              {segment.label}
+              {domain.label}
             </Link>
+            {onChain && (
+              <Link
+                to="/analysis/ai-value-chain"
+                className="border border-signal/40 bg-signal/5 px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-signal transition-colors hover:border-signal"
+                title={segment.note}
+              >
+                AI CHAIN · {segment.label}
+              </Link>
+            )}
             {priceSuspect && drift != null && (
               <span
                 className="border border-warn/50 bg-warn/5 px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-warn"
@@ -172,11 +191,21 @@ export default function CompanyPage() {
       {/* ---- value chain ---- */}
       <section>
         <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
-          <SectionHead index="01" label="Value chain position" right="WHERE THE MONEY FLOWS" />
+          <SectionHead
+            index="01"
+            label={onChain ? 'Value chain position' : 'What this company does'}
+            right={onChain ? 'WHERE THE MONEY FLOWS' : 'SECTOR & ACTIVITY'}
+          />
           <Reveal className="mb-6 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-s-2 border-signal ps-4">
-            <span className="font-mono-lab text-[11px] tracking-[0.2em] text-signal">{segment.label}</span>
-            <span className="font-mono-lab text-[12px] tracking-wide text-dim">{segment.note}</span>
+            <span className="font-mono-lab text-[11px] tracking-[0.2em] text-signal">{domain.label}</span>
+            <span className="font-mono-lab text-[12px] tracking-wide text-dim">{domain.note}</span>
           </Reveal>
+          {onChain && (
+            <Reveal className="mb-6 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-s-2 border-line ps-4">
+              <span className="font-mono-lab text-[11px] tracking-[0.2em] text-dim">AI CHAIN · {segment.label}</span>
+              <span className="font-mono-lab text-[12px] tracking-wide text-faint">{segment.note}</span>
+            </Reveal>
+          )}
           <Reveal>
             <p className="max-w-4xl font-mono-lab text-[16px] leading-6 tracking-wide text-prose">{c.chain.intro}</p>
           </Reveal>
@@ -204,7 +233,7 @@ export default function CompanyPage() {
           </Reveal>
           <div className="mt-8 grid gap-8 md:grid-cols-2">
             <Reveal delay={120}>
-              <div className="font-mono-lab text-[11px] tracking-[0.25em] text-faint">WHERE {c.ticker} DOMINATES</div>
+              <div className="font-mono-lab text-[11px] tracking-[0.25em] text-faint">{onChain ? `WHERE ${c.ticker} DOMINATES` : 'WHAT IT SELLS'}</div>
               <ul className="mt-4 space-y-2.5">
                 {c.chain.segments.map((s) => (
                   <li key={s} className="font-mono-lab text-[15px] leading-6 tracking-wide text-dim">— {s}</li>
@@ -212,13 +241,13 @@ export default function CompanyPage() {
               </ul>
             </Reveal>
             <Reveal delay={160}>
-              <div className="font-mono-lab text-[11px] tracking-[0.25em] text-faint">HOW AI IS RESHAPING THE TAM</div>
+              <div className="font-mono-lab text-[11px] tracking-[0.25em] text-faint">{onChain ? 'HOW AI IS RESHAPING THE TAM' : 'WHAT MOVES THE MARKET IT SERVES'}</div>
               <p className="mt-4 font-mono-lab text-[15px] leading-6 tracking-wide text-prose">{c.chain.aiShift}</p>
             </Reveal>
           </div>
           {segmentPeers.length > 0 && (
             <Reveal delay={200} className="mt-8 border-t border-line pt-6">
-              <div className="font-mono-lab text-[11px] tracking-[0.25em] text-faint">OTHER TICKERS IN THIS SEGMENT</div>
+              <div className="font-mono-lab text-[11px] tracking-[0.25em] text-faint">{onChain ? 'OTHER TICKERS IN THIS SEGMENT' : `OTHER ${domain.label} NAMES WE COVER`}</div>
               <div className="mt-4 flex flex-wrap gap-2">
                 {segmentPeers.map((t) => (
                   <Link

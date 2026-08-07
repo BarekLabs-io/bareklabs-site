@@ -2,7 +2,8 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { Reveal } from '@/components/lab'
 import { companies } from '@/data/companies'
-import { SEGMENTS, SEGMENT_OF, countryOf, exchangeOf, currencyOf, formatMoney, type SegmentKey } from '@/data/valueChain'
+import { SEGMENTS, SEGMENT_OF, chainSegmentOf, countryOf, exchangeOf, currencyOf, formatMoney, type SegmentKey } from '@/data/valueChain'
+import { DOMAINS, DOMAIN_LABEL, domainOf, type DomainKey } from '@/data/domains'
 import { parseMetricValue } from '@/lib/priceSeries'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { cn } from '@/lib/utils'
@@ -18,6 +19,8 @@ type Row = {
   tagline: string
   segment: SegmentKey
   segmentOrder: number
+  domain: DomainKey
+  onChain: boolean
   country: string
   exchange: string
   currency: string
@@ -81,6 +84,8 @@ const ROWS: Row[] = Object.values(companies)
       tagline: c.tagline,
       segment,
       segmentOrder: SEGMENT_ORDER.get(segment) ?? 99,
+      domain: domainOf(c.ticker),
+      onChain: chainSegmentOf(c.ticker) != null,
       country: countryOf(c.ticker),
       exchange: exchangeOf(c.ticker),
       currency: currencyOf(c.ticker),
@@ -142,6 +147,7 @@ const RISK_EXPLAIN: Record<RiskTier, string> = {
 export default function Screener() {
   const [query, setQuery] = useState('')
   const [segment, setSegment] = useState<'ALL' | SegmentKey>('ALL')
+  const [domain, setDomain] = useState<'ALL' | DomainKey>('ALL')
   const [country, setCountry] = useState<'ALL' | string>('ALL')
   const [risk, setRisk] = useState<'ALL' | RiskTier>('ALL')
 
@@ -150,13 +156,14 @@ export default function Screener() {
     return ROWS.filter((r) => {
       if (q && !r.ticker.toLowerCase().includes(q) && !r.name.toLowerCase().includes(q)) return false
       if (segment !== 'ALL' && r.segment !== segment) return false
+      if (domain !== 'ALL' && r.domain !== domain) return false
       if (country !== 'ALL' && r.country !== country) return false
       if (risk !== 'ALL' && r.riskTier !== risk) return false
       return true
     })
-  }, [query, segment, country, risk])
+  }, [query, segment, domain, country, risk])
 
-  const hasFilters = query !== '' || segment !== 'ALL' || country !== 'ALL' || risk !== 'ALL'
+  const hasFilters = query !== '' || segment !== 'ALL' || domain !== 'ALL' || country !== 'ALL' || risk !== 'ALL'
 
   // Live prices only for what's actually on screen — keeps the upstream call
   // small when filters are applied. Market cap and the multiples below stay
@@ -189,11 +196,24 @@ export default function Screener() {
             className="min-w-[180px] flex-1 border border-line bg-transparent px-3 py-2 font-mono-lab text-[11px] tracking-[0.1em] text-foreground placeholder:text-faint focus:border-signal focus:outline-none"
           />
           <select
-            value={segment}
-            onChange={(e) => setSegment(e.target.value as typeof segment)}
+            value={domain}
+            onChange={(e) => setDomain(e.target.value as typeof domain)}
+            title="What the company does. Independent of the AI chain."
             className="border border-line bg-transparent px-3 py-2 font-mono-lab text-[11px] tracking-[0.1em] text-foreground focus:border-signal focus:outline-none"
           >
-            <option value="ALL">ALL SEGMENTS</option>
+            <option value="ALL">ALL DOMAINS</option>
+            {DOMAINS.map((d) => (
+              <option key={d.key} value={d.key}>{d.label}</option>
+            ))}
+          </select>
+          <select
+            value={segment}
+            onChange={(e) => setSegment(e.target.value as typeof segment)}
+            title="Position on the AI hardware chain. Most names off the chain sit under OFF THE AI CHAIN — that is a description, not a demotion."
+
+            className="border border-line bg-transparent px-3 py-2 font-mono-lab text-[11px] tracking-[0.1em] text-foreground focus:border-signal focus:outline-none"
+          >
+            <option value="ALL">ALL AI-CHAIN POSITIONS</option>
             {SEGMENTS.map((s) => (
               <option key={s.key} value={s.key}>{s.label}</option>
             ))}
@@ -219,7 +239,7 @@ export default function Screener() {
             <option value="low">LOW RISK</option>
           </select>
           <button
-            onClick={() => { setQuery(''); setSegment('ALL'); setCountry('ALL'); setRisk('ALL') }}
+            onClick={() => { setQuery(''); setSegment('ALL'); setDomain('ALL'); setCountry('ALL'); setRisk('ALL') }}
             disabled={!hasFilters}
             className="border border-line px-3 py-2 font-mono-lab text-[10px] tracking-[0.2em] text-dim transition-colors duration-200 hover:text-foreground disabled:opacity-30"
           >
@@ -239,7 +259,7 @@ export default function Screener() {
               <tr className="border-b border-line bg-ticker font-mono-lab text-[9px] tracking-[0.2em] text-faint">
                 <th className="px-3 py-3 text-start">TICKER</th>
                 <th className="px-3 py-3 text-start">NAME / WHAT IT DOES</th>
-                <th className="px-3 py-3 text-start">SEGMENT</th>
+                <th className="px-3 py-3 text-start">DOMAIN / AI CHAIN</th>
                 <th className="px-3 py-3 text-start">EXCHANGE</th>
                 <th className="px-3 py-3 text-end" title="Live where available, otherwise the researched snapshot">
                   PRICE {liveCount > 0 && <span className="text-signal">· LIVE</span>}
@@ -263,7 +283,12 @@ export default function Screener() {
                     <div className="font-mono-lab text-[11.5px] text-prose">{r.name}</div>
                     <div className="mt-1 font-mono-lab text-[10px] leading-4 tracking-wide text-dim">{r.tagline}</div>
                   </td>
-                  <td className="px-3 py-3.5 font-mono-lab text-[9.5px] tracking-[0.1em] text-dim">{SEGMENT_SHORT[r.segment]}</td>
+                  <td className="px-3 py-3.5">
+                    <div className="font-mono-lab text-[9.5px] tracking-[0.1em] text-dim">{DOMAIN_LABEL[r.domain]}</div>
+                    {r.onChain && (
+                      <div className="mt-1 font-mono-lab text-[9px] tracking-[0.1em] text-signal/80">AI CHAIN · {SEGMENT_SHORT[r.segment]}</div>
+                    )}
+                  </td>
                   <td className="px-3 py-3.5 font-mono-lab text-[10px] tracking-[0.05em] text-dim">{r.exchange}</td>
                   <td className="px-3 py-3.5 text-end font-mono-lab text-[13px] tabular-nums text-prose" dir="ltr">
                     {(() => {

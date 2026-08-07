@@ -8718,7 +8718,7 @@ AMKR: {
     sector: 'Energy — uranium',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -8775,7 +8775,7 @@ AMKR: {
     sector: 'Energy — uranium',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -8832,7 +8832,7 @@ AMKR: {
     sector: 'Utilities — independent power',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -8889,7 +8889,7 @@ AMKR: {
     sector: 'Healthcare — medical devices',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -8946,7 +8946,7 @@ AMKR: {
     sector: 'Technology — OSAT',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -9003,7 +9003,7 @@ AMKR: {
     sector: 'Technology — infrastructure software',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -9060,7 +9060,7 @@ AMKR: {
     sector: 'Consumer — e-commerce & fintech',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -9117,7 +9117,7 @@ AMKR: {
     sector: 'Consumer — e-commerce',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -9174,7 +9174,7 @@ AMKR: {
     sector: 'Technology — fintech',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -9231,7 +9231,7 @@ AMKR: {
     sector: 'Technology — fintech',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -9288,7 +9288,7 @@ AMKR: {
     sector: 'Technology — consumer electronics',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -9345,7 +9345,7 @@ AMKR: {
     sector: 'Consumer — e-commerce & cloud',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -9402,7 +9402,7 @@ AMKR: {
     sector: 'Financials — capital markets',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -9459,7 +9459,7 @@ AMKR: {
     sector: 'Technology — application software',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
@@ -9516,7 +9516,7 @@ AMKR: {
     sector: 'Consumer — e-commerce & cloud',
     asOf: '2026-08-07',
     chain: {
-      intro: 'Not mapped yet. This name entered coverage from the broker watchlist; its position in the value chain has not been researched.',
+      intro: 'Covered for its own business. A full activity breakdown — segments, geography, customers, and where the margin sits — has not been written for this name yet.',
       rows: [],
       segments: [],
       aiShift: '—',
