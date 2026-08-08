@@ -143,18 +143,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const answered = matched > 0 ? 'stable/profile' : null
 
+  /* Key length goes to the function log, never to the response body. It is a
+   * real diagnostic — a key rejected at its full expected length is wrong or
+   * inactive, a short one was truncated on paste, and those need opposite
+   * fixes — but it is also a property of a secret, and a public endpoint has
+   * no business publishing one. The Vercel logs are the right audience. */
+  if (matched === 0) console.warn(`[fundamentals] no symbol matched · key length ${key.length}`)
+
   res.setHeader('Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=604800')
   res.status(200).json({
     asOf: Date.now(),
     configured: true,
-    // Diagnostics, so a failure says which surface answered and what it said
-    // rather than presenting as an empty table. Key-scrubbed.
+    // Which surface answered — cheap to publish and it explains an empty table.
     source: answered,
-    attempts,
-    /* Length only, never any part of the key. A key rejected at full expected
-     * length is a wrong or inactive key; a short one was truncated on paste.
-     * Those need opposite fixes, and nothing else distinguishes them. */
-    keyLength: key.length,
+    /* The per-symbol failure notes are only worth publishing when there is a
+     * failure to explain. On a healthy response they are noise, and noise in a
+     * public body is surface area nobody asked for. Key-scrubbed either way. */
+    ...(matched === 0 ? { attempts } : {}),
     fundamentals,
   })
 }
