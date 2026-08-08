@@ -105,8 +105,8 @@ export const fr: Dict = {
       ],
     },
     numbers: [
-      { k: '68', l: 'ENTREPRISES COUVERTES DANS LE SCREENER' },
-      { k: '13', l: 'MARCHÉS, DE TOKYO À TORONTO' },
+      { k: '{tickers}', l: 'ENTREPRISES COUVERTES DANS LE SCREENER' },
+      { k: '{countries}', l: 'MARCHÉS, DE TOKYO À TORONTO' },
       { k: '04', l: 'MODULES EN DIRECT — RECHERCHE, SIGNAL, JOURNAL' },
       { k: '24/7', l: 'SURVEILLANCE DES MARCHÉS' },
     ],
@@ -472,10 +472,10 @@ export const fr: Dict = {
       desc: 'TRANSPARENCE TOTALE : CHAQUE POSITION SUIVIE — ENTRÉE, POIDS, SORTIE, RAISONNEMENT — EST CONSIGNÉE ET HORODATÉE. LES GAINS COMME LES PERTES, SANS RETOUCHE.',
     },
     stats: [
-      { k: '0', l: 'TRADES JOURNALISÉS POUR L’INSTANT' },
-      { k: '—', l: 'TAUX DE RÉUSSITE (PAS ENCORE DE TRADES)' },
-      { k: '—', l: 'ESPÉRANCE MOYENNE (PAS ENCORE DE TRADES)' },
-      { k: '100%', l: 'JOURNALISÉ AVANT L’ENTRÉE, SANS EXCEPTION' },
+      { k: '{positions}', l: 'POSITIONS AU LIVRE' },
+      { k: '—', l: 'TAUX DE RÉUSSITE — RIEN DE CLÔTURÉ' },
+      { k: '—', l: 'ESPÉRANCE MOYENNE — RIEN DE CLÔTURÉ' },
+      { k: '100%', l: 'CONSIGNÉ AVANT L’ENTRÉE, SANS EXCEPTION' },
     ],
     ledgers: {
       head: 'Registres',
@@ -496,7 +496,7 @@ export const fr: Dict = {
         code: '03.C',
         name: 'SCREENER',
         desc: 'Tous les titres que nous couvrons, à chercher et à filtrer, avec une lecture rapide de la valorisation et du risque avant de creuser.',
-        stats: ['68 TITRES', 'RECHERCHE', 'FILTRES'],
+        stats: ['{tickers} TITRES', 'RECHERCHE', 'FILTRES'],
       },
       options: {
         code: '03.D',

@@ -4,6 +4,7 @@ import { WorldMap } from '@/components/WorldMap'
 import { LiveDesk } from '@/components/LiveDesk'
 import { SectionHead } from '@/components/Layout'
 import { useMarketQuotes } from '@/lib/marketQuotes'
+import { fillCoverage } from '@/lib/coverage'
 import { TAPE_INSTRUMENTS, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
 import { BrandMark } from '@/components/Brand'
 import { useLang } from '@/i18n/LanguageContext'
@@ -203,7 +204,8 @@ export default function Home() {
           <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-4">
             {t.home.numbers.map((s, i) => (
               <Reveal key={s.l} delay={i * 80} className="bg-card2 p-8 md:p-10">
-                <div className="text-4xl font-light tracking-tight text-signal md:text-5xl" dir="ltr">{s.k}</div>
+                {/* Counts come from the roster, not from the translation file. */}
+                <div className="text-4xl font-light tracking-tight text-signal md:text-5xl" dir="ltr">{fillCoverage(s.k)}</div>
                 <div className="mt-3 font-mono-lab text-[10px] tracking-[0.2em] text-dim">{s.l}</div>
               </Reveal>
             ))}

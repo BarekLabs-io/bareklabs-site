@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
+import { fillCoverage } from '@/lib/coverage'
 
 function TrackCard({
   to, code, name, desc, stats, i,
@@ -20,7 +21,7 @@ function TrackCard({
         <p className="mt-5 max-w-md font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{desc}</p>
         <div className="mt-10 flex flex-wrap gap-2">
           {stats.map((s) => (
-            <span key={s} className="border border-line px-2.5 py-1 font-mono-lab text-[9px] tracking-[0.2em] text-dim">{s}</span>
+            <span key={s} className="border border-line px-2.5 py-1 font-mono-lab text-[9px] tracking-[0.2em] text-dim">{fillCoverage(s)}</span>
           ))}
         </div>
       </Link>
@@ -30,6 +31,9 @@ function TrackCard({
 
 export default function TradeTracker() {
   const { t } = useLang()
+  /* The headline count is the book itself, not a number typed into the copy —
+   * it read "0 trades logged" while the equity ledger carried a position. */
+  const positions = t.stocks.open.length + t.stocks.closed.length + t.crypto.positions.length
   return (
     <>
       <PageHero
@@ -44,7 +48,7 @@ export default function TradeTracker() {
           <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-4">
             {t.tracker.stats.map((s, i) => (
               <Reveal key={s.l} delay={i * 70} className="bg-card2 p-8">
-                <div className="text-4xl font-light tracking-tight text-signal" dir="ltr">{s.k}</div>
+                <div className="text-4xl font-light tracking-tight text-signal" dir="ltr">{fillCoverage(s.k, { positions })}</div>
                 <div className="mt-3 font-mono-lab text-[10px] tracking-[0.2em] text-dim">{s.l}</div>
               </Reveal>
             ))}

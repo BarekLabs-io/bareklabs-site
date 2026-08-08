@@ -104,8 +104,8 @@ export const en = {
       ],
     },
     numbers: [
-      { k: '68', l: 'COMPANIES COVERED IN THE SCREENER' },
-      { k: '13', l: 'MARKETS, TOKYO TO TORONTO' },
+      { k: '{tickers}', l: 'COMPANIES COVERED IN THE SCREENER' },
+      { k: '{countries}', l: 'MARKETS, TOKYO TO TORONTO' },
       { k: '04', l: 'LIVE MODULES — RESEARCH, SIGNAL, TRACKER' },
       { k: '24/7', l: 'MARKET SURVEILLANCE' },
     ],
@@ -471,9 +471,9 @@ export const en = {
       desc: 'RADICAL TRANSPARENCY: EVERY TRACKED POSITION — ENTRY, SIZE, EXIT, RATIONALE — LOGGED AND TIMESTAMPED. WINS AND LOSSES, NO EDITING.',
     },
     stats: [
-      { k: '0', l: 'TRADES LOGGED SO FAR' },
-      { k: '—', l: 'HIT RATE (NO TRADES YET)' },
-      { k: '—', l: 'AVG EXPECTANCY (NO TRADES YET)' },
+      { k: '{positions}', l: 'POSITIONS ON THE BOOK' },
+      { k: '—', l: 'HIT RATE — NOTHING CLOSED YET' },
+      { k: '—', l: 'AVG EXPECTANCY — NOTHING CLOSED YET' },
       { k: '100%', l: 'LOGGED BEFORE ENTRY, NO EXCEPTIONS' },
     ],
     ledgers: {
@@ -495,7 +495,7 @@ export const en = {
         code: '03.C',
         name: 'SCREENER',
         desc: 'Every ticker we cover, searchable and filterable, with a fast read on valuation and risk before you dig deeper.',
-        stats: ['68 TICKERS', 'SEARCHABLE', 'FILTERABLE'],
+        stats: ['{tickers} TICKERS', 'SEARCHABLE', 'FILTERABLE'],
       },
       options: {
         code: '03.D',
