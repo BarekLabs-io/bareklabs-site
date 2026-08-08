@@ -45,9 +45,18 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
                 {tk}
               </span>
             ))}
+            {idea.revised && (
+              <span className="border border-warn/40 bg-warn/5 px-2.5 py-1 font-mono-lab text-[9px] tracking-[0.2em] text-warn">
+                {idea.revised}
+              </span>
+            )}
             <span className="ms-auto font-mono-lab text-[10px] tracking-wider text-faint" dir="ltr">{idea.date}</span>
           </div>
-          <div className="mt-5 flex items-center justify-between gap-6">
+          {/* The company, spelled out. The titles below are editorial and the
+            * badges above are tickers, neither of which names the subject to a
+            * reader scrolling a carousel. */}
+          <div className="mt-5 font-mono-lab text-[10px] tracking-[0.25em] text-signal" dir="ltr">{idea.company}</div>
+          <div className="mt-2 flex items-center justify-between gap-6">
             <h3 className="text-xl font-medium tracking-tight md:text-2xl">{idea.title}</h3>
             <span className={cn('font-mono-lab text-lg text-faint transition-transform duration-300', open && 'rotate-45')}>+</span>
           </div>

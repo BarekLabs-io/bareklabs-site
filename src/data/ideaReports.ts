@@ -18,6 +18,12 @@ export type IdeaItem = {
   date: string
   status: 'ACTIVE' | 'WATCHING' | 'CLOSED'
   sector: string
+  /* The subject, named. The card titles are editorial — "the width trade",
+   * "the December date" — and a ticker badge is only legible to someone who
+   * already knows the ticker. In a carousel the reader sees the card before
+   * they read it, so the company has to be on it as a plain name. Latin in
+   * all three languages: it is an identifier, like the ticker beside it. */
+  company: string
   title: string
   thesis: string
   entry: string
@@ -34,6 +40,11 @@ export type IdeaItem = {
    * it, which is the more useful disagreement. */
   discountRate?: string
   tickers?: string[]
+  /* Set when the underlying report has been rebuilt after a method error was
+   * found — the terminal-capex normalisation, on this batch. It is on the card
+   * because a reader who read the first version deserves to know the numbers
+   * moved, and because four of these eight are still on the old engine. */
+  revised?: string
   /** Key in IDEA_REPORTS below. */
   report?: string
 }
