@@ -93,7 +93,7 @@ export default function Home() {
       <section className="relative flex min-h-screen flex-col border-b border-line">
         <MarketCanvas className="absolute inset-0" />
         <div className="scanline" />
-        <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-end px-5 pb-14 pt-44 md:px-10 md:pt-48">
+        <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-center px-5 pb-16 pt-32 md:px-10 md:pt-36">
           <Reveal>
             <div className="mb-6 flex items-center gap-3 font-mono-lab text-sm font-medium tracking-[0.25em] text-foreground/85">
               <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
@@ -115,7 +115,7 @@ export default function Home() {
             </Reveal>
           </h1>
           <Reveal delay={400}>
-            <div className="pointer-events-auto mt-8 flex flex-col justify-between gap-6 border-t border-line pt-6 md:flex-row md:items-end">
+            <div className="pointer-events-auto mt-8 flex flex-col justify-between gap-6 border-t border-line pt-6 md:flex-row md:items-end lg:pe-[400px] xl:pe-[500px]">
               <p className="max-w-4xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim md:text-[14px] md:leading-7">{t.home.heroDesc}</p>
               <div className="flex items-center gap-6">
                 <Link
@@ -138,11 +138,14 @@ export default function Home() {
             floats from lg up. Below that it is not dropped — it moves into the
             flow underneath the hero, because a market panel nobody on a laptop
             or a phone ever sees is not a feature. */}
-        <Reveal delay={500} className="pointer-events-none absolute end-5 top-32 z-10 hidden w-[300px] lg:block lg:end-10 lg:w-[380px] xl:w-[430px]">
-          <div className="mb-3 font-mono-lab text-[10px] leading-5 tracking-wider text-dim" dir="ltr">
+        <Reveal delay={500} className="pointer-events-none absolute end-5 top-28 z-10 hidden w-[300px] lg:block lg:end-10 lg:w-[380px] xl:w-[470px]">
+          <div className="mb-2 font-mono-lab text-[10px] leading-5 tracking-wider text-dim" dir="ltr">
             <span className="flicker"><HeroQuote /></span>
           </div>
-          <LiveDesk />
+          {/* Capped at the viewport minus the header and a bottom margin, so a
+              short screen scrolls the panel's lists instead of letting the
+              panel run over the hero's call to action. */}
+          <LiveDesk className="max-h-[calc(100vh-9.5rem)]" />
         </Reveal>
       </section>
 

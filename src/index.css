@@ -459,3 +459,14 @@
     display: none;
   }
 }
+
+@layer utilities {
+  /* Value travelling from one chain stage to the next. Distance matches the
+   * 16px connector so the dot arrives exactly at the arrowhead. */
+  @keyframes chainpulse {
+    0% { transform: translateX(0); opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { transform: translateX(16px); opacity: 0; }
+  }
+}

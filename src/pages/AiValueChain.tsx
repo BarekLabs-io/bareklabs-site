@@ -271,7 +271,9 @@ export default function AiValueChain() {
           </Reveal>
 
           <Reveal>
-            <div className="overflow-x-auto border border-line bg-panel" dir="ltr">
+            {/* ChainFlow owns its own horizontal scrolling — a second one here would
+                nest two scrollers and swallow every drag. */}
+            <div className="border border-line bg-alt" dir="ltr">
               <ChainFlow
                 stages={stages}
                 sel={sel}

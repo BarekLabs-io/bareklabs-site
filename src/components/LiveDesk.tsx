@@ -11,28 +11,34 @@ import { FeedStatus } from '@/components/FeedStatus'
  * There is deliberately no simulated tick: a number that drifts on a timer
  * looks more authoritative than a static one while being less true.
  *
- * The watchlist is tabbed by venue — crypto first, then one tab per exchange
- * on the site clock — because a single flat list either drowns in rows or
- * shows only crypto, and both defeat the point of a desk. */
+ * Every venue is on screen at once rather than behind tabs. A tab hides four
+ * fifths of a market panel behind a click nobody makes, so the venues are
+ * laid out two abreast in a denser grid instead — the panel buys width, and
+ * spends it on showing more rather than on spacing three columns apart. */
 
 type Quote = { price: number; changePercent: number | null }
 
-function WatchRow({ label, symbol, to, quote }: { label: string; symbol: string; to?: string; quote?: Quote }) {
+/* Row geometry lives here so every list stays on the same rhythm: the label
+ * takes what is left, the price and the change sit in fixed columns at the
+ * right. Without fixed columns a wide panel pushes the price far from its
+ * label and the eye stops connecting the two. */
+const ROW = 'grid grid-cols-[minmax(0,1fr)_auto_46px] items-baseline gap-x-2 py-[3px] font-mono-lab text-[10.5px] leading-4'
+
+function WatchRow({ label, to, quote }: { label: string; to?: string; quote?: Quote }) {
   const up = quote?.changePercent != null ? quote.changePercent >= 0 : null
-  const inner = (
+  const body = (
     <>
-      <span className={cn('truncate pe-2', to ? 'text-dim group-hover/row:text-foreground' : 'text-dim')}>{label}</span>
+      <span className="truncate text-dim">{label}</span>
       <span className="tabular-nums text-foreground">{quote ? formatLevel(quote.price) : NO_VALUE}</span>
-      <span className={cn('w-16 text-end tabular-nums', up == null ? 'text-faint' : up ? 'text-signal' : 'text-danger')}>
+      <span className={cn('text-end tabular-nums', up == null ? 'text-faint' : up ? 'text-signal' : 'text-danger')}>
         {quote?.changePercent != null ? formatChange(quote.changePercent) : NO_VALUE}
       </span>
     </>
   )
-  const cls = 'flex items-center justify-between border-b border-line/60 py-2 font-mono-lab text-[11px] tracking-wide last:border-0'
   return to ? (
-    <Link key={symbol} to={to} className={cn(cls, 'group/row transition-colors')} dir="ltr">{inner}</Link>
+    <Link to={to} className={cn(ROW, 'transition-colors hover:bg-secondary/40')} dir="ltr">{body}</Link>
   ) : (
-    <div key={symbol} className={cls} dir="ltr">{inner}</div>
+    <div className={ROW} dir="ltr">{body}</div>
   )
 }
 
@@ -60,7 +66,6 @@ function Movers({ quotes, labels }: {
     )
   }
 
-  /* Four a side when the feed is rich, degrading with it. */
   const depth = Math.min(4, Math.floor(ranked.length / 2))
   const up = ranked.slice(0, depth)
   const down = ranked.slice(-depth).reverse()
@@ -68,7 +73,7 @@ function Movers({ quotes, labels }: {
   const Row = ({ m }: { m: { s: string; symbol: string; chg: number } }) => (
     <Link
       to={`/companies/${m.s}`}
-      className="flex items-center justify-between py-1 font-mono-lab text-[11px] tracking-wide transition-colors hover:text-foreground"
+      className="flex items-baseline justify-between gap-2 py-[3px] font-mono-lab text-[10.5px] leading-4 transition-colors hover:text-foreground"
       dir="ltr"
     >
       <span className="text-dim">{m.s}</span>
@@ -82,7 +87,7 @@ function Movers({ quotes, labels }: {
         <span className="font-mono-lab text-[9px] tracking-[0.25em] text-dim">{labels.head}</span>
         <span className="font-mono-lab text-[8px] tracking-[0.2em] text-faint" dir="ltr">{ranked.length}</span>
       </div>
-      <div className="mt-2 grid grid-cols-2 gap-x-4">
+      <div className="mt-1.5 grid grid-cols-2 gap-x-5">
         <div>
           <div className="font-mono-lab text-[8px] tracking-[0.2em] text-signal/70">{labels.gainers}</div>
           {up.map((m) => <Row key={m.symbol} m={m} />)}
@@ -124,17 +129,17 @@ function NewsWire({ labels }: { labels: { head: string; empty: string } }) {
       {items == null ? null : items.length === 0 ? (
         <p className="mt-2 font-mono-lab text-[10px] leading-4 text-faint">{labels.empty}</p>
       ) : (
-        <div className="mt-2 flex flex-col gap-2">
-          {items.slice(0, 5).map((n) => (
+        <div className="mt-1.5 flex flex-col gap-1.5">
+          {items.slice(0, 4).map((n) => (
             <a
               key={n.url}
               href={n.url}
               target="_blank"
               rel="noreferrer noopener"
-              className="group block font-mono-lab text-[10px] leading-4 tracking-wide text-dim transition-colors hover:text-foreground"
+              className="group block font-mono-lab text-[10px] leading-[1.35] tracking-wide text-dim transition-colors hover:text-foreground"
             >
               <span className="line-clamp-2">{n.title}</span>
-              <span className="mt-0.5 block text-[8.5px] tracking-[0.15em] text-faint" dir="ltr">
+              <span className="mt-px block text-[8.5px] tracking-[0.15em] text-faint" dir="ltr">
                 {n.source}{n.at != null ? ` · ${hhmm(n.at)}` : ''}
               </span>
             </a>
@@ -147,71 +152,51 @@ function NewsWire({ labels }: { labels: { head: string; empty: string } }) {
 
 export function LiveDesk({ className }: { className?: string }) {
   const { t } = useLang()
-  const [tab, setTab] = useState(0)
-  const list = DESK_LISTS[tab]
   const { quotes, asOf } = useMarketQuotes()
-  const answered = list.rows.reduce((n, r) => (quotes[r.symbol] ? n + 1 : n), 0)
+  const allRows = DESK_LISTS.flatMap((l) => l.rows)
+  const answered = allRows.reduce((n, r) => (quotes[r.symbol] ? n + 1 : n), 0)
 
   return (
-    <div className={cn('pointer-events-auto border border-line bg-panel/85 backdrop-blur-sm', className)}>
-      <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
+    <div className={cn('pointer-events-auto flex flex-col border border-line bg-panel/90 backdrop-blur-sm', className)}>
+      <div className="flex shrink-0 items-center justify-between border-b border-line px-4 py-2.5">
         <span className="font-mono-lab text-[9px] tracking-[0.25em] text-dim">{t.home.liveDesk.watchlist}</span>
-        <FeedStatus answered={answered} total={list.rows.length} asOf={asOf} labels={t.souk.feed} />
+        <FeedStatus answered={answered} total={allRows.length} asOf={asOf} labels={t.souk.feed} />
       </div>
 
-      {/* Venue tabs. Proper nouns, deliberately not translated. */}
-      <div className="flex border-b border-line" dir="ltr">
-        {DESK_LISTS.map((l, i) => (
-          <button
-            key={l.key}
-            onClick={() => setTab(i)}
-            className={cn(
-              'flex-1 border-e border-line/60 py-2 font-mono-lab text-[8.5px] tracking-[0.15em] transition-colors last:border-0',
-              i === tab ? 'bg-signal/10 text-signal' : 'text-faint hover:text-dim'
-            )}
-          >
-            {l.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="px-4 py-1">
-        {list.rows.map((r) => (
-          <WatchRow key={r.symbol} label={r.s} symbol={r.symbol} to={r.to} quote={quotes[r.symbol]} />
-        ))}
-      </div>
-
-      <Movers quotes={quotes} labels={t.home.liveDesk.movers} />
-
-      <NewsWire labels={t.home.liveDesk.wire} />
-
-      <Link
-        to="/souk-signal"
-        className="group flex items-center justify-between border-t border-line px-4 py-3 transition-colors hover:bg-secondary/40"
-      >
-        <div>
-          <div className="font-mono-lab text-[9px] tracking-[0.25em] text-signal">{t.home.liveDesk.signalLabel}</div>
-          <div className="mt-1 font-mono-lab text-[10px] tracking-wide text-dim">{t.home.liveDesk.signalCta}</div>
-        </div>
-        <span className="font-mono-lab text-faint transition-transform duration-300 group-hover:translate-x-1 group-hover:text-signal rtl:group-hover:-translate-x-1 rtl:rotate-180">
-          →
-        </span>
-      </Link>
-
-      <div className="border-t border-line px-4 py-3">
-        <div className="font-mono-lab text-[9px] tracking-[0.25em] text-dim">{t.home.liveDesk.feedLabel}</div>
-        <div className="mt-2 flex flex-col gap-2">
-          {t.home.feed.items.slice(0, 3).map((n) => (
-            <Link
-              key={n.t}
-              to={n.to}
-              className="group flex items-baseline gap-2 font-mono-lab text-[10px] leading-4 tracking-wide text-dim transition-colors hover:text-foreground"
-            >
-              <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-signal/60 group-hover:bg-signal" />
-              <span className="line-clamp-2">{n.t}</span>
-            </Link>
+      {/* Every venue at once, two abreast. Only the lists scroll if the
+        * viewport is short — the blocks below stay reachable. */}
+      <div className="min-h-0 grow overflow-y-auto px-4 py-2.5">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-2.5">
+          {DESK_LISTS.map((l) => (
+            <div key={l.key}>
+              <div className="border-b border-line/60 pb-1 font-mono-lab text-[8.5px] tracking-[0.22em] text-signal/80">
+                {l.label}
+              </div>
+              <div className="pt-1">
+                {l.rows.map((r) => (
+                  <WatchRow key={r.symbol} label={r.s} to={r.to} quote={quotes[r.symbol]} />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
+      </div>
+
+      <div className="shrink-0">
+        <Movers quotes={quotes} labels={t.home.liveDesk.movers} />
+        <NewsWire labels={t.home.liveDesk.wire} />
+        <Link
+          to="/souk-signal"
+          className="group flex items-center justify-between border-t border-line px-4 py-2.5 transition-colors hover:bg-secondary/40"
+        >
+          <div>
+            <div className="font-mono-lab text-[9px] tracking-[0.25em] text-signal">{t.home.liveDesk.signalLabel}</div>
+            <div className="mt-0.5 font-mono-lab text-[10px] tracking-wide text-dim">{t.home.liveDesk.signalCta}</div>
+          </div>
+          <span className="font-mono-lab text-faint transition-transform duration-300 group-hover:translate-x-1 group-hover:text-signal rtl:group-hover:-translate-x-1 rtl:rotate-180">
+            →
+          </span>
+        </Link>
       </div>
     </div>
   )
