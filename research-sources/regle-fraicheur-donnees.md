@@ -29,6 +29,18 @@
    (TWSE/TPEx) : les publications intermédiaires locales précèdent souvent de
    plusieurs semaines leur reprise par les agrégateurs.
 
+3 bis. **Chercher dans la langue de l'émetteur.** Une société japonaise qui
+   dépose ses comptes en japonais ne se trouve pas avec une recherche en
+   anglais : chercher **決算短信**, pas « earnings release ». Passer par
+   l'agrégateur de dépôts officiel — **TDnet/EDINET** (Japon), **MOPS**
+   (Taïwan), **DART** (Corée) — plutôt que par le site IR, qui renvoie
+   souvent des 404, et lire le PDF déposé. « Mes connecteurs n'ont pas la
+   donnée » n'est pas « la donnée est introuvable » : un blocage d'outil sur
+   une source ne dit rien des autres. Et le calcul des coûts est toujours
+   défavorable à la question : demander une donnée publique à l'utilisateur
+   coûte deux allers-retours ; la trouver coûte moins de trois appels d'outils.
+   **Chercher d'abord, demander ensuite.**
+
 4. **Datation systématique.** Chaque rapport porte une date d'arrêté des
    données en tête, et chaque chiffre d'émetteur cite son document source et sa
    date. En cas de conflit entre deux sources, **publier l'écart** — ne jamais
