@@ -81,6 +81,7 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['LRCX', 'AMAT', 'KLAC', 'ASML*'],
       metrics: [
+        { label: 'Net debt', values: ['-$1.02B net cash — debt $3.73B less cash $4.75B (quarterly balance sheet, 31 Mar 2026, Alpha Vantage; the 30 Jun 2026 quarter is filed incomplete upstream, so the last complete one is used)'] },
         { label: 'Price', values: ['$322.87 (Aug 5, 2026)', '$452.14', '$175.16', '$1,569'] },
         { label: 'Market cap', values: ['~$404B (Aug 5, 2026)', '$359B', '$229B', '$603B'] },
         { label: 'Trailing P/E', values: ['~61.1x (rescaled from 49.2x pre-refresh, not independently re-verified)', '42.5x', '49.6x', '54.2x'] },
@@ -4069,6 +4070,7 @@ AMAT: {
   valuation: {
     peers: ['AMAT', 'LRCX', 'ASML', 'KLAC'],
     metrics: [
+      { label: 'Net debt', values: ['-$0.97B net cash — debt incl. leases $7.27B less cash & ST investments $8.24B (quarterly balance sheet, 30 Apr 2026, Alpha Vantage)'] },
       { label: 'Price', values: ['$547.14', '$322.87', '$1,703.08', '$193.81'] },
       { label: 'Market cap', values: ['$434.4B', '~$404B', '~$654B', '~$253B'] },
       { label: 'Trailing P/E', values: ['47.7x', '49.2x', '54.2x', '49.6x'] },
@@ -7449,6 +7451,7 @@ AMKR: {
     valuation: {
       peers: ['AVGO', 'NVDA', 'MRVL', 'AMD'],
       metrics: [
+        { label: 'Net debt', values: ['$45.28B — debt $64.91B less cash & ST investments $19.63B (quarterly balance sheet, 30 Apr 2026, Alpha Vantage; no finance leases reported in this dataset)'] },
         { label: 'Price', values: ['~$392–421 (Aug 3–5, 2026; a same-window rally visible across the whole AI-semiconductor peer set)', '~$212–219 (Aug 3–5, 2026)', '~$210–222 (Aug 5, 2026, intraday range)', '$518.58 (Aug 4, 2026)'] },
         { label: 'Market cap', values: ['~$1.87–1.99T (Aug 2026, cross-source variance); crossed $2T briefly in April 2026 per one source', '~$5.1–5.3T (Aug 2026)', '~$168–222B (wide cross-source variance)', '$790.25B (Aug 3, 2026)'] },
         { label: 'Forward P/E', values: ['~19.4x (one source cites ~24.2x — cross-source variance)', '~20.7x', '~56.7x (one source cites trailing P/E of ~66.2x)', '49.16x'] },
@@ -7907,6 +7910,7 @@ AMKR: {
     valuation: {
       peers: ['MU', '000660.KS', '005930.KS'],
       metrics: [
+        { label: 'Net debt', values: ['-$19.06B net cash — debt incl. leases $6.96B less cash & ST investments $26.02B (quarterly balance sheet, 31 May 2026, Alpha Vantage)'] },
         { label: 'Price', values: ['$873.29 (Aug 5, 2026)', '₩1,668,000 (Aug 5, 2026)', '₩248,250 (Aug 5, 2026)'] },
         { label: 'Market cap', values: ['~$1.008T', '~₩1,215.75T (~$833.8B)', '~₩1,527.6T (~$1.13T)'] },
         { label: 'Trailing P/E', values: ['~19.7x–20.1x (varies by source/snapshot)', '~16.6x', '~10.9x (computed: price / TTM EPS ₩22,704)'] },

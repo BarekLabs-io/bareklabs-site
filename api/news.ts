@@ -63,7 +63,23 @@ function parseAvTime(raw: unknown): number | null {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const key = (process.env.ALPHAVANTAGE_API_KEY ?? process.env.ALPHA_VANTAGE_API_KEY)?.trim()
+  /* The wire prefers its OWN key when one is configured.
+   *
+   * This is workload isolation, not quota stretching. Alpha Vantage's daily
+   * budget is per key, and the same key also serves research work — a batch of
+   * balance-sheet pulls during an analysis session can exhaust the day's
+   * allowance and leave the public home page with a dead news block, hours
+   * after the person who spent it has stopped looking. Giving the wire a key
+   * nothing else touches means the site's public surface cannot be taken down
+   * by internal work.
+   *
+   * Falls back to the shared key, so the block keeps working before the second
+   * key is set and if it is ever removed. */
+  const key = (
+    process.env.ALPHAVANTAGE_NEWS_KEY ??
+    process.env.ALPHAVANTAGE_API_KEY ??
+    process.env.ALPHA_VANTAGE_API_KEY
+  )?.trim()
   if (!key) {
     res.status(503).json({ ok: false, error: 'not_configured' })
     return
