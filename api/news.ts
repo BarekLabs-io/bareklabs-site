@@ -14,6 +14,25 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 const CACHE_MS = 90 * 60_000
 const LIMIT = 8
 
+/* The wire is scoped to what the lab actually covers. Asking Alpha Vantage
+ * for `topics=financial_markets` returns the whole US tape, which in practice
+ * means filing-alert spam about companies nobody here follows. Querying by
+ * ticker makes it our wire: a headline earns its place by being about a name
+ * on the map. Kept deliberately short — the query is a relevance filter, not
+ * the coverage list, and a long one dilutes it back toward noise. */
+const WIRE_TICKERS = [
+  'NVDA', 'AMD', 'TSM', 'ASML', 'AVGO', 'MU', 'ANET', 'INTC',
+  'MSFT', 'GOOGL', 'META', 'AMZN', 'SMCI', 'NBIS', 'CRWV',
+  'CEG', 'VST', 'GEV', 'VRT', 'ISRG', 'TMDX', 'RKLB',
+].join(',')
+
+/* Aggregators that republish machine-generated filing alerts. Their volume
+ * swamps a LATEST sort — five of eight slots on the first live pull — and
+ * none of it is reporting. Matched on the source name and on the URL shape
+ * that carries the alerts, since the same outlet also files real pieces. */
+const SPAM_SOURCES = new Set(['marketbeat', 'zacks commentary'])
+const SPAM_URL = /\/instant-alerts\/|\/filing-/i
+
 type Headline = {
   title: string
   source: string
@@ -49,7 +68,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const url =
       'https://www.alphavantage.co/query?function=NEWS_SENTIMENT' +
-      '&topics=financial_markets&sort=LATEST&limit=50&apikey=' +
+      `&tickers=${encodeURIComponent(WIRE_TICKERS)}` +
+      '&sort=LATEST&limit=200&apikey=' +
       encodeURIComponent(key)
     const upstream = await fetch(url)
     const body = (await upstream.json()) as { feed?: unknown[] }
@@ -63,6 +83,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const url = typeof e.url === 'string' ? e.url : ''
       const source = typeof e.source === 'string' ? e.source : ''
       if (!title || !url || seen.has(title)) continue
+      if (SPAM_SOURCES.has(source.toLowerCase()) || SPAM_URL.test(url)) continue
+
+      /* A story counts as being about one of our names only if the provider
+       * scores it that way. Alpha Vantage attaches a relevance per ticker;
+       * below ~0.1 the name is a passing mention in a list, which is how a
+       * ticker-scoped query still surfaces sector roundups about nothing. */
+      const rel = Array.isArray(e.ticker_sentiment)
+        ? (e.ticker_sentiment as { relevance_score?: string }[]).reduce(
+            (m, ts) => Math.max(m, Number(ts?.relevance_score) || 0),
+            0
+          )
+        : 1
+      if (rel < 0.1) continue
+
       seen.add(title)
       items.push({ title, source, url, at: parseAvTime(e.time_published) })
       if (items.length >= LIMIT) break
