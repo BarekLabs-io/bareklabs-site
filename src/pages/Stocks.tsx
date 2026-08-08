@@ -18,18 +18,18 @@ function LiveCell({ quote }: { quote?: { price: number } }) {
   )
 }
 
-/* P&L is derived, never stored: broker entry × broker quantity against the
- * live feed. When the feed has nothing, the cell shows a dash — same contract
- * as LiveCell. A stored P&L string goes stale the moment it is written. */
-function PnlCell({ entry, qty, quote }: { entry: number; qty?: number; quote?: { price: number } }) {
-  if (!qty || !quote) return <span className="font-mono-lab text-sm text-faint">{NO_VALUE}</span>
-  const value = (quote.price - entry) * qty
+/* P&L is derived from the live feed against the broker entry, and published
+ * as a percentage only. Deliberately no dollar figure and no share count
+ * anywhere on this page or in its shipped data: a dollar P&L divided by the
+ * price move reconstructs the position size, and the size of the book is the
+ * one number this ledger does not disclose. */
+function PnlCell({ entry, quote }: { entry: number; quote?: { price: number } }) {
+  if (!quote) return <span className="font-mono-lab text-sm text-faint">{NO_VALUE}</span>
   const pct = (quote.price / entry - 1) * 100
-  const up = value >= 0
+  const up = pct >= 0
   return (
     <span className={cn('font-mono-lab text-sm tabular-nums', up ? 'text-signal' : 'text-danger')} dir="ltr">
-      {up ? '+' : '−'}${Math.abs(value).toFixed(2)}{' '}
-      <span className="text-[10px] opacity-80">({up ? '+' : '−'}{Math.abs(pct).toFixed(1)}%)</span>
+      {up ? '+' : '−'}{Math.abs(pct).toFixed(1)}%
     </span>
   )
 }
@@ -110,9 +110,10 @@ export default function Stocks() {
                       </td>
                       <td className="px-6 py-4 text-end font-mono-lab text-sm tabular-nums text-dim" dir="ltr">{p.entry.toFixed(2)}</td>
                       <td className="px-6 py-4 text-end" dir="ltr"><LiveCell quote={quotes[p.symbol ?? p.t]} /></td>
+                      {/* Share of the tracked book, never a share count. */}
                       <td className="px-6 py-4 text-end font-mono-lab text-[11px] text-dim" dir="ltr">{p.size}</td>
                       <td className="px-6 py-4 text-end">
-                        <PnlCell entry={p.entry} qty={p.qty} quote={quotes[p.symbol ?? p.t]} />
+                        <PnlCell entry={p.entry} quote={quotes[p.symbol ?? p.t]} />
                       </td>
                       <td className="px-6 py-4 text-end font-mono-lab text-[10px] text-faint" dir="ltr">{p.open}</td>
                     </tr>

@@ -99,6 +99,11 @@ export const IDEA_REPORTS: Record<string, IdeaReport> = {
     title: 'ALUULA Composites (AUUA.V) — The Width Trade · BAREK LABS',
     tickers: ['AUUA.V'],
   },
+  meta: {
+    src: '/research/ideas/meta/index.html',
+    title: 'Meta Platforms (META) — The Depreciation That Hasn\'t Landed · BAREK LABS',
+    tickers: ['META'],
+  },
 }
 
 export function ideaReport(slug: string | undefined): IdeaReport | null {

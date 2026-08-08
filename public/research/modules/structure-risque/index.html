@@ -1,0 +1,939 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BAREK / LABS — Deux distributions</title><style>
+:root{
+ --bg:#070B12; --surf:#0D131D; --surf2:#131B28; --line:#1E2A3C;
+ --em:#00E58A; --blue:#38BDF8; --vio:#A78BFA; --red:#F0616D; --cor:#FF8A5B; --amb:#FBBF24;
+ --tx:#E6EDF7; --mut:#8A9AB0; --dim:#5C6B80;
+ --head:'Archivo','Archivo Black','Helvetica Neue',Arial,sans-serif;
+ --body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+ --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--body);
+ font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding-left:26px;padding-right:26px}
+a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(56,189,248,.28)}
+a:hover{border-bottom-color:var(--blue)}
+:focus-visible{outline:2px solid var(--em);outline-offset:2px}
+
+.bar{position:sticky;top:0;z-index:60;background:rgba(7,11,18,.94);
+ backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:20px;height:58px}
+.logo{font-family:var(--head);font-size:15px;letter-spacing:.16em;white-space:nowrap}
+.logo b{font-weight:800}
+.logo i{font-style:normal;color:var(--dim);margin:0 .18em;font-weight:300}
+.logo s{text-decoration:none;font-weight:400;letter-spacing:.26em}
+.bar nav{display:flex;gap:16px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav a{color:var(--mut);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+ border:0;font-weight:600;white-space:nowrap}
+.bar nav a:hover{color:var(--em)}
+.lang{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;flex:none}
+.lang button{background:none;border:0;color:var(--mut);font:600 11px/1 var(--mono);
+ padding:7px 11px;cursor:pointer;letter-spacing:.08em}
+.lang button.on{background:var(--em);color:#04140C}
+
+.cover{padding-top:80px;padding-bottom:50px;border-bottom:1px solid var(--line)}
+.kicker{font:600 11px/1 var(--mono);letter-spacing:.24em;color:var(--em);
+ text-transform:uppercase;margin-bottom:24px}
+h1.big{font-family:var(--head);font-weight:800;font-size:clamp(40px,8vw,92px);
+ line-height:.94;letter-spacing:-.028em;margin:0 0 22px}
+h1.big .l2{display:block;color:transparent;-webkit-text-stroke:1.6px var(--em)}
+.lede{font-size:19px;color:var(--mut);max-width:74ch;line-height:1.62}
+.lede strong{color:var(--tx);font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:26px;margin-top:32px;
+ font:500 11.5px/1.5 var(--mono);color:var(--dim);letter-spacing:.04em}
+.meta b{color:var(--tx);font-weight:600;display:block;font-size:13px;margin-top:3px}
+
+section{padding-top:60px;padding-bottom:60px;border-bottom:1px solid var(--line);
+ scroll-margin-top:68px}
+.sn{font:700 11px/1 var(--mono);letter-spacing:.2em;color:var(--dim);margin-bottom:12px}
+h2{font-family:var(--head);font-weight:800;font-size:clamp(26px,4vw,38px);
+ letter-spacing:-.02em;line-height:1.12;margin:0 0 18px}
+h3{font-family:var(--head);font-weight:700;font-size:20px;margin:36px 0 12px;color:var(--tx)}
+h4{font:700 12px/1.4 var(--mono);letter-spacing:.13em;text-transform:uppercase;
+ color:var(--em);margin:26px 0 10px}
+p{margin:0 0 16px;color:#C3D0E0}
+p.big{font-size:18px;color:var(--tx)}
+ul{margin:0 0 18px;padding-left:20px;color:#C3D0E0}
+li{margin-bottom:9px}
+strong{color:var(--tx);font-weight:650}
+.mono{font-family:var(--mono)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:12px;margin:24px 0}
+.kpi{background:var(--surf);border:1px solid var(--line);border-radius:9px;
+ padding-left:17px;padding-right:17px;padding-top:16px;padding-bottom:16px}
+.kpi .k{font:600 10px/1.4 var(--mono);letter-spacing:.11em;text-transform:uppercase;
+ color:var(--dim);margin-bottom:9px;min-height:2.4em}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.kpi .s{font:500 10.5px/1.4 var(--mono);color:var(--mut);margin-top:8px;min-height:2.6em}
+.kpi.em .v{color:var(--em)} .kpi.red .v{color:var(--red)} .kpi.blue .v{color:var(--blue)}
+.kpi.vio .v{color:var(--vio)} .kpi.amb .v{color:var(--amb)} .kpi.cor .v{color:var(--cor)}
+
+.axiom{background:linear-gradient(180deg,rgba(0,229,138,.10),rgba(0,229,138,.03));
+ border:1px solid rgba(0,229,138,.36);border-radius:12px;
+ padding-left:26px;padding-right:26px;padding-top:24px;padding-bottom:24px;margin:26px 0;
+ font-family:var(--head);font-weight:700;font-size:clamp(18px,2.6vw,25px);line-height:1.35;
+ color:var(--tx);letter-spacing:-.01em;text-align:center}
+.opdisc{background:rgba(167,139,250,.05);border:1px solid rgba(167,139,250,.34);
+ border-radius:13px;padding-left:26px;padding-right:26px;padding-top:24px;padding-bottom:24px;
+ margin:34px 0}
+.opdisc > .n{font:800 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
+ color:var(--vio);margin-bottom:12px}
+.opdisc > h3{margin:0 0 10px;font-size:21px}
+.opdisc > .sub{font-size:14.5px;color:var(--mut);line-height:1.65;margin-bottom:6px}
+.opdisc .tw{background:var(--surf)}
+.rules{list-style:none;margin:22px 0 0;padding-left:0}
+.rules li{position:relative;padding-left:34px;margin-bottom:18px;color:#C3D0E0;font-size:14.5px}
+.rules li::before{content:counter(r);counter-increment:r;position:absolute;left:0;top:1px;
+ width:22px;height:22px;border-radius:6px;background:rgba(167,139,250,.16);color:var(--vio);
+ font:700 11px/22px var(--mono);text-align:center}
+.rules{counter-reset:r}
+.rules b{display:block;color:var(--tx);font-weight:650;margin-bottom:3px}
+.rules i{font-style:normal;color:var(--mut);font-size:13.5px;display:block;margin-top:4px}
+.nono{list-style:none;margin:18px 0 0;padding-left:0}
+.nono li{position:relative;padding-left:26px;margin-bottom:10px;color:#DCC9CC;font-size:14px}
+.nono li::before{content:"×";position:absolute;left:4px;top:-1px;color:var(--red);
+ font-weight:800;font-size:16px}
+
+.briques{display:grid;grid-template-columns:126px 1fr 1fr;gap:10px;margin:26px 0}
+.bq-h{font:700 10px/1.35 var(--mono);letter-spacing:.11em;text-transform:uppercase;
+ color:var(--dim);padding-left:14px;padding-right:14px;padding-top:10px;padding-bottom:10px;
+ display:flex;align-items:flex-end}
+.bq-s{background:var(--surf2);border-radius:9px;padding-left:14px;padding-right:14px;
+ padding-top:16px;padding-bottom:16px;display:flex;flex-direction:column;justify-content:center}
+.bq-s b{font:800 13px/1.2 var(--mono);letter-spacing:.1em;color:var(--tx);display:block}
+.bq-s span{font:500 10px/1.4 var(--mono);color:var(--dim);margin-top:6px}
+.bq{background:var(--surf);border:1px solid var(--line);border-radius:9px;
+ padding-left:17px;padding-right:17px;padding-top:16px;padding-bottom:16px}
+.bq > b{font-family:var(--head);font-weight:700;font-size:15px;display:block;margin-bottom:8px}
+.bq p{margin:0;font-size:13.5px;line-height:1.55;color:#B6C4D6}
+.bq-blue{border-color:rgba(56,189,248,.34)} .bq-blue > b{color:var(--blue)}
+.bq-em{border-color:rgba(0,229,138,.34)} .bq-em > b{color:var(--em)}
+
+figure{margin:32px 0 0;background:var(--surf);border:1px solid var(--line);
+ border-radius:11px;padding-left:22px;padding-right:22px;padding-top:22px;padding-bottom:6px;
+ overflow:hidden}
+figure .ft{font:700 13px/1.4 var(--body);color:var(--tx);margin-bottom:3px}
+figure .fs{font:500 11.5px/1.5 var(--mono);color:var(--dim);margin-bottom:16px}
+.chart{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.chart svg{display:block;max-width:100%;height:auto}
+.scrollhint{display:none;font:600 9.5px/1 var(--mono);letter-spacing:.1em;
+ text-transform:uppercase;color:var(--dim);margin:-6px 0 12px}
+.how{background:var(--surf2);border-left:2px solid var(--blue);border-radius:0 7px 7px 0;
+ padding-left:16px;padding-right:16px;padding-top:13px;padding-bottom:13px;
+ margin:16px 0 22px;font-size:13.5px;line-height:1.6;color:#B6C4D6}
+.how > b{display:block;font:700 9.5px/1 var(--mono);letter-spacing:.15em;text-transform:uppercase;
+ color:var(--blue);margin-bottom:7px}
+
+.angle{background:linear-gradient(180deg,rgba(0,229,138,.07),rgba(0,229,138,.02));
+ border:1px solid rgba(0,229,138,.3);border-radius:11px;
+ padding-left:24px;padding-right:24px;padding-top:22px;padding-bottom:22px;margin:30px 0}
+.angle .n{font:800 10px/1 var(--mono);letter-spacing:.17em;text-transform:uppercase;
+ color:var(--em);margin-bottom:11px}
+.angle h5{font-family:var(--head);font-weight:700;font-size:17.5px;margin:0 0 10px;color:var(--tx)}
+.angle p{margin:0 0 11px;color:#C8D6E6;font-size:15px}
+.angle p:last-child{margin-bottom:0}
+.warn{background:rgba(240,97,109,.07);border:1px solid rgba(240,97,109,.32);border-radius:11px;
+ padding-left:22px;padding-right:22px;padding-top:20px;padding-bottom:20px;margin:26px 0}
+.warn .n{font:800 10px/1 var(--mono);letter-spacing:.15em;text-transform:uppercase;
+ color:var(--red);margin-bottom:10px}
+.warn p{margin:0 0 10px;color:#DCC9CC;font-size:14.5px}.warn p:last-child{margin:0}
+.note{background:var(--surf);border:1px solid var(--line);border-radius:10px;
+ padding-left:20px;padding-right:20px;padding-top:18px;padding-bottom:18px;
+ margin:24px 0;font-size:14px;color:var(--mut)}
+.note > b{color:var(--vio);font:700 10px/1 var(--mono);letter-spacing:.14em;
+ text-transform:uppercase;display:block;margin-bottom:9px}
+
+.tw{overflow-x:auto;margin:24px 0;border:1px solid var(--line);border-radius:10px;background:var(--surf)}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:620px}
+th{background:var(--surf2);font:700 9.5px/1.4 var(--mono);letter-spacing:.1em;
+ text-transform:uppercase;color:var(--dim);padding:12px 13px;text-align:left;
+ border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 13px;border-bottom:1px solid rgba(30,42,60,.5);color:#C3D0E0;vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:rgba(56,189,248,.045)}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.hi{color:var(--tx);font-weight:650}
+.g{color:var(--em)}.r{color:var(--red)}.b{color:var(--blue)}.v{color:var(--vio)}
+.o{color:var(--cor)}.a{color:var(--amb)}.d{color:var(--dim)}
+.tag{display:inline-block;font:700 9px/1 var(--mono);letter-spacing:.09em;
+ padding:4px 7px;border-radius:4px;text-transform:uppercase;white-space:nowrap}
+.tag.ok{background:rgba(0,229,138,.15);color:var(--em)}
+.tag.no{background:rgba(240,97,109,.15);color:var(--red)}
+.tag.wa{background:rgba(251,191,36,.15);color:var(--amb)}
+.tag.nd{background:rgba(92,107,128,.16);color:var(--dim)}
+
+.panel{background:var(--surf);border:1px solid rgba(0,229,138,.28);border-radius:13px;
+ padding-left:26px;padding-right:26px;padding-top:26px;padding-bottom:26px;margin:32px 0}
+.panel-h{display:flex;align-items:center;gap:14px;margin-bottom:6px;flex-wrap:wrap}
+.panel-h h3{margin:0;font-size:19px}
+.reset{margin-left:auto;background:var(--surf2);border:1px solid var(--line);color:var(--mut);
+ font:600 11px/1 var(--mono);padding:9px 14px;border-radius:6px;cursor:pointer;letter-spacing:.05em}
+.reset:hover{border-color:var(--em);color:var(--em)}
+.panel-note{font:500 11px/1.5 var(--mono);color:var(--dim);margin-bottom:20px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chips button{background:var(--surf2);border:1px solid var(--line);color:var(--mut);
+ font:600 11px/1 var(--mono);padding:9px 13px;border-radius:6px;cursor:pointer;letter-spacing:.04em}
+.chips button:hover{border-color:var(--em);color:var(--em)}
+.chips button.on{background:var(--em);color:#04140C;border-color:var(--em)}
+.sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px 26px}
+.sl label{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+ font:600 11px/1.4 var(--mono);letter-spacing:.04em;color:var(--mut);margin-bottom:8px}
+.sl label span:first-child{flex:1 1 auto;min-width:0}
+.sl label span:last-child{color:var(--em);font-size:14px;font-weight:700;flex:0 0 auto;white-space:nowrap}
+.sl input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:4px;
+ border-radius:2px;background:var(--line);outline:none;cursor:pointer}
+.sl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+ width:16px;height:16px;border-radius:50%;background:var(--em);cursor:pointer;
+ border:3px solid var(--bg);box-shadow:0 0 0 1px var(--em)}
+.sl input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;
+ background:var(--em);cursor:pointer;border:3px solid var(--bg)}
+.sl .hint{font:500 10px/1.4 var(--mono);color:var(--dim);margin-top:6px}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(164px,1fr));gap:12px;
+ margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+.out div{background:var(--surf2);border-radius:9px;padding-left:16px;padding-right:16px;
+ padding-top:15px;padding-bottom:15px}
+.out .k{font:600 9.5px/1.35 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+ color:var(--dim);margin-bottom:8px;min-height:3.4em;display:flex;align-items:flex-end}
+.out .v{font-family:var(--mono);font-size:21px;font-weight:700;line-height:1.1;color:var(--em);white-space:nowrap;overflow-wrap:normal}
+.out .v.neg{color:var(--red)}
+.out .s{font:500 10px/1.4 var(--mono);color:var(--mut);margin-top:7px;min-height:2.6em}
+
+.tick{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 6px}
+.tick button{background:var(--surf);border:1px solid var(--line);color:var(--mut);
+ font:700 12px/1 var(--mono);padding:11px 16px;border-radius:7px;cursor:pointer;letter-spacing:.08em}
+.tick button:hover{border-color:var(--em);color:var(--em)}
+.tick button.on{background:var(--em);color:#04140C;border-color:var(--em)}
+.stamp{display:inline-block;font:700 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;
+ background:rgba(56,189,248,.14);color:var(--blue);padding:5px 9px;border-radius:4px;margin-left:8px}
+
+pre{background:var(--surf2);border:1px solid var(--line);border-radius:9px;
+ padding-left:18px;padding-right:18px;padding-top:16px;padding-bottom:16px;overflow-x:auto;
+ font:500 12px/1.65 var(--mono);color:#B6C4D6;margin:20px 0}
+pre b{color:var(--em);font-weight:700}
+.dis{background:var(--surf);border:1px solid var(--line);border-radius:10px;
+ padding-left:22px;padding-right:22px;padding-top:20px;padding-bottom:20px;margin-bottom:28px;
+ font-size:12.5px;color:var(--mut);line-height:1.75}
+.glos dt{font:700 12.5px/1.5 var(--mono);color:var(--em);margin-top:16px}
+.glos dd{margin:5px 0 0;color:#B6C4D6;font-size:14px;line-height:1.6}
+.src{font-size:12.5px;color:var(--mut);line-height:1.9;columns:2;column-gap:34px}
+footer{padding-top:48px;padding-bottom:72px;color:var(--dim);font-size:12.5px}
+
+@media(max-width:720px){
+ .bar nav{display:none}
+ section{padding-top:44px;padding-bottom:44px}
+ .src{columns:1}
+ figure{padding-left:14px;padding-right:14px;padding-top:16px;padding-bottom:4px}
+ .chart svg{min-width:720px;max-width:none}
+ .briques{grid-template-columns:1fr;gap:8px}
+ .opdisc{padding-left:16px;padding-right:16px;padding-top:20px;padding-bottom:20px}
+ .bq-h:first-child{display:none}
+ .bq-h{padding-top:14px;padding-bottom:4px}
+ .axiom{padding-left:18px;padding-right:18px}
+ .scrollhint{display:block}
+ .cover{padding-top:52px;padding-bottom:38px}
+ .panel{padding-left:16px;padding-right:16px;padding-top:20px;padding-bottom:20px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media print{.bar,.lang,.reset,.chips,.tick{display:none}body{background:#fff;color:#000}}
+</style></head><body><div class="bar"><div class="wrap"><span class="logo"><b>BAREK</b><i>/</i><s>LABS</s></span><nav><a href="#s01" data-fr="Bases" data-en="Basics">Bases</a><a href="#s02" data-fr="La roue" data-en="The wheel">La roue</a><a href="#s03" data-fr="Marché" data-en="Market">Marché</a><a href="#s04" data-fr="Distributions" data-en="Distributions">Distributions</a><a href="#s05" data-fr="Variance" data-en="Variance">Variance</a><a href="#s06" data-fr="Structures" data-en="Structures">Structures</a><a href="#s07" data-fr="Stop" data-en="Stop">Stop</a><a href="#s08" data-fr="Méthode" data-en="Method">Méthode</a><a href="#s09" data-fr="Lexique" data-en="Glossary">Lexique</a><a href="#s10" data-fr="Limites" data-en="Limits">Limites</a></nav><div class="lang"><button data-l="fr" class="on" type="button">FR</button><button data-l="en" type="button">EN</button></div></div></div><div class="cover"><div class="wrap"><div class="dis" data-fr="Document de recherche BAREK / LABS. Ce module ne constitue pas un conseil en investissement, ni une recommandation d’achat ou de vente, ni une sollicitation. Il n’émet aucune cible de cours. Il présente des scénarios, des fourchettes, des conditions d’invalidation et des identités arithmétiques. Les instruments dérivés décrits comportent un risque de perte pouvant excéder le capital engagé pour certaines structures. Les données de marché sont datées et n’engagent que la date de leur relevé. Toute hypothèse d’auteur est signalée « estimation BAREK / LABS ». Le § 02 contient un encadré de divulgation décrivant la discipline personnelle de l’auteur : il est publié à titre informatif et ne constitue pas une consigne adressée au lecteur." data-en="BAREK / LABS research document. This module is not investment advice, nor a buy or sell recommendation, nor a solicitation. It issues no price target. It presents scenarios, ranges, invalidation conditions and arithmetic identities. The derivative instruments described carry a risk of loss that may exceed capital deployed for certain structures. Market data is dated and commits only to the date of its reading. Every author assumption is flagged « BAREK / LABS estimate ». § 02 contains a disclosure box describing the author’s personal discipline: it is published for information and does not constitute an instruction addressed to the reader.">Document de recherche BAREK / LABS. Ce module ne constitue pas un conseil en investissement, ni une recommandation d’achat ou de vente, ni une sollicitation. Il n’émet aucune cible de cours. Il présente des scénarios, des fourchettes, des conditions d’invalidation et des identités arithmétiques. Les instruments dérivés décrits comportent un risque de perte pouvant excéder le capital engagé pour certaines structures. Les données de marché sont datées et n’engagent que la date de leur relevé. Toute hypothèse d’auteur est signalée « estimation BAREK / LABS ». Le § 02 contient un encadré de divulgation décrivant la discipline personnelle de l’auteur : il est publié à titre informatif et ne constitue pas une consigne adressée au lecteur.</div><div class="kicker" data-fr="Module transversal · structure de risque" data-en="Cross-report module · risk structure">Module transversal · structure de risque</div><h1 class="big"><span data-fr="Deux" data-en="Two">Deux</span><span class="l2" data-fr="distributions" data-en="distributions">distributions</span></h1><p class="lede" data-fr="Un flux actualisé produit une valeur. Un marché d’options produit une distribution. Les deux portent sur le même titre, et l’endroit où ils divergent est plus instructif que chacun pris seul. Ce module mesure cet écart, sur n’importe quel ticker disposant d’options listées." data-en="A discounted cash flow produces a value. An option market produces a distribution. Both concern the same security, and where they diverge is more instructive than either taken alone. This module measures that gap, on any ticker with listed options.">Un flux actualisé produit une valeur. Un marché d’options produit une distribution. Les deux portent sur le même titre, et l’endroit où ils divergent est plus instructif que chacun pris seul. Ce module mesure cet écart, sur n’importe quel ticker disposant d’options listées.</p><div class="meta"><div data-fr="Relevé de marché" data-en="Market reading">Relevé de marché<b data-fr="7 août 2026, en séance" data-en="7 August 2026, intraday">7 août 2026, en séance</b></div><div data-fr="Scénarios" data-en="Scenarios">Scénarios<b data-fr="arrêtés au 6 août 2026" data-en="cut off 6 August 2026">arrêtés au 6 août 2026</b></div><div data-fr="Source marché" data-en="Market source">Source marché<b>IBKR</b></div><div data-fr="Tickers de démonstration" data-en="Demonstration tickers">Tickers de démonstration<b>NBIS · ISRG</b></div><div data-fr="Recommandation" data-en="Recommendation">Recommandation<b data-fr="aucune, par construction" data-en="none, by construction">aucune, par construction</b></div></div></div></div><section id="s00"><div class="wrap"><div class="sn">§ 00</div><h2 data-fr="Ce que ce module fait, et ce qu&#x27;il ne fait pas" data-en="What this module does, and what it does not">Ce que ce module fait, et ce qu&#x27;il ne fait pas</h2><p data-fr="Ce module lit une structure d&#x27;options comme une <strong>information de marché</strong>, au même titre qu&#x27;un multiple ou qu&#x27;un écart de crédit. Il mesure ce que le marché fait payer pour l&#x27;incertitude sur un titre, et confronte cette mesure aux scénarios publiés par le rapport fondamental correspondant." data-en="This module reads an option structure as <strong>market information</strong>, in the same way as a multiple or a credit spread. It measures what the market charges for uncertainty on a name, and confronts that measure with the scenarios published in the corresponding fundamental report.">Ce module lit une structure d&#x27;options comme une <strong>information de marché</strong>, au même titre qu&#x27;un multiple ou qu&#x27;un écart de crédit. Il mesure ce que le marché fait payer pour l&#x27;incertitude sur un titre, et confronte cette mesure aux scénarios publiés par le rapport fondamental correspondant.</p><div class="warn"><div class="n" data-fr="Ce module n&#x27;est pas une recommandation de position" data-en="This module is not a position recommendation">Ce module n&#x27;est pas une recommandation de position</div><p data-fr="Aucune structure présentée ici n&#x27;est conseillée. Le graphique de payoff est une identité arithmétique : à échéance, une structure donnée produit un résultat donné. Savoir qu&#x27;une vente d&#x27;appel plafonne le gain n&#x27;est pas un avis sur l&#x27;opportunité de la vendre." data-en="No structure shown here is recommended. The payoff chart is an arithmetic identity: at expiry, a given structure produces a given result. Knowing that a short call caps the upside is not a view on whether to sell it.">Aucune structure présentée ici n&#x27;est conseillée. Le graphique de payoff est une identité arithmétique : à échéance, une structure donnée produit un résultat donné. Savoir qu&#x27;une vente d&#x27;appel plafonne le gain n&#x27;est pas un avis sur l&#x27;opportunité de la vendre.</p><p data-fr="Le module ne produit ni niveau d&#x27;entrée, ni niveau de sortie, ni taille de position, ni horizon de détention. Les primes utilisées par défaut sont des hypothèses de travail — estimations BAREK / LABS — et non des cotations relevées : la chaîne d&#x27;options par strike n&#x27;était pas accessible à l&#x27;arrêté." data-en="The module produces no entry level, no exit level, no position size and no holding period. Default premiums are working assumptions — BAREK / LABS estimates — not quoted prices: the per-strike option chain was not reachable at the cut-off.">Le module ne produit ni niveau d&#x27;entrée, ni niveau de sortie, ni taille de position, ni horizon de détention. Les primes utilisées par défaut sont des hypothèses de travail — estimations BAREK / LABS — et non des cotations relevées : la chaîne d&#x27;options par strike n&#x27;était pas accessible à l&#x27;arrêté.</p><p data-fr="Les probabilités implicites affichées sont celles d&#x27;une loi lognormale sans drift calibrée sur une seule volatilité. Ce n&#x27;est pas la densité risque-neutre complète du marché, qui exigerait la surface de volatilité entière. L&#x27;écart est signalé au § 10." data-en="The implied probabilities shown come from a driftless lognormal law calibrated on a single volatility. This is not the market&#x27;s full risk-neutral density, which would require the entire volatility surface. The gap is flagged in § 10.">Les probabilités implicites affichées sont celles d&#x27;une loi lognormale sans drift calibrée sur une seule volatilité. Ce n&#x27;est pas la densité risque-neutre complète du marché, qui exigerait la surface de volatilité entière. L&#x27;écart est signalé au § 10.</p></div><p data-fr="Ce que le module apporte au rapport fondamental tient en une phrase : un DCF produit une valeur, un marché d&#x27;options produit une distribution. Les deux peuvent être comparés, et l&#x27;endroit où ils divergent est plus instructif que chacun pris seul." data-en="What the module adds to the fundamental report fits in one sentence: a DCF produces a value, an option market produces a distribution. The two can be compared, and where they diverge is more instructive than either taken alone.">Ce que le module apporte au rapport fondamental tient en une phrase : un DCF produit une valeur, un marché d&#x27;options produit une distribution. Les deux peuvent être comparés, et l&#x27;endroit où ils divergent est plus instructif que chacun pris seul.</p><p data-fr="Le module fonctionne sur n&#x27;importe quel ticker disposant d&#x27;options listées. La procédure de branchement est en § 06." data-en="The module works on any ticker with listed options. The wiring procedure is in § 08.">Le module fonctionne sur n&#x27;importe quel ticker disposant d&#x27;options listées. La procédure de branchement est en § 06.</p></div></section><section id="s01"><div class="wrap"><div class="sn">§ 01</div><h2 data-fr="Les options en dix minutes" data-en="Options in ten minutes">Les options en dix minutes</h2><p data-fr="Cette section existe pour que le reste du module soit lisible sans connaissance préalable. Un lecteur qui connaît déjà les options peut passer directement au § 03." data-en="This section exists so the rest of the module is readable without prior knowledge. A reader who already knows options can go straight to § 03.">Cette section existe pour que le reste du module soit lisible sans connaissance préalable. Un lecteur qui connaît déjà les options peut passer directement au § 03.</p><div class="axiom"><span data-fr="L’acheteur paie pour un droit. Le vendeur est payé pour une obligation." data-en="The buyer pays for a right. The seller is paid for an obligation.">L’acheteur paie pour un droit. Le vendeur est payé pour une obligation.</span></div><p data-fr="Tout le reste en découle. Un contrat porte toujours sur 100 actions : une prime affichée à 3,20 se paie ou s&#x27;encaisse 320. Le strike est le prix auquel les actions changeront de main si l&#x27;option est exercée. L&#x27;échéance est la date au-delà de laquelle le droit disparaît." data-en="Everything else follows. One contract always covers 100 shares: a premium quoted at 3.20 is paid or received as 320. The strike is the price at which the shares will change hands if the option is exercised. Expiry is the date beyond which the right disappears.">Tout le reste en découle. Un contrat porte toujours sur 100 actions : une prime affichée à 3,20 se paie ou s&#x27;encaisse 320. Le strike est le prix auquel les actions changeront de main si l&#x27;option est exercée. L&#x27;échéance est la date au-delà de laquelle le droit disparaît.</p><div class="briques"><div class="bq-h"></div><div class="bq-h" data-fr="CALL — lié à l’achat de l’action" data-en="CALL — tied to buying the share">CALL — lié à l’achat de l’action</div><div class="bq-h" data-fr="PUT — lié à la vente de l’action" data-en="PUT — tied to selling the share">PUT — lié à la vente de l’action</div><div class="bq-s"><b data-fr="ACHETER" data-en="BUY">ACHETER</b><span data-fr="tu paies la prime" data-en="you pay the premium">tu paies la prime</span></div><div class="bq bq-blue"><b data-fr="Pari haussier" data-en="Bullish bet">Pari haussier</b><p data-fr="Le droit d’acheter 100 actions au strike jusqu’à l’échéance. Gain sans plafond, perte limitée à la prime payée." data-en="The right to buy 100 shares at the strike until expiry. Unlimited gain, loss capped at the premium paid.">Le droit d’acheter 100 actions au strike jusqu’à l’échéance. Gain sans plafond, perte limitée à la prime payée.</p></div><div class="bq bq-blue"><b data-fr="Assurance, ou pari baissier" data-en="Insurance, or bearish bet">Assurance, ou pari baissier</b><p data-fr="Le droit de vendre 100 actions au strike. Perte limitée à la prime. C’est le seul instrument simple qui gagne quand le marché baisse." data-en="The right to sell 100 shares at the strike. Loss capped at the premium. It is the only simple instrument that gains when the market falls.">Le droit de vendre 100 actions au strike. Perte limitée à la prime. C’est le seul instrument simple qui gagne quand le marché baisse.</p></div><div class="bq-s"><b data-fr="VENDRE" data-en="SELL">VENDRE</b><span data-fr="tu touches la prime" data-en="you receive the premium">tu touches la prime</span></div><div class="bq bq-em"><b data-fr="Call couvert" data-en="Covered call">Call couvert</b><p data-fr="Obligation de vendre tes 100 actions au strike. Tu échanges ta hausse au-delà du strike contre de la trésorerie immédiate. Vendu sans détenir les actions, il expose à une perte sans limite." data-en="Obligation to sell your 100 shares at the strike. You trade your upside beyond the strike for immediate cash. Sold without owning the shares, it exposes to unlimited loss.">Obligation de vendre tes 100 actions au strike. Tu échanges ta hausse au-delà du strike contre de la trésorerie immédiate. Vendu sans détenir les actions, il expose à une perte sans limite.</p></div><div class="bq bq-em"><b data-fr="Put vendu couvert en cash" data-en="Cash-secured put">Put vendu couvert en cash</b><p data-fr="Obligation d’acheter 100 actions au strike. Le collatéral immobilisé vaut strike × 100. Gain plafonné à la prime, perte large en cas de forte chute." data-en="Obligation to buy 100 shares at the strike. Collateral tied up equals strike × 100. Gain capped at the premium, loss large in a sharp fall.">Obligation d’acheter 100 actions au strike. Le collatéral immobilisé vaut strike × 100. Gain plafonné à la prime, perte large en cas de forte chute.</p></div></div><div class="note"><b data-fr="Le vendeur gagne souvent, mais pas beaucoup" data-en="The seller wins often, but not much">Le vendeur gagne souvent, mais pas beaucoup</b><span data-fr="Vendre une option, c&#x27;est encaisser un montant fixe et connu contre un risque variable et inconnu. Vendre gagne dans la majorité des cas et perd rarement, mais la perte, quand elle vient, dépasse largement le gain unitaire. La question n&#x27;est jamais « est-ce que ça gagne souvent » — la réponse est oui par construction — mais « est-ce que la prime paie l&#x27;amplitude du cas rare ». C&#x27;est exactement ce que mesure la prime de variance du § 05." data-en="Selling an option means banking a fixed, known amount against a variable, unknown risk. Selling wins in most cases and loses rarely, but the loss, when it comes, far exceeds the unit gain. The question is never « does it win often » — the answer is yes by construction — but « does the premium pay for the size of the rare case ». That is exactly what the variance risk premium in § 05 measures.">Vendre une option, c&#x27;est encaisser un montant fixe et connu contre un risque variable et inconnu. Vendre gagne dans la majorité des cas et perd rarement, mais la perte, quand elle vient, dépasse largement le gain unitaire. La question n&#x27;est jamais « est-ce que ça gagne souvent » — la réponse est oui par construction — mais « est-ce que la prime paie l&#x27;amplitude du cas rare ». C&#x27;est exactement ce que mesure la prime de variance du § 05.</span></div><h4 data-fr="Les cinq lettres grecques, en français" data-en="The five Greek letters, in plain words">Les cinq lettres grecques, en français</h4><div class="tw "><table><thead><tr><th class="" data-fr="Lettre" data-en="Letter">Lettre</th><th class="" data-fr="Ce qu&#x27;elle mesure" data-en="What it measures">Ce qu&#x27;elle mesure</th><th class="" data-fr="Pour un vendeur d&#x27;options" data-en="For an option seller">Pour un vendeur d&#x27;options</th></tr></thead><tbody><tr><td class="hi" data-fr="Delta" data-en="Delta">Delta</td><td data-fr="sensibilité au cours ; approche aussi la probabilité de finir dans la monnaie" data-en="sensitivity to price; also approximates the probability of finishing in the money">sensibilité au cours ; approche aussi la probabilité de finir dans la monnaie</td><td data-fr="un delta de 0,20 sur un put vendu correspond à environ une chance sur cinq d&#x27;être assigné" data-en="a 0.20 delta on a short put means roughly a one-in-five chance of assignment">un delta de 0,20 sur un put vendu correspond à environ une chance sur cinq d&#x27;être assigné</td></tr><tr><td class="hi" data-fr="Thêta" data-en="Theta">Thêta</td><td data-fr="érosion de la valeur avec le temps qui passe" data-en="erosion of value as time passes">érosion de la valeur avec le temps qui passe</td><td data-fr="le seul allié du vendeur : chaque jour sans mouvement lui rapporte" data-en="the seller&#x27;s only ally: every day without movement pays them">le seul allié du vendeur : chaque jour sans mouvement lui rapporte</td></tr><tr><td class="hi" data-fr="Véga" data-en="Vega">Véga</td><td data-fr="sensibilité à la volatilité implicite" data-en="sensitivity to implied volatility">sensibilité à la volatilité implicite</td><td data-fr="une hausse de la volatilité coûte au vendeur, même si le cours n&#x27;a pas bougé" data-en="a rise in volatility costs the seller, even if the price has not moved">une hausse de la volatilité coûte au vendeur, même si le cours n&#x27;a pas bougé</td></tr><tr><td class="hi" data-fr="Gamma" data-en="Gamma">Gamma</td><td data-fr="accélération du delta à l&#x27;approche de l&#x27;échéance" data-en="acceleration of delta as expiry nears">accélération du delta à l&#x27;approche de l&#x27;échéance</td><td data-fr="c&#x27;est lui qui rend les derniers jours dangereux : le risque se réévalue vite" data-en="it is what makes the final days dangerous: risk reprices fast">c&#x27;est lui qui rend les derniers jours dangereux : le risque se réévalue vite</td></tr><tr><td class="hi" data-fr="Rhô" data-en="Rho">Rhô</td><td data-fr="sensibilité aux taux d&#x27;intérêt" data-en="sensitivity to interest rates">sensibilité aux taux d&#x27;intérêt</td><td data-fr="négligeable sur les échéances courtes ; ignoré dans ce module" data-en="negligible on short maturities; ignored in this module">négligeable sur les échéances courtes ; ignoré dans ce module</td></tr></tbody></table></div></div></section><section id="s02"><div class="wrap"><div class="sn">§ 02</div><h2 data-fr="La roue" data-en="The wheel">La roue</h2><p data-fr="La roue est un cycle, pas une position. On vend un put couvert en cash à un prix auquel posséder le titre conviendrait. Si le cours reste au-dessus, la prime est acquise et on recommence. S&#x27;il passe dessous, on est assigné : on détient les actions, à un prix de revient égal au strike moins toutes les primes encaissées. On vend alors des calls couverts au-dessus de ce prix de revient, jusqu&#x27;à ce que les actions soient rappelées — et le cycle repart." data-en="The wheel is a cycle, not a position. You sell a cash-secured put at a price where owning the stock would be acceptable. If the price stays above, the premium is earned and you start again. If it drops below, you are assigned: you hold the shares, at a cost basis equal to the strike minus every premium received. You then sell covered calls above that cost basis, until the shares are called away — and the cycle restarts.">La roue est un cycle, pas une position. On vend un put couvert en cash à un prix auquel posséder le titre conviendrait. Si le cours reste au-dessus, la prime est acquise et on recommence. S&#x27;il passe dessous, on est assigné : on détient les actions, à un prix de revient égal au strike moins toutes les primes encaissées. On vend alors des calls couverts au-dessus de ce prix de revient, jusqu&#x27;à ce que les actions soient rappelées — et le cycle repart.</p><figure><div class="ft" data-fr="Les cinq étapes du cycle" data-en="The five steps of the cycle">Les cinq étapes du cycle</div><div class="fs" data-fr="Deux sorties ramènent au point de départ : l&#x27;expiration et le rappel" data-en="Two exits return to the starting point: expiry and being called away">Deux sorties ramènent au point de départ : l&#x27;expiration et le rappel</div><div class="scrollhint" data-fr="→ faire défiler le graphique" data-en="→ scroll the chart">→ faire défiler le graphique</div><div class="chart" id="ch_cycle"></div><div class="how"><b data-fr="Comment lire ce graphique" data-en="How to read this chart">Comment lire ce graphique</b><span data-fr="Le cycle se lit de gauche à droite puis ligne suivante. Deux branches partent de l&#x27;étape 2 : l&#x27;option expire sans valeur et l&#x27;on revient immédiatement à l&#x27;étape 2, ou l&#x27;on est assigné et l&#x27;on entre dans la partie basse. La partie basse n&#x27;est pas un échec du dispositif : elle en fait partie." data-en="The cycle reads left to right, then next row. Two branches leave step 2: the option expires worthless and you return immediately to step 2, or you are assigned and enter the lower row. The lower row is not a failure of the design: it is part of it.">Le cycle se lit de gauche à droite puis ligne suivante. Deux branches partent de l&#x27;étape 2 : l&#x27;option expire sans valeur et l&#x27;on revient immédiatement à l&#x27;étape 2, ou l&#x27;on est assigné et l&#x27;on entre dans la partie basse. La partie basse n&#x27;est pas un échec du dispositif : elle en fait partie.</span></div></figure><div class="panel"><div class="panel-h"><h3 data-fr="Simulateur de vente de put" data-en="Short put simulator">Simulateur de vente de put</h3></div><div class="panel-note" data-fr="Sur le ticker sélectionné au § 03, au cours relevé chez IBKR. La prime est une hypothèse — estimation BAREK / LABS — à remplacer par une cotation avant tout usage chiffré." data-en="On the ticker selected in § 03, at the IBKR-observed price. The premium is an assumption — BAREK / LABS estimate — to be replaced by a quote before any quantified use.">Sur le ticker sélectionné au § 03, au cours relevé chez IBKR. La prime est une hypothèse — estimation BAREK / LABS — à remplacer par une cotation avant tout usage chiffré.</div><div class="sliders"><div class="sl"><label><span id="lt_wkp" data-fr="Strike du put (% du cours)" data-en="Put strike (% of spot)">Strike du put (% du cours)</span><span id="lv_wkp">—</span></label><input type="range" id="sl_wkp" min="50" max="100" step="1" value="90"><div class="hint" data-fr="sous le cours" data-en="below spot">sous le cours</div></div><div class="sl"><label><span id="lt_wpr" data-fr="Prime reçue (% du strike)" data-en="Premium received (% of strike)">Prime reçue (% du strike)</span><span id="lv_wpr">—</span></label><input type="range" id="sl_wpr" min="0.5" max="20" step="0.1" value="4.0"><div class="hint" data-fr="estimation BAREK / LABS" data-en="BAREK / LABS estimate">estimation BAREK / LABS</div></div><div class="sl"><label><span id="lt_wdte" data-fr="Jours jusqu'à l'échéance" data-en="Days to expiry">Jours jusqu'à l'échéance</span><span id="lv_wdte">—</span></label><input type="range" id="sl_wdte" min="7" max="120" step="1" value="40"><div class="hint" data-fr="usage courant : 30 à 50" data-en="common practice: 30 to 50">usage courant : 30 à 50</div></div></div><div class="out"><div><div class="k" data-fr="Collatéral immobilisé" data-en="Collateral tied up">Collatéral immobilisé</div><div class="v" id="w_coll">—</div><div class="s" data-fr="un contrat, strike × 100" data-en="one contract, strike × 100">un contrat, strike × 100</div></div><div><div class="k" data-fr="Prime encaissée" data-en="Premium received">Prime encaissée</div><div class="v" id="w_prime">—</div><div class="s" data-fr="immédiate et définitive" data-en="immediate and final">immédiate et définitive</div></div><div><div class="k" data-fr="Prix de revient si assigné" data-en="Cost basis if assigned">Prix de revient si assigné</div><div class="v" id="w_pru">—</div><div class="s" id="w_pru_s" data-fr="—" data-en="—">—</div></div><div><div class="k" data-fr="Rendement sur collatéral" data-en="Return on collateral">Rendement sur collatéral</div><div class="v" id="w_rend">—</div><div class="s" id="w_rend_s" data-fr="—" data-en="—">—</div></div><div><div class="k" data-fr="Équivalent annualisé" data-en="Annualised equivalent">Équivalent annualisé</div><div class="v" id="w_rendann">—</div><div class="s" data-fr="si répété à l'identique" data-en="if repeated identically">si répété à l'identique</div></div><div><div class="k" data-fr="Prob. implicite d'assignation" data-en="Implied prob. of assignment">Prob. implicite d'assignation</div><div class="v" id="w_passign">—</div><div class="s" data-fr="loi implicite, à l'échéance" data-en="implied law, at expiry">loi implicite, à l'échéance</div></div><div><div class="k" data-fr="Strike pour 20 % de probabilité" data-en="Strike for 20% probability">Strike pour 20 % de probabilité</div><div class="v" id="w_k20">—</div><div class="s" id="w_k20_s" data-fr="—" data-en="—">—</div></div></div></div><figure><div class="ft" data-fr="Résultat de la vente de put à l&#x27;échéance" data-en="Short put result at expiry">Résultat de la vente de put à l&#x27;échéance</div><div class="fs" data-fr="Un contrat, en dollars, selon le cours final" data-en="One contract, in dollars, by final price">Un contrat, en dollars, selon le cours final</div><div class="scrollhint" data-fr="→ faire défiler le graphique" data-en="→ scroll the chart">→ faire défiler le graphique</div><div class="chart" id="ch_wheel"></div><div class="how"><b data-fr="Comment lire ce graphique" data-en="How to read this chart">Comment lire ce graphique</b><span data-fr="La ligne émeraude est le résultat d&#x27;un contrat. À droite du strike, elle est plate : le gain est la prime, quelle que soit la hausse. À gauche, elle descend au rythme du cours, point pour point. La zone ambrée est celle où l&#x27;assignation a lieu. Les repères −1σ et −2σ situent l&#x27;ampleur des baisses que la volatilité implicite juge respectivement courante et rare." data-en="The emerald line is the result of one contract. Right of the strike it is flat: the gain is the premium, whatever the rise. Left of it, it falls with the price, point for point. The amber zone is where assignment occurs. The −1σ and −2σ markers show the size of falls that implied volatility considers common and rare respectively.">La ligne émeraude est le résultat d&#x27;un contrat. À droite du strike, elle est plate : le gain est la prime, quelle que soit la hausse. À gauche, elle descend au rythme du cours, point pour point. La zone ambrée est celle où l&#x27;assignation a lieu. Les repères −1σ et −2σ situent l&#x27;ampleur des baisses que la volatilité implicite juge respectivement courante et rare.</span></div></figure><p data-fr="Le tableau ci-dessous chiffre les six issues sur le ticker sélectionné, aux prix relevés. Les seuils ne sont pas choisis à la main : ce sont le cours, le strike, le point mort et les écarts-types de la loi implicite." data-en="The table below quantifies the six outcomes on the selected ticker, at observed prices. The thresholds are not hand-picked: they are the spot, the strike, the break-even and the standard deviations of the implied law.">Le tableau ci-dessous chiffre les six issues sur le ticker sélectionné, aux prix relevés. Les seuils ne sont pas choisis à la main : ce sont le cours, le strike, le point mort et les écarts-types de la loi implicite.</p><div class="tw"><table><thead><tr><th data-fr="Issue" data-en="Outcome">Issue</th><th class="n" data-fr="Cours final" data-en="Final price">Cours final</th><th data-fr="Statut" data-en="Status">Statut</th><th class="n" data-fr="Résultat" data-en="Result">Résultat</th><th class="n" data-fr="Sur collatéral" data-en="On collateral">Sur collatéral</th></tr></thead><tbody id="wheelbody"></tbody></table></div><div class="angle"><div class="n" data-fr="Angle non-évident n°3" data-en="Non-obvious angle no.3">Angle non-évident n°3</div><h5 data-fr="La roue gagne dans la plupart des issues et perd dans les grandes" data-en="The wheel wins in most outcomes and loses in the large ones">La roue gagne dans la plupart des issues et perd dans les grandes</h5><p data-fr="Faire varier le strike montre la structure du dispositif mieux qu&#x27;un raisonnement. Dans toutes les issues au-dessus du strike, le résultat est exactement le même : la prime, ni plus ni moins. Le cours peut monter de trente pour cent ou stagner, cela ne change rien. En dessous, le résultat suit le titre point pour point, amorti de la seule prime." data-en="Varying the strike shows the design better than any argument. In every outcome above the strike, the result is exactly the same: the premium, no more and no less. The price can rise thirty percent or stall, it changes nothing. Below, the result follows the stock point for point, cushioned only by the premium.">Faire varier le strike montre la structure du dispositif mieux qu&#x27;un raisonnement. Dans toutes les issues au-dessus du strike, le résultat est exactement le même : la prime, ni plus ni moins. Le cours peut monter de trente pour cent ou stagner, cela ne change rien. En dessous, le résultat suit le titre point pour point, amorti de la seule prime.</p><p data-fr="C&#x27;est la définition d&#x27;une asymétrie : fréquence élevée de petits gains identiques, fréquence faible de pertes de plusieurs multiples de la prime. Ce n&#x27;est ni bon ni mauvais en soi. C&#x27;est un profil, et il se juge à une seule question : la prime encaissée rémunère-t-elle correctement l&#x27;amplitude du cas rare ?" data-en="That is the definition of an asymmetry: high frequency of identical small gains, low frequency of losses worth several multiples of the premium. It is neither good nor bad in itself. It is a profile, and it is judged on one question: does the premium received properly pay for the size of the rare case?">C&#x27;est la définition d&#x27;une asymétrie : fréquence élevée de petits gains identiques, fréquence faible de pertes de plusieurs multiples de la prime. Ce n&#x27;est ni bon ni mauvais en soi. C&#x27;est un profil, et il se juge à une seule question : la prime encaissée rémunère-t-elle correctement l&#x27;amplitude du cas rare ?</p><p data-fr="Le § 05 répond à cette question avec des chiffres, et pas dans le sens attendu : sur les deux relevés du 7 août, la volatilité réalisée dépasse la volatilité implicite. Le cas rare, ces trente derniers jours, a été plus ample que ce que les primes facturaient." data-en="§ 05 answers that question with figures, and not in the expected direction: on both 7 August readings, realised volatility exceeds implied volatility. The rare case, over the last thirty days, was larger than what the premiums were charging.">Le § 05 répond à cette question avec des chiffres, et pas dans le sens attendu : sur les deux relevés du 7 août, la volatilité réalisée dépasse la volatilité implicite. Le cas rare, ces trente derniers jours, a été plus ample que ce que les primes facturaient.</p></div><div class="angle"><div class="n" data-fr="Angle non-évident n°4" data-en="Non-obvious angle no.4">Angle non-évident n°4</div><h5 data-fr="« Sept à douze pour cent sous le cours » ne veut rien dire sans la volatilité" data-en="« Seven to twelve percent below spot » means nothing without volatility">« Sept à douze pour cent sous le cours » ne veut rien dire sans la volatilité</h5><p data-fr="La règle de conduite la plus répandue pour vendre des puts fixe le strike par un delta de 0,15 à 0,25, traduit en « environ sept à douze pour cent sous le cours ». La traduction est le problème : elle n’est vraie que pour une volatilité donnée, et personne ne précise laquelle." data-en="The most widespread rulebook for selling puts sets the strike by a delta of 0.15 to 0.25, translated as « about seven to twelve percent below spot ». The translation is the problem: it is true only for one level of volatility, and nobody says which.">La règle de conduite la plus répandue pour vendre des puts fixe le strike par un delta de 0,15 à 0,25, traduit en « environ sept à douze pour cent sous le cours ». La traduction est le problème : elle n’est vraie que pour une volatilité donnée, et personne ne précise laquelle.</p><p data-fr="Sur Intuitive Surgical, à trente-quatre pour cent de volatilité implicite, la traduction fonctionne : un strike dix pour cent sous le cours donne bien une probabilité d’assignation de dix-neuf pour cent à quarante jours, en plein dans la fourchette visée. Sur Nebius, à cent dix-neuf pour cent de volatilité implicite, le même strike dix pour cent plus bas donne quarante-sept pour cent — plus du double de la fourchette. Sept pour cent sous le cours donne cinquante pour cent : une pièce lancée en l’air." data-en="On Intuitive Surgical, at thirty-four percent implied volatility, the translation works: a strike ten percent below spot does give a nineteen percent assignment probability at forty days, squarely inside the intended range. On Nebius, at one hundred and nineteen percent implied volatility, the same ten-percent-lower strike gives forty-seven percent — more than double the range. Seven percent below spot gives fifty percent: a coin toss.">Sur Intuitive Surgical, à trente-quatre pour cent de volatilité implicite, la traduction fonctionne : un strike dix pour cent sous le cours donne bien une probabilité d’assignation de dix-neuf pour cent à quarante jours, en plein dans la fourchette visée. Sur Nebius, à cent dix-neuf pour cent de volatilité implicite, le même strike dix pour cent plus bas donne quarante-sept pour cent — plus du double de la fourchette. Sept pour cent sous le cours donne cinquante pour cent : une pièce lancée en l’air.</p><p data-fr="La carte « strike pour 20 % de probabilité » donne la traduction correcte, recalculée à chaque changement de ticker et d’échéance. Sur Nebius elle indique un strike près de trente-quatre pour cent sous le cours, contre moins de dix pour cent sur Intuitive Surgical. Le pourcentage n’est pas la règle : la probabilité est la règle, et le pourcentage n’en est qu’une conséquence qui change avec la volatilité et l’échéance." data-en="The « strike for 20% probability » card gives the correct translation, recomputed on every change of ticker and expiry. On Nebius it points to a strike close to thirty-four percent below spot, against under ten percent on Intuitive Surgical. The percentage is not the rule: the probability is the rule, and the percentage is only a consequence of it that moves with volatility and maturity.">La carte « strike pour 20 % de probabilité » donne la traduction correcte, recalculée à chaque changement de ticker et d’échéance. Sur Nebius elle indique un strike près de trente-quatre pour cent sous le cours, contre moins de dix pour cent sur Intuitive Surgical. Le pourcentage n’est pas la règle : la probabilité est la règle, et le pourcentage n’en est qu’une conséquence qui change avec la volatilité et l’échéance.</p></div><div class="angle"><div class="n" data-fr="Angle non-évident n°5" data-en="Non-obvious angle no.5">Angle non-évident n°5</div><h5 data-fr="Le percentile de volatilité implicite remplace le VIX, titre par titre" data-en="The implied volatility percentile replaces the VIX, name by name">Le percentile de volatilité implicite remplace le VIX, titre par titre</h5><p data-fr="Les grilles de conduite les plus répandues indexent la décision de vendre sur le VIX : rien sous quatorze, prudence de quatorze à dix-huit, zone favorable de dix-huit à vingt-cinq. Le raisonnement est juste — vendre de la prime quand la prime est chère — mais l&#x27;instrument est le mauvais. Le VIX mesure la volatilité implicite de l&#x27;indice S&amp;P 500, pas celle du titre vendu." data-en="The most widespread rulebooks index the decision to sell on the VIX: nothing below fourteen, caution from fourteen to eighteen, favourable zone from eighteen to twenty-five. The reasoning is right — sell premium when premium is expensive — but the instrument is the wrong one. The VIX measures the implied volatility of the S&amp;P 500 index, not that of the name being sold.">Les grilles de conduite les plus répandues indexent la décision de vendre sur le VIX : rien sous quatorze, prudence de quatorze à dix-huit, zone favorable de dix-huit à vingt-cinq. Le raisonnement est juste — vendre de la prime quand la prime est chère — mais l&#x27;instrument est le mauvais. Le VIX mesure la volatilité implicite de l&#x27;indice S&amp;P 500, pas celle du titre vendu.</p><p data-fr="L&#x27;équivalent correct existe et se relève chez IBKR en un appel : le percentile de volatilité implicite du titre sur cinquante-deux semaines. Il répond exactement à la même question — la prime est-elle chère en ce moment — mais sur le sous-jacent concerné. Un titre peut afficher une volatilité implicite de cent vingt pour cent tout en se situant dans le bas de sa propre distribution." data-en="The correct equivalent exists and is read from IBKR in one call: the name&#x27;s fifty-two-week implied volatility percentile. It answers exactly the same question — is premium expensive right now — but on the underlying concerned. A name can show implied volatility of one hundred and twenty percent while sitting in the low part of its own distribution.">L&#x27;équivalent correct existe et se relève chez IBKR en un appel : le percentile de volatilité implicite du titre sur cinquante-deux semaines. Il répond exactement à la même question — la prime est-elle chère en ce moment — mais sur le sous-jacent concerné. Un titre peut afficher une volatilité implicite de cent vingt pour cent tout en se situant dans le bas de sa propre distribution.</p><p data-fr="Le § 03 affiche ce percentile pour le ticker sélectionné. C&#x27;est l&#x27;un des rares endroits où la mesure spécifique est à la fois plus juste et plus facile à obtenir que l&#x27;approximation générale." data-en="§ 03 displays that percentile for the selected ticker. It is one of the rare places where the specific measure is both more accurate and easier to obtain than the general approximation.">Le § 03 affiche ce percentile pour le ticker sélectionné. C&#x27;est l&#x27;un des rares endroits où la mesure spécifique est à la fois plus juste et plus facile à obtenir que l&#x27;approximation générale.</p></div><div class="opdisc"><div class="n" data-fr="Divulgation de processus — pas une consigne" data-en="Process disclosure — not an instruction">Divulgation de processus — pas une consigne</div><h3 data-fr="Les paramètres que je m’applique" data-en="The parameters I apply to myself">Les paramètres que je m’applique</h3><p class="sub" data-fr="Ce qui suit décrit la discipline de l’auteur, à titre personnel. Ce n’est ni un conseil en investissement, ni une recommandation, ni une consigne adressée au lecteur. Les seuils chiffrés sont les miens : ils dépendent de mon capital, de mon horizon et de ce que j’accepte de perdre, trois choses que je ne connais pas chez vous. Ce qui se transporte d’un opérateur à l’autre est le mécanisme derrière chaque règle, pas le nombre. Je les publie parce qu’une règle dont on ignore la raison ne survit pas au premier cas inconfortable." data-en="What follows describes the author’s own discipline, in a personal capacity. It is neither investment advice, nor a recommendation, nor an instruction addressed to the reader. The numerical thresholds are mine: they depend on my capital, my horizon and what I accept to lose, three things I do not know about you. What transfers from one operator to another is the mechanism behind each rule, not the number. I publish them because a rule whose reason is unknown does not survive the first uncomfortable case.">Ce qui suit décrit la discipline de l’auteur, à titre personnel. Ce n’est ni un conseil en investissement, ni une recommandation, ni une consigne adressée au lecteur. Les seuils chiffrés sont les miens : ils dépendent de mon capital, de mon horizon et de ce que j’accepte de perdre, trois choses que je ne connais pas chez vous. Ce qui se transporte d’un opérateur à l’autre est le mécanisme derrière chaque règle, pas le nombre. Je les publie parce qu’une règle dont on ignore la raison ne survit pas au premier cas inconfortable.</p><ol class="rules"><li><b data-fr="Je ne vends un put que sur un titre que j&#x27;accepterais de détenir au strike" data-en="I only sell a put on a name I would accept holding at the strike">Je ne vends un put que sur un titre que j&#x27;accepterais de détenir au strike</b><span data-fr="L&#x27;assignation n&#x27;est pas l&#x27;accident du dispositif, c&#x27;en est une issue sur deux. Si détenir le titre à ce prix ne me convient pas, je suis en train de vendre une obligation que je ne veux pas honorer, et la prime ne rachète pas ça." data-en="Assignment is not the accident of the design, it is one of its two outcomes. If holding the stock at that price does not suit me, I am selling an obligation I do not want to honour, and the premium does not buy that back.">L&#x27;assignation n&#x27;est pas l&#x27;accident du dispositif, c&#x27;en est une issue sur deux. Si détenir le titre à ce prix ne me convient pas, je suis en train de vendre une obligation que je ne veux pas honorer, et la prime ne rachète pas ça.</span></li><li><b data-fr="Je vise une probabilité d&#x27;assignation, pas un pourcentage sous le cours" data-en="I target an assignment probability, not a percentage below spot">Je vise une probabilité d&#x27;assignation, pas un pourcentage sous le cours</b><span data-fr="C&#x27;est la règle que le § 02 m&#x27;a fait corriger. Je visais un strike « 7 à 12 % sous le cours », traduction usuelle d&#x27;un delta de 0,15 à 0,25. Cette traduction n&#x27;est vraie qu&#x27;à une volatilité donnée : elle tient sur un titre à 34 % de volatilité implicite et donne près d&#x27;une chance sur deux d&#x27;être assigné sur un titre à 119 %. Je lis désormais la carte « strike pour 20 % de probabilité » et j&#x27;en déduis le pourcentage, jamais l&#x27;inverse." data-en="This is the rule § 02 made me correct. I used to target a strike « 7 to 12% below spot », the usual translation of a 0.15 to 0.25 delta. That translation only holds at one level of volatility: it works on a name at 34% implied volatility and gives close to a coin toss on a name at 119%. I now read the « strike for 20% probability » card and derive the percentage from it, never the reverse.">C&#x27;est la règle que le § 02 m&#x27;a fait corriger. Je visais un strike « 7 à 12 % sous le cours », traduction usuelle d&#x27;un delta de 0,15 à 0,25. Cette traduction n&#x27;est vraie qu&#x27;à une volatilité donnée : elle tient sur un titre à 34 % de volatilité implicite et donne près d&#x27;une chance sur deux d&#x27;être assigné sur un titre à 119 %. Je lis désormais la carte « strike pour 20 % de probabilité » et j&#x27;en déduis le pourcentage, jamais l&#x27;inverse.</span></li><li><b data-fr="Je juge la cherté de la prime sur le titre, pas sur l&#x27;indice" data-en="I judge premium richness on the name, not on the index">Je juge la cherté de la prime sur le titre, pas sur l&#x27;indice</b><span data-fr="Seconde règle corrigée par le module. J&#x27;indexais la décision de vendre sur le VIX, qui mesure la volatilité implicite du S&amp;P 500 — pas celle du titre que je vends. Je regarde maintenant le percentile de volatilité implicite du titre sur 52 semaines, affiché au § 03. L&#x27;intuition était bonne, l&#x27;instrument était faux." data-en="Second rule corrected by the module. I used to index the decision to sell on the VIX, which measures the implied volatility of the S&amp;P 500 — not that of the name I am selling. I now look at the name&#x27;s own fifty-two-week implied volatility percentile, shown in § 03. The intuition was right, the instrument was wrong.">Seconde règle corrigée par le module. J&#x27;indexais la décision de vendre sur le VIX, qui mesure la volatilité implicite du S&amp;P 500 — pas celle du titre que je vends. Je regarde maintenant le percentile de volatilité implicite du titre sur 52 semaines, affiché au § 03. L&#x27;intuition était bonne, l&#x27;instrument était faux.</span></li><li><b data-fr="Je ne laisse pas une publication de résultats traverser une position sans l&#x27;avoir décidé" data-en="I do not let an earnings release cross a position without having decided to">Je ne laisse pas une publication de résultats traverser une position sans l&#x27;avoir décidé</b><span data-fr="Une publication n&#x27;est pas un risque de plus, c&#x27;est un changement de régime : la volatilité implicite s&#x27;effondre juste après, ce qui joue pour le vendeur, mais le saut de cours peut dépasser plusieurs écarts-types en une séance, ce qui joue contre lui. Traverser une publication est un pari distinct de celui que je crois prendre." data-en="A release is not one more risk, it is a regime change: implied volatility collapses right after, which favours the seller, but the price gap can exceed several standard deviations in one session, which works against them. Carrying through a release is a bet distinct from the one I think I am taking.">Une publication n&#x27;est pas un risque de plus, c&#x27;est un changement de régime : la volatilité implicite s&#x27;effondre juste après, ce qui joue pour le vendeur, mais le saut de cours peut dépasser plusieurs écarts-types en une séance, ce qui joue contre lui. Traverser une publication est un pari distinct de celui que je crois prendre.</span></li><li><b data-fr="Échéances de 30 à 50 jours, et dates échelonnées entre positions" data-en="Thirty to fifty days, and staggered dates across positions">Échéances de 30 à 50 jours, et dates échelonnées entre positions</b><span data-fr="En dessous de 30 jours le gamma domine : le risque se réévalue plus vite que le temps ne me rémunère. Au-delà de 50 jours, le thêta par jour devient faible pour du capital immobilisé longtemps. L&#x27;échelonnement est du même ordre : des échéances toutes identiques transforment un événement unique en événement sur tout le portefeuille." data-en="Below 30 days gamma dominates: risk reprices faster than time pays me. Beyond 50 days, theta per day becomes thin for capital tied up that long. Staggering is the same reasoning: identical expiries turn a single event into an event on the whole book.">En dessous de 30 jours le gamma domine : le risque se réévalue plus vite que le temps ne me rémunère. Au-delà de 50 jours, le thêta par jour devient faible pour du capital immobilisé longtemps. L&#x27;échelonnement est du même ordre : des échéances toutes identiques transforment un événement unique en événement sur tout le portefeuille.</span></li><li><b data-fr="Collatéral intégral en cash, un seul contrat par titre, exposition totale plafonnée" data-en="Full cash collateral, one contract per name, total exposure capped">Collatéral intégral en cash, un seul contrat par titre, exposition totale plafonnée</b><span data-fr="Le simulateur du § 02 affiche le collatéral en premier pour cette raison : un contrat sur un titre à 377 $ immobilise près de 34 000 $. La contrainte de taille est structurelle et elle décide de tout le reste. Plusieurs contrats sur le même thème sont une exposition unique déguisée en diversification." data-en="The § 02 simulator displays collateral first for this reason: one contract on a $377 stock ties up close to $34,000. The size constraint is structural and it decides everything else. Several contracts on the same theme are a single exposure disguised as diversification.">Le simulateur du § 02 affiche le collatéral en premier pour cette raison : un contrat sur un titre à 377 $ immobilise près de 34 000 $. La contrainte de taille est structurelle et elle décide de tout le reste. Plusieurs contrats sur le même thème sont une exposition unique déguisée en diversification.</span></li><li><b data-fr="J&#x27;écris la perte maximale et le plan de sortie avant de passer l&#x27;ordre" data-en="I write down the maximum loss and the exit plan before placing the order">J&#x27;écris la perte maximale et le plan de sortie avant de passer l&#x27;ordre</b><span data-fr="La perte maximale d&#x27;un put vendu vaut (strike − prime) × 100. Écrite avant, elle est une décision ; découverte après, elle est un choc. Le plan de sortie suit la même logique : je rachète quand la moitié de la prime est acquise, parce que le reste du temps porte presque tout le risque restant pour presque plus de rémunération." data-en="The maximum loss on a short put is (strike − premium) × 100. Written down beforehand it is a decision; discovered afterwards it is a shock. The exit plan follows the same logic: I buy back once half the premium is earned, because the remaining time carries nearly all the remaining risk for almost no further pay.">La perte maximale d&#x27;un put vendu vaut (strike − prime) × 100. Écrite avant, elle est une décision ; découverte après, elle est un choc. Le plan de sortie suit la même logique : je rachète quand la moitié de la prime est acquise, parce que le reste du temps porte presque tout le risque restant pour presque plus de rémunération.</span></li><li><b data-fr="Ordre à cours limité au milieu de la fourchette, jamais au marché" data-en="Limit order at the mid, never at market">Ordre à cours limité au milieu de la fourchette, jamais au marché</b><span data-fr="Sur une option, l&#x27;écart entre le prix acheteur et le prix vendeur est large en relatif. Un ordre au marché le paie en entier ; une limite au milieu le partage. Sur une prime de 3,30 contre 3,20, ce sont dix dollars par contrat qui ne coûtent qu&#x27;un peu de patience — et si l&#x27;ordre ne passe pas, je descends par petits pas plutôt que de traverser." data-en="On an option, the gap between bid and ask is wide in relative terms. A market order pays it in full; a limit at the mid splits it. On a premium of 3.30 versus 3.20, that is ten dollars per contract costing only some patience — and if the order does not fill, I step down in small increments rather than crossing.">Sur une option, l&#x27;écart entre le prix acheteur et le prix vendeur est large en relatif. Un ordre au marché le paie en entier ; une limite au milieu le partage. Sur une prime de 3,30 contre 3,20, ce sont dix dollars par contrat qui ne coûtent qu&#x27;un peu de patience — et si l&#x27;ordre ne passe pas, je descends par petits pas plutôt que de traverser.</span></li><li><b data-fr="Pas de marge tant que je n&#x27;ai pas un historique qui la justifie" data-en="No margin until I have a track record that justifies it">Pas de marge tant que je n&#x27;ai pas un historique qui la justifie</b><span data-fr="La marge ne change pas la probabilité d&#x27;avoir raison, elle change ce qui arrive quand j&#x27;ai tort. Un put vendu couvert en cash a une perte bornée par le strike ; le même put sur marge peut appeler du capital au pire moment. Je m&#x27;interdis aussi de moyenner à la baisse avec de la marge pour sauver une position : c&#x27;est le mécanisme qui transforme une perte gérable en perte définitive." data-en="Margin does not change the probability of being right, it changes what happens when I am wrong. A cash-secured short put has a loss bounded by the strike; the same put on margin can call capital at the worst moment. I also forbid myself from averaging down on margin to rescue a position: that is the mechanism that turns a manageable loss into a permanent one.">La marge ne change pas la probabilité d&#x27;avoir raison, elle change ce qui arrive quand j&#x27;ai tort. Un put vendu couvert en cash a une perte bornée par le strike ; le même put sur marge peut appeler du capital au pire moment. Je m&#x27;interdis aussi de moyenner à la baisse avec de la marge pour sauver une position : c&#x27;est le mécanisme qui transforme une perte gérable en perte définitive.</span></li></ol><h4 data-fr="Ce que je m’interdis" data-en="What I forbid myself">Ce que je m’interdis</h4><ul class="nono"><li data-fr="Vendre un put sur un titre que je ne veux pas posséder." data-en="Selling a put on a name I do not want to own.">Vendre un put sur un titre que je ne veux pas posséder.</li><li data-fr="Vendre par ennui, ou pour avoir une position." data-en="Selling out of boredom, or to have a position on.">Vendre par ennui, ou pour avoir une position.</li><li data-fr="Vendre un call sans détenir les actions : la perte n&#x27;a pas de borne." data-en="Selling a call without owning the shares: the loss has no bound.">Vendre un call sans détenir les actions : la perte n&#x27;a pas de borne.</li><li data-fr="Plusieurs positions sur le même thème en croyant diversifier." data-en="Several positions on the same theme while believing I am diversifying.">Plusieurs positions sur le même thème en croyant diversifier.</li><li data-fr="Un ordre au marché sur une option." data-en="A market order on an option.">Un ordre au marché sur une option.</li><li data-fr="Un strike sans liquidité : la sortie se paie plus cher que l&#x27;entrée." data-en="A strike without liquidity: the exit costs more than the entry.">Un strike sans liquidité : la sortie se paie plus cher que l&#x27;entrée.</li><li data-fr="Moyenner à la baisse avec de la marge pour sauver une position." data-en="Averaging down on margin to rescue a position.">Moyenner à la baisse avec de la marge pour sauver une position.</li></ul><p class="sub" style="margin-top:20px" data-fr="Deux de ces règles ont été corrigées par le module lui-même, et je les laisse visibles avec leur correction plutôt que réécrites : le strike ne se fixe pas en pourcentage, et la cherté d’une prime ne se lit pas sur le VIX. C’est le seul intérêt d’écrire ses règles — pouvoir constater qu’elles étaient fausses." data-en="Two of these rules were corrected by the module itself, and I leave them visible with their correction rather than rewritten: the strike is not set as a percentage, and the richness of a premium is not read on the VIX. That is the only point of writing one’s rules down — being able to find out they were wrong.">Deux de ces règles ont été corrigées par le module lui-même, et je les laisse visibles avec leur correction plutôt que réécrites : le strike ne se fixe pas en pourcentage, et la cherté d’une prime ne se lit pas sur le VIX. C’est le seul intérêt d’écrire ses règles — pouvoir constater qu’elles étaient fausses.</p></div><div class="warn"><div class="n" data-fr="Ce que ce module ne fait pas, ici non plus" data-en="What this module does not do, here either">Ce que ce module ne fait pas, ici non plus</div><p data-fr="Aucun strike, aucun delta, aucune échéance, aucune taille de position n&#x27;est recommandé. Les valeurs par défaut des curseurs sont des points de départ arbitraires choisis pour que le graphique soit lisible, pas des paramètres conseillés." data-en="No strike, no delta, no expiry and no position size is recommended. The slider defaults are arbitrary starting points chosen so the chart is legible, not advised parameters.">Aucun strike, aucun delta, aucune échéance, aucune taille de position n&#x27;est recommandé. Les valeurs par défaut des curseurs sont des points de départ arbitraires choisis pour que le graphique soit lisible, pas des paramètres conseillés.</p><p data-fr="La vente de put comporte un risque de perte en capital significatif, et le collatéral d&#x27;un seul contrat sur un titre à trois cents dollars dépasse trente mille dollars. La contrainte de taille est structurelle et le simulateur l&#x27;affiche en premier." data-en="Selling puts carries a significant risk of capital loss, and the collateral for a single contract on a three-hundred-dollar stock exceeds thirty thousand dollars. The size constraint is structural and the simulator displays it first.">La vente de put comporte un risque de perte en capital significatif, et le collatéral d&#x27;un seul contrat sur un titre à trois cents dollars dépasse trente mille dollars. La contrainte de taille est structurelle et le simulateur l&#x27;affiche en premier.</p></div></div></section><section id="s03"><div class="wrap"><div class="sn">§ 03</div><h2 data-fr="Le relevé de marché" data-en="The market reading">Le relevé de marché</h2><p data-fr="Toutes les grandeurs ci-dessous proviennent du connecteur IBKR, en lecture seule, relevées le 7 août 2026 en séance. Elles ne sont pas reprises d&#x27;un agrégateur. Le module est livré avec deux tickers de régimes de volatilité opposés, pour établir qu&#x27;il ne dépend d&#x27;aucune particularité d&#x27;un dossier." data-en="Every figure below comes from the IBKR connector, read-only, taken on 7 August 2026 during the session. None is sourced from an aggregator. The module ships with two tickers in opposite volatility regimes, to establish that it depends on no particularity of a single name.">Toutes les grandeurs ci-dessous proviennent du connecteur IBKR, en lecture seule, relevées le 7 août 2026 en séance. Elles ne sont pas reprises d&#x27;un agrégateur. Le module est livré avec deux tickers de régimes de volatilité opposés, pour établir qu&#x27;il ne dépend d&#x27;aucune particularité d&#x27;un dossier.</p><div class="tick"><button data-t="NBIS" type="button">NBIS</button><button data-t="ISRG" type="button">ISRG</button></div><div class="kpis"><div class="kpi em"><div class="k" data-fr="Cours" data-en="Spot">Cours</div><div class="v"><span id="m_spot">—</span></div><div class="s" id="m_spot_s" data-fr="—" data-en="—">—</div></div><div class="kpi blue"><div class="k" data-fr="Volatilité implicite" data-en="Implied volatility">Volatilité implicite</div><div class="v"><span id="m_iv">—</span></div><div class="s" data-fr="annualisée, sous-jacent" data-en="annualised, underlying">annualisée, sous-jacent</div></div><div class="kpi cor"><div class="k" data-fr="Volatilité réalisée 30 j" data-en="Realised volatility 30d">Volatilité réalisée 30 j</div><div class="v"><span id="m_rv">—</span></div><div class="s" data-fr="annualisée" data-en="annualised">annualisée</div></div><div class="kpi em"><div class="k" data-fr="Prime de variance" data-en="Variance risk premium">Prime de variance</div><div class="v"><span id="m_vrp">—</span></div><div class="s" data-fr="implicite moins réalisée" data-en="implied minus realised">implicite moins réalisée</div></div><div class="kpi vio"><div class="k" data-fr="Percentile de vol. implicite" data-en="Implied vol percentile">Percentile de vol. implicite</div><div class="v"><span id="m_ivp">—</span></div><div class="s" data-fr="sur 52 semaines" data-en="over 52 weeks">sur 52 semaines</div></div><div class="kpi amb"><div class="k" data-fr="Plus bas / plus haut 52 s." data-en="52-week low / high">Plus bas / plus haut 52 s.</div><div class="v"><span id="m_52">—</span></div><div class="s" data-fr="en dollars" data-en="in dollars">en dollars</div></div><div class="kpi blue"><div class="k" data-fr="Ratio put / call du jour" data-en="Today&#x27;s put / call ratio">Ratio put / call du jour</div><div class="v"><span id="m_pc">—</span></div><div class="s" id="m_pc_s" data-fr="—" data-en="—">—</div></div><div class="kpi blue"><div class="k" data-fr="Fourchette ±1σ" data-en="±1σ band">Fourchette ±1σ</div><div class="v"><span id="m_band">—</span></div><div class="s" id="m_band_s" data-fr="—" data-en="—">—</div></div><div class="kpi vio"><div class="k" data-fr="Objectif pondéré du lab" data-en="Lab probability-weighted target">Objectif pondéré du lab</div><div class="v"><span id="m_target">—</span></div><div class="s" id="m_target_s" data-fr="—" data-en="—">—</div></div></div><div class="note"><b data-fr="Sur la source du cours" data-en="On the price source">Sur la source du cours</b><span data-fr="Le cours est un relevé en séance, pas une clôture. Il diffère donc de la date d&#x27;arrêté du rapport fondamental correspondant, qui est le 6 août 2026. Les deux dates sont affichées séparément partout dans ce module : elles ne doivent jamais être confondues." data-en="The price is an intraday reading, not a close. It therefore differs from the cut-off date of the corresponding fundamental report, which is 6 August 2026. Both dates are displayed separately throughout this module: they must never be conflated.">Le cours est un relevé en séance, pas une clôture. Il diffère donc de la date d&#x27;arrêté du rapport fondamental correspondant, qui est le 6 août 2026. Les deux dates sont affichées séparément partout dans ce module : elles ne doivent jamais être confondues.</span></div></div></section><section id="s04"><div class="wrap"><div class="sn">§ 04</div><h2 data-fr="Les deux distributions" data-en="The two distributions">Les deux distributions</h2><p data-fr="Un rapport fondamental publie trois scénarios avec leurs probabilités. Un marché d&#x27;options publie, en continu, une distribution complète. Les deux portent sur le même titre. Les superposer est l&#x27;opération centrale de ce module." data-en="A fundamental report publishes three scenarios with their probabilities. An option market publishes, continuously, a full distribution. Both concern the same security. Overlaying them is this module&#x27;s central operation.">Un rapport fondamental publie trois scénarios avec leurs probabilités. Un marché d&#x27;options publie, en continu, une distribution complète. Les deux portent sur le même titre. Les superposer est l&#x27;opération centrale de ce module.</p><figure><div class="ft" data-fr="Densité implicite et scénarios publiés" data-en="Implied density and published scenarios">Densité implicite et scénarios publiés</div><div class="fs" data-fr="Loi lognormale calibrée sur la volatilité implicite IBKR · scénarios du registre du lab" data-en="Lognormal law calibrated on IBKR implied volatility · scenarios from the lab register">Loi lognormale calibrée sur la volatilité implicite IBKR · scénarios du registre du lab</div><div class="scrollhint" data-fr="→ faire défiler le graphique" data-en="→ scroll the chart">→ faire défiler le graphique</div><div class="chart" id="ch_dist"></div><div class="how"><b data-fr="Comment lire ce graphique" data-en="How to read this chart">Comment lire ce graphique</b><span data-fr="La courbe bleue est la densité de probabilité du cours à l&#x27;horizon retenu, telle qu&#x27;elle découle de la volatilité implicite relevée. La bande bleue pâle couvre un écart-type de part et d&#x27;autre. Les trois traits verticaux sont les scénarios publiés par le rapport fondamental, avec leur probabilité. Un scénario situé là où la densité est presque nulle est un scénario que le marché d&#x27;options ne price pas à cet horizon." data-en="The blue curve is the probability density of the price at the selected horizon, as it follows from the observed implied volatility. The pale blue band covers one standard deviation either side. The three vertical lines are the scenarios published by the fundamental report, with their probability. A scenario sitting where the density is near zero is a scenario the option market does not price at that horizon.">La courbe bleue est la densité de probabilité du cours à l&#x27;horizon retenu, telle qu&#x27;elle découle de la volatilité implicite relevée. La bande bleue pâle couvre un écart-type de part et d&#x27;autre. Les trois traits verticaux sont les scénarios publiés par le rapport fondamental, avec leur probabilité. Un scénario situé là où la densité est presque nulle est un scénario que le marché d&#x27;options ne price pas à cet horizon.</span></div></figure><figure><div class="ft" data-fr="Probabilité de chaque scénario : marché contre lab" data-en="Probability of each scenario: market versus lab">Probabilité de chaque scénario : marché contre lab</div><div class="fs" data-fr="Événements : cours ≤ baissier · cours ≤ central · cours ≥ haussier" data-en="Events: price ≤ bear · price ≤ base · price ≥ bull">Événements : cours ≤ baissier · cours ≤ central · cours ≥ haussier</div><div class="scrollhint" data-fr="→ faire défiler le graphique" data-en="→ scroll the chart">→ faire défiler le graphique</div><div class="chart" id="ch_prob"></div><div class="how"><b data-fr="Comment lire ce graphique" data-en="How to read this chart">Comment lire ce graphique</b><span data-fr="Pour chacun des trois scénarios, la barre bleue est la probabilité que la loi implicite attribue à l&#x27;événement, la barre émeraude celle que le rapport publie. L&#x27;écart entre les deux barres est la mesure du désaccord, scénario par scénario." data-en="For each of the three scenarios, the blue bar is the probability the implied law assigns to the event, the emerald bar the one the report publishes. The gap between the two bars measures the disagreement, scenario by scenario.">Pour chacun des trois scénarios, la barre bleue est la probabilité que la loi implicite attribue à l&#x27;événement, la barre émeraude celle que le rapport publie. L&#x27;écart entre les deux barres est la mesure du désaccord, scénario par scénario.</span></div></figure><div class="panel"><div class="panel-h"><h3 data-fr="Horizon" data-en="Horizon">Horizon</h3><button class="reset" id="btn_reset" type="button" data-fr="↺ Réinitialiser" data-en="↺ Reset">↺ Réinitialiser</button></div><div class="panel-note" data-fr="Le déplacement de l'horizon change la loi implicite, pas les scénarios du lab : ceux-ci sont des valeurs intrinsèques, sans date." data-en="Moving the horizon changes the implied law, not the lab scenarios: those are intrinsic values, undated.">Le déplacement de l'horizon change la loi implicite, pas les scénarios du lab : ceux-ci sont des valeurs intrinsèques, sans date.</div><div class="sliders"><div class="sl"><label><span id="lt_hz" data-fr="Horizon" data-en="Horizon">Horizon</span><span id="lv_hz">—</span></label><input type="range" id="sl_hz" min="1" max="60" step="1" value="6"><div class="hint" data-fr="de 1 à 60 mois" data-en="from 1 to 60 months">de 1 à 60 mois</div></div></div></div><figure><div class="ft" data-fr="L&#x27;horizon de réconciliation" data-en="The reconciliation horizon">L&#x27;horizon de réconciliation</div><div class="fs" data-fr="Probabilité implicite en fonction de l&#x27;horizon, contre probabilité publiée" data-en="Implied probability as a function of horizon, versus published probability">Probabilité implicite en fonction de l&#x27;horizon, contre probabilité publiée</div><div class="scrollhint" data-fr="→ faire défiler le graphique" data-en="→ scroll the chart">→ faire défiler le graphique</div><div class="chart" id="ch_recon"></div><div class="how"><b data-fr="Comment lire ce graphique" data-en="How to read this chart">Comment lire ce graphique</b><span data-fr="Les deux courbes montrent comment la probabilité implicite d&#x27;atteindre le cas central et le cas haussier évolue avec l&#x27;horizon. Les traits horizontaux sont les probabilités publiées par le rapport. Le point marqué sur une courbe est l&#x27;horizon auquel le marché rejoint le lab. Une courbe qui ne croise jamais son trait signifie que le marché n&#x27;attribue cette probabilité à aucun horizon." data-en="The two curves show how the implied probability of reaching the base and bull cases evolves with horizon. The horizontal lines are the probabilities published by the report. The marked point on a curve is the horizon at which the market meets the lab. A curve that never crosses its line means the market assigns that probability at no horizon.">Les deux courbes montrent comment la probabilité implicite d&#x27;atteindre le cas central et le cas haussier évolue avec l&#x27;horizon. Les traits horizontaux sont les probabilités publiées par le rapport. Le point marqué sur une courbe est l&#x27;horizon auquel le marché rejoint le lab. Une courbe qui ne croise jamais son trait signifie que le marché n&#x27;attribue cette probabilité à aucun horizon.</span></div></figure><div class="note"><b data-fr="Lecture du dossier" data-en="Reading the case">Lecture du dossier</b><span id="readblock">—</span></div><div class="angle"><div class="n" data-fr="Angle non-évident n°1" data-en="Non-obvious angle no.1">Angle non-évident n°1</div><h5 data-fr="Un désaccord de calendrier n&#x27;est pas un désaccord de valeur" data-en="A disagreement about timing is not a disagreement about value">Un désaccord de calendrier n&#x27;est pas un désaccord de valeur</h5><p data-fr="Le premier réflexe devant un écart de cette taille est de conclure que l&#x27;un des deux a tort. C&#x27;est presque toujours faux. Un flux actualisé mesure une valeur intrinsèque sans dire quand le marché la reconnaîtra ; une chaîne d&#x27;options ne sait parler que de dates. Le rapport peut avoir entièrement raison sur le niveau et le marché entièrement raison sur les six prochains mois." data-en="The first reflex when facing a gap of this size is to conclude one of the two is wrong. That is almost always false. A discounted cash flow measures intrinsic worth without saying when the market will recognise it; an option chain can only speak in dates. The report can be entirely right on the level and the market entirely right on the next six months.">Le premier réflexe devant un écart de cette taille est de conclure que l&#x27;un des deux a tort. C&#x27;est presque toujours faux. Un flux actualisé mesure une valeur intrinsèque sans dire quand le marché la reconnaîtra ; une chaîne d&#x27;options ne sait parler que de dates. Le rapport peut avoir entièrement raison sur le niveau et le marché entièrement raison sur les six prochains mois.</p><p data-fr="Ce que le module rend visible, en revanche, est un fait opératoire : la durée pendant laquelle une thèse doit être portée avant que le marché commence à lui donner du poids. Cette durée est un coût, et elle n&#x27;apparaît nulle part dans un DCF." data-en="What the module does make visible is an operational fact: the length of time a thesis must be carried before the market starts giving it weight. That duration is a cost, and it appears nowhere in a DCF.">Ce que le module rend visible, en revanche, est un fait opératoire : la durée pendant laquelle une thèse doit être portée avant que le marché commence à lui donner du poids. Cette durée est un coût, et elle n&#x27;apparaît nulle part dans un DCF.</p><p data-fr="La règle R7 du lab demande à chaque rapport de nommer sa variable dominante. Ce module en ajoute une, commune à tous les dossiers : l&#x27;horizon implicite. Elle n&#x27;était mesurée dans aucun rapport avant celui-ci." data-en="The lab&#x27;s rule R7 asks each report to name its dominant variable. This module adds one, common to every case: the implied horizon. It was measured in no report before this one.">La règle R7 du lab demande à chaque rapport de nommer sa variable dominante. Ce module en ajoute une, commune à tous les dossiers : l&#x27;horizon implicite. Elle n&#x27;était mesurée dans aucun rapport avant celui-ci.</p></div></div></section><section id="s05"><div class="wrap"><div class="sn">§ 05</div><h2 data-fr="Ce que le marché fait payer pour l&#x27;incertitude" data-en="What the market charges for uncertainty">Ce que le marché fait payer pour l&#x27;incertitude</h2><p data-fr="La volatilité implicite est le prix de l&#x27;assurance. La volatilité réalisée est le sinistre effectivement constaté. L&#x27;écart entre les deux — la prime de variance — dit si l&#x27;assurance était chère ou bon marché, non pas en absolu, mais par rapport à ce que le titre a réellement fait." data-en="Implied volatility is the price of insurance. Realised volatility is the loss actually incurred. The gap between the two — the variance risk premium — says whether the insurance was expensive or cheap, not in absolute terms, but relative to what the security actually did.">La volatilité implicite est le prix de l&#x27;assurance. La volatilité réalisée est le sinistre effectivement constaté. L&#x27;écart entre les deux — la prime de variance — dit si l&#x27;assurance était chère ou bon marché, non pas en absolu, mais par rapport à ce que le titre a réellement fait.</p><figure><div class="ft" data-fr="Volatilité implicite contre volatilité réalisée" data-en="Implied versus realised volatility">Volatilité implicite contre volatilité réalisée</div><div class="fs" data-fr="Base annualisée · relevé IBKR du 7 août 2026 en séance" data-en="Annualised basis · IBKR reading, 7 August 2026, intraday">Base annualisée · relevé IBKR du 7 août 2026 en séance</div><div class="scrollhint" data-fr="→ faire défiler le graphique" data-en="→ scroll the chart">→ faire défiler le graphique</div><div class="chart" id="ch_vrp"></div><div class="how"><b data-fr="Comment lire ce graphique" data-en="How to read this chart">Comment lire ce graphique</b><span data-fr="La barre bleue est ce que les options coûtent, la barre orange ce que le titre a effectivement bougé sur trente jours. Quand l&#x27;orange dépasse le bleu, la prime de variance est négative : l&#x27;assurance s&#x27;est vendue moins cher que le sinistre." data-en="The blue bar is what options cost, the orange bar what the security actually moved over thirty days. When orange exceeds blue, the variance risk premium is negative: the insurance sold for less than the loss.">La barre bleue est ce que les options coûtent, la barre orange ce que le titre a effectivement bougé sur trente jours. Quand l&#x27;orange dépasse le bleu, la prime de variance est négative : l&#x27;assurance s&#x27;est vendue moins cher que le sinistre.</span></div></figure><div class="angle"><div class="n" data-fr="Angle non-évident n°2" data-en="Non-obvious angle no.2">Angle non-évident n°2</div><h5 data-fr="La prime de variance est négative sur les deux titres" data-en="The variance risk premium is negative on both names">La prime de variance est négative sur les deux titres</h5><p data-fr="Le cas normal, documenté sur la plupart des marchés et la plupart des périodes, est une prime de variance positive : les options coûtent structurellement un peu plus que ce que le sous-jacent finit par bouger, ce qui rémunère le vendeur de prime. Sur les deux relevés du 7 août, elle est négative, et de manière comparable : environ quinze points sur Nebius, treize sur Intuitive Surgical." data-en="The normal case, documented across most markets and most periods, is a positive variance premium: options structurally cost slightly more than the underlying ends up moving, which pays the premium seller. On both 7 August readings it is negative, and by comparable amounts: around fifteen points on Nebius, thirteen on Intuitive Surgical.">Le cas normal, documenté sur la plupart des marchés et la plupart des périodes, est une prime de variance positive : les options coûtent structurellement un peu plus que ce que le sous-jacent finit par bouger, ce qui rémunère le vendeur de prime. Sur les deux relevés du 7 août, elle est négative, et de manière comparable : environ quinze points sur Nebius, treize sur Intuitive Surgical.</p><p data-fr="La conséquence est purement descriptive et vaut d&#x27;être écrite : sur ces relevés, la vente de prime a été rétribuée en dessous du mouvement constaté. Ce n&#x27;est pas un argument contre la vente de prime — la prime de variance change de signe souvent, et trente jours de volatilité réalisée est un échantillon court. C&#x27;est un rappel que l&#x27;avantage statistique généralement invoqué pour vendre de la prime n&#x27;était pas présent dans ces deux chiffres-là, ce jour-là." data-en="The consequence is purely descriptive and worth writing down: on these readings, selling premium was paid below the move that occurred. This is not an argument against selling premium — the variance premium changes sign often, and thirty days of realised volatility is a short sample. It is a reminder that the statistical edge usually invoked for selling premium was not present in those two numbers, on that day.">La conséquence est purement descriptive et vaut d&#x27;être écrite : sur ces relevés, la vente de prime a été rétribuée en dessous du mouvement constaté. Ce n&#x27;est pas un argument contre la vente de prime — la prime de variance change de signe souvent, et trente jours de volatilité réalisée est un échantillon court. C&#x27;est un rappel que l&#x27;avantage statistique généralement invoqué pour vendre de la prime n&#x27;était pas présent dans ces deux chiffres-là, ce jour-là.</p><p data-fr="Le percentile de volatilité implicite complète la lecture : il situe la volatilité actuelle dans sa propre histoire à cinquante-deux semaines. Une prime de variance négative avec une volatilité implicite déjà haute dans son histoire est une configuration différente d&#x27;une prime négative avec une volatilité basse." data-en="The implied volatility percentile completes the reading: it places current volatility within its own fifty-two-week history. A negative variance premium with implied volatility already high in its history is a different configuration from a negative premium with low volatility.">Le percentile de volatilité implicite complète la lecture : il situe la volatilité actuelle dans sa propre histoire à cinquante-deux semaines. Une prime de variance négative avec une volatilité implicite déjà haute dans son histoire est une configuration différente d&#x27;une prime négative avec une volatilité basse.</p></div></div></section><section id="s06"><div class="wrap"><div class="sn">§ 06</div><h2 data-fr="La géométrie des structures" data-en="The geometry of structures">La géométrie des structures</h2><p data-fr="Une structure d&#x27;options est une identité arithmétique : à échéance, un jeu de positions donné produit un résultat entièrement déterminé par le prix final. Il n&#x27;y a là aucune opinion. Ce qui se discute n&#x27;est pas la géométrie, c&#x27;est le prix payé pour l&#x27;obtenir et la distribution des prix finaux — soit exactement les deux objets des paragraphes précédents." data-en="An option structure is an arithmetic identity: at expiry, a given set of positions produces a result entirely determined by the final price. There is no opinion in it. What is debatable is not the geometry, it is the price paid to obtain it and the distribution of final prices — that is, exactly the two objects of the preceding paragraphs.">Une structure d&#x27;options est une identité arithmétique : à échéance, un jeu de positions donné produit un résultat entièrement déterminé par le prix final. Il n&#x27;y a là aucune opinion. Ce qui se discute n&#x27;est pas la géométrie, c&#x27;est le prix payé pour l&#x27;obtenir et la distribution des prix finaux — soit exactement les deux objets des paragraphes précédents.</p><div class="panel"><div class="panel-h"><h3 data-fr="Explorateur de structure" data-en="Structure explorer">Explorateur de structure</h3></div><div class="panel-note" data-fr="Strikes et primes en pourcentage du cours, pour que la géométrie reste valable sur tout ticker. Les primes par défaut sont des estimations BAREK / LABS, pas des cotations : les remplacer par des cotations relevées avant toute publication chiffrée." data-en="Strikes and premiums in percent of spot, so the geometry holds on any ticker. Default premiums are BAREK / LABS estimates, not quotes: replace them with observed quotes before publishing any figure.">Strikes et primes en pourcentage du cours, pour que la géométrie reste valable sur tout ticker. Les primes par défaut sont des estimations BAREK / LABS, pas des cotations : les remplacer par des cotations relevées avant toute publication chiffrée.</div><div class="chips"><button data-p="stock" type="button" data-fr="Actions seules" data-en="Shares only">Actions seules</button><button data-p="cc" type="button" data-fr="Call couvert" data-en="Covered call">Call couvert</button><button data-p="collar" type="button" data-fr="Tunnel" data-en="Collar">Tunnel</button><button data-p="comp" type="button" data-fr="Composite 50 / 25" data-en="Composite 50 / 25">Composite 50 / 25</button><button data-p="csp" type="button" data-fr="Put vendu couvert" data-en="Cash-secured put">Put vendu couvert</button></div><div class="sliders"><div class="sl"><label><span id="lt_ws" data-fr="Exposition actions" data-en="Share exposure">Exposition actions</span><span id="lv_ws">—</span></label><input type="range" id="sl_ws" min="0" max="100" step="5" value="100"><div class="hint" data-fr="part du capital en titres" data-en="share of capital in stock">part du capital en titres</div></div><div class="sl"><label><span id="lt_kc" data-fr="Strike call (% du cours)" data-en="Call strike (% of spot)">Strike call (% du cours)</span><span id="lv_kc">—</span></label><input type="range" id="sl_kc" min="100" max="160" step="1" value="115"><div class="hint" data-fr="au-dessus du cours" data-en="above spot">au-dessus du cours</div></div><div class="sl"><label><span id="lt_wc" data-fr="Couverture call vendu" data-en="Short call coverage">Couverture call vendu</span><span id="lv_wc">—</span></label><input type="range" id="sl_wc" min="0" max="100" step="5" value="100"><div class="hint" data-fr="part du notionnel couverte" data-en="share of notional covered">part du notionnel couverte</div></div><div class="sl"><label><span id="lt_prc" data-fr="Prime call reçue" data-en="Call premium received">Prime call reçue</span><span id="lv_prc">—</span></label><input type="range" id="sl_prc" min="0" max="15" step="0.1" value="5.5"><div class="hint" data-fr="estimation BAREK / LABS" data-en="BAREK / LABS estimate">estimation BAREK / LABS</div></div><div class="sl"><label><span id="lt_kp" data-fr="Strike put (% du cours)" data-en="Put strike (% of spot)">Strike put (% du cours)</span><span id="lv_kp">—</span></label><input type="range" id="sl_kp" min="50" max="100" step="1" value="85"><div class="hint" data-fr="sous le cours" data-en="below spot">sous le cours</div></div><div class="sl"><label><span id="lt_wp" data-fr="Position put (< 0 = put vendu)" data-en="Put position (< 0 = short put)">Position put (< 0 = put vendu)</span><span id="lv_wp">—</span></label><input type="range" id="sl_wp" min="-100" max="100" step="5" value="100"><div class="hint" data-fr="positif = put acheté" data-en="positive = long put">positif = put acheté</div></div><div class="sl"><label><span id="lt_prp" data-fr="Prime put" data-en="Put premium">Prime put</span><span id="lv_prp">—</span></label><input type="range" id="sl_prp" min="0" max="15" step="0.1" value="4.5"><div class="hint" data-fr="estimation BAREK / LABS" data-en="BAREK / LABS estimate">estimation BAREK / LABS</div></div></div><div class="out"><div><div class="k" data-fr="Gain maximal" data-en="Maximum gain">Gain maximal</div><div class="v" id="o_max">—</div><div class="s" data-fr="à échéance, en % du capital" data-en="at expiry, % of capital">à échéance, en % du capital</div></div><div><div class="k" data-fr="Perte maximale" data-en="Maximum loss">Perte maximale</div><div class="v" id="o_min">—</div><div class="s" data-fr="à échéance, en % du capital" data-en="at expiry, % of capital">à échéance, en % du capital</div></div><div><div class="k" data-fr="Prime nette" data-en="Net premium">Prime nette</div><div class="v" id="o_net">—</div><div class="s" id="o_net_s" data-fr="—" data-en="—">—</div></div><div><div class="k" data-fr="Point mort" data-en="Break-even">Point mort</div><div class="v" id="o_be">—</div><div class="s" data-fr="en % du cours" data-en="% of spot">en % du cours</div></div><div><div class="k" data-fr="Prob. implicite · point mort" data-en="Implied prob. · break-even">Prob. implicite · point mort</div><div class="v" id="o_pbe">—</div><div class="s" data-fr="à l'horizon retenu" data-en="at the selected horizon">à l'horizon retenu</div></div></div></div><figure><div class="ft" data-fr="Résultat à échéance de la structure retenue" data-en="Payoff at expiry of the selected structure">Résultat à échéance de la structure retenue</div><div class="fs" data-fr="En pourcentage du capital engagé · référence : détention simple des titres" data-en="In percent of capital deployed · reference: plain share ownership">En pourcentage du capital engagé · référence : détention simple des titres</div><div class="scrollhint" data-fr="→ faire défiler le graphique" data-en="→ scroll the chart">→ faire défiler le graphique</div><div class="chart" id="ch_payoff"></div><div class="how"><b data-fr="Comment lire ce graphique" data-en="How to read this chart">Comment lire ce graphique</b><span data-fr="L&#x27;axe horizontal est le prix final en pourcentage du cours actuel, l&#x27;axe vertical le résultat en pourcentage du capital. La ligne émeraude est la structure choisie, la ligne bleue en pointillés la détention simple des titres. Les traits verticaux colorés situent les trois scénarios du rapport fondamental. L&#x27;écart vertical entre les deux lignes à un prix donné est le prix payé ou reçu pour modifier la forme du risque." data-en="The horizontal axis is the final price as a percent of the current price, the vertical axis the result as a percent of capital. The emerald line is the chosen structure, the dashed blue line plain share ownership. The coloured vertical lines locate the three scenarios from the fundamental report. The vertical gap between the two lines at a given price is the price paid or received for reshaping the risk.">L&#x27;axe horizontal est le prix final en pourcentage du cours actuel, l&#x27;axe vertical le résultat en pourcentage du capital. La ligne émeraude est la structure choisie, la ligne bleue en pointillés la détention simple des titres. Les traits verticaux colorés situent les trois scénarios du rapport fondamental. L&#x27;écart vertical entre les deux lignes à un prix donné est le prix payé ou reçu pour modifier la forme du risque.</span></div></figure><p data-fr="Le tableau ci-dessous applique les scénarios du rapport — leurs niveaux et leurs probabilités publiées — à la structure retenue. C&#x27;est de l&#x27;arithmétique sur des hypothèses déjà publiées, pas une prévision nouvelle." data-en="The table below applies the report&#x27;s scenarios — their published levels and probabilities — to the selected structure. This is arithmetic on already-published assumptions, not a new forecast.">Le tableau ci-dessous applique les scénarios du rapport — leurs niveaux et leurs probabilités publiées — à la structure retenue. C&#x27;est de l&#x27;arithmétique sur des hypothèses déjà publiées, pas une prévision nouvelle.</p><div class="tw"><table><thead><tr><th data-fr="Scénario" data-en="Scenario">Scénario</th><th class="n" data-fr="Niveau" data-en="Level">Niveau</th><th class="n" data-fr="Prob. lab" data-en="Lab prob.">Prob. lab</th><th class="n" data-fr="Prob. implicite" data-en="Implied prob.">Prob. implicite</th><th class="n" data-fr="Actions seules" data-en="Shares only">Actions seules</th><th class="n" data-fr="Structure" data-en="Structure">Structure</th></tr></thead><tbody id="scenbody"></tbody></table></div><div class="angle"><div class="n" data-fr="Angle non-évident n°6" data-en="Non-obvious angle no.6">Angle non-évident n°6</div><h5 data-fr="Le même call couvert améliore un dossier et dégrade l&#x27;autre" data-en="The same covered call improves one case and degrades the other">Le même call couvert améliore un dossier et dégrade l&#x27;autre</h5><p data-fr="Basculer d&#x27;un ticker à l&#x27;autre sans toucher au moindre curseur suffit à retourner la conclusion. Sur Intuitive Surgical, le call couvert relève l&#x27;espérance pondérée par rapport aux titres nus. Sur Nebius, il l&#x27;abaisse, et lourdement. La structure est pourtant identique, à la virgule près : strike à 115 % du cours, prime à 5,5 %." data-en="Switching from one ticker to the other without touching a single slider is enough to flip the conclusion. On Intuitive Surgical the covered call raises the probability-weighted expectation relative to the naked shares. On Nebius it lowers it, heavily. Yet the structure is identical to the decimal: strike at 115% of spot, premium at 5.5%.">Basculer d&#x27;un ticker à l&#x27;autre sans toucher au moindre curseur suffit à retourner la conclusion. Sur Intuitive Surgical, le call couvert relève l&#x27;espérance pondérée par rapport aux titres nus. Sur Nebius, il l&#x27;abaisse, et lourdement. La structure est pourtant identique, à la virgule près : strike à 115 % du cours, prime à 5,5 %.</p><p data-fr="La raison n&#x27;est pas dans la structure, elle est dans la forme du cas haussier publié. Le cas haussier d&#x27;Intuitive Surgical se situe à peine au-dessus du cours : le strike n&#x27;est jamais franchi, la prime est encaissée sans contrepartie et le plafond ne coûte rien. Le cas haussier de Nebius est à près de trois fois le cours : le plafond ampute l&#x27;essentiel du scénario auquel le rapport attribue vingt-deux pour cent de probabilité." data-en="The reason is not in the structure, it is in the shape of the published bull case. Intuitive Surgical&#x27;s bull case sits barely above spot: the strike is never crossed, the premium is banked with no offset and the cap costs nothing. Nebius&#x27;s bull case is at close to three times spot: the cap amputates most of the scenario to which the report assigns twenty-two percent probability.">La raison n&#x27;est pas dans la structure, elle est dans la forme du cas haussier publié. Le cas haussier d&#x27;Intuitive Surgical se situe à peine au-dessus du cours : le strike n&#x27;est jamais franchi, la prime est encaissée sans contrepartie et le plafond ne coûte rien. Le cas haussier de Nebius est à près de trois fois le cours : le plafond ampute l&#x27;essentiel du scénario auquel le rapport attribue vingt-deux pour cent de probabilité.</p><p data-fr="Ce que cela établit dépasse le cas particulier. Une structure d&#x27;options n&#x27;est jamais bonne ou mauvaise en soi : elle est bonne ou mauvaise relativement à une distribution. Un rapport fondamental produit précisément cette distribution. C&#x27;est la raison pour laquelle ce module appartient au lab et non à une page de pédagogie générale sur les options." data-en="What this establishes goes beyond the particular case. An option structure is never good or bad in itself: it is good or bad relative to a distribution. A fundamental report produces exactly that distribution. That is why this module belongs to the lab and not to a general options-education page.">Ce que cela établit dépasse le cas particulier. Une structure d&#x27;options n&#x27;est jamais bonne ou mauvaise en soi : elle est bonne ou mauvaise relativement à une distribution. Un rapport fondamental produit précisément cette distribution. C&#x27;est la raison pour laquelle ce module appartient au lab et non à une page de pédagogie générale sur les options.</p></div><div class="angle"><div class="n" data-fr="Angle non-évident n°7" data-en="Non-obvious angle no.7">Angle non-évident n°7</div><h5 data-fr="La structure composite décrite sur les réseaux est un tunnel asymétrique" data-en="The composite structure described on social media is an asymmetric collar">La structure composite décrite sur les réseaux est un tunnel asymétrique</h5><p data-fr="Une construction revient souvent dans les discussions publiques sur les valeurs d&#x27;infrastructure d&#x27;intelligence artificielle : vendre des calls couverts sur une partie du portefeuille, et employer une fraction de la prime encaissée à acheter des puts très en dehors de la monnaie, censés payer largement en cas de chute brutale. Le préréglage « Composite 50 / 25 » la reproduit." data-en="One construction recurs in public discussion of artificial-intelligence infrastructure names: selling covered calls on part of the book, and using a fraction of the premium received to buy far out-of-the-money puts, meant to pay heavily in a sharp fall. The « Composite 50 / 25 » preset reproduces it.">Une construction revient souvent dans les discussions publiques sur les valeurs d&#x27;infrastructure d&#x27;intelligence artificielle : vendre des calls couverts sur une partie du portefeuille, et employer une fraction de la prime encaissée à acheter des puts très en dehors de la monnaie, censés payer largement en cas de chute brutale. Le préréglage « Composite 50 / 25 » la reproduit.</p><p data-fr="Ce que le graphique montre, et que la description en prose masque : la couverture n&#x27;en est pas une. Acheter des puts sur un quart du notionnel ne protège qu&#x27;un quart du portefeuille, et seulement sous le strike. Entre le cours et ce strike — la zone la plus probable de toutes — la structure se comporte presque exactement comme les titres nus, diminuée de la prime décaissée. Le gain de convexité est réel mais il est concentré dans une queue que la loi implicite juge peu probable." data-en="What the chart shows, and the prose description hides: the hedge is not one. Buying puts on a quarter of the notional protects only a quarter of the book, and only below the strike. Between spot and that strike — the most probable region of all — the structure behaves almost exactly like the naked shares, less the premium paid. The convexity gain is real but it is concentrated in a tail the implied law considers unlikely.">Ce que le graphique montre, et que la description en prose masque : la couverture n&#x27;en est pas une. Acheter des puts sur un quart du notionnel ne protège qu&#x27;un quart du portefeuille, et seulement sous le strike. Entre le cours et ce strike — la zone la plus probable de toutes — la structure se comporte presque exactement comme les titres nus, diminuée de la prime décaissée. Le gain de convexité est réel mais il est concentré dans une queue que la loi implicite juge peu probable.</p><p data-fr="Le module ne dit pas que cette structure est mauvaise. Il dit ce qu&#x27;elle est : un plafonnement certain du haut contre une protection partielle et conditionnelle du bas. Le tableau des scénarios chiffre cet échange sur les hypothèses du rapport." data-en="The module does not say this structure is bad. It says what it is: a certain cap on the upside against partial, conditional protection on the downside. The scenario table prices that exchange on the report&#x27;s own assumptions.">Le module ne dit pas que cette structure est mauvaise. Il dit ce qu&#x27;elle est : un plafonnement certain du haut contre une protection partielle et conditionnelle du bas. Le tableau des scénarios chiffre cet échange sur les hypothèses du rapport.</p></div></div></section><section id="s07"><div class="wrap"><div class="sn">§ 07</div><h2 data-fr="L&#x27;ordre stop, et son coût" data-en="The stop order, and its cost">L&#x27;ordre stop, et son coût</h2><p data-fr="Un ordre stop d&#x27;achat est un engagement conditionnel : acheter si le prix franchit un seuil placé au-dessus du marché. Il est employé par des intervenants qui ont vendu et veulent revenir si la hausse reprend, sans rester exposés à la baisse entre-temps. Son intérêt est réel ; son coût est arithmétique et rarement écrit." data-en="A buy-stop order is a conditional commitment: buy if the price crosses a threshold placed above the market. It is used by participants who have sold and want to return if the rise resumes, without staying exposed to the downside in the meantime. Its appeal is real; its cost is arithmetic and rarely written down.">Un ordre stop d&#x27;achat est un engagement conditionnel : acheter si le prix franchit un seuil placé au-dessus du marché. Il est employé par des intervenants qui ont vendu et veulent revenir si la hausse reprend, sans rester exposés à la baisse entre-temps. Son intérêt est réel ; son coût est arithmétique et rarement écrit.</p><div class="panel"><div class="panel-h"><h3 data-fr="Paramètres du stop" data-en="Stop parameters">Paramètres du stop</h3></div><div class="panel-note" data-fr="Le prix de sortie est posé à 100. Le déclenchement est exprimé en pourcentage au-dessus de ce prix." data-en="The exit price is set at 100. The trigger is expressed as a percentage above that price.">Le prix de sortie est posé à 100. Le déclenchement est exprimé en pourcentage au-dessus de ce prix.</div><div class="sliders"><div class="sl"><label><span id="lt_st" data-fr="Déclenchement au-dessus de la sortie" data-en="Trigger above exit">Déclenchement au-dessus de la sortie</span><span id="lv_st">—</span></label><input type="range" id="sl_st" min="0" max="12" step="0.1" value="3.5"><div class="hint" data-fr="en pourcentage" data-en="in percent">en pourcentage</div></div><div class="sl"><label><span id="lt_ss" data-fr="Glissement à l'exécution" data-en="Execution slippage">Glissement à l'exécution</span><span id="lv_ss">—</span></label><input type="range" id="sl_ss" min="0" max="3" step="0.05" value="0.4"><div class="hint" data-fr="écart entre déclenchement et exécution" data-en="gap between trigger and fill">écart entre déclenchement et exécution</div></div></div></div><figure><div class="ft" data-fr="Sorti puis stop, contre resté investi" data-en="Exited then stop, versus stayed invested">Sorti puis stop, contre resté investi</div><div class="fs" data-fr="Résultat en pourcentage du prix de sortie, selon le prix final" data-en="Result in percent of the exit price, by final price">Résultat en pourcentage du prix de sortie, selon le prix final</div><div class="scrollhint" data-fr="→ faire défiler le graphique" data-en="→ scroll the chart">→ faire défiler le graphique</div><div class="chart" id="ch_stop"></div><div class="how"><b data-fr="Comment lire ce graphique" data-en="How to read this chart">Comment lire ce graphique</b><span data-fr="La ligne bleue en pointillés est le résultat d&#x27;une position conservée. La ligne émeraude est le résultat d&#x27;une sortie suivie d&#x27;un rachat sur stop. À gauche du cours de sortie, la ligne émeraude reste à zéro : c&#x27;est le bénéfice du stop, et il est conditionnel à une baisse. À droite du seuil, les deux lignes sont parallèles et séparées d&#x27;un écart constant : c&#x27;est le coût du stop, et il est certain dès que le seuil est franchi." data-en="The dashed blue line is the result of a position held. The emerald line is the result of an exit followed by a stop repurchase. Left of the exit price, the emerald line stays at zero: that is the benefit of the stop, and it is conditional on a fall. Right of the threshold, the two lines are parallel and separated by a constant gap: that is the cost of the stop, and it is certain as soon as the threshold is crossed.">La ligne bleue en pointillés est le résultat d&#x27;une position conservée. La ligne émeraude est le résultat d&#x27;une sortie suivie d&#x27;un rachat sur stop. À gauche du cours de sortie, la ligne émeraude reste à zéro : c&#x27;est le bénéfice du stop, et il est conditionnel à une baisse. À droite du seuil, les deux lignes sont parallèles et séparées d&#x27;un écart constant : c&#x27;est le coût du stop, et il est certain dès que le seuil est franchi.</span></div></figure><div class="angle"><div class="n" data-fr="Angle non-évident n°8" data-en="Non-obvious angle no.8">Angle non-évident n°8</div><h5 data-fr="Le coût du stop est certain, son bénéfice est conditionnel" data-en="The cost of the stop is certain, its benefit is conditional">Le coût du stop est certain, son bénéfice est conditionnel</h5><p data-fr="Le seuil placé au-dessus du prix de sortie crée un écart permanent qui ne se rattrape jamais : toute hausse ultérieure est captée à partir du seuil, pas à partir du prix de sortie. À trois virgule cinq pour cent de déclenchement et quatre dixièmes de point de glissement, l&#x27;écart est de près de quatre pour cent, quelle que soit l&#x27;ampleur de la hausse — sur un doublement comme sur cinq pour cent." data-en="The threshold placed above the exit price creates a permanent gap that is never recovered: any later rise is captured from the threshold, not from the exit price. At three and a half percent trigger and four tenths of a point of slippage, the gap is close to four percent, whatever the size of the rise — on a doubling as on five percent.">Le seuil placé au-dessus du prix de sortie crée un écart permanent qui ne se rattrape jamais : toute hausse ultérieure est captée à partir du seuil, pas à partir du prix de sortie. À trois virgule cinq pour cent de déclenchement et quatre dixièmes de point de glissement, l&#x27;écart est de près de quatre pour cent, quelle que soit l&#x27;ampleur de la hausse — sur un doublement comme sur cinq pour cent.</p><p data-fr="Le bénéfice, lui, n&#x27;existe que si la baisse a lieu. Un stop d&#x27;achat n&#x27;est donc pas un instrument neutre : c&#x27;est l&#x27;achat d&#x27;une option implicite dont la prime est payée d&#x27;avance en points de performance, et dont le sous-jacent est la conviction que la baisse viendra avant la hausse." data-en="The benefit, by contrast, exists only if the fall occurs. A buy-stop is therefore not a neutral instrument: it is the purchase of an implicit option whose premium is paid upfront in performance points, and whose underlying is the conviction that the fall will come before the rise.">Le bénéfice, lui, n&#x27;existe que si la baisse a lieu. Un stop d&#x27;achat n&#x27;est donc pas un instrument neutre : c&#x27;est l&#x27;achat d&#x27;une option implicite dont la prime est payée d&#x27;avance en points de performance, et dont le sous-jacent est la conviction que la baisse viendra avant la hausse.</p><p data-fr="Un point que la géométrie ne montre pas et qu&#x27;il faut écrire : un ordre stop n&#x27;est pas une garantie d&#x27;exécution au seuil. Sur une ouverture en écart, l&#x27;exécution se fait au premier prix disponible, qui peut être très au-dessus. Le curseur de glissement permet de chiffrer cette hypothèse ; sur les titres dont la volatilité implicite dépasse cent pour cent en base annuelle, la retenir à zéro n&#x27;a pas de sens." data-en="One point the geometry does not show and which must be written: a stop order is not a guarantee of execution at the threshold. On a gap opening, the fill happens at the first available price, which can be far above. The slippage slider allows that assumption to be quantified; on names whose implied volatility exceeds one hundred percent annualised, holding it at zero makes no sense.">Un point que la géométrie ne montre pas et qu&#x27;il faut écrire : un ordre stop n&#x27;est pas une garantie d&#x27;exécution au seuil. Sur une ouverture en écart, l&#x27;exécution se fait au premier prix disponible, qui peut être très au-dessus. Le curseur de glissement permet de chiffrer cette hypothèse ; sur les titres dont la volatilité implicite dépasse cent pour cent en base annuelle, la retenir à zéro n&#x27;a pas de sens.</p></div></div></section><section id="s08"><div class="wrap"><div class="sn">§ 08</div><h2 data-fr="Brancher le module sur un autre ticker" data-en="Wiring the module to another ticker">Brancher le module sur un autre ticker</h2><p data-fr="Le module est un composant, pas un rapport. Il se branche sur n&#x27;importe quelle valeur disposant d&#x27;options listées, en huit champs de marché et trois scénarios. Rien d&#x27;autre n&#x27;est nécessaire, et rien d&#x27;autre ne doit être saisi à la main." data-en="The module is a component, not a report. It plugs into any name with listed options, via eight market fields and three scenarios. Nothing else is required, and nothing else should be entered by hand.">Le module est un composant, pas un rapport. Il se branche sur n&#x27;importe quelle valeur disposant d&#x27;options listées, en huit champs de marché et trois scénarios. Rien d&#x27;autre n&#x27;est nécessaire, et rien d&#x27;autre ne doit être saisi à la main.</p><h4 data-fr="La séquence d'appels" data-en="The call sequence">La séquence d'appels</h4><pre><b>1.</b> search_contracts(query=&quot;TICKER&quot;)
+   → retenir la ligne dont le symbole correspond exactement
+     et dont les sections contiennent OPT ; garder underlying_contract_id
+
+<b>2.</b> get_price_snapshot(contract_id, market_data_names=[
+     &quot;last&quot;, &quot;bid_ask&quot;, &quot;change&quot;, &quot;volume&quot;,
+     &quot;misc_statistics&quot;,            → plus bas / plus haut 52 semaines
+     &quot;implied_vol_underlying&quot;,     → volatilité implicite, champ annual_iv
+     &quot;historical_vol&quot;,             → volatilité réalisée 30 j, champ annual_pct
+     &quot;implied_volatility_percentile&quot;,
+     &quot;underlying_today_option_volume&quot;,
+     &quot;underlying_avg_option_volume&quot;])
+
+<b>3.</b> reporter les huit champs dans le bloc CFG.tickers[&quot;TICKER&quot;]
+   ajouter les scénarios depuis le registre du lab — niveaux ET probabilités
+   contrôler que la somme des probabilités fait exactement 1
+   contrôler que la cible pondérée se reconstitue à partir des scénarios
+
+<b>4.</b> facultatif, si la chaîne répond :
+   get_option_parameters(underlying_contract_id) → identifiant d'échéance
+   get_option_data(expiration_id, min_strike, max_strike) → strikes
+   get_price_snapshot(contract_id du strike, [&quot;option_midpoint_iv&quot;])
+   → alimente le skew par strike et remplace les primes estimées
+     par des cotations relevées
+</pre><div class="warn"><div class="n" data-fr="IBKR en lecture seule" data-en="IBKR read-only">IBKR en lecture seule</div><p data-fr="Une mission de recherche n&#x27;utilise du connecteur IBKR que les fonctions de lecture : recherche de contrat, relevé de prix, paramètres et chaîne d&#x27;options, historique. La création, la modification et l&#x27;annulation d&#x27;ordres, d&#x27;alertes et de listes de suivi sont interdites depuis ce contexte, sans exception et quel que soit le motif invoqué." data-en="A research assignment uses only the read functions of the IBKR connector: contract search, price snapshot, option parameters and chain, history. Creating, modifying or cancelling orders, alerts and watchlists is prohibited from this context, without exception and whatever the stated reason.">Une mission de recherche n&#x27;utilise du connecteur IBKR que les fonctions de lecture : recherche de contrat, relevé de prix, paramètres et chaîne d&#x27;options, historique. La création, la modification et l&#x27;annulation d&#x27;ordres, d&#x27;alertes et de listes de suivi sont interdites depuis ce contexte, sans exception et quel que soit le motif invoqué.</p></div><h4 data-fr="Dégradation contrôlée" data-en="Controlled degradation">Dégradation contrôlée</h4><p data-fr="Toutes les données ne répondent pas toujours. Le module distingue trois niveaux et n&#x27;invente jamais le niveau manquant." data-en="Not all data always responds. The module distinguishes three levels and never invents the missing one.">Toutes les données ne répondent pas toujours. Le module distingue trois niveaux et n&#x27;invente jamais le niveau manquant.</p><div class="tw "><table><thead><tr><th class="" data-fr="Niveau" data-en="Level">Niveau</th><th class="" data-fr="Contenu" data-en="Content">Contenu</th><th class="" data-fr="Sans lui" data-en="Without it">Sans lui</th><th class="" data-fr="État au 7 août" data-en="Status on 7 August">État au 7 août</th></tr></thead><tbody><tr><td class="hi" data-fr="Sous-jacent" data-en="Underlying">Sous-jacent</td><td data-fr="cours, volatilité implicite et réalisée, percentile, bornes 52 semaines, volumes d&#x27;options" data-en="spot, implied and realised volatility, percentile, 52-week bounds, option volumes">cours, volatilité implicite et réalisée, percentile, bornes 52 semaines, volumes d&#x27;options</td><td data-fr="le module ne fonctionne pas" data-en="the module does not work">le module ne fonctionne pas</td><td><span class="tag ok">complet</span></td></tr><tr><td class="hi" data-fr="Scénarios du lab" data-en="Lab scenarios">Scénarios du lab</td><td data-fr="trois niveaux et trois probabilités sommant à 1" data-en="three levels and three probabilities summing to 1">trois niveaux et trois probabilités sommant à 1</td><td data-fr="les § 02 et § 04 perdent leur superposition ; le reste tient" data-en="§ 04 and § 06 lose their overlay; the rest holds">les § 02 et § 04 perdent leur superposition ; le reste tient</td><td><span class="tag ok">complet</span></td></tr><tr><td class="hi" data-fr="Chaîne par strike" data-en="Per-strike chain">Chaîne par strike</td><td data-fr="volatilité implicite strike par strike, structure par terme, primes cotées" data-en="implied volatility strike by strike, term structure, quoted premiums">volatilité implicite strike par strike, structure par terme, primes cotées</td><td data-fr="le skew n&#x27;est pas affiché ; les primes restent des hypothèses marquées" data-en="skew is not displayed; premiums remain flagged assumptions">le skew n&#x27;est pas affiché ; les primes restent des hypothèses marquées</td><td><span class="tag no">indisponible</span></td></tr></tbody></table></div><div class="note"><b data-fr="Sur le niveau manquant" data-en="On the missing level">Sur le niveau manquant</b><span data-fr="La chaîne par strike n&#x27;a pas répondu au 7 août 2026 : le point d&#x27;accès a renvoyé une erreur sur quatre échéances et quatre bornes de strikes différentes, et la source secondaire avait épuisé son quota journalier. Le module ne comble pas ce vide. Aucun skew n&#x27;est affiché, et les primes du § 06 restent des estimations marquées comme telles. Ce qui n&#x27;est pas relevé n&#x27;est pas dessiné." data-en="The per-strike chain did not respond on 7 August 2026: the endpoint returned an error across four expiries and four different strike bounds, and the secondary source had exhausted its daily quota. The module does not fill that gap. No skew is displayed, and the premiums in § 06 remain estimates flagged as such. What is not read is not drawn.">La chaîne par strike n&#x27;a pas répondu au 7 août 2026 : le point d&#x27;accès a renvoyé une erreur sur quatre échéances et quatre bornes de strikes différentes, et la source secondaire avait épuisé son quota journalier. Le module ne comble pas ce vide. Aucun skew n&#x27;est affiché, et les primes du § 06 restent des estimations marquées comme telles. Ce qui n&#x27;est pas relevé n&#x27;est pas dessiné.</span></div></div></section><section id="s09"><div class="wrap"><div class="sn">§ 09</div><h2 data-fr="Lexique" data-en="Glossary">Lexique</h2><p data-fr="Définitions neutres. Aucune n&#x27;emporte de jugement sur l&#x27;opportunité d&#x27;employer l&#x27;instrument décrit." data-en="Neutral definitions. None carries a judgement on the merit of using the instrument described.">Définitions neutres. Aucune n&#x27;emporte de jugement sur l&#x27;opportunité d&#x27;employer l&#x27;instrument décrit.</p><dl class="glos"><dt>Call couvert</dt><dd data-fr="Vente d&#x27;une option d&#x27;achat sur des titres déjà détenus. L&#x27;encaissement de la prime est certain, le plafonnement du gain au-dessus du strike l&#x27;est aussi." data-en="Sale of a call option on shares already owned. Receiving the premium is certain, so is the cap on gains above the strike.">Vente d&#x27;une option d&#x27;achat sur des titres déjà détenus. L&#x27;encaissement de la prime est certain, le plafonnement du gain au-dessus du strike l&#x27;est aussi.</dd><dt>Put vendu couvert</dt><dd data-fr="Vente d&#x27;une option de vente adossée à la trésorerie nécessaire pour acheter les titres si elle est exercée. Le gain maximal est la prime ; la perte suit le titre sous le strike." data-en="Sale of a put option backed by the cash needed to buy the shares if exercised. Maximum gain is the premium; the loss follows the stock below the strike.">Vente d&#x27;une option de vente adossée à la trésorerie nécessaire pour acheter les titres si elle est exercée. Le gain maximal est la prime ; la perte suit le titre sous le strike.</dd><dt>Tunnel</dt><dd data-fr="Détention des titres, vente d&#x27;un call au-dessus du cours et achat d&#x27;un put en dessous. Le résultat est borné des deux côtés." data-en="Holding the shares, selling a call above spot and buying a put below. The result is bounded on both sides.">Détention des titres, vente d&#x27;un call au-dessus du cours et achat d&#x27;un put en dessous. Le résultat est borné des deux côtés.</dd><dt>Ordre stop d&#x27;achat</dt><dd data-fr="Ordre conditionnel déclenché lorsque le prix franchit un seuil situé au-dessus du marché. Le déclenchement est garanti, le prix d&#x27;exécution ne l&#x27;est pas." data-en="Conditional order triggered when the price crosses a threshold above the market. The trigger is guaranteed, the execution price is not.">Ordre conditionnel déclenché lorsque le prix franchit un seuil situé au-dessus du marché. Le déclenchement est garanti, le prix d&#x27;exécution ne l&#x27;est pas.</dd><dt>Glissement</dt><dd data-fr="Écart entre le prix de déclenchement d&#x27;un ordre et son prix d&#x27;exécution effectif. Il s&#x27;élargit avec la volatilité et sur les ouvertures en écart." data-en="Gap between an order&#x27;s trigger price and its actual fill price. It widens with volatility and on gap openings.">Écart entre le prix de déclenchement d&#x27;un ordre et son prix d&#x27;exécution effectif. Il s&#x27;élargit avec la volatilité et sur les ouvertures en écart.</dd><dt>Volatilité implicite</dt><dd data-fr="Volatilité annualisée que le prix des options rend cohérente avec un modèle d&#x27;évaluation. C&#x27;est une grandeur prospective : le prix de l&#x27;incertitude, pas sa mesure." data-en="Annualised volatility that option prices make consistent with a pricing model. It is forward-looking: the price of uncertainty, not its measurement.">Volatilité annualisée que le prix des options rend cohérente avec un modèle d&#x27;évaluation. C&#x27;est une grandeur prospective : le prix de l&#x27;incertitude, pas sa mesure.</dd><dt>Volatilité réalisée</dt><dd data-fr="Volatilité annualisée effectivement constatée sur une fenêtre passée, ici trente jours. Grandeur rétrospective." data-en="Annualised volatility actually observed over a past window, here thirty days. A backward-looking figure.">Volatilité annualisée effectivement constatée sur une fenêtre passée, ici trente jours. Grandeur rétrospective.</dd><dt>Prime de variance</dt><dd data-fr="Écart entre volatilité implicite et volatilité réalisée. Positive, elle rémunère le vendeur d&#x27;options ; négative, elle le pénalise." data-en="Gap between implied and realised volatility. Positive, it pays the option seller; negative, it penalises them.">Écart entre volatilité implicite et volatilité réalisée. Positive, elle rémunère le vendeur d&#x27;options ; négative, elle le pénalise.</dd><dt>Percentile de volatilité implicite</dt><dd data-fr="Position de la volatilité implicite courante dans sa propre distribution sur une fenêtre passée, ici cinquante-deux semaines." data-en="Position of current implied volatility within its own distribution over a past window, here fifty-two weeks.">Position de la volatilité implicite courante dans sa propre distribution sur une fenêtre passée, ici cinquante-deux semaines.</dd><dt>Skew</dt><dd data-fr="Variation de la volatilité implicite selon le strike. Un skew de put marqué signifie que la protection à la baisse coûte plus cher que la participation à la hausse." data-en="Variation of implied volatility across strikes. A pronounced put skew means downside protection costs more than upside participation.">Variation de la volatilité implicite selon le strike. Un skew de put marqué signifie que la protection à la baisse coûte plus cher que la participation à la hausse.</dd><dt>Point mort</dt><dd data-fr="Prix final auquel le résultat de la structure est nul. Une structure peut en avoir zéro, un ou plusieurs." data-en="Final price at which the structure&#x27;s result is zero. A structure can have none, one or several.">Prix final auquel le résultat de la structure est nul. Une structure peut en avoir zéro, un ou plusieurs.</dd><dt>Notionnel</dt><dd data-fr="Valeur du sous-jacent couverte par une position en options, distincte du capital réellement engagé." data-en="Value of the underlying covered by an option position, distinct from the capital actually deployed.">Valeur du sous-jacent couverte par une position en options, distincte du capital réellement engagé.</dd><dt>Loi lognormale</dt><dd data-fr="Loi de probabilité obtenue en supposant que le logarithme du prix suit une loi normale. C&#x27;est l&#x27;hypothèse la plus simple compatible avec un prix qui ne peut pas devenir négatif." data-en="Probability law obtained by assuming the logarithm of the price follows a normal law. It is the simplest assumption consistent with a price that cannot go negative.">Loi de probabilité obtenue en supposant que le logarithme du prix suit une loi normale. C&#x27;est l&#x27;hypothèse la plus simple compatible avec un prix qui ne peut pas devenir négatif.</dd><dt>Densité risque-neutre</dt><dd data-fr="Distribution des prix futurs extraite de la chaîne d&#x27;options complète. Elle diffère d&#x27;une lognormale à volatilité unique dès que le skew n&#x27;est pas plat." data-en="Distribution of future prices extracted from the full option chain. It differs from a single-volatility lognormal as soon as the skew is not flat.">Distribution des prix futurs extraite de la chaîne d&#x27;options complète. Elle diffère d&#x27;une lognormale à volatilité unique dès que le skew n&#x27;est pas plat.</dd></dl></div></section><section id="s10"><div class="wrap"><div class="sn">§ 10</div><h2 data-fr="Ce que ce module ne contient délibérément pas" data-en="What this module deliberately does not contain">Ce que ce module ne contient délibérément pas</h2><p data-fr="La liste qui suit n&#x27;est pas une réserve de style. Chaque ligne désigne une chose que le module pourrait afficher et n&#x27;affiche pas, avec la raison." data-en="The list that follows is not a stylistic caveat. Each line names something the module could display and does not, with the reason.">La liste qui suit n&#x27;est pas une réserve de style. Chaque ligne désigne une chose que le module pourrait afficher et n&#x27;affiche pas, avec la raison.</p><ul><li data-fr="Aucun skew par strike ni structure par terme : la chaîne n&#x27;a pas répondu à l&#x27;arrêté. Le module est écrit pour les recevoir, il ne les fabrique pas." data-en="No per-strike skew and no term structure: the chain did not respond at the cut-off. The module is written to receive them, it does not fabricate them.">Aucun skew par strike ni structure par terme : la chaîne n&#x27;a pas répondu à l&#x27;arrêté. Le module est écrit pour les recevoir, il ne les fabrique pas.</li><li data-fr="Aucune prime cotée : les primes du § 06 sont des estimations BAREK / LABS, employées pour montrer une géométrie, jamais pour chiffrer un résultat publiable." data-en="No quoted premiums: the § 06 premiums are BAREK / LABS estimates, used to show a geometry, never to quantify a publishable result.">Aucune prime cotée : les primes du § 06 sont des estimations BAREK / LABS, employées pour montrer une géométrie, jamais pour chiffrer un résultat publiable.</li><li data-fr="Aucune densité risque-neutre complète : la loi affichée est lognormale à volatilité unique. Sur un titre à skew prononcé, elle sous-estime la queue basse et surestime la queue haute. L&#x27;écart n&#x27;est pas chiffré ici parce qu&#x27;il ne peut pas l&#x27;être sans la chaîne." data-en="No full risk-neutral density: the law displayed is lognormal with a single volatility. On a name with pronounced skew it understates the lower tail and overstates the upper one. The gap is not quantified here because it cannot be without the chain.">Aucune densité risque-neutre complète : la loi affichée est lognormale à volatilité unique. Sur un titre à skew prononcé, elle sous-estime la queue basse et surestime la queue haute. L&#x27;écart n&#x27;est pas chiffré ici parce qu&#x27;il ne peut pas l&#x27;être sans la chaîne.</li><li data-fr="Aucun traitement d&#x27;un scénario baissier à zéro : une loi lognormale n&#x27;atteint jamais zéro, et lui attribue donc une probabilité nulle. Quand un rapport publie un cas baissier de disparition des fonds propres, la comparaison de probabilités ne veut rien dire sur cette ligne, et seule celle-là." data-en="No treatment of a bear scenario at zero: a lognormal law never reaches zero, and therefore assigns it a null probability. When a report publishes a bear case of equity wipeout, the probability comparison is meaningless on that line, and on that line only.">Aucun traitement d&#x27;un scénario baissier à zéro : une loi lognormale n&#x27;atteint jamais zéro, et lui attribue donc une probabilité nulle. Quand un rapport publie un cas baissier de disparition des fonds propres, la comparaison de probabilités ne veut rien dire sur cette ligne, et seule celle-là.</li><li data-fr="Aucun taux sans risque ni dividende dans la loi implicite : elle est posée sans drift. Sur des horizons longs et des taux non nuls, c&#x27;est une approximation qui décale légèrement le centre de la distribution." data-en="No risk-free rate and no dividend in the implied law: it is set without drift. Over long horizons and non-zero rates, this is an approximation that slightly shifts the centre of the distribution.">Aucun taux sans risque ni dividende dans la loi implicite : elle est posée sans drift. Sur des horizons longs et des taux non nuls, c&#x27;est une approximation qui décale légèrement le centre de la distribution.</li><li data-fr="Aucune donnée de position, de flux d&#x27;ordres ou d&#x27;intérêt ouvert par strike : le module ne prétend pas lire le positionnement, seulement le prix de l&#x27;incertitude." data-en="No positioning data, order flow or per-strike open interest: the module does not claim to read positioning, only the price of uncertainty.">Aucune donnée de position, de flux d&#x27;ordres ou d&#x27;intérêt ouvert par strike : le module ne prétend pas lire le positionnement, seulement le prix de l&#x27;incertitude.</li><li data-fr="Aucun niveau d&#x27;entrée, de sortie, de taille ou de durée de détention." data-en="No entry level, exit level, size or holding period.">Aucun niveau d&#x27;entrée, de sortie, de taille ou de durée de détention.</li></ul><h4 data-fr="Points de faible confiance" data-en="Low-confidence points">Points de faible confiance</h4><div class="tw "><table><thead><tr><th class="" data-fr="Point" data-en="Point">Point</th><th class="" data-fr="Raison" data-en="Reason">Raison</th><th class="" data-fr="Effet" data-en="Effect">Effet</th></tr></thead><tbody><tr><td data-fr="Volatilité réalisée sur trente jours" data-en="Thirty-day realised volatility">Volatilité réalisée sur trente jours</td><td data-fr="échantillon court ; une seule séance extrême le déplace nettement" data-en="short sample; a single extreme session moves it markedly">échantillon court ; une seule séance extrême le déplace nettement</td><td data-fr="la prime de variance affichée est bruitée" data-en="the displayed variance premium is noisy">la prime de variance affichée est bruitée</td></tr><tr><td data-fr="Primes du § 04" data-en="§ 04 premiums">Primes du § 04</td><td data-fr="estimations BAREK / LABS, chaîne indisponible" data-en="BAREK / LABS estimates, chain unavailable">estimations BAREK / LABS, chaîne indisponible</td><td data-fr="les niveaux de gain et de perte maximaux sont indicatifs" data-en="maximum gain and loss levels are indicative">les niveaux de gain et de perte maximaux sont indicatifs</td></tr><tr><td data-fr="Horizon de réconciliation au-delà de trente-six mois" data-en="Reconciliation horizon beyond thirty-six months">Horizon de réconciliation au-delà de trente-six mois</td><td data-fr="aucune option listée ne couvre ces échéances sur la plupart des noms" data-en="no listed option covers those maturities on most names">aucune option listée ne couvre ces échéances sur la plupart des noms</td><td data-fr="le chiffre est une extrapolation du modèle, pas un prix de marché" data-en="the figure is a model extrapolation, not a market price">le chiffre est une extrapolation du modèle, pas un prix de marché</td></tr><tr><td data-fr="Volatilité implicite du sous-jacent" data-en="Underlying implied volatility">Volatilité implicite du sous-jacent</td><td data-fr="agrégat calculé par le courtier, méthode non publiée" data-en="aggregate computed by the broker, method not published">agrégat calculé par le courtier, méthode non publiée</td><td data-fr="cohérent d&#x27;un ticker à l&#x27;autre, non reproductible à la main" data-en="consistent across tickers, not reproducible by hand">cohérent d&#x27;un ticker à l&#x27;autre, non reproductible à la main</td></tr></tbody></table></div><h4 data-fr="Sources" data-en="Sources">Sources</h4><div class="src"><p data-fr="Données de marché : connecteur Interactive Brokers, en lecture seule, relevé du 7 août 2026 en séance. Champs employés : last, bid_ask, change, volume, misc_statistics, implied_vol_underlying, historical_vol, implied_volatility_percentile, underlying_today_option_volume, underlying_avg_option_volume." data-en="Market data: Interactive Brokers connector, read-only, reading of 7 August 2026 intraday. Fields used: last, bid_ask, change, volume, misc_statistics, implied_vol_underlying, historical_vol, implied_volatility_percentile, underlying_today_option_volume, underlying_avg_option_volume.">Données de marché : connecteur Interactive Brokers, en lecture seule, relevé du 7 août 2026 en séance. Champs employés : last, bid_ask, change, volume, misc_statistics, implied_vol_underlying, historical_vol, implied_volatility_percentile, underlying_today_option_volume, underlying_avg_option_volume.</p><p data-fr="Scénarios et probabilités : registre interne BAREK / LABS, rapport n°05 pour Nebius Group et rapport n°08-B pour Intuitive Surgical, arrêtés au 6 août 2026. Les niveaux et les probabilités sont repris sans modification ; la cible pondérée a été recalculée à partir des scénarios et concorde exactement avec la valeur publiée." data-en="Scenarios and probabilities: internal BAREK / LABS register, report no.05 for Nebius Group and report no.08-B for Intuitive Surgical, cut off at 6 August 2026. Levels and probabilities are reproduced unchanged; the weighted target was recomputed from the scenarios and matches the published value exactly.">Scénarios et probabilités : registre interne BAREK / LABS, rapport n°05 pour Nebius Group et rapport n°08-B pour Intuitive Surgical, arrêtés au 6 août 2026. Les niveaux et les probabilités sont repris sans modification ; la cible pondérée a été recalculée à partir des scénarios et concorde exactement avec la valeur publiée.</p><p data-fr="Source secondaire consultée et non retenue : Alpha Vantage, quota journalier épuisé au moment du relevé. Aucune donnée n&#x27;en provient." data-en="Secondary source consulted and not used: Alpha Vantage, daily quota exhausted at the time of reading. No data comes from it.">Source secondaire consultée et non retenue : Alpha Vantage, quota journalier épuisé au moment du relevé. Aucune donnée n&#x27;en provient.</p></div></div></section><footer><div class="wrap"><span class="logo"><b>BAREK</b><i>/</i><s>LABS</s></span><p style="margin-top:14px" data-fr="Module transversal « structure de risque ». Se branche sur tout rapport du lab. Ne prend pas de numéro de rapport." data-en="Cross-report « risk structure » module. Plugs into any lab report. Does not take a report number.">Module transversal « structure de risque ». Se branche sur tout rapport du lab. Ne prend pas de numéro de rapport.</p></div></footer><script>
+/* ============ etat global ============ */
+var CFG = {"asof": "2026-08-07", "defaultTicker": "NBIS", "tickers": {"NBIS": {"name": "Nebius Group N.V.", "sector": "AI INFRA", "report": "n°05", "asof": "7 août 2026", "stamp_fr": "intraday IBKR", "stamp_en": "IBKR intraday", "spot": 187.86, "bid": 187.72, "ask": 187.98, "chg": -2.02, "chgPct": -1.06, "dayOpen": 197.0, "dayHigh": 197.42, "dayLow": 180.63, "iv": 1.1885389646035889, "rv": 1.3396894051141108, "ivp52": 0.8964143395423889, "lo52": 62.01, "hi52": 299.86, "vol": 18915853, "usdVol90": 3751726613, "callVol": 145035, "putVol": 110100, "callVolAvg": 112180, "putVolAvg": 146870, "target": 156.90, "readFr": "Sur Nebius, le lab et le marché d’options sont proches sur le cas central et en désaccord total sur la queue haute. À six mois, la loi implicite donne 41,2 % à un cours inférieur ou égal à 109,57 $ ; le rapport n°05 écrit 46 %, un niveau que la loi implicite rejoint vers sept mois et demi. Sur le cas haussier à 484,08 $, en revanche, la loi implicite ne dépasse jamais 8,4 % quel que soit l’horizon — le maximum tombe vers seize mois — là où le rapport publie 22 %. Toute la divergence est concentrée dans la queue haute : le lab et le marché ne discutent pas de la même chose.", "readEn": "On Nebius, the lab and the option market are close on the base case and disagree entirely on the upper tail. At six months the implied law gives 41.2% to a price at or below $109.57; report no.05 writes 46%, a level the implied law reaches at about seven and a half months. On the bull case at $484.08, by contrast, the implied law never exceeds 8.4% at any horizon — the peak falls near sixteen months — where the report publishes 22%. The whole divergence sits in the upper tail: the lab and the market are not discussing the same thing.", "scen": [{"k": "bear", "lf": "Baissier", "le": "Bear", "v": 0.0, "p": 0.32}, {"k": "base", "lf": "Central", "le": "Base", "v": 109.57, "p": 0.46}, {"k": "bull", "lf": "Haussier", "le": "Bull", "v": 484.08, "p": 0.22}]}, "ISRG": {"name": "Intuitive Surgical, Inc.", "sector": "MEDTECH", "report": "n°08-B", "asof": "7 août 2026", "stamp_fr": "intraday IBKR", "stamp_en": "IBKR intraday", "spot": 377.38, "bid": 377.31, "ask": 377.5, "chg": 3.67, "chgPct": 0.98, "dayOpen": null, "dayHigh": null, "dayLow": null, "iv": 0.3383990112163212, "rv": 0.46862182201890684, "ivp52": 0.5298804640769958, "lo52": 328.57, "hi52": 603.88, "vol": 1691723, "usdVol90": null, "callVol": 2051, "putVol": 2635, "callVolAvg": 4971, "putVolAvg": 4619, "target": 237.56, "readFr": "Sur Intuitive Surgical, le désaccord n’est pas directionnel, il est temporel. Le rapport n°08-B donne 50 % à un cours inférieur ou égal à 216,90 $ ; à six mois la loi implicite y met 1,41 %. Il faut porter l’horizon à 116 mois — près de dix ans — pour que la loi implicite rejoigne la probabilité du lab. Ce n’est pas une contradiction : un DCF évalue une valeur intrinsèque sans dater sa reconnaissance, une chaîne d’options date tout. Les deux instruments sont sur des horloges différentes, et le module mesure l’écart entre elles.", "readEn": "On Intuitive Surgical the disagreement is not directional, it is temporal. Report no.08-B gives 50% to a price at or below $216.90; at six months the implied law puts 1.41% on it. The horizon must be stretched to 116 months — close to ten years — for the implied law to meet the lab's probability. This is not a contradiction: a DCF values intrinsic worth without dating its recognition, an option chain dates everything. The two instruments run on different clocks, and the module measures the gap between them.", "scen": [{"k": "bear", "lf": "Baissier", "le": "Bear", "v": 134.38, "p": 0.25}, {"k": "base", "lf": "Central", "le": "Base", "v": 216.9, "p": 0.5}, {"k": "bull", "lf": "Haussier", "le": "Bull", "v": 382.04, "p": 0.25}]}}};
+var LANG = 'fr';
+var TICK = CFG.defaultTicker;
+var BUILDERS = [];
+
+function setLang(l){
+  LANG = l;
+  document.querySelectorAll('[data-fr]').forEach(function(n){
+    var v = n.getAttribute('data-'+l); if(v!==null) n.textContent = v;});
+  document.querySelectorAll('.lang button').forEach(function(b){
+    b.classList.toggle('on', b.dataset.l===l);});
+  document.documentElement.lang = l;
+  redrawAll();
+}
+function nf(v,d){ d=(d===undefined?0:d);
+  return v.toLocaleString(LANG==='fr'?'fr-FR':'en-US',
+    {minimumFractionDigits:d, maximumFractionDigits:d}); }
+function cf(v,d){ d=(d===undefined?2:d);
+  return LANG==='fr' ? nf(v,d)+' $' : '$'+nf(v,d); }
+function pf(v,d){ d=(d===undefined?1:d);
+  var s = nf(v,d); return LANG==='fr' ? s+' %' : s+'%'; }
+function pfs(v,d){ d=(d===undefined?1:d);
+  var s=(v>=0?'+':'')+nf(v,d); return LANG==='fr' ? s+' %' : s+'%'; }
+function tr(fr,en){ return LANG==='fr'?fr:en; }
+function D(){ return CFG.tickers[TICK]; }
+
+/* ============ maths ============ */
+function ncdf(x){
+  var t=1/(1+0.2316419*Math.abs(x));
+  var d=0.3989422804014327*Math.exp(-x*x/2);
+  var p=d*t*(0.319381530+t*(-0.356563782+t*(1.781477937+t*(-1.821255978+t*1.330274429))));
+  return x>0 ? 1-p : p;
+}
+function npdf(x){ return 0.3989422804014327*Math.exp(-x*x/2); }
+/* loi lognormale sans drift (martingale) : ln(S_T/S) ~ N(-s2T/2, s2T) */
+function pBelow(S,K,sig,T){
+  if(K<=0||T<=0||sig<=0) return 0;
+  return ncdf((Math.log(K/S)+0.5*sig*sig*T)/(sig*Math.sqrt(T)));
+}
+function pAbove(S,K,sig,T){ return 1-pBelow(S,K,sig,T); }
+function lnDensity(S,x,sig,T){
+  if(x<=0||T<=0) return 0;
+  var s=sig*Math.sqrt(T);
+  var z=(Math.log(x/S)+0.5*s*s)/s;
+  return npdf(z)/(x*s);
+}
+function quant(S,sig,T,p){
+  /* inverse normale (Acklam abrege) */
+  var a=[-3.969683028665376e+01,2.209460984245205e+02,-2.759285104469687e+02,
+         1.383577518672690e+02,-3.066479806614716e+01,2.506628277459239e+00];
+  var b=[-5.447609879822406e+01,1.615858368580409e+02,-1.556989798598866e+02,
+         6.680131188771972e+01,-1.328068155288572e+01];
+  var c=[-7.784894002430293e-03,-3.223964580411365e-01,-2.400758277161838e+00,
+         -2.549732539343734e+00,4.374664141464968e+00,2.938163982698783e+00];
+  var d=[7.784695709041462e-03,3.224671290700398e-01,2.445134137142996e+00,
+         3.754408661907416e+00];
+  var pl=0.02425,z;
+  if(p<pl){var q=Math.sqrt(-2*Math.log(p));
+    z=(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+  else if(p>1-pl){var q2=Math.sqrt(-2*Math.log(1-p));
+    z=-(((((c[0]*q2+c[1])*q2+c[2])*q2+c[3])*q2+c[4])*q2+c[5])/((((d[0]*q2+d[1])*q2+d[2])*q2+d[3])*q2+1);}
+  else {var q3=p-0.5,r=q3*q3;
+    z=(((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q3/
+      (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);}
+  var s=sig*Math.sqrt(T);
+  return S*Math.exp(-0.5*s*s+s*z);
+}
+/* horizon (en mois) ou le marche atteint une probabilite cible ; null si hors bornes */
+function solveT(S,K,sig,target,above){
+  var f=function(T){ return (above?pAbove(S,K,sig,T):pBelow(S,K,sig,T))-target; };
+  var lo=1/365, hi=30.0;
+  if(f(lo)*f(hi)>0) return null;
+  for(var i=0;i<160;i++){ var m=(lo+hi)/2;
+    if(f(lo)*f(m)<=0) hi=m; else lo=m; }
+  return (lo+hi)/2*12;
+}
+
+/* ============ dessin SVG ============ */
+var K = {bg:'#070B12',surf:'#0D131D',surf2:'#131B28',line:'#1E2A3C',em:'#00E58A',
+         blue:'#38BDF8',vio:'#A78BFA',red:'#F0616D',cor:'#FF8A5B',amb:'#FBBF24',
+         tx:'#E6EDF7',mut:'#8A9AB0',dim:'#5C6B80'};
+function sc(v,lo,hi,a,b){ if(hi===lo) return a; return a+(v-lo)/(hi-lo)*(b-a); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function TX(x,y,s,col,sz,anc,w){
+  return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" fill="'+col+'" font-size="'+(sz||10)+
+    '" text-anchor="'+(anc||'start')+'" font-weight="'+(w||500)+
+    '" font-family="ui-monospace,SF Mono,Menlo,Consolas,monospace">'+esc(s)+'</text>';
+}
+function LN(x1,y1,x2,y2,col,w,dash,op){
+  return '<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+
+    y2.toFixed(1)+'" stroke="'+col+'" stroke-width="'+(w||1)+'"'+
+    (dash?' stroke-dasharray="'+dash+'"':'')+(op!==undefined?' opacity="'+op+'"':'')+'/>';
+}
+function niceTicks(lo,hi,n){
+  n=n||5; var raw=(hi-lo)/n, mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10));
+  var norm=raw/mag, step;
+  if(norm<1.5) step=1*mag; else if(norm<3) step=2*mag;
+  else if(norm<7) step=5*mag; else step=10*mag;
+  var t=[], s=Math.ceil(lo/step)*step;
+  for(var v=s; v<=hi+step*1e-9; v+=step) t.push(Math.abs(v)<step*1e-9?0:v);
+  return t;
+}
+function frame(w,h,x0,x1,y0,y1,xlo,xhi,ylo,yhi,xfmt,yfmt,xt,yt){
+  var o=[]; xt=xt||niceTicks(xlo,xhi,6); yt=yt||niceTicks(ylo,yhi,5);
+  yt.forEach(function(v){ var y=sc(v,ylo,yhi,y1,y0);
+    o.push(LN(x0,y,x1,y,K.line,1,null,0.55));
+    o.push(TX(x0-9,y+3.5,yfmt(v),K.dim,9.5,'end')); });
+  xt.forEach(function(v){ var x=sc(v,xlo,xhi,x0,x1);
+    o.push(LN(x,y0,x,y1,K.line,1,null,0.3));
+    o.push(TX(x,y1+16,xfmt(v),K.dim,9.5,'middle')); });
+  return o.join('');
+}
+function svgOpen(w,h){
+  return '<svg viewBox="0 0 '+w+' '+h+'" width="100%" height="'+h+
+    '" preserveAspectRatio="xMidYMid meet" role="img">';
+}
+function legendW(items){
+  var w=0; items.forEach(function(it){ w += 22 + String(it[0]).length*6.0; }); return w;
+}
+function legendRight(items,x1,y){ return legend(items, x1-legendW(items), y); }
+function legend(items,x,y){
+  var o=[],cx=x;
+  items.forEach(function(it){
+    o.push('<rect x="'+cx+'" y="'+(y-7)+'" width="11" height="3" rx="1.5" fill="'+it[1]+'"'+
+      (it[2]?' opacity="0.85"':'')+'/>');
+    o.push(TX(cx+16,y,it[0],K.mut,10,'start',600));
+    cx += 22 + String(it[0]).length*6.0;
+  });
+  return o.join('');
+}
+
+/* ============ 1. densite implicite + scenarios du lab ============ */
+function chDist(){
+  var d=D(), S=d.spot, sig=d.iv, T=HZ/12;
+  var w=880,h=414,x0=64,x1=w-26,y0=34,y1=h-62;
+  var mx=Math.max.apply(null,d.scen.map(function(s){return s.v;}));
+  var xhi=Math.max(quant(S,sig,T,0.96), mx*1.08, S*1.4);
+  var xlo=0, n=340, pts=[], mxd=0;
+  for(var i=0;i<=n;i++){ var x=xlo+(xhi-xlo)*i/n; var y=lnDensity(S,x,sig,T);
+    if(isFinite(y)){ pts.push([x,y]); if(y>mxd) mxd=y; } }
+  var ylo=0, yhi=mxd*1.18;
+  var o=[svgOpen(w,h)];
+  o.push(frame(w,h,x0,x1,y0,y1,xlo,xhi,ylo,yhi,
+    function(v){return nf(v,0);}, function(v){return '';},
+    niceTicks(xlo,xhi,6), [0]));
+  /* bande +/-1 sigma */
+  var q16=quant(S,sig,T,0.1587), q84=quant(S,sig,T,0.8413);
+  var xa=sc(q16,xlo,xhi,x0,x1), xb=sc(q84,xlo,xhi,x0,x1);
+  o.push('<rect x="'+xa.toFixed(1)+'" y="'+y0+'" width="'+(xb-xa).toFixed(1)+'" height="'+(y1-y0)+
+    '" fill="'+K.blue+'" opacity="0.07"/>');
+  /* aire de densite */
+  var path='M '+sc(pts[0][0],xlo,xhi,x0,x1).toFixed(1)+' '+y1.toFixed(1);
+  pts.forEach(function(p){ path+=' L '+sc(p[0],xlo,xhi,x0,x1).toFixed(1)+' '+
+    sc(p[1],ylo,yhi,y1,y0).toFixed(1); });
+  path+=' L '+sc(pts[pts.length-1][0],xlo,xhi,x0,x1).toFixed(1)+' '+y1.toFixed(1)+' Z';
+  o.push('<path d="'+path+'" fill="'+K.blue+'" opacity="0.16"/>');
+  var pl='M'; pts.forEach(function(p,i){ pl+=(i?' L ':' ')+sc(p[0],xlo,xhi,x0,x1).toFixed(1)+' '+
+    sc(p[1],ylo,yhi,y1,y0).toFixed(1); });
+  o.push('<path d="'+pl+'" fill="none" stroke="'+K.blue+'" stroke-width="2"/>');
+  /* cours */
+  var xs=sc(S,xlo,xhi,x0,x1);
+  o.push(LN(xs,y0,xs,y1,K.tx,1.6,'4 3',0.8));
+  o.push(TX(xs,y0-10,tr('cours '+nf(S,2)+' $','spot $'+nf(S,2)),K.tx,10.5,'middle',700));
+  /* scenarios du lab */
+  var cols={bear:K.red,base:K.amb,bull:K.em};
+  d.scen.forEach(function(s){
+    var x=sc(Math.max(s.v,xlo),xlo,xhi,x0,x1), c=cols[s.k];
+    o.push(LN(x,y0+16,x,y1,c,2,'2 3',0.95));
+    o.push('<circle cx="'+x.toFixed(1)+'" cy="'+(y0+16)+'" r="4" fill="'+c+'"/>');
+    o.push(TX(x,y0+6,tr(s.lf,s.le)+' '+nf(s.p*100,0)+'%',c,10,'middle',800));
+    o.push(TX(x,y1+30,nf(s.v,2)+' $',c,9.5,'middle',700));
+  });
+  o.push(TX(x0,y1+44,tr('prix à l\u2019horizon ('+nf(HZ,0)+' mois)','price at horizon ('+nf(HZ,0)+' months)'),
+    K.dim,10,'start',600));
+  o.push(legendRight([[tr('densité implicite','implied density'),K.blue],
+                 [tr('bande ±1σ','±1σ band'),K.blue,1]],x1,y1+44));
+  o.push('</svg>'); return o.join('');
+}
+
+/* ============ 2. probabilites : marche vs lab ============ */
+function chProb(){
+  var d=D(), S=d.spot, sig=d.iv, T=HZ/12;
+  var ev=d.scen.map(function(s){
+    var above=(s.k==='bull');
+    var pm = above ? pAbove(S,s.v,sig,T) : pBelow(S,s.v,sig,T);
+    return {lf:s.lf,le:s.le,v:s.v,above:above,pm:pm,pl:s.p,k:s.k};
+  });
+  var w=880,h=330,x0=64,x1=w-26,y0=30,y1=h-64;
+  var yhi=Math.max(0.6, Math.max.apply(null,ev.map(function(e){return Math.max(e.pm,e.pl);}))*1.25);
+  var o=[svgOpen(w,h)];
+  o.push(frame(w,h,x0,x1,y0,y1,0,1,0,yhi,function(){return '';},
+    function(v){return nf(v*100,0)+'%';},[],niceTicks(0,yhi,5)));
+  var bw=(x1-x0)/ev.length, gw=Math.min(52,bw*0.3);
+  ev.forEach(function(e,i){
+    var cx=x0+bw*(i+0.5);
+    [[e.pm,K.blue,-1,tr('marché','market')],[e.pl,K.em,1,tr('lab','lab')]].forEach(function(p){
+      var bh=(y1-sc(p[0],0,yhi,y1,y0));
+      var bx=cx+p[2]*(gw*0.55)-(p[2]>0?0:gw);
+      o.push('<rect x="'+bx.toFixed(1)+'" y="'+(y1-bh).toFixed(1)+'" width="'+gw+
+        '" height="'+Math.max(bh,0.5).toFixed(1)+'" rx="3" fill="'+p[1]+'" opacity="0.9"/>');
+      o.push(TX(bx+gw/2,y1-bh-7,nf(p[0]*100,p[0]<0.1?2:1)+'%',p[1],10.5,'middle',800));
+    });
+    var lab=(e.above?'≥ ':'≤ ')+nf(e.v,2)+' $';
+    o.push(TX(cx,y1+20,tr(e.lf,e.le),K.tx,11,'middle',700));
+    o.push(TX(cx,y1+35,lab,K.dim,10,'middle',600));
+  });
+  o.push(TX(x0,y1+54,tr('probabilité de l\u2019événement à '+nf(HZ,0)+' mois',
+    'probability of the event at '+nf(HZ,0)+' months'),K.dim,10,'start',600));
+  o.push(legendRight([[tr('implicite marché','market-implied'),K.blue],
+                 [tr('publiée par le lab','published by the lab'),K.em]],x1,y1+54));
+  o.push('</svg>'); return o.join('');
+}
+
+/* ============ 3. horizon de reconciliation ============ */
+function chRecon(){
+  var d=D(), S=d.spot, sig=d.iv;
+  var base=d.scen.filter(function(s){return s.k==='base';})[0];
+  var bull=d.scen.filter(function(s){return s.k==='bull';})[0];
+  var w=880,h=360,x0=64,x1=w-26,y0=30,y1=h-58;
+  var xhi=60, ylo=0, yhi=1;
+  var o=[svgOpen(w,h)];
+  o.push(frame(w,h,x0,x1,y0,y1,0,xhi,ylo,yhi,
+    function(v){return nf(v,0);}, function(v){return nf(v*100,0)+'%';}));
+  function curve(K_,above,col){
+    var p='M';
+    for(var m=1;m<=xhi;m++){ var T=m/12;
+      var v=above?pAbove(S,K_,sig,T):pBelow(S,K_,sig,T);
+      p+=(m>1?' L ':' ')+sc(m,0,xhi,x0,x1).toFixed(1)+' '+sc(v,ylo,yhi,y1,y0).toFixed(1); }
+    return '<path d="'+p+'" fill="none" stroke="'+col+'" stroke-width="2.4"/>';
+  }
+  o.push(curve(base.v,false,K.amb));
+  o.push(curve(bull.v,true,K.em));
+  [[base,K.amb,false],[bull,K.em,true]].forEach(function(t){
+    var y=sc(t[0].p,ylo,yhi,y1,y0);
+    o.push(LN(x0,y,x1,y,t[1],1.3,'5 4',0.6));
+    o.push(TX(x1-2,y-6,tr('prob. lab ','lab prob. ')+nf(t[0].p*100,0)+'%',t[1],9.5,'end',700));
+    var mm=solveT(S,t[0].v,sig,t[0].p,t[2]);
+    if(mm!==null && mm<=xhi){
+      var x=sc(mm,0,xhi,x0,x1);
+      o.push('<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="5.5" fill="'+K.bg+
+        '" stroke="'+t[1]+'" stroke-width="2.4"/>');
+      o.push(TX(x,y-14,nf(mm,1)+tr(' mois',' mo'),t[1],10,'middle',800));
+    }
+  });
+  var xh=sc(HZ,0,xhi,x0,x1);
+  o.push(LN(xh,y0,xh,y1,K.tx,1.4,'3 3',0.7));
+  o.push(TX(xh,y0-8,tr('horizon retenu','selected horizon'),K.tx,9.5,'middle',700));
+  o.push(TX(x0,y1+42,tr('horizon, en mois','horizon, in months'),K.dim,10,'start',600));
+  o.push(legendRight([[tr('P(cours ≤ cas central)','P(price ≤ base case)'),K.amb],
+                 [tr('P(cours ≥ cas haussier)','P(price ≥ bull case)'),K.em]],x1,y1+42));
+  o.push('</svg>'); return o.join('');
+}
+
+/* ============ 4. prime de variance ============ */
+function chVrp(){
+  var d=D();
+  var w=880,h=300,x0=64,x1=w-26,y0=30,y1=h-58;
+  var rows=[{lf:'Vol. implicite',le:'Implied vol',v:d.iv,c:K.blue},
+            {lf:'Vol. réalisée 30j',le:'Realised vol 30d',v:d.rv,c:K.cor}];
+  var yhi=Math.max(d.iv,d.rv)*1.28;
+  var o=[svgOpen(w,h)];
+  o.push(frame(w,h,x0,x1,y0,y1,0,1,0,yhi,function(){return '';},
+    function(v){return nf(v*100,0)+'%';},[],niceTicks(0,yhi,5)));
+  var bw=(x1-x0)/rows.length;
+  rows.forEach(function(r,i){
+    var cx=x0+bw*(i+0.5), gw=Math.min(96,bw*0.34);
+    var bh=y1-sc(r.v,0,yhi,y1,y0);
+    o.push('<rect x="'+(cx-gw/2).toFixed(1)+'" y="'+(y1-bh).toFixed(1)+'" width="'+gw+
+      '" height="'+bh.toFixed(1)+'" rx="4" fill="'+r.c+'" opacity="0.9"/>');
+    o.push(TX(cx,y1-bh-9,nf(r.v*100,1)+'%',r.c,13,'middle',800));
+    o.push(TX(cx,y1+20,tr(r.lf,r.le),K.tx,11,'middle',700));
+  });
+  var vrp=(d.iv-d.rv)*100;
+  var yv=sc(d.rv,0,yhi,y1,y0);
+  o.push(LN(x0,yv,x1,yv,K.cor,1.2,'5 4',0.55));
+  o.push(TX(x1-2,y0+14,tr('prime de variance ','variance premium ')+
+    (vrp>=0?'+':'')+nf(vrp,1)+tr(' pts',' pts'),vrp>=0?K.em:K.red,12,'end',800));
+  o.push(TX(x0,y1+42,tr('base annualisée, relevé IBKR','annualised, IBKR reading'),K.dim,10,'start',600));
+  o.push('</svg>'); return o.join('');
+}
+
+/* ============ 5. moteur de payoff ============ */
+var DEF={ws:1.00,kc:1.15,wc:1.00,prc:0.055,kp:0.85,wp:1.00,prp:0.045};
+var ST=Object.assign({},DEF);
+var HZ=6;
+var PRESETS={
+ stock :{ws:1.00,wc:0.00,wp:0.00,kc:1.15,prc:0.055,kp:0.85,prp:0.045},
+ cc    :{ws:1.00,wc:1.00,wp:0.00,kc:1.15,prc:0.055,kp:0.85,prp:0.045},
+ collar:{ws:1.00,wc:1.00,wp:1.00,kc:1.15,prc:0.055,kp:0.85,prp:0.045},
+ comp  :{ws:1.00,wc:0.50,wp:0.25,kc:1.15,prc:0.055,kp:0.75,prp:0.030},
+ csp   :{ws:0.00,wc:0.00,wp:-1.00,kc:1.15,prc:0.055,kp:0.90,prp:0.050}
+};
+var PRESET='cc';
+/* P&L en fraction du capital, x = S_T / S_0 */
+function pay(x){
+  return ST.ws*(x-1)
+       + ST.wc*(ST.prc - Math.max(0,x-ST.kc))
+       + ST.wp*(Math.max(0,ST.kp-x) - ST.prp);
+}
+function payStock(x){ return x-1; }
+function metrics(){
+  var lo=0,hi=3.2,n=1600,mn=1e9,mx=-1e9,be=[],prev=null;
+  for(var i=0;i<=n;i++){ var x=lo+(hi-lo)*i/n, v=pay(x);
+    if(v<mn)mn=v; if(v>mx)mx=v;
+    if(prev!==null && ((prev<0&&v>=0)||(prev>0&&v<=0))){
+      var xp=x-(hi-lo)/n, t=(0-prev)/(v-prev);
+      be.push(xp+t*((hi-lo)/n)); }
+    prev=v; }
+  var slope=(pay(hi)-pay(hi-0.01))/0.01;
+  return {min:mn,max:mx,be:be,capped:Math.abs(slope)<1e-6,net:ST.wc*ST.prc-ST.wp*ST.prp};
+}
+function chPayoff(){
+  var d=D(), S=d.spot;
+  var w=880,h=430,x0=68,x1=w-26,y0=32,y1=h-68;
+  var mxs=Math.max.apply(null,d.scen.map(function(s){return s.v/S;}));
+  var xhi=Math.max(2.2,mxs*1.06), xlo=0;
+  var vals=[],n=420;
+  for(var i=0;i<=n;i++){ var x=xlo+(xhi-xlo)*i/n; vals.push([x,pay(x),payStock(x)]); }
+  var all=vals.map(function(v){return v[1];}).concat(vals.map(function(v){return v[2];}));
+  var ylo=Math.min.apply(null,all), yhi=Math.max.apply(null,all);
+  var pad=(yhi-ylo)*0.12; ylo-=pad; yhi+=pad;
+  var o=[svgOpen(w,h)];
+  o.push(frame(w,h,x0,x1,y0,y1,xlo,xhi,ylo,yhi,
+    function(v){return nf(v*100,0)+'%';}, function(v){return nf(v*100,0)+'%';}));
+  var yz=sc(0,ylo,yhi,y1,y0);
+  o.push(LN(x0,yz,x1,yz,K.mut,1.4,null,0.75));
+  /* scenarios */
+  var cols={bear:K.red,base:K.amb,bull:K.em};
+  d.scen.forEach(function(s){
+    var xr=s.v/S; if(xr>xhi) return;
+    var x=sc(xr,xlo,xhi,x0,x1);
+    o.push(LN(x,y0,x,y1,cols[s.k],1.3,'3 4',0.55));
+    o.push(TX(x,y0-8,tr(s.lf,s.le),cols[s.k],9.5,'middle',700));
+  });
+  function line(idx,col,dash,wd){
+    var p='M';
+    vals.forEach(function(v,i){ p+=(i?' L ':' ')+sc(v[0],xlo,xhi,x0,x1).toFixed(1)+' '+
+      sc(v[idx],ylo,yhi,y1,y0).toFixed(1); });
+    return '<path d="'+p+'" fill="none" stroke="'+col+'" stroke-width="'+wd+'"'+
+      (dash?' stroke-dasharray="'+dash+'"':'')+'/>';
+  }
+  o.push(line(2,K.blue,'5 4',1.8));
+  o.push(line(1,K.em,null,2.8));
+  var xsp=sc(1,xlo,xhi,x0,x1);
+  o.push(LN(xsp,y0,xsp,y1,K.tx,1.3,'2 3',0.6));
+  o.push(TX(xsp,y1+30,tr('cours','spot'),K.tx,9.5,'middle',700));
+  o.push(TX(x0,y1+44,tr('prix à l\u2019échéance, en % du cours','price at expiry, % of spot'),
+    K.dim,10,'start',600));
+  o.push(TX(x0-56,y0+4,tr('P&L','P&L'),K.dim,10,'start',600));
+  o.push(legendRight([[tr('structure','structure'),K.em],
+                 [tr('actions seules','shares only'),K.blue]],x1,y1+44));
+  o.push('</svg>'); return o.join('');
+}
+
+/* ============ 6. cout arithmetique de l'ordre stop ============ */
+var STOPT=0.035, STOPS=0.004;
+function chStop(){
+  var w=880,h=360,x0=64,x1=w-26,y0=30,y1=h-58;
+  var T=1+STOPT, Tf=T*(1+STOPS);
+  var xlo=0.55,xhi=1.6,n=420,vals=[];
+  for(var i=0;i<=n;i++){ var x=xlo+(xhi-xlo)*i/n;
+    vals.push([x, x-1, x<T?0:(x-Tf)]); }
+  var all=vals.map(function(v){return v[1];}).concat(vals.map(function(v){return v[2];}));
+  var ylo=Math.min.apply(null,all)*1.12, yhi=Math.max.apply(null,all)*1.18;
+  var o=[svgOpen(w,h)];
+  o.push(frame(w,h,x0,x1,y0,y1,xlo,xhi,ylo,yhi,
+    function(v){return nf(v*100,0)+'%';}, function(v){return nf(v*100,0)+'%';}));
+  var yz=sc(0,ylo,yhi,y1,y0);
+  o.push(LN(x0,yz,x1,yz,K.mut,1.4,null,0.75));
+  /* zone protegee */
+  var xT=sc(T,xlo,xhi,x0,x1);
+  o.push('<rect x="'+x0+'" y="'+y0+'" width="'+(sc(1,xlo,xhi,x0,x1)-x0).toFixed(1)+
+    '" height="'+(y1-y0)+'" fill="'+K.em+'" opacity="0.06"/>');
+  o.push('<rect x="'+xT.toFixed(1)+'" y="'+y0+'" width="'+(x1-xT).toFixed(1)+
+    '" height="'+(y1-y0)+'" fill="'+K.red+'" opacity="0.05"/>');
+  function line(idx,col,dash,wd){
+    var p='M'; vals.forEach(function(v,i){ p+=(i?' L ':' ')+sc(v[0],xlo,xhi,x0,x1).toFixed(1)+' '+
+      sc(v[idx],ylo,yhi,y1,y0).toFixed(1); });
+    return '<path d="'+p+'" fill="none" stroke="'+col+'" stroke-width="'+wd+'"'+
+      (dash?' stroke-dasharray="'+dash+'"':'')+'/>';
+  }
+  o.push(line(1,K.blue,'5 4',1.8));
+  o.push(line(2,K.em,null,2.8));
+  o.push(LN(xT,y0,xT,y1,K.amb,1.5,'3 3',0.8));
+  o.push(TX(xT,y0-8,tr('déclenchement +'+nf(STOPT*100,1)+'%','trigger +'+nf(STOPT*100,1)+'%'),
+    K.amb,10,'middle',800));
+  var yg=sc(-(Tf-1),ylo,yhi,y1,y0);
+  o.push(TX(x1-2,y0+16,tr('écart permanent à la hausse : ','permanent upside gap: ')+
+    nf((Tf-1)*100,2)+'%',K.red,11,'end',800));
+  o.push(TX(x0,y1+42,tr('prix final, en % du prix de sortie','final price, % of exit price'),
+    K.dim,10,'start',600));
+  o.push(legendRight([[tr('sorti puis stop','exited then stop'),K.em],
+                 [tr('resté investi','stayed invested'),K.blue]],x1,y1+42));
+  o.push('</svg>'); return o.join('');
+}
+
+/* ============ moteur de la roue ============ */
+var WH={kp:90, prem:4.0, dte:40};   /* strike en % du cours, prime en % du strike, jours */
+function wheelCalc(){
+  var d=D(), S=d.spot, sig=d.iv;
+  var K=S*WH.kp/100;
+  var prime=K*WH.prem/100;             /* par action */
+  var coll=K*100;                      /* collateral d'un contrat */
+  var encaisse=prime*100;
+  var pru=K-prime;
+  var T=WH.dte/365;
+  var rend=encaisse/coll;
+  var rendAnn=Math.pow(1+rend, 365/WH.dte)-1;
+  var pAssign=pBelow(S,K,sig,T);       /* proba que le cours finisse sous le strike */
+  var pPerte=pBelow(S,pru,sig,T);      /* proba de finir sous le point mort */
+  var s1=sig*Math.sqrt(T);
+  var up1=S*Math.exp(-0.5*s1*s1+s1), dn1=S*Math.exp(-0.5*s1*s1-s1),
+      dn2=S*Math.exp(-0.5*s1*s1-2*s1);
+  var k20=quant(S,sig,T,0.20);         /* strike donnant 20 % de proba d'assignation */
+  var ecart20=(1-k20/S)*100;
+  return {S:S,K:K,prime:prime,coll:coll,encaisse:encaisse,pru:pru,rend:rend,
+          rendAnn:rendAnn,pAssign:pAssign,pPerte:pPerte,up1:up1,dn1:dn1,dn2:dn2,T:T,
+          k20:k20,ecart20:ecart20};
+}
+function shortPutPnl(ST,K,prime){ return (prime-Math.max(0,K-ST))*100; }
+
+function renderWheel(){
+  var w=wheelCalc(), d=D();
+  setTx('w_coll', cf(w.coll,0));
+  setTx('w_prime', cf(w.encaisse,0));
+  setTx('w_pru', cf(w.pru,2));
+  setTx('w_rend', pf(w.rend*100,2));
+  setTx('w_rendann', pf(w.rendAnn*100,1));
+  setTx('w_passign', pf(w.pAssign*100,1));
+  setTx('w_k20', cf(w.k20,2));
+  setBi('w_k20_s', nf(w.ecart20,1)+' % sous le cours, à '+nf(WH.dte,0)+' j',
+                   nf(w.ecart20,1)+'% below spot, at '+nf(WH.dte,0)+'d');
+  setBi('w_pru_s', 'strike moins prime', 'strike minus premium');
+  setBi('w_rend_s', 'sur '+nf(WH.dte,0)+' jours', 'over '+nf(WH.dte,0)+' days');
+  var tb=document.getElementById('wheelbody'); if(!tb) return;
+  var rows=[
+   {lf:'Cours +1σ', le:'Price +1σ', p:w.up1},
+   {lf:'Cours inchangé', le:'Price unchanged', p:w.S},
+   {lf:'Cours = strike', le:'Price = strike', p:w.K},
+   {lf:'Cours = point mort', le:'Price = break-even', p:w.pru},
+   {lf:'Cours −1σ', le:'Price −1σ', p:w.dn1},
+   {lf:'Cours −2σ', le:'Price −2σ', p:w.dn2}
+  ];
+  var out='';
+  rows.forEach(function(r){
+    var pnl=shortPutPnl(r.p,w.K,w.prime);
+    var assigned=r.p<w.K;
+    var tag=assigned
+      ? '<span class="tag wa">'+tr('assigné','assigned')+'</span>'
+      : '<span class="tag ok">'+tr('expire','expires')+'</span>';
+    out+='<tr><td class="hi">'+tr(r.lf,r.le)+'</td>'
+       +'<td class="n">'+nf(r.p,2)+' $</td>'
+       +'<td>'+tag+'</td>'
+       +'<td class="n '+(pnl>=0?'g':'r')+'">'+(pnl>=0?'+':'')+nf(pnl,0)+' $</td>'
+       +'<td class="n d">'+nf(pnl/w.coll*100,2)+'%</td></tr>';
+  });
+  tb.innerHTML=out;
+}
+
+/* ============ 7. resultat de la vente de put ============ */
+function chWheel(){
+  var w=wheelCalc();
+  var W=880,h=380,x0=68,x1=W-26,y0=32,y1=h-62;
+  var xlo=Math.min(w.dn2*0.9, w.K*0.6), xhi=w.S*1.35, n=420, vals=[];
+  for(var i=0;i<=n;i++){ var x=xlo+(xhi-xlo)*i/n; vals.push([x, shortPutPnl(x,w.K,w.prime)]); }
+  var ys=vals.map(function(v){return v[1];});
+  var ylo=Math.min.apply(null,ys)*1.15, yhi=Math.max.apply(null,ys)*2.4;
+  var o=[svgOpen(W,h)];
+  o.push(frame(W,h,x0,x1,y0,y1,xlo,xhi,ylo,yhi,
+    function(v){return nf(v,0);}, function(v){return nf(v,0)+' $';}));
+  var yz=sc(0,ylo,yhi,y1,y0);
+  o.push(LN(x0,yz,x1,yz,K.mut,1.4,null,0.75));
+  /* zone d'assignation */
+  var xK=sc(w.K,xlo,xhi,x0,x1);
+  o.push('<rect x="'+x0+'" y="'+y0+'" width="'+(xK-x0).toFixed(1)+'" height="'+(y1-y0)+
+    '" fill="'+K.amb+'" opacity="0.06"/>');
+  var p='M'; vals.forEach(function(v,i){ p+=(i?' L ':' ')+sc(v[0],xlo,xhi,x0,x1).toFixed(1)+' '+
+    sc(v[1],ylo,yhi,y1,y0).toFixed(1); });
+  o.push('<path d="'+p+'" fill="none" stroke="'+K.em+'" stroke-width="2.8"/>');
+  [[w.S,K.tx,tr('cours','spot')],[w.K,K.amb,tr('strike','strike')],
+   [w.pru,K.blue,tr('point mort','break-even')],[w.dn1,K.cor,'−1σ'],[w.dn2,K.red,'−2σ']]
+  .forEach(function(t,i){
+    if(t[0]<xlo||t[0]>xhi) return;
+    var x=sc(t[0],xlo,xhi,x0,x1);
+    o.push(LN(x,y0+(i%2?14:0),x,y1,t[1],1.3,'3 4',0.65));
+    o.push(TX(x,y0+(i%2?10:-4),t[2],t[1],9.5,'middle',700));
+  });
+  o.push(TX(x0,y1+44,tr('cours à l\u2019échéance','price at expiry'),K.dim,10,'start',600));
+  o.push(legendRight([[tr('vente de put, un contrat','short put, one contract'),K.em],
+                      [tr('zone d\u2019assignation','assignment zone'),K.amb,1]],x1,y1+44));
+  o.push('</svg>'); return o.join('');
+}
+
+/* ============ 8. le cycle de la roue ============ */
+function chCycle(){
+  var W=880,h=300;
+  var steps=[
+   {nf:'1. Cash',ne:'1. Cash',df:'liquidités + liste de titres voulus',de:'cash + watchlist of wanted names',c:K.blue},
+   {nf:'2. Vente de put',ne:'2. Sell put',df:'à un prix où posséder le titre convient',de:'at a price where owning is acceptable',c:K.em},
+   {nf:'3a. Expire',ne:'3a. Expires',df:'prime gardée · retour à l\u2019étape 2',de:'premium kept · back to step 2',c:K.em},
+   {nf:'3b. Assigné',ne:'3b. Assigned',df:'100 actions au strike · PRU = strike − primes',de:'100 shares at strike · cost = strike − premiums',c:K.amb},
+   {nf:'4. Covered call',ne:'4. Covered call',df:'vendu au-dessus du PRU · réduit le PRU',de:'sold above cost · lowers the cost',c:K.vio},
+   {nf:'5. Rappelé',ne:'5. Called away',df:'actions vendues · cash récupéré · retour à 2',de:'shares sold · cash back · return to 2',c:K.blue}
+  ];
+  var o=[svgOpen(W,h)];
+  var bw=(W-56)/3, bh=104, gx=20, gy=26;
+  steps.forEach(function(s,i){
+    var col=i%3, row=Math.floor(i/3);
+    var x=28+col*bw, y=gy+row*(bh+gy+14);
+    o.push('<rect x="'+(x+2)+'" y="'+y+'" width="'+(bw-gx)+'" height="'+bh+
+      '" rx="10" fill="'+K.surf2+'" stroke="'+s.c+'" stroke-width="1.4" opacity="0.95"/>');
+    o.push('<rect x="'+(x+2)+'" y="'+y+'" width="4" height="'+bh+'" rx="2" fill="'+s.c+'"/>');
+    o.push(TX(x+20,y+28,tr(s.nf,s.ne),s.c,13,'start',800));
+    var words=tr(s.df,s.de).split(' '), line='', ly=y+52;
+    words.forEach(function(wd){
+      if((line+' '+wd).length>30){ o.push(TX(x+20,ly,line,K.mut,10.5,'start',500)); line=wd; ly+=15; }
+      else line=(line?line+' ':'')+wd;
+    });
+    if(line) o.push(TX(x+20,ly,line,K.mut,10.5,'start',500));
+    if(i<2||i===3||i===4){
+      var ax=x+bw-gx+6, ay=y+bh/2;
+      if(col<2) o.push('<path d="M'+ax+' '+ay+' l 10 0 m -4 -4 l 4 4 l -4 4" fill="none" stroke="'+
+        K.dim+'" stroke-width="1.6"/>');
+    }
+  });
+  o.push(TX(W/2,h-8,tr('la boucle : l\u2019étape 5 et l\u2019étape 3a ramènent toutes deux à l\u2019étape 2',
+    'the loop: step 5 and step 3a both return to step 2'),K.dim,10.5,'middle',600));
+  o.push('</svg>'); return o.join('');
+}
+
+/* ============ sorties chiffrees ============ */
+function setTx(id,v){ var n=document.getElementById(id); if(n) n.textContent=v; }
+function setBi(id,fr,en){ var n=document.getElementById(id); if(!n) return;
+  n.setAttribute('data-fr',fr); n.setAttribute('data-en',en); n.textContent=tr(fr,en); }
+
+function renderMarket(){
+  var d=D(), S=d.spot;
+  setTx('m_spot', cf(S,2));
+  setBi('m_spot_s', d.asof+' · '+d.stamp_fr, d.asof+' · '+d.stamp_en);
+  setTx('m_iv', pf(d.iv*100,2));
+  setTx('m_rv', pf(d.rv*100,2));
+  var vrp=(d.iv-d.rv)*100;
+  setTx('m_vrp', (vrp>=0?'+':'')+nf(vrp,2)+' pts');
+  var nv=document.getElementById('m_vrp'); if(nv) nv.parentNode.className='kpi '+(vrp>=0?'em':'red');
+  setTx('m_ivp', pf(d.ivp52*100,1));
+  setTx('m_52', nf(d.lo52,2)+' – '+nf(d.hi52,2));
+  setTx('m_pc', nf(d.putVol/d.callVol,2));
+  var pcAvg=nf(d.putVolAvg/d.callVolAvg,2);
+  setBi('m_pc_s', 'moyenne '+pcAvg, 'average '+pcAvg);
+  var q16=quant(S,d.iv,HZ/12,0.1587), q84=quant(S,d.iv,HZ/12,0.8413);
+  setTx('m_band', nf(q16,2)+' – '+nf(q84,2));
+  setBi('m_band_s', '±1σ à '+nf(HZ,0)+' mois', '±1σ at '+nf(HZ,0)+' months');
+  var rb=document.getElementById('readblock');
+  if(rb){ rb.setAttribute('data-fr',d.readFr); rb.setAttribute('data-en',d.readEn);
+          rb.textContent=tr(d.readFr,d.readEn); }
+  setTx('m_target', cf(d.target,2));
+  setBi('m_target_s', d.report+' · écart '+pfs((d.target/S-1)*100,1),
+        d.report+' · gap '+pfs((d.target/S-1)*100,1));
+}
+
+function renderScenTable(){
+  var d=D(), S=d.spot, T=HZ/12, tb=document.getElementById('scenbody');
+  if(!tb) return;
+  var rows='', ep=0, es=0;
+  d.scen.forEach(function(s){
+    var x=s.v/S, v=pay(x), vs=payStock(x);
+    ep+=s.p*v; es+=s.p*vs;
+    var pm=(s.k==='bull')?pAbove(S,s.v,d.iv,T):pBelow(S,s.v,d.iv,T);
+    rows+='<tr><td class="hi">'+tr(s.lf,s.le)+'</td>'
+      +'<td class="n">'+nf(s.v,2)+' $</td>'
+      +'<td class="n">'+nf(s.p*100,0)+'%</td>'
+      +'<td class="n b">'+nf(pm*100,pm<0.1?2:1)+'%</td>'
+      +'<td class="n '+(vs>=0?'g':'r')+'">'+pfs(vs*100,1)+'</td>'
+      +'<td class="n '+(v>=0?'g':'r')+'">'+pfs(v*100,1)+'</td></tr>';
+  });
+  rows+='<tr><td class="hi">'+tr('Espérance pondérée','Probability-weighted')+'</td>'
+    +'<td class="n d">—</td><td class="n">100%</td><td class="n d">—</td>'
+    +'<td class="n '+(es>=0?'g':'r')+'">'+pfs(es*100,1)+'</td>'
+    +'<td class="n '+(ep>=0?'g':'r')+'">'+pfs(ep*100,1)+'</td></tr>';
+  tb.innerHTML=rows;
+}
+
+function renderOut(){
+  var m=metrics(), d=D();
+  setTx('o_max', m.capped?pfs(m.max*100,1):tr('non plafonné','uncapped'));
+  setTx('o_min', pfs(m.min*100,1));
+  var nmin=document.getElementById('o_min');
+  if(nmin) nmin.className='v'+(m.min<0?' neg':'');
+  setTx('o_net', pfs(m.net*100,2));
+  setBi('o_net_s', m.net>=0?'prime nette encaissée':'prime nette décaissée',
+                   m.net>=0?'net premium received':'net premium paid');
+  setTx('o_be', m.be.length? m.be.map(function(b){return pf(b*100,1);}).join(' · ')
+                            : tr('aucun','none'));
+  var T=HZ/12, S=d.spot;
+  var pk=pBelow(S,S*(m.be.length?m.be[0]:1),d.iv,T);
+  setTx('o_pbe', pf((1-pk)*100,1));
+}
+
+/* ============ redessin ============ */
+function redrawAll(){
+  renderMarket(); renderOut(); renderScenTable(); renderWheel();
+  BUILDERS.forEach(function(b){
+    var n=document.getElementById(b.id); if(n) n.innerHTML=b.fn();
+  });
+  document.querySelectorAll('.tick button').forEach(function(t){
+    t.classList.toggle('on', t.dataset.t===TICK); });
+  document.querySelectorAll('.chips button').forEach(function(t){
+    t.classList.toggle('on', t.dataset.p===PRESET); });
+  syncLabels();
+}
+function syncLabels(){
+  var L={ws:['Exposition actions','Share exposure',ST.ws*100,'%',0],
+         kc:['Strike call (% du cours)','Call strike (% of spot)',ST.kc*100,'%',0],
+         wc:['Couverture call vendu','Short call coverage',ST.wc*100,'%',0],
+         prc:['Prime call reçue','Call premium received',ST.prc*100,'%',1],
+         kp:['Strike put (% du cours)','Put strike (% of spot)',ST.kp*100,'%',0],
+         wp:['Position put (< 0 = put vendu)','Put position (< 0 = short put)',ST.wp*100,'%',0],
+         prp:['Prime put','Put premium',ST.prp*100,'%',1]};
+  Object.keys(L).forEach(function(k){
+    var n=document.getElementById('lv_'+k); if(n) n.textContent=nf(L[k][2],L[k][4])+' %';
+    var t=document.getElementById('lt_'+k);
+    if(t){ t.setAttribute('data-fr',L[k][0]); t.setAttribute('data-en',L[k][1]);
+           t.textContent=tr(L[k][0],L[k][1]); }
+    var r=document.getElementById('sl_'+k); if(r) r.value=L[k][2];
+  });
+  var WL={wkp:[WH.kp,0,' %'],wpr:[WH.prem,1,' %'],wdte:[WH.dte,0,tr(' jours',' days')]};
+  Object.keys(WL).forEach(function(k){
+    var n=document.getElementById('lv_'+k); if(n) n.textContent=nf(WL[k][0],WL[k][1])+WL[k][2];
+    var r=document.getElementById('sl_'+k); if(r) r.value=WL[k][0];
+  });
+  var nh=document.getElementById('lv_hz'); if(nh) nh.textContent=nf(HZ,0)+tr(' mois',' mo');
+  var rh=document.getElementById('sl_hz'); if(rh) rh.value=HZ;
+  var ns=document.getElementById('lv_st'); if(ns) ns.textContent=nf(STOPT*100,1)+' %';
+  var nsl=document.getElementById('lv_ss'); if(nsl) nsl.textContent=nf(STOPS*100,2)+' %';
+}
+function setPreset(p){
+  PRESET=p; var s=PRESETS[p];
+  Object.keys(s).forEach(function(k){ ST[k]=s[k]; });
+  redrawAll();
+}
+function resetAll(){ HZ=6; WH={kp:90,prem:4.0,dte:40}; setPreset('cc'); }
+
+/* ============ init ============ */
+function init(){
+  BUILDERS=[{id:'ch_cycle',fn:chCycle},{id:'ch_wheel',fn:chWheel},
+            {id:'ch_dist',fn:chDist},{id:'ch_prob',fn:chProb},{id:'ch_recon',fn:chRecon},
+            {id:'ch_vrp',fn:chVrp},{id:'ch_payoff',fn:chPayoff},{id:'ch_stop',fn:chStop}];
+  document.querySelectorAll('.lang button').forEach(function(b){
+    b.addEventListener('click',function(){ setLang(b.dataset.l); }); });
+  document.querySelectorAll('.tick button').forEach(function(b){
+    b.addEventListener('click',function(){ TICK=b.dataset.t; redrawAll(); }); });
+  document.querySelectorAll('.chips button').forEach(function(b){
+    b.addEventListener('click',function(){ setPreset(b.dataset.p); }); });
+  [['wkp','kp'],['wpr','prem'],['wdte','dte']].forEach(function(pair){
+    var r=document.getElementById('sl_'+pair[0]); if(!r) return;
+    r.addEventListener('input',function(){ WH[pair[1]]=parseFloat(r.value); redrawAll(); });
+  });
+  ['ws','kc','wc','prc','kp','wp','prp'].forEach(function(k){
+    var r=document.getElementById('sl_'+k); if(!r) return;
+    r.addEventListener('input',function(){ ST[k]=parseFloat(r.value)/100; PRESET=''; redrawAll(); });
+  });
+  var rh=document.getElementById('sl_hz');
+  if(rh) rh.addEventListener('input',function(){ HZ=parseFloat(rh.value); redrawAll(); });
+  var rs=document.getElementById('sl_st');
+  if(rs) rs.addEventListener('input',function(){ STOPT=parseFloat(rs.value)/100; redrawAll(); });
+  var rl=document.getElementById('sl_ss');
+  if(rl) rl.addEventListener('input',function(){ STOPS=parseFloat(rl.value)/100; redrawAll(); });
+  var rb=document.getElementById('btn_reset');
+  if(rb) rb.addEventListener('click',resetAll);
+  resetAll(); setLang('fr');
+}
+if(document.readyState!=='loading') init();
+else document.addEventListener('DOMContentLoaded',init);
+</script></body></html>

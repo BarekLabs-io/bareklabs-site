@@ -19,6 +19,7 @@ export const en = {
       stocks: { label: 'STOCKS', note: 'Equity ledger, live' },
       crypto: { label: 'CRYPTO', note: 'Digital assets ledger' },
       screener: { label: 'SCREENER', note: 'Every covered ticker, one place' },
+      options: { label: 'OPTIONS TRADING', note: 'Distributions against theses' },
     },
   },
   tape: {
@@ -36,7 +37,7 @@ export const en = {
     operational: 'ALL FEEDS OPERATIONAL',
     sitemap: 'SITEMAP',
     subSections: 'SUB-SECTIONS',
-    subLinks: { insights: 'INSIGHTS', ideas: 'IDEAS', stocks: 'STOCKS', crypto: 'CRYPTO', screener: 'SCREENER' },
+    subLinks: { insights: 'INSIGHTS', ideas: 'IDEAS', stocks: 'STOCKS', crypto: 'CRYPTO', screener: 'SCREENER', options: 'OPTIONS' },
     protocol: 'PROTOCOL',
     protocolText: 'RESEARCH FIRST. EXECUTION LATER. NOTHING ON THIS SITE CONSTITUTES FINANCIAL ADVICE.',
     copyright: '© 2026 BAREK LABS — ALL SIGNALS RESERVED',
@@ -66,6 +67,7 @@ export const en = {
       signalLabel: 'SOUK SIGNAL',
       signalCta: "Today's composite read →",
       feedLabel: 'FROM THE LAB',
+      wire: { head: 'THE WIRE', empty: 'News wire not connected yet — headlines appear here once the feed key is set.' },
     },
     manifesto: {
       label: '§ MANIFESTO',
@@ -441,6 +443,12 @@ export const en = {
         desc: 'Every ticker we cover, searchable and filterable, with a fast read on valuation and risk before you dig deeper.',
         stats: ['68 TICKERS', 'SEARCHABLE', 'FILTERABLE'],
       },
+      options: {
+        code: '03.D',
+        name: 'OPTIONS TRADING',
+        desc: 'The option market prices a distribution; our reports price scenarios. The modules here put the two on one screen and measure the gap. No entries, no exits, no advice.',
+        stats: ['1 MODULE', 'IBKR DATA', 'FR / EN'],
+      },
     },
     rules: {
       head: 'House rules',
@@ -453,6 +461,28 @@ export const en = {
       ],
     },
   },
+  optionsTrading: {
+    hero: {
+      code: '03.D / TRADE TRACKER — OPTIONS',
+      title: 'Options',
+      serif: 'trading',
+      desc: 'THE OPTION MARKET PRICES A DISTRIBUTION; OUR REPORTS PRICE SCENARIOS. THE MODULES HERE PUT THE TWO ON ONE SCREEN AND MEASURE THE GAP — NO ENTRIES, NO EXITS, NO ADVICE.',
+    },
+    modules: {
+      head: 'Modules',
+      headRight: 'ANALYSIS TOOLS, NOT SIGNALS',
+      items: [
+        {
+          code: 'MODULE 01',
+          name: 'RISK STRUCTURE',
+          desc: 'What the option chain believes, against what the lab\'s scenarios say. Implied distributions, the variance premium, the geometry of covered calls and collars, a wheel simulator — computed on IBKR data for NBIS and ISRG, and pluggable on any covered ticker.',
+          stats: ['2 TICKERS', '8 CHARTS', 'FR / EN'],
+          to: '/trade-tracker/options/structure-risque',
+        },
+      ],
+    },
+    note: 'THESE MODULES PUBLISH MECHANISMS AND MEASUREMENTS, NEVER THRESHOLDS TO COPY. OPTIONS INVOLVE LEVERAGE AND CAN LOSE MORE THAN THE PREMIUM PAID. NOTHING HERE IS A RECOMMENDATION TO BUY OR SELL ANY SECURITY OR DERIVATIVE.',
+  },
   stocks: {
     hero: {
       code: '03.A / TRADE TRACKER — STOCKS',
@@ -463,7 +493,7 @@ export const en = {
     head: 'Positions',
     headRight: 'LIVE FEED · 15-20 MIN DELAY',
     tabs: { open: 'OPEN', closed: 'CLOSED' },
-    cols: { ticker: 'TICKER', side: 'SIDE', entry: 'ENTRY', last: 'LAST', size: 'SIZE', pnl: 'P&L', opened: 'OPENED' },
+    cols: { ticker: 'TICKER', side: 'SIDE', entry: 'ENTRY', last: 'LAST', size: 'WEIGHT', pnl: 'P&L', opened: 'OPENED' },
     /* Real broker positions, imported from IBKR and dated. `entry` and `qty`
      * are the broker's numbers; P&L is recomputed live by the page from the
      * quote feed, never stored. `open` is a dash when the broker does not
@@ -474,8 +504,7 @@ export const en = {
         name: 'Energy Fuels Inc — NYSE American',
         side: 'LONG',
         entry: 18.51,
-        qty: 5,
-        size: '5 SH',
+        size: '100%',
         pnl: '—',
         open: '—',
         analysis:

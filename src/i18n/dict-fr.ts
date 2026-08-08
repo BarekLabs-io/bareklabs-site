@@ -20,6 +20,7 @@ export const fr: Dict = {
       stocks: { label: 'ACTIONS', note: 'Registre actions, en direct' },
       crypto: { label: 'CRYPTO', note: 'Registre actifs numériques' },
       screener: { label: 'SCREENER', note: 'Tous nos tickers, au même endroit' },
+      options: { label: 'OPTIONS TRADING', note: 'Distributions contre thèses' },
     },
   },
   tape: {
@@ -37,7 +38,7 @@ export const fr: Dict = {
     operational: 'TOUS LES FLUX OPÉRATIONNELS',
     sitemap: 'PLAN DU SITE',
     subSections: 'SOUS-SECTIONS',
-    subLinks: { insights: 'ANALYSES', ideas: 'IDÉES', stocks: 'ACTIONS', crypto: 'CRYPTO', screener: 'SCREENER' },
+    subLinks: { insights: 'ANALYSES', ideas: 'IDÉES', stocks: 'ACTIONS', crypto: 'CRYPTO', screener: 'SCREENER', options: 'OPTIONS' },
     protocol: 'PROTOCOLE',
     protocolText: 'LA RECHERCHE D’ABORD. L’EXÉCUTION ENSUITE. RIEN SUR CE SITE NE CONSTITUE UN CONSEIL FINANCIER.',
     copyright: '© 2026 BAREK LABS — TOUS LES SIGNAUX RÉSERVÉS',
@@ -67,6 +68,7 @@ export const fr: Dict = {
       signalLabel: 'SOUK SIGNAL',
       signalCta: "La lecture composite du jour →",
       feedLabel: 'DEPUIS LE LABO',
+      wire: { head: 'LE FIL', empty: 'Fil de news pas encore branché — les titres apparaîtront ici une fois la clé du flux configurée.' },
     },
     manifesto: {
       label: '§ MANIFESTE',
@@ -442,6 +444,12 @@ export const fr: Dict = {
         desc: 'Chaque titre que nous couvrons, cherchable et filtrable, avec une lecture rapide de la valorisation et du risque avant d’aller plus loin.',
         stats: ['68 TITRES', 'CHERCHABLE', 'FILTRABLE'],
       },
+      options: {
+        code: '03.D',
+        name: 'OPTIONS TRADING',
+        desc: 'Le marché d’options price une distribution ; nos rapports pricent des scénarios. Les modules ici superposent les deux et mesurent l’écart. Pas d’entrées, pas de sorties, pas de conseil.',
+        stats: ['1 MODULE', 'DONNÉES IBKR', 'FR / EN'],
+      },
     },
     rules: {
       head: 'Règles de la maison',
@@ -454,6 +462,28 @@ export const fr: Dict = {
       ],
     },
   },
+  optionsTrading: {
+    hero: {
+      code: '03.D / TRADE TRACKER — OPTIONS',
+      title: 'Options',
+      serif: 'trading',
+      desc: 'LE MARCHÉ D’OPTIONS PRICE UNE DISTRIBUTION ; NOS RAPPORTS PRICENT DES SCÉNARIOS. LES MODULES ICI SUPERPOSENT LES DEUX ET MESURENT L’ÉCART — PAS D’ENTRÉES, PAS DE SORTIES, PAS DE CONSEIL.',
+    },
+    modules: {
+      head: 'Modules',
+      headRight: 'OUTILS D’ANALYSE, PAS DES SIGNAUX',
+      items: [
+        {
+          code: 'MODULE 01',
+          name: 'STRUCTURE DE RISQUE',
+          desc: 'Ce que la chaîne d’options croit, contre ce que disent les scénarios du lab. Distributions implicites, prime de variance, géométrie des calls couverts et des collars, simulateur de roue — calculé sur données IBKR pour NBIS et ISRG, et branchable sur tout ticker couvert.',
+          stats: ['2 TICKERS', '8 GRAPHIQUES', 'FR / EN'],
+          to: '/trade-tracker/options/structure-risque',
+        },
+      ],
+    },
+    note: 'CES MODULES PUBLIENT DES MÉCANISMES ET DES MESURES, JAMAIS DES SEUILS À RECOPIER. LES OPTIONS COMPORTENT UN EFFET DE LEVIER ET PEUVENT PERDRE PLUS QUE LA PRIME PAYÉE. RIEN ICI N’EST UNE RECOMMANDATION D’ACHAT OU DE VENTE D’UN TITRE OU D’UN DÉRIVÉ.',
+  },
   stocks: {
     hero: {
       code: '03.A / TRADE TRACKER — ACTIONS',
@@ -464,15 +494,14 @@ export const fr: Dict = {
     head: 'Positions',
     headRight: 'FLUX EN DIRECT · DIFFÉRÉ 15-20 MIN',
     tabs: { open: 'OUVERTES', closed: 'CLÔTURÉES' },
-    cols: { ticker: 'TICKER', side: 'SENS', entry: 'ENTRÉE', last: 'DERNIER', size: 'TAILLE', pnl: 'P&L', opened: 'OUVERTE LE' },
+    cols: { ticker: 'TICKER', side: 'SENS', entry: 'ENTRÉE', last: 'DERNIER', size: 'POIDS', pnl: 'P&L', opened: 'OUVERTE LE' },
     open: [
       {
         t: 'UUUU',
         name: 'Energy Fuels Inc — NYSE American',
         side: 'LONG' as const,
         entry: 18.51,
-        qty: 5,
-        size: '5 TITRES',
+        size: '100%',
         pnl: '—',
         open: '—',
         analysis:

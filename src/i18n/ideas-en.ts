@@ -208,4 +208,23 @@ export const ideasEn: IdeaItem[] = [
       { label: 'BULL', prob: 25, tone: 'up' },
     ],
   },
+  {
+    id: 'IDEA-09',
+    date: '2026-08-06',
+    status: 'WATCHING',
+    sector: 'AI INFRA',
+    company: 'Meta Platforms',
+    tickers: ['META'],
+    report: 'meta',
+    title: 'Meta: the depreciation that hasn\'t landed',
+    thesis:
+      'Meta printed the best advertising quarter in its history — $60.80bn, up 28% — and lost 9.6% after hours. The public argument was about a $2.4bn legal charge. The real story sits elsewhere: $80.3bn of assets under construction that are not depreciating yet — 27.4% of the gross asset base — and $347bn of signed lease commitments that do not appear on the balance sheet, 3.1 times the debt that does. Operating margin fell from 43.0% to 30.9%, and only about six of those twelve points are one-offs.',
+    entry:
+      'The market is pricing the plan, with a modest premium. Three advertising paths, built from impressions and price separately: the plan path is worth about $628 against a $589.47 close — 6.5% above — at the default 8.5% cost of capital; the upside path $1,101; the reversion path $393. The 62-analyst consensus at $756.95 sits between plan and upside. The asymmetry to hold on to: depreciation reaches roughly $118bn a year by 2031 in the central path against $26bn today, and that charge is already determined by signed contracts, while the revenue meant to absorb it depends on personal agents — a product category nobody has shipped at consumer scale.',
+    invalidation:
+      'The one number that flips the file: advertising price growth, +12% in Q2 2026, carries half the growth and the whole "AI improves the core business" thesis — below +6% for two consecutive quarters, the reversion path becomes the central case. Free cash flow is negative in 2026 and 2027 on all three paths ($0.78bn in Q2 against $8.55bn a year earlier, capex at 51% of revenue). And note where the real risk sits: with terminal value at 89% of enterprise value, moving the rate from 7.5% to 9.5% swings the plan path from $787 to $518 — a wider spread than plan versus reversion. The principal risk is not that agents fail to sell; it is that long rates fail to fall.',
+    horizon: 'Connect on 23 September 2026 (glasses, and personal agents if they exist), Q3 print late October — the first quantified 2027 capex, US youth trials through H2, Hyperion leases entering the balance sheet from 2029.',
+    discountRate:
+      '8.5% WACC and 3.0% terminal growth on the interactive model\'s defaults. The three paths carry no probability weights — the report names what each requires and prices all three, and the card invents no weighting',
+  },
 ]

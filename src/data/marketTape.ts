@@ -82,6 +82,84 @@ export const MOVERS_UNIVERSE: { s: string; symbol: string }[] = [
 
 export const MOVERS_SYMBOLS = MOVERS_UNIVERSE.map((i) => i.symbol)
 
+/* The desk's tabbed lists: crypto first, then one list per trading venue,
+ * matching the venues on the site clock. Each venue leads with its index and
+ * follows with five liquid names; `to` links a row to its deep-dive page when
+ * we cover the ticker, and rows without coverage are plain text. Symbols are
+ * Yahoo's — venue suffixes: .PA Paris, .T Tokyo, .SR Tadawul, .AE DFM/ADX.
+ * A row whose symbol the feed cannot resolve shows dashes, never a stand-in. */
+export type DeskList = {
+  key: string
+  /** Tab label — a venue name, kept Latin in all three languages. */
+  label: string
+  rows: { s: string; symbol: string; to?: string }[]
+}
+
+export const DESK_LISTS: DeskList[] = [
+  {
+    key: 'crypto',
+    label: 'CRYPTO',
+    rows: [
+      { s: 'BTC', symbol: 'BTC-USD' },
+      { s: 'ETH', symbol: 'ETH-USD' },
+      { s: 'SOL', symbol: 'SOL-USD' },
+      { s: 'TAO', symbol: 'TAO22974-USD' },
+      { s: 'ICP', symbol: 'ICP-USD' },
+      { s: 'ZEC', symbol: 'ZEC-USD' },
+    ],
+  },
+  {
+    key: 'nyc',
+    label: 'NYC',
+    rows: [
+      { s: 'S&P 500', symbol: '^GSPC' },
+      { s: 'NVDA', symbol: 'NVDA', to: '/companies/NVDA' },
+      { s: 'PLTR', symbol: 'PLTR', to: '/companies/PLTR' },
+      { s: 'TSM', symbol: 'TSM', to: '/companies/TSM' },
+      { s: 'ISRG', symbol: 'ISRG', to: '/companies/ISRG' },
+      { s: 'RKLB', symbol: 'RKLB', to: '/companies/RKLB' },
+    ],
+  },
+  {
+    key: 'par',
+    label: 'PARIS',
+    rows: [
+      { s: 'CAC 40', symbol: '^FCHI' },
+      { s: 'LVMH', symbol: 'MC.PA' },
+      { s: 'TOTAL', symbol: 'TTE.PA' },
+      { s: 'AIRBUS', symbol: 'AIR.PA' },
+      { s: 'SCHNEIDER', symbol: 'SU.PA', to: '/companies/SU.PA' },
+      { s: 'HAFFNER', symbol: 'ALHAF.PA', to: '/companies/ALHAF.PA' },
+    ],
+  },
+  {
+    key: 'tyo',
+    label: 'TOKYO',
+    rows: [
+      { s: 'NIKKEI 225', symbol: '^N225' },
+      { s: 'TOKYO ELECTRON', symbol: '8035.T', to: '/companies/8035.T' },
+      { s: 'ADVANTEST', symbol: '6857.T', to: '/companies/6857.T' },
+      { s: 'DISCO', symbol: '6146.T', to: '/companies/6146.T' },
+      { s: 'SOFTBANK', symbol: '9984.T' },
+      { s: 'TOYOTA', symbol: '7203.T' },
+    ],
+  },
+  {
+    key: 'gulf',
+    label: 'GULF',
+    rows: [
+      { s: 'TASI', symbol: '^TASI.SR' },
+      { s: 'ARAMCO', symbol: '2222.SR' },
+      { s: 'AL RAJHI', symbol: '1120.SR' },
+      { s: 'STC', symbol: '7010.SR' },
+      { s: 'EMAAR', symbol: 'EMAAR.AE' },
+      { s: 'DIB', symbol: 'DIB.AE' },
+    ],
+  },
+]
+
+export const DESK_SYMBOLS = DESK_LISTS.flatMap((l) => l.rows.map((r) => r.symbol))
+
 export const TAPE_SYMBOLS = TAPE_INSTRUMENTS.map((i) => i.symbol)
 
 /** Shown wherever a quote has not arrived — never a stand-in number. */

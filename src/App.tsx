@@ -15,6 +15,8 @@ import SoukSignal from './pages/SoukSignal'
 import TradeTracker from './pages/TradeTracker'
 import Stocks from './pages/Stocks'
 import Crypto from './pages/Crypto'
+import OptionsTrading from './pages/OptionsTrading'
+import { ReportFrame } from './components/ReportFrame'
 import About from './pages/About'
 import DataAudit from './pages/DataAudit'
 import IdeaReport from './pages/IdeaReport'
@@ -45,6 +47,16 @@ export default function App() {
         <Route path="/trade-tracker" element={<TradeTracker />} />
         <Route path="/trade-tracker/stocks" element={<Stocks />} />
         <Route path="/trade-tracker/crypto" element={<Crypto />} />
+        <Route path="/trade-tracker/options" element={<OptionsTrading />} />
+        <Route
+          path="/trade-tracker/options/structure-risque"
+          element={
+            <ReportFrame
+              src="/research/modules/structure-risque/index.html"
+              title="Structure de risque — BAREK LABS"
+            />
+          }
+        />
         <Route
           path="/trade-tracker/screener"
           element={

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useLang } from '@/i18n/LanguageContext'
 
 /* Embedded research reports are self-contained HTML documents, and several of
  * them drive their own visuals from scroll — fixed backgrounds, sticky rails,
@@ -45,12 +46,29 @@ export function ReportFrame({ src, title, reloadKey }: { src: string; title: str
     return () => document.documentElement.classList.remove('report-open')
   }, [])
 
+  /* The reports carry their own FR/EN toggle (a global setLang in each
+   * document). Same-origin, so the site can drive it: the reader's site
+   * language follows them into the report instead of every report opening in
+   * its own default. Reports have no Arabic edition, so AR falls back to
+   * English; a report without the function keeps its default, silently. */
+  const { lang } = useLang()
+  const applyLang = () => {
+    try {
+      const w = frameRef.current?.contentWindow as (Window & { setLang?: (l: string) => void }) | null
+      w?.setLang?.(lang === 'fr' ? 'fr' : 'en')
+    } catch {
+      /* Cross-origin or not yet loaded — the report keeps its default. */
+    }
+  }
+  useEffect(applyLang, [lang])
+
   return (
     <iframe
       ref={frameRef}
       key={reloadKey}
       src={src}
       title={title}
+      onLoad={applyLang}
       className="block w-full border-0"
       style={
         headerH == null

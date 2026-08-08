@@ -138,7 +138,7 @@ export default function Home() {
             floats from lg up. Below that it is not dropped — it moves into the
             flow underneath the hero, because a market panel nobody on a laptop
             or a phone ever sees is not a feature. */}
-        <Reveal delay={500} className="pointer-events-none absolute end-5 top-32 z-10 hidden w-[300px] lg:block lg:end-10">
+        <Reveal delay={500} className="pointer-events-none absolute end-5 top-32 z-10 hidden w-[300px] lg:block lg:end-10 lg:w-[380px] xl:w-[430px]">
           <div className="mb-3 font-mono-lab text-[10px] leading-5 tracking-wider text-dim" dir="ltr">
             <span className="flicker"><HeroQuote /></span>
           </div>

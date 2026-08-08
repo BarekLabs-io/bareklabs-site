@@ -206,4 +206,23 @@ export const ideasFr: IdeaItem[] = [
       { label: 'BULL', prob: 25, tone: 'up' },
     ],
   },
+  {
+    id: 'IDEA-09',
+    date: '2026-08-06',
+    status: 'WATCHING',
+    sector: 'AI INFRA',
+    company: 'Meta Platforms',
+    tickers: ['META'],
+    report: 'meta',
+    title: 'Meta : la dépréciation qui n\'est pas encore arrivée',
+    thesis:
+      'Meta a publié le meilleur trimestre publicitaire de son histoire — 60,80 Md$, +28 % — et perdu 9,6 % en après-Bourse. Le débat public a porté sur une charge juridique de 2,4 Md$. Le vrai sujet est ailleurs : 80,3 Md$ d\'actifs en construction qui ne se déprécient pas encore — 27,4 % du parc brut — et 347 Md$ d\'engagements de location signés qui ne figurent pas au bilan, soit 3,1 fois la dette qui y figure. La marge opérationnelle est passée de 43,0 % à 30,9 %, et seuls six de ces douze points environ sont exceptionnels.',
+    entry:
+      'Le marché price le plan, avec une prime modeste. Trois trajectoires publicitaires, construites à partir des impressions et du prix séparément : la trajectoire plan vaut environ 628 $ contre une clôture à 589,47 $ — 6,5 % au-dessus — au coût du capital par défaut de 8,5 % ; la trajectoire idéale 1 101 $ ; le retour à la moyenne 393 $. Le consensus des 62 analystes, à 756,95 $, se situe entre le plan et l\'idéal. L\'asymétrie à garder en tête : la dépréciation atteint environ 118 Md$ par an en 2031 dans la trajectoire centrale contre 26 Md$ aujourd\'hui, et cette charge est déjà déterminée par des contrats signés, alors que le revenu censé l\'absorber dépend des agents personnels — une catégorie de produits que personne n\'a encore livrée à l\'échelle du grand public.',
+    invalidation:
+      'Le chiffre qui fait basculer le dossier : la croissance du prix publicitaire, +12 % au T2 2026, porte la moitié de la croissance et toute la thèse « l\'IA améliore le cœur de métier » — sous +6 % pendant deux trimestres consécutifs, le retour à la moyenne devient le scénario central. Le free cash flow est négatif en 2026 et 2027 dans les trois trajectoires (0,78 Md$ au T2 contre 8,55 un an plus tôt, capex à 51 % du CA). Et notez où loge le vrai risque : avec une valeur terminale à 89 % de la valeur d\'entreprise, passer le taux de 7,5 % à 9,5 % déplace la trajectoire plan de 787 $ à 518 $ — un écart plus large que celui entre le plan et le retour à la moyenne. Le principal risque n\'est pas que les agents ne se vendent pas ; c\'est que les taux longs ne baissent pas.',
+    horizon: 'Connect le 23 septembre 2026 (les lunettes, et les agents personnels s\'ils existent), résultats T3 fin octobre — premier chiffrage du capex 2027, procès américains sur les mineurs au S2, baux Hyperion entrant au bilan à partir de 2029.',
+    discountRate:
+      '8,5 % de coût moyen pondéré du capital et 3,0 % de croissance à l\'infini, valeurs par défaut du modèle interactif. Les trois trajectoires ne portent aucune pondération de probabilité — le rapport nomme ce que chacune exige et valorise les trois, et la carte n\'invente aucun poids',
+  },
 ]

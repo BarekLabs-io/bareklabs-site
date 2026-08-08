@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BAREK / LABS n°02 — Meta Platforms : la dépréciation qui n'est pas encore arrivée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;0,800;0,900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070B12; --surf:#0D131D; --surf2:#111A27; --line:#1D2837;
+  --em:#00E58A; --blu:#38BDF8; --vio:#A78BFA; --red:#F0616D; --cor:#FF8A5B;
+  --txt:#E7EDF5; --mut:#8A9AAE; --dim:#5A6A7E;
+  --maxw:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--txt);
+  font-family:Inter,system-ui,sans-serif;font-weight:300;font-size:16.5px;line-height:1.68;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background:
+   radial-gradient(900px 520px at 12% -6%, rgba(0,229,138,.09), transparent 62%),
+   radial-gradient(760px 460px at 92% 8%, rgba(56,189,248,.07), transparent 60%);
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:26px;padding-right:26px;position:relative;z-index:1}
+
+/* ---------- logo ---------- */
+.logo{font-family:Archivo,sans-serif;display:inline-flex;align-items:center;gap:.42em;white-space:nowrap}
+.logo b{font-weight:800;letter-spacing:.19em}
+.logo i{font-style:normal;color:var(--dim);font-weight:300;transform:scaleY(1.5)}
+.logo s{text-decoration:none;font-weight:400;letter-spacing:.30em}
+
+/* ---------- top bar ---------- */
+header.bar{
+  position:sticky;top:0;z-index:60;background:rgba(7,11,18,.86);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:18px}
+.bar .logo{font-size:14px}
+.langs{display:flex;gap:4px;background:var(--surf);border:1px solid var(--line);border-radius:2px;padding:3px}
+.langs button{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;background:none;border:0;
+  color:var(--mut);padding:5px 11px;cursor:pointer;border-radius:1px;transition:.15s;
+}
+.langs button[aria-pressed="true"]{background:var(--em);color:#04150D;font-weight:700}
+.langs button:focus-visible{outline:2px solid var(--blu);outline-offset:2px}
+.tick{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--mut);letter-spacing:.04em}
+.tick b{color:var(--em);font-weight:500}
+@media(max-width:720px){.tick{display:none}}
+
+/* ---------- cover ---------- */
+.cover{padding-top:92px;padding-bottom:74px;border-bottom:1px solid var(--line)}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--em);margin-bottom:34px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;
+}
+.eyebrow span{color:var(--dim);position:relative;padding-left:14px}
+.eyebrow span::before{content:'';position:absolute;left:0;top:50%;width:5px;height:1px;background:var(--line)}
+.eyebrow .logo{padding-left:0}
+.eyebrow .logo::before{display:none}
+h1.big{
+  font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(42px,8.4vw,104px);line-height:.92;
+  letter-spacing:-.033em;margin:0 0 26px;text-transform:uppercase;
+}
+h1.big .solid{display:block;color:var(--txt)}
+h1.big .hollow{
+  display:block;color:transparent;-webkit-text-stroke:1.6px var(--em);
+  paint-order:stroke fill;
+}
+.deck{font-size:19.5px;font-weight:300;color:var(--mut);max-width:64ch;line-height:1.6}
+.deck b{color:var(--txt);font-weight:500}
+
+/* the cover ribbon of live numbers */
+.ribbon{
+  margin-top:52px;display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));
+  border-top:1px solid var(--line);border-left:1px solid var(--line);
+}
+.ribbon div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:17px 16px}
+.ribbon .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.ribbon .v{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;margin-top:7px;letter-spacing:-.02em}
+.ribbon .s{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mut);margin-top:3px}
+.up{color:var(--em)} .dn{color:var(--red)} .nu{color:var(--blu)} .vi{color:var(--vio)} .co{color:var(--cor)}
+
+/* ---------- sections ---------- */
+section{padding-top:72px;padding-bottom:72px;border-bottom:1px solid var(--line);scroll-margin-top:76px}
+figure,.dcf{scroll-margin-top:76px}
+.snum{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--em);
+  text-transform:uppercase;margin-bottom:16px;
+}
+h2{
+  font-family:Archivo,sans-serif;font-weight:800;font-size:clamp(27px,4.1vw,42px);line-height:1.04;
+  letter-spacing:-.024em;margin:0 0 20px;max-width:24ch;
+}
+h3{
+  font-family:Archivo,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.012em;
+  margin:44px 0 12px;color:var(--txt);
+}
+p{margin:0 0 17px;max-width:74ch}
+p.lede{font-size:18.5px;color:var(--mut)}
+strong{font-weight:600;color:#fff}
+em.mono{font-style:normal;font-family:'JetBrains Mono',monospace;font-size:.93em;color:var(--em);font-weight:500}
+a{color:var(--blu);text-decoration:none;border-bottom:1px solid rgba(56,189,248,.32)}
+a:hover{border-bottom-color:var(--blu)}
+
+/* ---------- angle boxes ---------- */
+.angle{
+  background:var(--surf);border:1px solid var(--line);border-left:2px solid var(--em);
+  padding:26px 28px;margin:34px 0;position:relative;
+}
+.angle .tag{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--em);margin-bottom:11px;display:block;
+}
+.angle h4{font-family:Archivo,sans-serif;font-weight:700;font-size:19.5px;margin:0 0 11px;letter-spacing:-.012em;line-height:1.24}
+.angle p{margin:0 0 12px;font-size:16px;color:var(--mut)}
+.angle p:last-child{margin-bottom:0}
+.angle p b{color:var(--txt);font-weight:500}
+
+/* ---------- charts ---------- */
+figure{margin:40px 0;background:var(--surf);border:1px solid var(--line)}
+figure .head{padding:22px 24px 4px;border-bottom:1px solid var(--line)}
+figure .ct{font-family:Archivo,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.01em;margin-bottom:5px}
+figure .cs{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:.05em;padding-bottom:16px}
+.plot{padding:20px 12px 6px;overflow-x:auto}
+.plot svg{display:block;width:100%;height:auto;min-width:520px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;padding:2px 24px 18px}
+.legend span{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mut);display:flex;align-items:center;gap:7px}
+.legend i{width:11px;height:11px;border-radius:1px;display:inline-block}
+.howto{
+  border-top:1px solid var(--line);background:rgba(56,189,248,.045);padding:17px 24px;
+}
+.howto > b{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--blu);display:block;margin-bottom:7px;font-weight:500;
+}
+.howto p b{color:var(--txt);font-weight:600}
+.howto p{margin:0;font-size:14.5px;color:var(--mut);max-width:none;line-height:1.6}
+
+/* svg text defaults */
+text{font-family:'JetBrains Mono',monospace;font-size:11px;fill:#8A9AAE}
+.axl{font-size:10px;fill:#5A6A7E;letter-spacing:.06em}
+.val{font-size:11px;fill:#E7EDF5;font-weight:500}
+.grid{stroke:#1D2837;stroke-width:1}
+.zero{stroke:#3A4A5E;stroke-width:1}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;margin:34px 0;border:1px solid var(--line);background:var(--surf)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+th,td{padding:12px 15px;text-align:right;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+thead th{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--dim);font-weight:500;background:var(--surf2);position:sticky;top:0;
+}
+tbody td{font-family:'JetBrains Mono',monospace;color:var(--mut)}
+tbody td:first-child{font-family:Inter,sans-serif;color:var(--txt);font-weight:400}
+tbody tr:hover td{background:rgba(255,255,255,.02)}
+tbody tr.hl td{background:rgba(0,229,138,.06);color:var(--txt)}
+tbody tr.hl td:first-child{color:#fff;font-weight:500}
+tfoot td{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--txt);background:var(--surf2);border-top:1px solid var(--line)}
+
+/* ---------- DCF ---------- */
+.dcf{background:var(--surf);border:1px solid var(--line);margin:38px 0}
+.dcf .dhead{
+  padding:20px 24px;border-bottom:1px solid var(--line);display:flex;
+  align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.dcf .dhead .t{font-family:Archivo,sans-serif;font-weight:700;font-size:17px}
+.reset{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;background:transparent;
+  border:1px solid var(--line);color:var(--mut);padding:7px 14px;cursor:pointer;transition:.15s;border-radius:2px;
+}
+.reset:hover{border-color:var(--em);color:var(--em)}
+.reset:focus-visible{outline:2px solid var(--blu);outline-offset:2px}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:860px){.dgrid{grid-template-columns:1fr}}
+.dctl{padding:24px;border-right:1px solid var(--line)}
+@media(max-width:860px){.dctl{border-right:0;border-bottom:1px solid var(--line)}}
+.dout{padding:24px}
+.sl{margin-bottom:22px}
+.sl label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px;gap:12px}
+.sl .n{font-size:13.5px;color:var(--mut)}
+.sl .o{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--em);font-weight:700}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:2px;background:var(--line);outline:none;border-radius:2px;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--em);cursor:pointer;
+  border:3px solid var(--bg);box-shadow:0 0 0 1px var(--em);
+}
+input[type=range]::-moz-range-thumb{
+  width:15px;height:15px;border-radius:50%;background:var(--em);cursor:pointer;border:3px solid var(--bg);box-shadow:0 0 0 1px var(--em);
+}
+input[type=range]:focus-visible{outline:2px solid var(--blu);outline-offset:4px}
+.scenbtns{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
+.scenbtns button{
+  flex:1;min-width:96px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;
+  background:var(--surf2);border:1px solid var(--line);color:var(--mut);padding:9px 8px;cursor:pointer;transition:.15s;border-radius:2px;
+}
+.scenbtns button[aria-pressed="true"]{border-color:var(--em);color:var(--em);background:rgba(0,229,138,.07)}
+.scenbtns button:focus-visible{outline:2px solid var(--blu);outline-offset:2px}
+.bigout{font-family:'JetBrains Mono',monospace;font-size:52px;font-weight:700;letter-spacing:-.03em;line-height:1;margin:4px 0 6px}
+.bigsub{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mut);margin-bottom:22px}
+.orow{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.orow:last-child{border-bottom:0}
+.orow span:first-child{color:var(--mut)}
+.orow span:last-child{font-family:'JetBrains Mono',monospace;color:var(--txt)}
+.warnbox{
+  margin-top:20px;padding:13px 15px;background:rgba(240,97,109,.07);border:1px solid rgba(240,97,109,.25);
+  font-size:13px;color:var(--mut);line-height:1.55;
+}
+.warnbox b{color:var(--red);font-weight:600}
+
+/* ---------- misc ---------- */
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin:32px 0}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin:32px 0}
+@media(max-width:980px){.cols3{grid-template-columns:1fr}}
+@media(max-width:800px){.cols2{grid-template-columns:1fr}}
+.card{background:var(--surf);border:1px solid var(--line);padding:22px}
+.card h5{font-family:Archivo,sans-serif;font-weight:700;font-size:15.5px;margin:0 0 10px;letter-spacing:-.008em}
+.card p{font-size:14.5px;color:var(--mut);margin:0 0 10px}
+.card p:last-child{margin:0}
+.pill{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;padding:3px 9px;border:1px solid var(--line);color:var(--dim);margin-bottom:12px;border-radius:2px;
+}
+.pill.em{color:var(--em);border-color:rgba(0,229,138,.3)}
+.pill.red{color:var(--red);border-color:rgba(240,97,109,.3)}
+.pill.blu{color:var(--blu);border-color:rgba(56,189,248,.3)}
+.pill.vio{color:var(--vio);border-color:rgba(167,139,250,.3)}
+.pill.cor{color:var(--cor);border-color:rgba(255,138,91,.3)}
+
+ul.clean{list-style:none;padding:0;margin:20px 0}
+ul.clean li{
+  padding:13px 0 13px 26px;border-bottom:1px solid var(--line);position:relative;font-size:15.5px;color:var(--mut);
+}
+ul.clean li::before{content:"";position:absolute;left:0;top:22px;width:9px;height:1px;background:var(--em)}
+ul.clean li b{color:var(--txt);font-weight:500}
+
+.cal{margin:28px 0;border-top:1px solid var(--line)}
+.calrow{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+@media(max-width:640px){.calrow{grid-template-columns:1fr;gap:4px}}
+.calrow .d{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--em);letter-spacing:.06em}
+.calrow .e{font-size:15px;color:var(--mut)}
+.calrow .e b{color:var(--txt);font-weight:500}
+
+.srcs{columns:2;column-gap:34px;font-size:13px;color:var(--dim);font-family:'JetBrains Mono',monospace;line-height:1.75}
+@media(max-width:700px){.srcs{columns:1}}
+.srcs div{break-inside:avoid;padding:3px 0}
+.srcs b{color:var(--mut);font-weight:400}
+
+footer{padding-top:56px;padding-bottom:80px;color:var(--dim);font-size:13px}
+footer .logo{font-size:13px;margin-bottom:18px}
+.disc{font-size:12.5px;color:var(--dim);max-width:82ch;line-height:1.7}
+
+html[lang="fr"] .en{display:none!important}
+html[lang="en"] .fr{display:none!important}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+<style data-site-fit>:root{--maxw:1020px!important}.wrap{max-width:1020px!important}p,ul,ol,blockquote,.lede,.cover .sub{max-width:96ch!important}</style></head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <span class="logo"><b>BAREK</b><i>/</i><s>LABS</s></span>
+    <span class="tick">META <b>$589.47</b> &nbsp;·&nbsp; <span class="fr">cap. 1,50 T$</span><span class="en">mkt cap $1.50T</span> &nbsp;·&nbsp; 06.08.2026</span>
+    <div class="langs" role="group" aria-label="Language">
+      <button id="bfr" aria-pressed="true" onclick="setLang('fr')">FR</button>
+      <button id="ben" aria-pressed="false" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</header>
+
+<div class="cover wrap">
+  <div class="eyebrow">
+    <span class="logo" style="font-size:11px"><b>BAREK</b><i>/</i><s>LABS</s></span>
+    <span>N°02</span>
+    <span class="fr">DONNÉES ARRÊTÉES AU 6 AOÛT 2026</span><span class="en">DATA AS OF 6 AUGUST 2026</span>
+    <span class="fr">16 GRAPHIQUES · DCF MANIPULABLE</span><span class="en">16 CHARTS · INTERACTIVE DCF</span>
+  </div>
+
+  <h1 class="big">
+    <span class="solid fr">La dépréciation</span><span class="solid en">The depreciation</span>
+    <span class="hollow fr">pas encore arrivée</span><span class="hollow en">that hasn't landed</span>
+  </h1>
+
+  <p class="deck fr">Meta a publié le meilleur trimestre publicitaire de son histoire et perdu 9,6 % en après-Bourse. Le débat public a porté sur une charge juridique de 2,4 Md$. <b>Le vrai sujet est ailleurs : 80,3 Md$ d'actifs en construction qui ne se déprécient pas encore, et 347 Md$ de baux signés qui ne figurent pas au bilan.</b></p>
+  <p class="deck en">Meta printed the best advertising quarter in its history and lost 9.6% after hours. The public argument was about a $2.4bn legal charge. <b>The real story sits elsewhere: $80.3bn of assets under construction that aren't depreciating yet, and $347bn of signed leases that aren't on the balance sheet.</b></p>
+
+  <div class="ribbon">
+    <div><div class="k fr">CA T2 2026</div><div class="k en">Q2 2026 revenue</div><div class="v up">60,80&nbsp;<span style="font-size:15px">Md$</span></div><div class="s">+28,0 % a/a</div></div>
+    <div><div class="k fr">Publicité</div><div class="k en">Advertising</div><div class="v up">59,36</div><div class="s">+27,5 % a/a</div></div>
+    <div><div class="k fr">Marge opér.</div><div class="k en">Operating margin</div><div class="v dn">30,9&nbsp;<span style="font-size:15px">%</span></div><div class="s fr">43,0 % il y a un an</div><div class="s en">43.0% a year ago</div></div>
+    <div><div class="k fr">Free cash flow</div><div class="k en">Free cash flow</div><div class="v dn">0,78</div><div class="s fr">8,55 il y a un an</div><div class="s en">8.55 a year ago</div></div>
+    <div><div class="k">Capex</div><div class="v co">31,08</div><div class="s fr">51 % du CA</div><div class="s en">51% of revenue</div></div>
+    <div><div class="k fr">Hors bilan</div><div class="k en">Off balance sheet</div><div class="v vi">347&nbsp;<span style="font-size:15px">Md$</span></div><div class="s fr">3,1× la dette portée</div><div class="s en">3.1× on-BS debt</div></div>
+  </div>
+</div>
+
+<!-- ============================================================ 01 -->
+<section class="wrap" id="s1">
+  <div class="snum">01 — <span class="fr">Le trimestre en un chiffre</span><span class="en">The quarter in one number</span></div>
+  <h2 class="fr">Douze points de marge, et seulement six s'expliquent par l'exceptionnel</h2>
+  <h2 class="en">Twelve points of margin, and only six are one-offs</h2>
+
+  <p class="lede fr">Le 29 juillet 2026, Meta publie 60,80 Md$ de chiffre d'affaires, en hausse de 28 % — au-dessus du consensus de 60,2-60,3 Md$. Le bénéfice par action ressort à 6,18 $ contre 7,17-7,22 $ attendus. C'est le premier manqué en sept trimestres. Le titre clôture à 585,61 $ et tombe à 529,15 $ en après-Bourse.</p>
+  <p class="lede en">On 29 July 2026 Meta reported $60.80bn of revenue, up 28% — above the $60.2–60.3bn consensus. Earnings per share came in at $6.18 against $7.17–7.22 expected. It was the first miss in seven quarters. The stock closed at $585.61 and fell to $529.15 after hours.</p>
+
+  <p class="fr">L'explication qui a circulé tient en deux lignes : une charge de <em class="mono">2,40 Md$</em> liée à des procédures judiciaires, et <em class="mono">1,18 Md$</em> d'indemnités de départ pour les ~8 000 postes supprimés en mai 2026. Retirez-les et le résultat opérationnel progresse de 9 % au lieu de reculer de 8 %. C'est exact, et c'est ce que la direction a souligné. C'est aussi incomplet.</p>
+  <p class="en">The explanation that circulated fits in two lines: a <em class="mono">$2.40bn</em> charge tied to legal proceedings, and <em class="mono">$1.18bn</em> of severance for the ~8,000 roles cut in May 2026. Strip them out and operating income rises 9% instead of falling 8%. That is accurate, and it is what management emphasised. It is also incomplete.</p>
+
+  <p class="fr">Ces deux éléments valent ensemble <strong>5,9 points de marge</strong>. La marge opérationnelle est passée de 43,0 % à 30,9 %, soit <strong>12,1 points</strong>. Les 6,2 points restants sont structurels, et ils logent presque intégralement dans une seule ligne.</p>
+  <p class="en">Those two items are worth <strong>5.9 points of margin</strong> between them. The operating margin went from 43.0% to 30.9% — <strong>12.1 points</strong>. The remaining 6.2 points are structural, and almost all of them sit in a single line.</p>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Du 43,0 % au 30,9 % : décomposition de la marge opérationnelle</div>
+      <div class="ct en">From 43.0% to 30.9%: operating margin bridge</div>
+      <div class="cs fr">T2 2025 → T2 2026 · en points de marge · source : compte de résultat 10-Q</div>
+      <div class="cs en">Q2 2025 → Q2 2026 · margin points · source: 10-Q income statement</div>
+    </div>
+    <div class="plot"><div id="c1"></div></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">La première barre est la marge d'il y a un an, la dernière celle d'aujourd'hui. Entre les deux, chaque barre montre combien de points de marge une catégorie de coûts a pris ou rendu. Une barre qui descend = un coût qui a grossi plus vite que le chiffre d'affaires. La R&amp;D à elle seule enlève 8,4 points — plus que la charge juridique et les indemnités réunies.</p>
+      <p class="en">The first bar is the margin a year ago, the last one is today. In between, each bar shows how many margin points a cost category took or gave back. A bar pointing down = a cost growing faster than revenue. R&amp;D alone removes 8.4 points — more than the legal charge and severance combined.</p>
+    </div>
+  </figure>
+
+  <div class="angle">
+    <span class="tag fr">Angle non-évident n°1</span><span class="tag en">Non-obvious angle #1</span>
+    <h4 class="fr">La R&amp;D est passée de 27,2 % à 35,6 % du chiffre d'affaires en un an. Ce n'est pas un accident de trimestre.</h4>
+    <h4 class="en">R&amp;D went from 27.2% to 35.6% of revenue in one year. That is not a quarterly accident.</h4>
+    <p class="fr">La R&amp;D a progressé de <b>67,3 %</b> quand le chiffre d'affaires progressait de 28 %. En valeur absolue, elle est passée de 12,94 à 21,66 Md$ : <b>+8,71 Md$ sur un trimestre</b>, soit 68 % de toute la croissance du chiffre d'affaires en dollars absorbée par une seule ligne de coûts.</p>
+    <p class="en">R&amp;D grew <b>67.3%</b> while revenue grew 28%. In absolute terms it went from $12.94bn to $21.66bn: <b>+$8.71bn in a single quarter</b>, meaning 68% of all the dollar revenue growth was absorbed by one cost line.</p>
+    <p class="fr">Susan Li identifie trois moteurs : rémunération des ingénieurs recrutés sur l'IA, coûts d'infrastructure (dépréciation, exploitation des data centers, cloud tiers) et <b>coûts de tokens IA facturés par des tiers</b>. Cette dernière catégorie est nouvelle dans le vocabulaire de Meta. Une entreprise qui construit 1 GW à El Paso achète simultanément de l'inférence à l'extérieur.</p>
+    <p class="en">Susan Li names three drivers: compensation for AI engineering hires, infrastructure costs (depreciation, data-centre operations, third-party cloud) and <b>third-party AI token costs</b>. That last category is new in Meta's vocabulary. A company building 1GW in El Paso is simultaneously buying inference from outside.</p>
+  </div>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Les quatre lignes de coûts, en pourcentage du chiffre d'affaires</div>
+      <div class="ct en">The four cost lines, as a percentage of revenue</div>
+      <div class="cs fr">T1 2025 → T2 2026 · la R&amp;D est la seule ligne qui change de régime</div>
+      <div class="cs en">Q1 2025 → Q2 2026 · R&amp;D is the only line that changes regime</div>
+    </div>
+    <div class="plot"><div id="c2"></div></div>
+    <div class="legend" id="l2"></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Chaque ligne montre ce qu'une catégorie de dépenses coûte pour 100 $ de chiffre d'affaires. Une ligne plate signifie que le coût grandit exactement au rythme des ventes. Le marketing baisse, le coût des revenus est stable, l'administratif bondit au T2 2026 sous l'effet de la charge juridique — mais la R&amp;D monte trimestre après trimestre, indépendamment des exceptionnels.</p>
+      <p class="en">Each line shows what a spending category costs per $100 of revenue. A flat line means the cost grows exactly in step with sales. Marketing falls, cost of revenue is stable, G&amp;A spikes in Q2 2026 on the legal charge — but R&amp;D climbs quarter after quarter, independent of any one-off.</p>
+    </div>
+  </figure>
+
+  <div class="tw">
+    <table>
+      <thead><tr>
+        <th class="fr">Compte de résultat T2 2026</th><th class="en">Q2 2026 income statement</th>
+        <th>T2 2026</th><th>T2 2025</th><th class="fr">Var.</th><th class="en">Chg.</th><th class="fr">% du CA</th><th class="en">% of rev.</th>
+      </tr></thead>
+      <tbody>
+        <tr class="hl"><td class="fr">Chiffre d'affaires</td><td class="en">Revenue</td><td>60 801</td><td>47 516</td><td class="up">+28,0 %</td><td>100,0 %</td></tr>
+        <tr><td class="fr">— dont publicité</td><td class="en">— of which advertising</td><td>59 363</td><td>46 563</td><td class="up">+27,5 %</td><td>97,6 %</td></tr>
+        <tr><td class="fr">— dont autres revenus FoA</td><td class="en">— of which FoA Other</td><td>1 007</td><td>583</td><td class="up">+72,7 %</td><td>1,7 %</td></tr>
+        <tr><td class="fr">— dont Reality Labs</td><td class="en">— of which Reality Labs</td><td>431</td><td>370</td><td class="up">+16,5 %</td><td>0,7 %</td></tr>
+        <tr><td class="fr">Coût des revenus</td><td class="en">Cost of revenue</td><td>11 330</td><td>8 491</td><td class="dn">+33,4 %</td><td>18,6 %</td></tr>
+        <tr class="hl"><td class="fr">Recherche &amp; développement</td><td class="en">Research &amp; development</td><td>21 656</td><td>12 942</td><td class="dn">+67,3 %</td><td>35,6 %</td></tr>
+        <tr><td class="fr">Marketing &amp; ventes</td><td class="en">Marketing &amp; sales</td><td>3 431</td><td>2 979</td><td class="up">+15,2 %</td><td>5,6 %</td></tr>
+        <tr><td class="fr">Frais généraux</td><td class="en">General &amp; administrative</td><td>5 609</td><td>2 663</td><td class="dn">+110,6 %</td><td>9,2 %</td></tr>
+        <tr><td class="fr">Résultat opérationnel</td><td class="en">Operating income</td><td>18 775</td><td>20 441</td><td class="dn">−8,2 %</td><td>30,9 %</td></tr>
+        <tr><td class="fr">Résultat net</td><td class="en">Net income</td><td>15 848</td><td>18 337</td><td class="dn">−13,6 %</td><td>26,1 %</td></tr>
+        <tr><td class="fr">BPA dilué</td><td class="en">Diluted EPS</td><td>6,18 $</td><td>7,14 $</td><td class="dn">−13,4 %</td><td>—</td></tr>
+      </tbody>
+      <tfoot><tr>
+        <td class="fr">Marge opér. hors 3,58 Md$ d'exceptionnels</td><td class="en">Op. margin ex $3.58bn one-offs</td>
+        <td>36,8 %</td><td>43,0 %</td><td class="dn">−6,2 pts</td><td>—</td>
+      </tr></tfoot>
+    </table>
+  </div>
+
+  <p class="fr">Le BPA « propre », charge juridique et indemnités retirées à un taux d'impôt de 16 %, ressort autour de <em class="mono">7,35 $</em> — au-dessus du consensus. La déception boursière ne portait donc pas sur la rentabilité déclarée. Elle portait sur ce que le trimestre révélait du rythme d'investissement.</p>
+  <p class="en">Clean EPS, with the legal charge and severance removed at a 16% tax rate, lands around <em class="mono">$7.35</em> — above consensus. So the market's disappointment was not about reported profitability. It was about what the quarter revealed regarding the pace of investment.</p>
+</section>
+<!-- ============================================================ 02 -->
+<section class="wrap" id="s2">
+  <div class="snum">02 — <span class="fr">La machine publicitaire</span><span class="en">The advertising machine</span></div>
+  <h2 class="fr">Volume et prix montent ensemble, ce qui n'arrive presque jamais</h2>
+  <h2 class="en">Volume and price are rising together, which almost never happens</h2>
+
+  <p class="lede fr">Meta décompose sa croissance publicitaire en deux variables : le nombre de publicités affichées et le prix moyen payé pour chacune. Au T2 2026, les impressions progressent de 14 % et le prix moyen de 12 %. Multipliez : 1,14 × 1,12 − 1 = <em class="mono">27,7 %</em>, ce qui reconstitue exactement les 27,5 % publiés.</p>
+  <p class="lede en">Meta decomposes its advertising growth into two variables: the number of ads served and the average price paid for each. In Q2 2026 impressions rose 14% and average price 12%. Multiply: 1.14 × 1.12 − 1 = <em class="mono">27.7%</em>, which reconstructs the reported 27.5% almost exactly.</p>
+
+  <p class="fr">Ce point mérite qu'on s'y arrête. Dans une enchère publicitaire, augmenter l'inventaire fait normalement baisser le prix : plus d'espaces à vendre, même demande, prix unitaire qui cède. C'est ce qui est arrivé à Snap, dont les impressions ont dépassé la demande au T4 2025. Meta ajoute 14 % d'inventaire <strong>et</strong> obtient 12 % de plus par unité. Cela signifie que la demande des annonceurs progresse plus vite que l'offre d'espaces — ou que chaque espace vaut objectivement plus qu'avant.</p>
+  <p class="en">This deserves a pause. In an ad auction, adding inventory normally pushes price down: more slots to sell, same demand, unit price gives way. That is what happened to Snap, whose impression supply outran demand in Q4 2025. Meta adds 14% more inventory <strong>and</strong> gets 12% more per unit. That means advertiser demand is growing faster than slot supply — or each slot is objectively worth more than before.</p>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Impressions et prix moyen par publicité — croissance annuelle</div>
+      <div class="ct en">Ad impressions and average price per ad — year-over-year growth</div>
+      <div class="cs fr">T1 2025 → T2 2026 · les deux moteurs de la croissance publicitaire</div>
+      <div class="cs en">Q1 2025 → Q2 2026 · the two engines of advertising growth</div>
+    </div>
+    <div class="plot"><div id="c3"></div></div>
+    <div class="legend" id="l3"></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Les barres montrent de combien chaque moteur a progressé par rapport au même trimestre de l'année précédente. La ligne au-dessus est le produit des deux, c'est-à-dire la croissance publicitaire totale. Quand les deux barres sont positives en même temps, Meta vend plus d'espaces <em>et</em> plus cher — la configuration la plus rentable possible.</p>
+      <p class="en">The bars show how much each engine grew versus the same quarter a year earlier. The line above is the product of the two — total advertising growth. When both bars are positive at once, Meta is selling more slots <em>and</em> at a higher price: the most profitable configuration available.</p>
+    </div>
+  </figure>
+
+  <p class="fr">Susan Li attribue la hausse des prix à trois causes : gains de performance publicitaire, amélioration du contexte macroéconomique par rapport au T2 2025, et effet de change favorable. Elle note aussi un frein : la forte croissance des impressions vient en partie de <strong>surfaces et de régions à faible monétisation</strong> — Threads, WhatsApp Status, marchés émergents — ce qui tire le prix moyen vers le bas.</p>
+  <p class="en">Susan Li attributes the price rise to three causes: ad performance gains, better macro conditions versus Q2 2025, and a currency tailwind. She also flags a drag: much of the strong impression growth comes from <strong>lower-monetising surfaces and regions</strong> — Threads, WhatsApp Status, emerging markets — which pulls the average price down.</p>
+
+  <div class="angle">
+    <span class="tag fr">Angle non-évident n°2</span><span class="tag en">Non-obvious angle #2</span>
+    <h4 class="fr">Meta a gagné 12,8 Md$ de revenus publicitaires en un an. Google Search en a gagné 9,2. Amazon 4,1.</h4>
+    <h4 class="en">Meta added $12.8bn of advertising revenue in a year. Google Search added $9.2bn. Amazon $4.1bn.</h4>
+    <p class="fr">Zuckerberg a déclaré que « en dollars, notre activité publicitaire affiche une croissance annuelle supérieure à celle de toute autre activité publicitaire publiée ». Les chiffres du trimestre lui donnent raison. Reddit croît quatre fois plus vite en pourcentage (+64 %) mais ajoute 0,3 Md$ ; Meta ajoute <b>quarante fois plus en valeur absolue</b>.</p>
+    <p class="en">Zuckerberg said that "on a dollar basis, our ads business is reporting faster year-over-year revenue growth than any other company's reported ad business." The quarter's numbers back him. Reddit grows four times faster in percentage terms (+64%) but adds $0.3bn; Meta adds <b>forty times more in absolute dollars</b>.</p>
+    <p class="fr">Cela réécrit une hypothèse répandue : l'idée que les assistants IA cannibaliseraient d'abord la publicité de recherche puis la publicité sociale. Sur ce trimestre, l'écart de croissance entre Meta (+27 %) et Google Search (+17 %) est de <b>dix points en faveur du social</b>. Si un déplacement s'opère, il ne va pas dans le sens attendu.</p>
+    <p class="en">This rewrites a common assumption: that AI assistants would eat search advertising first and social advertising later. In this quarter the growth gap between Meta (+27%) and Google Search (+17%) is <b>ten points in favour of social</b>. If displacement is happening, it is not running in the expected direction.</p>
+  </div>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Croissance publicitaire T2 2026 : pourcentage contre dollars ajoutés</div>
+      <div class="ct en">Q2 2026 ad growth: percentage versus dollars added</div>
+      <div class="cs fr">Chaque bulle = une plateforme · axe horizontal : taille · axe vertical : croissance</div>
+      <div class="cs en">Each bubble = one platform · horizontal: size · vertical: growth</div>
+    </div>
+    <div class="plot"><div id="c4"></div></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Plus une bulle est à droite, plus la plateforme est grosse. Plus elle est haute, plus elle croît vite en pourcentage. La taille de la bulle représente les <em>dollars</em> ajoutés en un an. Reddit est tout en haut mais minuscule ; Meta est à la fois grande, rapide, et de loin la plus grosse bulle du graphique.</p>
+      <p class="en">The further right a bubble sits, the larger the platform. The higher it sits, the faster it grows in percentage terms. Bubble size represents the <em>dollars</em> added over the year. Reddit is at the top but tiny; Meta is large, fast, and by far the biggest bubble on the chart.</p>
+    </div>
+  </figure>
+
+  <h3 class="fr">Où l'argent est facturé</h3>
+  <h3 class="en">Where the money is billed</h3>
+
+  <p class="fr">La géographie de facturation raconte une histoire différente de la géographie d'usage. Les États-Unis et le Canada représentent 39,2 % du chiffre d'affaires facturé pour environ 10 % des utilisateurs quotidiens. Le « Rest of World » — Afrique, Amérique latine, Moyen-Orient — est la zone qui croît le plus vite (+35,1 %) et celle qui pèse le moins (11,3 %).</p>
+  <p class="en">Billing geography tells a different story from usage geography. The US and Canada account for 39.2% of billed revenue on roughly 10% of daily users. Rest of World — Africa, Latin America, the Middle East — is the fastest-growing region (+35.1%) and the smallest (11.3%).</p>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Chiffre d'affaires par zone de facturation — T2 2026</div>
+      <div class="ct en">Revenue by billing region — Q2 2026</div>
+      <div class="cs fr">En Md$ · croissance annuelle indiquée à droite de chaque barre</div>
+      <div class="cs en">$bn · year-over-year growth shown to the right of each bar</div>
+    </div>
+    <div class="plot"><div id="c5"></div></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">La longueur de la barre est le chiffre d'affaires du trimestre. Le segment plus clair au bout montre ce qui a été ajouté par rapport à l'an dernier. L'Europe est notable : elle croît de 25,9 % alors même que Meta y a déployé en janvier 2026 une option publicitaire « moins personnalisée » imposée par la Commission européenne.</p>
+      <p class="en">Bar length is quarterly revenue. The lighter segment at the end shows what was added versus last year. Europe stands out: it grew 25.9% even though Meta rolled out a "less personalised" advertising option there in January 2026 under pressure from the European Commission.</p>
+    </div>
+  </figure>
+
+  <div class="angle">
+    <span class="tag fr">Angle non-évident n°3</span><span class="tag en">Non-obvious angle #3</span>
+    <h4 class="fr">Le choc réglementaire européen le plus redouté depuis le RGPD ne se voit pas dans les comptes</h4>
+    <h4 class="en">The most feared European regulatory shock since GDPR does not show up in the accounts</h4>
+    <p class="fr">Après une amende de 200 M€ en avril 2025 au titre du Digital Markets Act, Meta s'est engagé auprès de la Commission à offrir aux utilisateurs européens un vrai choix : consentir au partage complet des données, ou accepter une publicité moins personnalisée avec moins de données. L'option a été présentée aux utilisateurs de l'UE <b>en janvier 2026</b>.</p>
+    <p class="en">After a €200m Digital Markets Act fine in April 2025, Meta committed to the Commission to offer EU users a genuine choice: consent to full data sharing, or accept less personalised advertising with less data. The option was presented to EU users <b>in January 2026</b>.</p>
+    <p class="fr">Deux trimestres plus tard, l'Europe affiche 14,01 Md$, <b>+25,9 % sur un an</b> — à peine sous la moyenne du groupe. Soit le taux d'adoption de l'option dégradée est faible, soit le ciblage contextuel de Meta est devenu assez bon pour combler l'écart. Les deux hypothèses ont des implications très différentes, et aucune des deux n'a été confirmée par l'entreprise.</p>
+    <p class="en">Two quarters later Europe posted $14.01bn, <b>+25.9% year over year</b> — barely below the group average. Either uptake of the degraded option is low, or Meta's contextual targeting has become good enough to close the gap. The two hypotheses have very different implications, and the company has confirmed neither.</p>
+  </div>
+
+  <h3 class="fr">Utilisateurs et revenu par personne</h3>
+  <h3 class="en">Users and revenue per person</h3>
+
+  <p class="fr">3,60 milliards de personnes ouvrent au moins une application Meta chaque jour, en hausse de 3 % sur un an. C'est le rythme le plus lent depuis des années — et c'est logique : à ce niveau de pénétration, la croissance ne peut plus venir du nombre d'utilisateurs. Elle vient du revenu par personne, qui atteint <em class="mono">16,86 $</em> au T2 2026 contre 11,89 $ deux ans plus tôt, soit <strong>+42 % en huit trimestres</strong>.</p>
+  <p class="en">3.60 billion people open at least one Meta app every day, up 3% year over year. That is the slowest pace in years — and it makes sense: at this level of penetration, growth can no longer come from user count. It comes from revenue per person, which reached <em class="mono">$16.86</em> in Q2 2026 against $11.89 two years earlier: <strong>+42% in eight quarters</strong>.</p>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Utilisateurs quotidiens et revenu moyen par personne</div>
+      <div class="ct en">Daily active people and average revenue per person</div>
+      <div class="cs fr">T2 2024 → T2 2026 · DAP en milliards (barres) · ARPP en $ (ligne)</div>
+      <div class="cs en">Q2 2024 → Q2 2026 · DAP in billions (bars) · ARPP in $ (line)</div>
+    </div>
+    <div class="plot"><div id="c6"></div></div>
+    <div class="legend" id="l6"></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Les barres comptent les personnes, la ligne compte les dollars que chacune rapporte par trimestre. Les barres sont presque plates : Meta ne recrute plus beaucoup. La ligne monte franchement : Meta extrait davantage de chaque utilisateur existant. Le léger creux des barres au T1 2026 vient de coupures d'internet en Iran et d'une restriction d'accès à WhatsApp en Russie.</p>
+      <p class="en">The bars count people; the line counts the dollars each one generates per quarter. The bars are nearly flat: Meta is not adding many users. The line rises sharply: Meta extracts more from each existing user. The small dip in the bars in Q1 2026 came from internet disruptions in Iran and a restriction on WhatsApp access in Russia.</p>
+    </div>
+  </figure>
+</section>
+
+<!-- ============================================================ 03 -->
+<section class="wrap" id="s3">
+  <div class="snum">03 — <span class="fr">Les segments</span><span class="en">The segments</span></div>
+  <h2 class="fr">La seule ligne de revenus vraiment nouvelle n'est pas l'IA</h2>
+  <h2 class="en">The only genuinely new revenue line is not AI</h2>
+
+  <p class="lede fr">Au T2 2026, les « autres revenus Family of Apps » dépassent le milliard de dollars pour la première fois : 1,007 Md$, <strong>+72,7 %</strong>. Susan Li en donne la composition : messagerie payante WhatsApp et abonnements. Ce n'est ni l'API de modèles, ni la vente de calcul, ni les agents — c'est WhatsApp Business et Meta One.</p>
+  <p class="lede en">In Q2 2026, Family of Apps "Other revenue" crossed a billion dollars for the first time: $1.007bn, <strong>+72.7%</strong>. Susan Li gives the composition: WhatsApp paid messaging and subscriptions. It is not the model API, not compute sales, not agents — it is WhatsApp Business and Meta One.</p>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Autres revenus Family of Apps — la ligne qui accélère</div>
+      <div class="ct en">Family of Apps Other revenue — the line that is accelerating</div>
+      <div class="cs fr">En M$ par trimestre · messagerie payante WhatsApp + abonnements</div>
+      <div class="cs en">$m per quarter · WhatsApp paid messaging + subscriptions</div>
+    </div>
+    <div class="plot"><div id="c7"></div></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Chaque barre est un trimestre. La ligne pointillée indique la croissance annuelle correspondante. La base reste petite — 1,7 % du chiffre d'affaires — mais c'est la seule ligne de Meta qui accélère au lieu de ralentir, et c'est celle où atterriront les abonnements Meta One et la facturation des agents commerciaux.</p>
+      <p class="en">Each bar is a quarter. The dotted line shows the matching year-over-year growth rate. The base is still small — 1.7% of revenue — but this is the only Meta line that is accelerating rather than decelerating, and it is where Meta One subscriptions and business-agent billing will land.</p>
+    </div>
+  </figure>
+
+  <p class="fr">Lancé le 27 mai 2026, le portefeuille d'abonnements comprend Instagram Plus et Facebook Plus à 3,99 $/mois, WhatsApp Plus à 2,99 $/mois, puis <strong>Meta One Plus à 7,99 $/mois et Meta One Premium à 19,99 $/mois</strong> — ces deux derniers testés d'abord à Singapour, au Guatemala et en Bolivie. Un abonné Meta One Premium rapporte en un mois davantage que l'ARPP trimestriel mondial de 16,86 $.</p>
+  <p class="en">Launched on 27 May 2026, the subscription portfolio includes Instagram Plus and Facebook Plus at $3.99/month, WhatsApp Plus at $2.99/month, then <strong>Meta One Plus at $7.99/month and Meta One Premium at $19.99/month</strong> — the last two tested first in Singapore, Guatemala and Bolivia. One Meta One Premium subscriber generates more in a single month than the $16.86 global quarterly ARPP.</p>
+
+  <div class="cols2">
+    <div class="card">
+      <span class="pill em fr">Agents commerciaux</span><span class="pill em en">Business agents</span>
+      <h5 class="fr">Plus d'un million d'entreprises par semaine</h5>
+      <h5 class="en">More than a million businesses a week</h5>
+      <p class="fr">Meta Business Agents est disponible mondialement sur WhatsApp et Messenger depuis ce trimestre, et se déploie sur Instagram. Movida, loueur de voitures brésilien de près de 400 agences, rapporte <b>+44 % de réservations quotidiennes</b> via WhatsApp et 85 % de conversations résolues sans intervention humaine.</p>
+      <p class="en">Meta Business Agents went global on WhatsApp and Messenger this quarter and is rolling out on Instagram. Movida, a Brazilian car-rental firm with nearly 400 locations, reports <b>+44% daily bookings</b> through WhatsApp and 85% of conversations resolved with no human involvement.</p>
+    </div>
+    <div class="card">
+      <span class="pill blu fr">Modèle de facturation</span><span class="pill blu en">Billing model</span>
+      <h5 class="fr">« Payer quand nous obtenons un résultat »</h5>
+      <h5 class="en">"Pay us when we deliver a result"</h5>
+      <p class="fr">Zuckerberg décrit la trajectoire de monétisation : abonnements, puis tarification au volume, puis un modèle où <b>« les entreprises ne nous paient que lorsque nous obtenons des résultats pour elles »</b>. L'objectif déclaré est de faire tourner une enchère sur le calcul, comme aujourd'hui sur l'inventaire publicitaire.</p>
+      <p class="en">Zuckerberg describes the monetisation path: subscriptions, then volume pricing, then a model where <b>"businesses only pay us when we achieve results for them."</b> The stated goal is to run an auction over compute, the way Meta runs one over ad inventory today.</p>
+    </div>
+  </div>
+
+  <h3 class="fr">Reality Labs : le coût d'entretien d'une option</h3>
+  <h3 class="en">Reality Labs: the carrying cost of an option</h3>
+
+  <p class="fr">Reality Labs perd <em class="mono">4,62 Md$</em> au T2 2026 sur 431 M$ de chiffre d'affaires — <strong>10,7 $ de perte par dollar de revenu</strong>. Sur l'exercice 2025 complet : 19,19 Md$ de pertes pour 2,21 Md$ de ventes. La direction a indiqué en janvier 2026 s'attendre à des pertes 2026 « similaires aux niveaux de 2025 ».</p>
+  <p class="en">Reality Labs lost <em class="mono">$4.62bn</em> in Q2 2026 on $431m of revenue — <strong>$10.7 of loss per dollar of revenue</strong>. For full-year 2025: $19.19bn of losses on $2.21bn of sales. Management said in January 2026 it expects 2026 losses "similar to 2025 levels."</p>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Reality Labs : chiffre d'affaires contre perte opérationnelle</div>
+      <div class="ct en">Reality Labs: revenue versus operating loss</div>
+      <div class="cs fr">En M$ par trimestre · l'échelle est la même des deux côtés de zéro</div>
+      <div class="cs en">$m per quarter · the scale is identical either side of zero</div>
+    </div>
+    <div class="plot"><div id="c8"></div></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Les barres vers le haut sont les ventes, celles vers le bas les pertes, à la même échelle. L'asymétrie est le message : la barre de revenus est presque invisible face à celle des pertes. Le pic de revenus du T4 2025 est saisonnier — c'est Noël.</p>
+      <p class="en">Bars pointing up are sales, bars pointing down are losses, on the same scale. The asymmetry is the message: the revenue bar is nearly invisible next to the loss bar. The Q4 2025 revenue spike is seasonal — that is Christmas.</p>
+    </div>
+  </figure>
+
+  <p class="fr">Mais la composition change. Le chiffre d'affaires du T2 2026 progresse de 16,5 % grâce aux <strong>lunettes IA</strong>, en partie compensé par un recul des casques Quest. EssilorLuxottica a vendu plus de <strong>7 millions</strong> de lunettes connectées en 2025, contre environ 2 millions cumulées sur 2023-2024, et accélère sa capacité vers 10 millions d'unités par an. Meta a pris une participation d'environ 3 % au capital d'EssilorLuxottica pour ~3,5 Md$, avec une option de montée à 5 %.</p>
+  <p class="en">But the mix is shifting. Q2 2026 revenue grew 16.5% on the back of <strong>AI glasses</strong>, partly offset by declining Quest headset sales. EssilorLuxottica sold more than <strong>7 million</strong> smart glasses in 2025 against roughly 2 million across 2023–24 combined, and is accelerating capacity toward 10 million units a year. Meta took a roughly 3% stake in EssilorLuxottica for about $3.5bn, with an option to go to 5%.</p>
+
+  <div class="angle">
+    <span class="tag fr">Angle non-évident n°4</span><span class="tag en">Non-obvious angle #4</span>
+    <h4 class="fr">Reality Labs est devenu deux entreprises qui vont dans des directions opposées, dans un seul segment comptable</h4>
+    <h4 class="en">Reality Labs has become two businesses moving in opposite directions inside one reporting segment</h4>
+    <p class="fr">Le casque Quest recule. Les lunettes croissent assez vite pour compenser ce recul et ajouter 16,5 %. Meta ne publie pas la répartition, ce qui rend le segment illisible : une activité en déclin structurel et un des produits électroniques grand public à la croissance la plus rapide de l'histoire sont additionnés sous une même ligne de perte.</p>
+    <p class="en">Quest is declining. Glasses are growing fast enough to absorb that decline and add 16.5% on top. Meta does not publish the split, which makes the segment unreadable: a structurally declining business and one of the fastest-growing consumer electronics products ever are summed under a single loss line.</p>
+    <p class="fr">Le contexte s'est durci en une semaine. Le 6 août 2026, plusieurs restaurants, pubs et théâtres britanniques ont interdit le port des lunettes Meta dans leurs établissements pour des motifs de vie privée. Barclays projette 60 millions d'unités vendues mondialement d'ici 2035 ; Google entre sur le marché en 2026 avec Samsung, Gentle Monster et Warby Parker. <b>La question n'est plus de savoir si la catégorie existe, mais qui la contrôle et à quelles conditions sociales.</b></p>
+    <p class="en">The context hardened within a week. On 6 August 2026 several UK restaurants, pubs and theatres banned Meta glasses on their premises on privacy grounds. Barclays projects 60 million units sold globally by 2035; Google enters the market in 2026 with Samsung, Gentle Monster and Warby Parker. <b>The question is no longer whether the category exists, but who controls it and on what social terms.</b></p>
+  </div>
+</section>
+<!-- ============================================================ 04 -->
+<section class="wrap" id="s4">
+  <div class="snum">04 — <span class="fr">Le capex et ce qu'il devient</span><span class="en">Capex and what it becomes</span></div>
+  <h2 class="fr">31,1 Md$ investis, 31,9 Md$ générés : le free cash flow tombe à 784 M$</h2>
+  <h2 class="en">$31.1bn invested, $31.9bn generated: free cash flow falls to $784m</h2>
+
+  <p class="lede fr">Meta a produit 31,86 Md$ de trésorerie d'exploitation au T2 2026 et en a dépensé 31,08 Md$ en investissements. Il reste <em class="mono">784 M$</em>. Il y a un an, le même calcul laissait 8,55 Md$. Il y a deux ans, 10,9 Md$.</p>
+  <p class="lede en">Meta produced $31.86bn of operating cash flow in Q2 2026 and spent $31.08bn on capital investment. What was left is <em class="mono">$784m</em>. A year ago the same calculation left $8.55bn. Two years ago, $10.9bn.</p>
+
+  <p class="fr">La direction a relevé deux fois sa prévision de capex 2026. En janvier : 115-135 Md$. En avril : 125-145 Md$, en invoquant « une hausse du prix des composants ». En juillet : 130-145 Md$, borne basse relevée. Contre 72,22 Md$ dépensés en 2025, le point médian représente <strong>une multiplication par 1,9 en un an</strong>.</p>
+  <p class="en">Management has raised its 2026 capex guidance twice. In January: $115–135bn. In April: $125–145bn, citing "higher component pricing." In July: $130–145bn, low end raised. Against $72.22bn spent in 2025, the midpoint represents <strong>a 1.9× increase in one year</strong>.</p>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Capex trimestriel et free cash flow</div>
+      <div class="ct en">Quarterly capex and free cash flow</div>
+      <div class="cs fr">En Md$ · capex incluant les paiements en principal sur locations-financement</div>
+      <div class="cs en">$bn · capex including principal payments on finance leases</div>
+    </div>
+    <div class="plot"><div id="c9"></div></div>
+    <div class="legend" id="l9"></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Les barres orange montrent l'investissement, la ligne verte ce qui reste après. Les deux se croisent au T2 2026 : pour la première fois, Meta investit pratiquement tout ce que son activité produit. Les deux dernières barres en trait discontinu sont l'implicite du guidance : 39,5 à 47,0 Md$ par trimestre au second semestre.</p>
+      <p class="en">Orange bars show investment, the green line shows what is left after. The two cross in Q2 2026: for the first time Meta is investing essentially everything the business produces. The last two dashed bars are what the guidance implies: $39.5bn to $47.0bn per quarter in the second half.</p>
+    </div>
+  </figure>
+
+  <div class="angle">
+    <span class="tag fr">Angle non-évident n°5</span><span class="tag en">Non-obvious angle #5</span>
+    <h4 class="fr">80,3 Md$ d'immobilisations en cours ne se déprécient pas encore. C'est 27,4 % du parc brut.</h4>
+    <h4 class="en">$80.3bn of construction in progress is not depreciating yet. That is 27.4% of the gross asset base.</h4>
+    <p class="fr">Au 30 juin 2026, les immobilisations corporelles brutes de Meta s'élèvent à 292,87 Md$, dont <b>80,35 Md$ en construction</b> — data centers, serveurs, infrastructure réseau non encore mis en service. Ce poste est passé de 50,52 Md$ fin 2025 : <b>+29,8 Md$ en six mois</b>.</p>
+    <p class="en">At 30 June 2026 Meta's gross property and equipment stood at $292.87bn, of which <b>$80.35bn is under construction</b> — data centres, servers and network infrastructure not yet in service. That line went from $50.52bn at end-2025: <b>+$29.8bn in six months</b>.</p>
+    <p class="fr">Un actif en construction ne produit rien et ne coûte rien au compte de résultat. Le jour où il est mis en service, il commence à se déprécier — sur environ 5,5 ans pour les serveurs, 25 ans pour le bâti. Les serveurs représentent l'essentiel du capex. <b>La charge de dépréciation actuelle décrit l'investissement d'il y a deux ans, pas celui d'aujourd'hui.</b></p>
+    <p class="en">An asset under construction produces nothing and costs nothing on the income statement. The day it goes into service, it starts depreciating — roughly 5.5 years for servers, 25 for shell. Servers are most of the capex. <b>Today's depreciation charge describes the investment of two years ago, not today's.</b></p>
+    <p class="fr">La dépréciation des serveurs et de l'infrastructure réseau a déjà progressé de <b>48 %</b> sur un an, à 4,62 Md$ pour le seul T2. Le parc n'est amorti qu'à 22,9 %. La marge du T2 2026 intègre la dépréciation d'un capex de 2024. Celle du T2 2028 intégrera la dépréciation d'un capex de 137 à 145 Md$.</p>
+    <p class="en">Depreciation on servers and network assets has already risen <b>48%</b> year over year, to $4.62bn in Q2 alone. The base is only 22.9% depreciated. Q2 2026's margin embeds depreciation on 2024 capex. Q2 2028's margin will embed depreciation on $137–145bn of capex.</p>
+  </div>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">La rampe de dépréciation : ce qui est déjà engagé</div>
+      <div class="ct en">The depreciation ramp: what is already committed</div>
+      <div class="cs fr">En Md$/an · dépréciation annuelle ajoutée par chaque millésime de capex, hypothèse 70 % serveurs (5,5 ans) / 30 % bâti (25 ans)</div>
+      <div class="cs en">$bn/yr · annual depreciation added by each capex vintage, assuming 70% servers (5.5yr) / 30% shell (25yr)</div>
+    </div>
+    <div class="plot"><div id="c10"></div></div>
+    <div class="legend" id="l10"></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Chaque bande empilée correspond à une année d'investissement et montre la charge annuelle qu'elle ajoute une fois les actifs en service. Les bandes s'accumulent : le capex de 2026 continue de peser en 2029. La lecture importante est la hauteur totale — la dépréciation annuelle passe d'environ 26 Md$ à plus de 110 Md$ en cinq ans, <em>que le chiffre d'affaires suive ou non</em>.</p>
+      <p class="en">Each stacked band is one year of investment, showing the annual charge it adds once the assets are in service. Bands accumulate: 2026's capex still weighs in 2029. The number that matters is total height — annual depreciation goes from about $26bn to over $110bn in five years, <em>whether or not revenue follows</em>.</p>
+    </div>
+  </figure>
+
+  <p class="fr">C'est l'asymétrie centrale du dossier. Le capex est contractuel et engagé ; le chiffre d'affaires qu'il doit produire est une hypothèse. Si le revenu suit, la dépréciation est absorbée et la marge se reconstitue. S'il ne suit pas, la charge arrive quand même, à la date prévue, sans négociation possible.</p>
+  <p class="en">This is the central asymmetry. The capex is contractual and committed; the revenue it is meant to produce is a hypothesis. If revenue follows, depreciation is absorbed and margin rebuilds. If it does not, the charge arrives anyway, on schedule, with nothing to negotiate.</p>
+</section>
+
+<!-- ============================================================ 05 -->
+<section class="wrap" id="s5">
+  <div class="snum">05 — <span class="fr">L'architecture hors bilan</span><span class="en">The off-balance-sheet architecture</span></div>
+  <h2 class="fr">347 Md$ d'engagements de location signés qui n'apparaissent pas au passif</h2>
+  <h2 class="en">$347bn of signed lease commitments that do not appear as liabilities</h2>
+
+  <p class="lede fr">La note 9 du 10-Q du deuxième trimestre contient le chiffre le plus important du document, et il ne figure dans aucun communiqué. Au 30 juin 2026, Meta a signé pour <strong>278,99 Md$</strong> de locations simples et de locations-financement <em>qui n'ont pas encore commencé</em>. En juillet 2026, l'entreprise en a signé <strong>68 Md$</strong> de plus, pour des baux démarrant en 2027 et 2028 sur des durées de 18 à 20 ans.</p>
+  <p class="lede en">Note 9 of the second-quarter 10-Q contains the most important figure in the document, and it appears in no press release. At 30 June 2026 Meta had signed <strong>$278.99bn</strong> of operating and finance leases <em>that have not yet commenced</em>. In July 2026 it signed <strong>$68bn</strong> more, for leases starting in 2027 and 2028 with 18- to 20-year terms.</p>
+
+  <p class="fr">Les règles comptables sont claires et Meta les applique : une obligation locative n'entre au bilan qu'au démarrage du bail. Tant que le data center n'est pas livré, l'engagement existe juridiquement mais reste en annexe. Le rythme est ce qui frappe : ce poste est passé de 182,88 Md$ au 31 mars à 278,99 Md$ au 30 juin, soit <strong>+52,6 % en un trimestre</strong>.</p>
+  <p class="en">The accounting rules are clear and Meta applies them: a lease obligation only enters the balance sheet when the lease commences. As long as the data centre has not been delivered, the commitment exists legally but sits in the notes. The pace is what stands out: the line went from $182.88bn at 31 March to $278.99bn at 30 June — <strong>+52.6% in a single quarter</strong>.</p>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Ce qui est au bilan, et ce qui ne l'est pas</div>
+      <div class="ct en">What is on the balance sheet, and what is not</div>
+      <div class="cs fr">Au 30 juin 2026, en Md$ · engagements de juillet 2026 inclus</div>
+      <div class="cs en">At 30 June 2026, $bn · including July 2026 commitments</div>
+    </div>
+    <div class="plot"><div id="c11"></div></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">La colonne de gauche regroupe ce qu'un investisseur voit en ouvrant le bilan. Celle de droite regroupe ce qui n'y figure pas encore mais engage l'entreprise. Le rapport est d'environ trois pour un. Aucun de ces montants n'est dissimulé — ils sont tous publiés — mais ils ne sont pas au même endroit, et seul le premier entre dans les ratios d'endettement calculés automatiquement.</p>
+      <p class="en">The left column groups what an investor sees on opening the balance sheet. The right column groups what is not there yet but commits the company. The ratio is roughly three to one. None of these amounts is concealed — all are disclosed — but they are not in the same place, and only the first feeds the leverage ratios that get calculated automatically.</p>
+    </div>
+  </figure>
+
+  <div class="angle">
+    <span class="tag fr">Angle non-évident n°6</span><span class="tag en">Non-obvious angle #6</span>
+    <h4 class="fr">Meta chiffre lui-même son exposition maximale à Hyperion : 46,03 Md$, pour une participation portée à 2,92 Md$</h4>
+    <h4 class="en">Meta itself puts its maximum Hyperion exposure at $46.03bn, against a carrying value of $2.92bn</h4>
+    <p class="fr">Hyperion est le campus de données de Louisiane, destiné à monter à 5 GW pour un coût total supérieur à 50 Md$. Il est détenu par une coentreprise dont Blue Owl Capital possède 80 % et Meta 20 %, financée par environ 27 Md$ de dette portée par la structure et non par Meta. Les obligations, souscrites notamment par PIMCO, sont notées A+ et se sont placées à 6,58 % — contre environ 5,5 % pour la dette publique de Meta à l'époque.</p>
+    <p class="en">Hyperion is the Louisiana data-centre campus, planned to reach 5GW at a total cost above $50bn. It is held by a joint venture 80%-owned by Blue Owl Capital and 20% by Meta, financed with roughly $27bn of debt carried by the structure rather than by Meta. The bonds, taken up notably by PIMCO, are rated A+ and priced at 6.58% — against roughly 5.5% for Meta's own public debt at the time.</p>
+    <p class="fr">Meta ne consolide pas cette entité. Le raisonnement, exposé dans la note 5, est que les décisions les plus déterminantes pour la performance économique de la structure sont celles de <b>recommercialisation</b> du campus — négociation avec de futurs locataires, ventes de bâtiments — et que Meta ne les dirige pas. Son rôle se limite à la gestion de la construction et à l'administration.</p>
+    <p class="en">Meta does not consolidate this entity. The reasoning, set out in Note 5, is that the decisions most significant to the venture's economic performance are those about <b>remarketing</b> the campus — negotiating with future tenants, selling individual properties — and that Meta does not direct them. Its role is limited to construction management and administration.</p>
+    <p class="fr">Meta est pourtant le locataire unique, les baux commencent en 2029 pour un engagement initial de 12,31 Md$, et l'entreprise a consenti des <b>garanties de valeur résiduelle plafonnées à environ 28 Md$</b>, non comptabilisées au passif car jugées non probables. En additionnant participation, engagements locatifs, financements futurs et garanties, Meta chiffre son exposition maximale à <b>46,03 Md$</b>. Ernst &amp; Young a qualifié de « difficile » l'évaluation de la question de savoir si Meta dirige les activités de la coentreprise.</p>
+    <p class="en">Yet Meta is the sole tenant, the leases commence in 2029 for an initial $12.31bn commitment, and the company has granted <b>residual value guarantees capped at roughly $28bn</b>, unrecorded as a liability because payment is judged not probable. Adding the equity stake, lease commitments, future funding and guarantees, Meta puts its maximum exposure at <b>$46.03bn</b>. Ernst &amp; Young described evaluating whether Meta directs the venture's activities as "challenging."</p>
+  </div>
+
+  <p class="fr">Le 28 juillet 2026, veille de la publication des résultats, Meta annonce une seconde structure du même type avec BlackRock — accompagné de Global Infrastructure Partners et HPS Investment Partners — pour un campus de 1 GW à El Paso, Texas. Coût de développement d'environ 14 Md$, dont <strong>12,5 Md$ financés par de la dette</strong>. Répartition 80 % BlackRock / 20 % Meta. Meta apporte le terrain et les travaux en cours pour 2,3 Md$, BlackRock 4,9 Md$ en numéraire, et Meta reçoit une distribution de ~1 Md$ pour aligner les quotes-parts.</p>
+  <p class="en">On 28 July 2026, the day before earnings, Meta announced a second structure of the same kind with BlackRock — alongside Global Infrastructure Partners and HPS Investment Partners — for a 1GW campus in El Paso, Texas. Development cost around $14bn, of which <strong>$12.5bn is debt-financed</strong>. Split 80% BlackRock / 20% Meta. Meta contributes land and construction in progress worth $2.3bn, BlackRock $4.9bn in cash, and Meta receives a ~$1bn distribution to align the stakes.</p>
+
+  <p class="fr">Interrogée par Eric Sheridan (Goldman Sachs) sur la philosophie de financement, Susan Li répond que Meta fait évoluer sa structure de capital « pour intégrer une part croissante de dette afin de réduire son coût du capital », et qu'elle a « élargi son champ » aux partenariats de ce type. C'est une description exacte de ce qui se passe, formulée sans détour.</p>
+  <p class="en">Asked by Eric Sheridan (Goldman Sachs) about funding philosophy, Susan Li said Meta is evolving its capital structure "to include a greater mix of debt as we work to bring down our cost of capital," and that it has "broadened our aperture" to partnerships of this kind. It is an accurate description of what is happening, stated plainly.</p>
+
+  <h3 class="fr">La dette portée, elle, est bien visible</h3>
+  <h3 class="en">The debt that is carried is perfectly visible</h3>
+
+  <p class="fr">En mai 2026, Meta a émis <strong>25,00 Md$</strong> d'obligations senior non garanties en six tranches, à des coupons de 4,55 % à 6,45 %. Six mois plus tôt, en novembre 2025, elle avait émis 30,00 Md$ à 4,20-5,75 %. La dette long terme passe de 28,83 Md$ fin 2024 à <strong>83,66 Md$</strong> au 30 juin 2026.</p>
+  <p class="en">In May 2026 Meta issued <strong>$25.00bn</strong> of senior unsecured notes across six tranches, with coupons from 4.55% to 6.45%. Six months earlier, in November 2025, it had issued $30.00bn at 4.20–5.75%. Long-term debt went from $28.83bn at end-2024 to <strong>$83.66bn</strong> at 30 June 2026.</p>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">La pile obligataire : montants émis et coupons</div>
+      <div class="ct en">The bond stack: amounts issued and coupons</div>
+      <div class="cs fr">En Md$ · fourchette de coupon par millésime · 84,0 Md$ de nominal au 30.06.2026</div>
+      <div class="cs en">$bn · coupon range by vintage · $84.0bn face value at 30.06.2026</div>
+    </div>
+    <div class="plot"><div id="c12"></div></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Chaque barre est une émission. La hauteur est le montant, le trait vertical à droite montre l'écart entre le coupon le plus bas et le plus haut de la tranche. Les coupons montent d'un millésime à l'autre : Meta emprunte plus, et à des conditions un peu moins favorables. 88 % du nominal arrive à échéance après 2030.</p>
+      <p class="en">Each bar is one issuance. Height is the amount; the vertical line to the right shows the gap between the lowest and highest coupon in that vintage. Coupons rise from one vintage to the next: Meta is borrowing more, on slightly less favourable terms. 88% of the face value matures after 2030.</p>
+    </div>
+  </figure>
+
+  <div class="angle">
+    <span class="tag fr">Angle non-évident n°7</span><span class="tag en">Non-obvious angle #7</span>
+    <h4 class="fr">Meta n'a racheté aucune action depuis neuf mois. C'est le changement de politique financière le moins commenté de l'année.</h4>
+    <h4 class="en">Meta has bought back no stock for nine months. It is the least-discussed financial policy change of the year.</h4>
+    <p class="fr">Sur l'exercice 2025, Meta a racheté pour <b>26,25 Md$</b> d'actions. Puis : zéro au T4 2025, zéro au T1 2026, zéro au T2 2026. Sur le premier semestre 2025, l'entreprise avait racheté 22,92 Md$ ; sur le premier semestre 2026, <b>rien</b>. Les dividendes continuent, à 2,70 Md$ sur six mois.</p>
+    <p class="en">Across full-year 2025 Meta repurchased <b>$26.25bn</b> of stock. Then: zero in Q4 2025, zero in Q1 2026, zero in Q2 2026. In the first half of 2025 the company bought back $22.92bn; in the first half of 2026, <b>nothing</b>. Dividends continue, at $2.70bn over six months.</p>
+    <p class="fr">Sur la même période, Meta a levé 55 Md$ d'obligations et fait porter environ 39,5 Md$ de dette supplémentaire par deux coentreprises. Une entreprise qui rendait 26 Md$ par an à ses actionnaires est devenue, en trois trimestres, <b>un émetteur net de capital</b>. Ce basculement s'est fait sans annonce dédiée.</p>
+    <p class="en">Over the same period Meta raised $55bn of bonds and pushed roughly $39.5bn of additional debt into two joint ventures. A company that was returning $26bn a year to shareholders became, in three quarters, <b>a net issuer of capital</b>. The switch happened with no dedicated announcement.</p>
+    <p class="fr">Un signal de marché accompagne cela : les obligations Meta valorisées à <b>79,75 Md$ pour 84,0 Md$ de nominal</b>, soit environ 95 cents. Et 60 millions d'actions ont été exclues du calcul du BPA dilué au T2 2026 pour effet anti-dilutif, contre 1 million un an plus tôt — un indicateur direct du fait qu'une partie de la rémunération en actions est passée sous l'eau.</p>
+    <p class="en">A market signal accompanies this: Meta's notes are marked at <b>$79.75bn against $84.0bn of face value</b>, roughly 95 cents. And 60 million shares were excluded from the diluted EPS calculation in Q2 2026 as anti-dilutive, against 1 million a year earlier — a direct indicator that part of the equity compensation has gone underwater.</p>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr>
+        <th class="fr">Structure de capital au 30 juin 2026</th><th class="en">Capital structure at 30 June 2026</th>
+        <th class="fr">Md$</th><th class="en">$bn</th><th class="fr">Au bilan ?</th><th class="en">On balance sheet?</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="fr">Dette long terme (obligations)</td><td class="en">Long-term debt (notes)</td><td>83,7</td><td class="up fr">Oui</td><td class="up en">Yes</td></tr>
+        <tr><td class="fr">Obligations locatives (courant + non courant)</td><td class="en">Operating lease liabilities (current + non-current)</td><td>28,7</td><td class="up fr">Oui</td><td class="up en">Yes</td></tr>
+        <tr class="hl"><td class="fr">Baux signés non encore commencés (30.06)</td><td class="en">Leases signed, not yet commenced (30.06)</td><td>279,0</td><td class="dn fr">Non</td><td class="dn en">No</td></tr>
+        <tr class="hl"><td class="fr">Baux additionnels signés en juillet 2026</td><td class="en">Additional leases signed July 2026</td><td>68,0</td><td class="dn fr">Non</td><td class="dn en">No</td></tr>
+        <tr><td class="fr">Garanties de valeur résiduelle (baux 2029)</td><td class="en">Residual value guarantees (2029 leases)</td><td>28,0</td><td class="dn fr">Non</td><td class="dn en">No</td></tr>
+        <tr><td class="fr">Engagements contractuels non annulables</td><td class="en">Non-cancelable contractual commitments</td><td>349,3</td><td class="dn fr">Non</td><td class="dn en">No</td></tr>
+        <tr><td class="fr">Exposition max. — coentreprise Hyperion</td><td class="en">Max exposure — Hyperion venture</td><td>46,0</td><td class="dn fr">Partiellement</td><td class="dn en">Partly</td></tr>
+        <tr><td class="fr">Exposition max. — autres entités non consolidées</td><td class="en">Max exposure — other unconsolidated VIEs</td><td>6,4</td><td class="dn fr">Partiellement</td><td class="dn en">Partly</td></tr>
+        <tr><td class="fr">Trésorerie et titres de placement</td><td class="en">Cash and marketable securities</td><td>90,3</td><td class="up fr">Oui</td><td class="up en">Yes</td></tr>
+        <tr><td class="fr">Liquidités bloquées en séquestre (infrastructure)</td><td class="en">Restricted cash in escrow (infrastructure)</td><td>10,8</td><td class="up fr">Oui, mais gelées</td><td class="up en">Yes, but locked</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="fr">Ce dernier poste est nouveau et passé inaperçu : Meta immobilise <strong>10,80 Md$</strong> en fonds monétaires bloqués, au titre d'exigences de séquestre liées à des contrats d'achat d'infrastructure pluriannuels. Ces fonds sont indisponibles pour un usage général et ne seront libérés qu'<strong>entre 2028 et 2030</strong>, à mesure que les obligations d'achat sont honorées. Les fournisseurs de puces demandent désormais à être pré-financés.</p>
+  <p class="en">That last line is new and went unnoticed: Meta has locked up <strong>$10.80bn</strong> in money market funds under escrow requirements tied to multi-year infrastructure purchase agreements. The funds are unavailable for general corporate use and will only be released <strong>between 2028 and 2030</strong> as the underlying purchase obligations are satisfied. Chip suppliers are now asking to be pre-funded.</p>
+</section>
+<!-- ============================================================ 06 -->
+<section class="wrap" id="s6">
+  <div class="snum">06 — <span class="fr">Comparaison sectorielle</span><span class="en">The peer set</span></div>
+  <h2 class="fr">Meta croît le plus vite et investit le plus lourdement, pour le multiple le plus bas après Alphabet</h2>
+  <h2 class="en">Meta grows fastest and invests hardest, at the lowest multiple after Alphabet</h2>
+
+  <p class="lede fr">Le trimestre de juin 2026 a été publié par les cinq grandes plateformes en une semaine. Alphabet fait 119,80 Md$ (+24 %) avec un Google Cloud à +82 %. Amazon fait 200,6 Md$ (+20 %) avec AWS à +37 %. Meta fait 60,80 Md$ (+28 %) sans activité cloud. Chacun raconte une version différente du même pari.</p>
+  <p class="lede en">The June 2026 quarter was reported by the five large platforms within a week. Alphabet did $119.80bn (+24%) with Google Cloud at +82%. Amazon did $200.6bn (+20%) with AWS at +37%. Meta did $60.80bn (+28%) with no cloud business at all. Each tells a different version of the same bet.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr>
+        <th class="fr">T2 2026</th><th class="en">Q2 2026</th>
+        <th class="fr">CA (Md$)</th><th class="en">Revenue ($bn)</th>
+        <th class="fr">Croiss.</th><th class="en">Growth</th>
+        <th class="fr">Marge opér.</th><th class="en">Op. margin</th>
+        <th class="fr">Capex (Md$)</th><th class="en">Capex ($bn)</th>
+        <th class="fr">Capex / CA</th><th class="en">Capex / rev.</th>
+      </tr></thead>
+      <tbody>
+        <tr class="hl"><td>Meta Platforms</td><td>60,8</td><td class="up">+28 %</td><td>30,9 %</td><td>31,1</td><td class="dn">51 %</td></tr>
+        <tr><td>Alphabet</td><td>119,8</td><td class="up">+24 %</td><td>34,0 %</td><td>44,9</td><td>37 %</td></tr>
+        <tr><td>Amazon</td><td>200,6</td><td class="up">+20 %</td><td>13,7 %</td><td>—</td><td>—</td></tr>
+        <tr><td class="fr">Reddit</td><td class="en">Reddit</td><td>0,8</td><td class="up">+61 %</td><td>28,8 %</td><td>—</td><td>—</td></tr>
+        <tr><td>Snap</td><td>1,6</td><td>+9 %</td><td class="dn fr">négative</td><td class="dn en">negative</td><td>—</td><td>—</td></tr>
+      </tbody>
+      <tfoot><tr>
+        <td class="fr">Guidance capex 2026</td><td class="en">2026 capex guidance</td>
+        <td class="fr">Meta 130-145</td><td class="en">Meta 130–145</td>
+        <td class="fr">Alphabet 195-205</td><td class="en">Alphabet 195–205</td>
+        <td class="fr">Meta ×1,9 vs 2025</td><td class="en">Meta 1.9× vs 2025</td>
+        <td>—</td><td>—</td>
+      </tr></tfoot>
+    </table>
+  </div>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Intensité capitalistique : capex rapporté au chiffre d'affaires</div>
+      <div class="ct en">Capital intensity: capex as a share of revenue</div>
+      <div class="cs fr">T2 2026 réalisé et guidance 2026 · en % du chiffre d'affaires</div>
+      <div class="cs en">Q2 2026 actual and 2026 guidance · % of revenue</div>
+    </div>
+    <div class="plot"><div id="c13"></div></div>
+    <div class="legend" id="l13"></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Le chiffre indique combien de centimes d'investissement chaque dollar de vente finance. Une entreprise de services logiciels tourne historiquement autour de 10-15 %. Alphabet est à 37 %, ce qui est déjà extrême. Meta est à 51 % sur le trimestre — <em>et n'a pas d'activité cloud pour vendre cette capacité à des tiers</em>. C'est la différence structurelle entre les deux dossiers.</p>
+      <p class="en">The figure shows how many cents of investment each dollar of sales funds. A software services business historically runs at 10–15%. Alphabet is at 37%, already extreme. Meta is at 51% for the quarter — <em>and has no cloud business to sell that capacity to third parties</em>. That is the structural difference between the two cases.</p>
+    </div>
+  </figure>
+
+  <div class="angle">
+    <span class="tag fr">Angle non-évident n°8</span><span class="tag en">Non-obvious angle #8</span>
+    <h4 class="fr">Alphabet a le même problème de capex, mais un client externe qui paie pour la capacité. Meta n'en a pas encore.</h4>
+    <h4 class="en">Alphabet has the same capex problem, but external customers paying for the capacity. Meta does not, yet.</h4>
+    <p class="fr">Alphabet a porté son guidance capex 2026 à 195-205 Md$ et affiché un free cash flow <b>négatif de 5,9 Md$</b> au T2. Le marché l'a sanctionné. Mais Google Cloud a crû de <b>82 %</b> à 24,8 Md$, et Alphabet a commencé à livrer des systèmes TPU dans les data centers de ses clients. La capacité construite a un chiffre d'affaires attaché, mesurable, contractuel.</p>
+    <p class="en">Alphabet raised 2026 capex guidance to $195–205bn and posted <b>negative $5.9bn</b> of free cash flow in Q2. The market punished it. But Google Cloud grew <b>82%</b> to $24.8bn, and Alphabet began delivering TPU systems into customer data centres. The capacity being built has revenue attached to it — measurable, contractual revenue.</p>
+    <p class="fr">Chez Meta, l'équivalent n'existe pas encore. Zuckerberg évoque « un nombre important d'offres à une prime significative par rapport à ce que nous avons payé » pour du calcul, et une opportunité d'entreprise combinant API, agents commerciaux et outils de productivité. Aucune de ces lignes n'a de chiffre publié. Interrogé par Brian Nowak (Morgan Stanley) sur celle qui atteindrait la première un ROIC démontrable, il répond qu'il est « optimiste sur une croissance significative dans tous ces domaines ». <b>C'est précisément l'écart que MoffettNathanson, Cantor et DA Davidson ont facturé en abaissant leurs objectifs de cours tout en maintenant leur recommandation.</b></p>
+    <p class="en">At Meta the equivalent does not exist yet. Zuckerberg mentions "quite a number of offers at a meaningful premium over what we paid" for compute, and an enterprise opportunity combining APIs, business agents and productivity tools. None of these lines has a published number. Asked by Brian Nowak (Morgan Stanley) which would first show demonstrable ROIC, he answers that he is "quite optimistic that we're going to see meaningful growth in all of these areas." <b>That gap is exactly what MoffettNathanson, Cantor and DA Davidson charged for when they cut price targets while keeping their ratings.</b></p>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr>
+        <th class="fr">Réactions sell-side après le T2 2026</th><th class="en">Sell-side reaction after Q2 2026</th>
+        <th class="fr">Reco.</th><th class="en">Rating</th>
+        <th class="fr">Objectif</th><th class="en">Target</th>
+        <th class="fr">Précédent</th><th class="en">Previous</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Cantor Fitzgerald</td><td>Overweight</td><td>680 $</td><td>770 $</td></tr>
+        <tr><td>DA Davidson</td><td>Buy</td><td>700 $</td><td>850 $</td></tr>
+        <tr><td>MoffettNathanson</td><td class="fr">—</td><td class="en">—</td><td>750 $</td><td class="fr">abaissé</td><td class="en">lowered</td></tr>
+        <tr><td>Oppenheimer</td><td>Perform</td><td class="fr">—</td><td class="en">—</td><td class="fr">« multiple élevé pour une croissance limitée »</td><td class="en">"a rich multiple for limited growth"</td></tr>
+        <tr class="hl"><td class="fr">Consensus (62 analystes)</td><td class="en">Consensus (62 analysts)</td><td>Strong Buy</td><td>756,95 $</td><td class="fr">55 achat / 7 neutre / 0 vente</td><td class="en">55 buy / 7 hold / 0 sell</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ 07 -->
+<section class="wrap" id="s7">
+  <div class="snum">07 — <span class="fr">Trois trajectoires publicitaires</span><span class="en">Three advertising paths</span></div>
+  <h2 class="fr">Ce que Meta vise, ce qui serait idéal, et ce qui se passe si le prix cesse de monter</h2>
+  <h2 class="en">What Meta is aiming at, what would be ideal, and what happens if price stops rising</h2>
+
+  <p class="lede fr">Toute projection publicitaire de Meta se ramène à deux variables : combien d'impressions supplémentaires, et à quel prix. Nous construisons trois trajectoires en faisant varier ces deux moteurs séparément, à partir d'une base 2026 estimée à <em class="mono">245,7 Md$</em> de revenus publicitaires — déduite du guidance T3 de 61-64 Md$ et de la saisonnalité du T4 observée en 2025.</p>
+  <p class="lede en">Every advertising projection for Meta reduces to two variables: how many additional impressions, and at what price. We build three paths by varying those two engines separately, from a 2026 base estimated at <em class="mono">$245.7bn</em> of advertising revenue — derived from Q3 guidance of $61–64bn and the Q4 seasonality observed in 2025.</p>
+
+  <div class="cols3">
+    <div class="card">
+      <span class="pill em">PLAN</span>
+      <h5 class="fr">La trajectoire que Meta construit</h5><h5 class="en">The path Meta is building</h5>
+      <p class="fr">Impressions +10 % puis décélération vers +6 %, prix +8 % vers +5 %. La capacité débloque de l'inventaire sur Threads et WhatsApp ; les gains de classement continuent de soutenir le prix, mais moins fort chaque année. <b>487 Md$ en 2031, TCAM 14,7 %.</b></p>
+      <p class="en">Impressions +10% decelerating to +6%, price +8% to +5%. Capacity unlocks inventory on Threads and WhatsApp; ranking gains keep supporting price, but less each year. <b>$487bn in 2031, 14.7% CAGR.</b></p>
+    </div>
+    <div class="card">
+      <span class="pill blu fr">IDÉAL</span><span class="pill blu en">UPSIDE</span>
+      <h5 class="fr">Si le recommandeur génératif tient ses promesses</h5><h5 class="en">If the generative recommender delivers</h5>
+      <p class="fr">Impressions +13 % vers +9 %, prix +11 % vers +7 %. Le Meta Generative Recommender, les agents commerciaux et Meta One montent en charge simultanément. <b>636 Md$ en 2031, TCAM 21,0 %.</b></p>
+      <p class="en">Impressions +13% to +9%, price +11% to +7%. The Meta Generative Recommender, business agents and Meta One scale together. <b>$636bn in 2031, 21.0% CAGR.</b></p>
+    </div>
+    <div class="card">
+      <span class="pill red fr">RETOUR À LA MOYENNE</span><span class="pill red en">REVERSION</span>
+      <h5 class="fr">Si le prix rejoint la croissance du marché</h5><h5 class="en">If price reverts to market growth</h5>
+      <p class="fr">Impressions +8 % vers +3 %, prix +4 % vers +2 %. Le mix bascule vers les surfaces peu monétisées, la prime de performance s'érode. <b>360 Md$ en 2031, TCAM 7,9 %.</b></p>
+      <p class="en">Impressions +8% to +3%, price +4% to +2%. Mix shifts to low-monetising surfaces and the performance premium erodes. <b>$360bn in 2031, 7.9% CAGR.</b></p>
+    </div>
+  </div>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Revenus publicitaires 2026-2031 selon trois trajectoires</div>
+      <div class="ct en">Advertising revenue 2026–2031 under three paths</div>
+      <div class="cs fr">En Md$ · construites à partir des taux d'impressions et de prix, pas d'un taux global</div>
+      <div class="cs en">$bn · built from impression and price rates, not a blended rate</div>
+    </div>
+    <div class="plot"><div id="c14"></div></div>
+    <div class="legend" id="l14"></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Les trois courbes partent du même point — le chiffre d'affaires publicitaire 2026 est déjà largement déterminé par le guidance. L'écart s'ouvre ensuite. En 2031, la fourchette va de 360 à 636 Md$ : l'incertitude sur cinq ans vaut <b>276 Md$ de revenus annuels</b>, soit plus que le chiffre d'affaires total de Meta aujourd'hui.</p>
+      <p class="en">The three curves start from the same point — 2026 advertising revenue is already largely determined by guidance. The gap opens after that. By 2031 the range runs from $360bn to $636bn: five years of uncertainty is worth <b>$276bn of annual revenue</b>, more than Meta's entire revenue today.</p>
+    </div>
+  </figure>
+
+  <h3 class="fr">L'impact sur le compte de résultat</h3>
+  <h3 class="en">The impact on the P&amp;L</h3>
+
+  <p class="fr">C'est ici que la rampe de dépréciation reprend la main. Nous appliquons à chaque trajectoire un profil de capex cohérent — plus de revenus justifie plus d'investissement — puis nous faisons entrer la dépréciation correspondante avec un décalage de mise en service. Le résultat est contre-intuitif.</p>
+  <p class="en">This is where the depreciation ramp takes over. We apply a coherent capex profile to each path — more revenue justifies more investment — then feed in the matching depreciation with an in-service lag. The result is counter-intuitive.</p>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Marge opérationnelle projetée sous les trois trajectoires</div>
+      <div class="ct en">Projected operating margin under the three paths</div>
+      <div class="cs fr">En % du chiffre d'affaires · dépréciation modélisée explicitement</div>
+      <div class="cs en">% of revenue · depreciation modelled explicitly</div>
+    </div>
+    <div class="plot"><div id="c15"></div></div>
+    <div class="legend" id="l15"></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Chaque courbe suit la marge opérationnelle d'une trajectoire. Dans le scénario idéal, la marge <em>remonte</em> vers 41 % parce que le revenu absorbe la dépréciation. Dans le scénario plan, elle glisse doucement vers 28 %. Dans le retour à la moyenne, elle tombe à 12,6 % : le capex a été engagé sur la base d'un revenu qui n'est jamais venu, mais la dépréciation, elle, arrive à l'heure.</p>
+      <p class="en">Each curve tracks one path's operating margin. In the upside case the margin <em>recovers</em> toward 41% because revenue absorbs the depreciation. In the plan case it drifts down to 28%. In reversion it falls to 12.6%: the capex was committed against revenue that never arrived, but the depreciation shows up on schedule anyway.</p>
+    </div>
+  </figure>
+
+  <div class="tw">
+    <table id="scentable">
+      <thead><tr>
+        <th class="fr">Trajectoire « Plan » — modèle complet</th><th class="en">"Plan" path — full model</th>
+        <th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th><th>2031</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="fr">Revenus publicitaires</td><td class="en">Advertising revenue</td><td>245,7</td><td>291,9</td><td>340,3</td><td>389,7</td><td>439,2</td><td>487,5</td></tr>
+        <tr><td class="fr">Chiffre d'affaires total</td><td class="en">Total revenue</td><td>252,0</td><td>299,9</td><td>350,3</td><td>401,9</td><td>453,8</td><td>504,7</td></tr>
+        <tr class="hl"><td class="fr">Dotation aux amortissements</td><td class="en">Depreciation &amp; amortisation</td><td>26,0</td><td>40,4</td><td>58,7</td><td>78,1</td><td>97,9</td><td>117,8</td></tr>
+        <tr><td class="fr">Charges totales</td><td class="en">Total expenses</td><td>167,0</td><td>197,6</td><td>234,0</td><td>273,5</td><td>315,8</td><td>360,8</td></tr>
+        <tr><td class="fr">Résultat opérationnel</td><td class="en">Operating income</td><td>85,0</td><td>102,3</td><td>116,3</td><td>128,4</td><td>137,9</td><td>143,9</td></tr>
+        <tr><td class="fr">Marge opérationnelle</td><td class="en">Operating margin</td><td>33,7 %</td><td>34,1 %</td><td>33,2 %</td><td>31,9 %</td><td>30,4 %</td><td>28,5 %</td></tr>
+        <tr><td>Capex</td><td>138</td><td>176</td><td>185</td><td>190</td><td>190</td><td>185</td></tr>
+        <tr class="hl"><td class="fr">Free cash flow</td><td class="en">Free cash flow</td><td class="dn">−9,4</td><td class="dn">−13,2</td><td>14,1</td><td>44,9</td><td>79,1</td><td>115,3</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="fr">Le free cash flow reste <strong>négatif en 2026 et 2027 dans les trois trajectoires</strong>. Ce n'est pas une hypothèse agressive : HSBC modélise déjà environ −1 Md$ pour chacune de ces deux années après avoir relevé ses prévisions de capex 2027-2028 à 176 et 185 Md$. La différence entre les scénarios ne porte pas sur le fait que Meta va brûler de la trésorerie ces deux ans. Elle porte sur ce qui arrive après.</p>
+  <p class="en">Free cash flow stays <strong>negative in 2026 and 2027 across all three paths</strong>. That is not an aggressive assumption: HSBC already models roughly −$1bn for each of those two years after raising its 2027–28 capex forecasts to $176bn and $185bn. The scenarios do not disagree about whether Meta burns cash over those two years. They disagree about what happens after.</p>
+</section>
+
+<!-- ============================================================ 08 -->
+<section class="wrap" id="s8">
+  <div class="snum">08 — <span class="fr">Valorisation</span><span class="en">Valuation</span></div>
+  <h2 class="fr">Le marché price la trajectoire « plan » — ni l'enthousiasme, ni la rupture</h2>
+  <h2 class="en">The market is pricing the "plan" path — neither the enthusiasm nor the break</h2>
+
+  <p class="lede fr">À 589,47 $, Meta capitalise 1,50 T$ pour 228,25 Md$ de chiffre d'affaires sur douze mois glissants et 68,10 Md$ de résultat net. Le PER ressort à 22,2× en historique, <em class="mono">18,4×</em> en prospectif. Le titre a perdu 20,3 % de capitalisation sur un an et évolue dans une fourchette 52 semaines de 520,26 à 796,25 $.</p>
+  <p class="lede en">At $589.47, Meta is capitalised at $1.50tn on $228.25bn of trailing twelve-month revenue and $68.10bn of net income. The P/E is 22.2× trailing, <em class="mono">18.4×</em> forward. The stock has lost 20.3% of market value over a year and trades in a 52-week range of $520.26 to $796.25.</p>
+
+  <div class="dcf">
+    <div class="dhead">
+      <div class="t fr">DCF manipulable — actualisation des flux 2027-2031</div>
+      <div class="t en">Interactive DCF — discounting 2027–2031 cash flows</div>
+      <button class="reset" onclick="resetDCF()" aria-label="Reset to defaults">↺ <span class="fr">Réinitialiser</span><span class="en">Reset</span></button>
+    </div>
+    <div class="dgrid">
+      <div class="dctl">
+        <div class="scenbtns" role="group" aria-label="Scenario">
+          <button id="sb-Plan" aria-pressed="true" onclick="setScen('Plan')">PLAN</button>
+          <button id="sb-Upside" aria-pressed="false" onclick="setScen('Upside')"><span class="fr">IDÉAL</span><span class="en">UPSIDE</span></button>
+          <button id="sb-Reversion" aria-pressed="false" onclick="setScen('Reversion')"><span class="fr">RETOUR MOY.</span><span class="en">REVERSION</span></button>
+        </div>
+        <div class="sl">
+          <label for="wacc"><span class="n fr">Coût moyen pondéré du capital</span><span class="n en">Weighted average cost of capital</span><span class="o" id="o-wacc">8,5 %</span></label>
+          <input type="range" id="wacc" min="70" max="105" value="85" step="1" oninput="runDCF()">
+        </div>
+        <div class="sl">
+          <label for="tg"><span class="n fr">Croissance à l'infini</span><span class="n en">Terminal growth rate</span><span class="o" id="o-tg">3,0 %</span></label>
+          <input type="range" id="tg" min="10" max="45" value="30" step="1" oninput="runDCF()">
+        </div>
+        <div class="sl">
+          <label for="capadj"><span class="n fr">Capex 2027-2031 vs modèle</span><span class="n en">2027–2031 capex vs model</span><span class="o" id="o-capadj">100 %</span></label>
+          <input type="range" id="capadj" min="70" max="140" value="100" step="1" oninput="runDCF()">
+        </div>
+        <div class="sl">
+          <label for="liab"><span class="n fr">Engagements hors bilan traités en dette</span><span class="n en">Off-BS commitments charged as debt</span><span class="o" id="o-liab">0 Md$</span></label>
+          <input type="range" id="liab" min="0" max="120" value="0" step="2" oninput="runDCF()">
+        </div>
+        <div class="warnbox">
+          <b class="fr">À garder en tête</b><b class="en">Keep in mind</b>
+          <span class="fr"> — dans toutes les configurations, la valeur terminale représente autour de <b>89 %</b> de la valeur d'entreprise. Ce modèle ne valorise pas cinq ans de flux : il valorise une hypothèse sur ce qui se passe après 2031, avec cinq ans de flux comme préambule.</span>
+          <span class="en"> — under every configuration, terminal value accounts for roughly <b>89%</b> of enterprise value. This model does not value five years of cash flow: it values an assumption about what happens after 2031, with five years of cash flow as a preamble.</span>
+        </div>
+      </div>
+      <div class="dout">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase" class="fr">Valeur par action</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase" class="en">Value per share</div>
+        <div class="bigout up" id="ps">628 $</div>
+        <div class="bigsub" id="vsspot">+6,5 % <span class="fr">contre 589,47 $</span><span class="en">versus $589.47</span></div>
+        <div class="orow"><span class="fr">VA des flux 2027-2031</span><span class="en">PV of 2027–31 cash flows</span><span id="o-pv">169 Md$</span></div>
+        <div class="orow"><span class="fr">VA de la valeur terminale</span><span class="en">PV of terminal value</span><span id="o-tv">1 436 Md$</span></div>
+        <div class="orow"><span class="fr">Part de la valeur terminale</span><span class="en">Terminal value share</span><span id="o-tvs">89 %</span></div>
+        <div class="orow"><span class="fr">Valeur d'entreprise</span><span class="en">Enterprise value</span><span id="o-ev">1 605 Md$</span></div>
+        <div class="orow"><span class="fr">Trésorerie nette</span><span class="en">Net cash</span><span id="o-nd">+6,6 Md$</span></div>
+        <div class="orow"><span class="fr">Valeur des capitaux propres</span><span class="en">Equity value</span><span id="o-eq">1 611 Md$</span></div>
+        <div class="orow"><span class="fr">PER implicite 2027</span><span class="en">Implied 2027 P/E</span><span id="o-pe">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="fr">Le résultat central : la trajectoire « plan » donne environ <strong>628 $</strong> aux hypothèses par défaut, soit 6,5 % au-dessus du cours. Le scénario idéal donne 1 101 $, le retour à la moyenne 393 $. Le marché ne price ni l'un ni l'autre — il price approximativement l'exécution du plan, avec une prime modeste. Le consensus des 62 analystes, à 756,95 $, se situe entre le plan et l'idéal.</p>
+  <p class="en">The central result: the "plan" path gives roughly <strong>$628</strong> on default assumptions, 6.5% above the current price. The upside case gives $1,101, reversion gives $393. The market is pricing neither — it is pricing approximately the plan being executed, with a modest premium. The 62-analyst consensus at $756.95 sits between plan and upside.</p>
+
+  <div class="angle">
+    <span class="tag fr">Angle non-évident n°9</span><span class="tag en">Non-obvious angle #9</span>
+    <h4 class="fr">La sensibilité au taux d'actualisation vaut plus que tout le débat sur l'IA</h4>
+    <h4 class="en">Discount rate sensitivity is worth more than the entire AI debate</h4>
+    <p class="fr">Dans la trajectoire « plan », faire varier le coût du capital de 7,5 % à 9,5 % déplace la valeur par action de <b>787 $ à 518 $</b>. C'est un écart de 269 $ — <b>plus large que l'écart entre la trajectoire plan et la trajectoire de retour à la moyenne</b> à taux constant.</p>
+    <p class="en">In the "plan" path, moving the cost of capital from 7.5% to 9.5% shifts value per share from <b>$787 to $518</b>. That is a $269 spread — <b>wider than the gap between the plan path and the reversion path</b> at a constant discount rate.</p>
+    <p class="fr">Ce n'est pas un artefact de modèle, c'est une caractéristique du dossier. Quand 89 % de la valeur réside au-delà de 2031, le taux auquel on ramène cette valeur au présent domine tout le reste. Le taux à 30 ans américain est à 5,19 % au 6 août 2026. Meta emprunte à 4,55-6,45 %. <b>Le principal risque sur le titre n'est pas que les agents ne se vendent pas ; c'est que les taux longs ne baissent pas.</b></p>
+    <p class="en">This is not a modelling artefact, it is a feature of the case. When 89% of the value sits beyond 2031, the rate at which that value is brought back to today dominates everything else. The US 30-year is at 5.19% on 6 August 2026. Meta borrows at 4.55–6.45%. <b>The principal risk to the stock is not that agents fail to sell; it is that long rates fail to fall.</b></p>
+  </div>
+
+  <figure>
+    <div class="head">
+      <div class="ct fr">Sensibilité de la valeur par action — trajectoire « plan »</div>
+      <div class="ct en">Value per share sensitivity — "plan" path</div>
+      <div class="cs fr">Coût du capital en abscisse · croissance à l'infini par courbe · cours actuel en pointillés</div>
+      <div class="cs en">Cost of capital on the x-axis · terminal growth per curve · current price dashed</div>
+    </div>
+    <div class="plot"><div id="c16"></div></div>
+    <div class="legend" id="l16"></div>
+    <div class="howto">
+      <b class="fr">Comment lire ce graphique</b><b class="en">How to read this chart</b>
+      <p class="fr">Chaque courbe correspond à une hypothèse de croissance perpétuelle. Là où une courbe croise la ligne pointillée, le modèle donne exactement le cours de Bourse actuel. Toutes les courbes traversent cette ligne quelque part entre 8,0 % et 9,0 % de coût du capital : c'est la fourchette que le marché applique implicitement aujourd'hui.</p>
+      <p class="en">Each curve is one perpetual growth assumption. Where a curve crosses the dashed line, the model returns exactly today's share price. All curves cross that line somewhere between 8.0% and 9.0% cost of capital: that is the range the market is implicitly applying today.</p>
+    </div>
+  </figure>
+</section>
+<!-- ============================================================ 09 -->
+<section class="wrap" id="s9">
+  <div class="snum">09 — <span class="fr">Les paris</span><span class="en">The bets</span></div>
+  <h2 class="fr">Quatre paris, un seul déjà mesurable dans les comptes</h2>
+  <h2 class="en">Four bets, only one already measurable in the accounts</h2>
+
+  <p class="lede fr">Zuckerberg a structuré son intervention du 29 juillet autour de trois horizons : l'IA qui accélère le cœur de métier aujourd'hui, les agents personnels qui deviendront la prochaine ligne de revenus, et une opportunité entreprise « très, très large ». Les lunettes constituent un quatrième pari, distinct.</p>
+  <p class="lede en">Zuckerberg structured his 29 July remarks around three horizons: AI accelerating the core business today, personal agents becoming the next revenue line, and a "very, very large" enterprise opportunity. Glasses are a fourth, distinct bet.</p>
+
+  <div class="cols2">
+    <div class="card">
+      <span class="pill em fr">Pari 1 — mesurable</span><span class="pill em en">Bet 1 — measurable</span>
+      <h5 class="fr">L'IA appliquée au classement et aux enchères</h5>
+      <h5 class="en">AI applied to ranking and the auction</h5>
+      <p class="fr">C'est le seul pari qui apparaît déjà dans les résultats. Le <b>Meta Generative Recommender</b>, déployé ce trimestre, remplace le scoring publicité par publicité par un raisonnement conjoint sur le contenu de l'annonce et les préférences de l'utilisateur. Combiné au modèle GEM et à l'apprentissage séquentiel : <b>+8,3 % de clics publicitaires et +15,7 % de conversions sur Facebook</b>.</p>
+      <p class="en">This is the only bet already visible in the results. The <b>Meta Generative Recommender</b>, deployed this quarter, replaces ad-by-ad scoring with joint reasoning over ad content and user preferences. Combined with the GEM ranking model and sequence learning: <b>+8.3% ad clicks and +15.7% conversions on Facebook</b>.</p>
+      <p class="fr">Côté organique : plus grande amélioration de classement Reels jamais livrée, <b>+15 points de base de sessions Instagram</b> ; plus de la moitié du contenu recommandé dans le fil Instagram a moins de 24 heures, soit le double d'il y a un an ; temps passé sur la vidéo Facebook <b>+9 % mondialement</b>, plus de 10 % aux États-Unis et au Canada.</p>
+      <p class="en">On the organic side: the largest single Reels ranking release ever shipped, <b>+15 basis points of Instagram sessions</b>; more than half of recommended Instagram Feed content is under 24 hours old, double a year ago; Facebook video time spent <b>+9% globally</b>, over 10% in the US and Canada.</p>
+      <p class="fr">Advantage+, la suite d'automatisation publicitaire, atteint <b>plus de 75 Md$ de revenus en rythme annualisé</b>. Neuf millions de petites entreprises utilisent au moins un outil créatif génératif.</p>
+      <p class="en">Advantage+, the ad automation suite, reached <b>over $75bn in annual revenue run-rate</b>. Nine million small businesses use at least one generative creative tool.</p>
+    </div>
+    <div class="card">
+      <span class="pill vio fr">Pari 2 — annoncé, non chiffré</span><span class="pill vio en">Bet 2 — announced, unquantified</span>
+      <h5 class="fr">Les agents personnels</h5>
+      <h5 class="en">Personal agents</h5>
+      <p class="fr">Meta Superintelligence Labs a un peu plus d'un an. Depuis la refonte de Meta AI autour de Muse Spark, le nombre de personnes interagissant quotidiennement avec l'assistant a progressé de <b>60 %</b>. Muse Spark 1.1 est disponible via une API publique et sur OpenRouter ; le 5 août 2026, Meta a lancé <b>Muse Code</b>, un agent de codage en terminal propulsé par Muse Spark 1.2, positionné explicitement sur le prix face aux offres concurrentes.</p>
+      <p class="en">Meta Superintelligence Labs is a little over a year old. Since Meta AI was rebuilt around Muse Spark, daily interactions with the assistant are up <b>60%</b>. Muse Spark 1.1 is available via a public API and on OpenRouter; on 5 August 2026 Meta launched <b>Muse Code</b>, a terminal coding agent powered by Muse Spark 1.2, positioned explicitly on price against competing offers.</p>
+      <p class="fr">Zuckerberg est direct sur l'état d'avancement : « nous allons livrer cela bientôt et ce sera très excitant. Et nous ne l'avons pas encore fait. » Sa thèse est qu'un agent grand public doit « simplement fonctionner », alors que les agents actuels « demandent beaucoup de bricolage ».</p>
+      <p class="en">Zuckerberg is direct about the state of play: "we're going to ship this at some point soon and that's going to be very exciting. And we haven't done that yet." His thesis is that a consumer agent must "just work," whereas today's agents "take a bunch of fiddling."</p>
+      <p class="fr">Sur l'open source, il annonce un retour : « nous nous attendons à recommencer à publier des modèles open source assez bientôt », après avoir laissé MSL « non entravé » pour construire les modèles les plus intelligents possibles.</p>
+      <p class="en">On open source, he signals a return: "we expect that we will get back to releasing some open source models at some point soon," after leaving MSL "uninhibited" to build the most intelligent models it could.</p>
+    </div>
+  </div>
+
+  <div class="cols2">
+    <div class="card">
+      <span class="pill blu fr">Pari 3 — le plus discuté, le moins documenté</span><span class="pill blu en">Bet 3 — most discussed, least documented</span>
+      <h5 class="fr">L'offre entreprise et la vente de calcul</h5>
+      <h5 class="en">The enterprise offer and selling compute</h5>
+      <p class="fr">Zuckerberg déclare recevoir « un nombre important d'offres à une prime significative par rapport à ce que nous avons payé » pour du calcul, tout en affirmant qu'« il serait insensé de simplement vendre tout le calcul et prendre un profit de court terme » quand on peut construire de l'intelligence par-dessus, « ce qui est un multiple ».</p>
+      <p class="en">Zuckerberg says he is receiving "quite a number of offers at a meaningful premium over what we paid" for compute, while arguing it "would be foolish to basically just sell all of the compute and take a short-term profit" when you can build intelligence on top, "which will be a multiple."</p>
+      <p class="fr">Susan Li confirme que Meta est <b>contraint par l'offre</b>, y compris pour le cœur de métier : « il y a encore de nombreux emplacements à ROI positif où nous mettrions du calcul si nous en avions ». C'est une déclaration importante : elle signifie que la croissance publicitaire actuelle est plafonnée par la capacité, pas par la demande.</p>
+      <p class="en">Susan Li confirms Meta is <b>supply-constrained</b>, including in the core business: "we still have numerous ROI positive places that we would put compute toward if we had it." That is a significant statement: it means current advertising growth is capped by capacity, not by demand.</p>
+      <p class="fr">Aucun chiffre n'est publié pour cette activité. Aucun guidance capex 2027 n'est fourni. À la question de Brian Nowak sur 2027, Susan Li répond que la planification « reste très dynamique ».</p>
+      <p class="en">No figure is published for this business. No 2027 capex guidance is provided. Asked by Brian Nowak about 2027, Susan Li says planning "remains highly dynamic."</p>
+    </div>
+    <div class="card">
+      <span class="pill cor fr">Pari 4 — la seule vraie traction matérielle</span><span class="pill cor en">Bet 4 — the only real hardware traction</span>
+      <h5 class="fr">Les lunettes</h5>
+      <h5 class="en">Glasses</h5>
+      <p class="fr">Meta a sorti sa propre ligne de lunettes en collaboration avec EssilorLuxottica, dont un modèle dessiné avec Kylie Jenner, et les premières à embarquer Muse Spark. Zuckerberg indique que « les ventes initiales ont été fortes, dépassant nos attentes ». La prochaine étape est annoncée pour la conférence <b>Connect du 23 septembre 2026</b>.</p>
+      <p class="en">Meta released its own line of glasses with EssilorLuxottica, including a model designed with Kylie Jenner, and the first to ship with Muse Spark. Zuckerberg says "early sales have been strong, exceeding our expectations." The next milestone is the <b>Connect conference on 23 September 2026</b>.</p>
+      <p class="fr">La thèse est explicite : les lunettes sont « le facteur de forme idéal » pour une superintelligence personnelle, parce qu'elles restent avec vous toute la journée sans vous extraire du moment présent.</p>
+      <p class="en">The thesis is explicit: glasses are "the ideal form factor" for personal superintelligence, because they stay with you all day without pulling you away from the moment.</p>
+      <p class="fr">La contrepartie sociale se durcit vite. Des établissements britanniques les interdisent, un groupe militant fait campagne contre elles, et Google entre sur le segment en 2026 avec Samsung, Gentle Monster et Warby Parker.</p>
+      <p class="en">The social trade-off is hardening fast. UK venues are banning them, an activist group is campaigning against them, and Google enters the segment in 2026 with Samsung, Gentle Monster and Warby Parker.</p>
+    </div>
+  </div>
+
+  <h3 class="fr">Les partenariats et participations qui structurent la stratégie</h3>
+  <h3 class="en">The partnerships and stakes that structure the strategy</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr>
+        <th class="fr">Contrepartie</th><th class="en">Counterparty</th>
+        <th class="fr">Nature</th><th class="en">Nature</th>
+        <th class="fr">Montant</th><th class="en">Amount</th>
+        <th class="fr">Ce que Meta obtient</th><th class="en">What Meta gets</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Scale AI</td><td class="fr">Participation 49 %</td><td class="en">49% stake</td><td>14,3 Md$</td><td class="fr">Données d'entraînement + Alexandr Wang comme directeur IA</td><td class="en">Training data + Alexandr Wang as chief AI officer</td></tr>
+        <tr class="hl"><td>Blue Owl Capital</td><td class="fr">Coentreprise 20/80 — Hyperion, Louisiane</td><td class="en">20/80 JV — Hyperion, Louisiana</td><td class="fr">~27 Md$ de dette</td><td class="en">~$27bn of debt</td><td class="fr">5 GW hors bilan, Meta locataire unique</td><td class="en">5GW off balance sheet, Meta sole tenant</td></tr>
+        <tr class="hl"><td>BlackRock / GIP / HPS</td><td class="fr">Coentreprise 20/80 — El Paso, Texas</td><td class="en">20/80 JV — El Paso, Texas</td><td class="fr">~14 Md$, dont 12,5 en dette</td><td class="en">~$14bn, $12.5bn debt</td><td class="fr">1 GW, ~1 Md$ de distribution immédiate</td><td class="en">1GW, ~$1bn immediate distribution</td></tr>
+        <tr><td>EssilorLuxottica</td><td class="fr">Participation ~3 %, option à 5 %</td><td class="en">~3% stake, option to 5%</td><td>~3,5 Md$</td><td class="fr">Fabrication et distribution des lunettes</td><td class="en">Glasses manufacturing and distribution</td></tr>
+        <tr><td>Thinking Machines Lab</td><td class="fr">Recrutement de 5 fondateurs</td><td class="en">Five founders hired</td><td class="fr">n.c. — un package rapporté à 1,5 Md$ / 6 ans</td><td class="en">n/d — one package reported at $1.5bn / 6 yrs</td><td class="fr">Direction technique de MSL</td><td class="en">MSL technical leadership</td></tr>
+        <tr><td>OpenRouter</td><td class="fr">Distribution de modèle</td><td class="en">Model distribution</td><td>—</td><td class="fr">Accès développeurs américains à Muse Spark</td><td class="en">US developer access to Muse Spark</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="fr">Un recrutement mérite mention : <strong>Kunal Shah</strong>, fondateur de CRED, prend la direction de WhatsApp. Zuckerberg le présente comme ayant « construit l'une des entreprises de paiement les plus importantes d'Inde ». WhatsApp a atteint un record de <strong>30 millions de messages par seconde</strong> pendant la finale de la Coupe du monde, et la messagerie payante est déjà le principal moteur de la ligne « autres revenus ». Le signal est lisible.</p>
+  <p class="en">One hire deserves mention: <strong>Kunal Shah</strong>, founder of CRED, is taking over WhatsApp. Zuckerberg describes him as having "built one of India's most important payment companies." WhatsApp hit a record of <strong>30 million messages per second</strong> during the World Cup final, and paid messaging is already the main driver of the "Other revenue" line. The signal is legible.</p>
+</section>
+
+<!-- ============================================================ 10 -->
+<section class="wrap" id="s10">
+  <div class="snum">10 — <span class="fr">Juridique et réglementaire</span><span class="en">Legal and regulatory</span></div>
+  <h2 class="fr">La charge de 2,4 Md$ n'a pas été expliquée. C'est l'information.</h2>
+  <h2 class="en">The $2.4bn charge was never explained. That is the information.</h2>
+
+  <p class="lede fr">Meta a inscrit <em class="mono">2,40 Md$</em> de « charges liées à des procédures judiciaires » en frais généraux au T2 2026, sans préciser lesquelles, ni dans le communiqué, ni dans les commentaires de la CFO. Le poste frais généraux passe de 2,66 à 5,61 Md$, soit <strong>+110,6 %</strong>.</p>
+  <p class="lede en">Meta booked <em class="mono">$2.40bn</em> of "charges related to legal proceedings" in G&amp;A in Q2 2026, without specifying which ones, either in the release or in the CFO's commentary. G&amp;A goes from $2.66bn to $5.61bn, <strong>+110.6%</strong>.</p>
+
+  <p class="fr">Le contexte permet une lecture. En mars 2026, deux verdicts sont tombés à moins de 24 heures d'écart. Le 24 mars, un jury du Nouveau-Mexique a jugé Meta responsable de manquements à la protection des mineurs contre l'exploitation sur ses plateformes, et a fixé <strong>375 M$</strong> de dommages pour violation du droit de la consommation. Le 25 mars, un jury de Los Angeles a rendu le premier verdict « bellwether » de la procédure californienne consolidée (JCCP) : Meta responsable à <strong>70 %</strong> et YouTube à 30 % des préjudices subis par une plaignante de 20 ans, pour un total d'environ 6 M$. Snap et TikTok avaient transigé avant l'audience.</p>
+  <p class="en">Context allows a reading. In March 2026 two verdicts landed less than 24 hours apart. On 24 March a New Mexico jury found Meta liable for failing to protect minors from exploitation on its platforms, setting <strong>$375m</strong> of damages for consumer-protection violations. On 25 March a Los Angeles jury returned the first bellwether verdict in the consolidated California proceeding (JCCP): Meta <strong>70%</strong> liable and YouTube 30% for harms to a 20-year-old plaintiff, roughly $6m in total. Snap and TikTok settled before trial.</p>
+
+  <p class="fr">Le montant unitaire est dérisoire. La portée ne l'est pas : le jury a validé la théorie juridique selon laquelle <strong>la conception du produit</strong>, et non le contenu publié, engage la responsabilité de la plateforme. Cette théorie contourne la section 230. Plus de 235 plaignants poursuivaient Meta, Snap, TikTok et Google en mars 2026, et des milliers de dossiers sont consolidés.</p>
+  <p class="en">The individual amount is trivial. The reach is not: the jury validated the legal theory that <strong>product design</strong>, not published content, creates platform liability. That theory routes around Section 230. More than 235 plaintiffs were suing Meta, Snap, TikTok and Google as of March 2026, with thousands of cases consolidated.</p>
+
+  <div class="angle">
+    <span class="tag fr">Angle non-évident n°10</span><span class="tag en">Non-obvious angle #10</span>
+    <h4 class="fr">Meta a provisionné 2,4 Md$ — soit 400 fois le verdict de mars — sans dire pourquoi</h4>
+    <h4 class="en">Meta reserved $2.4bn — 400 times the March verdict — without saying why</h4>
+    <p class="fr">Une provision comptable de cette taille s'inscrit lorsqu'une perte devient <b>probable et estimable</b>. Meta ne dit pas laquelle. Susan Li se contente d'indiquer que « nous continuons de voir un examen accru sur les questions relatives aux mineurs dans plusieurs marchés » et que « plusieurs procès liés aux mineurs sont programmés cette année aux États-Unis, ce qui pourrait finalement entraîner une perte matérielle ».</p>
+    <p class="en">A reserve of this size is booked when a loss becomes <b>probable and estimable</b>. Meta does not say which one. Susan Li simply notes that "we continue to see scrutiny on youth-related issues in several markets" and that "a number of youth-related trials [are] scheduled for this year in the U.S., which may ultimately result in a material loss."</p>
+    <p class="fr">Lue à l'envers, cette phrase est plus informative que la provision elle-même : <b>Meta considère qu'une perte matérielle reste possible après avoir déjà passé 2,4 Md$</b>. Le langage « perte matérielle » est employé par une entreprise dont le résultat net trimestriel est de 15,8 Md$.</p>
+    <p class="en">Read backwards, that sentence is more informative than the reserve itself: <b>Meta considers a material loss still possible after already booking $2.4bn</b>. The phrase "material loss" is being used by a company with $15.8bn of quarterly net income.</p>
+    <p class="fr">Le Kids Online Safety Act a franchi la commission Commerce du Sénat le 5 août 2026 et pourrait aller en vote plénier. La Californie examine une proposition interdisant les comptes aux moins de 16 ans. Le 5 août également, Zuckerberg a présenté des excuses au gouvernement indien concernant des contenus d'abus sexuels sur mineurs présents sur les plateformes du groupe.</p>
+    <p class="en">The Kids Online Safety Act cleared the Senate Commerce Committee on 5 August 2026 and may go to a floor vote. California is considering a proposal to bar accounts for under-16s. Also on 5 August, Zuckerberg apologised to the Indian government over child sexual abuse material present on the group's platforms.</p>
+  </div>
+
+  <ul class="clean">
+    <li class="fr"><b>Antitrust — résolu en première instance.</b> Le 18 novembre 2025, le juge James Boasberg a jugé que la FTC n'avait pas démontré que Meta détenait actuellement un monopole sur les réseaux sociaux personnels, rejetant la demande de cession d'Instagram et WhatsApp. Il a retenu que TikTok et YouTube sont des substituts. <b>La FTC a fait appel.</b></li>
+    <li class="en"><b>Antitrust — resolved at first instance.</b> On 18 November 2025 Judge James Boasberg ruled that the FTC had failed to show Meta currently holds a monopoly in personal social networking, rejecting the demand to divest Instagram and WhatsApp. He found that TikTok and YouTube act as substitutes. <b>The FTC has appealed.</b></li>
+    <li class="fr"><b>Union européenne — accord trouvé, amende contestée.</b> Amende DMA de 200 M€ en avril 2025, option « publicité moins personnalisée » déployée en janvier 2026, appel de l'amende en cours. La Commission a renoncé aux astreintes journalières.</li>
+    <li class="en"><b>European Union — settled, fine contested.</b> €200m DMA fine in April 2025, "less personalised advertising" option rolled out January 2026, appeal against the fine pending. The Commission dropped the threat of daily penalties.</li>
+    <li class="fr"><b>Fiscalité — volatilité extrême.</b> Charge non monétaire de 15,93 Md$ au T3 2025 (One Big Beautiful Bill Act), puis reprise partielle de 8,03 Md$ au T1 2026 (notice 2026-7 du Trésor). Le BPA du T1 2026 était gonflé de 3,13 $ par ce seul effet. Taux attendu de 15-17 % pour le reste de 2026, relevé depuis 13-16 %.</li>
+    <li class="en"><b>Tax — extreme volatility.</b> A $15.93bn non-cash charge in Q3 2025 (One Big Beautiful Bill Act), then an $8.03bn partial reversal in Q1 2026 (Treasury Notice 2026-7). Q1 2026 EPS was inflated by $3.13 from that single effect. Expected rate of 15–17% for the rest of 2026, raised from 13–16%.</li>
+    <li class="fr"><b>Sécurité des modèles — nouveau front.</b> Les 5 et 6 août 2026, Meta a confirmé que Muse Spark 1.1 avait atteint les systèmes d'une société tierce lors d'un test de sécurité, à la suite d'une erreur de configuration du prestataire de test. Meta, Anthropic, Google et OpenAI devaient rencontrer des conseillers de la Maison-Blanche sur les tests de sécurité volontaires.</li>
+    <li class="en"><b>Model safety — a new front.</b> On 5–6 August 2026 Meta confirmed that Muse Spark 1.1 had reached a third-party company's systems during a safety test, following a configuration error by the testing firm. Meta, Anthropic, Google and OpenAI were due to meet White House advisers about voluntary safety testing.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ 11 -->
+<section class="wrap" id="s11">
+  <div class="snum">11 — <span class="fr">Ce qu'il faut surveiller</span><span class="en">What to watch</span></div>
+  <h2 class="fr">Quatre dates et trois chiffres</h2>
+  <h2 class="en">Four dates and three numbers</h2>
+
+  <div class="cal">
+    <div class="calrow"><div class="d">23.09.2026</div><div class="e"><b class="fr">Conférence Connect.</b><b class="en">Connect conference.</b> <span class="fr">Zuckerberg a explicitement renvoyé à cette date pour la gamme de lunettes. C'est aussi le rendez-vous où les agents personnels, s'ils existent, seront montrés.</span><span class="en">Zuckerberg explicitly pointed to this date for the glasses line-up. It is also where personal agents, if they exist, will be shown.</span></div></div>
+    <div class="calrow"><div class="d fr">FIN OCT. 2026</div><div class="d en">LATE OCT 2026</div><div class="e"><b class="fr">Résultats T3.</b><b class="en">Q3 results.</b> <span class="fr">Guidance 61-64 Md$. Le vrai enjeu est ailleurs : c'est la publication où le capex 2027 devrait être chiffré pour la première fois. HSBC modélise 176 Md$.</span><span class="en">Guidance $61–64bn. The real stake is elsewhere: this is the report where 2027 capex should be quantified for the first time. HSBC models $176bn.</span></div></div>
+    <div class="calrow"><div class="d">2026 H2</div><div class="e"><b class="fr">Procès mineurs aux États-Unis.</b><b class="en">US youth trials.</b> <span class="fr">Plusieurs procès programmés, que Meta signale comme pouvant entraîner une perte matérielle. Chaque verdict recalibre la provision de 2,4 Md$.</span><span class="en">Several trials scheduled, which Meta flags as potentially producing a material loss. Each verdict recalibrates the $2.4bn reserve.</span></div></div>
+    <div class="calrow"><div class="d">2029</div><div class="e"><b class="fr">Démarrage des baux Hyperion.</b><b class="en">Hyperion leases commence.</b> <span class="fr">12,31 Md$ d'engagement locatif initial entrent au bilan, et la garantie de valeur résiduelle de 28 Md$ devient testable.</span><span class="en">$12.31bn of initial lease commitment enters the balance sheet, and the $28bn residual value guarantee becomes testable.</span></div></div>
+  </div>
+
+  <div class="cols3">
+    <div class="card">
+      <span class="pill em fr">Chiffre 1</span><span class="pill em en">Number 1</span>
+      <h5 class="fr">Le prix moyen par publicité</h5><h5 class="en">Average price per ad</h5>
+      <p class="fr">+12 % au T2 2026. C'est la variable qui porte la moitié de la croissance et toute la thèse « l'IA améliore le cœur de métier ». Si elle passe sous +6 % pendant deux trimestres consécutifs, la trajectoire de retour à la moyenne devient le scénario central.</p>
+      <p class="en">+12% in Q2 2026. It carries half the growth and the entire "AI improves the core business" thesis. If it drops below +6% for two consecutive quarters, the reversion path becomes the central case.</p>
+    </div>
+    <div class="card">
+      <span class="pill vio fr">Chiffre 2</span><span class="pill vio en">Number 2</span>
+      <h5 class="fr">Les autres revenus FoA</h5><h5 class="en">FoA Other revenue</h5>
+      <p class="fr">1,007 Md$, +72,7 %. C'est le seul endroit du compte de résultat où apparaîtront les abonnements, les agents commerciaux et l'API. Tant que cette ligne reste sous 2 % du chiffre d'affaires, la diversification reste une intention.</p>
+      <p class="en">$1.007bn, +72.7%. It is the only place in the P&amp;L where subscriptions, business agents and the API will appear. As long as it stays under 2% of revenue, diversification remains an intention.</p>
+    </div>
+    <div class="card">
+      <span class="pill cor fr">Chiffre 3</span><span class="pill cor en">Number 3</span>
+      <h5 class="fr">Les baux non commencés</h5><h5 class="en">Leases not yet commenced</h5>
+      <p class="fr">279 Md$ au 30 juin, +68 Md$ signés en juillet. Publié uniquement en note 9 du 10-Q. Une décélération de cette ligne signalerait un ralentissement du build bien avant toute révision du guidance capex.</p>
+      <p class="en">$279bn at 30 June, +$68bn signed in July. Disclosed only in Note 9 of the 10-Q. A deceleration here would signal a slowdown in the build well before any capex guidance revision.</p>
+    </div>
+  </div>
+
+  <h3 class="fr">La question qui résume le dossier</h3>
+  <h3 class="en">The question that sums up the case</h3>
+
+  <p class="fr">Meta construit une capacité de calcul dont la dépréciation atteindra environ 118 Md$ par an en 2031 dans notre trajectoire centrale, contre 26 Md$ aujourd'hui. Cette charge est déjà déterminée par des contrats signés. Le chiffre d'affaires censé l'absorber, lui, dépend d'une catégorie de produits — les agents personnels — qui n'a encore été livrée par personne à l'échelle du grand public.</p>
+  <p class="en">Meta is building compute capacity whose depreciation will reach roughly $118bn a year by 2031 in our central path, against $26bn today. That charge is already determined by signed contracts. The revenue meant to absorb it depends on a product category — personal agents — that nobody has yet shipped at consumer scale.</p>
+
+  <p class="fr">Zuckerberg formule lui-même le pari sans détour à la fin de la call : « je comprends que c'est un investissement important et un gros pari. Nous voyons la technologie fonctionner. […] Mon pari personnel est que ceux qui investissent dans cela seront récompensés et se sentiront très bien avec le temps. » <strong>C'est une position honnête, et c'est une position, pas un résultat.</strong></p>
+  <p class="en">Zuckerberg states the bet plainly at the end of the call: "I get that this is a big investment and it's a big bet. We see the technology working. […] My personal bet is that the people who invest in this are going to be rewarded and feel very good over time." <strong>That is an honest position, and it is a position, not a result.</strong></p>
+</section>
+
+<!-- ============================================================ sources -->
+<section class="wrap" id="src">
+  <div class="snum">— <span class="fr">Sources</span><span class="en">Sources</span></div>
+  <h2 class="fr">Trente-quatre sources, dont onze documents primaires</h2>
+  <h2 class="en">Thirty-four sources, eleven of them primary documents</h2>
+  <p class="fr" style="color:var(--mut)">Toutes les données chiffrées de ce rapport proviennent des dépôts SEC de Meta et des communiqués officiels, sauf mention contraire. Les projections sont des constructions de BAREK / LABS.</p>
+  <p class="en" style="color:var(--mut)">All figures in this report come from Meta's SEC filings and official releases unless otherwise stated. Projections are BAREK / LABS constructions.</p>
+  <div class="srcs">
+    <div><b>01</b> Meta Platforms — Form 10-Q, quarter ended 30 June 2026 (SEC)</div>
+    <div><b>02</b> Meta Platforms — Form 10-Q, quarter ended 31 March 2026 (SEC)</div>
+    <div><b>03</b> Meta — Q2 2026 Earnings Call Transcript, 29 July 2026</div>
+    <div><b>04</b> Meta — Q2 2026 Results press release, 29 July 2026</div>
+    <div><b>05</b> Meta — Q1 2026 Results press release, 29 April 2026</div>
+    <div><b>06</b> Meta — Q4 and Full Year 2025 Results, 28 January 2026</div>
+    <div><b>07</b> Meta — Q2 2026 investor presentation slides</div>
+    <div><b>08</b> Meta — El Paso / BlackRock venture release, 28 July 2026</div>
+    <div><b>09</b> Alphabet — Q2 2026 earnings release and call, 22 July 2026</div>
+    <div><b>10</b> Amazon — Q2 2026 results, July 2026</div>
+    <div><b>11</b> European Commission — DMA decision on Meta, Dec 2025</div>
+    <div><b>12</b> CNBC — Meta/BlackRock $14bn El Paso data centre</div>
+    <div><b>13</b> CNBC — Analyst reaction to Meta Q2, 30 July 2026</div>
+    <div><b>14</b> CNBC — Meta wins FTC antitrust trial, 18 Nov 2025</div>
+    <div><b>15</b> CNBC — Kids Online Safety Act advances, 5 Aug 2026</div>
+    <div><b>16</b> Reuters — Meta AI model hacked outside company</div>
+    <div><b>17</b> Reuters — Meta launches Muse Code, 5 Aug 2026</div>
+    <div><b>18</b> Reuters — Big Tech data-centre lease burden</div>
+    <div><b>19</b> Reuters — EssilorLuxottica smart glasses sales</div>
+    <div><b>20</b> Bloomberg Tax — Off-balance-sheet vehicles in AI build-out</div>
+    <div><b>21</b> Bisnow — Meta / Blue Owl Hyperion JV structure</div>
+    <div><b>22</b> Forbes — The Strange Case of Meta (Rajgopal)</div>
+    <div><b>23</b> Variety — Meta Q2 2026 legal charge</div>
+    <div><b>24</b> Investing.com — Meta Q2 2026 slides analysis</div>
+    <div><b>25</b> The Globe and Mail — Price target cuts after Q2</div>
+    <div><b>26</b> Crowell &amp; Moring — March 2026 platform liability verdicts</div>
+    <div><b>27</b> NPR — Meta and Google negligent, LA jury, 25 Mar 2026</div>
+    <div><b>28</b> Sullivan &amp; Cromwell — Meta prevails in FTC case</div>
+    <div><b>29</b> Axios — Superintelligence Labs reorganisation</div>
+    <div><b>30</b> PPC Land — Meta Q2 2026 advertising metrics</div>
+    <div><b>31</b> PPC Land — Snap Q2 2026 advertising results</div>
+    <div><b>32</b> AdExchanger — Amazon Q2 2026 ad revenue</div>
+    <div><b>33</b> Yahoo Finance — Reddit Q2 2026 results</div>
+    <div><b>34</b> stockanalysis.com — META market data, 6 Aug 2026</div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <span class="logo"><b>BAREK</b><i>/</i><s>LABS</s></span>
+  <p class="disc fr">Rapport n°02 — Meta Platforms, Inc. (NASDAQ : META). Données arrêtées au 6 août 2026, cours de 589,47 $. Ce document est une analyse financière produite à des fins d'information et de recherche. Il ne constitue pas un conseil en investissement, ni une recommandation d'achat ou de vente, ni une sollicitation. Les projections, trajectoires et modèles d'actualisation présentés reposent sur des hypothèses explicitées dans le texte ; elles sont fausses par construction et servent à mesurer des sensibilités, pas à prédire des résultats. Les performances passées ne préjugent pas des performances futures. Toute décision d'investissement relève de la responsabilité du lecteur, qui devrait consulter un conseiller agréé au regard de sa situation personnelle.</p>
+  <p class="disc en">Report n°02 — Meta Platforms, Inc. (NASDAQ: META). Data as of 6 August 2026, share price $589.47. This document is a financial analysis produced for information and research purposes. It is not investment advice, a recommendation to buy or sell, or a solicitation. The projections, paths and discounting models presented rest on assumptions stated in the text; they are wrong by construction and exist to measure sensitivities, not to predict outcomes. Past performance does not indicate future results. Any investment decision is the reader's own responsibility, and readers should consult a licensed adviser with regard to their personal circumstances.</p>
+</footer>
+<script>
+/* ============================ palette + helpers ============================ */
+const C={em:'#00E58A',blu:'#38BDF8',vio:'#A78BFA',red:'#F0616D',cor:'#FF8A5B',mut:'#8A9AAE',dim:'#5A6A7E',txt:'#E7EDF5',line:'#1D2837'};
+const NS='http://www.w3.org/2000/svg';
+let LANG='fr';
+const BUILDERS=[];
+const T=(fr,en)=>LANG==='fr'?fr:en;
+const nf=(v,d=1)=>{const s=Number(v).toFixed(d);return LANG==='fr'?s.replace('.',','):s;};
+const pct=(v,d=0)=>(v>0?'+':'')+nf(v,d)+' %';
+
+function el(p,t,a={},txt){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;p.appendChild(e);return e;}
+function svg(id,w,h){const host=document.getElementById(id);if(!host)return null;host.innerHTML='';
+  const s=document.createElementNS(NS,'svg');s.setAttribute('viewBox',`0 0 ${w} ${h}`);s.setAttribute('role','img');host.appendChild(s);return s;}
+function legend(id,items){const h=document.getElementById(id);if(!h)return;h.innerHTML='';
+  items.forEach(([c,l])=>{const s=document.createElement('span');s.innerHTML=`<i style="background:${c}"></i>${l}`;h.appendChild(s);});}
+function grid(s,x0,x1,y0,y1,n,fmt,min,max){
+  for(let i=0;i<=n;i++){const y=y1-(y1-y0)*i/n, v=min+(max-min)*i/n;
+    el(s,'line',{x1:x0,x2:x1,y1:y,y2:y,class:'grid',opacity:i===0?.9:.42});
+    el(s,'text',{x:x0-9,y:y+3.5,'text-anchor':'end',class:'axl'},fmt(v));}
+}
+
+/* ============================ data ============================ */
+const Q=['T1 25','T2 25','T3 25','T4 25','T1 26','T2 26'];
+const QE=['Q1 25','Q2 25','Q3 25','Q4 25','Q1 26','Q2 26'];
+const D={
+ rev:[42314,47516,51243,59893,56311,60801],
+ cor:[7572,8491,9207,10905,10218,11330],
+ rnd:[12150,12942,15144,17136,17699,21656],
+ mns:[2757,2979,2845,3410,2908,3431],
+ gna:[2280,2663,3512,3697,2614,5609],
+ imp:[5,11,14,18,19,14], pri:[10,9,10,6,12,12], adg:[16,22,26,24,33,27],
+ foaOther:[510,583,690,801,885,1007],
+ rlRev:[412,370,470,955,402,431], rlOp:[-4210,-4530,-4432,-6021,-4028,-4619],
+ capex:[13692,17012,19379,22137,19840,31078],
+ fcf:[10334,8549,10625,14077,12386,784]
+};
+
+/* ---- 1. margin bridge ---- */
+BUILDERS.push(function(){const s=svg('c1',900,340);if(!s)return;
+ const steps=[['start',43.02],['cor',-0.76],['rnd',-8.38],['mns',+0.63],['gna',-3.62],['end',30.88]];
+ const lab=()=>[T('T2 2025','Q2 2025'),T('Coût des revenus','Cost of revenue'),T('R&D','R&D'),T('Marketing','Marketing'),T('Frais généraux','G&A'),T('T2 2026','Q2 2026')];
+ const L=lab(),x0=118,x1=872,y0=40,y1=272,min=0,max=50;
+ grid(s,x0,x1,y0,y1,5,v=>nf(v,0)+'%',min,max);
+ const sc=v=>y1-(v-min)/(max-min)*(y1-y0), bw=(x1-x0)/steps.length*0.56, gap=(x1-x0)/steps.length;
+ let run=43.02;
+ steps.forEach((st,i)=>{
+  const cx=x0+gap*i+gap/2, x=cx-bw/2;
+  if(st[0]==='start'||st[0]==='end'){
+    const v=st[1];el(s,'rect',{x,y:sc(v),width:bw,height:y1-sc(v),fill:st[0]==='start'?C.blu:C.em,opacity:.85});
+    el(s,'text',{x:cx,y:sc(v)-9,'text-anchor':'middle',class:'val'},nf(v,1)+' %');
+    if(st[0]==='start')run=v;
+  }else{
+    const from=run,to=run+st[1];run=to;
+    const yT=sc(Math.max(from,to)),hh=Math.abs(sc(from)-sc(to));
+    el(s,'rect',{x,y:yT,width:bw,height:Math.max(hh,1.5),fill:st[1]<0?C.red:C.em,opacity:.82});
+    el(s,'text',{x:cx,y:yT-9,'text-anchor':'middle',class:'val',fill:st[1]<0?C.red:C.em},(st[1]>0?'+':'')+nf(st[1],2));
+    el(s,'line',{x1:x-6,x2:x+bw+gap*0.42,y1:sc(to),y2:sc(to),stroke:C.dim,'stroke-width':1,'stroke-dasharray':'2 3',opacity:.55});
+  }
+  el(s,'text',{x:cx,y:y1+22,'text-anchor':'middle',class:'axl'},L[i]);
+ });
+ el(s,'text',{x:x0,y:y0-16,class:'axl',fill:C.dim},T('Marge opérationnelle, en % du chiffre d\'affaires','Operating margin, % of revenue'));
+ const nb=el(s,'g');
+ el(nb,'text',{x:x1,y:y1+22,'text-anchor':'end',class:'axl',fill:C.cor},T('dont 3,95 pts de charge juridique + 1,94 pt d\'indemnités','incl. 3.95 pts legal + 1.94 pts severance'));
+});
+
+/* ---- 2. cost lines % of revenue ---- */
+BUILDERS.push(function(){const s=svg('c2',900,330);if(!s)return;
+ const idx=[0,1,2,3,4,5], labs=()=>idx.map(i=>LANG==='fr'?Q[i]:QE[i]);
+ const series=[['rnd',C.vio,T('R&D','R&D')],['cor',C.blu,T('Coût des revenus','Cost of revenue')],['gna',C.red,T('Frais généraux','G&A')],['mns',C.cor,T('Marketing & ventes','Marketing & sales')]];
+ const x0=62,x1=872,y0=28,y1=268,min=0,max=40;
+ grid(s,x0,x1,y0,y1,4,v=>nf(v,0)+'%',min,max);
+ const sx=i=>x0+(x1-x0)*i/(idx.length-1), sy=v=>y1-(v-min)/(max-min)*(y1-y0);
+ series.forEach(([k,col])=>{
+   const pts=idx.map((q,i)=>[sx(i),sy(100*D[k][q]/D.rev[q])]);
+   el(s,'path',{d:pts.map((p,i)=>(i?'L':'M')+p[0]+' '+p[1]).join(' '),fill:'none',stroke:col,'stroke-width':2.2,'stroke-linejoin':'round'});
+   pts.forEach((p,i)=>{el(s,'circle',{cx:p[0],cy:p[1],r:3.4,fill:'#0D131D',stroke:col,'stroke-width':2});
+     if(i===pts.length-1)el(s,'text',{x:p[0]+11,y:p[1]+4,class:'val',fill:col},nf(100*D[k][idx[i]]/D.rev[idx[i]],1)+' %');});
+ });
+ labs().forEach((l,i)=>el(s,'text',{x:sx(i),y:y1+22,'text-anchor':'middle',class:'axl'},l));
+ legend('l2',series.map(([k,c,l])=>[c,l]));
+});
+
+/* ---- 3. impressions vs price ---- */
+BUILDERS.push(function(){const s=svg('c3',900,330);if(!s)return;
+ const x0=62,x1=872,y0=52,y1=262,min=0,max=40;
+ grid(s,x0,x1,y0,y1,4,v=>'+'+nf(v,0)+'%',min,max);
+ const gap=(x1-x0)/6, bw=gap*0.30, sy=v=>y1-(v-min)/(max-min)*(y1-y0);
+ (LANG==='fr'?Q:QE).forEach((l,i)=>{
+   const cx=x0+gap*i+gap/2;
+   el(s,'rect',{x:cx-bw-2,y:sy(D.imp[i]),width:bw,height:y1-sy(D.imp[i]),fill:C.blu,opacity:.85});
+   el(s,'rect',{x:cx+2,y:sy(D.pri[i]),width:bw,height:y1-sy(D.pri[i]),fill:C.cor,opacity:.85});
+   el(s,'text',{x:cx-bw/2-2,y:sy(D.imp[i])-6,'text-anchor':'middle',class:'axl',fill:C.blu},'+'+D.imp[i]);
+   el(s,'text',{x:cx+bw/2+2,y:sy(D.pri[i])-6,'text-anchor':'middle',class:'axl',fill:C.cor},'+'+D.pri[i]);
+   el(s,'text',{x:cx,y:y1+22,'text-anchor':'middle',class:'axl'},l);
+ });
+ const pts=D.adg.map((v,i)=>[x0+gap*i+gap/2,sy(v)]);
+ el(s,'path',{d:pts.map((p,i)=>(i?'L':'M')+p[0]+' '+p[1]).join(' '),fill:'none',stroke:C.em,'stroke-width':2.4});
+ pts.forEach((p,i)=>{el(s,'circle',{cx:p[0],cy:p[1],r:4,fill:'#0D131D',stroke:C.em,'stroke-width':2});
+   el(s,'text',{x:p[0],y:p[1]-12,'text-anchor':'middle',class:'val',fill:C.em},'+'+D.adg[i]+' %');});
+ legend('l3',[[C.blu,T('Impressions publicitaires','Ad impressions')],[C.cor,T('Prix moyen par publicité','Average price per ad')],[C.em,T('Croissance publicitaire totale','Total advertising growth')]]);
+});
+
+/* ---- 4. bubble: growth vs size ---- */
+BUILDERS.push(function(){const s=svg('c4',900,380);if(!s)return;
+ const P=[['Meta',59.363,27.5,12.8,C.em],['Google Search',63.3,17,9.2,C.blu],['Amazon',19.8,26,4.1,C.cor],['YouTube',11.1,13,1.3,C.vio],['Reddit',0.762,64,0.3,C.red],['Snap',1.48,9,0.1,C.mut]];
+ const x0=76,x1=858,y0=34,y1=296;
+ grid(s,x0,x1,y0,y1,4,v=>'+'+nf(v,0)+'%',0,70);
+ const sx=v=>x0+(Math.log10(v+0.5)-Math.log10(0.5))/(Math.log10(70)-Math.log10(0.5))*(x1-x0);
+ const sy=v=>y1-v/70*(y1-y0);
+ [1,5,10,20,50].forEach(v=>{el(s,'line',{x1:sx(v),x2:sx(v),y1:y0,y2:y1,class:'grid',opacity:.3});
+   el(s,'text',{x:sx(v),y:y1+20,'text-anchor':'middle',class:'axl'},nf(v,0)+' '+T('Md$','$bn'));});
+ P.forEach(([n,size,g,add,col])=>{
+   const r=Math.max(7,Math.sqrt(add)*10.5);
+   el(s,'circle',{cx:sx(size),cy:sy(g),r,fill:col,opacity:.19,stroke:col,'stroke-width':1.6});
+   el(s,'circle',{cx:sx(size),cy:sy(g),r:3,fill:col});
+   el(s,'text',{x:sx(size),y:sy(g)-r-9,'text-anchor':'middle',class:'val',fill:col},n);
+   el(s,'text',{x:sx(size),y:sy(g)-r+4,'text-anchor':'middle',class:'axl'},'+'+nf(add,1)+T(' Md$',' $bn'));
+ });
+ el(s,'text',{x:x0,y:y0-14,class:'axl',fill:C.dim},T('Croissance annuelle du chiffre d\'affaires publicitaire','Year-over-year advertising revenue growth'));
+ el(s,'text',{x:(x0+x1)/2,y:y1+46,'text-anchor':'middle',class:'axl',fill:C.dim},T('Chiffre d\'affaires publicitaire du trimestre (échelle logarithmique) · taille de bulle = dollars ajoutés','Quarterly advertising revenue (log scale) · bubble size = dollars added'));
+});
+
+/* ---- 5. geography ---- */
+BUILDERS.push(function(){const s=svg('c5',900,300);if(!s)return;
+ const G=[[T('États-Unis & Canada','United States & Canada'),23.863,18.454,29.3,C.em],
+          [T('Asie-Pacifique','Asia-Pacific'),16.073,12.858,25.0,C.blu],
+          [T('Europe','Europe'),14.009,11.128,25.9,C.vio],
+          [T('Reste du monde','Rest of World'),6.856,5.076,35.1,C.cor]];
+ const x0=196,x1=790,y0=28,max=26;
+ const sw=v=>v/max*(x1-x0), rowh=58;
+ G.forEach((g,i)=>{
+   const y=y0+i*rowh;
+   el(s,'rect',{x:x0,y,width:sw(g[2]),height:30,fill:g[4],opacity:.82});
+   el(s,'rect',{x:x0+sw(g[2]),y,width:sw(g[1]-g[2]),height:30,fill:g[4],opacity:.34});
+   el(s,'text',{x:x0-14,y:y+20,'text-anchor':'end',class:'val'},g[0]);
+   el(s,'text',{x:x0+sw(g[1])+12,y:y+20,class:'val',fill:g[4]},nf(g[1],1)+T(' Md$',' $bn')+'   '+pct(g[3],1));
+   el(s,'text',{x:x0+8,y:y+45,class:'axl',fill:C.dim},nf(100*g[1]/60.801,1)+T(' % du total',' % of total'));
+ });
+ el(s,'line',{x1:x0,x2:x0,y1:y0-8,y2:y0+4*rowh-14,class:'zero'});
+});
+
+/* ---- 6. DAP + ARPP ---- */
+BUILDERS.push(function(){const s=svg('c6',900,330);if(!s)return;
+ const L=['T2 24','T4 24','T2 25','T4 25','T1 26','T2 26'],LE=['Q2 24','Q4 24','Q2 25','Q4 25','Q1 26','Q2 26'];
+ const dap=[3.27,3.35,3.49,3.58,3.56,3.60], arpp=[11.89,14.44,13.61,16.73,15.82,16.86];
+ const x0=62,x1=838,y0=36,y1=262;
+ grid(s,x0,x1,y0,y1,4,v=>nf(v,1),2.8,3.8);
+ const gap=(x1-x0)/6,bw=gap*0.46;
+ const sy=v=>y1-(v-2.8)/1.0*(y1-y0), sy2=v=>y1-(v-8)/12*(y1-y0);
+ [10,14,18].forEach(v=>el(s,'text',{x:x1+10,y:sy2(v)+4,class:'axl',fill:C.cor},'$'+v));
+ (LANG==='fr'?L:LE).forEach((l,i)=>{
+   const cx=x0+gap*i+gap/2;
+   el(s,'rect',{x:cx-bw/2,y:sy(dap[i]),width:bw,height:y1-sy(dap[i]),fill:C.blu,opacity:.7});
+   el(s,'text',{x:cx,y:sy(dap[i])-7,'text-anchor':'middle',class:'axl',fill:C.blu},nf(dap[i],2));
+   el(s,'text',{x:cx,y:y1+22,'text-anchor':'middle',class:'axl'},l);
+ });
+ const pts=arpp.map((v,i)=>[x0+gap*i+gap/2,sy2(v)]);
+ el(s,'path',{d:pts.map((p,i)=>(i?'L':'M')+p[0]+' '+p[1]).join(' '),fill:'none',stroke:C.cor,'stroke-width':2.4});
+ pts.forEach((p,i)=>{el(s,'circle',{cx:p[0],cy:p[1],r:4,fill:'#0D131D',stroke:C.cor,'stroke-width':2});
+   if(i===0||i===pts.length-1)el(s,'text',{x:p[0],y:p[1]-12,'text-anchor':'middle',class:'val',fill:C.cor},'$'+nf(arpp[i],2));});
+ legend('l6',[[C.blu,T('Utilisateurs quotidiens (Md, éch. gauche)','Daily active people (bn, left axis)')],[C.cor,T('Revenu par personne ($, éch. droite)','Revenue per person ($, right axis)')]]);
+});
+
+/* ---- 7. FoA other ---- */
+BUILDERS.push(function(){const s=svg('c7',900,300);if(!s)return;
+ const idx=[0,1,2,3,4,5];
+ const x0=62,x1=858,y0=40,y1=238,max=1100;
+ grid(s,x0,x1,y0,y1,4,v=>nf(v,0),0,max);
+ const gap=(x1-x0)/idx.length,bw=gap*0.5,sy=v=>y1-v/max*(y1-y0);
+ idx.forEach((q,i)=>{
+   const cx=x0+gap*i+gap/2,v=D.foaOther[q];
+   el(s,'rect',{x:cx-bw/2,y:sy(v),width:bw,height:y1-sy(v),fill:i===idx.length-1?C.em:C.blu,opacity:i===idx.length-1?.9:.6});
+   el(s,'text',{x:cx,y:sy(v)-9,'text-anchor':'middle',class:'val',fill:i===idx.length-1?C.em:C.mut},nf(v,0));
+   el(s,'text',{x:cx,y:y1+22,'text-anchor':'middle',class:'axl'},LANG==='fr'?Q[q]:QE[q]);
+ });
+ el(s,'text',{x:x0+gap*4+gap/2,y:y0-14,'text-anchor':'middle',class:'axl',fill:C.em},T('premier trimestre au-dessus du milliard','first quarter above a billion'));
+});
+
+/* ---- 8. Reality Labs ---- */
+BUILDERS.push(function(){const s=svg('c8',900,340);if(!s)return;
+ const x0=62,x1=858,yz=118,max=6400;
+ const sy=v=>yz-v/max*80, syn=v=>yz+Math.abs(v)/max*190;
+ el(s,'line',{x1:x0,x2:x1,y1:yz,y2:yz,class:'zero'});
+ const gap=(x1-x0)/6,bw=gap*0.46;
+ (LANG==='fr'?Q:QE).forEach((l,i)=>{
+   const cx=x0+gap*i+gap/2;
+   el(s,'rect',{x:cx-bw/2,y:sy(D.rlRev[i]),width:bw,height:yz-sy(D.rlRev[i]),fill:C.em,opacity:.9});
+   el(s,'text',{x:cx,y:sy(D.rlRev[i])-7,'text-anchor':'middle',class:'axl',fill:C.em},nf(D.rlRev[i],0));
+   el(s,'rect',{x:cx-bw/2,y:yz,width:bw,height:syn(D.rlOp[i])-yz,fill:C.red,opacity:.82});
+   el(s,'text',{x:cx,y:syn(D.rlOp[i])+16,'text-anchor':'middle',class:'axl',fill:C.red},nf(D.rlOp[i]/1000,2));
+   el(s,'text',{x:cx,y:yz+14,'text-anchor':'middle',class:'axl',fill:C.dim},l);
+ });
+ el(s,'text',{x:x0,y:28,class:'axl',fill:C.em},T('Chiffre d\'affaires (M$)','Revenue ($m)'));
+ el(s,'text',{x:x0,y:322,class:'axl',fill:C.red},T('Perte opérationnelle (Md$)','Operating loss ($bn)'));
+});
+
+/* ---- 9. capex vs fcf ---- */
+BUILDERS.push(function(){const s=svg('c9',900,330);if(!s)return;
+ const cap=[13.7,17.0,19.4,22.1,19.8,31.1,39.5,47.0], fc=[10.3,8.5,10.6,14.1,12.4,0.78];
+ const L=['T1 25','T2 25','T3 25','T4 25','T1 26','T2 26','T3 26e','T4 26e'],LE=['Q1 25','Q2 25','Q3 25','Q4 25','Q1 26','Q2 26','Q3 26e','Q4 26e'];
+ const x0=62,x1=858,y0=34,y1=262,max=50;
+ grid(s,x0,x1,y0,y1,5,v=>nf(v,0),0,max);
+ const gap=(x1-x0)/8,bw=gap*0.5,sy=v=>y1-v/max*(y1-y0);
+ (LANG==='fr'?L:LE).forEach((l,i)=>{
+   const cx=x0+gap*i+gap/2, est=i>5;
+   el(s,'rect',{x:cx-bw/2,y:sy(cap[i]),width:bw,height:y1-sy(cap[i]),fill:C.cor,opacity:est?.28:.85,
+     stroke:est?C.cor:'none','stroke-width':est?1.4:0,'stroke-dasharray':est?'4 3':''});
+   el(s,'text',{x:cx,y:sy(cap[i])-8,'text-anchor':'middle',class:'axl',fill:C.cor},nf(cap[i],1));
+   el(s,'text',{x:cx,y:y1+22,'text-anchor':'middle',class:'axl'},l);
+ });
+ const pts=fc.map((v,i)=>[x0+gap*i+gap/2,sy(v)]);
+ el(s,'path',{d:pts.map((p,i)=>(i?'L':'M')+p[0]+' '+p[1]).join(' '),fill:'none',stroke:C.em,'stroke-width':2.4});
+ pts.forEach((p,i)=>{el(s,'circle',{cx:p[0],cy:p[1],r:4,fill:'#0D131D',stroke:C.em,'stroke-width':2});});
+ el(s,'text',{x:pts[5][0]+12,y:pts[5][1]+4,class:'val',fill:C.em},'0,78');
+ legend('l9',[[C.cor,T('Capex trimestriel (Md$)','Quarterly capex ($bn)')],[C.em,T('Free cash flow (Md$)','Free cash flow ($bn)')],[C.dim,T('Barres pointillées : implicite du guidance 2026','Dashed bars: implied by 2026 guidance')]]);
+});
+
+/* ---- 10. depreciation ramp ---- */
+BUILDERS.push(function(){const s=svg('c10',900,340);if(!s)return;
+ const yrs=[2026,2027,2028,2029,2030,2031];
+ const capex=[137.5,176,185,190,190,185];
+ const lay=c=>c*0.7/5.5+c*0.3/25;
+ const base=[26,26,26,26,26,26];
+ const bands=[];
+ for(let v=0;v<5;v++){bands.push(yrs.map((y,i)=>i>v?lay(capex[v])*0.75:0));}
+ const cols=[C.blu,C.vio,C.cor,C.red,C.em];
+ const x0=62,x1=858,y0=30,y1=266,max=130;
+ grid(s,x0,x1,y0,y1,5,v=>nf(v,0),0,max);
+ const gap=(x1-x0)/6,bw=gap*0.5,sy=v=>y1-v/max*(y1-y0);
+ yrs.forEach((y,i)=>{
+   const cx=x0+gap*i+gap/2;let acc=0;
+   el(s,'rect',{x:cx-bw/2,y:sy(base[i]),width:bw,height:y1-sy(base[i]),fill:C.dim,opacity:.55});acc=base[i];
+   bands.forEach((b,bi)=>{ if(b[i]>0){const h=(y1-y0)*b[i]/max;
+     el(s,'rect',{x:cx-bw/2,y:sy(acc+b[i]),width:bw,height:h,fill:cols[bi],opacity:.8});acc+=b[i];}});
+   el(s,'text',{x:cx,y:sy(acc)-9,'text-anchor':'middle',class:'val'},nf(acc,0));
+   el(s,'text',{x:cx,y:y1+22,'text-anchor':'middle',class:'axl'},y);
+ });
+ el(s,'text',{x:x0,y:y0-12,class:'axl',fill:C.dim},T('Dotation annuelle aux amortissements, Md$','Annual depreciation charge, $bn'));
+ legend('l10',[[C.dim,T('Parc existant (~26 Md$/an)','Existing base (~$26bn/yr)')],[C.blu,T('Capex 2026','2026 capex')],[C.vio,T('Capex 2027','2027 capex')],[C.cor,T('Capex 2028','2028 capex')],[C.red,T('Capex 2029','2029 capex')],[C.em,T('Capex 2030','2030 capex')]]);
+});
+
+/* ---- 11. on vs off balance sheet ---- */
+BUILDERS.push(function(){const s=svg('c11',900,360);if(!s)return;
+ const on=[[T('Dette long terme','Long-term debt'),83.7,C.blu],[T('Obligations locatives','Lease liabilities'),28.7,C.vio]];
+ const off=[[T('Baux signés non commencés','Leases signed, not commenced'),279.0,C.red],[T('Baux signés en juillet 2026','Leases signed July 2026'),68.0,C.cor]];
+ const y1=300,y0=40,max=360,sh=v=>v/max*(y1-y0);
+ const draw=(cx,arr,title,sub)=>{
+   let acc=0,bw=176;
+   arr.forEach(([n,v,c])=>{const h=sh(v);acc+=h;
+     el(s,'rect',{x:cx-bw/2,y:y1-acc,width:bw,height:h,fill:c,opacity:.8});
+     el(s,'text',{x:cx,y:y1-acc+h/2+4,'text-anchor':'middle',class:'val'},nf(v,1));
+   });
+   const tot=arr.reduce((a,b)=>a+b[1],0);
+   el(s,'text',{x:cx,y:y1-acc-30,'text-anchor':'middle',class:'val',style:'font-size:20px;font-weight:700'},nf(tot,1)+T(' Md$',' $bn'));
+   el(s,'text',{x:cx,y:y1-acc-12,'text-anchor':'middle',class:'axl'},sub);
+   el(s,'text',{x:cx,y:y1+24,'text-anchor':'middle',class:'val'},title);
+   arr.forEach(([n,v,c],i)=>el(s,'text',{x:cx,y:y1+44+i*17,'text-anchor':'middle',class:'axl',fill:c},n));
+ };
+ el(s,'line',{x1:80,x2:820,y1:y1,y2:y1,class:'zero'});
+ draw(300,on,T('AU BILAN','ON BALANCE SHEET'),'');
+ draw(640,off,T('HORS BILAN','OFF BALANCE SHEET'),'');
+ el(s,'text',{x:470,y:150,'text-anchor':'middle',class:'val',fill:C.em,style:'font-size:15px;font-weight:700'},'3,1×');
+ el(s,'path',{d:'M 400 168 L 540 168',stroke:C.em,'stroke-width':1.4,'stroke-dasharray':'4 4',opacity:.6});
+});
+
+/* ---- 12. bond stack ---- */
+BUILDERS.push(function(){const s=svg('c12',900,300);if(!s)return;
+ const B=[['2022',10.0,3.50,4.65],['2023',8.5,4.60,5.75],['2024',10.5,4.30,5.55],['2025',30.0,4.20,5.75],['2026',25.0,4.55,6.45]];
+ const x0=76,x1=760,y0=36,y1=238,max=34;
+ grid(s,x0,x1,y0,y1,4,v=>nf(v,0),0,max);
+ const gap=(x1-x0)/5,bw=gap*0.44,sy=v=>y1-v/max*(y1-y0);
+ const cy=v=>y1-(v-3)/4.5*(y1-y0);
+ B.forEach(([y,amt,lo,hi],i)=>{
+   const cx=x0+gap*i+gap/2;
+   el(s,'rect',{x:cx-bw,y:sy(amt),width:bw,height:y1-sy(amt),fill:i===4?C.cor:C.blu,opacity:i===4?.9:.55});
+   el(s,'text',{x:cx-bw/2,y:sy(amt)-8,'text-anchor':'middle',class:'val'},nf(amt,1));
+   el(s,'line',{x1:cx+14,x2:cx+14,y1:cy(lo),y2:cy(hi),stroke:C.em,'stroke-width':2.4});
+   el(s,'circle',{cx:cx+14,cy:cy(lo),r:3,fill:C.em});el(s,'circle',{cx:cx+14,cy:cy(hi),r:3,fill:C.em});
+   el(s,'text',{x:cx+24,y:cy(hi)+4,class:'axl',fill:C.em},nf(hi,2)+' %');
+   el(s,'text',{x:cx+24,y:cy(lo)+4,class:'axl',fill:C.em},nf(lo,2)+' %');
+   el(s,'text',{x:cx,y:y1+22,'text-anchor':'middle',class:'axl'},y);
+ });
+ el(s,'text',{x:x0,y:y0-12,class:'axl',fill:C.dim},T('Montant émis, Md$','Amount issued, $bn'));
+ el(s,'text',{x:790,y:y0+8,class:'axl',fill:C.em},T('Fourchette','Coupon'));
+ el(s,'text',{x:790,y:y0+24,class:'axl',fill:C.em},T('de coupon','range'));
+ el(s,'text',{x:790,y:y1-40,class:'axl',fill:C.mut},T('Nominal total','Total face'));
+ el(s,'text',{x:790,y:y1-22,class:'val'},'84,0 '+T('Md$','$bn'));
+ el(s,'text',{x:790,y:y1-2,class:'axl',fill:C.red},T('valorisé 79,75','marked at 79.75'));
+});
+
+/* ---- 13. capex intensity ---- */
+BUILDERS.push(function(){const s=svg('c13',900,270);if(!s)return;
+ const P=[['Meta '+T('— T2 2026','— Q2 2026'),51,C.em],['Meta '+T('— guidance 2026','— 2026 guidance'),58,C.em],
+          ['Alphabet '+T('— T2 2026','— Q2 2026'),37,C.blu],['Alphabet '+T('— guidance 2026','— 2026 guidance'),42,C.blu],
+          [T('Repère : éditeur de logiciels','Benchmark: software business'),13,C.dim]];
+ const x0=280,x1=800,max=65,sw=v=>v/max*(x1-x0),rowh=44;
+ P.forEach(([n,v,c],i)=>{
+   const y=26+i*rowh;
+   el(s,'rect',{x:x0,y,width:sw(v),height:24,fill:c,opacity:i===4?.4:.85});
+   el(s,'text',{x:x0-14,y:y+17,'text-anchor':'end',class:'val'},n);
+   el(s,'text',{x:x0+sw(v)+11,y:y+17,class:'val',fill:c},nf(v,0)+' %');
+ });
+ el(s,'line',{x1:x0,x2:x0,y1:18,y2:26+5*rowh-14,class:'zero'});
+ legend('l13',[[C.em,T('Meta — pas d\'activité cloud pour revendre la capacité','Meta — no cloud business to resell the capacity')],[C.blu,T('Alphabet — Google Cloud à +82 % au T2 2026','Alphabet — Google Cloud +82% in Q2 2026')]]);
+});
+
+/* ---- 14. ad scenarios ---- */
+const SCEN={
+ Plan:{ads:[245.7,291.9,340.3,389.7,439.2,487.5],rev:[252.0,299.9,350.3,401.9,453.8,504.7],da:[26.0,40.4,58.7,78.1,97.9,117.8],
+   op:[85.0,102.3,116.3,128.4,137.9,143.9],m:[33.7,34.1,33.2,31.9,30.4,28.5],capex:[137.5,176,185,190,190,185],fcf:[-9.4,-13.2,14.1,44.9,79.1,115.3],col:C.em},
+ Upside:{ads:[245.7,308.1,379.6,459.3,545.7,636.2],rev:[252.0,317.1,392.2,476.5,568.4,665.5],da:[26.0,40.4,60.2,82.1,105.6,130.2],
+   op:[85.0,117.4,151.9,190.9,232.8,275.6],m:[33.7,37.0,38.7,40.1,41.0,41.4],capex:[137.5,190,210,225,235,240],fcf:[-9.4,-12.5,25.3,75.2,134.9,202.1],col:C.blu},
+ Reversion:{ads:[245.7,275.9,301.3,322.7,342.4,359.5],rev:[252.0,283.2,309.6,331.8,352.2,370.0],da:[26.0,40.4,57.6,73.8,88.4,101.5],
+   op:[85.0,88.5,82.9,72.9,61.1,46.6],m:[33.7,31.2,26.8,22.0,17.3,12.6],capex:[137.5,165,155,140,125,115],fcf:[-9.4,-15.8,10.1,35.8,58.1,71.4],col:C.red}
+};
+BUILDERS.push(function(){const s=svg('c14',900,340);if(!s)return;
+ const yrs=[2026,2027,2028,2029,2030,2031];
+ const x0=68,x1=838,y0=30,y1=268,max=700;
+ grid(s,x0,x1,y0,y1,7,v=>nf(v,0),0,max);
+ const sx=i=>x0+(x1-x0)*i/5, sy=v=>y1-v/max*(y1-y0);
+ Object.entries(SCEN).forEach(([k,v])=>{
+   const pts=v.ads.map((a,i)=>[sx(i),sy(a)]);
+   el(s,'path',{d:pts.map((p,i)=>(i?'L':'M')+p[0]+' '+p[1]).join(' '),fill:'none',stroke:v.col,'stroke-width':2.4});
+   pts.forEach(p=>el(s,'circle',{cx:p[0],cy:p[1],r:3.4,fill:'#0D131D',stroke:v.col,'stroke-width':2}));
+   el(s,'text',{x:pts[5][0]-4,y:pts[5][1]-13,'text-anchor':'end',class:'val',fill:v.col},nf(v.ads[5],0)+T(' Md$',' $bn'));
+ });
+ yrs.forEach((y,i)=>el(s,'text',{x:sx(i),y:y1+22,'text-anchor':'middle',class:'axl'},y));
+ el(s,'text',{x:x0,y:y0-12,class:'axl',fill:C.dim},T('Revenus publicitaires annuels, Md$','Annual advertising revenue, $bn'));
+ legend('l14',[[C.em,T('Plan — la trajectoire que Meta construit','Plan — the path Meta is building')],[C.blu,T('Idéal — si le recommandeur génératif tient','Upside — if the generative recommender delivers')],[C.red,T('Retour à la moyenne — si le prix cesse de monter','Reversion — if price stops rising')]]);
+});
+
+/* ---- 15. margin paths ---- */
+BUILDERS.push(function(){const s=svg('c15',900,320);if(!s)return;
+ const yrs=[2026,2027,2028,2029,2030,2031];
+ const x0=68,x1=838,y0=30,y1=252;
+ grid(s,x0,x1,y0,y1,5,v=>nf(v,0)+'%',0,50);
+ const sx=i=>x0+(x1-x0)*i/5, sy=v=>y1-v/50*(y1-y0);
+ el(s,'line',{x1:x0,x2:x1,y1:sy(43),y2:sy(43),stroke:C.mut,'stroke-width':1,'stroke-dasharray':'3 4',opacity:.5});
+ el(s,'text',{x:x1,y:sy(43)-7,'text-anchor':'end',class:'axl',fill:C.mut},T('43 % — marge du T2 2025','43% — Q2 2025 margin'));
+ Object.entries(SCEN).forEach(([k,v])=>{
+   const pts=v.m.map((a,i)=>[sx(i),sy(a)]);
+   el(s,'path',{d:pts.map((p,i)=>(i?'L':'M')+p[0]+' '+p[1]).join(' '),fill:'none',stroke:v.col,'stroke-width':2.4});
+   pts.forEach(p=>el(s,'circle',{cx:p[0],cy:p[1],r:3.4,fill:'#0D131D',stroke:v.col,'stroke-width':2}));
+   el(s,'text',{x:pts[5][0]-4,y:pts[5][1]+(k==='Reversion'?20:-13),'text-anchor':'end',class:'val',fill:v.col},nf(v.m[5],1)+' %');
+ });
+ yrs.forEach((y,i)=>el(s,'text',{x:sx(i),y:y1+22,'text-anchor':'middle',class:'axl'},y));
+ legend('l15',[[C.em,'Plan'],[C.blu,T('Idéal','Upside')],[C.red,T('Retour à la moyenne','Reversion')]]);
+});
+
+/* ============================ DCF ============================ */
+const SHARES=2.566, NETDEBT=-6.6, SPOT=589.47;
+let curScen='Plan';
+function dcfCalc(scen,wacc,tg,capadj,extraLiab){
+  const S=SCEN[scen];let pv=0;
+  const fcfs=[];
+  for(let i=1;i<=5;i++){
+    const dcap=S.capex[i]*(capadj-1);
+    const f=S.fcf[i]-dcap;
+    fcfs.push(f); pv+=f/Math.pow(1+wacc,i);
+  }
+  const last=fcfs[4];
+  const tv=wacc>tg? last*(1+tg)/(wacc-tg):0;
+  const pvtv=tv/Math.pow(1+wacc,5);
+  const ev=pv+pvtv, eq=ev-NETDEBT-extraLiab;
+  return {pv,pvtv,ev,eq,ps:eq/SHARES,tvs:ev>0?100*pvtv/ev:0,op27:S.op[1]};
+}
+function runDCF(){
+  const wacc=+document.getElementById('wacc').value/1000;
+  const tg=+document.getElementById('tg').value/1000;
+  const capadj=+document.getElementById('capadj').value/100;
+  const liab=+document.getElementById('liab').value;
+  document.getElementById('o-wacc').textContent=nf(wacc*100,1)+' %';
+  document.getElementById('o-tg').textContent=nf(tg*100,1)+' %';
+  document.getElementById('o-capadj').textContent=nf(capadj*100,0)+' %';
+  document.getElementById('o-liab').textContent=nf(liab,0)+T(' Md$',' $bn');
+  const r=dcfCalc(curScen,wacc,tg,capadj,liab);
+  const ps=Math.max(0,r.ps);
+  const psEl=document.getElementById('ps');
+  psEl.textContent=(LANG==='fr'?nf(ps,0).replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' $':'$'+Math.round(ps).toLocaleString('en-US'));
+  psEl.className='bigout '+(ps>=SPOT?'up':'dn');
+  const d=100*(ps/SPOT-1);
+  document.getElementById('vsspot').innerHTML=pct(d,1)+' <span>'+T('contre 589,47 $','versus $589.47')+'</span>';
+  const B=v=>nf(v,0).replace(/\B(?=(\d{3})+(?!\d))/g,LANG==='fr'?' ':',')+T(' Md$',' $bn');
+  document.getElementById('o-pv').textContent=B(r.pv);
+  document.getElementById('o-tv').textContent=B(r.pvtv);
+  document.getElementById('o-tvs').textContent=nf(r.tvs,0)+' %';
+  document.getElementById('o-ev').textContent=B(r.ev);
+  document.getElementById('o-nd').textContent='+6,6 '+T('Md$','$bn');
+  document.getElementById('o-eq').textContent=B(r.eq);
+  const ni27=r.op27*0.83;
+  document.getElementById('o-pe').textContent=nf(r.eq/ni27,1)+'×';
+}
+function setScen(k){
+  curScen=k;
+  ['Plan','Upside','Reversion'].forEach(s=>document.getElementById('sb-'+s).setAttribute('aria-pressed',String(s===k)));
+  runDCF();
+}
+function resetDCF(){
+  document.getElementById('wacc').value=85;
+  document.getElementById('tg').value=30;
+  document.getElementById('capadj').value=100;
+  document.getElementById('liab').value=0;
+  setScen('Plan');
+}
+
+/* ---- 16. sensitivity ---- */
+function drawSens(){
+  const s=svg('c16',900,330);if(!s)return;
+  const waccs=[0.075,0.080,0.085,0.090,0.095,0.100];
+  const tgs=[[0.020,C.dim],[0.025,C.vio],[0.030,C.em],[0.035,C.blu],[0.040,C.cor]];
+  const x0=72,x1=838,y0=30,y1=258,max=1100;
+  grid(s,x0,x1,y0,y1,5,v=>nf(v,0),0,max);
+  const sx=i=>x0+(x1-x0)*i/(waccs.length-1), sy=v=>y1-Math.min(v,max)/max*(y1-y0);
+  el(s,'line',{x1:x0,x2:x1,y1:sy(SPOT),y2:sy(SPOT),stroke:C.red,'stroke-width':1.4,'stroke-dasharray':'5 4',opacity:.8});
+  el(s,'text',{x:x1,y:sy(SPOT)-8,'text-anchor':'end',class:'axl',fill:C.red},T('cours actuel : 589,47 $','current price: $589.47'));
+  tgs.forEach(([g,col])=>{
+    const pts=waccs.map((w,i)=>[sx(i),sy(Math.max(0,dcfCalc('Plan',w,g,1,0).ps))]);
+    el(s,'path',{d:pts.map((p,i)=>(i?'L':'M')+p[0]+' '+p[1]).join(' '),fill:'none',stroke:col,'stroke-width':2.1,opacity:.9});
+    pts.forEach(p=>el(s,'circle',{cx:p[0],cy:p[1],r:3,fill:'#0D131D',stroke:col,'stroke-width':1.8}));
+  });
+  waccs.forEach((w,i)=>el(s,'text',{x:sx(i),y:y1+22,'text-anchor':'middle',class:'axl'},nf(w*100,1)+' %'));
+  el(s,'text',{x:x0,y:y0-12,class:'axl',fill:C.dim},T('Valeur par action, $','Value per share, $'));
+  el(s,'text',{x:(x0+x1)/2,y:y1+44,'text-anchor':'middle',class:'axl',fill:C.dim},T('Coût moyen pondéré du capital','Weighted average cost of capital'));
+  legend('l16',tgs.map(([g,c])=>[c,T('Croissance à l\'infini ','Terminal growth ')+nf(g*100,1)+' %']));
+}
+
+/* ============================ language ============================ */
+function setLang(l){
+  LANG=l;
+  document.documentElement.lang=l;
+  document.getElementById('bfr').setAttribute('aria-pressed',String(l==='fr'));
+  document.getElementById('ben').setAttribute('aria-pressed',String(l==='en'));
+  buildAll();
+}
+function buildAll(){
+  BUILDERS.forEach(function(f){ try{ f(); }catch(e){ console.error(e); } });
+  drawSens();
+  runDCF();
+}
+document.addEventListener('DOMContentLoaded',function(){ resetDCF(); buildAll(); });
+</script>
+</body></html>
