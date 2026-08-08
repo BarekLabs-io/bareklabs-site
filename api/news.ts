@@ -14,17 +14,28 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 const CACHE_MS = 90 * 60_000
 const LIMIT = 8
 
-/* The wire is scoped to what the lab actually covers. Asking Alpha Vantage
- * for `topics=financial_markets` returns the whole US tape, which in practice
- * means filing-alert spam about companies nobody here follows. Querying by
- * ticker makes it our wire: a headline earns its place by being about a name
- * on the map. Kept deliberately short — the query is a relevance filter, not
- * the coverage list, and a long one dilutes it back toward noise. */
-const WIRE_TICKERS = [
-  'NVDA', 'AMD', 'TSM', 'ASML', 'AVGO', 'MU', 'ANET', 'INTC',
-  'MSFT', 'GOOGL', 'META', 'AMZN', 'SMCI', 'NBIS', 'CRWV',
-  'CEG', 'VST', 'GEV', 'VRT', 'ISRG', 'TMDX', 'RKLB',
-].join(',')
+/* The wire is scoped to what the lab actually covers — but the scoping is
+ * done here, not by the provider. Alpha Vantage's `tickers` parameter is an
+ * AND: `tickers=NVDA,AMD` asks for articles mentioning both at once, so a
+ * 22-name list matches nothing and returns an empty feed. The query therefore
+ * stays broad and this list is applied to each article's own ticker_sentiment
+ * scores, which gives the OR semantics the wire actually wants. */
+const WIRE_TICKERS = new Set([
+  'NVDA', 'AMD', 'TSM', 'ASML', 'AVGO', 'MU', 'ANET', 'INTC', 'AMAT', 'LRCX', 'KLAC',
+  'MSFT', 'GOOGL', 'META', 'AMZN', 'SMCI', 'NBIS', 'CRWV', 'ORCL', 'PLTR', 'DELL',
+  'CEG', 'VST', 'GEV', 'VRT', 'ETN', 'PWR', 'STRL', 'CCJ', 'OKLO', 'SMR', 'BE',
+  'ISRG', 'TMDX', 'RXRX', 'RKLB', 'ASTS', 'MRVL', 'CRDO', 'ALAB', 'AMKR', 'WDC',
+])
+
+/** Highest relevance the provider assigns this article to a name we cover. */
+function coverageRelevance(entry: Record<string, unknown>): number {
+  const ts = entry.ticker_sentiment
+  if (!Array.isArray(ts)) return 0
+  return (ts as { ticker?: string; relevance_score?: string }[]).reduce((best, row) => {
+    if (!row?.ticker || !WIRE_TICKERS.has(row.ticker.toUpperCase())) return best
+    return Math.max(best, Number(row.relevance_score) || 0)
+  }, 0)
+}
 
 /* Aggregators that republish machine-generated filing alerts. Their volume
  * swamps a LATEST sort — five of eight slots on the first live pull — and
@@ -68,14 +79,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const url =
       'https://www.alphavantage.co/query?function=NEWS_SENTIMENT' +
-      `&tickers=${encodeURIComponent(WIRE_TICKERS)}` +
-      '&sort=LATEST&limit=200&apikey=' +
+      '&topics=technology&sort=LATEST&limit=200&apikey=' +
       encodeURIComponent(key)
     const upstream = await fetch(url)
     const body = (await upstream.json()) as { feed?: unknown[] }
     const feed = Array.isArray(body.feed) ? body.feed : []
 
-    const items: Headline[] = []
+    /* Two buckets. `ours` is anything the provider scores as materially about
+     * a name we cover; `rest` is the remaining tech news. The wire fills from
+     * ours first and only tops up from rest — so it prefers our universe but
+     * never goes blank on a quiet morning, which would read as a broken feed
+     * rather than as a quiet one. */
+    const ours: Headline[] = []
+    const rest: Headline[] = []
     const seen = new Set<string>()
     for (const raw of feed) {
       const e = raw as Record<string, unknown>
@@ -84,23 +100,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const source = typeof e.source === 'string' ? e.source : ''
       if (!title || !url || seen.has(title)) continue
       if (SPAM_SOURCES.has(source.toLowerCase()) || SPAM_URL.test(url)) continue
-
-      /* A story counts as being about one of our names only if the provider
-       * scores it that way. Alpha Vantage attaches a relevance per ticker;
-       * below ~0.1 the name is a passing mention in a list, which is how a
-       * ticker-scoped query still surfaces sector roundups about nothing. */
-      const rel = Array.isArray(e.ticker_sentiment)
-        ? (e.ticker_sentiment as { relevance_score?: string }[]).reduce(
-            (m, ts) => Math.max(m, Number(ts?.relevance_score) || 0),
-            0
-          )
-        : 1
-      if (rel < 0.1) continue
-
       seen.add(title)
-      items.push({ title, source, url, at: parseAvTime(e.time_published) })
-      if (items.length >= LIMIT) break
+
+      const item = { title, source, url, at: parseAvTime(e.time_published) }
+      // Below ~0.15 the ticker is a passing mention in a list, not a subject.
+      ;(coverageRelevance(e) >= 0.15 ? ours : rest).push(item)
     }
+
+    const items = [...ours, ...rest].slice(0, LIMIT)
 
     /* An empty feed with a 200 is how Alpha Vantage reports a burned quota.
      * Serve the stale cache if there is one — old headlines beat none. */
