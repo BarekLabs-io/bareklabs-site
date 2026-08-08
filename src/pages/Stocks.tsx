@@ -38,7 +38,7 @@ function EmptyLedger({ message, note }: { message: string; note: string }) {
   return (
     <div className="border border-dashed border-line px-6 py-14 text-center">
       <p className="font-mono-lab text-[12px] tracking-wide text-dim">{message}</p>
-      <p className="mx-auto mt-3 max-w-3xl font-mono-lab text-[10px] leading-5 tracking-wide text-faint">{note}</p>
+      <p className="mx-auto mt-3 max-w-7xl font-mono-lab text-[10px] leading-5 tracking-wide text-faint">{note}</p>
     </div>
   )
 }
@@ -62,7 +62,7 @@ export default function Stocks() {
       />
 
       <section>
-        <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
+        <div className="shell px-5 py-16 md:px-10">
           <SectionHead index="LEDGER" label={t.stocks.head} right={t.stocks.headRight} />
 
           <div className="mb-8 flex gap-2">
@@ -149,7 +149,7 @@ export default function Stocks() {
                     <span className="h-px w-8 bg-line" />
                     <span className="font-mono-lab text-[9px] tracking-[0.25em] text-faint">{t.stocks.deskNote}</span>
                   </div>
-                  <p className="mt-4 max-w-4xl font-mono-lab text-[11px] leading-6 tracking-wide text-dim">{p.analysis}</p>
+                  <p className="mt-4 max-w-6xl font-mono-lab text-[11px] leading-6 tracking-wide text-dim">{p.analysis}</p>
                   {p.report && (
                     <Link
                       to={p.report}

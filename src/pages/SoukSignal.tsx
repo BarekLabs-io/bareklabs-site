@@ -156,7 +156,7 @@ export default function SoukSignal() {
       <section className="relative overflow-hidden border-b border-line pt-32 pb-14 md:pt-40">
         <MarketCanvas className="absolute inset-0 opacity-70" />
         <div className="scanline" />
-        <div className="relative z-10 mx-auto max-w-[1440px] px-5 md:px-10">
+        <div className="relative z-10 shell px-5 md:px-10">
           <Reveal>
             <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">{t.souk.hero.code}</div>
           </Reveal>
@@ -167,10 +167,10 @@ export default function SoukSignal() {
             </h1>
           </Reveal>
           <Reveal delay={160}>
-            <p className="mt-5 max-w-5xl font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{t.souk.hero.desc}</p>
+            <p className="mt-5 max-w-7xl font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{t.souk.hero.desc}</p>
           </Reveal>
           <Reveal delay={200}>
-            <p className="mt-6 max-w-5xl text-xl font-light leading-snug tracking-tight text-foreground/90 md:text-2xl">
+            <p className="mt-6 max-w-7xl text-xl font-light leading-snug tracking-tight text-foreground/90 md:text-2xl">
               {t.souk.hero.welcome1}
               <span className="font-serif-lab italic font-semibold">{t.souk.hero.welcomeAccent}</span>
               {t.souk.hero.welcome2}
@@ -237,7 +237,7 @@ export default function SoukSignal() {
       </section>
 
       <section id="signals" className="scroll-mt-24 border-t border-line bg-alt">
-        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
+        <div className="shell px-5 py-20 md:px-10">
           <SectionHead index="WATCHLIST" label={t.souk.watchlist.head} right={t.souk.watchlist.refresh} />
           <div className="overflow-hidden border border-line">
             <table className="w-full">
@@ -290,7 +290,7 @@ export default function SoukSignal() {
       </section>
 
       <section className="border-t border-line">
-        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
+        <div className="shell px-5 py-20 md:px-10">
           <SectionHead index="FEEDS" label={t.souk.components.head} right={t.souk.components.headRight} />
           <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-2">
             {t.souk.components.rows.map((r, i) => (

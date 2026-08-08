@@ -40,7 +40,7 @@ export default function TradeTracker() {
       />
 
       <section className="lab-grid-fine border-b border-line">
-        <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
+        <div className="shell px-5 py-16 md:px-10">
           <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-4">
             {t.tracker.stats.map((s, i) => (
               <Reveal key={s.l} delay={i * 70} className="bg-card2 p-8">
@@ -53,7 +53,7 @@ export default function TradeTracker() {
       </section>
 
       <section>
-        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
+        <div className="shell px-5 py-20 md:px-10">
           <SectionHead index="03" label={t.tracker.ledgers.head} right={t.tracker.ledgers.headRight} />
           <div className="grid gap-4 md:grid-cols-2">
             <TrackCard
@@ -93,7 +93,7 @@ export default function TradeTracker() {
       </section>
 
       <section className="border-t border-line bg-alt">
-        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
+        <div className="shell px-5 py-20 md:px-10">
           <SectionHead index="RULES" label={t.tracker.rules.head} right={t.tracker.rules.headRight} />
           <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-3">
             {t.tracker.rules.items.map((m, i) => (

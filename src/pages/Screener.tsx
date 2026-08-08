@@ -181,7 +181,7 @@ export default function Screener() {
           <h1 className="mt-2 text-2xl font-medium tracking-tight md:text-[28px]">Screener</h1>
         </Reveal>
         <Reveal delay={70}>
-          <p className="mt-2 max-w-5xl font-mono-lab text-[12px] leading-5 tracking-wide text-prose">
+          <p className="mt-2 max-w-7xl font-mono-lab text-[12px] leading-5 tracking-wide text-prose">
             Every ticker we cover, in one list — search it, filter it, get a fast read before deciding where to dig deeper.
             Rows default to sorting by AI value-chain position, since a lot of what's here sits somewhere on that chain — but
             this is a screener, not a diagram of the chain itself. For that, see AI Value Chain under Analysis.

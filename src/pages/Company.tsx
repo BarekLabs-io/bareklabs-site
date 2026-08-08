@@ -54,10 +54,10 @@ export default function CompanyPage() {
   if (!company) {
     return (
       <section className="lab-grid relative border-b border-line pt-44 pb-20 md:pt-52">
-        <div className="mx-auto max-w-[1440px] px-5 md:px-10">
+        <div className="shell px-5 md:px-10">
           <div className="font-mono-lab text-[12px] tracking-[0.3em] text-signal">COMPANY DEEP DIVE</div>
           <h1 className="mt-4 text-4xl font-medium tracking-tight">No profile yet for "{ticker.toUpperCase()}"</h1>
-          <p className="mt-4 max-w-3xl font-mono-lab text-[16px] leading-6 text-dim">
+          <p className="mt-4 max-w-7xl font-mono-lab text-[16px] leading-6 text-dim">
             This ticker doesn't have a company deep dive yet.
           </p>
           <Link to="/souk-signal" className="mt-8 inline-block border border-line px-4 py-2 font-mono-lab text-[15px] tracking-[0.2em] transition-colors hover:border-signal hover:text-signal">
@@ -107,7 +107,7 @@ export default function CompanyPage() {
   return (
     <>
       <section className="lab-grid-fine relative border-b border-line pt-28 pb-10 md:pt-32">
-        <div className="mx-auto max-w-[1440px] px-5 md:px-10">
+        <div className="shell px-5 md:px-10">
           <Reveal>
             <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">
               COMPANY DEEP DIVE — {c.ticker} · {domain.label} · AS OF {c.asOf}
@@ -120,7 +120,7 @@ export default function CompanyPage() {
             </h1>
           </Reveal>
           <Reveal delay={100}>
-            <p className="mt-3 max-w-4xl font-mono-lab text-[12px] leading-5 tracking-wide text-prose">{c.tagline}</p>
+            <p className="mt-3 max-w-6xl font-mono-lab text-[12px] leading-5 tracking-wide text-prose">{c.tagline}</p>
           </Reveal>
           <Reveal delay={120} className="mt-5 flex flex-wrap items-center gap-2">
             <span className="border border-line px-2.5 py-1 font-mono-lab text-[10px] tracking-[0.15em] text-dim">{country.toUpperCase()}</span>
@@ -173,7 +173,7 @@ export default function CompanyPage() {
             ) : (
               <div className="border border-dashed border-line px-6 py-12 md:px-10">
                 <div className="font-mono-lab text-[10px] tracking-[0.3em] text-faint">NO PRICE SERIES</div>
-                <p className="mt-3 max-w-3xl font-mono-lab text-[11px] leading-6 text-dim">
+                <p className="mt-3 max-w-7xl font-mono-lab text-[11px] leading-6 text-dim">
                   The quote feed has nothing for {c.ticker} right now and no researched price is on file, so no chart is
                   drawn. The reference levels below come from the data provider and are dated.
                 </p>
@@ -190,7 +190,7 @@ export default function CompanyPage() {
 
       {/* ---- value chain ---- */}
       <section>
-        <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
+        <div className="shell px-5 py-16 md:px-10">
           <SectionHead
             index="01"
             label={onChain ? 'Value chain position' : 'What this company does'}
@@ -207,7 +207,7 @@ export default function CompanyPage() {
             </Reveal>
           )}
           <Reveal>
-            <p className="max-w-4xl font-mono-lab text-[16px] leading-6 tracking-wide text-prose">{c.chain.intro}</p>
+            <p className="max-w-6xl font-mono-lab text-[16px] leading-6 tracking-wide text-prose">{c.chain.intro}</p>
           </Reveal>
           <Reveal delay={80}>
             <div className="mt-8 overflow-x-auto border border-line bg-panel p-1">
@@ -267,7 +267,7 @@ export default function CompanyPage() {
 
       {/* ---- valuation ---- */}
       <section className="border-t border-line bg-alt">
-        <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
+        <div className="shell px-5 py-16 md:px-10">
           <SectionHead index="02" label="Valuation vs. peers" right={c.valuation.peers.slice(1).join(' · ')} />
           {/* Every multiple in this table is derived from the snapshot price.
               If that price has drifted far from the live quote, the multiples
@@ -331,7 +331,7 @@ export default function CompanyPage() {
 
       {/* ---- price map & scenarios ---- */}
       <section className="border-t border-line">
-        <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
+        <div className="shell px-5 py-16 md:px-10">
           <SectionHead index="03" label="Price map & scenarios" right={`HORIZON ${c.priceMap.horizon}`} />
           <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-3">
             {c.priceMap.zones.map((z, i) => (
@@ -384,7 +384,7 @@ export default function CompanyPage() {
 
       {/* ---- risks ---- */}
       <section className="border-t border-line bg-alt">
-        <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
+        <div className="shell px-5 py-16 md:px-10">
           <SectionHead index="04" label="Risks" right={`${c.risks.length} FLAGGED`} />
           <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-2">
             {c.risks.map((r, i) => (
@@ -402,7 +402,7 @@ export default function CompanyPage() {
 
       {/* ---- backlog ---- */}
       <section className="border-t border-line">
-        <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
+        <div className="shell px-5 py-16 md:px-10">
           <SectionHead index="05" label="Backlog & partnerships" right="VISIBILITY" />
           <div className="grid gap-8 md:grid-cols-2">
             <Reveal>
@@ -445,7 +445,7 @@ export default function CompanyPage() {
 
       {/* ---- synthesis ---- */}
       <section className="border-t border-line bg-alt">
-        <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
+        <div className="shell px-5 py-16 md:px-10">
           <SectionHead index="06" label="Synthesis" right="OUR READ" />
           <Reveal>
             <div className="overflow-hidden border border-line">
@@ -460,7 +460,7 @@ export default function CompanyPage() {
           </Reveal>
           <Reveal delay={100} className="mt-8 border border-line bg-secondary p-8">
             <div className="font-mono-lab text-[12px] tracking-[0.25em] text-signal">{c.synthesis.readLabel}</div>
-            <p className="mt-4 max-w-5xl font-mono-lab text-[16px] leading-6 tracking-wide text-dim">{c.synthesis.summary}</p>
+            <p className="mt-4 max-w-7xl font-mono-lab text-[16px] leading-6 tracking-wide text-dim">{c.synthesis.summary}</p>
           </Reveal>
           <Reveal delay={160} className="mt-8">
             <p className="font-mono-lab text-[12px] leading-6 tracking-wider text-faint">{c.sourceNote}</p>

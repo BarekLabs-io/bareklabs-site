@@ -191,7 +191,7 @@ export default function AiValueChain() {
       {/* Jump rail: the dossier lives far down a long page, and nobody should
         * have to discover it by scrolling. */}
       <div className="border-b border-line bg-panel">
-        <div className="mx-auto flex max-w-[1440px] flex-wrap gap-2 px-5 py-3 md:px-10">
+        <div className="shell flex flex-wrap gap-2 px-5 py-3 md:px-10">
           {c.jump.items.map((j) => (
             <a
               key={j.href}
@@ -210,7 +210,7 @@ export default function AiValueChain() {
 
       {/* ===== CONSTELLATION ===== */}
       <section className="border-b border-line">
-        <div className="mx-auto max-w-[1440px] scroll-mt-28 px-5 py-16 md:px-10" id="map">
+        <div className="shell scroll-mt-28 px-5 py-16 md:px-10" id="map">
           <SectionHead
             index="MAP"
             label={c.hint}
@@ -426,7 +426,7 @@ export default function AiValueChain() {
 
       {/* ===== CONVICTION PICKS ===== */}
       <section className="border-b border-line bg-alt">
-        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
+        <div className="shell px-5 py-20 md:px-10">
           <SectionHead index="CONVICTION" label={c.picks.head} right={c.picks.headRight} />
           <div className="grid gap-4 md:grid-cols-3">
             {c.picks.items.map((p, i) => (

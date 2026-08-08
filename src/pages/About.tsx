@@ -41,7 +41,7 @@ export default function About() {
     <>
       <PageHero code={a.hero.code} title={a.hero.title} serif={a.hero.serif} desc={a.hero.desc} />
 
-      <div className="mx-auto max-w-[1440px] px-5 md:px-10">
+      <div className="shell px-5 md:px-10">
         <div className="relative grid gap-12 lg:grid-cols-12">
           {/* ---- floating TOC ---- */}
           <aside className="hidden lg:col-span-3 lg:block">
@@ -140,7 +140,7 @@ export default function About() {
                   <Reveal key={p.n} delay={i * 60} className="index-row group flex flex-col gap-3 border-b border-line py-8 md:flex-row md:items-baseline md:gap-10">
                     <span className="w-12 shrink-0 font-mono-lab text-[10px] text-signal" dir="ltr">{p.n}</span>
                     <h3 className="w-72 shrink-0 text-xl font-medium tracking-tight transition-colors group-hover:text-signal md:text-2xl">{p.t}</h3>
-                    <p className="max-w-3xl font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{p.d}</p>
+                    <p className="max-w-7xl font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{p.d}</p>
                   </Reveal>
                 ))}
               </div>

@@ -63,7 +63,7 @@ export default function Insights() {
       />
 
       <section>
-        <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
+        <div className="shell px-5 py-16 md:px-10">
           <SectionHead index="FILTER" label={t.insights.head} right={`${notes.length} ${t.insights.notesUnit}`} />
           <div className="mb-10 flex flex-wrap gap-2">
             {FILTERS.map((f, fi) => (

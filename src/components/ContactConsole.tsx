@@ -129,7 +129,7 @@ export function ContactConsole() {
     return (
       <div className="border border-signal/40 bg-signal/5 p-8 md:p-10">
         <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">{c.sentLabel}</div>
-        <p className="mt-4 max-w-2xl font-mono-lab text-[12px] leading-6 text-dim">{c.sentBody}</p>
+        <p className="mt-4 max-w-6xl font-mono-lab text-[12px] leading-6 text-dim">{c.sentBody}</p>
       </div>
     )
   }

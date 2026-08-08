@@ -303,7 +303,7 @@ export default function Layout() {
       {/* ---- header ---- */}
       <header className="fixed inset-x-0 top-0 z-50">
         <div className={cn('relative z-10 border-b transition-all duration-500', scrolled ? 'border-line header-glass' : 'border-line/60 header-glass')}>
-          <div className="mx-auto flex h-20 max-w-[1440px] items-stretch justify-between px-5 md:h-[76px] md:px-10">
+          <div className="shell flex h-20 items-stretch justify-between px-5 md:h-[76px] md:px-10">
             <Link to="/" className="flex items-center gap-3 md:me-10">
               <img src="/logo.svg" alt="BAREK LABS" className="h-8 w-auto md:h-10 logo-adaptive" />
             </Link>
@@ -391,7 +391,7 @@ export default function Layout() {
 
       {/* ---- footer ---- */}
       <footer className="border-t border-line bg-footer">
-        <div className="mx-auto max-w-[1440px] px-5 py-14 md:px-10">
+        <div className="shell px-5 py-14 md:px-10">
           <div className="grid gap-10 md:grid-cols-12">
             <div className="md:col-span-5">
               <img src="/logo.svg" alt="BAREK LABS" className="h-6 w-auto logo-adaptive" />
@@ -457,7 +457,7 @@ export function PageHero({
   return (
     <section className="lab-grid relative border-b border-line pt-32 pb-12 md:pt-40 md:pb-14">
       <div className="scanline" />
-      <div className="mx-auto max-w-[1440px] px-5 md:px-10">
+      <div className="shell px-5 md:px-10">
         <Reveal>
           <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">{code}</div>
         </Reveal>
@@ -468,7 +468,7 @@ export function PageHero({
           </h1>
         </Reveal>
         <Reveal delay={160}>
-          <p className="mt-5 max-w-5xl font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{desc}</p>
+          <p className="mt-5 max-w-7xl font-mono-lab text-[12.5px] leading-6 tracking-wide text-dim">{desc}</p>
         </Reveal>
         {children}
       </div>

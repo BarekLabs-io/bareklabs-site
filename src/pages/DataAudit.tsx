@@ -85,7 +85,7 @@ export default function DataAudit() {
       />
 
       <section>
-        <div className="mx-auto max-w-[1440px] px-5 py-12 md:px-10">
+        <div className="shell px-5 py-12 md:px-10">
           <div className="grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
             <div className="bg-panel p-5">
               <div className="font-mono-lab text-[10px] tracking-[0.2em] text-faint">TICKERS COVERED</div>
@@ -156,7 +156,7 @@ export default function DataAudit() {
       </section>
 
       <section className="border-t border-line">
-        <div className="mx-auto max-w-[1440px] px-5 py-12 md:px-10">
+        <div className="shell px-5 py-12 md:px-10">
           <SectionHead
             index="AUDIT"
             label="Researched price vs live"
@@ -235,7 +235,7 @@ export default function DataAudit() {
               </tbody>
             </table>
           </div>
-          <p className="mt-5 max-w-5xl font-mono-lab text-[11px] leading-5 tracking-wide text-faint">
+          <p className="mt-5 max-w-7xl font-mono-lab text-[11px] leading-5 tracking-wide text-faint">
             A dash under LIVE means the feed holds nothing for that symbol — either the ticker is wrong or the company no
             longer trades. Both are worth knowing. This page checks share prices only: margins, revenue and backlog have
             no feed behind them and are still refreshed by hand.

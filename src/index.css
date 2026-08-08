@@ -143,6 +143,16 @@
 }
 
 @layer utilities {
+  /* The site's content column. One declaration, because the previous magic
+   * 1440px was written out 37 times and left ~230px of dead margin on either
+   * side of a 1920px screen — the layout was capped well below the screens
+   * this audience actually reads it on. */
+  .shell {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1720px;
+  }
+
   .carousel-track {
     scrollbar-width: none;
     -ms-overflow-style: none;

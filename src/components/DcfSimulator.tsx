@@ -228,7 +228,7 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
         * explanation, and even its owner looked at it asking "what is it". */}
       <div className="border-b border-line bg-ticker px-6 py-4">
         <div className="font-mono-lab text-[10.5px] tracking-[0.25em] text-signal">{d.howTo.label}</div>
-        <p className="mt-2 max-w-4xl font-mono-lab text-[11.5px] leading-6 tracking-wide text-dim">{d.howTo.body}</p>
+        <p className="mt-2 max-w-6xl font-mono-lab text-[11.5px] leading-6 tracking-wide text-dim">{d.howTo.body}</p>
         <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1.5">
           {(['sourced', 'derived', 'assumption', 'missing'] as const).map((k) => (
             <span key={k} className="font-mono-lab text-[10px] leading-5 text-faint">

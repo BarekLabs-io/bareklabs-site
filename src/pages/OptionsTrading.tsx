@@ -39,7 +39,7 @@ export default function OptionsTrading() {
     <>
       <PageHero code={o.hero.code} title={o.hero.title} serif={o.hero.serif} desc={o.hero.desc} />
       <section>
-        <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
+        <div className="shell px-5 py-16 md:px-10">
           <SectionHead index="03.D" label={o.modules.head} right={o.modules.headRight} />
           <div className="grid gap-4 md:grid-cols-2">
             {o.modules.items.map((m, i) => (

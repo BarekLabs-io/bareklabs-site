@@ -93,7 +93,7 @@ export default function Home() {
       <section className="relative flex min-h-screen flex-col border-b border-line">
         <MarketCanvas className="absolute inset-0" />
         <div className="scanline" />
-        <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-center px-5 pb-16 pt-32 md:px-10 md:pt-36">
+        <div className="pointer-events-none relative z-10 shell flex flex-1 flex-col justify-center px-5 pb-16 pt-32 md:px-10 md:pt-36">
           <Reveal>
             <div className="mb-6 flex items-center gap-3 font-mono-lab text-sm font-medium tracking-[0.25em] text-foreground/85">
               <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
@@ -115,12 +115,12 @@ export default function Home() {
             </Reveal>
           </h1>
           <Reveal delay={400}>
-            <div className="pointer-events-auto mt-8 flex flex-col justify-between gap-6 border-t border-line pt-6 md:flex-row md:items-end lg:pe-[400px] xl:pe-[500px]">
-              <p className="max-w-4xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim md:text-[14px] md:leading-7">{t.home.heroDesc}</p>
+            <div className="pointer-events-auto mt-8 flex flex-col justify-between gap-6 border-t border-line pt-6 md:flex-row md:items-end lg:pe-[380px] xl:pe-[500px]">
+              <p className="max-w-6xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim md:text-[14px] md:leading-7">{t.home.heroDesc}</p>
               <div className="flex items-center gap-6">
                 <Link
                   to="/analysis"
-                  className="group border border-foreground/30 px-6 py-3 font-mono-lab text-[11px] tracking-[0.25em] transition-all duration-300 hover:border-signal hover:bg-signal hover:text-[#0c0e12]"
+                  className="group shrink-0 whitespace-nowrap border border-foreground/30 px-6 py-3 font-mono-lab text-[11px] tracking-[0.25em] transition-all duration-300 hover:border-signal hover:bg-signal hover:text-[#0c0e12]"
                 >
                   {t.home.heroCta}
                 </Link>
@@ -151,7 +151,7 @@ export default function Home() {
 
       {/* Same panel, in the flow, for phones and laptops. */}
       <section className="border-b border-line lg:hidden">
-        <div className="mx-auto max-w-[1440px] px-5 py-10 md:px-10">
+        <div className="shell px-5 py-10 md:px-10">
           <LiveDesk />
         </div>
       </section>
@@ -160,7 +160,7 @@ export default function Home() {
 
       {/* ============ MANIFESTO ============ */}
       <section className="lab-grid border-b border-line">
-        <div className="mx-auto max-w-[1440px] px-5 py-24 md:px-10 md:py-36">
+        <div className="shell px-5 py-24 md:px-10 md:py-36">
           <div className="grid gap-12 md:grid-cols-12">
             <Reveal className="md:col-span-4">
               <div className="font-mono-lab text-[11px] tracking-[0.3em] text-signal">{m.label}</div>
@@ -178,7 +178,7 @@ export default function Home() {
                 </p>
               </Reveal>
               <Reveal delay={200}>
-                <p className="mt-8 max-w-3xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{m.sub}</p>
+                <p className="mt-8 max-w-7xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{m.sub}</p>
               </Reveal>
             </div>
           </div>
@@ -187,7 +187,7 @@ export default function Home() {
 
       {/* ============ MODULES ============ */}
       <section className="border-b border-line">
-        <div className="mx-auto max-w-[1440px] px-5 py-24 md:px-10">
+        <div className="shell px-5 py-24 md:px-10">
           <SectionHead index="01—03" label={t.home.modules.head} right={t.home.modules.headRight} />
           <div className="grid gap-4 md:grid-cols-3">
             {t.home.modules.items.map((mod, i) => (
@@ -199,7 +199,7 @@ export default function Home() {
 
       {/* ============ NUMBERS ============ */}
       <section className="lab-grid-fine border-b border-line">
-        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
+        <div className="shell px-5 py-20 md:px-10">
           <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-4">
             {t.home.numbers.map((s, i) => (
               <Reveal key={s.l} delay={i * 80} className="bg-card2 p-8 md:p-10">
@@ -213,7 +213,7 @@ export default function Home() {
 
       {/* ============ LATEST FEED ============ */}
       <section className="border-b border-line">
-        <div className="mx-auto max-w-[1440px] px-5 py-24 md:px-10">
+        <div className="shell px-5 py-24 md:px-10">
           <SectionHead index="FEED" label={t.home.feed.head} right={t.home.feed.headRight} />
           <div>
             {t.home.feed.items.map((n, i) => (
@@ -236,12 +236,12 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <div className="lab-grid absolute inset-0 opacity-60" />
         <div className="lab-halo absolute inset-0" />
-        <div className="relative mx-auto max-w-[1440px] px-5 py-28 text-center md:px-10 md:py-40">
+        <div className="relative shell px-5 py-28 text-center md:px-10 md:py-40">
           <Reveal>
             <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">{t.home.cta.label}</div>
           </Reveal>
           <Reveal delay={100}>
-            <h2 className="mx-auto mt-6 max-w-4xl text-4xl font-light leading-[1.1] tracking-tight md:text-6xl">
+            <h2 className="mx-auto mt-6 max-w-6xl text-4xl font-light leading-[1.1] tracking-tight md:text-6xl">
               {t.home.cta.title1} <span className="font-serif-lab italic text-dim">{t.home.cta.title2}</span>
             </h2>
           </Reveal>

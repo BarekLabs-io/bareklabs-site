@@ -40,7 +40,7 @@ export default function Analysis() {
       />
 
       <section>
-        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
+        <div className="shell px-5 py-20 md:px-10">
           <SectionHead index="01" label={t.analysis.pillars.head} right={t.analysis.pillars.headRight} />
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {t.analysis.pillars.items.map((p, i) => (
@@ -51,7 +51,7 @@ export default function Analysis() {
       </section>
 
       <section className="border-t border-line bg-alt">
-        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10">
+        <div className="shell px-5 py-20 md:px-10">
           <SectionHead index="02" label={t.analysis.method.head} right={t.analysis.method.headRight} />
           <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-3">
             {t.analysis.method.items.map((m, i) => (
