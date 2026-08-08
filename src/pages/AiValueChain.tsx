@@ -1,11 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router'
 import { Link } from 'react-router'
 import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/utils'
 import { companies } from '@/data/companies'
-import { countryOf, currencyOf, formatMoney } from '@/data/valueChain'
+import { chainSegmentOf, countryOf, currencyOf, formatMoney } from '@/data/valueChain'
 import { CHAIN_EXTRA } from '@/data/chainExtra'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { DcfSimulator } from '@/components/DcfSimulator'
@@ -61,7 +62,7 @@ function useMergedStages(baseStages: ChainStage[]): ChainStage[] {
     })
 
     const fromDossier = dossierNodes()
-    return withExtra.map((st) => {
+    const withDossier = withExtra.map((st) => {
       const items = [...st.items]
       for (const n of fromDossier) {
         if (n.stage !== st.k || placed.has(n.t)) continue
@@ -72,6 +73,28 @@ function useMergedStages(baseStages: ChainStage[]): ChainStage[] {
       }
       return { ...st, items }
     })
+
+    /* Safety sweep: every covered ticker that sits on the AI chain must land
+     * somewhere. The screener's fine-grained segment map catches names that
+     * neither the curated lists, CHAIN_EXTRA nor the dossier placed — a new
+     * screener addition should appear here on the day it is added, not after
+     * someone remembers to update three lists. */
+    const SWEEP: Record<string, string> = {
+      materials: 'FOUNDRY', wfe: 'FABTOOLS', substrates: 'FOUNDRY', pcb: 'FOUNDRY',
+      test: 'FABTOOLS', packaging: 'FOUNDRY', memory: 'MEMORY', silicon: 'COMPUTE',
+      cloud: 'COMPUTE', power: 'ELECTRIF',
+    }
+    for (const [t, co] of Object.entries(companies)) {
+      if (placed.has(t)) continue
+      const seg = chainSegmentOf(t)
+      const stageKey = seg ? SWEEP[seg] : undefined
+      if (!stageKey) continue
+      const st = withDossier.find((s) => s.k === stageKey)
+      if (!st) continue
+      placed.add(t)
+      st.items.push({ t, name: co.name, role: co.tagline })
+    }
+    return withDossier
   }, [baseStages])
 }
 
@@ -134,7 +157,7 @@ export default function AiValueChain() {
   const c = t.chain
   const stages = useMergedStages(c.stages as ChainStage[])
   const [mode, setMode] = useState<'explore' | 'flow'>('explore')
-  const [sel, setSel] = useState<Sel>({ s: 3, i: 1 }) // AMD by default — has a deep dive on file, unlike NVDA
+  const [sel, setSel] = useState<Sel>({ s: 7, i: 1 }) // AMD by default — has a deep dive on file, unlike NVDA
   const [hover, setHover] = useState<Sel | null>(null)
 
   const selStage = stages[sel.s]
@@ -152,13 +175,42 @@ export default function AiValueChain() {
   const { quotes } = useLiveQuotes(allTickers)
   const liveQuote = quotes[selItem.t]
 
+  /* Deep links: /analysis/ai-value-chain#dossier scrolls to the dossier once
+   * the page has mounted. An SPA does not honour hash anchors on its own. */
+  const { hash } = useLocation()
+  useEffect(() => {
+    if (!hash) return
+    const el = document.getElementById(hash.slice(1))
+    if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
+  }, [hash])
+
   return (
     <>
       <PageHero code={c.hero.code} title={c.hero.title} serif={c.hero.serif} desc={c.hero.desc} />
 
+      {/* Jump rail: the dossier lives far down a long page, and nobody should
+        * have to discover it by scrolling. */}
+      <div className="border-b border-line bg-panel">
+        <div className="mx-auto flex max-w-[1440px] flex-wrap gap-2 px-5 py-3 md:px-10">
+          {c.jump.items.map((j) => (
+            <a
+              key={j.href}
+              href={j.href}
+              onClick={(e) => {
+                e.preventDefault()
+                document.getElementById(j.href.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }}
+              className="border border-line px-3.5 py-1.5 font-mono-lab text-[10px] tracking-[0.2em] text-dim transition-colors duration-300 hover:border-signal hover:text-signal"
+            >
+              {j.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
       {/* ===== CONSTELLATION ===== */}
       <section className="border-b border-line">
-        <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
+        <div className="mx-auto max-w-[1440px] scroll-mt-28 px-5 py-16 md:px-10" id="map">
           <SectionHead
             index="MAP"
             label={c.hint}
@@ -363,7 +415,7 @@ export default function AiValueChain() {
 
           {/* ===== DOSSIER — the four analytical modules ===== */}
           <Reveal delay={200}>
-            <div className="mt-4">
+            <div className="mt-4 scroll-mt-28" id="dossier">
               <ValueChainDossier />
             </div>
           </Reveal>

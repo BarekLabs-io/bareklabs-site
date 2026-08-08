@@ -274,29 +274,43 @@ export function tickersOfLayer(layer: Layer): string[] {
  * exists. So the dossier is a second source of nodes alongside companies.ts.
  * ------------------------------------------------------------------------- */
 
-export type StageKey = 'ENERGY' | 'FAB' | 'LINK' | 'COMPUTE' | 'STACK'
+/* Nine stages, not five. The old grouping filed liquid-cooling vendors and
+ * construction firms under ENERGY — a company next to its own customers — and
+ * merged memory into interconnect and foundries into their toolmakers. Every
+ * key here answers "who pays whom": a stage's names sell INTO the next stage,
+ * they do not sit beside the people they sell to. */
+export type StageKey =
+  | 'ENERGY'    // generation & fuel
+  | 'ELECTRIF'  // electrical equipment, cooling, power semis — sold to datacenters
+  | 'BUILD'     // EPC & construction
+  | 'FABTOOLS'  // fab equipment, test, EDA & IP
+  | 'FOUNDRY'   // foundries, substrates, packaging, PCB
+  | 'MEMORY'    // HBM/DRAM/NAND & memory IP
+  | 'LINK'      // networking, optics, retimers
+  | 'COMPUTE'   // accelerators, servers, neoclouds & datacenter capacity
+  | 'STACK'     // hyperscalers, models, apps
 
 /** Which constellation stage each dossier segment belongs to. */
 export const SEGMENT_STAGE: Record<string, StageKey> = {
   'Nuclear base-load & IPPs': 'ENERGY',
   'SMR & advanced nuclear': 'ENERGY',
-  'Grid equipment & transformers': 'ENERGY',
-  'Backup generation & turbines': 'ENERGY',
-  'EDA software & IP cores': 'FAB',
-  'Lithography & WFE': 'FAB',
-  'Foundries': 'FAB',
-  'IC substrates & advanced packaging': 'FAB',
+  'Grid equipment & transformers': 'ELECTRIF',
+  'Backup generation & turbines': 'ELECTRIF',
+  'Liquid cooling (DLC & CDU)': 'ELECTRIF',
+  'Engineering & construction': 'BUILD',
+  'EDA software & IP cores': 'FABTOOLS',
+  'Lithography & WFE': 'FABTOOLS',
+  'Foundries': 'FOUNDRY',
+  'IC substrates & advanced packaging': 'FOUNDRY',
+  'HBM memory (HBM3e / HBM4)': 'MEMORY',
+  'Retimers & interconnect': 'LINK',
+  'Transceivers & optics (800G / 1.6T)': 'LINK',
+  'Silicon photonics & CPO': 'LINK',
   'GPGPU & AI accelerators': 'COMPUTE',
   'Custom ASIC & silicon IP': 'COMPUTE',
-  'HBM memory (HBM3e / HBM4)': 'LINK',
-  'Retimers & interconnect': 'LINK',
-  'Liquid cooling (DLC & CDU)': 'ENERGY',
-  'Engineering & construction': 'ENERGY',
   'Server ODM / OEM assembly': 'COMPUTE',
-  'Transceivers & optics (800G / 1.6T)': 'LINK',
+  'Colocation REITs & neoclouds': 'COMPUTE',
   'Hyperscalers': 'STACK',
-  'Colocation REITs & neoclouds': 'STACK',
-  'Silicon photonics & CPO': 'LINK',
 }
 
 /** Company names for tickers the site holds no deep dive for. */

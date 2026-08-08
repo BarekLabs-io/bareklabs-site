@@ -1,12 +1,26 @@
-/* Extra AI Value Chain constellation nodes, layered on top of the hand-curated
- * headline names in the i18n dict. Pulled from the same roster the Screener
- * covers (src/data/companies.ts) so every ticker here has a real deep-dive
- * page and the geographic spread (Japan, Korea, Taiwan, Netherlands, China…)
- * actually matches what the site covers — not just US mega-caps. */
+/* Screener tickers assigned to constellation stages, beyond the hand-curated
+ * headline names in the i18n dicts. Keys are the nine StageKeys. A ticker
+ * placed here must exist in companies.ts or it is skipped at merge time.
+ *
+ * Placement answers "who pays whom": a stage sells INTO the next stage. A
+ * cooling vendor is not an energy company, a builder is not a utility, and a
+ * memory maker is not a network — that conflation is what this file fixes. */
 export const CHAIN_EXTRA: Record<string, string[]> = {
-  ENERGY: ['STRL', 'BE', 'WOLF', 'NVTS', 'FCEL'],
-  FAB: ['LRCX', 'KLAC', '8035.T', '6857.T', 'ASM.AS', '2383.TW', '600961.SS'],
-  LINK: ['000660.KS', 'RMBS', 'MRVL', 'CRDO', 'ALAB', 'BESI.AS', '042700.KS', '6146.T'],
-  COMPUTE: ['NBIS', 'CRWV', 'IREN', 'WYFI', 'HIVE', 'PENG'],
-  STACK: [],
+  ENERGY: ['BE', 'FCEL'],
+  ELECTRIF: ['WOLF', 'NVTS', 'IFX.DE'],
+  BUILD: ['MTZ'],
+  FABTOOLS: [
+    'LRCX', 'KLAC', '8035.T', '6857.T', 'ASM.AS', '6622.T', 'VACN.SW', 'MYCR.ST',
+    'AEHR', 'FORM', 'CAMT', 'TPRO.MI', 'ATEYY', '6146.T', 'SMHN.DE', 'BESI.AS', '042700.KS',
+  ],
+  FOUNDRY: [
+    '600961.SS', 'AXTI', '2383.TW', '3037.TW', 'TTMI', 'ATS.VI', '4004.T', '2802.T',
+    '5706.T', '300476.SZ', '301377.SZ', '6278.T', '6981.T', 'AMKR',
+  ],
+  MEMORY: ['RMBS', 'WDC', 'SIMO', '2408.TW', '2344.TW', '2337.TW', '603986.SS', '8299.TWO', '6770.TW'],
+  LINK: ['MRVL', 'ALAB', 'CIEN', 'AAOI', 'FN', 'LITE', 'SIVE.ST'],
+  // INTC is deliberately absent: the dossier places it under Foundries, which
+  // is the AI-relevant story — 18A capacity, not its own accelerators.
+  COMPUTE: ['NBIS', 'CRWV', 'IREN', 'WYFI', 'HIVE', 'PENG', 'DGXX', '2454.TW'],
+  STACK: ['AMZN'],
 }

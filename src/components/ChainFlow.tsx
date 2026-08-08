@@ -18,10 +18,10 @@ export type FlowItem = { t: string; name: string; role: string; priv?: boolean }
 export type FlowStage = { n: string; k: string; name: string; desc: string; items: FlowItem[] }
 export type Sel = { s: number; i: number }
 
-const VB_W = 1440
-const TOP = 96
+const VB_W = 1780
+const TOP = 104
 const BOTTOM_PAD = 34
-const COL_PAD = 128
+const COL_PAD = 110
 const R_MIN = 4
 const R_MAX = 15
 const ROW_MAX = 27
@@ -62,11 +62,12 @@ export function ChainFlow({
     const rowGap = Math.min(ROW_MAX, Math.max(17, 560 / tallest))
     const height = TOP + tallest * rowGap + BOTTOM_PAD
     const rows = stages.map((st) => st.items.map((_, j) => TOP + 16 + j * rowGap))
-    // One spine per gap, bowed slightly so the eye follows a direction.
+    // One spine per gap, in the empty band between the headers and the first
+    // node — never through a label. A slight downward bow keeps a direction.
     const spines = cols.slice(0, -1).map((x, i) => {
       const x2 = cols[i + 1]
       const mid = (x + x2) / 2
-      return `M ${x} ${TOP - 34} C ${mid} ${TOP - 34}, ${mid} ${TOP - 18}, ${x2} ${TOP - 18}`
+      return `M ${x + 8} ${TOP - 4} C ${mid} ${TOP + 6}, ${mid} ${TOP + 6}, ${x2 - 8} ${TOP - 4}`
     })
     return { cols, rows, height, rowGap, spines }
   }, [stages])
@@ -74,7 +75,7 @@ export function ChainFlow({
   const { cols, rows, height, rowGap, spines } = geom
 
   return (
-    <svg viewBox={`0 0 ${VB_W} ${height}`} className="min-w-[1080px]" role="img" aria-label={label}>
+    <svg viewBox={`0 0 ${VB_W} ${height}`} className="min-w-[1480px]" role="img" aria-label={label}>
       <defs>
         <linearGradient id="railFade" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="rgb(var(--signal))" stopOpacity="0.5" />
@@ -112,6 +113,27 @@ export function ChainFlow({
         const railBottom = TOP + 16 + Math.max(st.items.length - 1, 0) * rowGap + 10
         return (
           <g key={st.k}>
+            {/* alternating column band — makes nine layers legible as lanes */}
+            {si % 2 === 1 && (
+              <rect
+                x={x - 62}
+                y={TOP - 62}
+                width={124}
+                height={railBottom - (TOP - 62) + 12}
+                fill="rgb(var(--signal))"
+                opacity={0.025}
+              />
+            )}
+            {active && (
+              <rect
+                x={x - 62}
+                y={TOP - 62}
+                width={124}
+                height={railBottom - (TOP - 62) + 12}
+                fill="rgb(var(--signal))"
+                opacity={0.045}
+              />
+            )}
             {/* stage header */}
             <text
               x={x}
@@ -127,7 +149,7 @@ export function ChainFlow({
               y={TOP - 33}
               textAnchor="middle"
               className="select-none"
-              style={{ fontSize: 15, fontWeight: 400, fill: active ? 'rgb(var(--signal))' : 'var(--prose)' }}
+              style={{ fontSize: 13.5, fontWeight: 500, fill: active ? 'rgb(var(--signal))' : 'var(--prose)' }}
             >
               {st.name}
             </text>
