@@ -234,6 +234,10 @@ export const fr: Dict = {
       spot: 'SPOT',
       reset: 'RÉINITIALISER',
       sandboxNote: 'Rien de ce que vous saisissez ici n\'est enregistré ni partagé — cela ne vit que dans cet onglet, et un rechargement restaure le point de départ recherché.',
+      howTo: {
+        label: 'CE QUE C’EST',
+        body: 'Un DCF à cinq ans, doublé d’une contre-épreuve par multiple de sortie, prérempli avec les chiffres recherchés du titre. Modifiez n’importe quelle case à gauche : les résultats se recalculent aussitôt, et le pourcentage sous chacun les compare au cours actuel. Chaque case porte un badge qui dit d’où vient son chiffre — légende ci-dessous. Bougez une hypothèse à la fois, la croissance d’abord, puis le coût du capital : sur la plupart des dossiers, c’est le taux qui fait basculer la conclusion, bien plus que le scénario opérationnel. Une case signalée en rouge veut dire que nous n’avons aucun chiffre en dossier : elle démarre à zéro, et les résultats ne valent rien tant que vous n’y avez pas mis un vrai nombre.',
+      },
       assumptions: 'HYPOTHÈSES — TOUTES MODIFIABLES',
       fields: {
         revenue: 'CA (TTM, M)',

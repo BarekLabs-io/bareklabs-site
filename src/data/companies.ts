@@ -6895,6 +6895,7 @@ AMD: {
   valuation: {
     peers: ['AMD', 'NVDA', 'AVGO', 'INTC'],
     metrics: [
+        { label: 'Net debt', values: ['-$8.84B net cash — debt incl. leases $4.28B less cash & ST investments $13.11B (10-Q, 27 Jun 2026, FMP)'] },
       { label: 'Price', values: ['$518.58 (Aug 4, 2026)', '~$200.75 (Jul 31, 2026 snapshot — post-split-adjusted figures vary by source, not independently reconciled)', 'not captured in this pass', '$100.86 (Aug 4, 2026)'] },
       { label: 'Market cap', values: ['$790.25B (Aug 3, 2026)', 'not captured', 'not captured', '~$459-512B (varies materially by source/date, Aug 2026)'] },
       { label: 'Trailing P/E', values: ['172.93x', '~31.6x (one source)', 'not captured', 'not captured'] },
@@ -7215,6 +7216,7 @@ AMKR: {
     valuation: {
       peers: ['NVDA', 'AMD', 'AVGO', 'TSM'],
       metrics: [
+        { label: 'Net debt', values: ['-$67.76B net cash — debt incl. leases $12.81B less cash & ST investments $80.57B (10-Q, 26 Apr 2026, FMP)'] },
         { label: 'Price', values: ['~$212–219 (Aug 3–5, 2026; intraday moves of this size reflect a live semiconductor rally, not a data error)', '$518.58 (Aug 4, 2026)', '~$392–421 (Aug 3–5, 2026, same rally)', '~$406–419 (Aug 3–5, 2026, same rally)'] },
         { label: 'Market cap', values: ['~$5.1–5.3T (Aug 2026) — the largest company in the world by this measure', '$790.25B (Aug 3, 2026)', '~$1.87–1.99T (Aug 2026, cross-source variance)', '~$2.15T (Aug 2026)'] },
         { label: 'Trailing P/E', values: ['~31.6x', '172.93x', 'not independently captured this pass', '~26.2x'] },
@@ -7787,6 +7789,7 @@ AMKR: {
     valuation: {
       peers: ['META', 'GOOGL', 'MSFT', 'AMZN'],
       metrics: [
+        { label: 'Net debt', values: ['$22.06B — debt incl. leases $112.32B less cash & ST investments $90.26B (10-Q, 30 Jun 2026, FMP)'] },
         { label: 'Price', values: ['$566.91 (Aug 6, 2026)', '$360.13 (Aug 5–6, 2026, post AI-leadership-shakeup selloff)', '$487.46 (Aug 6, 2026)', '$277.42 (Aug 4, 2026)'] },
         { label: 'Market cap', values: ['~$1.43–1.5T', '~$4.3–4.4T (aggregators disagree, $4.34–4.59T range)', '~$3.62T', '~$3.0T'] },
         { label: 'Trailing P/E', values: ['~22.2x', '~18.2–18.9x (see note — GAAP-earnings distorted)', '~27.2–27.5x', '~22.0x'] },
@@ -9011,6 +9014,7 @@ AMKR: {
     valuation: {
       peers: ['PLTR'],
       metrics: [
+        { label: 'Net debt', values: ['-$9.20B net cash — debt incl. leases $0.21B less cash & ST investments $9.41B (10-Q, 30 Jun 2026, FMP)'] },
         { label: 'Market cap', values: ['$374.7B'] },
         { label: 'Trailing P/E', values: ['135.6x'] },
         { label: 'Forward P/E', values: ['84.0x'] },

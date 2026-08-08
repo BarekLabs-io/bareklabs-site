@@ -150,6 +150,20 @@
   .carousel-track::-webkit-scrollbar {
     display: none;
   }
+  /* Cards in a carousel lift toward the cursor: a surface that responds in
+   * depth reads as manipulable, which is half the "this scrolls" affordance.
+   * The perspective sits on the track so each card tilts in its own space. */
+  .carousel-3d {
+    perspective: 1200px;
+  }
+  .carousel-3d > [data-carousel-item] {
+    transition: transform 0.35s ease, filter 0.35s ease;
+    transform: translateZ(0);
+  }
+  .carousel-3d > [data-carousel-item]:hover {
+    transform: translateZ(18px) translateY(-4px);
+    filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.45));
+  }
   .font-mono-lab {
     font-family: 'IBM Plex Mono', 'IBM Plex Sans Arabic', ui-monospace, monospace;
   }

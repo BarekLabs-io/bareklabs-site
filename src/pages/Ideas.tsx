@@ -179,6 +179,19 @@ export default function Ideas() {
               ))}
             </div>
           )}
+          {/* The method note reads BEFORE the cards, not after: a visitor who
+            * scrolls a wall of cautious targets without this context walks
+            * away asking why everything is bearish — the answer (the rate
+            * decides, the errors are correlated, the sample is the market's
+            * hottest corner) has to come first. */}
+          {t.ideas.items.length > 0 && (
+            <Reveal className="mb-10">
+              <div className="border-s-2 border-warn/40 ps-5">
+                <div className="font-mono-lab text-[9px] tracking-[0.25em] text-warn">{t.ideas.method.label}</div>
+                <p className="mt-3 max-w-4xl font-mono-lab text-[11px] leading-6 tracking-wide text-dim">{t.ideas.method.body}</p>
+              </div>
+            </Reveal>
+          )}
           {items.length > 0 ? (
             <Carousel>
               {items.map((idea, i) => (
@@ -188,17 +201,6 @@ export default function Ideas() {
           ) : (
             <EmptyTheses />
           )}
-          {/* Every target on this page is a discounted-cash-flow output, and a
-            * DCF reads a long-duration growth asset as expensive almost by
-            * construction. Saying so where the targets are read is the only
-            * thing that lets a reader argue with the assumption instead of
-            * just the conclusion. */}
-          <Reveal className="mt-10">
-            <div className="border-s-2 border-warn/40 ps-5">
-              <div className="font-mono-lab text-[9px] tracking-[0.25em] text-warn">{t.ideas.method.label}</div>
-              <p className="mt-3 max-w-4xl font-mono-lab text-[11px] leading-6 tracking-wide text-dim">{t.ideas.method.body}</p>
-            </div>
-          </Reveal>
           <Reveal className="mt-8">
             <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{t.ideas.disclaimer}</p>
           </Reveal>

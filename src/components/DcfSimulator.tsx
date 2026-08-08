@@ -84,10 +84,21 @@ function buildPrefill(ticker: string): Prefill {
   if (growth != null) provenance.growthPct = 'sourced'
   else provenance.growthPct = 'assumption'
 
-  // No net-debt figure is held for most tickers, so this stays at zero and is
-  // called out. Zero net debt makes equity == enterprise value, which flatters
-  // any levered name — the UI says so rather than hiding it.
-  provenance.netDebt = 'missing'
+  /* Net debt, where the research holds one — a dated balance-sheet figure,
+   * negative when the company is net cash. parseAmountNative ignores signs,
+   * so the sign is read off the string itself. Everywhere else this stays at
+   * zero and is called out: zero net debt makes equity == enterprise value,
+   * which flatters any levered name — the UI says so rather than hiding it. */
+  const netDebtStr = metric(ticker, /^net debt$/i)
+  const netDebtMag = parseAmountNative(netDebtStr)
+  let netDebt = 0
+  if (netDebtMag != null && netDebtStr) {
+    const negative = /net cash|^\s*-/.test(netDebtStr)
+    netDebt = ((negative ? -1 : 1) * netDebtMag) / M
+    provenance.netDebt = 'sourced'
+  } else {
+    provenance.netDebt = 'missing'
+  }
   provenance.waccPct = 'assumption'
   provenance.terminalGrowthPct = 'assumption'
   provenance.taxRatePct = 'assumption'
@@ -107,7 +118,7 @@ function buildPrefill(ticker: string): Prefill {
       terminalGrowthPct: 2.5,
       taxRatePct: 21,
       reinvestmentPct: 15,
-      netDebt: 0,
+      netDebt: Math.round(netDebt),
       shares: Math.round(shares * 100) / 100,
     },
   }
@@ -210,6 +221,28 @@ export function DcfSimulator({ ticker, livePrice }: { ticker: string; livePrice?
               <div className="mt-0.5 text-base tabular-nums text-foreground" dir="ltr">{fmt(price)}</div>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* What this is and how to drive it — the sandbox was shipping with no
+        * explanation, and even its owner looked at it asking "what is it". */}
+      <div className="border-b border-line bg-ticker px-6 py-4">
+        <div className="font-mono-lab text-[10.5px] tracking-[0.25em] text-signal">{d.howTo.label}</div>
+        <p className="mt-2 max-w-4xl font-mono-lab text-[11.5px] leading-6 tracking-wide text-dim">{d.howTo.body}</p>
+        <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1.5">
+          {(['sourced', 'derived', 'assumption', 'missing'] as const).map((k) => (
+            <span key={k} className="font-mono-lab text-[10px] leading-5 text-faint">
+              <span
+                className={cn(
+                  'tracking-[0.15em]',
+                  k === 'missing' ? 'text-danger' : k === 'derived' ? 'text-warn' : k === 'assumption' ? 'text-dim' : 'text-signal'
+                )}
+              >
+                {d.provenance[k]}
+              </span>{' '}
+              — {d.provenanceNote[k]}
+            </span>
+          ))}
         </div>
       </div>
 

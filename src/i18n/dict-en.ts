@@ -233,6 +233,10 @@ export const en = {
       spot: 'SPOT',
       reset: 'RESET TO RESEARCHED',
       sandboxNote: 'Nothing you type here is saved or shared — it lives in this browser tab only, and a reload restores the researched starting point.',
+      howTo: {
+        label: 'WHAT THIS IS',
+        body: 'A five-year discounted cash flow with an exit-multiple cross-check, pre-filled from this ticker\'s researched figures. Type over any box on the left: the outputs recompute instantly, and the percentage under each compares it to the current price. Every box carries a badge saying where its number comes from — legend below. Move one assumption at a time, growth first, then the WACC: on most names the discount rate moves the answer more than the operating story does. A field flagged in red means we hold no researched figure; it starts at zero, and the outputs are not to be trusted until you type a real number into it.',
+      },
       assumptions: 'ASSUMPTIONS — EDIT ANY OF THEM',
       fields: {
         revenue: 'REVENUE (TTM, M)',
