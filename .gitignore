@@ -3,3 +3,9 @@ dist
 .env
 .env.local
 .vercel
+
+# Research toolchain pack (models, internal fiches, delivered report HTML).
+# Deliberately untracked: this repository is PUBLIC, and the fiches are working
+# papers — they carry unpublished reservations and the method-audit trail.
+# Persist them in a private repo if they need to outlive the container.
+research-chain/
