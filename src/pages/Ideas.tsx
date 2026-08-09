@@ -23,10 +23,31 @@ const STATUS_TONE: Record<Idea['status'], string> = {
   CLOSED: 'border-line text-dim',
 }
 
+/* The as-of date of the figures, in the reader's language.
+ *
+ * This is not a publication date and must not read as one: it says which day the
+ * prices and multiples quoted on the card belong to. A card that quotes $189.88
+ * with nothing to date it is worth less three months from now than one that says
+ * where the number came from — and a common cut-off across a coverage set is how
+ * research is normally marked.
+ *
+ * Parsed and formatted in UTC on purpose: a plain `new Date('2026-08-06')` is
+ * midnight UTC, which renders as the 5th for any reader west of Greenwich. */
+const AS_OF_LOCALE: Record<string, string> = { fr: 'fr-FR', en: 'en-GB', ar: 'ar-u-nu-latn' }
+
+function formatAsOf(iso: string, lang: string): string | null {
+  const d = new Date(`${iso}T00:00:00Z`)
+  if (Number.isNaN(d.getTime())) return null
+  return new Intl.DateTimeFormat(AS_OF_LOCALE[lang] ?? 'en-GB', {
+    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+  }).format(d)
+}
+
 function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
   const [open, setOpen] = useState(false)
   const ref = useSpotlight<HTMLDivElement>()
-  const { t } = useLang()
+  const { t, lang } = useLang()
+  const asOf = formatAsOf(idea.date, lang)
   const scenarioLabel = (l: string) => (t.ideas.scenarioLabels as Record<string, string>)[l] ?? l
 
   return (
@@ -65,6 +86,14 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
             <span className={cn('font-mono-lab text-lg text-faint transition-transform duration-300', open && 'rotate-45')}>+</span>
           </div>
           <p className="mt-3 max-w-6xl font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{idea.thesis}</p>
+          {/* Sits under the thesis rather than up in the badge row, because what it
+            * dates is the figures above it — and because the badge row is where the
+            * publication date used to be, which is a different claim entirely. */}
+          {asOf && (
+            <div className="mt-4 font-mono-lab text-[9px] uppercase tracking-[0.2em] text-faint">
+              {t.ideas.labels.dataAsOf} <span dir="ltr">{asOf}</span>
+            </div>
+          )}
         </button>
 
         <div className={cn('grid transition-all duration-500 ease-out', open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>

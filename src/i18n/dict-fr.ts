@@ -196,7 +196,7 @@ export const fr: Dict = {
     },
     filters: ['TOUT', 'AI INFRA', 'MEDTECH', 'BIOTECH', 'SPACE', 'ENERGY', 'MATERIALS'],
     status: { ACTIVE: 'ACTIF', WATCHING: 'SURVEILLÉ', CLOSED: 'CLÔTURÉ' } as Record<string, string>,
-    labels: { entry: 'LOGIQUE D’ENTRÉE', invalidation: 'INVALIDATION', horizon: 'HORIZON', rate: 'TAUX D’ACTUALISATION', scenarios: 'CARTE DES SCÉNARIOS', readReport: 'LIRE LE RAPPORT COMPLET' },
+    labels: { entry: 'LOGIQUE D’ENTRÉE', invalidation: 'INVALIDATION', horizon: 'HORIZON', rate: 'TAUX D’ACTUALISATION', scenarios: 'CARTE DES SCÉNARIOS', readReport: 'LIRE LE RAPPORT COMPLET', dataAsOf: 'DONNÉES AU' },
     scenarioLabels: { BASE: 'Central', BULL: 'Haussier', BEAR: 'Baissier', HIT: 'Atteint' } as Record<string, string>,
     head: 'Thèses ouvertes',
     headRight: 'CLIQUER POUR DÉPLIER',

@@ -195,7 +195,7 @@ export const en = {
     },
     filters: ['ALL', 'AI INFRA', 'MEDTECH', 'BIOTECH', 'SPACE', 'ENERGY', 'MATERIALS'],
     status: { ACTIVE: 'ACTIVE', WATCHING: 'WATCHING', CLOSED: 'CLOSED' } as Record<string, string>,
-    labels: { entry: 'ENTRY LOGIC', invalidation: 'INVALIDATION', horizon: 'HORIZON', rate: 'DISCOUNT RATE', scenarios: 'SCENARIO MAP', readReport: 'READ THE FULL REPORT' },
+    labels: { entry: 'ENTRY LOGIC', invalidation: 'INVALIDATION', horizon: 'HORIZON', rate: 'DISCOUNT RATE', scenarios: 'SCENARIO MAP', readReport: 'READ THE FULL REPORT', dataAsOf: 'DATA AS OF' },
     scenarioLabels: { BASE: 'Base', BULL: 'Bull', BEAR: 'Bear', HIT: 'Hit' } as Record<string, string>,
     head: 'Open theses',
     headRight: 'CLICK TO EXPAND',
