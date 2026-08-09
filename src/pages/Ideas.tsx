@@ -50,7 +50,11 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
                 {idea.revised}
               </span>
             )}
-            <span className="ms-auto font-mono-lab text-[10px] tracking-wider text-faint" dir="ltr">{idea.date}</span>
+            {/* The publication date is deliberately not rendered for now. All nine
+              * theses carry the same one, so printing it announces that the batch
+              * was written and shipped in a single sitting — which says more about
+              * the production run than about the research. `date` stays on the
+              * data so it can go back up when the cadence is its own story. */}
           </div>
           {/* The company, spelled out. The titles below are editorial and the
             * badges above are tickers, neither of which names the subject to a

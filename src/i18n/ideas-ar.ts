@@ -14,7 +14,7 @@ export const ideasAr: IdeaItem[] = [
     sector: 'AI INFRA',
     company: 'Nebius Group N.V.',
     tickers: ['NBIS'],
-    revised: 'أُعيد البناء 07.08',
+    revised: 'أُعيد البناء',
     report: 'nbis',
     title: 'نيبيوس: القيد هو التوصيل الكهربائي، لا الطلب',
     thesis:
@@ -39,7 +39,7 @@ export const ideasAr: IdeaItem[] = [
     sector: 'ENERGY',
     company: 'Energy Vault Holdings',
     tickers: ['NRGV'],
-    revised: 'أُعيد البناء 07.08',
+    revised: 'أُعيد البناء',
     report: 'nrgv',
     title: 'إنرجي فولت: سجلّ طلبات ليس سجلّ طلبات',
     thesis:
@@ -64,7 +64,7 @@ export const ideasAr: IdeaItem[] = [
     sector: 'AI INFRA',
     company: 'Digi Power X',
     tickers: ['DGXX'],
-    revised: 'أُعيد البناء 07.08',
+    revised: 'أُعيد البناء',
     report: 'dgxx',
     title: 'ديجي باور إكس: عقد واحد، ورقم لا ينشره أحد',
     thesis:
@@ -89,7 +89,7 @@ export const ideasAr: IdeaItem[] = [
     sector: 'BIOTECH',
     company: 'Recursion Pharmaceuticals',
     tickers: ['RXRX'],
-    revised: 'أُعيد البناء 07.08',
+    revised: 'أُعيد البناء',
     report: 'rxrx',
     title: 'ريكيرجن: المنصة في سباق مع الوقت',
     thesis:
@@ -114,7 +114,7 @@ export const ideasAr: IdeaItem[] = [
     sector: 'MEDTECH',
     company: 'Intuitive Surgical',
     tickers: ['ISRG'],
-    revised: 'أُعيد البناء 07.08',
+    revised: 'أُعيد البناء',
     report: 'isrg',
     title: 'إنتويتيف سيرجيكال: للاحتكار موعد',
     thesis:
@@ -139,7 +139,7 @@ export const ideasAr: IdeaItem[] = [
     sector: 'MEDTECH',
     company: 'TransMedics Group',
     tickers: ['TMDX'],
-    revised: 'أُعيد البناء 07.08',
+    revised: 'أُعيد البناء',
     report: 'tmdx',
     title: 'ترانسميديكس: عضو واحد، أطروحة واحدة',
     thesis:
@@ -164,7 +164,7 @@ export const ideasAr: IdeaItem[] = [
     sector: 'SPACE',
     company: 'Rocket Lab · AST SpaceMobile',
     tickers: ['RKLB', 'ASTS'],
-    revised: 'أُعيد البناء 07.08',
+    revised: 'أُعيد البناء',
     report: 'rklb-asts',
     title: 'رهانان فضائيان، سؤال واحد: ماذا يجب أن تصدّق عن 2035؟',
     thesis:
@@ -184,7 +184,7 @@ export const ideasAr: IdeaItem[] = [
     sector: 'MATERIALS',
     company: 'ALUULA Composites',
     tickers: ['AUUA.V'],
-    revised: 'أُعيد البناء 07.08',
+    revised: 'أُعيد البناء',
     report: 'auua',
     title: 'ألوولا كومبوزيتس: رهان العرض',
     thesis:

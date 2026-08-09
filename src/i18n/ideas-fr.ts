@@ -18,7 +18,7 @@ export const ideasFr: IdeaItem[] = [
     sector: 'AI INFRA',
     company: 'Nebius Group N.V.',
     tickers: ['NBIS'],
-    revised: 'REFAIT 07.08',
+    revised: 'REFAIT',
     report: 'nbis',
     title: 'Nebius : la contrainte est le raccordement, pas la demande',
     thesis:
@@ -43,7 +43,7 @@ export const ideasFr: IdeaItem[] = [
     sector: 'ENERGY',
     company: 'Energy Vault Holdings',
     tickers: ['NRGV'],
-    revised: 'REFAIT 07.08',
+    revised: 'REFAIT',
     report: 'nrgv',
     title: 'Energy Vault : le carnet de commandes qui n\'en est pas un',
     thesis:
@@ -68,7 +68,7 @@ export const ideasFr: IdeaItem[] = [
     sector: 'AI INFRA',
     company: 'Digi Power X',
     tickers: ['DGXX'],
-    revised: 'REFAIT 07.08',
+    revised: 'REFAIT',
     report: 'dgxx',
     title: 'Digi Power X : un seul contrat, et un chiffre que personne ne publie',
     thesis:
@@ -93,7 +93,7 @@ export const ideasFr: IdeaItem[] = [
     sector: 'BIOTECH',
     company: 'Recursion Pharmaceuticals',
     tickers: ['RXRX'],
-    revised: 'REFAIT 07.08',
+    revised: 'REFAIT',
     report: 'rxrx',
     title: 'Recursion : la plateforme contre le temps',
     thesis:
@@ -118,7 +118,7 @@ export const ideasFr: IdeaItem[] = [
     sector: 'MEDTECH',
     company: 'Intuitive Surgical',
     tickers: ['ISRG'],
-    revised: 'REFAIT 07.08',
+    revised: 'REFAIT',
     report: 'isrg',
     title: 'Intuitive Surgical : le monopole a rendez-vous',
     thesis:
@@ -143,7 +143,7 @@ export const ideasFr: IdeaItem[] = [
     sector: 'MEDTECH',
     company: 'TransMedics Group',
     tickers: ['TMDX'],
-    revised: 'REFAIT 07.08',
+    revised: 'REFAIT',
     report: 'tmdx',
     title: 'TransMedics : un organe, une thèse',
     thesis:
@@ -168,7 +168,7 @@ export const ideasFr: IdeaItem[] = [
     sector: 'SPACE',
     company: 'Rocket Lab · AST SpaceMobile',
     tickers: ['RKLB', 'ASTS'],
-    revised: 'REFAIT 07.08',
+    revised: 'REFAIT',
     report: 'rklb-asts',
     title: 'Deux paris spatiaux, une même question : que faut-il croire sur 2035 ?',
     thesis:
@@ -188,7 +188,7 @@ export const ideasFr: IdeaItem[] = [
     sector: 'MATERIALS',
     company: 'ALUULA Composites',
     tickers: ['AUUA.V'],
-    revised: 'REFAIT 07.08',
+    revised: 'REFAIT',
     report: 'auua',
     title: 'ALUULA Composites : le pari de la largeur',
     thesis:

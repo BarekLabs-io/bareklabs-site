@@ -20,7 +20,7 @@ export const ideasEn: IdeaItem[] = [
     sector: 'AI INFRA',
     company: 'Nebius Group N.V.',
     tickers: ['NBIS'],
-    revised: 'REBUILT 07.08',
+    revised: 'REBUILT',
     report: 'nbis',
     title: 'Nebius: the constraint is the grid, not the demand',
     thesis:
@@ -45,7 +45,7 @@ export const ideasEn: IdeaItem[] = [
     sector: 'ENERGY',
     company: 'Energy Vault Holdings',
     tickers: ['NRGV'],
-    revised: 'REBUILT 07.08',
+    revised: 'REBUILT',
     report: 'nrgv',
     title: 'Energy Vault: the backlog that is not one',
     thesis:
@@ -70,7 +70,7 @@ export const ideasEn: IdeaItem[] = [
     sector: 'AI INFRA',
     company: 'Digi Power X',
     tickers: ['DGXX'],
-    revised: 'REBUILT 07.08',
+    revised: 'REBUILT',
     report: 'dgxx',
     title: 'Digi Power X: one contract, and a number nobody publishes',
     thesis:
@@ -95,7 +95,7 @@ export const ideasEn: IdeaItem[] = [
     sector: 'BIOTECH',
     company: 'Recursion Pharmaceuticals',
     tickers: ['RXRX'],
-    revised: 'REBUILT 07.08',
+    revised: 'REBUILT',
     report: 'rxrx',
     title: 'Recursion: the platform against the clock',
     thesis:
@@ -120,7 +120,7 @@ export const ideasEn: IdeaItem[] = [
     sector: 'MEDTECH',
     company: 'Intuitive Surgical',
     tickers: ['ISRG'],
-    revised: 'REBUILT 07.08',
+    revised: 'REBUILT',
     report: 'isrg',
     title: 'Intuitive Surgical: the monopoly has an appointment',
     thesis:
@@ -145,7 +145,7 @@ export const ideasEn: IdeaItem[] = [
     sector: 'MEDTECH',
     company: 'TransMedics Group',
     tickers: ['TMDX'],
-    revised: 'REBUILT 07.08',
+    revised: 'REBUILT',
     report: 'tmdx',
     title: 'TransMedics: one organ, one thesis',
     thesis:
@@ -170,7 +170,7 @@ export const ideasEn: IdeaItem[] = [
     sector: 'SPACE',
     company: 'Rocket Lab · AST SpaceMobile',
     tickers: ['RKLB', 'ASTS'],
-    revised: 'REBUILT 07.08',
+    revised: 'REBUILT',
     report: 'rklb-asts',
     title: 'Two space bets, one question: what do you have to believe about 2035?',
     thesis:
@@ -190,7 +190,7 @@ export const ideasEn: IdeaItem[] = [
     sector: 'MATERIALS',
     company: 'ALUULA Composites',
     tickers: ['AUUA.V'],
-    revised: 'REBUILT 07.08',
+    revised: 'REBUILT',
     report: 'auua',
     title: 'ALUULA Composites: the width trade',
     thesis:
