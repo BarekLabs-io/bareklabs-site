@@ -200,16 +200,34 @@ export function compute(symbol, facts) {
 
   /* PIEGE 8 — l'absence d'une balise de placements se lit comme un zero et ne
    * fait aucun bruit. Sur UUUU la dette nette bascule de -260 M$ a +619 M$ selon
-   * que les titres courants sont trouves ou non. L'absence est donc declaree,
-   * a charge du lecteur de verifier qu'elle est reelle. */
+   * que les titres courants sont trouves ou non.
+   *
+   * Mais signaler toute absence donnait 21 alertes sur 22 lignes : beaucoup de
+   * societes n'ont simplement aucun placement court terme, et un signal qui se
+   * declenche presque toujours cesse d'etre lu. On ne signale donc que si les
+   * actifs courants portent une masse que ni la tresorerie, ni les creances, ni
+   * les stocks n'expliquent — c'est la signature d'un poste liquide manque. */
+  const residual = (() => {
+    if (sti.tag) return null
+    const ac = at(facts, 'AssetsCurrent', end)
+    if (ac == null) return null
+    const known = (cash.val ?? 0)
+      + (at(facts, 'AccountsReceivableNetCurrent', end) ?? at(facts, 'ReceivablesNetCurrent', end) ?? 0)
+      + (at(facts, 'InventoryNet', end) ?? 0)
+    const r = ac - known
+    return r > 5e7 && r > ac * 0.2 ? r : null
+  })()
+
   const used = [
     dc.tag ? `dette courante ${dc.tag}` : 'aucune dette courante deposee',
     dn.tag ? `dette non courante ${dn.tag}` : 'aucune dette non courante deposee',
-    sti.tag ? `placements ${sti.tag}` : 'AUCUNE balise de placements court terme — verifier le 10-Q',
+    sti.tag ? `placements ${sti.tag}`
+      : residual ? `AUCUN placement trouve mais ${b(residual)} d'actifs courants inexpliques — verifier le 10-Q`
+      : 'aucun placement court terme (coherent avec le bilan)',
     debtCheck,
   ].join(' · ')
 
-  const warn = (bundled || !sti.tag || (gap != null && gap >= Math.max(1e6, debt * 0.02))) || null
+  const warn = (bundled || residual || (gap != null && gap >= Math.max(1e6, debt * 0.02))) || null
 
   return { symbol, quarter: end, used, warn, lines }
 }
