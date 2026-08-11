@@ -9,3 +9,7 @@ dist
 # papers — they carry unpublished reservations and the method-audit trail.
 # Persist them in a private repo if they need to outlive the container.
 research-chain/
+
+# sorties de travail de scripts/netdebt.mjs — se regenerent, ne se versionnent pas
+dette-nette.txt
+dette-nette.log

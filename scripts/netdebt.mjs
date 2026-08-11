@@ -64,16 +64,23 @@ const TAGS = {
     'AvailableForSaleSecuritiesDebtSecuritiesCurrent',
     'OtherShortTermInvestments',
   ],
+  /* Les deux balises ...AndCapitalLeaseObligations sont en DERNIER recours : elles
+   * fusionnent dette et locations-financement dans un seul montant, ce que ce
+   * fichier s'emploie justement a separer. MasTec ne depose que celles-la — sans
+   * elles il ressort « societe sans dette » avec 2,6 Md$ au bilan. On les accepte
+   * donc, mais la ligne produite declare le melange (voir bundled plus bas). */
   debtCurrent: [
     'DebtCurrent',
     'LongTermDebtCurrent',
     'ShortTermBorrowings',
     'NotesPayableCurrent',
+    'LongTermDebtAndCapitalLeaseObligationsCurrent',
   ],
   debtNoncurrent: [
     'LongTermDebtNoncurrent',
     'LongTermDebt',
     'ConvertibleLongTermNotesPayable',
+    'LongTermDebtAndCapitalLeaseObligations',
   ],
   operatingLeaseCurrent: ['OperatingLeaseLiabilityCurrent'],
   operatingLeaseNoncurrent: ['OperatingLeaseLiabilityNoncurrent'],
@@ -150,14 +157,30 @@ export function compute(symbol, facts) {
   })
   const head = net < 0 ? `-${b(net)} net cash` : b(net)
 
+  /* Certains emetteurs ne deposent la dette que fusionnee avec les locations-
+   * financement. On ne peut alors pas les separer, et taire ce melange rendrait
+   * cette ligne incomparable aux autres sans que ca se voie. Elle le declare. */
+  const bundled = [dc.tag, dn.tag].some((t) => t?.includes('AndCapitalLeaseObligations'))
+  const bundledNote = bundled
+    ? '; this issuer files debt and finance leases as one figure, so this includes finance leases'
+    : ''
+
   const lines = [
-    `      { label: 'Net debt', values: ['${head} — financial debt ${b(debt)} less cash & ST investments ${b(liquid)} (balance sheet, ${when}, SEC XBRL)'] },`,
+    `      { label: 'Net debt', values: ['${head} — financial debt ${b(debt)} less cash & ST investments ${b(liquid)} (balance sheet, ${when}, SEC XBRL${bundledNote})'] },`,
   ]
-  if (opLease || finLease) {
+  /* Quand la dette deposee englobe deja les locations-financement, les repeter
+   * ici les ferait compter deux fois par un lecteur qui additionne les deux
+   * lignes — ce que ces deux lignes existent precisement pour lui permettre. On
+   * ne montre alors que les locations simples, en disant ou sont les autres. */
+  const showFin = finLease && !bundled
+  if (opLease || showFin) {
     const parts = []
-    if (finLease) parts.push(`finance leases ${b(finLease)}`)
+    if (showFin) parts.push(`finance leases ${b(finLease)}`)
     if (opLease) parts.push(`operating leases ${b(opLease)}`)
-    lines.push(`      { label: 'Lease liabilities', values: ['${parts.join(', ')} — reported apart from financial debt and not netted against cash (balance sheet, ${when}, SEC XBRL)'] },`)
+    const where = bundled
+      ? `finance leases are already inside the debt figure above, not repeated here`
+      : `reported apart from financial debt and not netted against cash`
+    lines.push(`      { label: 'Lease liabilities', values: ['${parts.join(', ')} — ${where} (balance sheet, ${when}, SEC XBRL)'] },`)
   }
 
   /* PIEGE 7 — le total combine ne veut pas dire la meme chose partout, meme en
@@ -186,7 +209,7 @@ export function compute(symbol, facts) {
     debtCheck,
   ].join(' · ')
 
-  const warn = (!sti.tag || (gap != null && gap >= Math.max(1e6, debt * 0.02))) || null
+  const warn = (bundled || !sti.tag || (gap != null && gap >= Math.max(1e6, debt * 0.02))) || null
 
   return { symbol, quarter: end, used, warn, lines }
 }
