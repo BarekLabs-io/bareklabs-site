@@ -216,6 +216,21 @@ export function compute(symbol, facts) {
   }
 
   const debt = (dc.val ?? 0) + (dn.val ?? 0)
+
+  /* PIEGE 11 — une dette financiere ne peut pas depasser le passif total. Le
+   * controle est trivial et attrape ce qu'aucune connaissance des balises ne
+   * permet de prevoir : chez LITE, les convertibles reclassees en courant restent
+   * taguees ConvertibleLongTermNotesPayable et se retrouvent donc des deux cotes.
+   * La reconstruction donnait 6,52 Md$ pour un passif total de 4,05 Md$ — un
+   * chiffre impossible, que rien d'autre ne signalait. Refus plutot que marquage :
+   * ce n'est pas une incertitude, c'est une contradiction arithmetique. */
+  const totalLiabilities = at(facts, 'Liabilities', end)
+  if (totalLiabilities != null && debt > totalLiabilities) {
+    return {
+      symbol,
+      skip: `dette reconstruite ${(debt / 1e9).toFixed(2)}B superieure au passif total ${(totalLiabilities / 1e9).toFixed(2)}B — un poste est compte deux fois, lire le bilan (piege 11)`,
+    }
+  }
   const liquid = (cash.val ?? 0) + (sti.val ?? 0)
   const net = debt - liquid
   const opLease = (olc.val ?? 0) + (oln.val ?? 0)

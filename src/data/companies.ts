@@ -783,6 +783,8 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['KLAC', 'LRCX', 'AMAT', 'ASML*'],
       metrics: [
+        { label: 'Net debt', values: ['$1.03B — financial debt $5.89B less cash & ST investments $4.86B (balance sheet, 30 Jun 2026, SEC XBRL)'] },
+        { label: 'Lease liabilities', values: ['operating leases $264M — reported apart from financial debt and not netted against cash (balance sheet, 30 Jun 2026, SEC XBRL)'] },
         { label: 'Price', values: ['$193.81 (Aug 5, 2026)', '$322.87', '$452.14', '$1,703.08'] },
         { label: 'Market cap', values: ['~$253B (Aug 5, 2026)', '~$404B', '$359B', '~$654B'] },
         { label: 'Trailing P/E', values: ['~54.9x (rescaled from 50.7x pre-refresh, not independently re-verified)', '49.2x', '42.5x', '54.2x'] },
@@ -1487,6 +1489,8 @@ export const companies: Record<string, Company> = {
     valuation: {
       peers: ['TTMI', 'JBL', 'SANM', 'CLS', 'FN'],
       metrics: [
+        { label: 'Net debt', values: ['$466M — financial debt $973M less cash & ST investments $508M (balance sheet, 29 Jun 2026, SEC XBRL)'] },
+        { label: 'Lease liabilities', values: ['finance leases $15M, operating leases $115M — reported apart from financial debt and not netted against cash (balance sheet, 29 Jun 2026, SEC XBRL)'] },
         { label: 'Price', values: ['$133.18 (Aug 5, 2026)', '—', '—', '—', '—'] },
         { label: 'Market cap', values: ['~$13.9B (Aug 5, 2026)', '$30.1B', '$8.8B', '$37.8B', '$14.9B'] },
         { label: 'Forward P/E', values: ['~24.6x (rescaled from 18.8x pre-refresh, not independently re-verified)', '17.1x', '11.8x', '17.1x', '23.9x'] },
@@ -4845,6 +4849,8 @@ NBIS: {
   valuation: {
     peers: ['PENG — Penguin Solutions', 'SMCI — Super Micro Computer', 'DELL — Dell Technologies', 'CLS — Celestica', 'SANM — Sanmina'],
     metrics: [
+      { label: 'Net debt', values: ['$3M — financial debt $443M less cash & ST investments $440M (balance sheet, 29 May 2026, SEC XBRL)'] },
+      { label: 'Lease liabilities', values: ['operating leases $59M — reported apart from financial debt and not netted against cash (balance sheet, 29 May 2026, SEC XBRL)'] },
       { label: 'Price (approx., Aug 4 2026)', values: ['$57.84', 'varies', 'varies', 'varies', 'varies'] },
       { label: 'Market cap (approx.)', values: ['~$2.96B', '~$25-40B', '~$80-100B', '~$10-15B', '~$8-10B'] },
       { label: 'Q3 FY2026 / recent quarterly revenue', values: ['$479M (+48% YoY)', 'n/a', 'n/a', 'n/a', 'n/a'] },
@@ -6507,6 +6513,8 @@ MTZ: {
   valuation: {
     peers: ['MTZ', 'STRL', 'EME', 'PWR'],
     metrics: [
+      { label: 'Net debt', values: ['$2.42B — financial debt $2.74B less cash & ST investments $316M (balance sheet, 30 Jun 2026, SEC XBRL; this issuer files debt and finance leases as one figure, so this includes finance leases)'] },
+      { label: 'Lease liabilities', values: ['operating leases $495M — finance leases are already inside the debt figure above, not repeated here (balance sheet, 30 Jun 2026, SEC XBRL)'] },
       { label: 'Price', values: ['$258.63 (Aug 6, 2026 close)', '$540.04 (Aug 4, 2026)', '$924.06 (early Aug 2026)', '$667.36 - $693.00 (variance across sources, early Aug 2026)'] },
       { label: 'Market cap', values: ['$21.82B (Aug 6, 2026)', '~$16-22B (varies by source/date)', '~$38-41B (varies by source/date)', '~$102.3B (Aug 2026)'] },
       { label: 'Trailing P/E', values: ['43.27x', '46.8x - 54.7x (varies by source/date)', 'not captured', 'not captured'] },
@@ -6821,6 +6829,8 @@ LITE: {
   valuation: {
     peers: ['LITE', 'COHR', 'CIEN', 'FN*'],
     metrics: [
+      { label: 'Net debt', values: ['$110M — financial debt $3.28B less cash & ST investments $3.17B (10-Q balance sheet, 28 Mar 2026; the convertible notes sit in current liabilities because the share price crossed their conversion threshold)'] },
+      { label: 'Lease liabilities', values: ['operating leases $32M — reported apart from financial debt and not netted against cash (10-Q balance sheet, 28 Mar 2026)'] },
       { label: 'Price', values: ['$849.47 (Aug 4, 2026, +8.92% that day)', '$288.14 (Aug 3, 2026)', '$408.30 (Aug 4, 2026, ranged $405.01-$434.94 intraday)', 'not captured in this pass'] },
       { label: 'Market cap', values: ['$54.94B (Aug 2026)', '$65.34B (Aug 2026)', '$75.84B (Aug 2026)', 'not captured'] },
       { label: 'Forward P/E', values: ['~44.3x - 49.5x (varies by source/date)', '~44.6x', '~70.3x', 'not captured'] },
@@ -8174,6 +8184,8 @@ AMKR: {
     valuation: {
       peers: ['SMCI', 'DELL', 'HPE'],
       metrics: [
+        { label: 'Net debt', values: ['$7.48B — financial debt $8.77B less cash & ST investments $1.29B (10-Q balance sheet, 31 Mar 2026)'] },
+        { label: 'Lease liabilities', values: ['operating leases $378M — reported apart from financial debt and not netted against cash (balance sheet, 31 Mar 2026, SEC XBRL)'] },
         { label: 'Price', values: ['$30.32 (Aug 5, 2026)', '$467.27 (Aug 5, 2026)', '$52.39 (early Aug 2026)'] },
         { label: 'Market cap', values: ['~$17B–20.5B (source variance)', '~$271B–302B (source variance)', '~$69B (computed from ~1.32B shares)'] },
         { label: 'Trailing P/E', values: ['~15.1x (Aug 3, 2026 snapshot)', '~37.35x', 'n/a'] },
@@ -8285,6 +8297,7 @@ AMKR: {
     valuation: {
       peers: ['CEG', 'VST', 'NRG', 'PEG'],
       metrics: [
+        { label: 'Net debt', values: ['$24.00B — financial debt $24.70B less cash & ST investments $697M (balance sheet, 30 Jun 2026, SEC XBRL; this issuer files debt and finance leases as one figure, so this includes finance leases)'] },
         { label: 'Price', values: ['~$276 (early Aug 2026 — see sourceNote, quotes varied $258–$310 across aggregators in the days around Aug 4–5, 2026)', '$143.23 (Aug 4, 2026 close)', '$120.99 (Aug 5, 2026)', '~$78 (late Jul 2026)'] },
         { label: 'Market cap', values: ['~$98.5B (computed: 357.1M shares × ~$276)', '~$48.4B (computed: 337.8M shares × $143.23)', '~$25.5–28.0B (sources vary)', '~$39.8B'] },
         { label: 'Trailing P/E', values: ['21.2x', '25.1x', '161.6x (GAAP-distorted by a one-time item — treat with real caution)', '17.0x'] },
@@ -8402,6 +8415,7 @@ AMKR: {
     valuation: {
       peers: ['VST', 'CEG', 'NRG', 'TLN'],
       metrics: [
+        { label: 'Net debt', values: ['$19.16B — financial debt $19.59B less cash & ST investments $435M (balance sheet, 30 Jun 2026, SEC XBRL; this issuer files debt and finance leases as one figure, so this includes finance leases)'] },
         { label: 'Price', values: ['$143.23 (Aug 4, 2026 close, down from a $155.94 prior close)', '~$276 (early Aug 2026, see CEG entry)', '$120.99 (Aug 5, 2026)', '$329.65 (Aug 5, 2026)'] },
         { label: 'Market cap', values: ['~$48.4B (computed: 337.8M shares × $143.23)', '~$98.5B', '~$25.5–28.0B (sources vary)', '~$15.0B'] },
         { label: 'Trailing P/E', values: ['25.1x', '21.2x', '161.6x (GAAP-distorted — treat with caution)', '-436.3x (a large GAAP loss/impairment, not an operating signal)'] },
@@ -9111,6 +9125,8 @@ AMKR: {
     valuation: {
       peers: ['MELI'],
       metrics: [
+        { label: 'Net debt', values: ['$5.18B — financial debt $10.91B less cash & ST investments $5.73B (balance sheet, 30 Jun 2026, SEC XBRL)'] },
+        { label: 'Lease liabilities', values: ['finance leases $115M, operating leases $2.55B — reported apart from financial debt and not netted against cash (balance sheet, 30 Jun 2026, SEC XBRL)'] },
         { label: 'Market cap', values: ['$92.8B'] },
         { label: 'Trailing P/E', values: ['50.8x'] },
         { label: 'Forward P/E', values: ['37.3x'] },
