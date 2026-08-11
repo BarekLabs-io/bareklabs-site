@@ -38,10 +38,6 @@
  */
 
 const KEY = process.env.ALPHAVANTAGE_API_KEY?.trim()
-if (!KEY) {
-  console.error('ALPHAVANTAGE_API_KEY manquante dans l\'environnement.')
-  process.exit(1)
-}
 
 const num = (v) => {
   if (v == null || v === 'None' || v === '') return null
@@ -56,12 +52,28 @@ function complete(q) {
     && num(q.cashAndCashEquivalentsAtCarryingValue) != null
 }
 
-function compute(symbol, json) {
+export function compute(symbol, json) {
   const quarters = json?.quarterlyReports ?? []
   const q = quarters.find(complete)
   if (!q) return { symbol, skip: 'aucun trimestre complet dans la réponse' }
   if (q.reportedCurrency !== 'USD') {
     return { symbol, skip: `comptes publiés en ${q.reportedCurrency}, ligne cotée en USD — conversion refusée (piège 1)` }
+  }
+
+  /* PIEGE 5 — le repli du piege 3 n'avait pas de fond. Sur RMBS, aucun trimestre
+   * entre juin 2026 et septembre 2021 n'etait complet, et `find` a donc rendu un
+   * bilan vieux de cinq ans, note comme tel mais publiable. Reculer d'un trimestre
+   * quand le dernier est depose a moitie vide est raisonnable ; reculer d'annees
+   * ne l'est pas, parce que la dette nette est precisement ce qui bouge entre-temps.
+   * Au-dela de deux trimestres d'ecart avec la periode la plus recente rapportee,
+   * on refuse et on laisse un tiret plutot qu'un chiffre perime. */
+  const DAY = 86400000
+  const latest = quarters[0]?.fiscalDateEnding
+  if (latest) {
+    const gap = (Date.parse(latest + 'T00:00:00Z') - Date.parse(q.fiscalDateEnding + 'T00:00:00Z')) / DAY
+    if (gap > 200) {
+      return { symbol, skip: `dernier trimestre complet ${q.fiscalDateEnding}, soit ${Math.round(gap / 30.4)} mois avant la periode la plus recente (${latest}) — trop ancien pour une dette nette (piege 5)` }
+    }
   }
 
   const short = num(q.shortTermDebt) ?? 0
@@ -104,8 +116,12 @@ async function one(symbol) {
   return compute(symbol, json)
 }
 
-/** Tickers in companies.ts that are US-listed and carry no Net debt metric. */
-async function missing() {
+/** Tickers in companies.ts that are US-listed and carry no Net debt metric.
+ * NOTE: "US-listed" is inferred from the absence of a dot in the ticker, which
+ * also catches ADRs (TSM, ASML, BABA, ASX, PAGS…). Those file in their home
+ * currency, so trap 1 refuses them downstream — this list is a ceiling, not a
+ * yield. */
+export async function missing() {
   const { readFileSync } = await import('fs')
   const s = readFileSync(new URL('../src/data/companies.ts', import.meta.url), 'utf8')
   const marks = [...s.matchAll(/^\s*ticker: '([^']+)',\s*$/gm)]
@@ -115,19 +131,30 @@ async function missing() {
     .map((r) => r.t)
 }
 
-const args = process.argv.slice(2)
-const symbols = args[0] === '--missing' ? await missing() : args
-if (symbols.length === 0) {
-  console.error('Usage: node scripts/netdebt.mjs <TICKER...> | --missing')
-  process.exit(1)
-}
+/* CLI only when run directly. Importing this file gives you compute() and
+ * missing() without firing a request or requiring a key — which is how the
+ * same trap logic gets reused when the balance sheets arrive by another road
+ * (an MCP connector, a cached response) instead of this script's own fetch. */
+if (import.meta.url === `file://${process.argv[1]}`) {
+  if (!KEY) {
+    console.error('ALPHAVANTAGE_API_KEY manquante dans l\'environnement.')
+    process.exit(1)
+  }
 
-console.error(`${symbols.length} ticker(s). Une requête par ticker — surveiller le quota.\n`)
-for (const s of symbols) {
-  const r = await one(s)
-  if (r.skip) { console.error(`SAUTE  ${s.padEnd(6)} ${r.skip}`); continue }
-  console.error(`OK     ${s.padEnd(6)} trimestre ${r.quarter} · ${r.check}`)
-  console.log(`// ${s}`)
-  console.log(r.line)
-  await new Promise((res) => setTimeout(res, 1000)) // courtoisie envers le fournisseur
+  const args = process.argv.slice(2)
+  const symbols = args[0] === '--missing' ? await missing() : args
+  if (symbols.length === 0) {
+    console.error('Usage: node scripts/netdebt.mjs <TICKER...> | --missing')
+    process.exit(1)
+  }
+
+  console.error(`${symbols.length} ticker(s). Une requête par ticker — surveiller le quota.\n`)
+  for (const s of symbols) {
+    const r = await one(s)
+    if (r.skip) { console.error(`SAUTE  ${s.padEnd(6)} ${r.skip}`); continue }
+    console.error(`OK     ${s.padEnd(6)} trimestre ${r.quarter} · ${r.check}`)
+    console.log(`// ${s}`)
+    console.log(r.line)
+    await new Promise((res) => setTimeout(res, 1000)) // courtoisie envers le fournisseur
+  }
 }
