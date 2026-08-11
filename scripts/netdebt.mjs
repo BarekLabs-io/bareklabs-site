@@ -106,10 +106,22 @@ export function compute(symbol, json) {
   const head = net < 0 ? `-${b(net)} net cash` : b(net)
   const debtLabel = leases == null ? 'debt' : 'debt incl. leases'
 
+  /* PIEGE 6 — la qualite de la source suit la taille du bilan. Verifie contre les
+   * documents deposes : AMKR, CRM, UUUU et SMCI tombent juste au dollar pres ; WYFI
+   * annonce une tresorerie nulle quand le 10-Q en montre 75,8 M$, et BWEN une dette
+   * de 30 M$ quand le 10-Q en montre 15,0 M$. Quatre sur quatre en haut de cote,
+   * zero sur deux en bas. Sous le demi-milliard de dette reconstruite, la ligne
+   * sort quand meme — refuser priverait de vrais chiffres — mais elle sort marquee,
+   * parce qu'une ligne collee sans controle est une ligne publiee. */
+  const verify = debt < 5e8
+    ? 'petite capitalisation : couverture du fournisseur peu fiable a cette taille, recouper contre le dernier 10-Q avant de coller'
+    : null
+
   return {
     symbol,
     quarter: q.fiscalDateEnding,
     check,
+    verify,
     line: `      { label: 'Net debt', values: ['${head} — ${debtLabel} ${b(debt)} less cash & ST investments ${b(cash)} (quarterly balance sheet, ${when}, Alpha Vantage${staleNote}${leaseNote})'] },`,
   }
 }
@@ -159,8 +171,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   for (const s of symbols) {
     const r = await one(s)
     if (r.skip) { console.error(`SAUTE  ${s.padEnd(6)} ${r.skip}`); continue }
-    console.error(`OK     ${s.padEnd(6)} trimestre ${r.quarter} · ${r.check}`)
+    console.error(`${r.verify ? 'VERIF ' : 'OK    '} ${s.padEnd(6)} trimestre ${r.quarter} · ${r.check}`)
+    if (r.verify) console.error(`       ${' '.repeat(6)} ${r.verify}`)
     console.log(`// ${s}`)
+    if (r.verify) console.log(`// A VERIFIER — ${r.verify}`)
     console.log(r.line)
     await new Promise((res) => setTimeout(res, 1000)) // courtoisie envers le fournisseur
   }
