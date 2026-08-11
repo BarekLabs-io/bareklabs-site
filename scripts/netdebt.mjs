@@ -375,11 +375,36 @@ export function compute(symbol, facts) {
     if (sti.tag) return null
     const ac = at(facts, 'AssetsCurrent', end)
     if (ac == null) return null
-    const known = (cash.val ?? 0)
-      + (at(facts, 'AccountsReceivableNetCurrent', end) ?? at(facts, 'ReceivablesNetCurrent', end) ?? 0)
-      + (at(facts, 'InventoryNet', end) ?? 0)
+    /* Les postes d'exploitation reconnus. La liste s'est allongee apres quinze
+     * lectures de bilans qui n'ont rien trouve : le signal se declenchait sur des
+     * travaux en cours chez BWXT, des actifs sur contrats chez MTZ et TPC, des
+     * derives et des actifs destines a la vente chez CEG et VST. Reconnaitre ces
+     * postes vaut mieux que monter le seuil, qui aurait aussi etouffe le vrai cas :
+     * chez UUUU la masse restante est bien 878 338 k$ de titres negociables, et
+     * elle doit continuer a sonner. */
+    const OPERATING = [
+      ['AccountsReceivableNetCurrent', 'ReceivablesNetCurrent', 'AccountsReceivableGrossCurrent'],
+      ['InventoryNet'],
+      ['ContractWithCustomerAssetNetCurrent', 'UnbilledContractsReceivable'],
+      ['ReceivablesLongTermContractsOrPrograms'],
+      ['DerivativeAssetsCurrent'],
+      ['AssetsOfDisposalGroupIncludingDiscontinuedOperationCurrent'],
+      ['PrepaidExpenseAndOtherAssetsCurrent', 'PrepaidExpenseCurrent'],
+      ['OtherAssetsCurrent'],
+    ]
+    const known = (cash.val ?? 0) + OPERATING.reduce((sum, group) => {
+      for (const t of group) { const v = at(facts, t, end); if (v != null) return sum + v }
+      return sum
+    }, 0)
+    /* Le seuil est a 70 % des actifs courants, et c'est un reglage empirique
+     * assume, pas un principe. Allonger la liste des postes reconnus ne suffit
+     * pas : il restera toujours une balise de plus — retenues de garantie chez
+     * BWXT, depots de marge chez VST. Ce qui separe vraiment le vrai cas du bruit
+     * est la PROPORTION. Mesure sur les cas lus : UUUU 85 % (titres reellement
+     * manquants), VST 65 %, BWXT 47 %, TPC 23 % (tous d'exploitation, verifies au
+     * document). A revoir si un futur cas tombe entre 65 et 85 %. */
     const r = ac - known
-    return r > 5e7 && r > ac * 0.2 ? r : null
+    return r > 5e7 && r > ac * 0.7 ? r : null
   })()
 
   const vagueSti = sti.tag === 'AvailableForSaleSecuritiesDebtSecurities'
@@ -394,7 +419,11 @@ export function compute(symbol, facts) {
     debtCheck,
   ].join(' · ')
 
-  const warn = (bundled || residual || vagueSti || noDebtFiled || restrictedCash || (gap != null && gap >= Math.max(1e6, debt * 0.02))) || null
+  /* La fusion dette/locations n'est plus un motif de marquage : elle est DECLAREE
+   * dans la ligne publiee, donc le lecteur la voit. Verifiee sans erreur sur MTZ,
+   * FCEL, SIF, CEG et VST. Un marquage sert a dire « va lire le document » ; ici
+   * il n'y a rien de cache a aller chercher. */
+  const warn = (residual || vagueSti || noDebtFiled || restrictedCash || (gap != null && gap >= Math.max(1e6, debt * 0.02))) || null
 
   return { symbol, quarter: end, used, warn, lines }
 }
