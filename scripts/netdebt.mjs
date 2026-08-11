@@ -236,9 +236,17 @@ export function compute(symbol, facts) {
   const opLease = (olc.val ?? 0) + (oln.val ?? 0)
   const finLease = (flc.val ?? 0) + (fln.val ?? 0)
 
+  /* L'echelle suit le chiffre jusqu'en bas. Deux decimales de milliard rendaient
+   * « $0.00B » chez BWEN ; le passage aux millions a resolu ce cas mais rendait
+   * « $0M » chez SIF, dont la tresorerie est inferieure au demi-million. Un zero
+   * affiche ne se distingue pas d'une donnee manquante, et c'est precisement la
+   * confusion que ce fichier existe pour eviter. */
   const b = (v) => {
     const a = Math.abs(v)
-    return a >= 1e9 ? `$${(a / 1e9).toFixed(2)}B` : `$${Math.round(a / 1e6)}M`
+    if (a >= 1e9) return `$${(a / 1e9).toFixed(2)}B`
+    if (a >= 1e7) return `$${Math.round(a / 1e6)}M`
+    if (a >= 1e6) return `$${(a / 1e6).toFixed(1)}M`
+    return `$${Math.round(a / 1e3)}k`
   }
   const when = new Date(`${end}T00:00:00Z`).toLocaleDateString('en-GB', {
     day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC',

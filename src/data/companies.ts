@@ -5258,6 +5258,8 @@ NBIS: {
   valuation: {
     peers: ['FCEL — FuelCell Energy', 'BE — Bloom Energy', 'PLUG — Plug Power', 'BLDP — Ballard Power Systems'],
     metrics: [
+      { label: 'Net debt', values: ['-$239M net cash — financial debt $134M less cash & ST investments $373M (balance sheet, 30 Apr 2026, SEC XBRL; this issuer files debt and finance leases as one figure, so this includes finance leases)'] },
+      { label: 'Lease liabilities', values: ['operating leases $13M — finance leases are already inside the debt figure above, not repeated here (balance sheet, 30 Apr 2026, SEC XBRL)'] },
       { label: 'Price (approx., early Aug 2026)', values: ['$21.03', 'much higher', 'varies', 'varies'] },
       { label: 'Market cap (approx.)', values: ['~$1.68B', '~$15-25B', '~$2-4B', '~$0.5-1B'] },
       { label: 'Most recent quarterly revenue', values: ['$35.6M (Q2 FY2026, -5% YoY)', 'n/a', 'n/a', 'n/a'] },
@@ -5360,7 +5362,7 @@ NBIS: {
   valuation: {
     peers: ['BWEN — Broadwind', 'TPIC — TPI Composites', 'No close direct public pure-play peer for the post-pivot Gearing/Industrial Solutions mix'],
     metrics: [
-      { label: 'Net debt', values: ['$12M — financial debt $13M less cash & ST investments $1M (balance sheet, 31 Mar 2026, SEC XBRL)'] },
+      { label: 'Net debt', values: ['$12M — financial debt $13M less cash & ST investments $943k (balance sheet, 31 Mar 2026, SEC XBRL)'] },
       { label: 'Lease liabilities', values: ['finance leases $4M, operating leases $13M — reported apart from financial debt and not netted against cash (balance sheet, 31 Mar 2026, SEC XBRL)'] },
       { label: 'Price (Aug 5, 2026)', values: ['$4.47 (Aug 6, 2026)', 'varies (distressed)'] },
       { label: 'Market cap (approx.)', values: ['~$100M (mechanically rescaled from ~$113M on the Aug 6, 2026 price; not independently re-derived)', 'much smaller/distressed'] },
@@ -10022,6 +10024,7 @@ AMKR: {
     valuation: {
       peers: ['BWXT'],
       metrics: [
+        { label: 'Net debt', values: ['$1.41B — financial debt $2.02B less cash & ST investments $608M (balance sheet, 30 Jun 2026, SEC XBRL)'] },
         { label: 'Price', values: ['$165.45 (Aug 7, 2026 close, USD)'] },
         { label: 'Market cap', values: ['$15.2B (Aug 7, 2026)'] },
         { label: 'Beta', values: ['0.74'] },
@@ -10069,6 +10072,8 @@ AMKR: {
     valuation: {
       peers: ['TPC'],
       metrics: [
+        { label: 'Net debt', values: ['-$542M net cash — financial debt $396M less cash & ST investments $938M (balance sheet, 30 Jun 2026, SEC XBRL)'] },
+        { label: 'Lease liabilities', values: ['operating leases $69M — reported apart from financial debt and not netted against cash (balance sheet, 30 Jun 2026, SEC XBRL)'] },
         { label: 'Price', values: ['$94.71 (Aug 7, 2026 close, USD)'] },
         { label: 'Market cap', values: ['$5.0B (Aug 7, 2026)'] },
         { label: 'Beta', values: ['2.05'] },
@@ -10116,6 +10121,8 @@ AMKR: {
     valuation: {
       peers: ['SIF'],
       metrics: [
+        { label: 'Net debt', values: ['$12M — financial debt $12M less cash & ST investments $77k (balance sheet, 30 Jun 2026, SEC XBRL; this issuer files debt and finance leases as one figure, so this includes finance leases)'] },
+        { label: 'Lease liabilities', values: ['operating leases $12M — finance leases are already inside the debt figure above, not repeated here (balance sheet, 30 Jun 2026, SEC XBRL)'] },
         { label: 'Price', values: ['$27.56 (Aug 7, 2026 close, USD)'] },
         { label: 'Market cap', values: ['$172M (Aug 7, 2026)'] },
         { label: 'Beta', values: ['0.68'] },
@@ -10210,6 +10217,8 @@ AMKR: {
     valuation: {
       peers: ['WDC'],
       metrics: [
+        { label: 'Net debt', values: ['-$469M net cash — financial debt $1.58B less cash & ST investments $2.05B (balance sheet, 3 Apr 2026, SEC XBRL)'] },
+        { label: 'Lease liabilities', values: ['operating leases $143M — reported apart from financial debt and not netted against cash (balance sheet, 3 Apr 2026, SEC XBRL)'] },
         { label: 'Price', values: ['$424.34 (Aug 7, 2026 close, USD)'] },
         { label: 'Market cap', values: ['$146.3B (Aug 7, 2026)'] },
         { label: 'Beta', values: ['2.17'] },
