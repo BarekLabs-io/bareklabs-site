@@ -108,6 +108,22 @@ const TAGS = {
      * sert — voir vagueSti. */
     'AvailableForSaleSecuritiesDebtSecurities',
   ],
+  /* PIEGE 14 — les titres non courants changent le signe chez les societes qui y
+   * garent leur tresorerie. Apple porte 84,12 Md$ de titres negociables a plus
+   * d'un an : sans eux elle affiche 19,95 Md$ de dette nette, avec eux 64,17 Md$
+   * de tresorerie nette. Les deux chiffres sont vrais, ils ne repondent pas a la
+   * meme question — l'un dit ce qui est mobilisable tout de suite, l'autre ce que
+   * la societe possede. Ils sortent donc tous les deux.
+   *
+   * Seules les balises dont le nom GARANTIT la negociabilite sont retenues.
+   * OtherLongTermInvestments et LongTermInvestments sont ecartees : chez GOOGL la
+   * premiere vaut 131,46 Md$ et designe des titres NON negociables, des
+   * participations privees ; chez CRM et MSFT ce sont des investissements
+   * strategiques. Les compter en quasi-liquidites serait faux. */
+  longTermSecurities: [
+    'MarketableSecuritiesNoncurrent',
+    'AvailableForSaleSecuritiesDebtSecuritiesNoncurrent',
+  ],
   /* Les deux balises ...AndCapitalLeaseObligations sont en DERNIER recours : elles
    * fusionnent dette et locations-financement dans un seul montant, ce que ce
    * fichier s'emploie justement a separer. MasTec ne depose que celles-la — sans
@@ -236,6 +252,7 @@ export function compute(symbol, facts) {
   const sti = pick(facts, TAGS.shortTermInvestments, end)
   const dn = longTermDebt(facts, end)
   const dc = currentDebt(facts, end, { skipLtdCurrent: dn.isTotal })
+  const lts = pick(facts, TAGS.longTermSecurities, end)
   const olc = pick(facts, TAGS.operatingLeaseCurrent, end)
   const oln = pick(facts, TAGS.operatingLeaseNoncurrent, end)
   const flc = pick(facts, TAGS.financeLeaseCurrent, end)
@@ -303,7 +320,7 @@ export function compute(symbol, facts) {
 
   const lines = [
     noDebtFiled
-      ? `      { label: 'Net debt', values: ['${b(liquid)} net cash — no financial debt filed; cash & ST investments ${b(liquid)} (balance sheet, ${when}, SEC XBRL${cashNote})'] },`
+      ? `      { label: 'Net debt', values: ['-${b(liquid)} net cash — no financial debt filed; cash & ST investments ${b(liquid)} (balance sheet, ${when}, SEC XBRL${cashNote})'] },`
       : `      { label: 'Net debt', values: ['${head} — financial debt ${b(debt)} less cash & ST investments ${b(liquid)} (balance sheet, ${when}, SEC XBRL${bundledNote}${cashNote})'] },`,
   ]
   /* Quand la dette deposee englobe deja les locations-financement, les repeter
@@ -311,6 +328,15 @@ export function compute(symbol, facts) {
    * lignes — ce que ces deux lignes existent precisement pour lui permettre. On
    * ne montre alors que les locations simples, en disant ou sont les autres. */
   const showFin = finLease && !bundled
+  /* Materiel : au-dela de 100 M$ et de 5 % de la dette. En dessous, la seconde
+   * ligne repeterait la premiere sans rien apprendre. */
+  const ltsVal = lts.val ?? 0
+  if (ltsVal > 1e8 && (debt === 0 || ltsVal > debt * 0.05)) {
+    const netWith = debt - (liquid + ltsVal)
+    const headWith = netWith < 0 ? `-${b(netWith)} net cash` : b(netWith)
+    lines.push(`      { label: 'Net debt incl. LT securities', values: ['${headWith} — the same debt less cash, ST investments and ${b(ltsVal)} of marketable securities held beyond one year (balance sheet, ${when}, SEC XBRL)'] },`)
+  }
+
   if (opLease || showFin) {
     const parts = []
     if (showFin) parts.push(`finance leases ${b(finLease)}`)
