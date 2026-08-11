@@ -63,18 +63,31 @@ const TAGS = {
     'MarketableSecuritiesCurrent',
     'AvailableForSaleSecuritiesDebtSecuritiesCurrent',
     'OtherShortTermInvestments',
+    /* Sans suffixe de maturite : KLAC porte ses 3 206 M$ la, classes en actifs
+     * courants a son bilan, mais rien dans le nom ne le garantit. Accepte en
+     * dernier recours, et la ligne reste marquee quand c'est cette balise qui
+     * sert — voir vagueSti. */
+    'AvailableForSaleSecuritiesDebtSecurities',
   ],
   /* Les deux balises ...AndCapitalLeaseObligations sont en DERNIER recours : elles
    * fusionnent dette et locations-financement dans un seul montant, ce que ce
    * fichier s'emploie justement a separer. MasTec ne depose que celles-la — sans
    * elles il ressort « societe sans dette » avec 2,6 Md$ au bilan. On les accepte
    * donc, mais la ligne produite declare le melange (voir bundled plus bas). */
-  debtCurrent: [
-    'DebtCurrent',
-    'LongTermDebtCurrent',
-    'ShortTermBorrowings',
-    'NotesPayableCurrent',
-    'LongTermDebtAndCapitalLeaseObligationsCurrent',
+  /* DebtCurrent est le TOTAL de la dette a moins d'un an : quand il est depose,
+   * il se suffit. Sinon la dette courante se reconstruit, et ses composantes
+   * s'ADDITIONNENT au lieu de se remplacer — voir currentDebt(). */
+  debtCurrentTotal: ['DebtCurrent'],
+  /* Groupes de composantes. A l'INTERIEUR d'un groupe les balises sont des
+   * synonymes et la premiere trouvee gagne ; ENTRE groupes elles s'additionnent,
+   * parce qu'elles designent des dettes differentes toutes exigibles a moins
+   * d'un an. LongTermDebtAndCapitalLeaseObligationsCurrent n'est pas un total :
+   * c'est la part courante de la dette LONGUE, qui exclut par construction les
+   * billets de tresorerie — c'est ce qui faisait disparaitre 5 226 M$ chez CEG. */
+  debtCurrentGroups: [
+    ['LongTermDebtAndCapitalLeaseObligationsCurrent', 'LongTermDebtCurrent'],
+    ['ShortTermBorrowings', 'CommercialPaper', 'LinesOfCreditCurrent'],
+    ['NotesPayableCurrent'],
   ],
   debtNoncurrent: [
     'LongTermDebtNoncurrent',
@@ -113,6 +126,31 @@ function pick(facts, tags, end) {
   return { val: null, tag: null }
 }
 
+/* PIEGE 9 — les composantes de la dette courante s'additionnent, elles ne se
+ * remplacent pas. Traiter ShortTermBorrowings comme un simple repli de
+ * LongTermDebtCurrent revenait a jeter la premiere des deux des que la seconde
+ * existait : chez CEG, les echeances courantes de la dette longue etaient
+ * retenues et 5 226 M$ de billets de tresorerie et tirages disparaissaient du
+ * calcul. Ce sont deux dettes distinctes, toutes deux exigibles a moins d'un an.
+ *
+ * DebtCurrent, lui, est deja le total de la dette a moins d'un an : quand
+ * l'emetteur le depose, l'additionner a ses propres composantes les compterait
+ * deux fois. On prend donc le total s'il existe, la somme des parts sinon. */
+function currentDebt(facts, end) {
+  const total = pick(facts, TAGS.debtCurrentTotal, end)
+  if (total.val != null) return total
+
+  const found = TAGS.debtCurrentGroups
+    .map((group) => pick(facts, group, end))
+    .filter((x) => x.val != null)
+  if (!found.length) return { val: null, tag: null }
+
+  return {
+    val: found.reduce((s, x) => s + x.val, 0),
+    tag: found.map((x) => x.tag).join(' + '),
+  }
+}
+
 export function compute(symbol, facts) {
   if (!facts) return { symbol, skip: 'aucun fait XBRL rendu par la SEC' }
 
@@ -131,7 +169,7 @@ export function compute(symbol, facts) {
 
   const cash = pick(facts, TAGS.cash, end)
   const sti = pick(facts, TAGS.shortTermInvestments, end)
-  const dc = pick(facts, TAGS.debtCurrent, end)
+  const dc = currentDebt(facts, end)
   const dn = pick(facts, TAGS.debtNoncurrent, end)
   const olc = pick(facts, TAGS.operatingLeaseCurrent, end)
   const oln = pick(facts, TAGS.operatingLeaseNoncurrent, end)
@@ -218,16 +256,19 @@ export function compute(symbol, facts) {
     return r > 5e7 && r > ac * 0.2 ? r : null
   })()
 
+  const vagueSti = sti.tag === 'AvailableForSaleSecuritiesDebtSecurities'
+
   const used = [
     dc.tag ? `dette courante ${dc.tag}` : 'aucune dette courante deposee',
     dn.tag ? `dette non courante ${dn.tag}` : 'aucune dette non courante deposee',
-    sti.tag ? `placements ${sti.tag}`
+    vagueSti ? `placements ${sti.tag} — balise sans suffixe de maturite, verifier qu'ils sont bien courants`
+      : sti.tag ? `placements ${sti.tag}`
       : residual ? `AUCUN placement trouve mais ${b(residual)} d'actifs courants inexpliques — verifier le 10-Q`
       : 'aucun placement court terme (coherent avec le bilan)',
     debtCheck,
   ].join(' · ')
 
-  const warn = (bundled || residual || (gap != null && gap >= Math.max(1e6, debt * 0.02))) || null
+  const warn = (bundled || residual || vagueSti || (gap != null && gap >= Math.max(1e6, debt * 0.02))) || null
 
   return { symbol, quarter: end, used, warn, lines }
 }
