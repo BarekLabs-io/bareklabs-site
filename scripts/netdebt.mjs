@@ -58,6 +58,26 @@
  *     ca : c'est une limite de l'API, pas un defaut de configuration. Le seul
  *     filet est le controle d'actifs courants inexpliques (piege 8), qui marque
  *     la ligne et renvoie au document. Quand il se declenche, on lit le 10-Q.
+ *
+ * Les pieges 8 a 13 sont documentes a l'endroit du code qui les traite, parce
+ * qu'ils tiennent a la logique et non a la lecture. En resume :
+ *  8. Une absence de placements se lit comme un zero. Signalee seulement quand
+ *     les actifs courants portent une masse inexpliquee, sans quoi 21 lignes sur
+ *     22 sortaient marquees et le signal devenait illisible.
+ *  9. Les composantes de la dette courante s'ADDITIONNENT. Les traiter en replis
+ *     faisait disparaitre 5 226 M$ de billets de tresorerie chez CEG.
+ * 10. LongTermDebt est le TOTAL de la dette longue malgre son nom. Chez VST, lui
+ *     ajouter la part courante comptait 1 876 M$ deux fois.
+ * 11. Une dette financiere ne peut pas depasser le passif total. Chez LITE, des
+ *     convertibles reclassees en courant mais toujours taguees en non courant
+ *     donnaient 6,52 Md$ pour 4,05 Md$ de passif. Refus, pas marquage : c'est
+ *     une contradiction arithmetique, pas une incertitude.
+ * 12. La balise de tresorerie varie. GE Vernova depose celle qui inclut le
+ *     restreint, et ressortait « emetteur etranger » faute de repli.
+ * 13. Une societe sans dette a quand meme une tresorerie nette, et c'est une
+ *     information. ISRG, ANET, ALAB, CRDO et huit autres etaient refusees alors
+ *     que leur chiffre existe. Verifie : chez elles, les seules balises portant
+ *     « Debt » sont des titres de creance a l'ACTIF.
  */
 
 const UA = process.env.SEC_USER_AGENT?.trim() || 'BAREK LABS research contact@bareklabs.com'
@@ -66,7 +86,17 @@ const HEAD = { headers: { 'User-Agent': UA, Accept: 'application/json' } }
 /* Listes de repli, dans l'ordre de preference. La premiere balise presente a la
  * date retenue gagne, et son nom est rapporte. */
 const TAGS = {
-  cash: ['CashAndCashEquivalentsAtCarryingValue'],
+  /* PIEGE 12 — toutes les societes ne deposent pas la meme balise de tresorerie.
+   * GE Vernova n'utilise pas CashAndCashEquivalentsAtCarryingValue mais la balise
+   * qui inclut la tresorerie sous restriction, parce que c'est la ligne de son
+   * bilan. Avec une seule balise dans la liste, elle ressortait « emetteur
+   * etranger » — un diagnostic faux sur une societe qui depose des 10-Q. Le repli
+   * est accepte, et la ligne est marquee quand il sert, puisqu'il englobe une
+   * tresorerie qui n'est pas disponible pour rembourser une dette. */
+  cash: [
+    'CashAndCashEquivalentsAtCarryingValue',
+    'CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents',
+  ],
   shortTermInvestments: [
     'ShortTermInvestments',
     'MarketableSecuritiesCurrent',
@@ -191,8 +221,8 @@ export function compute(symbol, facts) {
 
   /* La date de reference est la derniere cloture ou la tresorerie est deposee en
    * USD. Un emetteur etranger n'aura pas de faits USD : il tombe ici (piege 1). */
-  const cashRows = usd(facts, TAGS.cash[0])
-  if (!cashRows?.length) {
+  const cashRows = TAGS.cash.flatMap((t) => usd(facts, t) ?? [])
+  if (!cashRows.length) {
     return { symbol, skip: 'aucune tresorerie deposee en USD — emetteur etranger ou taxonomie differente (piege 1)' }
   }
   const end = cashRows.map((r) => r.end).sort().pop()
@@ -211,8 +241,15 @@ export function compute(symbol, facts) {
   const flc = pick(facts, TAGS.financeLeaseCurrent, end)
   const fln = pick(facts, TAGS.financeLeaseNoncurrent, end)
 
-  if (dc.val == null && dn.val == null) {
-    return { symbol, skip: `aucun poste de dette financiere depose au ${end} — societe sans dette, ou taxonomie a etendre` }
+  /* PIEGE 13 — une societe sans dette a quand meme une tresorerie nette, et c'est
+   * une information, pas un trou. Refuser la ligne entiere privait ISRG, ANET,
+   * ALAB, CRDO ou GKOS d'un chiffre qui existe et qui compte. La ligne sort donc,
+   * en disant explicitement qu'aucune dette financiere n'est deposee — et elle
+   * sort marquee, parce que « aucune balise trouvee » peut aussi vouloir dire
+   * « dette taguee autrement », ce qui etait le cas de MasTec. */
+  const noDebtFiled = dc.val == null && dn.val == null
+  if (noDebtFiled && (cash.val ?? 0) + (sti.val ?? 0) === 0) {
+    return { symbol, skip: `ni dette ni tresorerie deposees au ${end} — taxonomie a etendre` }
   }
 
   const debt = (dc.val ?? 0) + (dn.val ?? 0)
@@ -261,8 +298,13 @@ export function compute(symbol, facts) {
     ? '; this issuer files debt and finance leases as one figure, so this includes finance leases'
     : ''
 
+  const restrictedCash = cash.tag === 'CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents'
+  const cashNote = restrictedCash ? '; the cash line as filed includes restricted cash' : ''
+
   const lines = [
-    `      { label: 'Net debt', values: ['${head} — financial debt ${b(debt)} less cash & ST investments ${b(liquid)} (balance sheet, ${when}, SEC XBRL${bundledNote})'] },`,
+    noDebtFiled
+      ? `      { label: 'Net debt', values: ['${b(liquid)} net cash — no financial debt filed; cash & ST investments ${b(liquid)} (balance sheet, ${when}, SEC XBRL${cashNote})'] },`
+      : `      { label: 'Net debt', values: ['${head} — financial debt ${b(debt)} less cash & ST investments ${b(liquid)} (balance sheet, ${when}, SEC XBRL${bundledNote}${cashNote})'] },`,
   ]
   /* Quand la dette deposee englobe deja les locations-financement, les repeter
    * ici les ferait compter deux fois par un lecteur qui additionne les deux
@@ -326,7 +368,7 @@ export function compute(symbol, facts) {
     debtCheck,
   ].join(' · ')
 
-  const warn = (bundled || residual || vagueSti || (gap != null && gap >= Math.max(1e6, debt * 0.02))) || null
+  const warn = (bundled || residual || vagueSti || noDebtFiled || restrictedCash || (gap != null && gap >= Math.max(1e6, debt * 0.02))) || null
 
   return { symbol, quarter: end, used, warn, lines }
 }
