@@ -13,3 +13,6 @@ research-chain/
 # sorties de travail de scripts/netdebt.mjs — se regenerent, ne se versionnent pas
 dette-nette.txt
 dette-nette.log
+
+# memos de travail publies en artifact — pas du contenu de site
+memo-*.html
