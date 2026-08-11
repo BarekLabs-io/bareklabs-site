@@ -49,6 +49,15 @@
  *     autres devient visible a la lecture du journal, au lieu de passer.
  *  6. FRAICHEUR. Si la date de bilan retenue a plus de sept mois, la ligne est
  *     refusee : une dette nette est precisement ce qui bouge entre deux depots.
+ *  7. FAITS DIMENSIONNES INVISIBLES. companyfacts n'expose que les faits deposes
+ *     SANS dimension. Un emetteur qui ventile un poste de bilan le rend absent de
+ *     l'API alors qu'il figure au bilan. Sur UUUU, les 878 338 k$ de titres
+ *     courants n'existent sous AUCUNE balise, dans aucun espace de noms — mais la
+ *     ligne « Marketable securities » est bien la dans le 10-Q, et la somme des
+ *     actifs courants tombe au millier pres. Aucune liste de balises ne corrige
+ *     ca : c'est une limite de l'API, pas un defaut de configuration. Le seul
+ *     filet est le controle d'actifs courants inexpliques (piege 8), qui marque
+ *     la ligne et renvoie au document. Quand il se declenche, on lit le 10-Q.
  */
 
 const UA = process.env.SEC_USER_AGENT?.trim() || 'BAREK LABS research contact@bareklabs.com'

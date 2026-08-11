@@ -6396,6 +6396,8 @@ STRL: {
   valuation: {
     peers: ['STRL', 'EME', 'PWR', 'DY'],
     metrics: [
+      { label: 'Net debt', values: ['-$181M net cash — financial debt $284M less cash & ST investments $464M (10-Q balance sheet, 30 Jun 2026)'] },
+      { label: 'Lease liabilities', values: ['$53M — lease obligations, current and long-term, reported apart from financial debt and not netted against cash (10-Q balance sheet, 30 Jun 2026)'] },
       { label: 'Price', values: ['$540.04 (Aug 4, 2026)', '$924.06 (early Aug 2026)', '$667.36 - $693.00 (variance across sources, early Aug 2026)', '$437.76 (Jul 2, 2026, most recent found)'] },
       { label: 'Market cap', values: ['~$16-22B (varies by source/date — $22.00B cited Jul 2026, implied ~$16.6B off the $540.04 Aug 4 price and ~30.65M shares; not independently reconciled)', '~$38-41B (varies by source/date, 2026)', '~$102.3B (Aug 2026)', '~$13.15B (2026)'] },
       { label: 'Trailing P/E', values: ['46.8x - 54.7x (varies by source/date; industry median ~33.5x for context)', 'not captured in this pass', 'not captured in this pass', 'not captured in this pass'] },
@@ -8765,6 +8767,7 @@ AMKR: {
     valuation: {
       peers: ['UUUU'],
       metrics: [
+        { label: 'Net debt', values: ['-$259M net cash — financial debt $678M less cash & ST investments $937M (10-Q balance sheet, 30 Jun 2026)'] },
         { label: 'Market cap', values: ['$3.2B'] },
         { label: 'Trailing P/E', values: ['—'] },
         { label: 'Forward P/E', values: ['333.3x'] },
