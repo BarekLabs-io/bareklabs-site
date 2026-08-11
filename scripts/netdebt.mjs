@@ -90,7 +90,14 @@ export function compute(symbol, json) {
     : Math.abs(theirs - debt) < 1e6 ? 'total fournisseur identique'
     : `total fournisseur ${(theirs / 1e9).toFixed(2)}B contre ${(debt / 1e9).toFixed(2)}B reconstruit — définition différente, on garde la reconstruction`
 
-  const b = (v) => `$${(Math.abs(v) / 1e9).toFixed(2)}B`
+  /* L'echelle suit le chiffre. Tout formater en milliards a deux decimales
+   * rendait « cash & ST investments $0.00B » chez BWEN et WYFI : vrai au
+   * centieme de milliard pres, illisible, et impossible a distinguer d'une
+   * donnee manquante par un lecteur. Sous le milliard on passe en millions. */
+  const b = (v) => {
+    const a = Math.abs(v)
+    return a >= 1e9 ? `$${(a / 1e9).toFixed(2)}B` : `$${Math.round(a / 1e6)}M`
+  }
   const when = new Date(q.fiscalDateEnding + 'T00:00:00Z').toLocaleDateString('en-GB', {
     day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC',
   })
