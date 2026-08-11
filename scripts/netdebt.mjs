@@ -1,145 +1,216 @@
 #!/usr/bin/env node
-/* Derives a dated net-debt figure per ticker from Alpha Vantage's BALANCE_SHEET
- * endpoint, and prints a ready-to-paste `Net debt` metric line for
- * src/data/companies.ts.
+/* Derives a dated net-debt figure per ticker straight from the SEC's XBRL facts,
+ * and prints ready-to-paste metric lines for src/data/companies.ts.
  *
- * WHY A SCRIPT AND NOT A LIVE ROUTE
- * Net debt is a valuation input. The site's convention is a dated, sourced,
- * reviewed figure written into the data file — not a number that changes under
- * the reader between two visits. So this script proposes; a human pastes.
+ * POURQUOI LA SEC ET PLUS UN AGREGATEUR
+ * La version precedente lisait Alpha Vantage (conservee en second avis dans
+ * scripts/netdebt-av.mjs). Elle a produit des chiffres faux sur les petites
+ * capitalisations, et la passe de verification a montre que ce n'etaient pas des
+ * donnees fausses mais des donnees justes mal rangees : l'agregateur fait entrer
+ * les depots dans un schema fixe d'une trentaine de champs, et cette traduction
+ * casse des que l'emetteur utilise des balises non standard — ce que font les
+ * petits emetteurs. Sur FORM au 27 juin 2026, releve au dollar pres :
  *
- * WHY IT DOES NOT RUN IN THE AGENT SANDBOX
- * The Claude Code environment's network policy denies outbound HTTPS, so this
- * has to run somewhere with real internet — a laptop, or CI. Set the key:
+ *   shortTermDebt          9 470 k$ = dette courante 1 153 + location courante 8 317
+ *   capitalLeaseObligations 18 268 k$ = la TOTALITE des locations simples,
+ *                                       sur une societe sans aucune location-financement
  *
- *   ALPHAVANTAGE_API_KEY=xxx node scripts/netdebt.mjs MU AVGO AMAT
- *   ALPHAVANTAGE_API_KEY=xxx node scripts/netdebt.mjs --missing   (every gap)
+ * La location courante etait donc comptee deux fois, et la dette passait de 11,6
+ * a 38,2 M$. Ici on lit les postes eux-memes, tels que la societe les a deposes.
+ * Pas de cle, pas de quota, pas de couche de normalisation.
  *
- * FOUR TRAPS THIS ENCODES — every one of them was found by reading real
- * responses, and every one of them fails silently if you extract naively.
+ *   node scripts/netdebt.mjs MU AVGO AMAT
+ *   node scripts/netdebt.mjs --missing        (tous les trous de companies.ts)
  *
- *  1. The provider reports in the COMPANY's currency, not the listing's. TSM
- *     files in TWD while its line here is in USD: pasting its net debt raw is
- *     wrong by a factor of about 32. Any ticker whose reportedCurrency is not
- *     USD is refused rather than converted — converting needs a dated FX rate,
- *     which is another assumption, and this file's job is to remove those.
- *  2. `shortLongTermDebtTotal` does not mean the same thing on every ticker.
- *     On MU it is long-term debt plus leases and EXCLUDES short-term debt; on
- *     TSM and AMAT it includes it. So the total is rebuilt from the components
- *     and the provider's own total is used only as a cross-check.
- *  3. The most recent quarter is sometimes filed half-empty — LRCX's June 2026
- *     quarter carries no currency, no long-term debt and no goodwill. Taking
- *     quarterlyReports[0] blindly would have published a debt figure missing
- *     its largest component. The script walks back to the last complete one and
- *     reports which quarter it used.
- *  4. `cashAndShortTermInvestments` is frequently just cash, with short-term
- *     investments sitting in their own field. Adding the two fields yourself is
- *     the only way to get the figure the label promises.
+ * La SEC demande un User-Agent nominatif. Surchargeable :
+ *   SEC_USER_AGENT="Prenom Nom email@domaine" node scripts/netdebt.mjs ...
+ *
+ * CE QUE CE FICHIER ENCODE — chaque point vient d'une erreur reelle
+ *
+ *  1. MONNAIE. On ne lit que les faits libelles en USD. Un ADR qui depose en TWD
+ *     ou en EUR est refuse plutot que converti : convertir demande un taux date,
+ *     qui est une hypothese de plus, et le role de ce fichier est de les retirer.
+ *     En pratique les emetteurs etrangers deposent un 20-F annuel, donc sans bilan
+ *     trimestriel — le refus est de toute facon le bon comportement.
+ *  2. LOCATIONS HORS DETTE. Les locations ne sont pas de la dette financiere et
+ *     sortent sur leur propre ligne. Deux masses separees se comparent d'une
+ *     societe a l'autre — dette contre dette, locations contre locations — et le
+ *     lecteur additionne quand l'addition a un sens, ce que lui seul peut juger.
+ *     La SEC distingue locations simples et locations-financement, ce qu'aucun
+ *     agregateur teste ici ne fait de facon fiable : les deux sortent separement.
+ *  3. UNE SEULE DATE DE BILAN. Tous les postes sont lus a la meme date de cloture.
+ *     Melanger deux trimestres donnerait une dette nette qui n'a jamais existe.
+ *  4. TRESORERIE COMPOSEE. La tresorerie utile est liquidites + placements court
+ *     terme, additionnees ici, parce qu'aucun poste unique ne porte les deux. La
+ *     tresorerie sous restriction est volontairement exclue : elle n'est pas
+ *     disponible pour rembourser une dette.
+ *  5. BALISES DECLAREES. Chaque montant sort avec le nom de la balise XBRL qui
+ *     l'a fourni. Un emetteur qui range sa dette convertible ailleurs que les
+ *     autres devient visible a la lecture du journal, au lieu de passer.
+ *  6. FRAICHEUR. Si la date de bilan retenue a plus de sept mois, la ligne est
+ *     refusee : une dette nette est precisement ce qui bouge entre deux depots.
  */
 
-const KEY = process.env.ALPHAVANTAGE_API_KEY?.trim()
+const UA = process.env.SEC_USER_AGENT?.trim() || 'BAREK LABS research contact@bareklabs.com'
+const HEAD = { headers: { 'User-Agent': UA, Accept: 'application/json' } }
 
-const num = (v) => {
-  if (v == null || v === 'None' || v === '') return null
-  const n = Number(v)
-  return Number.isFinite(n) ? n : null
+/* Listes de repli, dans l'ordre de preference. La premiere balise presente a la
+ * date retenue gagne, et son nom est rapporte. */
+const TAGS = {
+  cash: ['CashAndCashEquivalentsAtCarryingValue'],
+  shortTermInvestments: [
+    'ShortTermInvestments',
+    'MarketableSecuritiesCurrent',
+    'AvailableForSaleSecuritiesDebtSecuritiesCurrent',
+    'OtherShortTermInvestments',
+  ],
+  debtCurrent: [
+    'DebtCurrent',
+    'LongTermDebtCurrent',
+    'ShortTermBorrowings',
+    'NotesPayableCurrent',
+  ],
+  debtNoncurrent: [
+    'LongTermDebtNoncurrent',
+    'LongTermDebt',
+    'ConvertibleLongTermNotesPayable',
+  ],
+  operatingLeaseCurrent: ['OperatingLeaseLiabilityCurrent'],
+  operatingLeaseNoncurrent: ['OperatingLeaseLiabilityNoncurrent'],
+  financeLeaseCurrent: [
+    'FinanceLeaseLiabilityCurrent',
+    'CapitalLeaseObligationsCurrent',
+  ],
+  financeLeaseNoncurrent: [
+    'FinanceLeaseLiabilityNoncurrent',
+    'CapitalLeaseObligationsNoncurrent',
+  ],
 }
 
-/** A quarter is usable only if it states its currency and its debt components. */
-function complete(q) {
-  return q && q.reportedCurrency && q.reportedCurrency !== 'None'
-    && num(q.longTermDebt) != null
-    && num(q.cashAndCashEquivalentsAtCarryingValue) != null
+const usd = (facts, tag) => facts?.['us-gaap']?.[tag]?.units?.USD ?? null
+
+/** Valeur d'une balise a une date de cloture donnee, depot le plus recent gagnant. */
+function at(facts, tag, end) {
+  const rows = (usd(facts, tag) ?? []).filter((r) => r.end === end && r.form)
+  if (!rows.length) return null
+  rows.sort((a, b) => a.filed.localeCompare(b.filed))
+  return rows[rows.length - 1].val
 }
 
-export function compute(symbol, json) {
-  const quarters = json?.quarterlyReports ?? []
-  const q = quarters.find(complete)
-  if (!q) return { symbol, skip: 'aucun trimestre complet dans la réponse' }
-  if (q.reportedCurrency !== 'USD') {
-    return { symbol, skip: `comptes publiés en ${q.reportedCurrency}, ligne cotée en USD — conversion refusée (piège 1)` }
+/** Premiere balise de la liste presente a cette date. Rend aussi son nom (piege 5). */
+function pick(facts, tags, end) {
+  for (const t of tags) {
+    const v = at(facts, t, end)
+    if (v != null) return { val: v, tag: t }
+  }
+  return { val: null, tag: null }
+}
+
+export function compute(symbol, facts) {
+  if (!facts) return { symbol, skip: 'aucun fait XBRL rendu par la SEC' }
+
+  /* La date de reference est la derniere cloture ou la tresorerie est deposee en
+   * USD. Un emetteur etranger n'aura pas de faits USD : il tombe ici (piege 1). */
+  const cashRows = usd(facts, TAGS.cash[0])
+  if (!cashRows?.length) {
+    return { symbol, skip: 'aucune tresorerie deposee en USD — emetteur etranger ou taxonomie differente (piege 1)' }
+  }
+  const end = cashRows.map((r) => r.end).sort().pop()
+
+  const age = (Date.parse(`${new Date().toISOString().slice(0, 10)}T00:00:00Z`) - Date.parse(`${end}T00:00:00Z`)) / 86400000
+  if (age > 210) {
+    return { symbol, skip: `dernier bilan depose le ${end}, soit ${Math.round(age / 30.4)} mois — trop ancien pour une dette nette (piege 6)` }
   }
 
-  /* PIEGE 5 — le repli du piege 3 n'avait pas de fond. Sur RMBS, aucun trimestre
-   * entre juin 2026 et septembre 2021 n'etait complet, et `find` a donc rendu un
-   * bilan vieux de cinq ans, note comme tel mais publiable. Reculer d'un trimestre
-   * quand le dernier est depose a moitie vide est raisonnable ; reculer d'annees
-   * ne l'est pas, parce que la dette nette est precisement ce qui bouge entre-temps.
-   * Au-dela de deux trimestres d'ecart avec la periode la plus recente rapportee,
-   * on refuse et on laisse un tiret plutot qu'un chiffre perime. */
-  const DAY = 86400000
-  const latest = quarters[0]?.fiscalDateEnding
-  if (latest) {
-    const gap = (Date.parse(latest + 'T00:00:00Z') - Date.parse(q.fiscalDateEnding + 'T00:00:00Z')) / DAY
-    if (gap > 200) {
-      return { symbol, skip: `dernier trimestre complet ${q.fiscalDateEnding}, soit ${Math.round(gap / 30.4)} mois avant la periode la plus recente (${latest}) — trop ancien pour une dette nette (piege 5)` }
-    }
+  const cash = pick(facts, TAGS.cash, end)
+  const sti = pick(facts, TAGS.shortTermInvestments, end)
+  const dc = pick(facts, TAGS.debtCurrent, end)
+  const dn = pick(facts, TAGS.debtNoncurrent, end)
+  const olc = pick(facts, TAGS.operatingLeaseCurrent, end)
+  const oln = pick(facts, TAGS.operatingLeaseNoncurrent, end)
+  const flc = pick(facts, TAGS.financeLeaseCurrent, end)
+  const fln = pick(facts, TAGS.financeLeaseNoncurrent, end)
+
+  if (dc.val == null && dn.val == null) {
+    return { symbol, skip: `aucun poste de dette financiere depose au ${end} — societe sans dette, ou taxonomie a etendre` }
   }
 
-  const short = num(q.shortTermDebt) ?? 0
-  const long = num(q.longTermDebt) ?? 0
-  const leases = num(q.capitalLeaseObligations) // null means "not broken out", not zero
-  const debt = short + long + (leases ?? 0)
+  const debt = (dc.val ?? 0) + (dn.val ?? 0)
+  const liquid = (cash.val ?? 0) + (sti.val ?? 0)
+  const net = debt - liquid
+  const opLease = (olc.val ?? 0) + (oln.val ?? 0)
+  const finLease = (flc.val ?? 0) + (fln.val ?? 0)
 
-  const cash = (num(q.cashAndCashEquivalentsAtCarryingValue) ?? 0) + (num(q.shortTermInvestments) ?? 0)
-  const net = debt - cash
-
-  // Cross-check against the provider's own total, whose definition varies.
-  const theirs = num(q.shortLongTermDebtTotal)
-  const check = theirs == null ? 'pas de total fourni'
-    : Math.abs(theirs - debt) < 1e6 ? 'total fournisseur identique'
-    : `total fournisseur ${(theirs / 1e9).toFixed(2)}B contre ${(debt / 1e9).toFixed(2)}B reconstruit — définition différente, on garde la reconstruction`
-
-  /* L'echelle suit le chiffre. Tout formater en milliards a deux decimales
-   * rendait « cash & ST investments $0.00B » chez BWEN et WYFI : vrai au
-   * centieme de milliard pres, illisible, et impossible a distinguer d'une
-   * donnee manquante par un lecteur. Sous le milliard on passe en millions. */
   const b = (v) => {
     const a = Math.abs(v)
     return a >= 1e9 ? `$${(a / 1e9).toFixed(2)}B` : `$${Math.round(a / 1e6)}M`
   }
-  const when = new Date(q.fiscalDateEnding + 'T00:00:00Z').toLocaleDateString('en-GB', {
+  const when = new Date(`${end}T00:00:00Z`).toLocaleDateString('en-GB', {
     day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC',
   })
-  const staleNote = quarters[0] !== q ? `; the ${quarters[0]?.fiscalDateEnding} quarter is filed incomplete upstream, so the last complete one is used` : ''
-  const leaseNote = leases == null ? '; no finance leases reported in this dataset' : ''
   const head = net < 0 ? `-${b(net)} net cash` : b(net)
-  const debtLabel = leases == null ? 'debt' : 'debt incl. leases'
 
-  /* PIEGE 6 — la qualite de la source suit la taille du bilan. Verifie contre les
-   * documents deposes : AMKR, CRM, UUUU et SMCI tombent juste au dollar pres ; WYFI
-   * annonce une tresorerie nulle quand le 10-Q en montre 75,8 M$, et BWEN une dette
-   * de 30 M$ quand le 10-Q en montre 15,0 M$. Quatre sur quatre en haut de cote,
-   * zero sur deux en bas. Sous le demi-milliard de dette reconstruite, la ligne
-   * sort quand meme — refuser priverait de vrais chiffres — mais elle sort marquee,
-   * parce qu'une ligne collee sans controle est une ligne publiee. */
-  const verify = debt < 5e8
-    ? 'petite capitalisation : couverture du fournisseur peu fiable a cette taille, recouper contre le dernier 10-Q avant de coller'
-    : null
-
-  return {
-    symbol,
-    quarter: q.fiscalDateEnding,
-    check,
-    verify,
-    line: `      { label: 'Net debt', values: ['${head} — ${debtLabel} ${b(debt)} less cash & ST investments ${b(cash)} (quarterly balance sheet, ${when}, Alpha Vantage${staleNote}${leaseNote})'] },`,
+  const lines = [
+    `      { label: 'Net debt', values: ['${head} — financial debt ${b(debt)} less cash & ST investments ${b(liquid)} (balance sheet, ${when}, SEC XBRL)'] },`,
+  ]
+  if (opLease || finLease) {
+    const parts = []
+    if (finLease) parts.push(`finance leases ${b(finLease)}`)
+    if (opLease) parts.push(`operating leases ${b(opLease)}`)
+    lines.push(`      { label: 'Lease liabilities', values: ['${parts.join(', ')} — reported apart from financial debt and not netted against cash (balance sheet, ${when}, SEC XBRL)'] },`)
   }
+
+  /* PIEGE 7 — le total combine ne veut pas dire la meme chose partout, meme en
+   * XBRL. Chez AMKR, DebtLongtermAndShorttermCombinedAmount vaut 1 425 M$ et
+   * correspond bien a courant + non courant (1 414 M$). Chez SMCI il vaut
+   * 4 114 M$ et ne couvre que les lignes de credit : les 4 659 M$ de convertibles
+   * sont tagues a part, et le total reel est la somme des deux — 8,8 Md$, ce que
+   * confirme le communique. Reconstruire depuis les postes rate donc la moitie de
+   * la dette de SMCI. On ne devine pas : on compare, et on signale l'ecart. */
+  const combined = at(facts, 'DebtLongtermAndShorttermCombinedAmount', end)
+  const gap = combined == null ? null : Math.abs(combined - debt)
+  const debtCheck = combined == null
+    ? 'pas de total combine depose'
+    : gap < Math.max(1e6, debt * 0.02)
+      ? 'total combine concordant'
+      : `ATTENTION total combine ${b(combined)} contre ${b(debt)} reconstruit — postes tagues a part chez cet emetteur, la dette est probablement incomplete`
+
+  /* PIEGE 8 — l'absence d'une balise de placements se lit comme un zero et ne
+   * fait aucun bruit. Sur UUUU la dette nette bascule de -260 M$ a +619 M$ selon
+   * que les titres courants sont trouves ou non. L'absence est donc declaree,
+   * a charge du lecteur de verifier qu'elle est reelle. */
+  const used = [
+    dc.tag ? `dette courante ${dc.tag}` : 'aucune dette courante deposee',
+    dn.tag ? `dette non courante ${dn.tag}` : 'aucune dette non courante deposee',
+    sti.tag ? `placements ${sti.tag}` : 'AUCUNE balise de placements court terme — verifier le 10-Q',
+    debtCheck,
+  ].join(' · ')
+
+  const warn = (!sti.tag || (gap != null && gap >= Math.max(1e6, debt * 0.02))) || null
+
+  return { symbol, quarter: end, used, warn, lines }
 }
 
-async function one(symbol) {
-  const url = `https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol=${encodeURIComponent(symbol)}&apikey=${encodeURIComponent(KEY)}`
-  const r = await fetch(url, { headers: { Accept: 'application/json' } })
-  const json = await r.json()
-  if (json.Note || json.Information) return { symbol, skip: `quota atteint : ${json.Note ?? json.Information}` }
-  if (!json.quarterlyReports) return { symbol, skip: 'non couvert par ce fournisseur' }
-  return compute(symbol, json)
+async function facts(symbol, cik) {
+  const r = await fetch(`https://data.sec.gov/api/xbrl/companyfacts/CIK${String(cik).padStart(10, '0')}.json`, HEAD)
+  if (r.status === 404) return null
+  if (!r.ok) throw new Error(`SEC a repondu ${r.status} pour ${symbol}`)
+  return (await r.json()).facts
 }
 
-/** Tickers in companies.ts that are US-listed and carry no Net debt metric.
- * NOTE: "US-listed" is inferred from the absence of a dot in the ticker, which
- * also catches ADRs (TSM, ASML, BABA, ASX, PAGS…). Those file in their home
- * currency, so trap 1 refuses them downstream — this list is a ceiling, not a
- * yield. */
+/** Table ticker -> CIK publiee par la SEC. */
+async function cikMap() {
+  const r = await fetch('https://www.sec.gov/files/company_tickers.json', HEAD)
+  if (!r.ok) throw new Error(`table des CIK indisponible (${r.status})`)
+  const j = await r.json()
+  return new Map(Object.values(j).map((e) => [e.ticker.toUpperCase(), e.cik_str]))
+}
+
+/** Tickers de companies.ts sans metrique Net debt.
+ * NOTE : « cote aux Etats-Unis » est deduit de l'absence de point dans le ticker,
+ * ce qui attrape aussi les ADR (TSM, ASML, BABA, ASX, PAGS...). Ceux-la deposent
+ * un 20-F annuel sans bilan trimestriel et tombent au piege 1 plus loin — cette
+ * liste est un plafond, pas un rendement. */
 export async function missing() {
   const { readFileSync } = await import('fs')
   const s = readFileSync(new URL('../src/data/companies.ts', import.meta.url), 'utf8')
@@ -150,16 +221,7 @@ export async function missing() {
     .map((r) => r.t)
 }
 
-/* CLI only when run directly. Importing this file gives you compute() and
- * missing() without firing a request or requiring a key — which is how the
- * same trap logic gets reused when the balance sheets arrive by another road
- * (an MCP connector, a cached response) instead of this script's own fetch. */
 if (import.meta.url === `file://${process.argv[1]}`) {
-  if (!KEY) {
-    console.error('ALPHAVANTAGE_API_KEY manquante dans l\'environnement.')
-    process.exit(1)
-  }
-
   const args = process.argv.slice(2)
   const symbols = args[0] === '--missing' ? await missing() : args
   if (symbols.length === 0) {
@@ -167,15 +229,24 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     process.exit(1)
   }
 
-  console.error(`${symbols.length} ticker(s). Une requête par ticker — surveiller le quota.\n`)
+  console.error(`${symbols.length} ticker(s) via SEC XBRL. User-Agent : ${UA}\n`)
+  const map = await cikMap()
+
   for (const s of symbols) {
-    const r = await one(s)
+    const cik = map.get(s.toUpperCase())
+    if (!cik) { console.error(`SAUTE  ${s.padEnd(6)} absent de la table des CIK — non depose aupres de la SEC`); continue }
+    let r
+    try {
+      r = compute(s, await facts(s, cik))
+    } catch (e) {
+      console.error(`SAUTE  ${s.padEnd(6)} ${e.message}`)
+      continue
+    }
     if (r.skip) { console.error(`SAUTE  ${s.padEnd(6)} ${r.skip}`); continue }
-    console.error(`${r.verify ? 'VERIF ' : 'OK    '} ${s.padEnd(6)} trimestre ${r.quarter} · ${r.check}`)
-    if (r.verify) console.error(`       ${' '.repeat(6)} ${r.verify}`)
+    console.error(`${r.warn ? 'VERIF ' : 'OK    '} ${s.padEnd(6)} bilan ${r.quarter} · ${r.used}`)
     console.log(`// ${s}`)
-    if (r.verify) console.log(`// A VERIFIER — ${r.verify}`)
-    console.log(r.line)
-    await new Promise((res) => setTimeout(res, 1000)) // courtoisie envers le fournisseur
+    if (r.warn) console.log(`// A VERIFIER — ${r.used}`)
+    for (const l of r.lines) console.log(l)
+    await new Promise((res) => setTimeout(res, 120)) // SEC : 10 requetes/seconde maximum
   }
 }
