@@ -98,12 +98,24 @@ const TAGS = {
     ['ShortTermBorrowings', 'CommercialPaper', 'LinesOfCreditCurrent'],
     ['NotesPayableCurrent'],
   ],
+  /* Balises qui ne portent QUE la part non courante. Elles s'ajoutent sans
+   * danger a la dette courante. */
   debtNoncurrent: [
     'LongTermDebtNoncurrent',
-    'LongTermDebt',
     'ConvertibleLongTermNotesPayable',
     'LongTermDebtAndCapitalLeaseObligations',
   ],
+  /* PIEGE 10 — LongTermDebt est le TOTAL de la dette longue, echeances courantes
+   * comprises, malgre un nom qui suggere le contraire. Chez VST il vaut 19 595 M$,
+   * soit 1 876 d'echeances courantes plus 17 719 de non courant. Le ranger parmi
+   * les balises non courantes et lui ajouter la part courante comptait donc
+   * 1 876 M$ deux fois, et gonflait la dette nette de 19,16 a 21,04 Md$.
+   * Quand c'est lui qui sert, les echeances courantes de la dette LONGUE sont
+   * donc exclues de la somme — mais pas les billets de tresorerie, qui n'y sont
+   * pas compris. */
+  debtLongTermTotal: ['LongTermDebt'],
+  /* Les echeances courantes de la dette longue, a exclure dans ce cas precis. */
+  ltdCurrentTags: ['LongTermDebtAndCapitalLeaseObligationsCurrent', 'LongTermDebtCurrent'],
   operatingLeaseCurrent: ['OperatingLeaseLiabilityCurrent'],
   operatingLeaseNoncurrent: ['OperatingLeaseLiabilityNoncurrent'],
   financeLeaseCurrent: [
@@ -145,11 +157,17 @@ function pick(facts, tags, end) {
  * DebtCurrent, lui, est deja le total de la dette a moins d'un an : quand
  * l'emetteur le depose, l'additionner a ses propres composantes les compterait
  * deux fois. On prend donc le total s'il existe, la somme des parts sinon. */
-function currentDebt(facts, end) {
-  const total = pick(facts, TAGS.debtCurrentTotal, end)
-  if (total.val != null) return total
+function currentDebt(facts, end, { skipLtdCurrent = false } = {}) {
+  if (!skipLtdCurrent) {
+    const total = pick(facts, TAGS.debtCurrentTotal, end)
+    if (total.val != null) return total
+  }
 
-  const found = TAGS.debtCurrentGroups
+  const groups = skipLtdCurrent
+    ? TAGS.debtCurrentGroups.map((g) => g.filter((t) => !TAGS.ltdCurrentTags.includes(t))).filter((g) => g.length)
+    : TAGS.debtCurrentGroups
+
+  const found = groups
     .map((group) => pick(facts, group, end))
     .filter((x) => x.val != null)
   if (!found.length) return { val: null, tag: null }
@@ -158,6 +176,14 @@ function currentDebt(facts, end) {
     val: found.reduce((s, x) => s + x.val, 0),
     tag: found.map((x) => x.tag).join(' + '),
   }
+}
+
+/** Dette non courante, ou a defaut le total de la dette longue (piege 10). */
+function longTermDebt(facts, end) {
+  const strict = pick(facts, TAGS.debtNoncurrent, end)
+  if (strict.val != null) return { ...strict, isTotal: false }
+  const total = pick(facts, TAGS.debtLongTermTotal, end)
+  return { ...total, isTotal: total.val != null }
 }
 
 export function compute(symbol, facts) {
@@ -178,8 +204,8 @@ export function compute(symbol, facts) {
 
   const cash = pick(facts, TAGS.cash, end)
   const sti = pick(facts, TAGS.shortTermInvestments, end)
-  const dc = currentDebt(facts, end)
-  const dn = pick(facts, TAGS.debtNoncurrent, end)
+  const dn = longTermDebt(facts, end)
+  const dc = currentDebt(facts, end, { skipLtdCurrent: dn.isTotal })
   const olc = pick(facts, TAGS.operatingLeaseCurrent, end)
   const oln = pick(facts, TAGS.operatingLeaseNoncurrent, end)
   const flc = pick(facts, TAGS.financeLeaseCurrent, end)
