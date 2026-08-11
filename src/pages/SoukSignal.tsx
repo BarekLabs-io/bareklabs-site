@@ -55,6 +55,11 @@ function tickerHref(t: string) {
   return companies[t] ? `/companies/${t}` : '/trade-tracker/screener'
 }
 
+/* The legend keys are translated, so colouring them by comparing the label to
+ * 'STRONG' / 'CAUTION' only ever matched English — the French and Arabic
+ * legends rendered entirely grey. The tone travels with the entry instead. */
+const LEGEND_TONE: Record<string, string> = { up: 'text-signal', down: 'text-danger', mid: 'text-dim' }
+
 function keyMetric(ticker: string, pattern: RegExp): string | null {
   const c = companies[ticker]
   if (!c) return null
@@ -281,7 +286,7 @@ export default function SoukSignal() {
           <div className="mt-4 flex flex-wrap gap-x-8 gap-y-2 font-mono-lab text-[9.5px] leading-4 tracking-wide text-faint">
             {t.souk.watchlist.legend.map((l) => (
               <span key={l.k}>
-                <span className={cn('tracking-[0.15em]', l.k === 'STRONG' || l.k === 'BUILDING' ? 'text-signal' : l.k === 'CAUTION' ? 'text-danger' : 'text-dim')}>{l.k}</span>
+                <span className={cn('tracking-[0.15em]', LEGEND_TONE[l.tone] ?? 'text-dim')}>{l.k}</span>
                 {' — '}{l.d}
               </span>
             ))}

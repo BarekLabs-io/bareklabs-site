@@ -305,7 +305,7 @@ export default function Layout() {
         <div className={cn('relative z-10 border-b transition-all duration-500', scrolled ? 'border-line header-glass' : 'border-line/60 header-glass')}>
           <div className="shell flex h-20 items-stretch justify-between px-5 md:h-[76px] md:px-10">
             <Link to="/" className="flex items-center gap-3 md:me-10">
-              <img src="/logo.svg" alt="BAREK LABS" className="h-8 w-auto md:h-10 logo-adaptive" />
+              <img src="/logo.svg" alt="BAREK / LABS" className="h-8 w-auto md:h-10 logo-adaptive" />
             </Link>
 
             <nav className="hidden items-stretch gap-9 md:flex">
@@ -394,7 +394,7 @@ export default function Layout() {
         <div className="shell px-5 py-14 md:px-10">
           <div className="grid gap-10 md:grid-cols-12">
             <div className="md:col-span-5">
-              <img src="/logo.svg" alt="BAREK LABS" className="h-6 w-auto logo-adaptive" />
+              <img src="/logo.svg" alt="BAREK / LABS" className="h-6 w-auto logo-adaptive" />
               <p className="mt-5 max-w-sm font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{t.footer.tagline}</p>
               <div className="mt-6 flex items-center gap-2 font-mono-lab text-[10px] tracking-wider text-signal">
                 <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
@@ -451,7 +451,10 @@ export function PageHero({
   code: string
   title: string
   serif?: string
-  desc: string
+  /* ReactNode, not string, so a page whose chapô names the lab can pass it
+   * through withBrandMark and keep the BAREK / LABS treatment (rule 1.4).
+   * A plain string still satisfies this, so every other caller is unchanged. */
+  desc: React.ReactNode
   children?: React.ReactNode
 }) {
   return (

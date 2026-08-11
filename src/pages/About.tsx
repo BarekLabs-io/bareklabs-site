@@ -39,7 +39,7 @@ export default function About() {
 
   return (
     <>
-      <PageHero code={a.hero.code} title={a.hero.title} serif={a.hero.serif} desc={a.hero.desc} />
+      <PageHero code={a.hero.code} title={a.hero.title} serif={a.hero.serif} desc={withBrandMark(a.hero.desc)} />
 
       <div className="shell px-5 md:px-10">
         <div className="relative grid gap-12 lg:grid-cols-12">
@@ -111,10 +111,10 @@ export default function About() {
                 </Reveal>
                 <div className="md:col-span-7">
                   <Reveal delay={120}>
-                    <img src="/logo.svg" alt="BAREK LABS" className="h-7 w-auto logo-adaptive" />
+                    <img src="/logo.svg" alt="BAREK / LABS" className="h-7 w-auto logo-adaptive" />
                   </Reveal>
                   <Reveal delay={200}>
-                    <p className="prose-lab mt-8">{a.founder.bio}</p>
+                    <p className="prose-lab mt-8">{withBrandMark(a.founder.bio)}</p>
                   </Reveal>
                 </div>
               </div>
@@ -179,7 +179,7 @@ export default function About() {
                 <p className="font-mono-lab text-[10px] leading-5 tracking-wide text-faint">{a.contact.privacy}</p>
               </Reveal>
               <Reveal className="mt-14 flex justify-center">
-                <img src="/logo.svg" alt="BAREK LABS" className="h-16 w-auto logo-adaptive md:h-24" />
+                <img src="/logo.svg" alt="BAREK / LABS" className="h-16 w-auto logo-adaptive md:h-24" />
               </Reveal>
             </section>
           </div>
