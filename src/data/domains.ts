@@ -38,7 +38,7 @@ export const DOMAINS: { key: DomainKey; label: string; note: string }[] = [
   { key: 'robotics', label: 'ROBOTICS & AUTONOMY', note: 'Physical robotics — subsea, industrial and field autonomy, and the sensing that makes it work.' },
   { key: 'quantum', label: 'QUANTUM', note: 'Quantum computing hardware, control electronics and error correction. Reserved for coverage in progress.' },
   { key: 'medtech-bio', label: 'MEDTECH & LIFE SCIENCES', note: 'Surgical robotics, implantable and ophthalmic devices, organ transport, diagnostics and drug discovery.' },
-  { key: 'fintech-markets', label: 'FINTECH & MARKET INFRASTRUCTURE', note: 'Payments, merchant acquiring, banking for small business, brokerage and the plumbing underneath.' },
+  { key: 'fintech-markets', label: 'FINTECH & MARKET INFRASTRUCTURE', note: 'Payments, merchant acquiring, banking for small business, health and consumer insurance, brokerage and the plumbing underneath.' },
   { key: 'commerce-platforms', label: 'COMMERCE & CONSUMER PLATFORMS', note: 'Marketplaces, e-commerce, logistics networks and consumer internet.' },
   { key: 'software-apps', label: 'ENTERPRISE SOFTWARE', note: 'Application, data and platform software sold to enterprises and governments.' },
   { key: 'industrial-materials', label: 'INDUSTRIALS & ADVANCED MATERIALS', note: 'Engineered materials and composites, energy storage, grid and heavy infrastructure construction.' },
@@ -60,11 +60,18 @@ const NON_AI: Record<string, DomainKey> = {
   BWXT: 'energy-nuclear',
   'ALHAF.PA': 'energy-nuclear',
   'VH2.DE': 'energy-nuclear',
+  LEU: 'energy-nuclear',
+  DNN: 'energy-nuclear',
+  URG: 'energy-nuclear',
+  SMR: 'energy-nuclear',
 
   // Space & defence
   RKLB: 'space-defence',
   SIF: 'space-defence',
   ASTS: 'space-defence',
+  SIDU: 'space-defence',
+  ONDS: 'space-defence',
+  MRLN: 'space-defence',
 
   // Robotics & autonomy
   KRKNF: 'robotics',
@@ -79,26 +86,37 @@ const NON_AI: Record<string, DomainKey> = {
    * unit. The domain follows the coverage intent, the tagline states the
    * business. */
   '005380.KS': 'robotics',
+  OUST: 'robotics',
+  AMBA: 'robotics',
 
   // Medtech & life sciences
   ISRG: 'medtech-bio',
   GKOS: 'medtech-bio',
   TMDX: 'medtech-bio',
   RXRX: 'medtech-bio',
+  CRSP: 'medtech-bio',
 
   // Fintech & market infrastructure
   IBKR: 'fintech-markets',
   PAGS: 'fintech-markets',
   STNE: 'fintech-markets',
+  DLO: 'fintech-markets',
+  OSCR: 'fintech-markets',
 
   // Commerce & consumer platforms
   MELI: 'commerce-platforms',
   JMIA: 'commerce-platforms',
   BABA: 'commerce-platforms',
+  SE: 'commerce-platforms',
 
   // Enterprise software
   CRM: 'software-apps',
   PLTR: 'software-apps',
+  IBM: 'software-apps',
+  DDOG: 'software-apps',
+  FICO: 'software-apps',
+  FSLY: 'software-apps',
+  ZETA: 'software-apps',
 
   // Industrials & advanced materials
   'AUUA.V': 'industrial-materials',
@@ -108,6 +126,10 @@ const NON_AI: Record<string, DomainKey> = {
   TPC: 'industrial-materials',
   '000150.KS': 'industrial-materials',
   NRGV: 'industrial-materials',
+  SQM: 'industrial-materials',
+  UAMY: 'industrial-materials',
+  QS: 'industrial-materials',
+  TE: 'industrial-materials',
 
   // Consumer hardware
   AAPL: 'consumer-hardware',

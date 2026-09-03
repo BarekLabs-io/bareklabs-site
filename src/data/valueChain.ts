@@ -38,6 +38,11 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   // Raw materials & substrate wafers
   '600961.SS': 'materials',
   AXTI: 'materials',
+  MP: 'materials',
+  USAR: 'materials',
+  'LYC.AX': 'materials',
+  'SOI.PA': 'materials',
+  '4772.TWO': 'materials',
 
   // WFE equipment — front-end
   ASML: 'wfe',
@@ -49,6 +54,8 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   'VACN.SW': 'wfe',
   'MYCR.ST': 'wfe',
   'ASM.AS': 'wfe',
+  'AIXA.DE': 'wfe',
+  'ALRIB.PA': 'wfe',
 
   // Substrates & advanced packaging materials
   '4004.T': 'substrates',
@@ -72,6 +79,10 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   FORM: 'test',
   'TPRO.MI': 'test',
   CAMT: 'test',
+  ONTO: 'test',
+  COHU: 'test',
+  TER: 'test',
+  '7828.TWO': 'test',
 
   // Advanced packaging & hybrid bonding
   '6146.T': 'packaging',
@@ -113,6 +124,10 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
 
   // Space infrastructure
   RKLB: 'space',
+  SIDU: 'space',
+  ONDS: 'space',
+  MRLN: 'space',
+  ASTS: 'space',
 
   // Adjacent / indirect exposure — thin or unconfirmed AI link, kept out of the core chain
   'ALHAF.PA': 'adjacent',
@@ -143,14 +158,25 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   SMCI: 'cloud',
   AMZN: 'cloud',
   DGXX: 'cloud',
+  CIFR: 'cloud',
+  CLSK: 'cloud',
 
   // Power for AI datacenters
   CEG: 'power',
   VST: 'power',
   GEV: 'power',
+  VRT: 'power',
+  MPWR: 'power',
+  VICR: 'power',
+  POWI: 'power',
+  FPS: 'power',
+  TLN: 'power',
+  NRGV: 'power',
 
   // Advanced packaging & test
   ASX: 'packaging',
+  '2449.TW': 'packaging',
+  '6315.T': 'packaging',
 
   // HBF / memory push (Aug 2026 batch)
   '005930.KS': 'memory',
@@ -165,6 +191,17 @@ export const SEGMENT_OF: Record<string, SegmentKey> = {
   INTC: 'silicon',
   'IFX.DE': 'silicon',
   '2454.TW': 'silicon',
+  ARM: 'silicon',
+  COHR: 'silicon',
+  VIAV: 'silicon',
+  'AMS.SW': 'silicon',
+  SMTC: 'silicon',
+  MXL: 'silicon',
+  MTSI: 'silicon',
+  SILC: 'silicon',
+  DGII: 'silicon',
+  NOK: 'silicon',
+  AMPG: 'silicon',
 
 }
 
@@ -242,9 +279,39 @@ const US_EXCHANGE: Record<string, string> = {
   RKLB: 'NASDAQ', PENG: 'NASDAQ', CRWV: 'NASDAQ', AMPX: 'NYSE', HYLN: 'NYSE', FCEL: 'NASDAQ',
   BWEN: 'NASDAQ',
   STRL: 'NASDAQ', ISRG: 'NASDAQ', MTZ: 'NYSE', KRKNF: 'OTC', LITE: 'NASDAQ', AMD: 'NASDAQ', AMKR: 'NASDAQ',
+  // Added 3 Sep 2026 from the IBKR watchlist sync. Listing venue as reported by
+  // the FMP company profile on that date — not inferred from the ticker, which
+  // is why the default below must never be trusted for a name that matters.
+  VRT: 'NYSE', MP: 'NYSE', USAR: 'NASDAQ', UAMY: 'NYSE', SQM: 'NYSE', QS: 'NASDAQ',
+  FPS: 'NYSE', ARM: 'NASDAQ', COHR: 'NYSE', TER: 'NASDAQ', ONTO: 'NYSE', COHU: 'NASDAQ',
+  MPWR: 'NASDAQ', VICR: 'NASDAQ', POWI: 'NASDAQ', TLN: 'NASDAQ', TE: 'NYSE', NRGV: 'NYSE',
+  LEU: 'NYSE', DNN: 'NYSE American', URG: 'NYSE American', SMR: 'NYSE', CIFR: 'NASDAQ',
+  CLSK: 'NASDAQ', SMTC: 'NASDAQ', MXL: 'NASDAQ', MTSI: 'NASDAQ', SILC: 'NASDAQ',
+  DGII: 'NASDAQ', NOK: 'NYSE', AMPG: 'NASDAQ', VIAV: 'NASDAQ', AMBA: 'NASDAQ',
+  OUST: 'NASDAQ', ASTS: 'NASDAQ', SIDU: 'NASDAQ', ONDS: 'NASDAQ', MRLN: 'NASDAQ',
+  TMDX: 'NASDAQ', CRSP: 'NASDAQ', RXRX: 'NASDAQ', OSCR: 'NYSE', DLO: 'NASDAQ',
+  SE: 'NYSE', IBM: 'NYSE', DDOG: 'NASDAQ', FICO: 'NYSE', FSLY: 'NASDAQ', ZETA: 'NYSE',
+  /* Filled in 3 Sep 2026. These names were already published and had no entry
+   * here, so they fell to the NASDAQ default below — which was wrong for
+   * fifteen of them (ANET, ASX, BABA, BWXT, CCJ, CRM, GEV, GKOS, JMIA, PAGS,
+   * TPC, TSM and VST are NYSE; SIF and UUUU are NYSE American). Every venue
+   * below was read from the FMP symbol search on that date. */
+  AAPL: 'NASDAQ', AMZN: 'NASDAQ', ANET: 'NYSE', ASX: 'NYSE', AVGO: 'NASDAQ',
+  BABA: 'NYSE', BWXT: 'NYSE', CCJ: 'NYSE', CEG: 'NASDAQ', CRM: 'NYSE',
+  DGXX: 'NASDAQ', GEV: 'NYSE', GKOS: 'NYSE', GOOGL: 'NASDAQ', IBKR: 'NASDAQ',
+  INTC: 'NASDAQ', JMIA: 'NYSE', MELI: 'NASDAQ', META: 'NASDAQ', MSFT: 'NASDAQ',
+  MU: 'NASDAQ', NVDA: 'NASDAQ', PAGS: 'NYSE', PLTR: 'NASDAQ', SIF: 'NYSE American',
+  SIMO: 'NASDAQ', SMCI: 'NASDAQ', STNE: 'NASDAQ', TPC: 'NYSE', TSM: 'NYSE',
+  UUUU: 'NYSE American', VST: 'NYSE', WDC: 'NASDAQ',
 }
 
+/* The .PA suffix covers two different Paris markets. ALHAF and ALRIB carry the
+ * AL prefix of Euronext Growth; Soitec trades on the regulated Euronext Paris.
+ * One suffix cannot say both, so the exception is written down. */
+const EXCHANGE_OVERRIDE: Record<string, string> = { 'SOI.PA': 'Euronext Paris' }
+
 export function exchangeOf(ticker: string): string {
+  if (EXCHANGE_OVERRIDE[ticker]) return EXCHANGE_OVERRIDE[ticker]
   const suffix = ticker.split('.')[1]
   if (!suffix) return US_EXCHANGE[ticker] ?? 'NASDAQ'
   return SUFFIX_EXCHANGE[suffix] ?? 'Unknown'
