@@ -1,4 +1,5 @@
 import { en } from '@/i18n/dict-en'
+import { CASH_WEIGHTS } from '@/data/bookAllocation'
 
 /* Every statistic the tracker publishes about its own record is derived from
  * the record. The page used to carry a hardcoded dash for hit rate and
@@ -52,3 +53,24 @@ export const LEDGER = {
   /** Same, in SEK and net of fees — the number a Swedish statement would show. */
   weightedReturnSekNet: weighted((c) => c.returnPctSekNet),
 } as const
+
+/* The book is not the part of it that happens to be in the market. Weights are
+ * published per line and added up here, so the three allocation figures are the
+ * same numbers the tables show rather than a second set typed in beside them —
+ * publishing 19 % equities next to weights that sum to 100 % would be two
+ * different books on one page.
+ *
+ * The three shares sum to 100 give or take a rounding step: each line is
+ * published to two decimals, and the page prints what it can recompute. */
+function share(weights: readonly { weightPct: number | null }[]): number {
+  return weights.reduce((a, w) => a + (w.weightPct ?? 0), 0)
+}
+
+export const ALLOCATION = {
+  stocks: share(en.stocks.open),
+  crypto: share(en.crypto.positions),
+  cash: share(CASH_WEIGHTS),
+  get total(): number {
+    return this.stocks + this.crypto + this.cash
+  },
+}

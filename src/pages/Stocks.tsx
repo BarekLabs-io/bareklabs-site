@@ -7,8 +7,8 @@ import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import type { Lang } from '@/i18n/translations'
 import { fillCoverage } from '@/lib/coverage'
-import { LEDGER } from '@/lib/ledger'
-import { formatPct, formatDecimal } from '@/lib/format'
+import { LEDGER, ALLOCATION } from '@/lib/ledger'
+import { formatPct, formatDecimal, formatWeight } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
 /* The last price of a position comes from the quote feed and nowhere else.
@@ -72,10 +72,10 @@ export default function Stocks() {
   /* Two lines can share a ticker — the same company held at two brokers, or
    * bought twice at different prices. The feed is asked once per symbol. */
   const { quotes } = useLiveQuotes([...new Set(OPEN.map((p) => p.symbol ?? p.t))])
-  /* Summed, not asserted. A line whose weight is unknown drops out of the
-   * total rather than counting as zero, so a short sum is visible as one. */
-  const weighed = OPEN.filter((p) => p.weightPct !== null)
-  const weightTotal = weighed.length === 0 ? null : weighed.reduce((a, p) => a + (p.weightPct ?? 0), 0)
+  /* Summed, not asserted. These weights are shares of the whole book — cash
+   * included — so the equity rows add to the equity slice of it, not to 100 %.
+   * A page that footed them at 100 % would be claiming a fully invested book. */
+  const weightTotal = OPEN.length === 0 ? null : ALLOCATION.stocks
 
   return (
     <>
@@ -143,7 +143,7 @@ export default function Stocks() {
                       </td>
                       <td className="px-6 py-4 text-end" dir="ltr"><LiveCell quote={quotes[p.symbol ?? p.t]} lang={lang} /></td>
                       {/* Share of the tracked book, never a share count. */}
-                      <td className="px-6 py-4 text-end font-mono-lab text-[11px] text-dim" dir="ltr">{formatPct(p.weightPct, lang)}</td>
+                      <td className="px-6 py-4 text-end font-mono-lab text-[11px] text-dim" dir="ltr">{formatWeight(p.weightPct, lang)}</td>
                       <td className="px-6 py-4 text-end">
                         <PnlCell entry={p.entry} quote={quotes[p.symbol ?? p.t]} lang={lang} />
                       </td>
@@ -158,7 +158,7 @@ export default function Stocks() {
                   <tr className="border-t border-line font-mono-lab text-[10px] tracking-[0.2em] text-faint">
                     <td className="px-6 py-3" colSpan={4}>{t.stocks.weightTotal}</td>
                     <td className="px-6 py-3" />
-                    <td className="px-6 py-3 text-end text-dim" dir="ltr">{formatPct(weightTotal, lang)}</td>
+                    <td className="px-6 py-3 text-end text-dim" dir="ltr">{formatWeight(weightTotal, lang)}</td>
                     <td className="px-6 py-3" colSpan={2} />
                   </tr>
                 </tfoot>

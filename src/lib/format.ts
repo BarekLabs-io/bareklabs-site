@@ -28,15 +28,30 @@ function nf(lang: Lang, opts: Intl.NumberFormatOptions): Intl.NumberFormat {
 export const NO_VALUE = '—'
 
 /** A percentage already expressed in percent units (38.9, not 0.389).
- *  `signed` spells the sign in the reader's own convention. */
-export function formatPct(value: number | null | undefined, lang: Lang, signed = false): string {
+ *  `signed` spells the sign in the reader's own convention.
+ *
+ *  `digits` defaults to one, which is the right precision for a performance.
+ *  Weights are published at two: rounded to one, a 0.01 % position reads as
+ *  0.0 % — present in the table, absent from the number — and the three book
+ *  shares add to 99.9 % instead of 100 %. */
+export function formatPct(
+  value: number | null | undefined,
+  lang: Lang,
+  signed = false,
+  digits = 1
+): string {
   if (value === null || value === undefined || !Number.isFinite(value)) return NO_VALUE
   return nf(lang, {
     style: 'percent',
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
     signDisplay: signed ? 'always' : 'auto',
   }).format(value / 100)
+}
+
+/** Weights, everywhere they appear: two decimals, unsigned. */
+export function formatWeight(value: number | null | undefined, lang: Lang): string {
+  return formatPct(value, lang, false, 2)
 }
 
 /** A price or a plain decimal. The currency code is rendered beside it by the

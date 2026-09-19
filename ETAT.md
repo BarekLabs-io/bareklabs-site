@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `5806457`
+**Dernière mise à jour : 2026-09-19** · commit de référence `eba3927`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -30,8 +30,10 @@ opinion en deux minutes. On priorise ce qu'il verra, pas ce qui est intéressant
 | Idées publiées | **9** cartes × 3 langues, 9 rapports HTML |
 | Dettes nettes renseignées | **57** sur 176 |
 | Registre actions | **12 positions ouvertes**, **21 clôturées** (18 dans les compteurs) |
+| Registre crypto | **2 positions ouvertes** (TAO, ETH), courtier Binance |
+| Allocation du livre | **actions 19,03 %** · **crypto 1,84 %** · **liquidités 79,14 %** |
 | Courtiers au registre | **IBKR** et **Nordnet**, provenance affichée par ligne |
-| Poids des positions ouvertes | publiés, **somme 100,0 %** affichée en pied de tableau |
+| Poids des positions ouvertes | publiés par ligne sur le livre entier, liquidités comprises |
 | Taux de réussite | **38,9 %** sur 18 transactions clôturées |
 | Performance moyenne | **+44,4 %** par transaction clôturée |
 | Performance pondérée par le capital | **+111,8 %** en devise locale, **+128,5 %** en SEK nette de frais |
@@ -72,17 +74,6 @@ calculé sur les parts exactes. Le site publie ce qu'il sait recalculer.
   dictionnaires depuis `nordnet_registre_pourcentages.json`. Le fichier source reste
   **hors du dépôt** (dépôt public) et n'a jamais été copié ni committé. Voir § 6 pour
   ce qui a été décidé sur chacun des cinq points.
-- [ ] **Registre crypto 03.B et allocation du livre — BLOQUÉ, il manque le fichier.**
-  Elyes a tranché : liquidités et crypto incluses, `registre_poids_combines.json`
-  devait passer à 17 lignes (12 actions, TAO et ETH chez Binance, 3 lignes de
-  liquidités) plus un bloc `totals` (actions 19,03 % · crypto 1,84 % · liquidités
-  79,14 %). **Le remplacement n'est jamais arrivé sur ce Mac** : le fichier porte
-  toujours 12 lignes, `scope: positions investies, hors liquidités`, aucun `totals`,
-  horodatage inchangé au 2026-09-19 15:09. Rien dans `~/Downloads` n'est plus récent.
-  Dès que le fichier est là : remplacer les poids, passer le pied de tableau au
-  sous-total actions 19,03 %, ajouter TAO et ETH, afficher l'allocation, et poser le
-  libellé « Poids au 2026.09.19 sur le livre suivi — comptes IBKR, Nordnet et Binance,
-  liquidités de ces comptes incluses. Les avoirs détenus ailleurs sont hors périmètre. »
 - [ ] **Liste des « trucs qui ne me plaisent pas »** — attendue d'Elyes. Les
   corrections déjà faites étaient des contradictions factuelles, pas des questions de
   goût.
@@ -195,6 +186,30 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**Le livre entier, liquidités comprises — et un registre crypto qui existe**
+- Les poids ne portent plus sur la seule poche investie : chaque ligne pèse sur le
+  livre suivi, liquidités des trois comptes incluses. Le pied du registre actions
+  affiche donc **19,03 %**, la part des actions, et non 100 %.
+- Nouveau bloc **Allocation du livre** sur le Trade Tracker : actions 19,03 %,
+  crypto 1,84 %, liquidités 79,14 %. Les trois se **dérivent** des poids publiés
+  (`ALLOCATION` dans `src/lib/ledger.ts`, liquidités dans `src/data/bookAllocation.ts`)
+  et reproduisent le bloc `totals` de la source à l'identique. Somme 100,01 %, soit
+  100 % à un pas d'arrondi — chaque part est publiée à deux décimales.
+- Registre crypto 03.B : **TAO et ETH chez Binance**, prix d'entrée, poids, date
+  d'ouverture en tiret, cours et P&L recalculés en direct. La carte CRYPTO dérive son
+  compteur et affiche 2.
+- Les poids passent à **deux décimales** partout. À une seule, une position à 0,01 %
+  s'affichait 0,0 % — présente dans le tableau, absente du chiffre — et les trois parts
+  du livre totalisaient 99,9 % au lieu de 100 %.
+
+**Les deux symboles crypto, une fois pour toutes**
+- `ETH` **nu désigne Ethan Allen Interiors**, un fabricant de meubles coté au NYSE, à
+  25,18 dollars. L'Ethereum est `ETH-USD`. Le registre utilise `ETH-USD`.
+- TAO **est** servi, sous `TAO22974-USD` — `TAO` et `TAO-USD` renvoient `null`. C'est
+  le symbole que `marketTape.ts` emploie déjà, et celui que le registre emploie. Le
+  cours et le P&L de TAO sont donc en direct, pas en tiret.
+
 
 **Poids publiés, compteurs dérivés, nombres au format de la langue**
 - Colonne POIDS : les douze lignes portent leur `weightPct`, et le pied de tableau

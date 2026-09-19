@@ -3,8 +3,8 @@ import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { fillCoverage } from '@/lib/coverage'
-import { LEDGER } from '@/lib/ledger'
-import { formatPct } from '@/lib/format'
+import { LEDGER, ALLOCATION } from '@/lib/ledger'
+import { formatPct, formatWeight } from '@/lib/format'
 
 function TrackCard({
   to, code, name, desc, stats, i,
@@ -66,6 +66,29 @@ export default function TradeTracker() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* What the book is actually made of. The ledgers below publish weights
+        * per line; this says what those lines add up to, cash included — a
+        * tracker that only ever shows its invested slice reads like a fully
+        * invested book. Derived from the same weights, never typed. */}
+      <section className="border-b border-line bg-alt">
+        <div className="shell px-5 py-16 md:px-10">
+          <SectionHead index="BOOK" label={t.tracker.allocation.head} right={t.tracker.allocation.headRight} />
+          <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-3">
+            {([
+              { k: t.tracker.allocation.stocks, v: ALLOCATION.stocks },
+              { k: t.tracker.allocation.crypto, v: ALLOCATION.crypto },
+              { k: t.tracker.allocation.cash, v: ALLOCATION.cash },
+            ]).map((a, i) => (
+              <Reveal key={a.k} delay={i * 70} className="bg-card2 p-8">
+                <div className="text-3xl font-light tracking-tight text-signal" dir="ltr">{formatWeight(a.v, lang)}</div>
+                <div className="mt-3 font-mono-lab text-[10px] tracking-[0.2em] text-dim">{a.k}</div>
+              </Reveal>
+            ))}
+          </div>
+          <p className="mt-6 font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{t.tracker.allocation.note}</p>
         </div>
       </section>
 
