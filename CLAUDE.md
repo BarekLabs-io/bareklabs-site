@@ -1,6 +1,8 @@
 # BAREK / LABS — instructions du projet
 
 À lire au début de chaque session, quel que soit l'agent. Ce fichier fait foi.
+**L’état du chantier — fait, en cours, bloqué — vit dans `ETAT.md`.** Celui-ci dit comment
+on travaille ; `ETAT.md` dit où on en est.
 Si une consigne ici contredit une habitude prise ailleurs, c'est ce fichier qui gagne.
 
 ---
