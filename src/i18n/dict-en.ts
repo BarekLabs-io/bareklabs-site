@@ -81,7 +81,7 @@ export const en = {
     },
     modules: {
       head: 'The Stack',
-      headRight: '3 MODULES ONLINE',
+      headRight: '{modules} MODULES ONLINE',
       items: [
         {
           code: '01',
@@ -106,7 +106,7 @@ export const en = {
     numbers: [
       { k: '{tickers}', l: 'COMPANIES COVERED IN THE SCREENER' },
       { k: '{countries}', l: 'MARKETS, TOKYO TO TORONTO' },
-      { k: '04', l: 'LIVE MODULES — RESEARCH, SIGNAL, TRACKER' },
+      { k: '{modules}', l: 'LIVE MODULES — RESEARCH, SIGNAL, TRACKER' },
       { k: '24/7', l: 'MARKET SURVEILLANCE' },
     ],
     feed: {
@@ -150,7 +150,7 @@ export const en = {
           code: '01.B',
           name: 'INVESTMENT IDEAS',
           desc: 'Thesis-driven setups with entry logic, invalidation levels and scenario maps. Documented before, not after.',
-          count: '8 THESES',
+          count: '{ideas} THESES',
         },
       ],
     },
@@ -474,7 +474,7 @@ export const en = {
       { k: '{positions}', l: 'POSITIONS ON THE BOOK' },
       { k: '—', l: 'HIT RATE — NOTHING CLOSED YET' },
       { k: '—', l: 'AVG EXPECTANCY — NOTHING CLOSED YET' },
-      { k: '100%', l: 'LOGGED BEFORE ENTRY, NO EXCEPTIONS' },
+      { k: '2026.08.07', l: 'LEDGER OPENED — NOTHING RECORDED BEFORE THIS DATE' },
     ],
     ledgers: {
       head: 'Ledgers',

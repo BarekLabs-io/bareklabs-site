@@ -1,5 +1,6 @@
 import { companies } from '@/data/companies'
 import { countryOf } from '@/data/valueChain'
+import { ideasEn } from '@/i18n/ideas-en'
 
 /* Counts the site publishes about its own coverage belong to the data, never to
  * the copy. The home page advertised 68 companies against a real 118, and 13
@@ -12,6 +13,7 @@ const TICKERS = Object.keys(companies)
 export const COVERAGE = {
   tickers: TICKERS.length,
   countries: new Set(TICKERS.map(countryOf)).size,
+  ideas: ideasEn.length,
 } as const
 
 type CoverageKey = keyof typeof COVERAGE

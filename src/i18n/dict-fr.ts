@@ -82,7 +82,7 @@ export const fr: Dict = {
     },
     modules: {
       head: 'Les modules',
-      headRight: '3 MODULES EN LIGNE',
+      headRight: '{modules} MODULES EN LIGNE',
       items: [
         {
           code: '01',
@@ -107,7 +107,7 @@ export const fr: Dict = {
     numbers: [
       { k: '{tickers}', l: 'ENTREPRISES COUVERTES DANS LE SCREENER' },
       { k: '{countries}', l: 'MARCHÉS, DE TOKYO À TORONTO' },
-      { k: '04', l: 'MODULES EN DIRECT — RECHERCHE, SIGNAL, JOURNAL' },
+      { k: '{modules}', l: 'MODULES EN DIRECT — RECHERCHE, SIGNAL, JOURNAL' },
       { k: '24/7', l: 'SURVEILLANCE DES MARCHÉS' },
     ],
     feed: {
@@ -151,7 +151,7 @@ export const fr: Dict = {
           code: '01.B',
           name: 'IDÉES D’INVESTISSEMENT',
           desc: 'Configurations guidées par thèse avec logique d’entrée, niveaux d’invalidation et cartes de scénarios. Documentées avant, pas après.',
-          count: '8 THÈSES',
+          count: '{ideas} THÈSES',
         },
       ],
     },
@@ -475,7 +475,7 @@ export const fr: Dict = {
       { k: '{positions}', l: 'POSITIONS AU LIVRE' },
       { k: '—', l: 'TAUX DE RÉUSSITE — RIEN DE CLÔTURÉ' },
       { k: '—', l: 'ESPÉRANCE MOYENNE — RIEN DE CLÔTURÉ' },
-      { k: '100%', l: 'CONSIGNÉ AVANT L’ENTRÉE, SANS EXCEPTION' },
+      { k: '2026.08.07', l: 'OUVERTURE DU REGISTRE — RIEN DE CONSIGNÉ AVANT' },
     ],
     ledgers: {
       head: 'Registres',

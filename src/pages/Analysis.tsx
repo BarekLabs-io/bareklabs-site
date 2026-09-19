@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { fillCoverage } from '@/lib/coverage'
 import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
@@ -14,7 +15,7 @@ function PillarCard({ p, to, open, i }: { p: { code: string; name: string; desc:
       >
         <div className="flex items-start justify-between">
           <span className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">{p.code}</span>
-          <span className="font-mono-lab text-[10px] tracking-[0.2em] text-faint">{p.count}</span>
+          <span className="font-mono-lab text-[10px] tracking-[0.2em] text-faint">{fillCoverage(p.count)}</span>
         </div>
         <h2 className="mt-12 text-3xl font-medium tracking-tight transition-colors group-hover:text-signal md:text-5xl">{p.name}</h2>
         <p className="mt-5 max-w-md font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{p.desc}</p>
