@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `a3f9861`
+**Dernière mise à jour : 2026-09-19** · commit de référence `634dc82`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -29,27 +29,48 @@ opinion en deux minutes. On priorise ce qu'il verra, pas ce qui est intéressant
 | Marchés | **14** |
 | Idées publiées | **9** cartes × 3 langues, 9 rapports HTML |
 | Dettes nettes renseignées | **57** sur 176 |
-| Registre actions | **1 position ouverte** (UUUU), **0 clôturée** |
+| Registre actions | **12 positions ouvertes**, **21 clôturées** (18 dans les compteurs) |
+| Courtiers au registre | **IBKR** et **Nordnet**, provenance affichée par ligne |
+| Taux de réussite | **38,9 %** sur 18 transactions clôturées |
+| Performance moyenne | **+44,4 %** par transaction clôturée |
+| Performance pondérée par le capital | **+111,8 %** en devise locale, **+128,5 %** en SEK nette de frais |
 | Ouverture du registre | **2026.08.07** |
 
-Tous ces compteurs sauf la dette nette sont **dérivés** via `src/lib/coverage.ts`
+Tous ces compteurs sauf la dette nette sont **dérivés** : la couverture via
+`src/lib/coverage.ts`, les statistiques du registre via `src/lib/ledger.ts`
 (règle 1.2). Ne jamais en taper un à la main.
+
+Les trois statistiques se recalculent depuis `t.stocks.closed` filtré sur `inStats`.
+Elles reproduisent la réconciliation de la source à l'arrondi près : la pondérée sort à
+**111,83** parce que `capitalSharePct` est publié à deux décimales, contre 111,85
+calculé sur les parts exactes. Le site publie ce qu'il sait recalculer.
 
 ---
 
 ## 3. Bloquants — ils demandent Elyes
 
-- [ ] **La production affiche-t-elle des cours ou des tirets ?** En local, `vite
-  preview` ne sert pas les routes `/api`, donc tout est en tiret : c'est normal. En
-  production ça dépend des clés Vercel. Un terminal de recherche sans un seul chiffre
-  ne se présente pas à un recruteur. **À vérifier en ouvrant bareklabs.com.**
-- [ ] **`RESEND_API_KEY` et `CONTACT_TO`** absents en août. Sans eux, un recruteur qui
-  écrit depuis le formulaire reçoit une erreur. Le pire scénario de lundi.
+- [x] **La production affiche de vrais cours.** Vérifié le 2026-09-19 depuis le
+  terminal : `/api/quotes` renvoie AAPL 336.13, UUUU 11.70, NVDA 222.27, et sert aussi
+  Stockholm en SEK (MYCR.ST 320, ERIC-B.ST 99.98). `/api/news` est alimenté. Les clés
+  Alpha Vantage sont en place. En local `vite preview` ne sert pas `/api`, donc tout
+  est en tiret : c'est normal et ce n'est pas un symptôme.
+- [ ] **`RESEND_API_KEY` et `CONTACT_TO` sont toujours absents — confirmé en
+  production.** Un POST valide sur `/api/contact` (preuve de travail résolue, tous les
+  filtres anti-spam franchis) répond `503 not_configured` : aucun mail n'est parti.
+  La page affiche un message honnête plutôt qu'une fausse coche verte, mais **aucune
+  adresse de repli n'est proposée** — un recruteur qui écrit lundi tombe sur un
+  cul-de-sac. **Demande Elyes :** créer les deux variables dans Vercel (Settings →
+  Environment Variables) puis redéployer. `CONTACT_FROM` est optionnel.
+- [ ] **Proposer une adresse de repli** sur le formulaire tant que Resend n'est pas
+  branché. Non fait : publier une adresse en clair attire le spam que la preuve de
+  travail existe précisément pour arrêter. À trancher par Elyes.
 
 ## 4. En cours
 
-- [ ] **Import des trades Nordnet Sweden.** Les CSV sont extraits du compte via Claude
-  in Chrome. Voir § 6 pour les cinq points à traiter — aucun n'est optionnel.
+- [x] **Import des trades Nordnet Sweden — fait.** 32 lignes intégrées dans les trois
+  dictionnaires depuis `nordnet_registre_pourcentages.json`. Le fichier source reste
+  **hors du dépôt** (dépôt public) et n'a jamais été copié ni committé. Voir § 6 pour
+  ce qui a été décidé sur chacun des cinq points.
 - [ ] **Liste des « trucs qui ne me plaisent pas »** — attendue d'Elyes. Les
   corrections déjà faites étaient des contradictions factuelles, pas des questions de
   goût.
@@ -65,35 +86,54 @@ Tous ces compteurs sauf la dette nette sont **dérivés** via `src/lib/coverage.
 
 ---
 
-## 6. Import Nordnet — les cinq points
+## 6. Import Nordnet — fait, et ce qui a été décidé
 
-Les positions sont écrites **à la main dans les trois dictionnaires**, sous `t.stocks` :
-`open` et `closed`. Il n'y a **aucune connexion courtier automatique** — UUUU a été
-recopiée le 7 août 2026. Le site n'a jamais lu d'API de courtier.
+Source unique : `nordnet_registre_pourcentages.json`, lu sur place dans `~/Downloads`.
+**Ni le JSON ni aucun CSV Nordnet n'est entré dans le dépôt** — il est public.
 
-1. **Jamais de montants.** Règle § 7 : poids en **pourcentage**, performance en
-   **pourcentage**. Jamais un montant, jamais un nombre de titres. Un P&L en couronnes
-   divisé par la variation du cours reconstitue la taille du livre. Les CSV Nordnet
-   sont pleins de SEK : ils servent à **calculer** des pourcentages, ils ne vont pas
-   sur la page.
-2. **Le poids de UUUU est à 100 %.** Dès qu'une deuxième position entre, l'arithmétique
-   casse. Recalculer sur le livre combiné.
-3. **Le registre ne dit pas de quel courtier vient une position.** Avec deux sources il
-   le faut. Le `sourceNote` de `t.stocks` affirme aujourd'hui que les positions
-   viennent d'IBKR : il devient faux au premier import Nordnet.
-4. **Tout trade antérieur au 2026.08.07 porte un tiret** dans son champ `open`, comme
-   UUUU. Ne jamais deviner une date d'ouverture.
-5. **Deux tuiles de statistiques sont écrites en dur** — « TAUX DE RÉUSSITE » et
-   « ESPÉRANCE MOYENNE », toutes deux à `—` avec le libellé « RIEN DE CLÔTURÉ ». Dès
-   qu'il y a des trades clôturés, la valeur **et** le libellé deviennent faux. Les
-   dériver depuis `t.stocks.closed`, comme `{tickers}` et `{ideas}`.
+32 lignes intégrées à la main dans les trois dictionnaires, sous `t.stocks` : **11
+positions ouvertes** Nordnet plus la ligne UUUU / IBKR déjà présente, et **21
+clôturées**. Il n'y a toujours **aucune connexion courtier automatique**.
 
-**Le gain :** les trades Nordnet clôturés transforment ces deux tirets en vrais
-chiffres. Pour un recruteur, c'est la différence entre un registre vide et un
-historique.
+1. **Jamais de montants — tenu.** Seuls des prix unitaires et des pourcentages sont
+   publiés. Aucun montant, aucun nombre de titres, aucune valeur de portefeuille, ni
+   dans le code, ni dans un commit, ni dans un log.
+2. **Poids : tiret sur les douze lignes, et la raison est écrite sur la page.** Un poids
+   n'a de sens que sur le livre combiné, et le calculer exige le rapport entre les deux
+   livres — donc la valeur totale du compte Nordnet. Le fichier n'en contient aucune :
+   `weightPctNordnetOnly` somme à 100 % **à l'intérieur de Nordnet seulement**, et
+   aucun champ ne porte de montant. Authentifier IBKR n'y change rien : cela donne la
+   valeur de la ligne UUUU, pas ce à quoi la comparer. Décision d'Elyes : tiret + raison
+   (règle 1.1), plutôt qu'un poids interne faux à côté d'une ligne venue de l'autre
+   courtier. **Rouvrir ce point demande la valeur totale du livre Nordnet.**
+3. **Provenance : champ `broker` sur chaque ligne, affiché en colonne.** `sourceNote`
+   corrigé dans les trois langues : il nommait IBKR seul. EFR (Nordnet) et UUUU (IBKR)
+   sont la même société et restent **deux lignes distinctes** sous le ticker UUUU,
+   chacune avec son prix d'entrée et sa performance. Aucun prix de revient moyen.
+4. **`open` = tiret sur les 32 lignes.** Toutes antérieures au 2026.08.07. Aucune date
+   d'ouverture devinée.
+5. **Tuiles dérivées, libellé « RIEN DE CLÔTURÉ » retiré.** `src/lib/ledger.ts` calcule
+   depuis `t.stocks.closed` filtré sur `inStats`, jamais en dur (règle 1.2) :
+   **38,9 %** de réussite, **+44,4 %** de performance moyenne, **+111,8 %** pondérée par
+   le capital (**+128,5 %** en SEK nette de frais). La page passe de 4 à 5 tuiles ;
+   aucune n'a été retirée (règle 1.3).
 
-Le suffixe `.ST` est déjà câblé dans `src/data/valueChain.ts` — Suède, Nasdaq
-Stockholm, SEK. Rien à construire pour les tickers suédois.
+**Autres points traités.** Les trois fonds sont listés et portent le badge « HORS
+COMPTEURS » : un fonds n'est pas une transaction prise au bureau, et les compteurs le
+disent en toutes lettres. Sangamo et Ideanomics portent « EN DIFFICULTÉ ». Le transfert
+AF → ISK de Twitter et de CRISPR est consigné comme **une position continue**, pas comme
+deux trades — la note l'explique sur la ligne. La non-éligibilité au PEA est écrite une
+fois sous le tableau. Le libellé d'historique annonce que tout précède l'ouverture du
+registre et vient des relevés de courtage.
+
+**Deux conventions à connaître.** Une sortie à exactement 0,00 % (MARA) compte comme
+non-gagnante : c'est la lecture prudente, et c'est elle qui donne 7 gains sur 18. La
+performance clôturée est donnée en **devise de la transaction** en principal, avec la
+lecture **SEK nette de frais** en secondaire.
+
+Le suffixe `.ST` est câblé dans `src/data/valueChain.ts` — Suède, Nasdaq Stockholm, SEK.
+Vérifié en production : `/api/quotes` sert bien Stockholm. Aucune des 32 lignes n'est
+suédoise, mais le jour où il y en aura une, rien n'est à construire.
 
 ---
 
@@ -143,6 +183,26 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**Import du registre Nordnet — 32 lignes, deux courtiers, trois statistiques dérivées**
+- `t.stocks.open` passe de 1 à 12 lignes, `t.stocks.closed` de 0 à 21, dans les trois
+  dictionnaires. Champ `broker` affiché en colonne ; `sourceNote` corrigé.
+- `src/lib/ledger.ts` : taux de réussite, performance moyenne et performance pondérée
+  par le capital, dérivés du livre au lieu d'un tiret écrit en dur.
+- Poids en tiret avec la raison publiée — la valeur du livre Nordnet n'existe pas dans
+  la source, et on ne l'estime pas.
+- Trois défauts corrigés au passage, non demandés mais visibles : le copyright du pied
+  de page affichait « BAREK LABS » collé sur toutes les pages alors que la règle 1.4
+  l'interdit — il passe désormais par `withBrandMark` ; le pourcentage signé du libellé
+  arabe s'affichait « %128.5+ » par réordonnancement bidi, il est isolé par U+2066/2069 ;
+  et le tableau interrogeait la feed de cotation une fois par ligne au lieu d'une fois
+  par symbole, ce qui doublait les appels dès que deux lignes partagent un ticker.
+
+**Découverte utile :** `npx tsc --noEmit`, que `CLAUDE.md` § 4.6 recommande, **ne
+vérifie rien** dans ce dépôt — `tsconfig.json` porte `files: []` et ne fait que
+référencer les deux vrais projets. Le contrôle réel est `npx tsc -b`, exécuté aussi par
+`npm run build`.
+
 
 **`a3f9861` — trois chiffres que la page affirmait et contredisait**
 - Trade Tracker : « 100 % CONSIGNÉ AVANT L'ENTRÉE, SANS EXCEPTION » remplacé par la

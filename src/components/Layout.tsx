@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router'
 import { cn } from '@/lib/utils'
 import { Reveal } from '@/components/lab'
+import { withBrandMark } from '@/components/Brand'
 import { useLang } from '@/i18n/LanguageContext'
 import { useTheme } from '@/theme/ThemeContext'
 import { LANG_META, type Lang } from '@/i18n/translations'
@@ -430,7 +431,10 @@ export default function Layout() {
             </div>
           </div>
           <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-line pt-6 font-mono-lab text-[10px] tracking-[0.2em] text-faint md:flex-row md:items-center">
-            <span>{t.footer.copyright}</span>
+            {/* The copyright line names the lab, so it goes through
+              * withBrandMark like every other prose string — it was the one
+              * place the wordmark rendered as BAREK LABS, on every page. */}
+            <span>{withBrandMark(t.footer.copyright)}</span>
             <span dir="ltr">{t.footer.build}</span>
           </div>
         </div>

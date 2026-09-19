@@ -5,6 +5,8 @@ import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { NO_VALUE, formatLevel } from '@/data/marketTape'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
+import { fillCoverage } from '@/lib/coverage'
+import { LEDGER, formatPct } from '@/lib/ledger'
 import { cn } from '@/lib/utils'
 
 /* The last price of a position comes from the quote feed and nowhere else.
@@ -34,6 +36,22 @@ function PnlCell({ entry, quote }: { entry: number; quote?: { price: number } })
   )
 }
 
+/* A line says which broker it came from. Two accounts feed one ledger, and an
+ * unlabelled row silently merges two books — Energy Fuels sits on both, at two
+ * different entry prices, and must read as two positions rather than one. */
+function Badge({ children, tone = 'dim' }: { children: React.ReactNode; tone?: 'dim' | 'warn' }) {
+  return (
+    <span
+      className={cn(
+        'whitespace-nowrap border px-2 py-0.5 font-mono-lab text-[9px] tracking-[0.2em]',
+        tone === 'warn' ? 'border-danger/50 text-danger' : 'border-line text-faint'
+      )}
+    >
+      {children}
+    </span>
+  )
+}
+
 function EmptyLedger({ message, note }: { message: string; note: string }) {
   return (
     <div className="border border-dashed border-line px-6 py-14 text-center">
@@ -50,7 +68,9 @@ export default function Stocks() {
   const { t } = useLang()
   const OPEN = t.stocks.open
   const CLOSED = t.stocks.closed
-  const { quotes } = useLiveQuotes(OPEN.map((p) => p.symbol ?? p.t))
+  /* Two lines can share a ticker — the same company held at two brokers, or
+   * bought twice at different prices. The feed is asked once per symbol. */
+  const { quotes } = useLiveQuotes([...new Set(OPEN.map((p) => p.symbol ?? p.t))])
 
   return (
     <>
@@ -91,6 +111,7 @@ export default function Stocks() {
                   <tr className="border-b border-line bg-ticker font-mono-lab text-[9px] tracking-[0.25em] text-faint">
                     <th className="px-6 py-3 text-start">{t.stocks.cols.ticker}</th>
                     <th className="px-6 py-3 text-start">{t.stocks.cols.side}</th>
+                    <th className="px-6 py-3 text-start">{t.stocks.cols.broker}</th>
                     <th className="px-6 py-3 text-end">{t.stocks.cols.entry}</th>
                     <th className="px-6 py-3 text-end">{t.stocks.cols.last}</th>
                     <th className="px-6 py-3 text-end">{t.stocks.cols.size}</th>
@@ -100,15 +121,21 @@ export default function Stocks() {
                 </thead>
                 <tbody>
                   {OPEN.map((p, i) => (
-                    <tr key={p.t} className={cn('border-b border-line/50 transition-colors bg-row-hover', i % 2 === 1 && 'bg-stripe')}>
+                    <tr key={`${p.broker}-${p.t}-${p.entry}`} className={cn('border-b border-line/50 transition-colors bg-row-hover', i % 2 === 1 && 'bg-stripe')}>
                       <td className="px-6 py-4">
-                        <div className="font-mono-lab text-sm font-medium" dir="ltr">{p.t}</div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono-lab text-sm font-medium" dir="ltr">{p.t}</span>
+                          {p.distressed && <Badge tone="warn">{t.stocks.distressedLabel}</Badge>}
+                        </div>
                         <div className="font-mono-lab text-[10px] text-faint">{p.name}</div>
                       </td>
                       <td className={cn('px-6 py-4 font-mono-lab text-[10px] tracking-[0.2em]', p.side === 'LONG' ? 'text-signal' : 'text-danger')}>
                         {t.stocks.side[p.side]}
                       </td>
-                      <td className="px-6 py-4 text-end font-mono-lab text-sm tabular-nums text-dim" dir="ltr">{p.entry.toFixed(2)}</td>
+                      <td className="px-6 py-4"><Badge>{p.broker}</Badge></td>
+                      <td className="px-6 py-4 text-end font-mono-lab text-sm tabular-nums text-dim" dir="ltr">
+                        {p.entry.toFixed(2)} <span className="text-[9px] text-faint">{p.currency}</span>
+                      </td>
                       <td className="px-6 py-4 text-end" dir="ltr"><LiveCell quote={quotes[p.symbol ?? p.t]} /></td>
                       {/* Share of the tracked book, never a share count. */}
                       <td className="px-6 py-4 text-end font-mono-lab text-[11px] text-dim" dir="ltr">{p.size}</td>
@@ -124,14 +151,30 @@ export default function Stocks() {
           ) : (
             <div className="grid gap-px overflow-hidden border border-line bg-line">
               {CLOSED.map((c, i) => (
-                <Reveal key={c.t + i} delay={i * 40} className="flex flex-col gap-2 bg-card2 p-6 md:flex-row md:items-center md:gap-8">
-                  <span className="w-16 font-mono-lab text-sm font-medium" dir="ltr">{c.t}</span>
-                  <span className={cn('w-16 font-mono-lab text-[10px] tracking-[0.2em]', c.side === 'LONG' ? 'text-signal' : 'text-danger')}>
+                <Reveal key={`${c.broker}-${c.t}-${c.closedOn}-${i}`} delay={i * 40} className="flex flex-col gap-3 bg-card2 p-6 md:flex-row md:items-center md:gap-6">
+                  <div className="md:w-56">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-mono-lab text-sm font-medium" dir="ltr">{c.t}</span>
+                      {c.distressed && <Badge tone="warn">{t.stocks.distressedLabel}</Badge>}
+                      {!c.inStats && <Badge>{t.stocks.outOfStats}</Badge>}
+                    </div>
+                    <div className="font-mono-lab text-[10px] text-faint">{c.name}</div>
+                  </div>
+                  <span className={cn('font-mono-lab text-[10px] tracking-[0.2em] md:w-14', c.side === 'LONG' ? 'text-signal' : 'text-danger')}>
                     {t.stocks.side[c.side]}
                   </span>
-                  <span className="flex-1 font-mono-lab text-[11px] tracking-wide text-dim">{c.note}</span>
-                  <span className={cn('font-mono-lab text-sm', c.pnl.startsWith('+') ? 'text-signal' : 'text-danger')} dir="ltr">
-                    {c.pnl} <span className="text-faint">/</span> {c.r}
+                  <span className="md:w-20"><Badge>{c.broker}</Badge></span>
+                  <span className="font-mono-lab text-[10px] text-faint md:w-24" dir="ltr">{c.closedOn}</span>
+                  <span className="flex-1 font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{c.note}</span>
+                  {/* The trade's own currency leads; the SEK reading net of fees
+                    * sits under it. Percentages only — never an amount. */}
+                  <span className="text-end" dir="ltr">
+                    <span className={cn('block font-mono-lab text-sm tabular-nums', c.returnPct >= 0 ? 'text-signal' : 'text-danger')}>
+                      {formatPct(c.returnPct, true)} <span className="text-[9px] text-faint">{c.currency}</span>
+                    </span>
+                    <span className="block font-mono-lab text-[10px] tabular-nums text-faint">
+                      {formatPct(c.returnPctSekNet, true)} SEK
+                    </span>
                   </span>
                 </Reveal>
               ))}
@@ -162,6 +205,21 @@ export default function Stocks() {
                 </div>
               </Reveal>
             ))}
+
+          {/* What the ledger cannot say, said in words rather than left to a
+            * reader's guess: where a line came from, why every weight is a
+            * dash, which lines sit outside the counters, and that none of this
+            * predates the ledger by accident. */}
+          <Reveal className="mt-8 space-y-2">
+            <p className="font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{t.stocks.historyNote}</p>
+            <p className="font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{t.stocks.weightNote}</p>
+            {tab === 'CLOSED' && (
+              <p className="font-mono-lab text-[11px] leading-5 tracking-wide text-dim">
+                {fillCoverage(t.stocks.fundsNote, { counted: LEDGER.counted, listed: LEDGER.listed })}
+              </p>
+            )}
+            <p className="font-mono-lab text-[11px] leading-5 tracking-wide text-dim">{t.stocks.peaNote}</p>
+          </Reveal>
 
           <Reveal className="mt-8">
             <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">{t.stocks.sourceNote}</p>
