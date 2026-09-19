@@ -52,11 +52,3 @@ export const LEDGER = {
   /** Same, in SEK and net of fees — the number a Swedish statement would show. */
   weightedReturnSekNet: weighted((c) => c.returnPctSekNet),
 } as const
-
-/** One decimal, dash when there is nothing to state. A signed reading spells
- *  its own sign, so a loss never reads as a gain that lost its minus. */
-export function formatPct(value: number | null, signed = false): string {
-  if (value === null) return '—'
-  if (!signed) return `${value.toFixed(1)}%`
-  return `${value >= 0 ? '+' : '−'}${Math.abs(value).toFixed(1)}%`
-}

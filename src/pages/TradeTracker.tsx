@@ -3,7 +3,8 @@ import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import { fillCoverage } from '@/lib/coverage'
-import { LEDGER, formatPct } from '@/lib/ledger'
+import { LEDGER } from '@/lib/ledger'
+import { formatPct } from '@/lib/format'
 
 function TrackCard({
   to, code, name, desc, stats, i,
@@ -31,7 +32,7 @@ function TrackCard({
 }
 
 export default function TradeTracker() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   /* The headline count is the book itself, not a number typed into the copy —
    * it read "0 trades logged" while the equity ledger carried a position. */
   const positions = t.stocks.open.length + t.stocks.closed.length + t.crypto.positions.length
@@ -41,10 +42,10 @@ export default function TradeTracker() {
   const stat = {
     positions,
     counted: LEDGER.counted,
-    hitRate: formatPct(LEDGER.hitRate),
-    meanReturn: formatPct(LEDGER.meanReturn, true),
-    weightedReturn: formatPct(LEDGER.weightedReturn, true),
-    weightedSek: formatPct(LEDGER.weightedReturnSekNet, true),
+    hitRate: formatPct(LEDGER.hitRate, lang),
+    meanReturn: formatPct(LEDGER.meanReturn, lang, true),
+    weightedReturn: formatPct(LEDGER.weightedReturn, lang, true),
+    weightedSek: formatPct(LEDGER.weightedReturnSekNet, lang, true),
   }
   return (
     <>

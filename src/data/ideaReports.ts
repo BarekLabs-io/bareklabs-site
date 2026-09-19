@@ -61,47 +61,47 @@ export type IdeaReport = {
 export const IDEA_REPORTS: Record<string, IdeaReport> = {
   nbis: {
     src: '/research/ideas/nbis/index.html',
-    title: 'Nebius Group (NBIS) — The Conversion Ratio · BAREK LABS',
+    title: 'Nebius Group (NBIS) — The Conversion Ratio · BAREK / LABS',
     tickers: ['NBIS'],
   },
   nrgv: {
     src: '/research/ideas/nrgv/index.html',
-    title: 'Energy Vault (NRGV) — The Ten Percent · BAREK LABS',
+    title: 'Energy Vault (NRGV) — The Ten Percent · BAREK / LABS',
     tickers: ['NRGV'],
   },
   dgxx: {
     src: '/research/ideas/dgxx/index.html',
-    title: 'Digi Power X (DGXX) — The December Date · BAREK LABS',
+    title: 'Digi Power X (DGXX) — The December Date · BAREK / LABS',
     tickers: ['DGXX'],
   },
   rxrx: {
     src: '/research/ideas/rxrx/index.html',
-    title: 'Recursion Pharmaceuticals (RXRX) — The Platform Against the Clock · BAREK LABS',
+    title: 'Recursion Pharmaceuticals (RXRX) — The Platform Against the Clock · BAREK / LABS',
     tickers: ['RXRX'],
   },
   isrg: {
     src: '/research/ideas/isrg/index.html',
-    title: 'Intuitive Surgical (ISRG) — The Monopoly Has an Appointment · BAREK LABS',
+    title: 'Intuitive Surgical (ISRG) — The Monopoly Has an Appointment · BAREK / LABS',
     tickers: ['ISRG'],
   },
   tmdx: {
     src: '/research/ideas/tmdx/index.html',
-    title: 'TransMedics (TMDX) — One Organ, One Thesis · BAREK LABS',
+    title: 'TransMedics (TMDX) — One Organ, One Thesis · BAREK / LABS',
     tickers: ['TMDX'],
   },
   'rklb-asts': {
     src: '/research/ideas/rklb-asts/index.html',
-    title: 'Rocket Lab & AST SpaceMobile — Two Space Bets, One Question · BAREK LABS',
+    title: 'Rocket Lab & AST SpaceMobile — Two Space Bets, One Question · BAREK / LABS',
     tickers: ['RKLB', 'ASTS'],
   },
   auua: {
     src: '/research/ideas/auua/index.html',
-    title: 'ALUULA Composites (AUUA.V) — The Width Trade · BAREK LABS',
+    title: 'ALUULA Composites (AUUA.V) — The Width Trade · BAREK / LABS',
     tickers: ['AUUA.V'],
   },
   meta: {
     src: '/research/ideas/meta/index.html',
-    title: 'Meta Platforms (META) — The Depreciation That Hasn\'t Landed · BAREK LABS',
+    title: 'Meta Platforms (META) — The Depreciation That Hasn\'t Landed · BAREK / LABS',
     tickers: ['META'],
   },
 }

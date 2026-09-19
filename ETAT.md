@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `634dc82`
+**Dernière mise à jour : 2026-09-19** · commit de référence `5806457`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -31,6 +31,7 @@ opinion en deux minutes. On priorise ce qu'il verra, pas ce qui est intéressant
 | Dettes nettes renseignées | **57** sur 176 |
 | Registre actions | **12 positions ouvertes**, **21 clôturées** (18 dans les compteurs) |
 | Courtiers au registre | **IBKR** et **Nordnet**, provenance affichée par ligne |
+| Poids des positions ouvertes | publiés, **somme 100,0 %** affichée en pied de tableau |
 | Taux de réussite | **38,9 %** sur 18 transactions clôturées |
 | Performance moyenne | **+44,4 %** par transaction clôturée |
 | Performance pondérée par le capital | **+111,8 %** en devise locale, **+128,5 %** en SEK nette de frais |
@@ -71,6 +72,17 @@ calculé sur les parts exactes. Le site publie ce qu'il sait recalculer.
   dictionnaires depuis `nordnet_registre_pourcentages.json`. Le fichier source reste
   **hors du dépôt** (dépôt public) et n'a jamais été copié ni committé. Voir § 6 pour
   ce qui a été décidé sur chacun des cinq points.
+- [ ] **Registre crypto 03.B et allocation du livre — BLOQUÉ, il manque le fichier.**
+  Elyes a tranché : liquidités et crypto incluses, `registre_poids_combines.json`
+  devait passer à 17 lignes (12 actions, TAO et ETH chez Binance, 3 lignes de
+  liquidités) plus un bloc `totals` (actions 19,03 % · crypto 1,84 % · liquidités
+  79,14 %). **Le remplacement n'est jamais arrivé sur ce Mac** : le fichier porte
+  toujours 12 lignes, `scope: positions investies, hors liquidités`, aucun `totals`,
+  horodatage inchangé au 2026-09-19 15:09. Rien dans `~/Downloads` n'est plus récent.
+  Dès que le fichier est là : remplacer les poids, passer le pied de tableau au
+  sous-total actions 19,03 %, ajouter TAO et ETH, afficher l'allocation, et poser le
+  libellé « Poids au 2026.09.19 sur le livre suivi — comptes IBKR, Nordnet et Binance,
+  liquidités de ces comptes incluses. Les avoirs détenus ailleurs sont hors périmètre. »
 - [ ] **Liste des « trucs qui ne me plaisent pas »** — attendue d'Elyes. Les
   corrections déjà faites étaient des contradictions factuelles, pas des questions de
   goût.
@@ -183,6 +195,33 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**Poids publiés, compteurs dérivés, nombres au format de la langue**
+- Colonne POIDS : les douze lignes portent leur `weightPct`, et le pied de tableau
+  additionne devant le lecteur — il affiche **100,0 %**. Périmètre : positions
+  investies, hors liquidités, au 2026.09.18.
+- Quatre compteurs étaient écrits en dur et un était faux : la carte ACTIONS annonçait
+  **0 OUVERTE** contre douze lignes au livre. `0 OPEN` (actions et crypto), `1 MODULE`
+  et `5 NOTES` passent tous par `src/lib/coverage.ts` (règle 1.2).
+- `src/lib/format.ts` : tout chiffre affiché passe par `Intl.NumberFormat`. Le français
+  lit **38,9 %** et **68,40**, l'anglais **38.9%** et **68.40**. L'arabe garde les
+  chiffres latins (`-u-nu-latn`) et ne prend que la ponctuation de sa locale.
+- Quatre contradictions de discours corrigées dans les trois langues : la tuile disait
+  « RIEN DE CONSIGNÉ AVANT » au-dessus de 32 lignes antérieures ; l'en-tête et la
+  règle 01 promettaient que tout était consigné avant l'entrée ; deux textes affirmaient
+  que **chaque** entrée est reliée à une thèse publiée, ce qui est faux des lignes
+  Nordnet. La règle 01 dit maintenant en toutes lettres que l'historique antérieur n'a
+  pas suivi la règle et qu'il est publié quand même.
+- `<title>` et les dix titres d'iframe passent à **BAREK / LABS** (règle 1.4).
+
+**Deux pièges de symboles, vérifiés sur `/api/quotes`**
+- **`ETH` nu renvoie Ethan Allen Interiors** (25,18 USD), pas l'Ethereum (`ETH-USD`,
+  2 629 USD). La watchlist de l'accueil et le bandeau utilisent déjà `ETH-USD` : aucun
+  défaut à corriger, mais le piège est à connaître avant de câbler le registre crypto.
+- **TAO est servi**, via `TAO22974-USD` (264,20 USD) — que `marketTape.ts` utilise déjà.
+  `TAO` et `TAO-USD` renvoient `null`. Le registre crypto pourra donc afficher un cours
+  et un P&L en direct pour TAO, pas un tiret.
+
 
 **Import du registre Nordnet — 32 lignes, deux courtiers, trois statistiques dérivées**
 - `t.stocks.open` passe de 1 à 12 lignes, `t.stocks.closed` de 0 à 21, dans les trois

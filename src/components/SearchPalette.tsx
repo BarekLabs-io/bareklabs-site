@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useLang } from '@/i18n/LanguageContext'
-import { formatPct } from '@/lib/ledger'
+import { formatPct } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
 type Entry = { group: 'pages' | 'notes' | 'ideas' | 'trades'; label: string; sub: string; to: string }
 
 export function useSearchIndex(): Entry[] {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   return useMemo<Entry[]>(() => {
     const e: Entry[] = [
       { group: 'pages', label: t.nav.homepage, sub: '/', to: '/' },
@@ -25,10 +25,10 @@ export function useSearchIndex(): Entry[] {
     t.ideas.items.forEach((i) => e.push({ group: 'ideas', label: i.title, sub: `${i.id} · ${t.ideas.status[i.status]}`, to: '/analysis/ideas' }))
     t.chain.stages.forEach((st) => st.items.forEach((it) => e.push({ group: 'ideas', label: `${it.t} — ${it.name}`, sub: `${t.nav.sub.chain.label} · ${st.k}`, to: '/analysis/ai-value-chain' })))
     t.stocks.open.forEach((p) => e.push({ group: 'trades', label: `${p.t} — ${p.name}`, sub: `${t.stocks.side[p.side]} · ${p.open}`, to: '/trade-tracker/stocks' }))
-    t.stocks.closed.forEach((p) => e.push({ group: 'trades', label: `${p.t} — ${p.name}`, sub: `${t.stocks.side[p.side]} · ${p.broker} · ${formatPct(p.returnPct, true)}`, to: '/trade-tracker/stocks' }))
+    t.stocks.closed.forEach((p) => e.push({ group: 'trades', label: `${p.t} — ${p.name}`, sub: `${t.stocks.side[p.side]} · ${p.broker} · ${formatPct(p.returnPct, lang, true)}`, to: '/trade-tracker/stocks' }))
     t.crypto.positions.forEach((p) => e.push({ group: 'trades', label: p.t, sub: `${t.crypto.side[p.side]} · ${p.open}`, to: '/trade-tracker/crypto' }))
     return e
-  }, [t])
+  }, [t, lang])
 }
 
 export default function SearchPalette() {

@@ -2,20 +2,22 @@ import { useState } from 'react'
 import { Link } from 'react-router'
 import { Reveal } from '@/components/lab'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
-import { NO_VALUE, formatLevel } from '@/data/marketTape'
+import { NO_VALUE } from '@/data/marketTape'
 import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
+import type { Lang } from '@/i18n/translations'
 import { fillCoverage } from '@/lib/coverage'
-import { LEDGER, formatPct } from '@/lib/ledger'
+import { LEDGER } from '@/lib/ledger'
+import { formatPct, formatDecimal } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
 /* The last price of a position comes from the quote feed and nowhere else.
  * A position whose ticker the feed does not cover shows a dash — the ledger
  * would rather say nothing than show a number it cannot stand behind. */
-function LiveCell({ quote }: { quote?: { price: number } }) {
+function LiveCell({ quote, lang }: { quote?: { price: number }; lang: Lang }) {
   return (
     <span className={cn('font-mono-lab text-sm tabular-nums', quote ? 'text-foreground' : 'text-faint')}>
-      {quote ? formatLevel(quote.price) : NO_VALUE}
+      {quote ? formatDecimal(quote.price, lang) : NO_VALUE}
     </span>
   )
 }
@@ -25,13 +27,12 @@ function LiveCell({ quote }: { quote?: { price: number } }) {
  * anywhere on this page or in its shipped data: a dollar P&L divided by the
  * price move reconstructs the position size, and the size of the book is the
  * one number this ledger does not disclose. */
-function PnlCell({ entry, quote }: { entry: number; quote?: { price: number } }) {
+function PnlCell({ entry, quote, lang }: { entry: number; quote?: { price: number }; lang: Lang }) {
   if (!quote) return <span className="font-mono-lab text-sm text-faint">{NO_VALUE}</span>
   const pct = (quote.price / entry - 1) * 100
-  const up = pct >= 0
   return (
-    <span className={cn('font-mono-lab text-sm tabular-nums', up ? 'text-signal' : 'text-danger')} dir="ltr">
-      {up ? '+' : '−'}{Math.abs(pct).toFixed(1)}%
+    <span className={cn('font-mono-lab text-sm tabular-nums', pct >= 0 ? 'text-signal' : 'text-danger')} dir="ltr">
+      {formatPct(pct, lang, true)}
     </span>
   )
 }
@@ -65,12 +66,16 @@ type Tab = 'OPEN' | 'CLOSED'
 
 export default function Stocks() {
   const [tab, setTab] = useState<Tab>('OPEN')
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const OPEN = t.stocks.open
   const CLOSED = t.stocks.closed
   /* Two lines can share a ticker — the same company held at two brokers, or
    * bought twice at different prices. The feed is asked once per symbol. */
   const { quotes } = useLiveQuotes([...new Set(OPEN.map((p) => p.symbol ?? p.t))])
+  /* Summed, not asserted. A line whose weight is unknown drops out of the
+   * total rather than counting as zero, so a short sum is visible as one. */
+  const weighed = OPEN.filter((p) => p.weightPct !== null)
+  const weightTotal = weighed.length === 0 ? null : weighed.reduce((a, p) => a + (p.weightPct ?? 0), 0)
 
   return (
     <>
@@ -134,18 +139,29 @@ export default function Stocks() {
                       </td>
                       <td className="px-6 py-4"><Badge>{p.broker}</Badge></td>
                       <td className="px-6 py-4 text-end font-mono-lab text-sm tabular-nums text-dim" dir="ltr">
-                        {p.entry.toFixed(2)} <span className="text-[9px] text-faint">{p.currency}</span>
+                        {formatDecimal(p.entry, lang)} <span className="text-[9px] text-faint">{p.currency}</span>
                       </td>
-                      <td className="px-6 py-4 text-end" dir="ltr"><LiveCell quote={quotes[p.symbol ?? p.t]} /></td>
+                      <td className="px-6 py-4 text-end" dir="ltr"><LiveCell quote={quotes[p.symbol ?? p.t]} lang={lang} /></td>
                       {/* Share of the tracked book, never a share count. */}
-                      <td className="px-6 py-4 text-end font-mono-lab text-[11px] text-dim" dir="ltr">{p.size}</td>
+                      <td className="px-6 py-4 text-end font-mono-lab text-[11px] text-dim" dir="ltr">{formatPct(p.weightPct, lang)}</td>
                       <td className="px-6 py-4 text-end">
-                        <PnlCell entry={p.entry} quote={quotes[p.symbol ?? p.t]} />
+                        <PnlCell entry={p.entry} quote={quotes[p.symbol ?? p.t]} lang={lang} />
                       </td>
                       <td className="px-6 py-4 text-end font-mono-lab text-[10px] text-faint" dir="ltr">{p.open}</td>
                     </tr>
                   ))}
                 </tbody>
+                {/* The weights are published, so the page adds them up in front
+                  * of the reader rather than asking to be trusted. It reads 100 %
+                  * or the ledger has a problem worth seeing. */}
+                <tfoot>
+                  <tr className="border-t border-line font-mono-lab text-[10px] tracking-[0.2em] text-faint">
+                    <td className="px-6 py-3" colSpan={4}>{t.stocks.weightTotal}</td>
+                    <td className="px-6 py-3" />
+                    <td className="px-6 py-3 text-end text-dim" dir="ltr">{formatPct(weightTotal, lang)}</td>
+                    <td className="px-6 py-3" colSpan={2} />
+                  </tr>
+                </tfoot>
               </table>
             </div>
           ) : (
@@ -170,10 +186,10 @@ export default function Stocks() {
                     * sits under it. Percentages only — never an amount. */}
                   <span className="text-end" dir="ltr">
                     <span className={cn('block font-mono-lab text-sm tabular-nums', c.returnPct >= 0 ? 'text-signal' : 'text-danger')}>
-                      {formatPct(c.returnPct, true)} <span className="text-[9px] text-faint">{c.currency}</span>
+                      {formatPct(c.returnPct, lang, true)} <span className="text-[9px] text-faint">{c.currency}</span>
                     </span>
                     <span className="block font-mono-lab text-[10px] tabular-nums text-faint">
-                      {formatPct(c.returnPctSekNet, true)} SEK
+                      {formatPct(c.returnPctSekNet, lang, true)} SEK
                     </span>
                   </span>
                 </Reveal>

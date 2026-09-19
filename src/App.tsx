@@ -53,7 +53,7 @@ export default function App() {
           element={
             <ReportFrame
               src="/research/modules/structure-risque/index.html"
-              title="Structure de risque — BAREK LABS"
+              title="Structure de risque — BAREK / LABS"
             />
           }
         />
