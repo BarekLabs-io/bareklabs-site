@@ -225,4 +225,206 @@ export const ideasFr: IdeaItem[] = [
     discountRate:
       '8,5 % de coût moyen pondéré du capital et 3,0 % de croissance à l\'infini, valeurs par défaut du modèle interactif. Les trois trajectoires ne portent aucune pondération de probabilité — le rapport nomme ce que chacune exige et valorise les trois, et la carte n\'invente aucun poids',
   },
+
+  /* Memory supply chain, reports n°09 to n°19, cut off 7 August 2026.
+   * Every figure below is lifted from the delivered card markdown and
+   * from nowhere else. Three of the eleven reports — n°09 WDC/STX,
+   * n°12 Micron, n°18 SUMCO — have no card block in that markdown, so
+   * they have no card here: the documents are published and reachable,
+   * and a written card will add them. */
+  {
+    id: 'IDEA-10',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'Phison Electronics',
+    tickers: ['8299.TWO'],
+    report: 'phison',
+    freshness: 'Antérieur aux comptes du T2',
+    title: 'La société de micrologiciel',
+    thesis:
+      'Le seul fabricant indépendant de contrôleurs NAND au monde. Son actif réel est vingt ans de micrologiciel qualifié sur les mémoires de quatre fabricants, et il n’apparaît nulle part au bilan. Objectif pondéré 3 375 TWD (+67,1 %), et l’écart s’accroît au test de robustesse à 8 % (3 838 TWD, +90,0 %).',
+    entry:
+      'L’écart ne repose pas sur le taux sans risque taïwanais, le plus bas de la série. Le rapport publie en revanche son désaccord explicite avec TrendForce sur la date du retournement NAND, et note que toutes les sources qui lui donnent raison sont structurellement longues de NAND.',
+    invalidation:
+      'La marge brute du T2 2026, publiée vers la mi-août : si elle ne dépasse pas 61,3 % malgré la flambée NAND, le stock avancé de 315 jours a cessé de protéger et le levier joue dans l’autre sens.',
+    horizon: 'Rapport financier T2 vers la mi-août 2026 ; trajectoire jusqu’en 2036',
+    discountRate:
+      'WACC 8,91 % = coût des fonds propres, taux sans risque TWD 1,94 %, bêta observé 1,698',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-11',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'SanDisk · Kioxia',
+    tickers: ['SNDK', '285A.T'],
+    report: 'sandisk-kioxia',
+    freshness: 'Valeurs Kioxia antérieures à la division du titre du 1er octobre 2026',
+    title: 'Ce qu’il faut croire',
+    thesis:
+      'Deux fabricants de NAND issus de la même coentreprise japonaise, cotés depuis moins de dix-huit mois, avec des bêtas de 3,65 et 5,19. Kioxia sort à 32 904 JPY (−31,1 %) — mais à 46 436 JPY, soit au cours, avec un bêta sectoriel de 2,10. SanDisk échoue au test du cas haussier : cette partie du rapport est un DCF inversé.',
+    entry:
+      'Aucune valeur intrinsèque n’est publiée pour SanDisk. Le rapport énonce les trois choses qu’il faudrait croire pour justifier 1 212,21 $ : un coût du capital de 7,56 %, un capex de coentreprise sans effet économique, et une marge brute de 84,6 % au moins partiellement structurelle.',
+    invalidation:
+      'Pour SanDisk : le rapport annuel détaillant les engagements de la coentreprise BiCS — un capex économique réel supérieur au capex comptable creuserait l’écart. Pour les deux : un bêta recalculé sur trois à cinq ans de cotation.',
+    horizon: 'Division d’action Kioxia par trois le 1er octobre 2026 ; trajectoire jusqu’en 2036',
+    discountRate:
+      'WACC 15,99 % (Kioxia, taux sans risque JPY 2,80 %) et 22,74 % (SanDisk, taux sans risque USD 4,65 %), chacun dans sa devise',
+    scenarios: [
+      { label: 'BEAR', prob: 35, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 20, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-12',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'SK hynix',
+    tickers: ['000660.KS'],
+    report: 'skhynix',
+    title: 'Le taux est la thèse',
+    thesis:
+      'Le meilleur trimestre de l’histoire de SK hynix, et une conclusion qui s’inverse avec le coût du capital : 1 181 420 KRW (−16,9 %) au WACC de convention de 13,47 %, 2 081 859 KRW (+46,4 %) à 8 %. Le bêta observé de 2,413 est calculé sur la période la plus violente de l’histoire de la mémoire.',
+    entry:
+      'Dossier de coût du capital, pas dossier opérationnel. Le rapport publie l’écart entre le cours du modèle (1 422 000 KRW) et la clôture IBKR du 7 août (1 465 000 KRW, +3,0 %) plutôt que de l’arbitrer en silence.',
+    invalidation:
+      'Une inflexion des prix contractuels DRAM avant mi-2027, ou un capex sectoriel durablement au-dessus de 25 % du chiffre d’affaires combiné.',
+    horizon: 'Publications trimestrielles ; trajectoire jusqu’en 2036',
+    discountRate:
+      'WACC 13,47 % = coût des fonds propres (trésorerie nette), taux sans risque KRW 4,22 %',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-13',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'Winbond Electronics',
+    tickers: ['2344.TW'],
+    report: 'winbond',
+    title: 'Correctement valorisé',
+    thesis:
+      'La mémoire spécialisée : prix de vente plus que doublés en un trimestre pendant que les bits livrés baissaient de 10 %, marge brute de 70,3 % sur la mémoire seule. L’objectif pondéré tombe à 154 TWD, soit −6,0 % — au cours. Le premier rapport du lab qui ne trouve pas d’écart et le publie tel quel.',
+    entry:
+      'Faible espérance de désaccord, forte dispersion : de 54 % sous le cours à 64 % au-dessus. Le rapport dit que le marché price correctement un mix niche / cycle difficile à départager plutôt que de fabriquer un écart.',
+    invalidation:
+      'Conclusion fragile : elle change de signe à 8 % de WACC (186 TWD, +13,6 %). Le cas central rejoint le cours dès 8,37 %, un point sous la convention. Le dossier le plus sensible au taux de la série.',
+    horizon: 'Publications trimestrielles ; trajectoire jusqu’en 2036',
+    discountRate:
+      'WACC 9,34 %, taux sans risque TWD 1,94 %, bêta observé 1,878 (fenêtre +874 % puis −30 %)',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-14',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'ADATA Technology',
+    tickers: ['3260.TWO'],
+    report: 'adata',
+    freshness: 'Antérieur aux comptes du T2',
+    title: 'Un pari sur le bêta, pas sur ADATA',
+    thesis:
+      'Non concluant par construction. Avec exactement les mêmes scénarios : 811 TWD (+94,8 %) au bêta observé de 0,944, 478 TWD (+14,8 %) au bêta sectoriel de 1,90. Une seule entrée change, et elle n’a rien à voir avec la société.',
+    entry:
+      'Aucun objectif unique n’est publié. Ce qui reste et vaut le détour : la marge brute d’ADATA — tombée de 55,69 % à 42,10 % en marché haussier — est le capteur avancé le plus propre de tout le cycle mémoire, à surveiller pour tous les autres dossiers de la série.',
+    invalidation:
+      'Un bêta recalculé sur données propres, avec indice de référence, fenêtre et fréquence déclarés. C’est la seule chose qui transformerait ce document en rapport de valorisation.',
+    horizon: 'États complets T2 vers la mi-août 2026 ; marge brute du T3 comme signal sectoriel',
+    discountRate:
+      'WACC 5,82 % au bêta observé, 8,30 % au bêta sectoriel — taux sans risque TWD 1,94 %',
+    scenarios: [
+      { label: 'BEAR', prob: 35, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 20, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-15',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'DISTRIBUTION',
+    company: 'Arrow Electronics · Avnet',
+    tickers: ['ARW', 'AVT'],
+    report: 'arrow-avnet',
+    title: 'Le chiffre d’affaires d’un distributeur ne mesure presque rien',
+    thesis:
+      'Arrow et Avnet affichent +32 % et +47,7 % de croissance, mais un tiers de celle d’Avnet est de l’inflation de prix mémoire. La seule grandeur qui compte est la marge brute en dollars : Arrow en encaisse 1,8 fois celle de WT Micro sur deux fois moins de volume. Objectifs pondérés 266 $ et 120 $ contre 202,36 $ et 96,87 $.',
+    entry:
+      'Les deux dossiers les plus sains du lot : bêtas ordinaires (1,20 et 1,11), marges de 4 %, écarts modérés. Arrow est le plus solide des deux — son cas central ne passe sous le cours qu’à 10,87 % de WACC, deux points au-dessus de la convention ; celui d’Avnet bascule à 9,04 %, à moins d’un point.',
+    invalidation:
+      'Le retournement d’inventaire : book-to-bill sous 1 dans deux régions sur trois, puis jours de stock en hausse. Chez Avnet spécifiquement, une normalisation des prix mémoire de −40 % créerait une dépréciation sans qu’aucun volume ne baisse.',
+    horizon: 'Publications trimestrielles ; trajectoire modélisée jusqu’en 2036',
+    discountRate:
+      'WACC 9,05 % (ARW) et 8,08 % (AVT), taux sans risque USD 4,65 %, bêtas observés',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-16',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'DISTRIBUTION',
+    company: 'WT Microelectronics',
+    tickers: ['3036.TW'],
+    report: 'wtmicro',
+    title: 'Ce qui alimente l’intelligence artificielle',
+    thesis:
+      'Premier distributeur mondial de semi-conducteurs, 3,41 % de marge brute et un levier opérationnel qui joue dans les deux sens. NVIDIA ne passe pas par un distributeur — mais les milliers de composants de puissance autour du processeur, si. Objectif pondéré 590 TWD (+179,1 %).',
+    entry:
+      'Résultat extrême, règle R7 appliquée. Le rapport publie ses trois points faibles plutôt que ses arguments : la base de départ 2026 alors que la société vient de guider son datacenter en baisse séquentielle ; la convention de BFR probablement trop douce ; la probabilité de 30 % du retournement d’inventaire, peut-être trop basse.',
+    invalidation:
+      'La baisse séquentielle du chiffre d’affaires datacenter se répète au T4 — ce ne serait alors plus un calendrier d’expédition. Ou la marge opérationnelle repasse sous 2 % sur deux trimestres.',
+    horizon: 'Revenus mensuels publiés ; T3 2026 comme point de contrôle ; trajectoire jusqu’en 2036',
+    discountRate:
+      'WACC 6,88 % au bêta d’Arrow (1,20) retenu comme approximation sectorielle — le bêta observé de 0,169 est un héritage pré-Future, inutilisable ; les deux lignes sont publiées',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-17',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'SEMIS',
+    company: 'Shin-Etsu Chemical',
+    tickers: ['4063.T'],
+    report: 'shinetsu',
+    title: 'Le segment qu’on ne peut pas voir',
+    thesis:
+      'Numéro un mondial des plaquettes de silicium, du PVC et des photorésists les plus avancés, à 24,7 % de marge opérationnelle et 78,7 % de fonds propres. Et aucune divulgation de la ligne plaquettes. Somme des parties sur les quatre segments publiés : 4 220 JPY (−31,3 %) contre 6 140 JPY.',
+    entry:
+      'Pas de DCF, et c’est une décision : construire un flux actualisé « plaquettes » reviendrait à inventer le chiffre central. Le cas haut n’atteint pas le cours — le rapport bascule en somme des parties inversée et énonce qu’il faut valoriser Electronic Materials à 25,1x son résultat d’exploitation, les autres segments restant à des multiples de chimie ordinaires.',
+    invalidation:
+      'Shin-Etsu divulgue le chiffre d’affaires ou le résultat de sa ligne plaquettes. Ou le résultat d’exploitation du groupe remonte nettement au-dessus de l’exercice utilisé, en baisse de 14,4 %.',
+    horizon: 'T1 exercice 2027 publié le 24 juillet 2026, non encore intégré ; prochain tanshin',
+    discountRate:
+      'Pas de taux d’actualisation : méthode par multiples. Coût des fonds propres publié pour comparabilité : 7,81 %, taux sans risque JPY 2,80 %, bêta 1,082',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
 ]

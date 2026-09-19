@@ -193,7 +193,10 @@ export const en = {
       serif: 'ideas',
       desc: 'THESES WITH RECEIPTS: ENTRY LOGIC, INVALIDATION LEVELS AND PROBABILITY MAPS — WRITTEN BEFORE THE TRADE, AUDITED AFTER.',
     },
-    filters: ['ALL', 'AI INFRA', 'MEDTECH', 'BIOTECH', 'SPACE', 'ENERGY', 'MATERIALS'],
+    /* A sector that is not in this list gives a card the filter can never
+     * return (§ 4.3). MEMORY, DISTRIBUTION and SEMIS arrive with the memory
+     * supply-chain series. */
+    filters: ['ALL', 'AI INFRA', 'MEMORY', 'SEMIS', 'DISTRIBUTION', 'MEDTECH', 'BIOTECH', 'SPACE', 'ENERGY', 'MATERIALS'],
     status: { ACTIVE: 'ACTIVE', WATCHING: 'WATCHING', CLOSED: 'CLOSED' } as Record<string, string>,
     labels: { entry: 'ENTRY LOGIC', invalidation: 'INVALIDATION', horizon: 'HORIZON', rate: 'DISCOUNT RATE', scenarios: 'SCENARIO MAP', readReport: 'READ THE FULL REPORT', dataAsOf: 'DATA AS OF' },
     scenarioLabels: { BASE: 'Base', BULL: 'Bull', BEAR: 'Bear', HIT: 'Hit' } as Record<string, string>,
@@ -201,7 +204,7 @@ export const en = {
     headRight: 'CLICK TO EXPAND',
     method: {
       label: 'ON READING THESE TARGETS',
-      body: 'Every target on this page shows the rate that produced it, and each report publishes the controls behind it. Three things a reader should know. First, all eight reports were rebuilt on 7 August 2026 after a method error was found in the terminal year: the original engine let the terminal flow carry perpetual growth without funding the reinvestment that growth requires, which mechanically distorted terminal values. The rebuilt engine reinvests at the model\'s own return on capital, its construction is written out line by line in each report\'s method section, and the numbers on these cards are the rebuilt ones. Second, on most of these files the discount rate decides more than the operating path: rerun at 8% — the assumption that these companies are no riskier than the equity market as a whole — the NRGV, NBIS and TMDX conclusions invert outright and the ISRG gap almost disappears, while DGXX holds and on Recursion no rate helps at all, which is why that file is valued as a sum of the parts. Each card says which way its file falls. Third, these subjects are drawn from the hottest corners of a rising market, and eight reports sharing one author, one engine and one terminal-value convention have error correlation close to one. Eight cautious answers are not eight confirmations. They are one bet, stated eight times. Read each target as the question behind it — what you would have to believe to justify the price — rather than as a verdict.',
+      body: 'Every target on this page shows the rate that produced it, and each report publishes the controls behind it. Three things a reader should know. First, on the opening batch: all eight of those reports were rebuilt on 7 August 2026 after a method error was found in the terminal year: the original engine let the terminal flow carry perpetual growth without funding the reinvestment that growth requires, which mechanically distorted terminal values. The rebuilt engine reinvests at the model\'s own return on capital, its construction is written out line by line in each report\'s method section, and the numbers on these cards are the rebuilt ones. Second, on most of these files the discount rate decides more than the operating path: rerun at 8% — the assumption that these companies are no riskier than the equity market as a whole — the NRGV, NBIS and TMDX conclusions invert outright and the ISRG gap almost disappears, while DGXX holds and on Recursion no rate helps at all, which is why that file is valued as a sum of the parts. Each card says which way its file falls. Third, these subjects are drawn from the hottest corners of a rising market, and eight reports sharing one author, one engine and one terminal-value convention have error correlation close to one. Eight cautious answers are not eight confirmations. They are one bet, stated eight times. Read each target as the question behind it — what you would have to believe to justify the price — rather than as a verdict. The memory supply-chain series, reports n°09 to n°19, is a second batch cut off on 7 August 2026: the three paragraphs above do not describe it, and each card carries its own date.',
     },
     disclaimer: 'IDEAS ARE RESEARCH ARTEFACTS, NOT RECOMMENDATIONS. SIZING AND EXECUTION LIVE IN THE TRADE TRACKER.',
     empty: {
@@ -1025,7 +1028,7 @@ export const en = {
       code: '03.B / TRADE TRACKER — CRYPTO',
       title: 'Crypto',
       serif: 'ledger',
-      desc: "OUR CRYPTO POSITIONS, TRACKED THE SAME WAY AS EVERYTHING ELSE HERE: SPOT-LED, SIZED BY CONVICTION, AND HONEST ABOUT FUNDING AND REGIME BEFORE ANY LEVERAGE GETS ADDED.",
+      desc: 'SPOT CRYPTO POSITIONS, TRACKED LIKE THE REST OF THE LEDGER: ENTRY PRICE, WEIGHT, LIVE PERFORMANCE. NO LEVERAGE.',
     },
     head: 'Book & regime',
     headRight: 'LIVE FEED · 15-20 MIN DELAY',

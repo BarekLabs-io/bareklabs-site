@@ -227,4 +227,206 @@ export const ideasEn: IdeaItem[] = [
     discountRate:
       '8.5% WACC and 3.0% terminal growth on the interactive model\'s defaults. The three paths carry no probability weights — the report names what each requires and prices all three, and the card invents no weighting',
   },
+
+  /* Memory supply chain, reports n°09 to n°19, cut off 7 August 2026.
+   * Every figure below is lifted from the delivered card markdown and
+   * from nowhere else. Three of the eleven reports — n°09 WDC/STX,
+   * n°12 Micron, n°18 SUMCO — have no card block in that markdown, so
+   * they have no card here: the documents are published and reachable,
+   * and a written card will add them. */
+  {
+    id: 'IDEA-10',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'Phison Electronics',
+    tickers: ['8299.TWO'],
+    report: 'phison',
+    freshness: 'Predates the Q2 accounts',
+    title: 'The firmware company',
+    thesis:
+      'The only independent NAND controller maker in the world. Its real asset is twenty years of firmware qualified against four manufacturers\' memory, and it appears nowhere on the balance sheet. Weighted target TWD 3,375 (+67.1%), and the gap WIDENS under the 8% robustness test (TWD 3,838, +90.0%).',
+    entry:
+      'The gap does not rest on the Taiwanese risk-free rate, the lowest in the series. What the report does publish is its explicit disagreement with TrendForce on the timing of the NAND turn, noting that every source that agrees with it is structurally long NAND.',
+    invalidation:
+      'Q2 2026 gross margin, due around mid-August: if it does not clear 61.3% despite the NAND surge, the 315 days of forward inventory have stopped protecting and the leverage runs the other way.',
+    horizon: 'Q2 financial report around mid-August 2026; modelled to 2036',
+    discountRate:
+      '8.91% WACC = cost of equity, TWD risk-free rate 1.94%, observed beta 1.698',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-11',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'SanDisk · Kioxia',
+    tickers: ['SNDK', '285A.T'],
+    report: 'sandisk-kioxia',
+    freshness: 'Kioxia figures predate the 1 October 2026 share split',
+    title: 'What you must believe',
+    thesis:
+      'Two NAND makers out of the same Japanese joint venture, listed for under eighteen months, with betas of 3.65 and 5.19. Kioxia comes out at JPY 32,904 (−31.1%) — but at JPY 46,436, which is the market price, on a sector beta of 2.10. SanDisk FAILS the bull-case test: that half of the report is a reverse DCF.',
+    entry:
+      'No intrinsic value is published for SanDisk. The report states the three things one would have to believe to justify $1,212.21: a 7.56% cost of capital, joint-venture capex with no economic effect, and an 84.6% gross margin that is at least partly structural.',
+    invalidation:
+      'For SanDisk: the annual report detailing the BiCS joint-venture commitments — real economic capex above accounting capex would WIDEN the gap. For both: a beta recomputed over three to five years of trading.',
+    horizon: 'Kioxia three-for-one share split on 1 October 2026; modelled to 2036',
+    discountRate:
+      '15.99% WACC (Kioxia, JPY risk-free rate 2.80%) and 22.74% (SanDisk, USD risk-free rate 4.65%), each in its own currency',
+    scenarios: [
+      { label: 'BEAR', prob: 35, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 20, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-12',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'SK hynix',
+    tickers: ['000660.KS'],
+    report: 'skhynix',
+    title: 'The rate is the thesis',
+    thesis:
+      'The best quarter in SK hynix\'s history, and a conclusion that flips with the cost of capital: KRW 1,181,420 (−16.9%) at the 13.47% convention WACC, KRW 2,081,859 (+46.4%) at 8%. The observed beta of 2.413 is computed over the most violent stretch in memory\'s history.',
+    entry:
+      'A cost-of-capital file, not an operating one. The report publishes the gap between the model price (KRW 1,422,000) and the 7 August IBKR close (KRW 1,465,000, +3.0%) rather than settling it quietly.',
+    invalidation:
+      'An inflection in contract DRAM pricing before mid-2027, or sector capex durably above 25% of combined revenue.',
+    horizon: 'Quarterly prints; modelled to 2036',
+    discountRate:
+      '13.47% WACC = cost of equity (net cash), KRW risk-free rate 4.22%',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-13',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'Winbond Electronics',
+    tickers: ['2344.TW'],
+    report: 'winbond',
+    title: 'Fairly priced',
+    thesis:
+      'Specialty memory: selling prices more than doubled in a quarter while bits shipped fell 10%, a 70.3% gross margin on memory alone. The weighted target lands at TWD 154, or −6.0% — at the market. The first report from the lab that finds no gap and publishes that as the finding.',
+    entry:
+      'Low expected disagreement, wide dispersion: from 54% below the price to 64% above it. The report says the market is pricing a niche-versus-cycle mix correctly rather than manufacturing a gap.',
+    invalidation:
+      'FRAGILE CONCLUSION: it changes sign at an 8% WACC (TWD 186, +13.6%). The central case meets the price at 8.37%, a point below the convention. The most rate-sensitive file in the series.',
+    horizon: 'Quarterly prints; modelled to 2036',
+    discountRate:
+      '9.34% WACC, TWD risk-free rate 1.94%, observed beta 1.878 (over a window of +874% then −30%)',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-14',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'ADATA Technology',
+    tickers: ['3260.TWO'],
+    report: 'adata',
+    freshness: 'Predates the Q2 accounts',
+    title: 'A bet on beta, not on ADATA',
+    thesis:
+      'INCONCLUSIVE BY CONSTRUCTION. On exactly the same scenarios: TWD 811 (+94.8%) at the observed beta of 0.944, TWD 478 (+14.8%) at the sector beta of 1.90. One input changes, and it has nothing to do with the company.',
+    entry:
+      'No single target is published. What remains and is worth the detour: ADATA\'s gross margin — down from 55.69% to 42.10% IN A RISING MARKET — is the cleanest leading sensor in the whole memory cycle, worth watching for every other file in the series.',
+    invalidation:
+      'A beta recomputed on clean data, with benchmark, window and frequency all declared. That is the only thing that would turn this document into a valuation report.',
+    horizon: 'Full Q2 statements around mid-August 2026; Q3 gross margin as a sector signal',
+    discountRate:
+      '5.82% WACC at the observed beta, 8.30% at the sector beta — TWD risk-free rate 1.94%',
+    scenarios: [
+      { label: 'BEAR', prob: 35, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 20, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-15',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'DISTRIBUTION',
+    company: 'Arrow Electronics · Avnet',
+    tickers: ['ARW', 'AVT'],
+    report: 'arrow-avnet',
+    title: 'A distributor\'s revenue measures almost nothing',
+    thesis:
+      'Arrow and Avnet post +32% and +47.7% growth, but a third of Avnet\'s is memory price inflation. The only quantity that counts is gross profit in dollars: Arrow books 1.8 times WT Micro\'s on half the volume. Weighted targets $266 and $120 against $202.36 and $96.87.',
+    entry:
+      'The two healthiest files in the batch: ordinary betas (1.20 and 1.11), 4% margins, moderate gaps. Arrow is the sturdier of the two — its central case only falls below the price at a 10.87% WACC, two points above the convention; Avnet\'s tips at 9.04%, under a point away.',
+    invalidation:
+      'The inventory turn: book-to-bill under 1 in two regions out of three, then days of inventory rising. At Avnet specifically, a −40% normalisation in memory pricing would create a writedown without a single unit of volume falling.',
+    horizon: 'Quarterly prints; modelled to 2036',
+    discountRate:
+      '9.05% WACC (ARW) and 8.08% (AVT), USD risk-free rate 4.65%, observed betas',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-16',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'DISTRIBUTION',
+    company: 'WT Microelectronics',
+    tickers: ['3036.TW'],
+    report: 'wtmicro',
+    title: 'What feeds the AI',
+    thesis:
+      'The world\'s largest semiconductor distributor, a 3.41% gross margin and operating leverage that cuts both ways. NVIDIA does not go through a distributor — but the thousands of power components around the processor do. Weighted target TWD 590 (+179.1%).',
+    entry:
+      'EXTREME RESULT, RULE R7 APPLIED. The report publishes its three weak points rather than its arguments: the 2026 starting base, when the company has just guided its datacentre business down sequentially; a working-capital convention that is probably too generous; and a 30% probability on the inventory turn that may be too low.',
+    invalidation:
+      'The sequential fall in datacentre revenue repeats in Q4 — at which point it is no longer a shipping calendar. Or the operating margin drops back under 2% for two quarters.',
+    horizon: 'Monthly revenue prints; Q3 2026 as a checkpoint; modelled to 2036',
+    discountRate:
+      '6.88% WACC on Arrow\'s beta (1.20), taken as a sector proxy — the observed beta of 0.169 is a pre-Future legacy and unusable; both lines are published',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-17',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'SEMIS',
+    company: 'Shin-Etsu Chemical',
+    tickers: ['4063.T'],
+    report: 'shinetsu',
+    title: 'The segment you cannot see',
+    thesis:
+      'The world number one in silicon wafers, PVC and the most advanced photoresists, at a 24.7% operating margin and 78.7% equity. And no disclosure at all of the wafer line. Sum of the parts across the four published segments: JPY 4,220 (−31.3%) against JPY 6,140.',
+    entry:
+      'NO DCF, AND THAT IS A DECISION: building a discounted \'wafer\' cash flow would mean inventing the central number. The high case does not reach the price — the report switches to a REVERSE SUM OF THE PARTS and states that one would have to value Electronic Materials at 25.1x its operating profit, with the other segments left on ordinary chemicals multiples.',
+    invalidation:
+      'Shin-Etsu discloses the revenue or the profit of its wafer line. Or group operating profit recovers well above the year used, which was down 14.4%.',
+    horizon: 'Q1 FY2027 published 24 July 2026, not yet incorporated; next tanshin',
+    discountRate:
+      'No discount rate: a multiples method. Cost of equity published for comparability: 7.81%, JPY risk-free rate 2.80%, beta 1.082',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
 ]

@@ -40,6 +40,12 @@ export type IdeaItem = {
    * it, which is the more useful disagreement. */
   discountRate?: string
   tickers?: string[]
+  /* A dated caveat the report itself carries: figures that predate a quarter
+   * that has since printed, or a share split that has since happened. It rides
+   * on the card because a reader meets the card first and the report second,
+   * and a stale input is the kind of thing they need before the thesis, not
+   * after it. */
+  freshness?: string
   /* Set when the underlying report has been rebuilt after a method error was
    * found — the terminal-capex normalisation, on this batch. It is on the card
    * because a reader who read the first version deserves to know the numbers
@@ -103,6 +109,72 @@ export const IDEA_REPORTS: Record<string, IdeaReport> = {
     src: '/research/ideas/meta/index.html',
     title: 'Meta Platforms (META) — The Depreciation That Hasn\'t Landed · BAREK / LABS',
     tickers: ['META'],
+  },
+
+  /* The memory supply-chain series, n°09 to n°19. Posed byte-for-byte as
+   * delivered (§ 4.1) — the HTML is self-contained and nothing inside it is
+   * edited here; a figure that must change is refabricated upstream.
+   *
+   * Three of these carry no card yet: n°09 WDC/STX, n°12 Micron and n°18 SUMCO
+   * are absent from the delivered markdown, which covers eight of the eleven.
+   * They are declared so the documents are reachable and so the page that
+   * eventually links them needs no route work — a slug with no card simply
+   * shows no link, which is the documented behaviour for a thesis whose card
+   * is not written. */
+  'wdc-stx': {
+    src: '/research/ideas/wdc-stx/index.html',
+    title: 'BAREK / LABS — n°09 — WDC / STX — Five Point Three Percent',
+    tickers: ['WDC', 'STX'],
+  },
+  phison: {
+    src: '/research/ideas/phison/index.html',
+    title: 'BAREK / LABS — n°10 — Phison — The Firmware Company',
+    tickers: ['8299.TWO'],
+  },
+  'sandisk-kioxia': {
+    src: '/research/ideas/sandisk-kioxia/index.html',
+    title: 'BAREK / LABS — n°11 — SanDisk / Kioxia — What You Must Believe',
+    tickers: ['SNDK', '285A.T'],
+  },
+  micron: {
+    src: '/research/ideas/micron/index.html',
+    title: 'BAREK / LABS — n°12 — Micron — The Perfect Quarter',
+    tickers: ['MU'],
+  },
+  skhynix: {
+    src: '/research/ideas/skhynix/index.html',
+    title: 'BAREK / LABS — n°13 — SK hynix — The Rate Is The Thesis',
+    tickers: ['000660.KS'],
+  },
+  winbond: {
+    src: '/research/ideas/winbond/index.html',
+    title: 'BAREK / LABS — n°14 — Winbond — Fairly Priced',
+    tickers: ['2344.TW'],
+  },
+  adata: {
+    src: '/research/ideas/adata/index.html',
+    title: 'BAREK / LABS — n°15 — ADATA — A Bet On Beta, Not On ADATA',
+    tickers: ['3260.TWO'],
+  },
+  'arrow-avnet': {
+    src: '/research/ideas/arrow-avnet/index.html',
+    title: 'BAREK / LABS — n°16 — Arrow / Avnet — The Revenue That Isn\'t',
+    tickers: ['ARW', 'AVT'],
+  },
+  wtmicro: {
+    src: '/research/ideas/wtmicro/index.html',
+    title: 'BAREK / LABS — n°17 — WT Microelectronics — What Feeds The AI',
+    tickers: ['3036.TW'],
+  },
+  sumco: {
+    src: '/research/ideas/sumco/index.html',
+    title: 'BAREK / LABS — n°18 — SUMCO — The Company That Won\'t Build',
+    tickers: ['3436.T'],
+  },
+  shinetsu: {
+    src: '/research/ideas/shinetsu/index.html',
+    title: 'BAREK / LABS — n°19 — Shin-Etsu — The Segment You Cannot See',
+    tickers: ['4063.T'],
   },
 }
 

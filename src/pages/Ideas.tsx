@@ -71,12 +71,18 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
                 {idea.revised}
               </span>
             )}
-            {/* The publication date is deliberately not rendered for now. All nine
-              * theses carry the same one, so printing it announces that the batch
-              * was written and shipped in a single sitting — which says more about
-              * the production run than about the research. `date` stays on the
-              * data so it can go back up when the cadence is its own story. */}
+            {/* The date was held back while all nine theses carried the same one:
+              * printing it then said more about the production run than about the
+              * research. The memory series arrives on its own cut-off, so the date
+              * now separates batches instead of exposing one, and a reader can see
+              * how old the numbers in front of them are. */}
+            <span className="font-mono-lab text-[9px] tracking-[0.2em] text-faint" dir="ltr">{asOf}</span>
           </div>
+          {idea.freshness && (
+            <div className="mt-4 border-s-2 border-warn/40 ps-3 font-mono-lab text-[10px] leading-4 tracking-wide text-warn">
+              {idea.freshness}
+            </div>
+          )}
           {/* The company, spelled out. The titles below are editorial and the
             * badges above are tickers, neither of which names the subject to a
             * reader scrolling a carousel. */}

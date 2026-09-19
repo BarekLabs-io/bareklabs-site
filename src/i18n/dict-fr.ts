@@ -194,7 +194,7 @@ export const fr: Dict = {
       serif: 'd’investissement',
       desc: 'DES THÈSES QUI MONTRENT LEURS PIÈCES : LOGIQUE D’ENTRÉE, CONDITIONS D’INVALIDATION, CARTES DE PROBABILITÉS — ÉCRITES AVANT LE TRADE, AUDITÉES APRÈS.',
     },
-    filters: ['TOUT', 'AI INFRA', 'MEDTECH', 'BIOTECH', 'SPACE', 'ENERGY', 'MATERIALS'],
+    filters: ['TOUT', 'AI INFRA', 'MEMORY', 'SEMIS', 'DISTRIBUTION', 'MEDTECH', 'BIOTECH', 'SPACE', 'ENERGY', 'MATERIALS'],
     status: { ACTIVE: 'ACTIF', WATCHING: 'SURVEILLÉ', CLOSED: 'CLÔTURÉ' } as Record<string, string>,
     labels: { entry: 'LOGIQUE D’ENTRÉE', invalidation: 'INVALIDATION', horizon: 'HORIZON', rate: 'TAUX D’ACTUALISATION', scenarios: 'CARTE DES SCÉNARIOS', readReport: 'LIRE LE RAPPORT COMPLET', dataAsOf: 'DONNÉES AU' },
     scenarioLabels: { BASE: 'Central', BULL: 'Haussier', BEAR: 'Baissier', HIT: 'Atteint' } as Record<string, string>,
@@ -202,7 +202,7 @@ export const fr: Dict = {
     headRight: 'CLIQUER POUR DÉPLIER',
     method: {
       label: 'COMMENT LIRE CES CIBLES',
-      body: 'Chaque cible de cette page affiche le taux qui l’a produite, et chaque rapport publie les contrôles qui la soutiennent. Trois choses à savoir. D’abord, les huit rapports ont été refabriqués le 7 août 2026 après la découverte d’une erreur de méthode sur l’année terminale : le moteur d’origine laissait le flux terminal porter une croissance perpétuelle sans financer le réinvestissement que cette croissance exige, ce qui déformait mécaniquement les valeurs terminales. Le moteur refait réinvestit au rendement du capital que produit le modèle lui-même, sa construction est publiée ligne à ligne dans la section méthode de chaque rapport, et les chiffres de ces cartes sont ceux des versions refaites. Ensuite, sur la plupart de ces dossiers, le taux d’actualisation décide davantage que la trajectoire d’exploitation : rejoué à 8 % — en supposant ces sociétés pas plus risquées que le marché actions dans son ensemble — les conclusions NRGV, NBIS et TMDX s’inversent franchement et l’écart ISRG disparaît presque, tandis que DGXX tient et que sur Recursion aucun taux n’aide, raison pour laquelle ce dossier est valorisé en somme des parties. Chaque carte dit de quel côté tombe son dossier. Enfin, ces sujets sont pris dans les coins les plus chauds d’un marché haussier, et huit rapports partageant un auteur, un moteur et une convention de valeur terminale ont une corrélation d’erreurs proche de 1. Huit réponses prudentes ne sont pas huit confirmations : c’est un seul pari, formulé huit fois. Lisez chaque cible comme la question qui la sous-tend — ce qu’il faudrait croire pour justifier le cours — et non comme un verdict.',
+      body: 'Chaque cible de cette page affiche le taux qui l’a produite, et chaque rapport publie les contrôles qui la soutiennent. Trois choses à savoir. D’abord, sur le premier lot : les huit rapports ont été refabriqués le 7 août 2026 après la découverte d’une erreur de méthode sur l’année terminale : le moteur d’origine laissait le flux terminal porter une croissance perpétuelle sans financer le réinvestissement que cette croissance exige, ce qui déformait mécaniquement les valeurs terminales. Le moteur refait réinvestit au rendement du capital que produit le modèle lui-même, sa construction est publiée ligne à ligne dans la section méthode de chaque rapport, et les chiffres de ces cartes sont ceux des versions refaites. Ensuite, sur la plupart de ces dossiers, le taux d’actualisation décide davantage que la trajectoire d’exploitation : rejoué à 8 % — en supposant ces sociétés pas plus risquées que le marché actions dans son ensemble — les conclusions NRGV, NBIS et TMDX s’inversent franchement et l’écart ISRG disparaît presque, tandis que DGXX tient et que sur Recursion aucun taux n’aide, raison pour laquelle ce dossier est valorisé en somme des parties. Chaque carte dit de quel côté tombe son dossier. Enfin, ces sujets sont pris dans les coins les plus chauds d’un marché haussier, et huit rapports partageant un auteur, un moteur et une convention de valeur terminale ont une corrélation d’erreurs proche de 1. Huit réponses prudentes ne sont pas huit confirmations : c’est un seul pari, formulé huit fois. Lisez chaque cible comme la question qui la sous-tend — ce qu’il faudrait croire pour justifier le cours — et non comme un verdict. La série chaîne d’approvisionnement mémoire, rapports n°09 à n°19, forme un second lot arrêté au 7 août 2026 : les trois paragraphes ci-dessus ne la décrivent pas, et chaque carte porte sa propre date.',
     },
     disclaimer: 'LES IDÉES SONT DES ARTEFACTS DE RECHERCHE, PAS DES RECOMMANDATIONS. LE DIMENSIONNEMENT ET L’EXÉCUTION VIVENT DANS LE TRADE TRACKER.',
     empty: {
@@ -1025,7 +1025,7 @@ export const fr: Dict = {
       code: '03.B / TRADE TRACKER — CRYPTO',
       title: 'Registre',
       serif: 'crypto',
-      desc: 'NOS POSITIONS CRYPTO, SUIVIES DE LA MÊME FAÇON QUE TOUT LE RESTE ICI : SPOT D’ABORD, DIMENSIONNÉES PAR CONVICTION, ET HONNÊTES SUR LE FINANCEMENT ET LE RÉGIME AVANT D’AJOUTER LE MOINDRE LEVIER.',
+      desc: 'POSITIONS CRYPTO AU COMPTANT, SUIVIES COMME LE RESTE DU REGISTRE : PRIX D’ENTRÉE, POIDS, PERFORMANCE EN DIRECT. AUCUN LEVIER.',
     },
     head: 'Livre & régime',
     headRight: 'FLUX EN DIRECT · DIFFÉRÉ 15-20 MIN',

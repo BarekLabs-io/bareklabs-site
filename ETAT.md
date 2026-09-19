@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `eba3927`
+**Dernière mise à jour : 2026-09-19** · commit de référence `633205b`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -27,7 +27,7 @@ opinion en deux minutes. On priorise ce qu'il verra, pas ce qui est intéressant
 |---|---|
 | Sociétés couvertes | **176** |
 | Marchés | **14** |
-| Idées publiées | **9** cartes × 3 langues, 9 rapports HTML |
+| Idées publiées | **17** cartes × 3 langues, **20** rapports HTML |
 | Dettes nettes renseignées | **57** sur 176 |
 | Registre actions | **12 positions ouvertes**, **21 clôturées** (18 dans les compteurs) |
 | Registre crypto | **2 positions ouvertes** (TAO, ETH), courtier Binance |
@@ -149,10 +149,26 @@ suédoise, mais le jour où il y en aura une, rien n'est à construire.
   Ajouter au screener signifie écrire un dossier `Company` complet — le type exige des
   zones de prix et des scénarios pondérés, que la règle 4.3 interdit d'inventer. Le
   type prévoit `verdictTone: 'unrated'` pour ce cas.
-- [ ] **Le zip `publier/`** — 11 rapports HTML + cartes. Jamais arrivé. Le site est à 9.
-- [ ] **Secteurs MEMORY / SEMIS / DISTRIBUTION** à ajouter aux filtres Investment Ideas.
-- [ ] **Série chaîne d'approvisionnement** dans sa propre section, pas mélangée aux 9.
-- [ ] **Rapport n°14 Winbond en double** — comparer les deux versions avant d'en publier une.
+- [x] **Le zip `publier/` — intégré.** Les 11 rapports n°09 à n°19 sont posés et
+  déclarés ; 8 cartes écrites dans les trois langues.
+- [ ] **Trois cartes manquantes : n°09 WDC/STX, n°12 Micron, n°18 SUMCO.** Le markdown
+  livré n'en contient que huit — son titre le dit (« rapports n°10, 11, 13, 14, 15, 16,
+  17, 19 ») et sa conclusion aussi (« ces huit cartes »). Les trois rapports sont en
+  ligne et atteignables, mais sans bloc de carte ils n'apparaissent pas sur Investment
+  Ideas. **Demande Elyes :** le markdown des trois cartes manquantes.
+- [ ] **Rafraîchir trois dossiers**, dettes de données listées par le markdown lui-même :
+  n°10 Phison et n°15 ADATA sont antérieurs aux comptes du T2 (disponibles mi-août 2026) ;
+  n°11 SanDisk attend le rapport annuel sur le capex hors bilan de la coentreprise BiCS,
+  et ses valeurs Kioxia sont antérieures à la division du titre du 1er octobre 2026.
+- [x] **Secteurs MEMORY / SEMIS / DISTRIBUTION** ajoutés aux filtres, trois langues.
+- [ ] **Série chaîne d'approvisionnement** dans sa propre section, pas mélangée aux 9. Les
+  secteurs MEMORY / SEMIS / DISTRIBUTION la séparent déjà au filtre, mais pas à l'œil.
+- [x] **Rapport n°14 Winbond — il n'y avait pas de doublon côté site.** Winbond n'a
+  jamais été publié : aucun slug `winbond` dans `IDEA_REPORTS`, aucun dossier sous
+  `public/research/ideas/`. Le nom n'existait que comme fiche de screener dans
+  `companies.ts`, marquée « watchlist entry, not a deep dive ». Le zip n'en contient
+  qu'une version, qui est donc celle publiée. Si un second exemplaire existe, il est
+  dans `bareklabs-research` et invisible d'ici.
 - [ ] **Dette nette : 57 sur 176.** `scripts/netdebt.mjs` encode six pièges.
 
 ---
@@ -186,6 +202,39 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**La série mémoire entre : 11 rapports, 8 cartes, 3 secteurs**
+- `public/research/ideas/` passe de 9 à 20 dossiers. Les onze HTML sont copiés
+  **octet pour octet** — MD5 vérifié avant et après (§ 4.1) — et déclarés dans
+  `IDEA_REPORTS`.
+- 8 cartes écrites dans les trois langues depuis le markdown livré, l'arabe à la main.
+  Aucun chiffre qui ne soit pas dans ce markdown. Les trois rapports sans objectif
+  exploitable — n°11 SanDisk (DCF inversé), n°15 ADATA (non concluant), n°19 Shin-Etsu
+  (somme des parties inversée) — n'en portent aucun.
+- Filtres MEMORY, SEMIS et DISTRIBUTION ajoutés : un secteur absent de `t.ideas.filters`
+  donne une carte que le filtre ne retourne jamais (§ 4.3).
+- **La date d'arrêté est de nouveau affichée.** Elle était volontairement masquée parce
+  que les neuf thèses portaient la même — la raison est écrite dans le code. Elle tombe
+  avec un second lot : la date sépare désormais deux dates au lieu d'en exposer une.
+- Nouveau champ `freshness` sur la carte, pour les réserves datées : n°10 Phison et
+  n°15 ADATA antérieurs aux comptes du T2, n°11 antérieur à la division Kioxia.
+- **L'introduction de la page disait « les huit rapports ».** Elle décrit le premier lot
+  et son erreur d'année terminale, pas la série mémoire ; la passer à dix-sept l'aurait
+  rendue fausse. Elle est cantonnée à son lot, et nomme le second.
+
+**Deux retouches du registre**
+- Signe moins : `Intl` écrit un trait d'union dans toutes les locales, donc une perte
+  s'affichait « -24,3 % » à côté d'un gain composé au vrai signe. `format.ts` remplace
+  désormais la **part** `minusSign` par U+2212, ce qui laisse intacts les tirets des
+  dates et des tickers.
+- L'accroche du registre crypto promettait du levier maîtrisé et un dimensionnement par
+  conviction devant deux positions au comptant sous 1 % du livre. Remplacée.
+
+**CSP et Google Fonts : rien à changer.** La CSP de `vercel.json` ne porte que
+`frame-ancestors 'self'` — ni `default-src`, ni `font-src`, ni `style-src` — donc rien ne
+bloque `fonts.googleapis.com`. Vérifié en production sur les rapports `meta` et `nbis`,
+déjà en ligne et déjà chargeurs de Google Fonts. `X-Frame-Options` reste `SAMEORIGIN`.
+
 
 **Le livre entier, liquidités comprises — et un registre crypto qui existe**
 - Les poids ne portent plus sur la seule poche investie : chaque ligne pèse sur le

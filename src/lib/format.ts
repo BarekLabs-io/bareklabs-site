@@ -27,6 +27,20 @@ function nf(lang: Lang, opts: Intl.NumberFormatOptions): Intl.NumberFormat {
 /** The dash the ledger shows wherever it has nothing to stand behind. */
 export const NO_VALUE = '—'
 
+/* Every locale spells a negative with the hyphen-minus on its keyboard, so a
+ * loss read '-24,3 %' beside a gain typeset with a true minus. The ledger uses
+ * one sign everywhere: U+2212, which is the same width as the plus it sits
+ * against. Replacing the minusSign PART rather than the character means a
+ * hyphen inside a date or a ticker is left alone. */
+const MINUS = '\u2212'
+
+function withTrueMinus(f: Intl.NumberFormat, value: number): string {
+  return f
+    .formatToParts(value)
+    .map((part) => (part.type === 'minusSign' ? MINUS : part.value))
+    .join('')
+}
+
 /** A percentage already expressed in percent units (38.9, not 0.389).
  *  `signed` spells the sign in the reader's own convention.
  *
@@ -41,12 +55,13 @@ export function formatPct(
   digits = 1
 ): string {
   if (value === null || value === undefined || !Number.isFinite(value)) return NO_VALUE
-  return nf(lang, {
+  const f = nf(lang, {
     style: 'percent',
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,
     signDisplay: signed ? 'always' : 'auto',
-  }).format(value / 100)
+  })
+  return withTrueMinus(f, value / 100)
 }
 
 /** Weights, everywhere they appear: two decimals, unsigned. */
@@ -58,5 +73,5 @@ export function formatWeight(value: number | null | undefined, lang: Lang): stri
  *  caller, so the reader sees which currency an entry is quoted in. */
 export function formatDecimal(value: number | null | undefined, lang: Lang, digits = 2): string {
   if (value === null || value === undefined || !Number.isFinite(value)) return NO_VALUE
-  return nf(lang, { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(value)
+  return withTrueMinus(nf(lang, { minimumFractionDigits: digits, maximumFractionDigits: digits }), value)
 }
