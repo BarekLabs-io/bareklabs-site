@@ -74,3 +74,29 @@ export const ALLOCATION = {
     return this.stocks + this.crypto + this.cash
   },
 }
+
+/* Return since the ledger's first purchase, derived rather than published as a
+ * figure. Every line of the Nordnet equity book carries the share of cost it
+ * took and what it returned on that cost, so the book-level number is the
+ * weighted sum — it moves when a line moves, and it cannot drift away from the
+ * lines a reader can add up for themselves.
+ *
+ * The basis is cost of the positions, not cash that left the account. The two
+ * differ by 2.1 points because a position received in a share swap is carried
+ * at the cost booked at the transfer AND its predecessor kept its own cost, so
+ * the same money appears twice in the denominator. Cost basis is the one the
+ * ledger already publishes per line (capitalSharePct), and it is the one that
+ * decomposes exactly, so it is the one shown. */
+const BOOK = [...en.stocks.open, ...en.stocks.closed].filter(
+  (p): p is typeof p & { costSharePct: number; totalReturnPct: number } =>
+    typeof p.costSharePct === 'number' && typeof p.totalReturnPct === 'number'
+)
+
+export const SINCE_INCEPTION = {
+  /** Lines carrying a cost share — the Nordnet equity book, funds excluded. */
+  lines: BOOK.length,
+  /** Should read 100: a missing share silently understates the return. */
+  coverage: BOOK.reduce((a, p) => a + p.costSharePct, 0),
+  /** Weighted total return, in percent. */
+  pct: BOOK.length === 0 ? null : BOOK.reduce((a, p) => a + (p.costSharePct * p.totalReturnPct) / 100, 0),
+} as const

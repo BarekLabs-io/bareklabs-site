@@ -7,7 +7,7 @@ import { PageHero, SectionHead } from '@/components/Layout'
 import { useLang } from '@/i18n/LanguageContext'
 import type { Lang } from '@/i18n/translations'
 import { fillCoverage } from '@/lib/coverage'
-import { LEDGER, ALLOCATION } from '@/lib/ledger'
+import { LEDGER, ALLOCATION, SINCE_INCEPTION } from '@/lib/ledger'
 import { formatPct, formatDecimal, formatWeight } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
@@ -98,6 +98,26 @@ export default function Stocks() {
       <section>
         <div className="shell px-5 py-16 md:px-10">
           <SectionHead index="LEDGER" label={t.stocks.head} right={t.stocks.headRight} />
+
+          {/* The book's own result, derived from the lines below it: every
+            * position carries the share of cost it took and what it returned,
+            * so this is their weighted sum rather than a figure typed above
+            * them. It reads beside the closed-trades tiles on the tracker, and
+            * the note says which basis each one uses so the two cannot be read
+            * as contradicting each other. */}
+          {SINCE_INCEPTION.pct !== null && (
+            <Reveal className="mb-8 border border-line bg-card2 p-6 md:p-8">
+              <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
+                <span className="text-4xl font-light tracking-tight text-signal" dir="ltr">
+                  {formatPct(SINCE_INCEPTION.pct, lang, true)}
+                </span>
+                <span className="font-mono-lab text-[10px] tracking-[0.2em] text-dim">{t.stocks.sinceInception}</span>
+              </div>
+              <p className="mt-4 max-w-4xl font-mono-lab text-[11px] leading-5 tracking-wide text-faint">
+                {t.stocks.sinceInceptionNote}
+              </p>
+            </Reveal>
+          )}
 
           <div className="mb-8 flex gap-2">
             {(['OPEN', 'CLOSED'] as Tab[]).map((tb) => (
