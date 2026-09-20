@@ -2,6 +2,7 @@ import { companies } from '@/data/companies'
 import { countryOf } from '@/data/valueChain'
 import { ideasEn } from '@/i18n/ideas-en'
 import { en } from '@/i18n/dict-en'
+import { REFRESH_MS } from '@/lib/useLiveQuotes'
 
 /* Counts the site publishes about its own coverage belong to the data, never to
  * the copy. The home page advertised 68 companies against a real 118, and 13
@@ -25,6 +26,18 @@ export const COVERAGE = {
    * about the batch, so it counts the batch rather than spelling a number that
    * was true when nine cards existed and false at twenty. */
   rebuilt: ideasEn.filter((i) => i.revised).length,
+  /* The home page claimed 24/7 market surveillance. Nothing watches anything
+   * around the clock: the quote feed refreshes on an interval while a page is
+   * open, and that interval is a constant one import away. The tile now says
+   * what the site actually does, and reads it from the code that does it. */
+  refreshSeconds: Math.round(REFRESH_MS / 1000),
+  /* "Updated daily" on a feed whose newest item is dated in the data. The
+   * date is taken from the feed instead of promised beside it. */
+  lastPost: en.home.feed.items
+    .map((i) => i.d)
+    .filter((d) => /^\d{4}\.\d{2}\.\d{2}$/.test(d))
+    .sort()
+    .at(-1) ?? '—',
   /* Ledger sizes, for the Trade Tracker cards: STOCKS read 0 OPEN while the
    * equity book carried twelve lines. */
   openStocks: en.stocks.open.length,

@@ -15,7 +15,7 @@ export type LiveQuote = {
 
 type QuotesResponse = { asOf: number; quotes: Record<string, LiveQuote | null> }
 
-const REFRESH_MS = 90_000
+export const REFRESH_MS = 90_000
 
 /* One request fans out to one upstream fetch per symbol inside the serverless
  * function, and the function has a hard wall-clock limit. Past a few dozen

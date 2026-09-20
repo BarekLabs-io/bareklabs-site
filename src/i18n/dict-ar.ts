@@ -42,7 +42,7 @@ export const ar: Dict = {
     protocol: 'البروتوكول',
     protocolText: 'البحث أولاً. التنفيذ لاحقاً. لا شيء في هذا الموقع يشكل نصيحة مالية.',
     copyright: '© 2026 BAREK LABS — جميع الإشارات محفوظة',
-    build: 'BUILD 0.5.0 / VERCEL-READY',
+    build: '',
   },
   search: {
     placeholder: 'ابحث في الصفحات، المذكرات، الأفكار، الرموز…',
@@ -53,7 +53,7 @@ export const ar: Dict = {
     open: 'فتح',
   },
   home: {
-    tagSuffix: 'محطة أبحاث v0.4',
+    tagSuffix: 'محطة أبحاث',
     hero1: 'البحث و',
     hero2: 'MARKET SIGNAL',
     hero3: 'مفكَّكة.',
@@ -108,11 +108,11 @@ export const ar: Dict = {
       { k: '{tickers}', l: 'شركة مغطاة في الفارز' },
       { k: '{countries}', l: 'سوقاً، من طوكيو إلى تورونتو' },
       { k: '{modules}', l: 'وحدات مباشرة — بحث، إشارة، سجل' },
-      { k: '24/7', l: 'مراقبة الأسواق' },
+      { k: '{refreshSeconds} ث', l: 'تحديث الأسعار ما دامت الصفحة مفتوحة' },
     ],
     feed: {
       head: 'آخر ما في المختبر',
-      headRight: 'يُحدَّث يومياً',
+      headRight: 'آخر نشر: {lastPost}',
       items: [
         { d: '2026.08.08', tag: 'سلسلة الذكاء', t: 'سلسلة قيمة الذكاء الاصطناعي كاملة على خريطة واحدة — كل طبقة وكل اسم جمعه المختبر', to: '/analysis/ai-value-chain#dossier' },
         { d: '2026.08.06', tag: 'الطاقة والفضاء', t: 'منحدر التخصيب: عنق الزجاجة الحقيقي لليورانيوم ليس المنجم', to: '/analysis/uranium' },

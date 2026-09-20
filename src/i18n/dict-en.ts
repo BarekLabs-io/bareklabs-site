@@ -41,7 +41,7 @@ export const en = {
     protocol: 'PROTOCOL',
     protocolText: 'RESEARCH FIRST. EXECUTION LATER. NOTHING ON THIS SITE CONSTITUTES FINANCIAL ADVICE.',
     copyright: '© 2026 BAREK LABS — ALL SIGNALS RESERVED',
-    build: 'BUILD 0.5.0 / VERCEL-READY',
+    build: '',
   },
   search: {
     placeholder: 'SEARCH PAGES, NOTES, IDEAS, TICKERS…',
@@ -52,7 +52,7 @@ export const en = {
     open: 'OPEN',
   },
   home: {
-    tagSuffix: 'RESEARCH TERMINAL v0.4',
+    tagSuffix: 'RESEARCH TERMINAL',
     hero1: 'RESEARCH &',
     hero2: 'MARKET SIGNAL',
     hero3: 'DECODED.',
@@ -107,11 +107,11 @@ export const en = {
       { k: '{tickers}', l: 'COMPANIES COVERED IN THE SCREENER' },
       { k: '{countries}', l: 'MARKETS, TOKYO TO TORONTO' },
       { k: '{modules}', l: 'LIVE MODULES — RESEARCH, SIGNAL, TRACKER' },
-      { k: '24/7', l: 'MARKET SURVEILLANCE' },
+      { k: '{refreshSeconds}s', l: 'QUOTE REFRESH WHILE A PAGE IS OPEN' },
     ],
     feed: {
       head: 'Latest from the lab',
-      headRight: 'UPDATED DAILY',
+      headRight: 'LATEST POST: {lastPost}',
       items: [
         { d: '2026.08.08', tag: 'AI CHAIN', t: 'The full AI value chain, on one map — every layer, every name the lab has gathered', to: '/analysis/ai-value-chain#dossier' },
         { d: '2026.08.06', tag: 'ENERGY & SPACE', t: 'The enrichment cliff: uranium’s real bottleneck is not the mine', to: '/analysis/uranium' },

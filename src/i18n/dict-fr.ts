@@ -42,7 +42,7 @@ export const fr: Dict = {
     protocol: 'PROTOCOLE',
     protocolText: 'LA RECHERCHE D’ABORD, L’EXÉCUTION ENSUITE. RIEN SUR CE SITE NE CONSTITUE UN CONSEIL EN INVESTISSEMENT.',
     copyright: '© 2026 BAREK LABS — TOUS DROITS (ET SIGNAUX) RÉSERVÉS',
-    build: 'BUILD 0.5.0 / PRÊT POUR VERCEL',
+    build: '',
   },
   search: {
     placeholder: 'RECHERCHER PAGES, NOTES, IDÉES, TICKERS…',
@@ -53,7 +53,7 @@ export const fr: Dict = {
     open: 'OUVRIR',
   },
   home: {
-    tagSuffix: 'TERMINAL DE RECHERCHE v0.4',
+    tagSuffix: 'TERMINAL DE RECHERCHE',
     hero1: 'RECHERCHE &',
     hero2: 'MARKET SIGNAL',
     hero3: 'DÉCODÉ.',
@@ -108,11 +108,11 @@ export const fr: Dict = {
       { k: '{tickers}', l: 'ENTREPRISES COUVERTES DANS LE SCREENER' },
       { k: '{countries}', l: 'MARCHÉS, DE TOKYO À TORONTO' },
       { k: '{modules}', l: 'MODULES EN DIRECT — RECHERCHE, SIGNAL, JOURNAL' },
-      { k: '24/7', l: 'SURVEILLANCE DES MARCHÉS' },
+      { k: '{refreshSeconds} s', l: 'RAFRAÎCHISSEMENT DES COURS, PAGE OUVERTE' },
     ],
     feed: {
       head: 'Dernières du labo',
-      headRight: 'MIS À JOUR QUOTIDIENNEMENT',
+      headRight: 'DERNIÈRE PUBLICATION : {lastPost}',
       items: [
         { d: '2026.08.08', tag: 'CHAÎNE IA', t: 'La chaîne de valeur de l’IA au complet, sur une seule carte — chaque couche, chaque nom rassemblé par le lab', to: '/analysis/ai-value-chain#dossier' },
         { d: '2026.08.06', tag: 'ÉNERGIE & ESPACE', t: 'La falaise de l’enrichissement : le vrai goulot de l’uranium n’est pas la mine', to: '/analysis/uranium' },

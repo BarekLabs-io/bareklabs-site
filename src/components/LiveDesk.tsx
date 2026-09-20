@@ -163,10 +163,12 @@ export function LiveDesk({ className }: { className?: string }) {
         <FeedStatus answered={answered} total={allRows.length} asOf={asOf} labels={t.souk.feed} />
       </div>
 
-      {/* Every venue at once, two abreast. Only the lists scroll if the
-        * viewport is short — the blocks below stay reachable. */}
-      <div className="min-h-0 grow overflow-y-auto px-4 py-2.5">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-2.5">
+      {/* Every venue at once. Two abreast on a phone and on the narrower
+        * floating panel, three once the panel reaches its full width — the
+        * gutters carry the separation, so the columns gain the margin rather
+        * than the rows losing their numbers. */}
+      <div className="min-h-0 grow overflow-y-auto px-3 py-2.5">
+        <div className="grid grid-cols-2 gap-x-3 gap-y-2.5 sm:gap-x-5 xl:grid-cols-3 xl:gap-x-3">
           {DESK_LISTS.map((l) => (
             <div key={l.key}>
               <div className="border-b border-line/60 pb-1 font-mono-lab text-[8.5px] tracking-[0.22em] text-signal/80">

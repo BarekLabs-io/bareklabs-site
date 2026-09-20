@@ -130,6 +130,7 @@ export const DESK_LISTS: DeskList[] = [
       { s: 'AIRBUS', symbol: 'AIR.PA' },
       { s: 'SCHNEIDER', symbol: 'SU.PA', to: '/companies/SU.PA' },
       { s: 'HAFFNER', symbol: 'ALHAF.PA', to: '/companies/ALHAF.PA' },
+      { s: 'SOITEC', symbol: 'SOI.PA', to: '/companies/SOI.PA' },
     ],
   },
   {
@@ -141,7 +142,21 @@ export const DESK_LISTS: DeskList[] = [
       { s: 'ADVANTEST', symbol: '6857.T', to: '/companies/6857.T' },
       { s: 'DISCO', symbol: '6146.T', to: '/companies/6146.T' },
       { s: 'SOFTBANK', symbol: '9984.T' },
-      { s: 'TOYOTA', symbol: '7203.T' },
+      { s: 'TOWA', symbol: '6315.T', to: '/companies/6315.T' },
+    ],
+  },
+  {
+    key: 'seo',
+    label: 'SÉOUL',
+    /* SK hynix carries no `to`: it is an idea-card ticker, not a screener
+     * record, and a link to a page that does not exist is worse than none. */
+    rows: [
+      { s: 'KOSPI', symbol: '^KS11' },
+      { s: 'SK HYNIX', symbol: '000660.KS' },
+      { s: 'SAMSUNG ELEC', symbol: '005930.KS', to: '/companies/005930.KS' },
+      { s: 'HYUNDAI', symbol: '005380.KS', to: '/companies/005380.KS' },
+      { s: 'MEDIATEK', symbol: '2454.TW', to: '/companies/2454.TW' },
+      { s: 'WINBOND', symbol: '2344.TW', to: '/companies/2344.TW' },
     ],
   },
   {

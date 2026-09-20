@@ -435,7 +435,10 @@ export default function Layout() {
               * withBrandMark like every other prose string — it was the one
               * place the wordmark rendered as BAREK LABS, on every page. */}
             <span>{withBrandMark(t.footer.copyright)}</span>
-            <span dir="ltr">{t.footer.build}</span>
+            {/* Empty once the build string was dropped: a version number in a
+              * footer reads as unfinished, and the site is deployed. The span
+              * only renders when there is something to put in it. */}
+            {t.footer.build && <span dir="ltr">{t.footer.build}</span>}
           </div>
         </div>
       </footer>

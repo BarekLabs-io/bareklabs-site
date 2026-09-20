@@ -206,7 +206,7 @@ export default function Home() {
               <Reveal key={s.l} delay={i * 80} className="bg-card2 p-8 md:p-10">
                 {/* Counts come from the roster, not from the translation file. */}
                 <div className="text-4xl font-light tracking-tight text-signal md:text-5xl" dir="ltr">{fillCoverage(s.k, { modules: t.home.modules.items.length })}</div>
-                <div className="mt-3 font-mono-lab text-[10px] tracking-[0.2em] text-dim">{s.l}</div>
+                <div className="mt-3 font-mono-lab text-[10px] tracking-[0.2em] text-dim">{fillCoverage(s.l)}</div>
               </Reveal>
             ))}
           </div>
@@ -216,7 +216,7 @@ export default function Home() {
       {/* ============ LATEST FEED ============ */}
       <section className="border-b border-line">
         <div className="shell px-5 py-24 md:px-10">
-          <SectionHead index="FEED" label={t.home.feed.head} right={t.home.feed.headRight} />
+          <SectionHead index="FEED" label={t.home.feed.head} right={fillCoverage(t.home.feed.headRight)} />
           <div>
             {t.home.feed.items.map((n, i) => (
               <Reveal key={n.t} delay={i * 60}>

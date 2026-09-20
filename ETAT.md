@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `791de9b`
+**Dernière mise à jour : 2026-09-19** · commit de référence `e00106c`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -90,10 +90,8 @@ calculé sur les parts exactes. Le site publie ce qu'il sait recalculer.
 
 ## 5. Proposé, en attente d'accord
 
-- [ ] **Retirer les deux numéros de version.** Le site affiche « TERMINAL DE RECHERCHE
-  v0.4 » (`home.tagSuffix`) et « BUILD 0.5.0 / PRÊT POUR VERCEL » (`footer.build`).
-  Deux numéros différents, et « prêt pour Vercel » sur un site déjà déployé est un
-  reste de template. Ne pas retirer sans accord — règle 1.3.
+- [x] **Les deux numéros de version sont retirés**, avec l'accord d'Elyes. Le pied de
+  page ne rend plus la ligne quand elle est vide.
 
 ---
 
@@ -210,6 +208,26 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**L'accueil cesse de promettre ce que personne ne fait**
+- « 24/7 SURVEILLANCE DES MARCHÉS » : rien ne surveille quoi que ce soit en continu. La
+  tuile annonce désormais l'intervalle réel de rafraîchissement des cours — **90 s,
+  page ouverte** — lu depuis `REFRESH_MS` dans `useLiveQuotes.ts`, donc vrai par
+  construction. C'est un remplacement proposé : une ligne à changer s'il ne convient pas.
+- « MIS À JOUR QUOTIDIENNEMENT » devient **la date du dernier article**, dérivée du fil
+  lui-même (`COVERAGE.lastPost`, 2026.08.08). Une promesse de cadence remplacée par un
+  fait daté.
+- Les deux numéros de version sont retirés.
+- **Liste de suivi : trois colonnes au lieu de deux** sur le panneau flottant à pleine
+  largeur. La marge passe de `px-4` à `px-3` et les gouttières se resserrent : ce sont
+  les colonnes qui gagnent la place, pas les lignes qui perdent leurs chiffres. Le
+  mobile ne peut pas être touché — `xl:grid-cols-3` ne s'applique qu'au-delà de 1280 px
+  et le panneau en flux est `lg:hidden`, donc plafonné à 1023 px.
+- **Bloc SÉOUL ajouté** : KOSPI, SK hynix, Samsung Electronics, Hyundai, MediaTek,
+  Winbond. Paris gagne Soitec, Tokyo gagne TOWA — toutes des sociétés déjà au screener,
+  sauf SK hynix qui n'a pas de fiche et ne porte donc pas de lien. Les six symboles ont
+  été vérifiés un par un sur `/api/quotes` avant d'être ajoutés.
+
 
 **Souk Signal cesse de publier six chiffres inventés**
 - Le score de 74/100 **était calculé** — `src/pages/SoukSignal.tsx`, moyenne pondérée
