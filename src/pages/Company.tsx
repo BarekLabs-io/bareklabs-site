@@ -158,7 +158,7 @@ export default function CompanyPage() {
                 dir="ltr"
                 title={`Researched snapshot as of ${c.asOf} — only the share price above updates live`}
               >
-                MKT CAP {cleanFigure(marketCapMetric.values[0]).text}{' '}
+                MKT CAP {cleanFigure(marketCapMetric.values[0], { dropTrailingDate: true }).text}{' '}
                 <span className="text-faint">· {t.figures.asOfLabel} {formatAsOf(c.asOf, lang) ?? c.asOf}</span>
               </span>
             )}
@@ -169,7 +169,7 @@ export default function CompanyPage() {
                 <PriceChart
                   ticker={c.ticker}
                   currentPrice={currentPrice}
-                  summary={c.priceMap.technical}
+                  summary={c.priceMap.technical.map((line) => cleanFigure(line, { lang }).text).filter(Boolean)}
                   isLivePrice={!!liveQuote}
                   asOfMs={liveQuote ? asOf : null}
                 />
@@ -183,7 +183,7 @@ export default function CompanyPage() {
                 </p>
                 <div className="mt-6 grid gap-3 md:grid-cols-2">
                   {c.priceMap.technical.map((t) => (
-                    <p key={t} className="font-mono-lab text-[11px] leading-6 text-foreground/85">{t}</p>
+                    <p key={t} className="font-mono-lab text-[11px] leading-6 text-foreground/85">{cleanFigure(t, { lang }).text}</p>
                   ))}
                 </div>
               </div>
@@ -300,10 +300,10 @@ export default function CompanyPage() {
                     <tr key={m.label} className={cn('border-b border-line/50', i % 2 === 1 ? 'bg-secondary/50' : 'bg-panel')}>
                       <td className="px-5 py-3 font-mono-lab text-[15px] text-dim">{m.label}</td>
                       {m.values.map((v, j) => {
-                        const fig = cleanFigure(v)
+                        const fig = cleanFigure(v, { lang })
                         return (
                         <td key={j} className={cn('px-5 py-3 text-end font-mono-lab text-[15px] tabular-nums', j === 0 ? 'font-medium text-foreground' : 'text-dim')} dir="ltr">
-                          {fig.text}
+                          {fig.text || '—'}
                           {/* The reservation the figure carried, in one line a
                             * reader outside the lab can act on. */}
                           {fig.caveated && (
@@ -327,7 +327,7 @@ export default function CompanyPage() {
               </div>
               <ul className="mt-4 space-y-2.5">
                 {c.valuation.verdictPoints.map((p) => (
-                  <li key={p} className="font-mono-lab text-[15px] leading-6 tracking-wide text-dim">— {p}</li>
+                  <li key={p} className="font-mono-lab text-[15px] leading-6 tracking-wide text-dim">— {cleanNote(p, lang).text}</li>
                 ))}
               </ul>
             </Reveal>
@@ -335,7 +335,7 @@ export default function CompanyPage() {
               <div className="font-mono-lab text-[12px] tracking-[0.2em] text-faint">JUSTIFIABLE IF</div>
               <ul className="mt-4 space-y-2.5">
                 {c.valuation.justifiedIf.map((p) => (
-                  <li key={p} className="font-mono-lab text-[15px] leading-6 tracking-wide text-dim">— {p}</li>
+                  <li key={p} className="font-mono-lab text-[15px] leading-6 tracking-wide text-dim">— {cleanNote(p, lang).text}</li>
                 ))}
               </ul>
             </Reveal>
@@ -352,7 +352,7 @@ export default function CompanyPage() {
               <Reveal key={z.tier} delay={i * 60} className="bg-secondary p-6">
                 <span className={cn('border px-2.5 py-1 font-mono-lab text-[11px] tracking-[0.2em]', TIER_TONE[z.tier])}>{TIER_LABEL[z.tier]}</span>
                 <div className="mt-4 text-3xl font-light tracking-tight" dir="ltr">{z.range}</div>
-                <p className="mt-2 font-mono-lab text-[15px] leading-6 tracking-wide text-dim">{z.rationale}</p>
+                <p className="mt-2 font-mono-lab text-[15px] leading-6 tracking-wide text-dim">{cleanFigure(z.rationale, { lang }).text}</p>
               </Reveal>
             ))}
           </div>
@@ -361,7 +361,7 @@ export default function CompanyPage() {
             <div className="font-mono-lab text-[11px] tracking-[0.25em] text-faint">TECHNICAL CONTEXT</div>
             <ul className="mt-4 grid gap-2.5 md:grid-cols-2">
               {c.priceMap.technical.map((t) => (
-                <li key={t} className="font-mono-lab text-[15px] leading-6 tracking-wide text-dim">— {t}</li>
+                <li key={t} className="font-mono-lab text-[15px] leading-6 tracking-wide text-dim">— {cleanFigure(t, { lang }).text}</li>
               ))}
             </ul>
           </Reveal>
@@ -370,7 +370,7 @@ export default function CompanyPage() {
             <div className="flex items-center justify-between">
               <div className="font-mono-lab text-[11px] tracking-[0.25em] text-faint">SCENARIO MAP</div>
               <div className="font-mono-lab text-[11px] tracking-[0.2em] text-faint">
-                INVALIDATION: <span className="text-danger">{c.priceMap.invalidation}</span>
+                INVALIDATION: <span className="text-danger">{cleanNote(c.priceMap.invalidation, lang).text}</span>
               </div>
             </div>
             <div className="mt-4 flex h-2 w-full overflow-hidden bg-track">
@@ -388,7 +388,7 @@ export default function CompanyPage() {
                   <div className="font-mono-lab text-[15px] tracking-[0.2em]">
                     {s.label} <span className={cn(s.label === 'BEAR' ? 'text-danger' : 'text-signal')} dir="ltr">{s.prob}%</span>
                   </div>
-                  <p className="mt-2 font-mono-lab text-[15px] leading-6 tracking-wide text-dim">{s.note}</p>
+                  <p className="mt-2 font-mono-lab text-[15px] leading-6 tracking-wide text-dim">{cleanNote(s.note, lang).text}</p>
                 </div>
               ))}
             </div>
@@ -407,7 +407,7 @@ export default function CompanyPage() {
                   <div className="font-mono-lab text-[12px] tracking-[0.2em] text-dim">{r.risk}</div>
                   <span className={cn('font-mono-lab text-[11px] tracking-[0.2em]', SEVERITY_TONE[r.severity])}>{r.severity.toUpperCase()}</span>
                 </div>
-                <p className="mt-2 font-mono-lab text-[15px] leading-6 tracking-wide text-faint">{r.note}</p>
+                <p className="mt-2 font-mono-lab text-[15px] leading-6 tracking-wide text-faint">{cleanNote(r.note, lang).text}</p>
               </Reveal>
             ))}
           </div>
@@ -467,19 +467,19 @@ export default function CompanyPage() {
                 <div key={s.criterion} className={cn('flex flex-col gap-2 border-b border-line/50 p-5 last:border-0 md:flex-row md:items-center md:gap-8', i % 2 === 1 ? 'bg-secondary/50' : 'bg-panel')}>
                   <span className="w-40 shrink-0 font-mono-lab text-[12px] tracking-wider text-dim">{s.criterion}</span>
                   <Stars n={s.stars} />
-                  <span className="flex-1 font-mono-lab text-[15px] leading-6 tracking-wide text-faint">{s.note}</span>
+                  <span className="flex-1 font-mono-lab text-[15px] leading-6 tracking-wide text-faint">{cleanNote(s.note, lang).text}</span>
                 </div>
               ))}
             </div>
           </Reveal>
           <Reveal delay={100} className="mt-8 border border-line bg-secondary p-8">
             <div className="font-mono-lab text-[12px] tracking-[0.25em] text-signal">{c.synthesis.readLabel}</div>
-            <p className="mt-4 max-w-7xl font-mono-lab text-[16px] leading-6 tracking-wide text-dim">{c.synthesis.summary}</p>
+            <p className="mt-4 max-w-7xl font-mono-lab text-[16px] leading-6 tracking-wide text-dim">{cleanNote(c.synthesis.summary, lang).text}</p>
           </Reveal>
           <Reveal delay={160} className="mt-8">
             <p className="font-mono-lab text-[12px] leading-6 tracking-wider text-faint">
-              {cleanNote(c.sourceNote).text}
-              {cleanNote(c.sourceNote).caveated && <> — {t.figures.caveat}</>}
+              {cleanNote(c.sourceNote, lang).text}
+              {cleanNote(c.sourceNote, lang).caveated && <> — {t.figures.caveat}</>}
             </p>
             <p className="mt-2 font-mono-lab text-[12px] leading-6 tracking-wider text-faint">
               This is a research artefact, not a recommendation — same rule as everything on the Investment Ideas page.

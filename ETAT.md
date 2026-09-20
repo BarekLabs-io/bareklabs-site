@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `c37f7ad`
+**Dernière mise à jour : 2026-09-19** · commit de référence `662c964`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -57,7 +57,13 @@ calculé sur les parts exactes. Le site publie ce qu'il sait recalculer.
   Stockholm en SEK (MYCR.ST 320, ERIC-B.ST 99.98). `/api/news` est alimenté. Les clés
   Alpha Vantage sont en place. En local `vite preview` ne sert pas `/api`, donc tout
   est en tiret : c'est normal et ce n'est pas un symptôme.
-- [ ] **Formulaire de contact : les clés sont posées, Resend refuse avec un 403.**
+- [x] **Le formulaire de contact délivre.** `CONTACT_TO` pointe désormais sur l'adresse
+  du compte Resend : un POST de test répond **200 `{"ok":true}`**. Le 403 précédent
+  venait bien de la restriction du domaine de test — tant qu'aucun domaine n'est
+  vérifié, `onboarding@resend.dev` n'écrit qu'à l'adresse du compte. **Reste à faire si
+  le formulaire doit écrire ailleurs :** vérifier un domaine chez Resend et poser
+  `CONTACT_FROM`. En l'état, tout message du site arrive sur cette seule adresse.
+- [x] ~~**Les clés sont posées, Resend refuse avec un 403**~~
   Le POST de test passe désormais le contrôle des variables (plus de `503
   not_configured`) et meurt chez le fournisseur : `502 delivery_failed`, `status: 403`.
   L'expéditeur par défaut est `onboarding@resend.dev` (`api/contact.ts`), et la
@@ -216,6 +222,38 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**Le nettoyage des notes de méthode passe de cinq formules à la famille entière**
+- Les cinq chaînes exactes traitées au commit précédent étaient à zéro, mais des
+  variantes passaient toujours : « rescaled from $240–250 pre-refresh », « in this
+  pass », « the real recent low is closer to ~$200 ». La détection ne se fait plus par
+  phrase mais **par clause** : toute clause qui parle du processus de mise à jour —
+  et non de la société — tombe, et ses voisines dans la même parenthèse survivent.
+  « 52-week low $90.94 (10:1 split-adjusted; the real recent low is closer to ~$200) »
+  garde la division et perd la correction.
+- Décompte sur tout `companies.ts`, motif par motif : **319 occurrences avant,
+  0 après**. Vérifié en compilant le module livré et en le passant sur les 7 372
+  chaînes du fichier, pas sur une copie du code.
+- Une cellule entièrement composée de langage de processus — « not captured in this
+  pass » — devient un **tiret** et non un libellé de réserve : c'est une donnée absente,
+  pas un chiffre approximatif, et le tiret le dit déjà.
+- **Neuf champs** rendaient encore brut et passent au nettoyeur : `priceMap.technical`
+  (deux rendus plus le résumé du graphique), `priceMap.zones[].rationale`,
+  `priceMap.invalidation`, `priceMap.scenarios[].note`, `synthesis.summary`,
+  `synthesis.scores[].note`, `risks[].note`, `valuation.verdictPoints` et
+  `valuation.justifiedIf`. Le dernier a été trouvé en ouvrant la fiche 005380.KS :
+  « Nothing is re-derived » y survivait dans un point de verdict que rien ne nettoyait.
+- **Aucun chiffre de `companies.ts` n'est modifié.** Le fichier garde sa provenance
+  complète ; seul l'affichage change.
+
+**Les cours datés dans le texte gardent leur date, au format de la langue**
+- **128 fiches sur 176** portent au moins un cours daté en toutes lettres
+  (« Current $322.87 (Aug 5, 2026) »), pour **293 occurrences**. La date est conservée
+  et rendue selon la langue — 5 août 2026, 5 Aug 2026, 5 أغسطس 2026 — au lieu du format
+  américain figé. Le cours affiché en tête de fiche, lui, vient du flux.
+- La capitalisation de l'en-tête reste le seul endroit où une date est **retirée** du
+  chiffre, parce que le `asOf` du dossier est imprimé juste à côté.
+
 
 **Le jargon de méthode quitte les pages, la réserve y reste**
 - `src/lib/figures.ts` nettoie à l'affichage, **sans toucher à `companies.ts`** : les
