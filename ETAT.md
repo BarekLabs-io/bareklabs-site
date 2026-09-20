@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `deeca14`
+**Dernière mise à jour : 2026-09-19** · commit de référence `502719f`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -104,11 +104,6 @@ calculé sur les parts exactes. Le site publie ce qu'il sait recalculer.
 
 ## 5. Proposé, en attente d'accord
 
-- [ ] **« Excellents sur trois marchés plutôt que moyens sur trente »** (principe 02 de
-  la page À propos) contredit les **{countries} marchés** annoncés, dérivés, sur
-  l'accueil. Trois reformulations proposées à Elyes ; aucune appliquée tant qu'il n'a
-  pas tranché.
-
 - [x] **Les deux numéros de version sont retirés**, avec l'accord d'Elyes. Le pied de
   page ne rend plus la ligne quand elle est vide.
 
@@ -167,6 +162,14 @@ suédoise, mais le jour où il y en aura une, rien n'est à construire.
 
 ## 7. Backlog — hors échéance de lundi
 
+- [ ] **Deux éditions existent des rapports n°08 TMDX / ISRG / RXRX.** Celles de
+  `~/Downloads` sont numérotées n°08-A/B/C et affichent l'écart en tête (−16,6 %,
+  −36,4 %, −68,3 %) plus la fourchette 52 semaines ; celles en ligne affichent
+  capitalisation et valeur d'entreprise et marquent le cours « vérifié IBKR ».
+  **Les chiffres sont identiques des deux côtés** — cible, cours et date d'arrêté au
+  6 août 2026 — mais TMDX pèse 21 % de plus dans l'édition numérotée, donc les deux ne
+  portent pas la même quantité de texte. Décision : **on garde les versions en ligne**,
+  rien n'est remplacé. À arbitrer côté recherche, pas côté site.
 - [ ] **Končar (ZSE: KOEI)** à ajouter au screener et aux Investment Ideas. Jamais
   commencé. Deux anomalies non résolues dans le S1 2026 : un résultat net de 171,4 M€
   pour un EBITDA de 173,4 M€ (élément non récurrent non identifié), et deux chiffres
@@ -227,6 +230,25 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**Deux affirmations retirées de la page À propos, faute d'être vraies**
+- Le principe 02 disait préférer « être excellents sur trois marchés que moyens sur
+  trente » — une figure de style qui se lisait comme un chiffre de couverture à côté
+  des {countries} marchés annoncés, et dérivés, sur l'accueil. Il parle désormais de ce
+  qu'on peut défendre ligne à ligne plutôt que de ce qu'on peut énumérer : le principe
+  porte sur la profondeur, il n'a pas besoin d'un compte.
+- **Le lab n'a pas encore de clients.** La page affirmait que le travail sur mandat
+  « finance la moitié gratuite ». Elle dit maintenant que le lab est *disponible* pour
+  de la recherche sur mandat et du conseil — une offre, pas une clientèle.
+- **Balayage complet des trois dictionnaires** sur cinq familles de formulations
+  (clients, revenus, mandats en cours, tarification, témoignages) : c'était la seule
+  affirmation fausse. Tout le reste est du langage d'offre. La mention de l'accueil
+  (« ÉGALEMENT DISPONIBLE : MANDATS DE RECHERCHE ET DE CONSEIL PAYANTS ») est exacte et
+  n'a pas été touchée, pas plus que « RÉPONSE < 48 H ».
+- **Une formulation à surveiller, laissée en place :** « Tarifé à la mission, pas à
+  l'heure » affirme une pratique tarifaire établie. Défendable pour une offre, mais
+  c'est la phrase la plus proche de la ligne.
+
 
 **À propos : deux promesses alignées sur ce que le site fait vraiment**
 - La bio promettait « chaque position à un journal », la même promesse que celle déjà

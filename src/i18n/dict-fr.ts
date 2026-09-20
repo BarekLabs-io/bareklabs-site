@@ -1125,7 +1125,7 @@ export const fr: Dict = {
       headRight: 'GRAVÉS, PAS IMPRIMÉS',
       items: [
         { n: '01', t: 'La preuve avant l’éloquence', d: 'Si une affirmation ne remonte pas à une donnée, elle ne sort pas. L’éloquence n’est bienvenue qu’une fois les preuves posées.' },
-        { n: '02', t: 'Peu de surface, beaucoup de fond', d: 'Moins d’instruments, mieux calibrés. Nous préférons être excellents sur trois marchés que moyens sur trente.' },
+        { n: '02', t: 'Peu de surface, beaucoup de fond', d: 'Moins d’instruments, mieux calibrés. Nous préférons une couverture qu’on peut défendre ligne à ligne à une couverture qu’on peut seulement énumérer.' },
         { n: '03', t: 'Notre peau en jeu', d: 'Nous publions le suivi de nos propres positions. La responsabilité n’est pas une politique — c’est une architecture.' },
         { n: '04', t: 'La curiosité comme infrastructure', d: 'L’avantage s’érode. L’habitude de poser de meilleures questions, non. Nous investissons dans l’habitude.' },
       ],
@@ -1181,7 +1181,7 @@ export const fr: Dict = {
       privacy: 'AUCUNE MESURE D’AUDIENCE SUR CE FORMULAIRE, AUCUN CAPTCHA TIERS, AUCUNE LISTE DE DIFFUSION, AUCUNE REVENTE. VOTRE MESSAGE EST ACHEMINÉ PAR UN PRESTATAIRE D’ENVOI D’E-MAILS JUSQU’À LA BOÎTE DU LABO, ET NE VA NULLE PART AILLEURS. LA PROTECTION ANTI-SPAM EST UNE PREUVE DE TRAVAIL EXÉCUTÉE DANS VOTRE PROPRE NAVIGATEUR — RIEN QUI VOUS CONCERNE N’EST ENVOYÉ À UN TIERS POUR PROUVER QUE VOUS ÊTES HUMAIN.',
       head: 'Joindre le labo',
       headRight: 'RÉPONSE < 48 H',
-      advisoryNote: 'Tout ce qui est publié sur ce site est libre d’accès. Le labo travaille aussi pour des clients — recherche sur mandat et conseil — et c’est ce travail-là qui finance la moitié gratuite. Les deux services ci-dessous sont ce qui est réellement proposé ; la console ci-dessous permet de me joindre directement.',
+      advisoryNote: 'Tout ce qui est publié sur ce site est libre d’accès. Le labo est également disponible pour de la recherche sur mandat et du conseil ; les deux services ci-dessous sont ce qui est proposé, et la console qui les suit permet de me joindre directement.',
     },
   },
 }

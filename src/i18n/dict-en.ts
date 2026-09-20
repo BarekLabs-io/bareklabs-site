@@ -1124,7 +1124,7 @@ export const en = {
       headRight: 'ENGRAVED, NOT PRINTED',
       items: [
         { n: '01', t: 'Evidence over eloquence', d: 'If a claim cannot be traced to data, it does not ship. Eloquence is welcome only after the receipts.' },
-        { n: '02', t: 'Small surface, deep water', d: 'Fewer instruments, better calibrated. We would rather be excellent in three markets than average in thirty.' },
+        { n: '02', t: 'Small surface, deep water', d: 'Fewer instruments, better calibrated. We would rather have coverage we can defend line by line than coverage we can only list.' },
         { n: '03', t: 'Skin in the ledger', d: 'We track our own positions publicly. Accountability is not a policy — it is an architecture.' },
         { n: '04', t: 'Curiosity as infrastructure', d: 'The edge decays. The habit of asking better questions does not. We invest in the habit.' },
       ],
@@ -1180,7 +1180,7 @@ export const en = {
       privacy: 'NO ANALYTICS ON THIS FORM, NO THIRD-PARTY CAPTCHA, NO NEWSLETTER LIST, NO RESALE. YOUR MESSAGE IS CARRIED BY AN EMAIL DELIVERY PROVIDER TO THE LAB INBOX, AND GOES NOWHERE ELSE. THE SPAM DEFENCE IS A PROOF-OF-WORK PUZZLE RUN IN YOUR OWN BROWSER — NOTHING ABOUT YOU IS SENT TO A THIRD PARTY TO PROVE YOU ARE HUMAN.',
       head: 'Reach the lab',
       headRight: 'RESPONSE < 48H',
-      advisoryNote: 'Everything published on this site is free to read. The lab also works for clients — commissioned research and advisory — and that work is what funds the free half. The two services below are what is actually on offer; the console under them reaches me directly.',
+      advisoryNote: 'Everything published on this site is free to read. The lab is also available for commissioned research and advisory; the two services below are what is on offer, and the console under them reaches me directly.',
     },
   },
 }
