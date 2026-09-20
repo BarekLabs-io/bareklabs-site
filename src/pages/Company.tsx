@@ -8,6 +8,8 @@ import { parseMetricValue } from '@/lib/priceSeries'
 import { countryOf, chainSegmentOf, segmentInfoOf, segmentOf } from '@/data/valueChain'
 import { domainInfoOf, domainOf } from '@/data/domains'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
+import { useLang } from '@/i18n/LanguageContext'
+import { cleanFigure, cleanNote, formatAsOf } from '@/lib/figures'
 
 const PriceChart = lazy(() => import('@/components/PriceChart'))
 
@@ -48,6 +50,7 @@ function Stars({ n }: { n: number }) {
 
 export default function CompanyPage() {
   const { ticker = '' } = useParams()
+  const { t, lang } = useLang()
   const company = companies[ticker.toUpperCase()]
   const { quotes, asOf } = useLiveQuotes(company ? [company.ticker] : [])
 
@@ -110,7 +113,7 @@ export default function CompanyPage() {
         <div className="shell px-5 md:px-10">
           <Reveal>
             <div className="font-mono-lab text-[10px] tracking-[0.3em] text-signal">
-              COMPANY DEEP DIVE — {c.ticker} · {domain.label} · AS OF {c.asOf}
+              COMPANY DEEP DIVE — {c.ticker} · {domain.label} · {t.figures.asOfLabel} {formatAsOf(c.asOf, lang) ?? c.asOf}
             </div>
           </Reveal>
           <Reveal delay={60}>
@@ -155,7 +158,8 @@ export default function CompanyPage() {
                 dir="ltr"
                 title={`Researched snapshot as of ${c.asOf} — only the share price above updates live`}
               >
-                MKT CAP {marketCapMetric.values[0]} <span className="text-faint">· AS OF {c.asOf}</span>
+                MKT CAP {cleanFigure(marketCapMetric.values[0]).text}{' '}
+                <span className="text-faint">· {t.figures.asOfLabel} {formatAsOf(c.asOf, lang) ?? c.asOf}</span>
               </span>
             )}
           </Reveal>
@@ -295,11 +299,21 @@ export default function CompanyPage() {
                   {c.valuation.metrics.map((m, i) => (
                     <tr key={m.label} className={cn('border-b border-line/50', i % 2 === 1 ? 'bg-secondary/50' : 'bg-panel')}>
                       <td className="px-5 py-3 font-mono-lab text-[15px] text-dim">{m.label}</td>
-                      {m.values.map((v, j) => (
+                      {m.values.map((v, j) => {
+                        const fig = cleanFigure(v)
+                        return (
                         <td key={j} className={cn('px-5 py-3 text-end font-mono-lab text-[15px] tabular-nums', j === 0 ? 'font-medium text-foreground' : 'text-dim')} dir="ltr">
-                          {v}
+                          {fig.text}
+                          {/* The reservation the figure carried, in one line a
+                            * reader outside the lab can act on. */}
+                          {fig.caveated && (
+                            <span className="mt-0.5 block font-mono-lab text-[10px] leading-4 tracking-wide text-faint" dir="auto">
+                              {t.figures.caveat}
+                            </span>
+                          )}
                         </td>
-                      ))}
+                        )
+                      })}
                     </tr>
                   ))}
                 </tbody>
@@ -463,7 +477,10 @@ export default function CompanyPage() {
             <p className="mt-4 max-w-7xl font-mono-lab text-[16px] leading-6 tracking-wide text-dim">{c.synthesis.summary}</p>
           </Reveal>
           <Reveal delay={160} className="mt-8">
-            <p className="font-mono-lab text-[12px] leading-6 tracking-wider text-faint">{c.sourceNote}</p>
+            <p className="font-mono-lab text-[12px] leading-6 tracking-wider text-faint">
+              {cleanNote(c.sourceNote).text}
+              {cleanNote(c.sourceNote).caveated && <> — {t.figures.caveat}</>}
+            </p>
             <p className="mt-2 font-mono-lab text-[12px] leading-6 tracking-wider text-faint">
               This is a research artefact, not a recommendation — same rule as everything on the Investment Ideas page.
             </p>

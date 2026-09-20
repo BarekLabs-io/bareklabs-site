@@ -129,6 +129,13 @@ export const fr: Dict = {
       advisory: 'ÉGALEMENT DISPONIBLE : MANDATS DE RECHERCHE ET DE CONSEIL PAYANTS — VOIR LA PAGE À PROPOS',
     },
   },
+  figures: {
+    /* Un seul libellé remplace les cinq formules de travail que portaient les
+     * chiffres de companies.ts. La réserve reste lisible ; le jargon d'équipe
+     * ne l'est plus. Les données ne sont pas modifiées — seul l'affichage. */
+    caveat: 'donnée d’agrégateur, datée, non revérifiée par le lab',
+    asOfLabel: 'ARRÊTÉ AU',
+  },
   analysis: {
     hero: {
       code: '01 / ANALYSE & RECHERCHE',

@@ -1,3 +1,5 @@
+import type { Lang } from '@/i18n/translations'
+import { formatDecimal } from '@/lib/format'
 /* The instruments on the global tape and the homepage watchlist.
  *
  * This file holds *identity only* — a label and the Yahoo symbol behind it.
@@ -182,9 +184,9 @@ export const NO_VALUE = '—'
 
 /* Index levels and large crypto are quoted whole; everything else to the
  * cent. Driven off magnitude so a new instrument needs no extra config. */
-export function formatLevel(value: number): string {
+export function formatLevel(value: number, lang: Lang = 'en'): string {
   const decimals = Math.abs(value) >= 10_000 ? 0 : 2
-  return value.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+  return formatDecimal(value, lang, decimals)
 }
 
 export function formatChange(pct: number): string {

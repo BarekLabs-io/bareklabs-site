@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import { useLang } from '@/i18n/LanguageContext'
+import type { Lang } from '@/i18n/translations'
+import { formatPct } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import { useMarketQuotes } from '@/lib/marketQuotes'
-import { DESK_LISTS, MOVERS_UNIVERSE, NO_VALUE, formatLevel, formatChange } from '@/data/marketTape'
+import { DESK_LISTS, MOVERS_UNIVERSE, NO_VALUE, formatLevel } from '@/data/marketTape'
 import { FeedStatus } from '@/components/FeedStatus'
 
 /* The desk panel over the hero. Prices and changes come from the live quotes
@@ -24,14 +26,14 @@ type Quote = { price: number; changePercent: number | null }
  * label and the eye stops connecting the two. */
 const ROW = 'grid grid-cols-[minmax(0,1fr)_auto_46px] items-baseline gap-x-2 py-[3px] font-mono-lab text-[10.5px] leading-4'
 
-function WatchRow({ label, to, quote }: { label: string; to?: string; quote?: Quote }) {
+function WatchRow({ label, to, quote, lang }: { label: string; to?: string; quote?: Quote; lang: Lang }) {
   const up = quote?.changePercent != null ? quote.changePercent >= 0 : null
   const body = (
     <>
       <span className="truncate text-dim">{label}</span>
-      <span className="tabular-nums text-foreground">{quote ? formatLevel(quote.price) : NO_VALUE}</span>
+      <span className="tabular-nums text-foreground">{quote ? formatLevel(quote.price, lang) : NO_VALUE}</span>
       <span className={cn('text-end tabular-nums', up == null ? 'text-faint' : up ? 'text-signal' : 'text-danger')}>
-        {quote?.changePercent != null ? formatChange(quote.changePercent) : NO_VALUE}
+        {quote?.changePercent != null ? formatPct(quote.changePercent, lang, true, 2) : NO_VALUE}
       </span>
     </>
   )
@@ -48,9 +50,10 @@ function WatchRow({ label, to, quote }: { label: string; to?: string; quote?: Qu
  * is unknown, not flat, and letting it default to 0% would park dead tickers
  * in the middle of the ranking and — on a quiet day — at the top of it. When
  * fewer than two names have data the block says so instead of ranking noise. */
-function Movers({ quotes, labels }: {
+function Movers({ quotes, labels, lang }: {
   quotes: Record<string, Quote>
   labels: { head: string; gainers: string; losers: string; thin: string }
+  lang: Lang
 }) {
   const ranked = MOVERS_UNIVERSE
     .map((m) => ({ ...m, chg: quotes[m.symbol]?.changePercent ?? null }))
@@ -77,7 +80,7 @@ function Movers({ quotes, labels }: {
       dir="ltr"
     >
       <span className="text-dim">{m.s}</span>
-      <span className={cn('tabular-nums', m.chg >= 0 ? 'text-signal' : 'text-danger')}>{formatChange(m.chg)}</span>
+      <span className={cn('tabular-nums', m.chg >= 0 ? 'text-signal' : 'text-danger')}>{formatPct(m.chg, lang, true, 2)}</span>
     </Link>
   )
 
@@ -151,7 +154,7 @@ function NewsWire({ labels }: { labels: { head: string; empty: string } }) {
 }
 
 export function LiveDesk({ className }: { className?: string }) {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const { quotes, asOf } = useMarketQuotes()
   const allRows = DESK_LISTS.flatMap((l) => l.rows)
   const answered = allRows.reduce((n, r) => (quotes[r.symbol] ? n + 1 : n), 0)
@@ -176,7 +179,7 @@ export function LiveDesk({ className }: { className?: string }) {
               </div>
               <div className="pt-1">
                 {l.rows.map((r) => (
-                  <WatchRow key={r.symbol} label={r.s} to={r.to} quote={quotes[r.symbol]} />
+                  <WatchRow key={r.symbol} label={r.s} to={r.to} quote={quotes[r.symbol]} lang={lang} />
                 ))}
               </div>
             </div>
@@ -185,7 +188,7 @@ export function LiveDesk({ className }: { className?: string }) {
       </div>
 
       <div className="shrink-0">
-        <Movers quotes={quotes} labels={t.home.liveDesk.movers} />
+        <Movers quotes={quotes} labels={t.home.liveDesk.movers} lang={lang} />
         <NewsWire labels={t.home.liveDesk.wire} />
         <Link
           to="/souk-signal"

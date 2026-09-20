@@ -7,6 +7,8 @@ import { DOMAINS, DOMAIN_LABEL, domainOf, type DomainKey } from '@/data/domains'
 import { parseMetricValue } from '@/lib/priceSeries'
 import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { cn } from '@/lib/utils'
+import { useLang } from '@/i18n/LanguageContext'
+import { cleanFigure } from '@/lib/figures'
 
 /* 'unrated' is a real state, not a missing one: a ticker on the watchlist
  * whose deep dive has not been written yet. Without it the screener would
@@ -68,6 +70,25 @@ function riskOf(c: (typeof companies)[string]): { tier: RiskTier; note: string }
   if (c.synthesis.scores.length === 0) return { tier: 'unrated', note: c.synthesis.summary }
   const avg = c.synthesis.scores.reduce((sum, s) => sum + s.stars, 0) / c.synthesis.scores.length
   return { tier: starsToTier(avg), note: c.synthesis.summary }
+}
+
+/* Same treatment as the company file: the figure keeps its reservation, loses
+ * the lab's shorthand for it. A dense table cannot carry the sentence eighty
+ * times, so a marker stands in and the legend under the table spells it out
+ * once. */
+function Figure({ raw, caveatTitle }: { raw: string | null; caveatTitle: string }) {
+  if (!raw) return <>—</>
+  const fig = cleanFigure(raw)
+  return (
+    <>
+      {fig.text}
+      {fig.caveated && (
+        <span className="ms-1 align-super text-[8px] text-warn" title={caveatTitle} aria-label={caveatTitle}>
+          ●
+        </span>
+      )}
+    </>
+  )
 }
 
 const ROWS: Row[] = Object.values(companies)
@@ -145,6 +166,7 @@ const RISK_EXPLAIN: Record<RiskTier, string> = {
 }
 
 export default function Screener() {
+  const { t } = useLang()
   const [query, setQuery] = useState('')
   const [segment, setSegment] = useState<'ALL' | SegmentKey>('ALL')
   const [domain, setDomain] = useState<'ALL' | DomainKey>('ALL')
@@ -311,13 +333,13 @@ export default function Screener() {
                     })()}
                   </td>
                   <td className="px-3 py-3.5 text-end font-mono-lab text-[11px] tabular-nums text-dim" dir="ltr">
-                    {r.marketCap ?? '—'}
+                    <Figure raw={r.marketCap} caveatTitle={t.figures.caveat} />
                   </td>
                   <td className="px-3 py-3.5 text-end font-mono-lab text-[11px] tabular-nums text-dim" dir="ltr">
-                    {r.forwardPE ?? '—'}
+                    <Figure raw={r.forwardPE} caveatTitle={t.figures.caveat} />
                   </td>
                   <td className="px-3 py-3.5 text-end font-mono-lab text-[11px] tabular-nums text-dim" dir="ltr">
-                    {r.evEbitda ?? '—'}
+                    <Figure raw={r.evEbitda} caveatTitle={t.figures.caveat} />
                   </td>
                   <td className="px-3 py-3.5 text-center">
                     <Badge tone={verdictBadgeTone(r.verdictTone)} title={VERDICT_EXPLAIN[r.verdictTone]}>{VERDICT_LABEL[r.verdictTone]}</Badge>
@@ -342,6 +364,9 @@ export default function Screener() {
 
         <Reveal className="mt-6">
           <p className="font-mono-lab text-[10px] leading-5 tracking-wider text-faint">
+            <span className="text-warn">●</span> {t.figures.caveat}
+          </p>
+          <p className="mt-2 font-mono-lab text-[10px] leading-5 tracking-wider text-faint">
             Default sort follows the physical/economic AI-hardware value chain, materials to space — "Adjacent / indirect exposure"
             holds names with thin, unconfirmed, or thematic-only AI links. RISK is drawn from each ticker's own deep-dive synthesis
             score (business durability, balance sheet, competitive position, valuation cushion), not a raw count of listed risk

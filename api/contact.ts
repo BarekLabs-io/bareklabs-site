@@ -143,7 +143,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }),
     })
     if (!upstream.ok) {
-      // Never echo the provider's body: it can carry the key back.
+      /* The provider's reason goes to the function log and nowhere else. The
+       * response keeps only the status: a body echoed back to the caller can
+       * carry the key. Without this line the log held nothing at all, so a 403
+       * was indistinguishable from a suspended key, a missing scope, or the
+       * testing-domain restriction — § 6 puts exactly this kind of detail in
+       * the log rather than in a response. */
+      let reason = ''
+      try {
+        const body = (await upstream.json()) as { name?: string; message?: string }
+        reason = `${body.name ?? ''} ${body.message ?? ''}`.trim()
+      } catch {
+        /* Non-JSON error body — the status alone will have to do. */
+      }
+      console.error(`[contact] resend refused: ${upstream.status} ${reason}`)
       res.status(502).json({ ok: false, error: 'delivery_failed', status: upstream.status })
       return
     }

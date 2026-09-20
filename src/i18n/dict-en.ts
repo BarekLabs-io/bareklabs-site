@@ -128,6 +128,10 @@ export const en = {
       advisory: 'ALSO AVAILABLE: PAID RESEARCH & ADVISORY ENGAGEMENTS — SEE THE ABOUT PAGE',
     },
   },
+  figures: {
+    caveat: 'aggregator figure, dated, not re-verified by the lab',
+    asOfLabel: 'AS OF',
+  },
   analysis: {
     hero: {
       code: '01 / ANALYSIS & RESEARCH',

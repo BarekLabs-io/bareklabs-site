@@ -4,10 +4,12 @@ import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { SectionHead } from '@/components/Layout'
 import { FeedStatus } from '@/components/FeedStatus'
 import { useLang } from '@/i18n/LanguageContext'
+import type { Lang } from '@/i18n/translations'
 import { useMarketQuotes } from '@/lib/marketQuotes'
 import { computeBreadth, breadthTone } from '@/lib/soukSignal'
-import { formatDecimal } from '@/lib/format'
+import { formatDecimal, formatPct, NO_VALUE } from '@/lib/format'
 import { fillCoverage } from '@/lib/coverage'
+import { cleanFigure, formatAsOf } from '@/lib/figures'
 import { cn } from '@/lib/utils'
 import { companies } from '@/data/companies'
 import { parseMetricValue } from '@/lib/priceSeries'
@@ -51,7 +53,7 @@ function keyMetric(ticker: string, pattern: RegExp): string | null {
 /* Price is the live quote where the feed has one, otherwise the researched
  * snapshot from the deep dive — which is dated, so it is shown dimmed and
  * without a live marker. It is never nudged on a timer to look alive. */
-function MiniWatchRow({ row, quote }: { row: { t: string; s: string; sig: string; up: boolean }; quote?: { price: number; changePercent: number | null } }) {
+function MiniWatchRow({ row, quote, lang }: { row: { t: string; s: string; sig: string; up: boolean }; quote?: { price: number; changePercent: number | null }; lang: Lang }) {
   const raw = keyMetric(row.t, /^price|^share price/i)
   const base = parseMetricValue(raw ?? undefined)
   const price = quote?.price ?? base
@@ -75,7 +77,7 @@ function MiniWatchRow({ row, quote }: { row: { t: string; s: string; sig: string
               className={cn('tabular-nums', quote ? 'text-dim' : 'text-faint')}
               title={quote ? undefined : 'Researched snapshot — not live'}
             >
-              {price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {formatDecimal(price, lang)}
             </span>
           )}
           {!quote && <span className="text-[8px] tracking-[0.2em] text-faint">SNAP</span>}
@@ -87,7 +89,7 @@ function MiniWatchRow({ row, quote }: { row: { t: string; s: string; sig: string
           )}
           dir="ltr"
         >
-          {chg == null ? '—' : `${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%`}
+          {chg == null ? NO_VALUE : formatPct(chg, lang, true, 2)}
         </span>
       </div>
       <div className="mt-1.5 h-[2px] w-full bg-track">
@@ -228,9 +230,14 @@ export default function SoukSignal() {
                     </span>
                     <FeedStatus answered={answered} total={allWatch.length} asOf={asOf} labels={t.souk.feed} />
                   </div>
+                  {/* The same stamp the table below carries: the prices in these
+                    * rows are live, the words beside them were written once. */}
+                  <div className="mt-1 font-mono-lab text-[8.5px] tracking-[0.2em] text-faint">
+                    {t.souk.watchlist.refresh}
+                  </div>
                   <div className="mt-3">
                     {miniWatch.map((r) => (
-                      <MiniWatchRow key={r.t} row={r} quote={quotes[r.t]} />
+                      <MiniWatchRow key={r.t} row={r} quote={quotes[r.t]} lang={lang} />
                     ))}
                   </div>
                   <a
@@ -269,8 +276,8 @@ export default function SoukSignal() {
                     * the record it comes from. */
                   const q = quotes[r.t]
                   const price = q ? formatDecimal(q.price, lang) : null
-                  const cap = keyMetric(r.t, /market cap/i)
-                  const capAsOf = companies[r.t]?.asOf
+                  const cap = cleanFigure(keyMetric(r.t, /market cap/i) ?? '')
+                  const capAsOf = formatAsOf(companies[r.t]?.asOf, lang)
                   return (
                     <tr key={r.t} className={cn('border-b border-line/50 transition-colors bg-row-hover', i % 2 === 1 && 'bg-stripe')}>
                       <td className="px-6 py-4">
@@ -280,7 +287,7 @@ export default function SoukSignal() {
                           </span>
                           {companies[r.t] && (
                             <span className="font-mono-lab text-[9px] tracking-wider text-faint" dir="ltr">
-                              {companies[r.t].name}{price ? ` · ${price}` : ''}{cap ? ` · ${cap} (${capAsOf ?? '—'})` : ''}
+                              {companies[r.t].name}{price ? ` · ${price}` : ''}{cap.text ? ` · ${cap.text}${capAsOf ? ` · ${capAsOf}` : ''}` : ''}
                             </span>
                           )}
                         </Link>

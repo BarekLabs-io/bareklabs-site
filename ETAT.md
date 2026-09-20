@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `e00106c`
+**Dernière mise à jour : 2026-09-19** · commit de référence `c37f7ad`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -57,8 +57,16 @@ calculé sur les parts exactes. Le site publie ce qu'il sait recalculer.
   Stockholm en SEK (MYCR.ST 320, ERIC-B.ST 99.98). `/api/news` est alimenté. Les clés
   Alpha Vantage sont en place. En local `vite preview` ne sert pas `/api`, donc tout
   est en tiret : c'est normal et ce n'est pas un symptôme.
-- [ ] **`RESEND_API_KEY` et `CONTACT_TO` sont toujours absents — confirmé en
-  production.** Un POST valide sur `/api/contact` (preuve de travail résolue, tous les
+- [ ] **Formulaire de contact : les clés sont posées, Resend refuse avec un 403.**
+  Le POST de test passe désormais le contrôle des variables (plus de `503
+  not_configured`) et meurt chez le fournisseur : `502 delivery_failed`, `status: 403`.
+  L'expéditeur par défaut est `onboarding@resend.dev` (`api/contact.ts`), et la
+  documentation de Resend donne trois 403 possibles : domaine de test (on ne peut
+  écrire qu'à l'adresse du compte Resend tant qu'aucun domaine n'est vérifié), clé
+  suspendue, ou portée manquante. **Ce qui départage :** si `CONTACT_TO` est l'adresse
+  du compte Resend, c'est la clé ; sinon c'est le domaine de test. Le correctif dans ce
+  second cas est de vérifier un domaine et de poser `CONTACT_FROM`.
+- [x] ~~**`RESEND_API_KEY` et `CONTACT_TO` absents**~~ Un POST valide sur `/api/contact` (preuve de travail résolue, tous les
   filtres anti-spam franchis) répond `503 not_configured` : aucun mail n'est parti.
   La page affiche un message honnête plutôt qu'une fausse coche verte, mais **aucune
   adresse de repli n'est proposée** — un recruteur qui écrit lundi tombe sur un
@@ -208,6 +216,33 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**Le jargon de méthode quitte les pages, la réserve y reste**
+- `src/lib/figures.ts` nettoie à l'affichage, **sans toucher à `companies.ts`** : les
+  cinq formules de travail — « mechanically rescaled », « not independently
+  re-verified / re-derived / reconciled », « varies by source » — sont retirées du
+  texte rendu et remplacées par un libellé localisé unique (« donnée d'agrégateur,
+  datée, non revérifiée par le lab »). Contrôle : **103 valeurs et 22 paragraphes de
+  source** portaient une formule ; après nettoyage il en reste **zéro**.
+- **Le screener était concerné aussi**, ce que la demande n'avait pas prévu : ses
+  colonnes capitalisation, Forward P/E et EV/EBITDA lisent les mêmes chaînes. 87
+  valeurs de tête en portaient une. Elles passent par le même nettoyeur, avec un
+  marqueur discret et une légende sous le tableau — une phrase répétée quatre-vingts
+  fois dans un tableau dense n'est pas lisible.
+- **Une seule date** sur la capitalisation : le chiffre embarquait parfois la sienne
+  (« (Aug 7, 2026) ») à côté du `asOf` du dossier, d'où « $54.94B (Aug 2026) (2026.08) ».
+  La date du chiffre est retirée, celle du dossier est rendue au format de la langue.
+- Radar et liste de suivi de l'accueil : nombres au format de la langue via
+  `format.ts`. `formatLevel` prend désormais la langue.
+- Le bloc radar du haut de page porte la date de rédaction des notes, comme le tableau.
+
+**`api/contact.ts` : le journal reçoit enfin la raison du refus**
+- La route ne journalisait rien quand Resend refusait : le journal de fonction était
+  vide, donc un 403 était indiscernable d'une clé suspendue ou d'une portée manquante.
+  Une ligne `console.error` publie désormais le statut et le motif du fournisseur
+  **dans le journal seulement** — la réponse HTTP garde le seul statut, conformément au
+  § 6. Aucune clé, aucune longueur, aucune adresse dans un corps de réponse.
+
 
 **L'accueil cesse de promettre ce que personne ne fait**
 - « 24/7 SURVEILLANCE DES MARCHÉS » : rien ne surveille quoi que ce soit en continu. La
