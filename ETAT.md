@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `662c964`
+**Dernière mise à jour : 2026-09-19** · commit de référence `deeca14`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -103,6 +103,11 @@ calculé sur les parts exactes. Le site publie ce qu'il sait recalculer.
   est rapide ; s'ils sont à écrire, c'est un autre calendrier.
 
 ## 5. Proposé, en attente d'accord
+
+- [ ] **« Excellents sur trois marchés plutôt que moyens sur trente »** (principe 02 de
+  la page À propos) contredit les **{countries} marchés** annoncés, dérivés, sur
+  l'accueil. Trois reformulations proposées à Elyes ; aucune appliquée tant qu'il n'a
+  pas tranché.
 
 - [x] **Les deux numéros de version sont retirés**, avec l'accord d'Elyes. Le pied de
   page ne rend plus la ligne quand elle est vide.
@@ -222,6 +227,26 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**À propos : deux promesses alignées sur ce que le site fait vraiment**
+- La bio promettait « chaque position à un journal », la même promesse que celle déjà
+  corrigée sur le Trade Tracker et fausse à côté de trente-deux lignes antérieures au
+  registre. Elle dit désormais : depuis le 2026.08.07 chaque position est consignée
+  avant l'entrée, et l'historique antérieur est reconstitué depuis les relevés et
+  signalé comme tel.
+- Le formulaire annonçait « votre message arrive dans la boîte du labo et nulle part
+  ailleurs ». Inexact : il transite par un prestataire d'envoi. Le texte énonce
+  maintenant ce qui est vrai — pas de mesure d'audience, pas de captcha tiers, pas de
+  liste de diffusion, pas de revente — puis dit que le message est acheminé par un
+  prestataire d'envoi jusqu'à la boîte du lab. Le prestataire n'est pas nommé.
+
+**Le portrait du fondateur existe déjà.** `public/founder.jpg`, 1200 × 1600, ratio 3:4
+exact, niveaux de gris, servi en production avec le bon type MIME. Le bloc « PORTRAIT
+INDISPONIBLE » est un repli que le visiteur ne voit jamais : il n'apparaît que si le
+fichier échoue à charger (`onError` masque l'image). Fournir une autre photo revient à
+remplacer ce fichier, déjà recadré en 3:4 et en JPEG réel — l'en-tête `nosniff` de
+`vercel.json` transforme une mauvaise extension en cadre vide plutôt qu'en avertissement.
+
 
 **Le nettoyage des notes de méthode passe de cinq formules à la famille entière**
 - Les cinq chaînes exactes traitées au commit précédent étaient à zéro, mais des

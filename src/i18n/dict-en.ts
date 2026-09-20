@@ -1108,7 +1108,7 @@ export const en = {
       headRight: 'ONE OPERATOR, NO COMMITTEE',
       photoNote: 'PORTRAIT UNAVAILABLE',
       role: 'FOUNDER — CURIOUS BY TRADE, RIGOROUS BY HABIT',
-      bio: "BAREK LABS is a one-person laboratory by design — not a team of analysts, not a fintech startup, just someone with a genuine, borderline obsessive habit of reading about companies and markets. The coverage, the tracked positions and the methods on this site are the founder's own work — the lab answers to its readers and to its ledger, not to any sponsor. The preference here is simple: let the record speak. Every claim traces to a source, every position to a log, every error to a correction.",
+      bio: "BAREK LABS is a one-person laboratory by design — not a team of analysts, not a fintech startup, just someone with a genuine, borderline obsessive habit of reading about companies and markets. The coverage, the tracked positions and the methods on this site are the founder's own work — the lab answers to its readers and to its ledger, not to any sponsor. The preference here is simple: let the record speak. Every claim traces to a source and every error to a correction. Since the ledger opened on 2026.08.07, every position is logged before the entry; the record before that date is reconstructed from the brokerage statements and marked as such.",
     },
     story: {
       head: 'Why this lab exists',
@@ -1177,7 +1177,7 @@ export const en = {
           tags: ['POSITION REVIEW', 'VALUE-CHAIN MAPPING', 'DATA & TOOLING', 'FINANCE TRANSFORMATION'],
         },
       ],
-      privacy: 'YOUR MESSAGE GOES TO THE LAB INBOX AND NOWHERE ELSE. NO ANALYTICS ON THIS FORM, NO THIRD-PARTY CAPTCHA, NO NEWSLETTER LIST, NO RESALE. THE SPAM DEFENCE IS A PROOF-OF-WORK PUZZLE RUN IN YOUR OWN BROWSER — NOTHING ABOUT YOU IS SENT TO A THIRD PARTY TO PROVE YOU ARE HUMAN.',
+      privacy: 'NO ANALYTICS ON THIS FORM, NO THIRD-PARTY CAPTCHA, NO NEWSLETTER LIST, NO RESALE. YOUR MESSAGE IS CARRIED BY AN EMAIL DELIVERY PROVIDER TO THE LAB INBOX, AND GOES NOWHERE ELSE. THE SPAM DEFENCE IS A PROOF-OF-WORK PUZZLE RUN IN YOUR OWN BROWSER — NOTHING ABOUT YOU IS SENT TO A THIRD PARTY TO PROVE YOU ARE HUMAN.',
       head: 'Reach the lab',
       headRight: 'RESPONSE < 48H',
       advisoryNote: 'Everything published on this site is free to read. The lab also works for clients — commissioned research and advisory — and that work is what funds the free half. The two services below are what is actually on offer; the console under them reaches me directly.',

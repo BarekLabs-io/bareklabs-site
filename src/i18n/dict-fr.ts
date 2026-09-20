@@ -1109,7 +1109,7 @@ export const fr: Dict = {
       headRight: 'UN SEUL OPÉRATEUR, AUCUN COMITÉ',
       photoNote: 'PORTRAIT INDISPONIBLE',
       role: 'FONDATEUR — CURIEUX PAR MÉTIER, RIGOUREUX PAR HABITUDE',
-      bio: 'BAREK LABS est un laboratoire d’une seule personne, par choix — pas une équipe d’analystes, pas une start-up fintech, juste quelqu’un qui a pris l’habitude, sincère et presque obsessionnelle, de lire sur les entreprises et les marchés. La couverture, les positions suivies et les méthodes publiées ici sont le travail du fondateur lui-même — le labo répond à ses lecteurs et à son registre, pas à un sponsor. Le parti pris est simple : laisser parler les faits. Chaque affirmation remonte à une source, chaque position à un journal, chaque erreur à une correction.',
+      bio: 'BAREK LABS est un laboratoire d’une seule personne, par choix — pas une équipe d’analystes, pas une start-up fintech, juste quelqu’un qui a pris l’habitude, sincère et presque obsessionnelle, de lire sur les entreprises et les marchés. La couverture, les positions suivies et les méthodes publiées ici sont le travail du fondateur lui-même — le labo répond à ses lecteurs et à son registre, pas à un sponsor. Le parti pris est simple : laisser parler les faits. Chaque affirmation remonte à une source et chaque erreur à une correction. Depuis l’ouverture du registre le 2026.08.07, chaque position est consignée avant l’entrée ; l’historique antérieur est reconstitué depuis les relevés de courtage et signalé comme tel.',
     },
     story: {
       head: 'Pourquoi ce labo existe',
@@ -1178,7 +1178,7 @@ export const fr: Dict = {
           tags: ['REVUE DE POSITION', 'CHAÎNE DE VALEUR', 'DONNÉE & OUTILS', 'TRANSFORMATION FINANCE'],
         },
       ],
-      privacy: 'VOTRE MESSAGE ARRIVE DANS LA BOÎTE DU LABO ET NULLE PART AILLEURS. AUCUNE MESURE D’AUDIENCE SUR CE FORMULAIRE, AUCUN CAPTCHA TIERS, AUCUNE LISTE DE DIFFUSION, AUCUNE REVENTE. LA PROTECTION ANTI-SPAM EST UNE PREUVE DE TRAVAIL EXÉCUTÉE DANS VOTRE PROPRE NAVIGATEUR — RIEN QUI VOUS CONCERNE N’EST ENVOYÉ À UN TIERS POUR PROUVER QUE VOUS ÊTES HUMAIN.',
+      privacy: 'AUCUNE MESURE D’AUDIENCE SUR CE FORMULAIRE, AUCUN CAPTCHA TIERS, AUCUNE LISTE DE DIFFUSION, AUCUNE REVENTE. VOTRE MESSAGE EST ACHEMINÉ PAR UN PRESTATAIRE D’ENVOI D’E-MAILS JUSQU’À LA BOÎTE DU LABO, ET NE VA NULLE PART AILLEURS. LA PROTECTION ANTI-SPAM EST UNE PREUVE DE TRAVAIL EXÉCUTÉE DANS VOTRE PROPRE NAVIGATEUR — RIEN QUI VOUS CONCERNE N’EST ENVOYÉ À UN TIERS POUR PROUVER QUE VOUS ÊTES HUMAIN.',
       head: 'Joindre le labo',
       headRight: 'RÉPONSE < 48 H',
       advisoryNote: 'Tout ce qui est publié sur ce site est libre d’accès. Le labo travaille aussi pour des clients — recherche sur mandat et conseil — et c’est ce travail-là qui finance la moitié gratuite. Les deux services ci-dessous sont ce qui est réellement proposé ; la console ci-dessous permet de me joindre directement.',
