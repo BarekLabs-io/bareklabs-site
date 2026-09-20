@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `6b86c2c`
+**Dernière mise à jour : 2026-09-19** · commit de référence `791de9b`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -64,6 +64,14 @@ calculé sur les parts exactes. Le site publie ce qu'il sait recalculer.
   adresse de repli n'est proposée** — un recruteur qui écrit lundi tombe sur un
   cul-de-sac. **Demande Elyes :** créer les deux variables dans Vercel (Settings →
   Environment Variables) puis redéployer. `CONTACT_FROM` est optionnel.
+- [ ] **166 notes de méthode internes sur les fiches société.** `src/data/companies.ts`
+  porte « mechanically rescaled » (47), « not independently re-verified » (68), « not
+  independently re-derived » (25), « not independently reconciled » (11) et « varies by
+  source » (15), sur une centaine de sociétés. Elles **s'affichent** — `Company.tsx:466`
+  pour `sourceNote`, et dans les tableaux de multiples pour les valeurs. C'est la
+  règle 1.5. **Pourquoi ce n'est pas fait :** effacer la réserve en gardant « ~61,1x »
+  publierait un chiffre approximatif sans son avertissement, ce qui est pire ; la
+  réponse honnête est un tiret, et cela touche 166 valeurs. **À trancher par Elyes.**
 - [ ] **Proposer une adresse de repli** sur le formulaire tant que Resend n'est pas
   branché. Non fait : publier une adresse en clair attire le spam que la preuve de
   travail existe précisément pour arrêter. À trancher par Elyes.
@@ -202,6 +210,43 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**Souk Signal cesse de publier six chiffres inventés**
+- Le score de 74/100 **était calculé** — `src/pages/SoukSignal.tsx`, moyenne pondérée
+  des tons — mais ses six entrées étaient écrites à la main dans les trois
+  dictionnaires. Un nombre calculé sur des entrées inventées est pire qu'un nombre en
+  dur : il a l'air dérivé. Les six valeurs (1,42 · 0,87× · +18,2 M$ · BANQUES ·
+  2 ALERTES · BAS), leurs tons et leurs commentaires sont retirés.
+- **Une seule composante est calculable** depuis `/api/quotes`, qui ne renvoie que
+  `price`, `changePercent`, `currency`, `marketTime` : l'**ampleur ADV/DEC**. Elle est
+  désormais calculée en direct (`src/lib/soukSignal.ts`) sur les 28 valeurs de
+  `MOVERS_UNIVERSE`, avec un seuil de couverture de 60 % en dessous duquel elle affiche
+  un tiret plutôt qu'un ratio tiré de quatre noms.
+- Les cinq autres portent un tiret **et la raison** : pas de volumes (intensité,
+  leadership), pas de flux de conservation (flux étranger), pas d'historique
+  (volatilité, anomalies). Les pondérations restent publiées — la méthode est la partie
+  de cette page qui n'a jamais été fausse.
+- **La jauge ne dessine plus d'arc.** Un arc tracé à n'importe quelle longueur est une
+  lecture, et il n'y en a pas à donner tant que cinq composantes sur six sont muettes.
+- Promesses de cadence retirées : « mise à jour à chaque clôture », « prochaine mise à
+  jour : clôture + 30 min », « actualisé à la clôture ». Le radar affiche à la place la
+  date réelle de rédaction de ses notes, **2026.08.08**, établie par `git log -S` sur le
+  contenu anglais (commit `c543977`) — la passe française du 11 n'a touché que la
+  traduction.
+- **Le cours figé du radar passe au direct** et la capitalisation porte désormais la
+  date du dossier dont elle vient (`asOf`). Un prix d'août non daté à côté d'un signal
+  se lit comme le prix du jour.
+- Quatre formulations de conseil retirées de la légende et de la lecture du jour :
+  « nous restons positionnés, stops resserrés », « nous réduirions l'exposition »,
+  « trop tôt pour courir après », « rien à faire tant que ». La légende décrit la
+  configuration, pas une action.
+
+**Investment Ideas, deux textes**
+- Le récit de l'erreur de méthode passe de six lignes à une phrase ; le badge REFAIT et
+  le passage sur la sensibilité au taux de 8 % restent.
+- L'en-tête « écrites avant le trade, auditées après » — une promesse d'audit que rien
+  n'atteste — devient la description de ce que la carte publie réellement.
+
 
 **Les trois dernières cartes, et la série remise dans l'ordre**
 - n°09 WDC/STX, n°12 Micron et n°18 SUMCO rejoignent les huit autres. La série mémoire

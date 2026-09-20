@@ -4,49 +4,31 @@ import { useLiveQuotes } from '@/lib/useLiveQuotes'
 import { SectionHead } from '@/components/Layout'
 import { FeedStatus } from '@/components/FeedStatus'
 import { useLang } from '@/i18n/LanguageContext'
+import { useMarketQuotes } from '@/lib/marketQuotes'
+import { computeBreadth, breadthTone } from '@/lib/soukSignal'
+import { formatDecimal } from '@/lib/format'
+import { fillCoverage } from '@/lib/coverage'
 import { cn } from '@/lib/utils'
 import { companies } from '@/data/companies'
 import { parseMetricValue } from '@/lib/priceSeries'
 
-/* Composite = weighted blend of the six signal-component tones below.
-   Breadth and foreign flow carry the most weight (the page's own "breadth &
-   flows" premise); anomaly flags act as a penalty. Fixed order matches
-   souk.components.rows across all languages. */
-const TONE_SCORE: Record<string, number> = { up: 100, mid: 50, down: 0 }
-const COMPONENT_WEIGHTS = [0.28, 0.12, 0.25, 0.1, 0.1, 0.15]
+/* The composite is not drawn while five of its six components have no feed.
+ * Weighting one live reading against five blanks would publish a number that
+ * looks like a market score and is really a single ratio with padding. The
+ * gauge shows the dash, and the weights stay published underneath it. */
 
-function compositeSignal(rows: { tone: string }[]) {
-  const total = rows.reduce((sum, r, i) => sum + (COMPONENT_WEIGHTS[i] ?? 0) * (TONE_SCORE[r.tone] ?? 50), 0)
-  return Math.round(total)
-}
-
-function Gauge({ value, label }: { value: number; label: string }) {
-  const angle = (value / 100) * 180
+function Gauge({ label, pending }: { label: string; pending: string }) {
   return (
     <div className="flex flex-col items-center">
       <svg viewBox="0 0 200 110" className="w-full max-w-[260px]">
         <path d="M 10 100 A 90 90 0 0 1 190 100" fill="none" stroke="var(--track)" strokeWidth="10" />
-        <path
-          d="M 10 100 A 90 90 0 0 1 190 100"
-          fill="none"
-          stroke="rgb(var(--signal))"
-          strokeWidth="10"
-          strokeDasharray={`${(value / 100) * 283} 283`}
-          className="transition-all duration-1000"
-        />
-        <line
-          x1="100" y1="100"
-          x2={100 + 70 * Math.cos(Math.PI - (angle * Math.PI) / 180)}
-          y2={100 - 70 * Math.sin((angle * Math.PI) / 180)}
-          stroke="var(--prose)" strokeWidth="2"
-          className="transition-all duration-1000"
-        />
-        <circle cx="100" cy="100" r="5" fill="rgb(var(--signal))" />
+        {/* No arc and no needle: an arc drawn at any length is a reading, and
+          * there is no reading to give until the components have a feed. */}
+        <text x="100" y="92" textAnchor="middle" className="fill-[rgb(var(--faint))] font-mono-lab" fontSize="34">
+          {pending}
+        </text>
       </svg>
-      <div className="mt-2 text-3xl font-light tracking-tight" dir="ltr">
-        {value}<span className="text-dim text-xl">/100</span>
-      </div>
-      <div className="mt-1 text-center font-mono-lab text-[10px] tracking-[0.25em] text-dim">{label}</div>
+      <div className="mt-2 text-center font-mono-lab text-[9px] leading-4 tracking-[0.2em] text-faint">{label}</div>
     </div>
   )
 }
@@ -124,20 +106,29 @@ function MiniWatchRow({ row, quote }: { row: { t: string; s: string; sig: string
 
 /* Momentum strip — the same six real component scores that drive the
  * composite, as an animated horizontal bar each instead of a table row. */
-function ComponentBar({ row, delay }: { row: { k: string; v: string; tone: string }; delay: number }) {
-  const score = { up: 90, mid: 55, down: 20 }[row.tone] ?? 50
+function ComponentBar({
+  label, value, tone, delay,
+}: { label: string; value: string; tone: 'up' | 'mid' | 'down' | null; delay: number }) {
+  /* A bar is only drawn for a component that has a reading. The rest keep
+   * their track empty rather than showing a width that means nothing. */
+  const width = tone === null ? 0 : { up: 90, mid: 55, down: 20 }[tone]
   return (
     <Reveal delay={delay} className="min-w-[140px] flex-1">
       <div className="flex items-baseline justify-between font-mono-lab text-[9px] tracking-[0.2em] text-faint">
-        <span>{row.k}</span>
-        <span className={cn(row.tone === 'up' ? 'text-signal' : row.tone === 'down' ? 'text-danger' : 'text-warn')} dir="ltr">
-          {row.v}
+        <span>{label}</span>
+        <span
+          className={cn(
+            tone === null ? 'text-faint' : tone === 'up' ? 'text-signal' : tone === 'down' ? 'text-danger' : 'text-warn'
+          )}
+          dir="ltr"
+        >
+          {value}
         </span>
       </div>
       <div className="mt-1.5 h-1.5 w-full bg-track">
         <div
-          className={cn('h-full transition-all duration-1000', row.tone === 'up' ? 'bg-signal' : row.tone === 'down' ? 'bg-danger' : 'bg-warn')}
-          style={{ width: `${score}%` }}
+          className={cn('h-full transition-all duration-1000', tone === 'up' ? 'bg-signal' : tone === 'down' ? 'bg-danger' : 'bg-warn')}
+          style={{ width: `${width}%` }}
         />
       </div>
     </Reveal>
@@ -145,8 +136,17 @@ function ComponentBar({ row, delay }: { row: { k: string; v: string; tone: strin
 }
 
 export default function SoukSignal() {
-  const { t } = useLang()
-  const composite = compositeSignal(t.souk.components.rows)
+  const { t, lang } = useLang()
+  const { quotes: deskQuotes } = useMarketQuotes()
+  /* The one component the quote feed can actually answer. */
+  const breadth = computeBreadth(deskQuotes)
+  const breadthValue = breadth?.ratio == null ? null : formatDecimal(breadth.ratio, lang)
+  const componentValue = (id: string) => (id === 'breadth' ? breadthValue : null)
+  const componentTone = (id: string) => (id === 'breadth' && breadth ? breadthTone(breadth) : null)
+  const componentNote = (id: string) =>
+    id === 'breadth' && breadth
+      ? fillCoverage(t.souk.components.breadthNote, { up: breadth.up, down: breadth.down, counted: breadth.counted })
+      : (t.souk.components.rows.find((r) => r.id === id) as { pendingWhy?: string } | undefined)?.pendingWhy ?? ''
 
   /* The hero terminal watches the full radar list, not the six shown: the
    * feed status should describe the feed, not the slice on screen. */
@@ -196,7 +196,7 @@ export default function SoukSignal() {
                   <div className="mb-3 inline-block border border-line px-2.5 py-1 font-mono-lab text-[9px] tracking-[0.2em] text-faint">
                     {t.souk.gaugeWhat}
                   </div>
-                  <Gauge value={composite} label={t.souk.gaugeLabel} />
+                  <Gauge label={t.souk.gaugeLabel} pending={t.souk.components.pending} />
                   <p className="mx-auto mt-4 max-w-[280px] text-center font-mono-lab text-[9px] leading-4 tracking-wider text-faint md:mx-0 md:text-start">
                     {t.souk.methodNote}
                   </p>
@@ -209,7 +209,13 @@ export default function SoukSignal() {
                   <p className="mt-4 max-w-md font-mono-lab text-[11px] leading-6 tracking-wide text-dim">{t.souk.read.body}</p>
                   <div className="mt-6 flex flex-wrap gap-x-8 gap-y-5 border-t border-line pt-5">
                     {t.souk.components.rows.map((r, i) => (
-                      <ComponentBar key={r.k} row={r} delay={i * 60} />
+                      <ComponentBar
+                        key={r.k}
+                        label={r.k}
+                        value={componentValue(r.id) ?? t.souk.components.pending}
+                        tone={componentTone(r.id)}
+                        delay={i * 60}
+                      />
                     ))}
                   </div>
                 </div>
@@ -256,8 +262,15 @@ export default function SoukSignal() {
               </thead>
               <tbody>
                 {t.souk.watchlist.rows.map((r, i) => {
-                  const price = keyMetric(r.t, /^price|^share price/i)
-                  const marketCap = keyMetric(r.t, /market cap/i)
+                  /* The price on this line comes from the feed, never from the
+                    * deep-dive snapshot: a researched August price sitting
+                    * undated beside a live signal reads as today's price. The
+                    * market cap has no live source, so it carries the date of
+                    * the record it comes from. */
+                  const q = quotes[r.t]
+                  const price = q ? formatDecimal(q.price, lang) : null
+                  const cap = keyMetric(r.t, /market cap/i)
+                  const capAsOf = companies[r.t]?.asOf
                   return (
                     <tr key={r.t} className={cn('border-b border-line/50 transition-colors bg-row-hover', i % 2 === 1 && 'bg-stripe')}>
                       <td className="px-6 py-4">
@@ -267,7 +280,7 @@ export default function SoukSignal() {
                           </span>
                           {companies[r.t] && (
                             <span className="font-mono-lab text-[9px] tracking-wider text-faint" dir="ltr">
-                              {companies[r.t].name}{price ? ` · ${price}` : ''}{marketCap ? ` · ${marketCap}` : ''}
+                              {companies[r.t].name}{price ? ` · ${price}` : ''}{cap ? ` · ${cap} (${capAsOf ?? '—'})` : ''}
                             </span>
                           )}
                         </Link>
@@ -298,24 +311,33 @@ export default function SoukSignal() {
         <div className="shell px-5 py-20 md:px-10">
           <SectionHead index="FEEDS" label={t.souk.components.head} right={t.souk.components.headRight} />
           <div className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-2">
-            {t.souk.components.rows.map((r, i) => (
+            {t.souk.components.rows.map((r, i) => {
+              const v = componentValue(r.id)
+              const tone = componentTone(r.id)
+              return (
               <Reveal key={r.k} delay={i * 50} className="group flex items-center justify-between gap-6 bg-card2 p-6 transition-colors hover:bg-[var(--hover-bg)] md:p-7">
                 <div>
                   <div className="font-mono-lab text-[10px] tracking-[0.2em] text-dim">{r.k}</div>
-                  <div className="mt-1 font-mono-lab text-[10px] leading-4 tracking-wider text-dim/80">{r.what}</div>
-                  <div className="mt-2 font-mono-lab text-[10px] tracking-wider text-faint">{r.note}</div>
+                  <div className="mt-1 font-mono-lab text-[10px] leading-4 tracking-wider text-dim/80">
+                    {fillCoverage(r.what, { counted: breadth?.counted ?? 0 })}
+                  </div>
+                  {/* Either the live reading behind the number, or the reason
+                    * there is no number. Never a sentence about data the page
+                    * does not have. */}
+                  <div className="mt-2 font-mono-lab text-[10px] tracking-wider text-faint">{componentNote(r.id)}</div>
                 </div>
                 <div
                   className={cn(
                     'font-mono-lab text-xl tracking-tight md:text-2xl',
-                    r.tone === 'up' ? 'text-signal' : r.tone === 'down' ? 'text-danger' : 'text-warn'
+                    v === null ? 'text-faint' : tone === 'up' ? 'text-signal' : tone === 'down' ? 'text-danger' : 'text-warn'
                   )}
                   dir="ltr"
                 >
-                  {r.v}
+                  {v ?? t.souk.components.pending}
                 </div>
               </Reveal>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
