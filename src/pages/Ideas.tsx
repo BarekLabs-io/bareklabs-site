@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import Carousel from '@/components/Carousel'
@@ -48,13 +48,21 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
   const [open, setOpen] = useState(false)
   const ref = useSpotlight<HTMLDivElement>()
   const { t, lang } = useLang()
+  const navigate = useNavigate()
   const asOf = formatAsOf(idea.date, lang)
   const scenarioLabel = (l: string) => (t.ideas.scenarioLabels as Record<string, string>)[l] ?? l
 
   return (
     <div data-carousel-item className="w-[380px] shrink-0 md:w-[440px]" style={{ scrollSnapAlign: 'start' }}>
       <Reveal delay={i * 70}>
-      <div ref={ref} className="spot-card h-full border border-line">
+      {/* Double-click is a shortcut, never the only way in: it does not exist on
+        * a touch screen and it is invisible to a keyboard. The link below the
+        * thesis is the real route — this only saves a gesture for a mouse. */}
+      <div
+        ref={ref}
+        className="spot-card h-full border border-line"
+        onDoubleClick={() => idea.report && navigate(`/analysis/ideas/${idea.report}`)}
+      >
         <button onClick={() => setOpen(!open)} className="w-full p-6 text-start md:p-8">
           <div className="flex flex-wrap items-center gap-4">
             <span className="font-mono-lab text-[10px] tracking-wider text-faint" dir="ltr">{idea.id}</span>
@@ -102,6 +110,19 @@ function IdeaCard({ idea, i }: { idea: Idea; i: number }) {
             </div>
           )}
         </button>
+
+        {/* Outside the expand button, because a link nested in a button is not a
+          * link to a keyboard or a screen reader. Absent when no report exists —
+          * the documented behaviour for a thesis whose write-up is unfinished. */}
+        {idea.report && (
+          <Link
+            to={`/analysis/ideas/${idea.report}`}
+            className="group/read mx-6 mb-6 flex items-center justify-between border border-line px-4 py-2.5 font-mono-lab text-[10px] tracking-[0.2em] text-signal transition-colors hover:border-signal hover:bg-signal hover:text-[#0c0e12] md:mx-8 md:mb-8"
+          >
+            {t.ideas.labels.readReportShort}
+            <span className="transition-transform duration-300 group-hover/read:translate-x-1 rtl:rotate-180" dir="ltr">→</span>
+          </Link>
+        )}
 
         <div className={cn('grid transition-all duration-500 ease-out', open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
           <div className="overflow-hidden">

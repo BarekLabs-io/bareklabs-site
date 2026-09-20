@@ -52,7 +52,9 @@ type Tab = 'POSITIONS' | 'REGIME'
 export default function Crypto() {
   const [tab, setTab] = useState<Tab>('POSITIONS')
   const { t, lang } = useLang()
-  const { quotes } = useLiveQuotes([...new Set(t.crypto.positions.map((p) => p.symbol ?? p.t))])
+  /* Same rule as the equity ledger: heaviest first, derived from the weights. */
+  const POSITIONS = [...t.crypto.positions].sort((a, b) => (b.weightPct ?? -1) - (a.weightPct ?? -1))
+  const { quotes } = useLiveQuotes([...new Set(POSITIONS.map((p) => p.symbol ?? p.t))])
 
   return (
     <>
@@ -82,7 +84,7 @@ export default function Crypto() {
             ))}
           </div>
 
-          {tab === 'POSITIONS' && t.crypto.positions.length === 0 ? (
+          {tab === 'POSITIONS' && POSITIONS.length === 0 ? (
             <EmptyLedger message={t.crypto.openEmpty} note={t.crypto.ledgerNote} />
           ) : tab === 'POSITIONS' ? (
             <div className="overflow-x-auto border border-line">
@@ -102,7 +104,7 @@ export default function Crypto() {
                   </tr>
                 </thead>
                 <tbody>
-                  {t.crypto.positions.map((p, i) => (
+                  {POSITIONS.map((p, i) => (
                     <tr key={p.t} className={cn('border-b border-line/50 transition-colors bg-row-hover', i % 2 === 1 && 'bg-stripe')}>
                       <td className="px-6 py-4">
                         <div className="font-mono-lab text-sm font-medium" dir="ltr">{p.t}</div>

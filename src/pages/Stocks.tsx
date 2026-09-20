@@ -67,8 +67,17 @@ type Tab = 'OPEN' | 'CLOSED'
 export default function Stocks() {
   const [tab, setTab] = useState<Tab>('OPEN')
   const { t, lang } = useLang()
-  const OPEN = t.stocks.open
-  const CLOSED = t.stocks.closed
+  /* Order is derived, never typed into the dictionaries: the heaviest line
+   * first is what a reader looks for, and a hand-kept order drifts the moment
+   * a weight changes. A closed trade has no weight in the book any more, so it
+   * sorts on the capital it took while it was open; the fund lines carry no
+   * share at all and sit at the bottom, where the counters already put them. */
+  const OPEN = [...t.stocks.open].sort((a, b) => (b.weightPct ?? -1) - (a.weightPct ?? -1))
+  const CLOSED = [...t.stocks.closed].sort(
+    (a, b) =>
+      Number(b.inStats) - Number(a.inStats) ||
+      (b.capitalSharePct ?? -1) - (a.capitalSharePct ?? -1)
+  )
   /* Two lines can share a ticker — the same company held at two brokers, or
    * bought twice at different prices. The feed is asked once per symbol. */
   const { quotes } = useLiveQuotes([...new Set(OPEN.map((p) => p.symbol ?? p.t))])

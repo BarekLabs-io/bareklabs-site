@@ -200,7 +200,7 @@ export const ar: Dict = {
     },
     filters: ['الكل', 'AI INFRA', 'MEMORY', 'DISTRIBUTION', 'MEDTECH', 'BIOTECH', 'SPACE', 'ENERGY', 'MATERIALS'],
     status: { ACTIVE: 'نشطة', WATCHING: 'تحت المراقبة', CLOSED: 'مغلقة' } as Record<string, string>,
-    labels: { entry: 'منطق الدخول', invalidation: 'الإبطال', horizon: 'الأفق', rate: 'معدل الخصم', scenarios: 'خريطة السيناريوهات', readReport: 'اقرأ التقرير الكامل', dataAsOf: 'بيانات حتى' },
+    labels: { entry: 'منطق الدخول', invalidation: 'الإبطال', horizon: 'الأفق', rate: 'معدل الخصم', scenarios: 'خريطة السيناريوهات', readReport: 'اقرأ التقرير الكامل', readReportShort: 'اقرأ التقرير', dataAsOf: 'بيانات حتى' },
     scenarioLabels: { BASE: 'أساسي', BULL: 'صاعد', BEAR: 'هابط', BLUE_SKY: 'سماء صافية', HIT: 'تحقق' } as Record<string, string>,
     head: 'أطروحات مفتوحة',
     headRight: 'انقر للتوسيع',
