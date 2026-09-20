@@ -226,14 +226,41 @@ export const ideasFr: IdeaItem[] = [
       '8,5 % de coût moyen pondéré du capital et 3,0 % de croissance à l\'infini, valeurs par défaut du modèle interactif. Les trois trajectoires ne portent aucune pondération de probabilité — le rapport nomme ce que chacune exige et valorise les trois, et la carte n\'invente aucun poids',
   },
 
-  /* Memory supply chain, reports n°09 to n°19, cut off 7 August 2026.
-   * Every figure below is lifted from the delivered card markdown and
-   * from nowhere else. Three of the eleven reports — n°09 WDC/STX,
-   * n°12 Micron, n°18 SUMCO — have no card block in that markdown, so
-   * they have no card here: the documents are published and reachable,
-   * and a written card will add them. */
+  /* Memory supply chain, reports n°09 to n°19, in report order. Every
+   * figure is lifted from the delivered card markdown and from nowhere
+   * else.
+   *
+   * Sector note, flagged rather than settled quietly: the delivered cards
+   * put WDC/STX, SUMCO and Micron under AI INFRA and say so explicitly —
+   * mass storage and silicon wafers have no entry of their own in the
+   * nomenclature, and both cards ask for the point to be raised. MEMORY
+   * and MATERIALS are the publisher's call, taken knowingly. */
   {
     id: 'IDEA-10',
+    date: '2026-08-06',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'Western Digital · Seagate',
+    tickers: ['WDC', 'STX'],
+    report: 'wdc-stx',
+    title: 'Le meilleur exercice de l’histoire du disque dur, et le taux qu’il faut pour le payer',
+    thesis:
+      'Western Digital et Seagate sortent du meilleur exercice de leur histoire — 54,1 % et 52,7 % de marge brute au dernier trimestre, carnets vendus jusqu’en 2028, aucune capacité nouvelle annoncée. Le test bloquant T2 échoue sur les deux titres : le cas haussier plafonne à 224,76 $ et 378,12 $ contre des cours de 432,76 $ et 814,75 $. Le rapport bascule donc en DCF inversé. Pour que le cas central vaille le cours, il faut l’actualiser à 5,72 % et 5,27 % — sur des actions dont la volatilité annualisée observée est de 133,1 % et 119,8 %.',
+    entry:
+      'Il n’y a pas de niveau d’entrée à donner, et c’est le point : le désaccord ne porte pas sur un prix mais sur le taux d’actualisation. Ce qui rendrait le dossier différent n’est pas une baisse du cours mais une normalisation durable du bêta, aujourd’hui à 2,17 et 2,07. Le seul événement industriel qui déplacerait le cas central vers le cas haussier serait la publication d’engagements pluriannuels de capacité constante assortis d’accords de long terme à prix ferme au-delà de 2028.',
+    invalidation:
+      'La lecture tombe si le bêta se normalise durablement vers celui d’un équipementier classique, ce qui refermerait l’écart sans qu’aucun fait industriel ait changé ; si le duopole publie des engagements de capacité constante au-delà de 2028 ; si le chiffre d’affaires dépasse durablement 25 Md$ par société avant 2030, contre 2032 dans le cas haussier ; ou si plusieurs centaines d’exaoctets de capacité NAND sont formellement engagés pour le nearline, avec calendrier et financement.',
+    horizon: 'Exercice clos le 3 juillet 2026, publié le 28 juillet (STX) et le 5 août 2026 (WDC) ; T1 FY2027 attendu fin octobre 2026 ; trajectoire jusqu’en 2036',
+    discountRate:
+      'WDC 13,06 % et STX 12,64 % — taux sans risque 4,65 %, prime de risque actions 4,75 %, bêtas observés 2,17 et 2,07 ajustés de Blume à 1,78 et 1,71 ; aucun écart de jugement au bêta observé. À 8 %, le cas central sort à 262,65 $ et 423,15 $ : la conclusion tient, son ampleur non',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-11',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'MEMORY',
@@ -258,7 +285,7 @@ export const ideasFr: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-11',
+    id: 'IDEA-12',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'MEMORY',
@@ -283,7 +310,32 @@ export const ideasFr: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-12',
+    id: 'IDEA-13',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'Micron Technology',
+    tickers: ['MU'],
+    report: 'micron',
+    title: 'Le trimestre parfait, et ce qu’il faut croire pour le prolonger',
+    thesis:
+      'Micron vient de publier les plus hautes marges jamais imprimées par un fabricant de mémoire — 84,9 % de marge brute, 81,2 % opérationnelle — et guide encore au-dessus. À 880 $, le marché paie le cas haussier presque au taux de convention (11,79 % contre 12,98 %). Le désaccord ne porte ni sur la qualité ni sur le taux : il porte sur la profondeur du prochain creux, et donc sur la seule vraie nouveauté du dossier — 16 accords clients à prix plancher, jamais testés dans une baisse. Objectif pondéré 460,71 $.',
+    entry:
+      'La variable dominante n’est pas le taux mais la profondeur du prochain creux : l’écart entre cas baissier et cas central pèse plus que 200 points de base de WACC. L’événement qui déplacerait la pondération est le premier test réel de ces accords — deux à trois trimestres de correction pendant lesquels les clients honorent les prix planchers. D’ici là, la marge brute d’ADATA et les prix contractuels DRAM font office de système d’alerte.',
+    invalidation:
+      'La lecture prudente tombe si les accords à prix plancher tiennent dans une première baisse, auquel cas le scénario BLUE_SKY monte en probabilité ; si la DRAM reste tendue au-delà de 2027 contre l’histoire des cycles ; ou si le capex du secteur reste discipliné sous 20 % du chiffre d’affaires malgré les marges records. Inversement, une inflexion des prix contractuels DRAM avant mi-2027, ou un capex sectoriel durablement supérieur à 25 %, valide le cas baissier.',
+    horizon: 'FQ3 2026 publié le 24 juin 2026 ; FQ4 attendu fin septembre 2026 ; trajectoire jusqu’en 2036',
+    discountRate:
+      'WACC 12,98 % — taux sans risque USD 4,65 %, bêta observé 2,142 ajusté de Blume à 1,765, prime 4,75 %, dette marginale. Le quatrième scénario, BLUE_SKY à 1 007,34 $, a été construit pour satisfaire le test d’élargissement et il est signalé comme tel, pas découvert ; le cas haussier organique plafonne à 789,26 $. L’objectif pondéré est établi sur les quatre. À 8 %, le cas central sort à 687,35 $ : la conclusion tient',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 18, tone: 'up' },
+      { label: 'BLUE_SKY', prob: 7, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-14',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'MEMORY',
@@ -307,7 +359,7 @@ export const ideasFr: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-13',
+    id: 'IDEA-15',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'MEMORY',
@@ -331,7 +383,7 @@ export const ideasFr: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-14',
+    id: 'IDEA-16',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'MEMORY',
@@ -356,7 +408,7 @@ export const ideasFr: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-15',
+    id: 'IDEA-17',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'DISTRIBUTION',
@@ -380,7 +432,7 @@ export const ideasFr: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-16',
+    id: 'IDEA-18',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'DISTRIBUTION',
@@ -404,10 +456,34 @@ export const ideasFr: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-17',
+    id: 'IDEA-19',
     date: '2026-08-07',
     status: 'WATCHING',
-    sector: 'SEMIS',
+    sector: 'MATERIALS',
+    company: 'SUMCO',
+    tickers: ['3436.T'],
+    report: 'sumco',
+    title: 'La société qui refuse de construire',
+    thesis:
+      'SUMCO affiche une perte opérationnelle de 6,4 Md JPY au premier semestre 2026 et le marché lit une société en difficulté. Le chiffre d’affaires progresse pourtant de 4,7 %, les expéditions de plaquettes 300 mm sont au plus haut historique, et l’EBITDA reconstitué atteint 58,0 Md JPY à 27,0 % de marge. La perte est produite par une marche d’amortissement — 64,4 Md contre 49,4 un an plus tôt — pendant que le capex tombe de 51,9 à 19,4 Md. C’est une phase de récolte lue comme une détresse. Objectif pondéré 5 867 JPY contre un cours de 3 500.',
+    entry:
+      'La thèse ne se joue pas sur un niveau d’entrée mais sur une bascule datée : le moment où la marche d’amortissement se stabilise pendant que les prix continuent de monter. Le premier point de contrôle est le T3 2026, guidé à l’équilibre opérationnel avec 28,6 % de marge d’EBITDA. La direction avertit toutefois que le T4 peut se dégrader à nouveau après maintenance : ce n’est pas une trajectoire linéaire.',
+    invalidation:
+      'La lecture tombe si le taux sans risque japonais remonte franchement — à 8 % de WACC l’écart passe de +60 % à +11,9 % et s’efface ; si SUMCO rouvre Yoshinogari ou une série d’accords de long terme aux prix actuels, ce qui contredirait la discipline de rendement sur laquelle repose toute la thèse ; si les hausses de prix restent sous 10 % par an, seuil que le président juge très insuffisant ; ou si la capacité chinoise, passée de 3 % du monde en 2020 à 28 % en 2025, se qualifie sur les nœuds avancés.',
+    horizon: 'S1 FY2026 publié le 6 août 2026 ; T3 attendu début novembre 2026 ; trajectoire jusqu’en 2036',
+    discountRate:
+      'WACC 6,38 % — taux sans risque en yens (JGB 10 ans, 2,80 %) et non le taux américain, la société publiant en JPY. Bêta observé 1,136 ajusté de Blume à 1,0911, prime de risque actions 4,75 %, coût des fonds propres 7,98 %, dette à 23,1 % du financement. Premier dossier du lab dont l’objectif pondéré est au-dessus du cours — et il ne se lit pas sans l’avertissement de robustesse ci-dessus',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-20',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MATERIALS',
     company: 'Shin-Etsu Chemical',
     tickers: ['4063.T'],
     report: 'shinetsu',

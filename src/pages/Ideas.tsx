@@ -4,6 +4,7 @@ import { Reveal, useSpotlight } from '@/components/lab'
 import { PageHero, SectionHead } from '@/components/Layout'
 import Carousel from '@/components/Carousel'
 import { useLang } from '@/i18n/LanguageContext'
+import { fillCoverage } from '@/lib/coverage'
 import { cn } from '@/lib/utils'
 
 import type { IdeaItem as Idea } from '@/data/ideaReports'
@@ -227,7 +228,7 @@ export default function Ideas() {
             <Reveal className="mb-10">
               <div className="border-s-2 border-warn/40 ps-5">
                 <div className="font-mono-lab text-[9px] tracking-[0.25em] text-warn">{t.ideas.method.label}</div>
-                <p className="mt-3 max-w-6xl font-mono-lab text-[11px] leading-6 tracking-wide text-dim">{t.ideas.method.body}</p>
+                <p className="mt-3 max-w-6xl font-mono-lab text-[11px] leading-6 tracking-wide text-dim">{fillCoverage(t.ideas.method.body)}</p>
               </div>
             </Reveal>
           )}

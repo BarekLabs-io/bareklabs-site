@@ -228,14 +228,41 @@ export const ideasEn: IdeaItem[] = [
       '8.5% WACC and 3.0% terminal growth on the interactive model\'s defaults. The three paths carry no probability weights — the report names what each requires and prices all three, and the card invents no weighting',
   },
 
-  /* Memory supply chain, reports n°09 to n°19, cut off 7 August 2026.
-   * Every figure below is lifted from the delivered card markdown and
-   * from nowhere else. Three of the eleven reports — n°09 WDC/STX,
-   * n°12 Micron, n°18 SUMCO — have no card block in that markdown, so
-   * they have no card here: the documents are published and reachable,
-   * and a written card will add them. */
+  /* Memory supply chain, reports n°09 to n°19, in report order. Every
+   * figure is lifted from the delivered card markdown and from nowhere
+   * else.
+   *
+   * Sector note, flagged rather than settled quietly: the delivered cards
+   * put WDC/STX, SUMCO and Micron under AI INFRA and say so explicitly —
+   * mass storage and silicon wafers have no entry of their own in the
+   * nomenclature, and both cards ask for the point to be raised. MEMORY
+   * and MATERIALS are the publisher's call, taken knowingly. */
   {
     id: 'IDEA-10',
+    date: '2026-08-06',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'Western Digital · Seagate',
+    tickers: ['WDC', 'STX'],
+    report: 'wdc-stx',
+    title: 'The best year in hard-drive history, and the rate it takes to pay for it',
+    thesis:
+      'Western Digital and Seagate are out of the best year in their history — 54.1% and 52.7% gross margin last quarter, order books sold out to 2028, no new capacity announced. The T2 blocking test FAILS on both: the bull case tops out at $224.76 and $378.12 against prices of $432.76 and $814.75. The report therefore becomes a REVERSE DCF. For the central case to be worth the market price, it has to be discounted at 5.72% and 5.27% — on shares whose observed annualised volatility is 133.1% and 119.8%.',
+    entry:
+      'There is no entry level to give, and that is the point: the disagreement is not about a price but about the discount rate. What would make this file different is not a fall in the price but a durable normalisation of the beta, today at 2.17 and 2.07. The only industrial event that would move the central case towards the bull case would be published multi-year flat-capacity commitments alongside firm-price long-term agreements beyond 2028.',
+    invalidation:
+      'The reading breaks if the beta normalises durably towards that of an ordinary equipment maker, which would close the gap without a single industrial fact changing; if the duopoly publishes flat-capacity commitments beyond 2028; if revenue durably passes $25bn per company before 2030, against 2032 in the bull case; or if several hundred exabytes of NAND capacity are formally committed to nearline, with a schedule and financing.',
+    horizon: 'Year ended 3 July 2026, reported 28 July (STX) and 5 August 2026 (WDC); Q1 FY2027 expected late October 2026; modelled to 2036',
+    discountRate:
+      '13.06% for WDC and 12.64% for STX — risk-free rate 4.65%, equity risk premium 4.75%, observed betas 2.17 and 2.07 Blume-adjusted to 1.78 and 1.71; no judgement override on the observed beta. At 8% the central case comes out at $262.65 and $423.15: the conclusion holds, its magnitude does not',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-11',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'MEMORY',
@@ -260,7 +287,7 @@ export const ideasEn: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-11',
+    id: 'IDEA-12',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'MEMORY',
@@ -285,7 +312,32 @@ export const ideasEn: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-12',
+    id: 'IDEA-13',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MEMORY',
+    company: 'Micron Technology',
+    tickers: ['MU'],
+    report: 'micron',
+    title: 'The perfect quarter, and what you must believe to extend it',
+    thesis:
+      'Micron has just printed the highest margins any memory maker has ever posted — 84.9% gross, 81.2% operating — and guides the next one higher still. At $880 the market pays the bull case almost at the convention rate (11.79% against 12.98%). The disagreement is about neither quality nor rate: it is about how deep the next trough runs, and so about the file\'s one real novelty — 16 price-floor customer agreements, never tested in a downturn. Weighted target $460.71.',
+    entry:
+      'The dominant variable is not the rate but the depth of the next trough: the bear-to-base spread weighs more than 200 basis points of WACC. The event that would move the weighting is the first real test of those agreements — two to three quarters of correction during which customers honour the floors. Until then, ADATA\'s gross margin and contract DRAM pricing serve as the warning system.',
+    invalidation:
+      'The cautious reading breaks if the price-floor agreements hold through a first downturn, in which case the BLUE_SKY scenario rises in probability; if DRAM stays tight beyond 2027 against the history of the cycle; or if sector capex stays disciplined under 20% of revenue despite record margins. Conversely, an inflection in contract DRAM pricing before mid-2027, or sector capex durably above 25%, validates the bear case.',
+    horizon: 'FQ3 2026 reported 24 June 2026; FQ4 expected late September 2026; modelled to 2036',
+    discountRate:
+      '12.98% WACC — USD risk-free rate 4.65%, observed beta 2.142 Blume-adjusted to 1.765, 4.75% premium, marginal debt. The fourth scenario, BLUE_SKY at $1,007.34, was CONSTRUCTED to satisfy the widening test and is flagged as such, not discovered; the organic bull case tops out at $789.26. The weighted target is struck on all four. At 8% the central case comes out at $687.35: the conclusion holds',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 18, tone: 'up' },
+      { label: 'BLUE_SKY', prob: 7, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-14',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'MEMORY',
@@ -309,7 +361,7 @@ export const ideasEn: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-13',
+    id: 'IDEA-15',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'MEMORY',
@@ -333,7 +385,7 @@ export const ideasEn: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-14',
+    id: 'IDEA-16',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'MEMORY',
@@ -358,7 +410,7 @@ export const ideasEn: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-15',
+    id: 'IDEA-17',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'DISTRIBUTION',
@@ -382,7 +434,7 @@ export const ideasEn: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-16',
+    id: 'IDEA-18',
     date: '2026-08-07',
     status: 'WATCHING',
     sector: 'DISTRIBUTION',
@@ -406,10 +458,34 @@ export const ideasEn: IdeaItem[] = [
     ],
   },
   {
-    id: 'IDEA-17',
+    id: 'IDEA-19',
     date: '2026-08-07',
     status: 'WATCHING',
-    sector: 'SEMIS',
+    sector: 'MATERIALS',
+    company: 'SUMCO',
+    tickers: ['3436.T'],
+    report: 'sumco',
+    title: 'The company that won\'t build',
+    thesis:
+      'SUMCO posts a JPY 6.4bn operating loss for the first half of 2026 and the market reads a company in trouble. Revenue is up 4.7% all the same, 300mm wafer shipments are at an all-time high, and rebuilt EBITDA reaches JPY 58.0bn at a 27.0% margin. The loss is produced by a depreciation step — JPY 64.4bn against 49.4bn a year earlier — while capex falls from 51.9 to 19.4bn. This is a harvest phase read as distress. Weighted target JPY 5,867 against a price of 3,500.',
+    entry:
+      'The thesis does not turn on an entry level but on a dated pivot: the moment the depreciation step flattens while prices keep rising. The first checkpoint is Q3 2026, guided to operating breakeven on a 28.6% EBITDA margin. Management warns, however, that Q4 can deteriorate again after maintenance: this is not a linear path.',
+    invalidation:
+      'The reading breaks if the Japanese risk-free rate rises sharply — at an 8% WACC the gap goes from +60% to +11.9% and disappears; if SUMCO reopens Yoshinogari or signs a run of long-term agreements at today\'s prices, which would contradict the return discipline the whole thesis rests on; if price increases stay under 10% a year, a level the chairman calls badly insufficient; or if Chinese capacity, up from 3% of the world in 2020 to 28% in 2025, qualifies on advanced nodes.',
+    horizon: 'H1 FY2026 reported 6 August 2026; Q3 expected early November 2026; modelled to 2036',
+    discountRate:
+      '6.38% WACC — risk-free rate in YEN (10-year JGB, 2.80%) and not the US rate, the company reporting in JPY. Observed beta 1.136 Blume-adjusted to 1.0911, 4.75% equity risk premium, 7.98% cost of equity, debt at 23.1% of funding. The lab\'s first file whose weighted target sits ABOVE the price — and it does not read without the robustness warning above',
+    scenarios: [
+      { label: 'BEAR', prob: 30, tone: 'down' },
+      { label: 'BASE', prob: 45, tone: 'mid' },
+      { label: 'BULL', prob: 25, tone: 'up' },
+    ],
+  },
+  {
+    id: 'IDEA-20',
+    date: '2026-08-07',
+    status: 'WATCHING',
+    sector: 'MATERIALS',
     company: 'Shin-Etsu Chemical',
     tickers: ['4063.T'],
     report: 'shinetsu',

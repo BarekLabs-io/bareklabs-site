@@ -19,6 +19,12 @@ export const COVERAGE = {
    * grow. Same class of drift as the 68-against-118 count this file exists to
    * stop, so it is counted rather than typed. */
   notes: en.insights.notes.length,
+  /* The reports rebuilt after the terminal-year method error. The Investment
+   * Ideas preamble says how many share one author, one engine and one
+   * convention — and therefore how correlated their errors are. That claim is
+   * about the batch, so it counts the batch rather than spelling a number that
+   * was true when nine cards existed and false at twenty. */
+  rebuilt: ideasEn.filter((i) => i.revised).length,
   /* Ledger sizes, for the Trade Tracker cards: STOCKS read 0 OPEN while the
    * equity book carried twelve lines. */
   openStocks: en.stocks.open.length,

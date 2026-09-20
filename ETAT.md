@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `633205b`
+**Dernière mise à jour : 2026-09-19** · commit de référence `6b86c2c`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -27,7 +27,7 @@ opinion en deux minutes. On priorise ce qu'il verra, pas ce qui est intéressant
 |---|---|
 | Sociétés couvertes | **176** |
 | Marchés | **14** |
-| Idées publiées | **17** cartes × 3 langues, **20** rapports HTML |
+| Idées publiées | **20** cartes × 3 langues, **20** rapports HTML |
 | Dettes nettes renseignées | **57** sur 176 |
 | Registre actions | **12 positions ouvertes**, **21 clôturées** (18 dans les compteurs) |
 | Registre crypto | **2 positions ouvertes** (TAO, ETH), courtier Binance |
@@ -151,16 +151,16 @@ suédoise, mais le jour où il y en aura une, rien n'est à construire.
   type prévoit `verdictTone: 'unrated'` pour ce cas.
 - [x] **Le zip `publier/` — intégré.** Les 11 rapports n°09 à n°19 sont posés et
   déclarés ; 8 cartes écrites dans les trois langues.
-- [ ] **Trois cartes manquantes : n°09 WDC/STX, n°12 Micron, n°18 SUMCO.** Le markdown
-  livré n'en contient que huit — son titre le dit (« rapports n°10, 11, 13, 14, 15, 16,
-  17, 19 ») et sa conclusion aussi (« ces huit cartes »). Les trois rapports sont en
-  ligne et atteignables, mais sans bloc de carte ils n'apparaissent pas sur Investment
-  Ideas. **Demande Elyes :** le markdown des trois cartes manquantes.
+- [x] **Les trois cartes manquantes sont intégrées.** n°09 WDC/STX, n°12 Micron et
+  n°18 SUMCO sont arrivées dans `publier_barek_labs.zip`. La série va désormais de
+  IDEA-10 à IDEA-20, dans l'ordre des rapports n°09 à n°19.
 - [ ] **Rafraîchir trois dossiers**, dettes de données listées par le markdown lui-même :
   n°10 Phison et n°15 ADATA sont antérieurs aux comptes du T2 (disponibles mi-août 2026) ;
   n°11 SanDisk attend le rapport annuel sur le capex hors bilan de la coentreprise BiCS,
   et ses valeurs Kioxia sont antérieures à la division du titre du 1er octobre 2026.
-- [x] **Secteurs MEMORY / SEMIS / DISTRIBUTION** ajoutés aux filtres, trois langues.
+- [x] **Secteurs MEMORY et DISTRIBUTION** ajoutés aux filtres, trois langues. SEMIS a été
+  ajouté puis retiré : après correction d'Elyes, SUMCO et Shin-Etsu vont en MATERIALS,
+  et le filtre serait resté vide.
 - [ ] **Série chaîne d'approvisionnement** dans sa propre section, pas mélangée aux 9. Les
   secteurs MEMORY / SEMIS / DISTRIBUTION la séparent déjà au filtre, mais pas à l'œil.
 - [x] **Rapport n°14 Winbond — il n'y avait pas de doublon côté site.** Winbond n'a
@@ -202,6 +202,41 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**Les trois dernières cartes, et la série remise dans l'ordre**
+- n°09 WDC/STX, n°12 Micron et n°18 SUMCO rejoignent les huit autres. La série mémoire
+  court maintenant de IDEA-10 à IDEA-20 **dans l'ordre des rapports** : les identifiants
+  du lot précédent ont été décalés pour que le carrousel se lise n°09 → n°19. Rien
+  d'extérieur ne pointait sur ces identifiants — ils dataient du commit précédent.
+- **n°09 est un DCF inversé** : aucun objectif n'est présenté comme une cible. Ce que la
+  carte met en avant, conformément à ce que demande son markdown, ce sont les taux
+  d'actualisation implicites — 5,72 % et 5,27 % pour que le cas central vaille le cours,
+  sur des titres dont la volatilité observée est de 133,1 % et 119,8 %.
+- **n°12 Micron affiche ses quatre scénarios**, BLUE_SKY compris. Le panneau du site
+  rend un nombre quelconque de barres, donc le replier en note n'était pas nécessaire :
+  30/45/18/7 remplit la barre exactement. L'objectif pondéré de 460,71 $ est celui
+  établi sur quatre scénarios et n'a **pas** été recalculé ; la carte dit que le
+  quatrième a été construit pour satisfaire le test d'élargissement, pas découvert.
+- **n°18 SUMCO** est le premier dossier du lab dont l'objectif dépasse le cours. Son
+  markdown demande de ne jamais publier l'objectif sans l'avertissement de robustesse :
+  les deux sont sur la carte. Valeurs en yens, aucune conversion au comptant.
+
+**Secteurs, après correction d'Elyes**
+- MEMORY : n°09 à n°15. DISTRIBUTION : n°16 et n°17. MATERIALS : n°18 et n°19.
+- **SEMIS, ajouté au commit précédent, est retiré** — il serait resté vide. Un contrôle
+  vérifie désormais qu'aucun filtre n'est vide et qu'aucun secteur de carte ne manque
+  aux filtres, dans les trois langues.
+- À savoir : les cartes livrées placent WDC/STX, Micron et SUMCO en **AI INFRA** et le
+  disent explicitement — le stockage de masse et les plaquettes de silicium n'ont pas
+  d'entrée propre dans la nomenclature, et les deux cartes demandent que le point soit
+  soulevé plutôt que tranché en silence. MEMORY et MATERIALS sont un choix d'éditeur,
+  pris en connaissance de cause, et noté dans le code.
+
+**L'introduction ne compte plus à la main.** Elle écrivait « les huit rapports » cinq
+fois. `COVERAGE.rebuilt` compte les cartes qui portent le badge REBUILT et la copie
+porte un jeton `{rebuilt}` — la phrase parle de corrélation d'erreurs à l'intérieur d'un
+lot, donc elle compte ce lot et reste vraie à vingt cartes comme à neuf.
+
 
 **La série mémoire entre : 11 rapports, 8 cartes, 3 secteurs**
 - `public/research/ideas/` passe de 9 à 20 dossiers. Les onze HTML sont copiés
