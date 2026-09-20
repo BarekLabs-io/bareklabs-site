@@ -27,6 +27,33 @@ const WIRE_TICKERS = new Set([
   'ISRG', 'TMDX', 'RXRX', 'RKLB', 'ASTS', 'MRVL', 'CRDO', 'ALAB', 'AMKR', 'WDC',
 ])
 
+/* Subjects the provider tags an article with. A piece can be on-topic for the
+ * wire without naming a company we cover — a rate decision, an earnings
+ * season preview — so the topic list is a second way in, not a fallback. The
+ * names are Alpha Vantage's own; anything outside this set (Technology, IPO,
+ * Blockchain…) is not what a finance wire leads with. */
+const WIRE_TOPICS = new Set([
+  'financial_markets',
+  'economy_monetary',
+  'economy_fiscal',
+  'economy_macro',
+  'earnings',
+  'finance',
+  'mergers_and_acquisitions',
+])
+
+/** Highest relevance the provider assigns this article to a subject we run. */
+function topicRelevance(entry: Record<string, unknown>): number {
+  const ts = entry.topics
+  if (!Array.isArray(ts)) return 0
+  return (ts as { topic?: string; relevance_score?: string }[]).reduce((best, row) => {
+    if (!row?.topic) return best
+    const key = row.topic.toLowerCase().replace(/[^a-z]+/g, '_')
+    if (!WIRE_TOPICS.has(key)) return best
+    return Math.max(best, Number(row.relevance_score) || 0)
+  }, 0)
+}
+
 /** Highest relevance the provider assigns this article to a name we cover. */
 function coverageRelevance(entry: Record<string, unknown>): number {
   const ts = entry.ticker_sentiment
@@ -106,8 +133,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
      * ours first and only tops up from rest — so it prefers our universe but
      * never goes blank on a quiet morning, which would read as a broken feed
      * rather than as a quiet one. */
+    /* One bucket, not two. The wire used to keep a `rest` pile of general tech
+     * news and top up from it so it never looked empty — which is how a Vulkan
+     * driver release reached the front page of a finance site. A headline now
+     * gets in only if the provider ties it to a name we cover or to a market,
+     * economy or earnings subject. Fewer headlines is the correct failure
+     * mode; an off-topic one is not. */
     const ours: Headline[] = []
-    const rest: Headline[] = []
     const seen = new Set<string>()
     for (const raw of feed) {
       const e = raw as Record<string, unknown>
@@ -118,12 +150,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (SPAM_SOURCES.has(source.toLowerCase()) || SPAM_URL.test(url)) continue
       seen.add(title)
 
-      const item = { title, source, url, at: parseAvTime(e.time_published) }
       // Below ~0.15 the ticker is a passing mention in a list, not a subject.
-      ;(coverageRelevance(e) >= 0.15 ? ours : rest).push(item)
+      // Topics are scored on a different scale and sit higher for a real match.
+      if (coverageRelevance(e) < 0.15 && topicRelevance(e) < 0.3) continue
+      ours.push({ title, source, url, at: parseAvTime(e.time_published) })
     }
 
-    const items = [...ours, ...rest].slice(0, LIMIT)
+    const items = ours.slice(0, LIMIT)
 
     /* An empty feed with a 200 is how Alpha Vantage reports a burned quota.
      * Serve the stale cache if there is one — old headlines beat none. */

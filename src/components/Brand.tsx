@@ -3,7 +3,9 @@
  * space, slash, space, LABS regular weight + caps. */
 export function BrandMark({ className }: { className?: string }) {
   return (
-    <span className={className}>
+    /* Never breaks across lines: the wordmark is one object, and a narrow
+      * column used to leave BAREK on one line and / LABS on the next. */
+    <span className={['whitespace-nowrap', className].filter(Boolean).join(' ')}>
       <span className="font-bold">BAREK</span> <span className="font-normal">/ LABS</span>
     </span>
   )

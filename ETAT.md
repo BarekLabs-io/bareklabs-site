@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-19** · commit de référence `502719f`
+**Dernière mise à jour : 2026-09-20** · commit de référence `46143e2`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -162,6 +162,20 @@ suédoise, mais le jour où il y en aura une, rien n'est à construire.
 
 ## 7. Backlog — hors échéance de lundi
 
+- [ ] **La base de la performance depuis l'origine est à corriger en comptant.** Le
+  site publie **+95,3 %**, dérivé de `SINCE_INCEPTION` sur un dénominateur en coût de
+  revient de 208 294 SEK. Le comptant vaut 200 740 SEK ; l'écart de **7 554 SEK** est
+  un **double comptage AF→ISK** — les lignes transférées du compte-titres vers l'ISK
+  apparaissent des deux côtés dans la source. Sur base comptant la performance vaut
+  **+97,4 %**. Elyes a tranché : **le +95,3 % reste publié tel quel** pour lundi, la
+  correction se fait mardi. Ne pas la faire passer en douce dans un commit d'affichage.
+- [ ] **Deux erreurs de ma dérivation, corrigées, à ne pas réintroduire.** Roivant n'est
+  pas issu d'Immunovant mais du SPAC **Montes Archimedes (MAAC.US, US6126571065)**,
+  acheté le 2021-01-14 — l'achat existe, il porte un autre nom. Et un achat du fonds
+  **Tundra Vietnam** était compté comme action parce que son nom d'avant le changement
+  ne figurait pas dans la liste des fonds : l'identité de ligne se fait désormais par
+  **ISIN**, pas par libellé.
+
 - [ ] **Deux éditions existent des rapports n°08 TMDX / ISRG / RXRX.** Celles de
   `~/Downloads` sont numérotées n°08-A/B/C et affichent l'écart en tête (−16,6 %,
   −36,4 %, −68,3 %) plus la fourchette 52 semaines ; celles en ligne affichent
@@ -230,6 +244,49 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**Commit 2 — accueil : le Stack à la place du manifeste, en-tête agrandi, watchlist élargie**
+- **Le Stack remonte dans la colonne du manifeste** (`SectionHead index="01—04"`), avec
+  une **4e carte OPTIONS TRADING**. L'ancienne section MODULES, plus bas, disparaît :
+  elle disait la même chose deux fois. Les cartes sont ordonnées 01→04 —
+  RECHERCHE, SIGNAL, REGISTRE, OPTIONS — après un défaut où OPTIONS, insérée avant
+  REGISTRE, faisait lire 01, 02, 04, 03.
+- **Hero restructuré** : titre sur trois lignes dans `max-w-[34rem]`, ENTRER DANS LE
+  LABO sous le paragraphe et à gauche, au lieu d'un bloc qui courait sous le panneau.
+- **Watchlist élargie** de 540 à **620 px** au `xl`. `whitespace-nowrap` sur les
+  libellés avait transformé une troncature en collision : TOKYO ELECTRON débordait de
+  21 px sur sa colonne voisine. Mesuré à 1920 et 1440 : **0 libellé en défaut**.
+- **The Wire filtre par sujet, pas par liste noire de sources.** `api/news.ts` croise la
+  pertinence de couverture et les `topics` d'Alpha Vantage (`coverageRelevance < 0.15`
+  **et** `topicRelevance < 0.3` → écarté) ; le panier `rest`, qui laissait passer
+  n'importe quoi pour remplir, est supprimé.
+
+**Quatre défauts d'affichage trouvés en vérifiant le commit 2, non demandés**
+- **Le logo disparaissait entre 768 et 1279 px.** La barre d'en-tête est un `flex
+  justify-between` sans `shrink-0` : le lien de la marque, seul élément compressible,
+  était écrasé à **0 px de large**. Un recruteur sur un portable 1024 voyait un en-tête
+  sans marque. Le logo est désormais `shrink-0`, et ce sont les ornements qui cèdent —
+  l'horloge des places et le libellé RECHERCHER passent de `lg` à `xl`, la navigation
+  se resserre (`gap-5 lg:gap-7 xl:gap-9`, `text-[12px] xl:text-[13px]`). Défaut
+  antérieur au commit 2, mesuré sur la version précédente avant de conclure.
+- **Le logo était aussi comprimé à 1440 et 1920** — 206 px et 272 px pour une largeur
+  naturelle de 297 —, donc déformé horizontalement. Il rend maintenant à son rapport
+  exact (183 / 251 / 297 px selon le palier) aux cinq largeurs, dans les deux sens
+  d'écriture.
+- **Le bouton de menu sortait de l'écran sur téléphone.** Conséquence directe du
+  `shrink-0` ci-dessus : à 390 px il se retrouvait à x=409 sur un écran de 390, et le
+  site n'avait plus aucune navigation mobile. Le logo revient à `h-8` sous `md` — sa
+  taille d'avant l'agrandissement, qui ne visait que le bureau — et les ornements se
+  resserrent. Vérifié visible à 390 et 430 px, FR et AR.
+- **« BAREK / LABS » se coupait en deux lignes** dans la signature du hero sur mobile.
+  `BrandMark` émet désormais `whitespace-nowrap` (règle 1.4).
+
+**Vérification du commit 2** — captures à 1920, 1440, 1024 et 390 px, **en français et
+en arabe**, régénérées après chaque correction : aucun défilement horizontal
+(`scrollW === clientW` aux huit combinaisons). Dégagement mesuré ligne à ligne entre le
+texte du hero et le panneau : le pire cas, FR à 1024, passe de **8 px à 43 px** après
+élargissement de `lg:pe-[420px]` à `lg:pe-[460px]`. `tsc -b` passe, le build passe,
+`npm run lint` rend les **18 problèmes de référence** — aucun introduit.
 
 **Deux affirmations retirées de la page À propos, faute d'être vraies**
 - Le principe 02 disait préférer « être excellents sur trois marchés que moyens sur

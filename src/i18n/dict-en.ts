@@ -101,12 +101,18 @@ export const en = {
           desc: 'Transparent log of tracked positions across stocks and crypto. Entries, exits, sizing — visible, timestamped.',
           meta: ['STOCKS', 'CRYPTO'],
         },
+        {
+          code: '04',
+          name: 'OPTIONS TRADING',
+          desc: 'The option market prices a distribution; our reports price scenarios. The modules put the two on one screen and measure the gap.',
+          meta: ['STRUCTURE', 'IBKR DATA'],
+        },
       ],
     },
     numbers: [
       { k: '{tickers}', l: 'COMPANIES COVERED IN THE SCREENER' },
       { k: '{countries}', l: 'MARKETS, TOKYO TO TORONTO' },
-      { k: '{modules}', l: 'LIVE MODULES — RESEARCH, SIGNAL, TRACKER' },
+      { k: '{modules}', l: 'LIVE MODULES — RESEARCH, SIGNAL, LEDGER, OPTIONS' },
       { k: '{refreshSeconds}s', l: 'QUOTE REFRESH WHILE A PAGE IS OPEN' },
     ],
     feed: {

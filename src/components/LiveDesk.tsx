@@ -24,13 +24,16 @@ type Quote = { price: number; changePercent: number | null }
  * takes what is left, the price and the change sit in fixed columns at the
  * right. Without fixed columns a wide panel pushes the price far from its
  * label and the eye stops connecting the two. */
-const ROW = 'grid grid-cols-[minmax(0,1fr)_auto_46px] items-baseline gap-x-2 py-[3px] font-mono-lab text-[10.5px] leading-4'
+/* The label column is free to take what it needs and the two number columns
+ * are fixed, so a long venue name pushes the row wider rather than losing its
+ * own end. Nothing here truncates any more. */
+const ROW = 'grid grid-cols-[minmax(0,1fr)_auto_48px] items-baseline gap-x-2 py-[4px] font-mono-lab text-[11.5px] leading-5'
 
 function WatchRow({ label, to, quote, lang }: { label: string; to?: string; quote?: Quote; lang: Lang }) {
   const up = quote?.changePercent != null ? quote.changePercent >= 0 : null
   const body = (
     <>
-      <span className="truncate text-dim">{label}</span>
+      <span className="whitespace-nowrap text-dim">{label}</span>
       <span className="tabular-nums text-foreground">{quote ? formatLevel(quote.price, lang) : NO_VALUE}</span>
       <span className={cn('text-end tabular-nums', up == null ? 'text-faint' : up ? 'text-signal' : 'text-danger')}>
         {quote?.changePercent != null ? formatPct(quote.changePercent, lang, true, 2) : NO_VALUE}
@@ -170,11 +173,11 @@ export function LiveDesk({ className }: { className?: string }) {
         * floating panel, three once the panel reaches its full width — the
         * gutters carry the separation, so the columns gain the margin rather
         * than the rows losing their numbers. */}
-      <div className="min-h-0 grow overflow-y-auto px-3 py-2.5">
-        <div className="grid grid-cols-2 gap-x-3 gap-y-2.5 sm:gap-x-5 xl:grid-cols-3 xl:gap-x-3">
+      <div className="min-h-0 grow overflow-y-auto px-4 py-3">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-3 sm:gap-x-6 xl:grid-cols-3 xl:gap-x-5">
           {DESK_LISTS.map((l) => (
             <div key={l.key}>
-              <div className="border-b border-line/60 pb-1 font-mono-lab text-[8.5px] tracking-[0.22em] text-signal/80">
+              <div className="border-b border-line/60 pb-1 font-mono-lab text-[9.5px] tracking-[0.22em] text-signal/80">
                 {l.label}
               </div>
               <div className="pt-1">

@@ -102,12 +102,18 @@ export const fr: Dict = {
           desc: 'Le registre transparent des positions suivies, actions et crypto. Entrées, sorties, poids : tout est visible, tout est horodaté.',
           meta: ['ACTIONS', 'CRYPTO'],
         },
+        {
+          code: '04',
+          name: 'OPTIONS TRADING',
+          desc: 'Le marché d’options cote une distribution ; nos rapports chiffrent des scénarios. Les modules superposent les deux et mesurent l’écart.',
+          meta: ['STRUCTURE', 'DONNÉES IBKR'],
+        },
       ],
     },
     numbers: [
       { k: '{tickers}', l: 'ENTREPRISES COUVERTES DANS LE SCREENER' },
       { k: '{countries}', l: 'MARCHÉS, DE TOKYO À TORONTO' },
-      { k: '{modules}', l: 'MODULES EN DIRECT — RECHERCHE, SIGNAL, JOURNAL' },
+      { k: '{modules}', l: 'MODULES EN DIRECT — RECHERCHE, SIGNAL, REGISTRE, OPTIONS' },
       { k: '{refreshSeconds} s', l: 'RAFRAÎCHISSEMENT DES COURS, PAGE OUVERTE' },
     ],
     feed: {

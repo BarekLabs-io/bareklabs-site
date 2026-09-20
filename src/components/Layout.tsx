@@ -127,7 +127,7 @@ function Clock() {
   }
 
   return (
-    <div className="hidden items-center gap-3 font-mono-lab text-[10px] tracking-wider text-dim lg:flex" dir="ltr">
+    <div className="hidden items-center gap-3 font-mono-lab text-[10px] tracking-wider text-dim xl:flex" dir="ltr">
       {CLOCK_VENUES.map((v, i) => {
         const { label, hour, weekday } = parts(v.tz)
         // Weekend is closed everywhere here; the Gulf week runs Mon–Fri too.
@@ -161,7 +161,7 @@ function LangSwitch({ compact = false }: { compact?: boolean }) {
           onClick={() => setLang(l.id)}
           title={l.label}
           className={cn(
-            'px-2.5 py-1.5 font-mono-lab text-[9.5px] tracking-[0.15em] transition-all duration-300',
+            'px-2 py-1.5 font-mono-lab text-[9.5px] tracking-[0.15em] transition-all duration-300 md:px-2.5',
             lang === l.id ? 'bg-signal text-[#0c0e12]' : 'text-dim hover:text-foreground'
           )}
         >
@@ -206,8 +206,8 @@ function SearchButton() {
       className="hidden items-center gap-2.5 border border-line px-3 py-1.5 font-mono-lab text-[9.5px] tracking-[0.15em] text-dim transition-colors duration-300 hover:border-signal hover:text-signal md:flex"
     >
       <span>⌕</span>
-      <span className="hidden lg:inline">{t.header.search}</span>
-      <span className="border border-line px-1 py-px text-[8px] text-faint" dir="ltr">{t.header.searchHint}</span>
+      <span className="hidden xl:inline">{t.header.search}</span>
+      <span className="hidden border border-line px-1 py-px text-[8px] text-faint xl:inline" dir="ltr">{t.header.searchHint}</span>
     </button>
   )
 }
@@ -224,7 +224,7 @@ function DesktopNavItem({ n }: { n: NavItem }) {
         to={n.to}
         end={n.to === '/'}
         className={cn(
-          'nav-link flex h-full items-center whitespace-nowrap font-mono-lab text-[11px] tracking-[0.12em] transition-colors',
+          'nav-link flex h-full items-center whitespace-nowrap font-mono-lab text-[12px] xl:text-[13px] tracking-[0.12em] transition-colors',
           isActive ? 'active' : 'text-foreground/85 hover:text-signal'
         )}
       >
@@ -304,18 +304,18 @@ export default function Layout() {
       {/* ---- header ---- */}
       <header className="fixed inset-x-0 top-0 z-50">
         <div className={cn('relative z-10 border-b transition-all duration-500', scrolled ? 'border-line header-glass' : 'border-line/60 header-glass')}>
-          <div className="shell flex h-20 items-stretch justify-between px-5 md:h-[76px] md:px-10">
-            <Link to="/" className="flex items-center gap-3 md:me-10">
-              <img src="/logo.svg" alt="BAREK / LABS" className="h-8 w-auto md:h-10 logo-adaptive" />
+          <div className="shell flex h-24 items-stretch justify-between px-4 md:h-[92px] md:px-10">
+            <Link to="/" className="flex shrink-0 items-center gap-3 md:me-6 xl:me-10">
+              <img src="/logo.svg" alt="BAREK / LABS" className="h-8 w-auto md:h-11 xl:h-[52px] logo-adaptive" />
             </Link>
 
-            <nav className="hidden items-stretch gap-9 md:flex">
+            <nav className="hidden items-stretch gap-5 lg:gap-7 xl:gap-9 md:flex">
               {NAV.map((n) => (
                 <DesktopNavItem key={n.to} n={n} />
               ))}
             </nav>
 
-            <div className="flex items-center gap-4 md:ms-10">
+            <div className="flex items-center gap-2 md:gap-3 xl:gap-4 md:ms-6 xl:ms-10">
               <Clock />
               <div className="hidden items-center gap-2 font-mono-lab text-[10px] tracking-wider text-signal 2xl:flex">
                 <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
@@ -326,7 +326,7 @@ export default function Layout() {
               <LangSwitch />
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="flex h-8 w-8 flex-col items-center justify-center gap-1.5 md:hidden"
+                className="flex h-8 w-8 shrink-0 flex-col items-center justify-center gap-1.5 md:hidden"
                 aria-label="Menu"
               >
                 <span className={cn('h-px w-5 bg-foreground transition-transform', menuOpen && 'translate-y-[3.5px] rotate-45')} />

@@ -82,7 +82,7 @@ function HeroQuote() {
   )
 }
 
-const MODULE_ROUTES = ['/analysis', '/souk-signal', '/trade-tracker']
+const MODULE_ROUTES = ['/analysis', '/souk-signal', '/trade-tracker', '/trade-tracker/options']
 
 export default function Home() {
   const { t } = useLang()
@@ -96,7 +96,7 @@ export default function Home() {
         <div className="scanline" />
         <div className="pointer-events-none relative z-10 shell flex flex-1 flex-col justify-center px-5 pb-16 pt-32 md:px-10 md:pt-36">
           <Reveal>
-            <div className="mb-6 flex items-center gap-3 font-mono-lab text-sm font-medium tracking-[0.25em] text-foreground/85">
+            <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono-lab text-sm font-medium tracking-[0.25em] text-foreground/85">
               <span className="dot-live inline-block h-1.5 w-1.5 rounded-full bg-signal" />
               <BrandMark /> <span>/ {t.home.tagSuffix}</span>
             </div>
@@ -116,16 +116,20 @@ export default function Home() {
             </Reveal>
           </h1>
           <Reveal delay={400}>
-            <div className="pointer-events-auto mt-8 flex flex-col justify-between gap-6 border-t border-line pt-6 md:flex-row md:items-end lg:pe-[380px] xl:pe-[500px]">
-              <p className="max-w-6xl font-mono-lab text-[13px] leading-6 tracking-wide text-dim md:text-[14px] md:leading-7">{t.home.heroDesc}</p>
-              <div className="flex items-center gap-6">
-                <Link
-                  to="/analysis"
-                  className="group shrink-0 whitespace-nowrap border border-foreground/30 px-6 py-3 font-mono-lab text-[11px] tracking-[0.25em] transition-all duration-300 hover:border-signal hover:bg-signal hover:text-[#0c0e12]"
-                >
-                  {t.home.heroCta}
-                </Link>
-              </div>
+            {/* The blurb runs down a narrow column and the call to action sits
+              * under it, on the left. Side by side they took the full width and
+              * pushed the watchlist into a strip too tight for its own labels —
+              * the room this gives back is what stops SAMSUNG EL… being cut. */}
+            <div className="pointer-events-auto mt-8 border-t border-line pt-6 lg:pe-[460px] xl:pe-[600px]">
+              <p className="max-w-[34rem] font-mono-lab text-[13px] leading-6 tracking-wide text-dim md:text-[14px] md:leading-7">
+                {t.home.heroDesc}
+              </p>
+              <Link
+                to="/analysis"
+                className="group mt-8 inline-block whitespace-nowrap border border-foreground/30 px-6 py-3 font-mono-lab text-[12px] tracking-[0.25em] transition-all duration-300 hover:border-signal hover:bg-signal hover:text-[#0c0e12]"
+              >
+                {t.home.heroCta}
+              </Link>
             </div>
           </Reveal>
         </div>
@@ -139,14 +143,14 @@ export default function Home() {
             floats from lg up. Below that it is not dropped — it moves into the
             flow underneath the hero, because a market panel nobody on a laptop
             or a phone ever sees is not a feature. */}
-        <Reveal delay={500} className="pointer-events-none absolute end-5 top-28 z-10 hidden w-[300px] lg:block lg:end-10 lg:w-[380px] xl:w-[470px]">
+        <Reveal delay={500} className="pointer-events-none absolute end-5 top-32 z-10 hidden w-[300px] lg:block lg:end-10 lg:w-[420px] xl:w-[620px]">
           <div className="mb-2 font-mono-lab text-[10px] leading-5 tracking-wider text-dim" dir="ltr">
             <span className="flicker"><HeroQuote /></span>
           </div>
           {/* Capped at the viewport minus the header and a bottom margin, so a
               short screen scrolls the panel's lists instead of letting the
               panel run over the hero's call to action. */}
-          <LiveDesk className="max-h-[calc(100vh-9.5rem)]" />
+          <LiveDesk className="max-h-[calc(100vh-11rem)]" />
         </Reveal>
       </section>
 
@@ -170,30 +174,23 @@ export default function Home() {
                 <WorldMap className="absolute inset-0 h-full w-full" />
               </div>
             </Reveal>
+            {/* The Stack sits where the manifesto paragraph used to: a visitor
+              * two minutes in wants to know what the site contains before
+              * reading what it believes. The manifesto card beside it stays. */}
             <div className="md:col-span-8">
               <Reveal delay={100}>
-                <p className="text-3xl font-light leading-[1.25] tracking-tight md:text-5xl">
-                  {m.big1} <span className="font-serif-lab italic font-semibold">{m.big1Accent}</span>
-                  {m.big2} <span className="outline-text">{m.big2Accent}</span>
-                  {m.big3}
-                </p>
+                <SectionHead
+                  index="01—04"
+                  label={t.home.modules.head}
+                  right={fillCoverage(t.home.modules.headRight, { modules: t.home.modules.items.length })}
+                />
               </Reveal>
-              <Reveal delay={200}>
-                <p className="mt-8 max-w-7xl font-mono-lab text-[12px] leading-6 tracking-wide text-dim">{m.sub}</p>
-              </Reveal>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {t.home.modules.items.map((mod, i) => (
+                  <ModuleCard key={mod.code} mod={mod} to={MODULE_ROUTES[i]} i={i} />
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ MODULES ============ */}
-      <section className="border-b border-line">
-        <div className="shell px-5 py-24 md:px-10">
-          <SectionHead index="01—03" label={t.home.modules.head} right={fillCoverage(t.home.modules.headRight, { modules: t.home.modules.items.length })} />
-          <div className="grid gap-4 md:grid-cols-3">
-            {t.home.modules.items.map((mod, i) => (
-              <ModuleCard key={mod.code} mod={mod} to={MODULE_ROUTES[i]} i={i} />
-            ))}
           </div>
         </div>
       </section>
