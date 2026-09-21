@@ -1,6 +1,6 @@
 # BAREK / LABS — état du chantier
 
-**Dernière mise à jour : 2026-09-20** · commit de référence `46143e2`
+**Dernière mise à jour : 2026-09-21** · commit de référence `356f49d`
 
 Ce fichier dit **où en est le projet**. `CLAUDE.md` dit **comment on travaille** — il
 reste la règle, celui-ci n'est que l'état. Quand les deux se contredisent, `CLAUDE.md`
@@ -244,6 +244,34 @@ Code produit le **site**. Aucun des deux ne touche au domaine de l'autre.
 ---
 
 ## 9. Fait récemment
+
+**`356f49d` + suite — le conseil retiré du hero, et la barre d'en-tête refaite par mesure**
+- **Le hero n'annonce plus une activité de conseil en cours.** « …ET ACCOMPAGNONS LA
+  TRANSFORMATION FINANCIÈRE & TECHNOLOGIQUE DES ENTREPRISES » disparaît des trois
+  dictionnaires : c'est le même défaut que celui corrigé sur À propos, le lab n'a pas
+  encore de clients. L'offre reste annoncée en bas de l'accueil (« ÉGALEMENT
+  DISPONIBLE… ») et sur À propos — **une offre, pas une clientèle**. Titre toujours sur
+  trois lignes aux quatre largeurs ; paragraphe 3 lignes au bureau, 4 à 390 px.
+- **Téléphone : le logo touchait le bouton du mode sombre.** La barre était exactement
+  pleine à 375 px. Marge imposée à la marque, sélecteur de langue resserré sous `sm`.
+  Écart mesuré de **12 à 54 px** entre 375 et 430 px. À **360 px** — la largeur Android
+  la plus répandue — le bouton de menu sortait de l'écran : la marque y cède 4 px de
+  haut (`h-7` sous 375 px) plutôt que le bouton.
+- **Les paliers de la barre ne suivent plus les breakpoints par défaut mais la largeur à
+  laquelle chaque élément tient réellement.** Un ornement branché sur son propre
+  breakpoint déborde toujours : la place manque le jour où il apparaît, jamais 200 px
+  plus loin. L'horloge s'allume à **1400 px** (elle ne tenait pas à 1280), le palier
+  large — libellé RECHERCHER, témoin d'état, navigation aérée, logo à 52 px — à
+  **1680 px** (il ne tenait pas à 1536). Balayage de **15 largeurs × 2 langues**, de 360
+  à 2560 px : aucun élément coupé, aucun texte cassé en deux lignes.
+- **Entre 768 et 1023 px, la navigation en ligne passe dans le bouton de menu.** Les
+  quatre liens pèsent à eux seuls plus que la place restante à côté de la marque : le
+  choix était entre la marque et la navigation en ligne. La navigation n'est pas perdue
+  — le menu sert **11 liens** contre 4 en ligne, et l'un des deux est présent à chaque
+  largeur, vérifié en ouvrant le menu. Avant ce commit, le site tenait à 768 px en
+  écrasant le logo à 0 px de large ; la règle 1.4 tranche dans l'autre sens.
+- Deux défauts d'affichage au passage : « SYSTÈMES OPÉRATIONNELS » et le rappel clavier
+  « CTRL K » se cassaient chacun en deux lignes dans la barre.
 
 **Commit 2 — accueil : le Stack à la place du manifeste, en-tête agrandi, watchlist élargie**
 - **Le Stack remonte dans la colonne du manifeste** (`SectionHead index="01—04"`), avec
